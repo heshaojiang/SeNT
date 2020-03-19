@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "deptStat">
+		<export>export</export>
+		<listTitle>deptStat List</listTitle>
+		<number>no.</number>
+		<name>employee name</name>
+		<job>job</job>
+		<orgName>orgName</orgName>
+	</node>
+</nodes>

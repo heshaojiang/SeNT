@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "wTDeviceStatusModule">
+		<listTitle>模块状态列表</listTitle>
+		<devStatusIdItem>类别代码</devStatusIdItem>
+		<devStatusNameItem>类别名称</devStatusNameItem>
+		<devStatusNameEnItem>类别英文名称</devStatusNameEnItem>
+		<levelsItem>类别等级</levelsItem>
+		<operateItem>操作</operateItem>
+		<editDetail>明细配置</editDetail>
+		
+		<!-- 类别明细 -->
+		<WTDeviceStatusList>模块状态明细信息</WTDeviceStatusList>
+		<WTDeviceStatusListAdd>添加模块状态明细</WTDeviceStatusListAdd>
+		<WTDeviceStatusListEdit>编辑模块状态明细</WTDeviceStatusListEdit>
+		<devStaCidItem>模块状态</devStaCidItem>
+		<partIdItem>设备部件代码</partIdItem>
+		<partCodeItem>设备部件状态码</partCodeItem>
+		<memoItem>设备部件状态说明</memoItem>
+		<operateItem>操作</operateItem>
+		<editItem>编辑</editItem>
+		<deleteItem>删除</deleteItem>
+		<addWTDeviceStatusList>添加</addWTDeviceStatusList>
+	</node>
+</nodes>

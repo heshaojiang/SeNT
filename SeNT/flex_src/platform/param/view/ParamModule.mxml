@@ -1,0 +1,258 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/"
+	dataDictionaryPaths="{[ENABLE_OR_DISABLE]}"
+	locale="paramModule"
+	layout="vertical" 
+	width="100%" height="100%"
+	>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="ParamModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="ParamModule"/>
+			<parsley:FlexConfig type="{ParamModuleConfig}"/>
+			<parsley:FlexConfig type="{ParamConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.param.config.ParamConfig;
+			import platform.param.config.ParamModuleConfig;
+			import platform.param.local.ParamFormConsts;
+			import platform.param.message.ParamMsg;
+			import platform.param.pm.ParamModulePM;
+			import platform.vo.param.ParamVo;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:ParamModulePM;
+			
+			public var keypath:String;
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			private const ENABLE_OR_DISABLE:String = "SysDatadirMgr.javapt.common.enableOrDisable";
+			
+			override protected function getDataDictCallback():void
+			{
+				trace("ParamModule.getDataDictCallback");
+				(ParamPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				trace("ParamModule.transferDataDict");
+				if(column.dataField == "status")
+					currentDataDictPath = ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("ParamModule.viewUpdateComplete");
+				pm.loadParamTree();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				trace("ParamModule.dispose");
+				ParamPageGrid.checkedItems = [];
+				pm.page = new Page();
+			}
+			
+			//Add 
+			public function add():void
+			{
+				trace("ParamModule.add");
+				if (null == pm.curNodeData.parentid)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_NODE);
+					return;
+				}
+				
+				//set vo
+				var vo:ParamVo = new ParamVo();
+				vo.parentid = pm.curNodeData.id;
+				vo.keypath = keypath;
+				openWin(ParamFormConsts.ADD_PARAM_FORM, vo);				
+			}
+			
+			/*return order number of next new rocord*/
+			private function getNextOrder():int
+			{
+				trace("ParamModule.getNextOrder");
+				var max:int = 0;
+				for each(var obj:Object in ParamPageGrid.dataProvider){
+					if (int(obj["order"])>max){
+						max = int(obj["order"]);
+					}
+				}
+				
+				return max+1;
+			}
+			
+			/**
+			 * edit Param item
+			 * */
+			public function edit():void
+			{
+				trace("ParamModule.edit");
+				if (ParamPageGrid.checkedItems.length == 0 || ParamPageGrid.checkedItems.length > 1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var vo:ParamVo = ParamVo(ParamPageGrid.checkedItems[0])
+				vo.keypath = keypath;
+				openWin(ParamFormConsts.UPDATE_PARAM_FORM, vo);
+				
+			}
+			
+			/**
+			 * delete Param item
+			 * */
+			public function del():void
+			{
+				trace("ParamModule.del");
+				pm.delParam(ParamPageGrid.checkedItems);
+			}
+			
+			override protected function parsleyInit():void
+			{
+				trace("ParamModule.parsleyInit");
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * dispatch event
+			 * */
+			private function openWin(p_winName:String, p_vo:ParamVo):void
+			{
+				trace("ParamModule.openWin");
+				//dispatch event
+				var win:ParamForm = new ParamForm();
+				
+				win.titleKey = p_winName;				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getParamPageResult")]
+			public function getPageHandler(p_msg:ParamMsg):void
+			{
+				trace("ParamModule.getPageHandler - getParamPageResult");
+				if(p_msg.result)
+					ParamPageGrid.checkedItems = [];
+			}
+			/**
+			 * 获取Path
+			 */
+			[MessageHandler(selector="getKeyPathResult")]
+			public function itemClickResult(p_msg:ParamMsg):void
+			{
+				trace("ParamModule.itemClickResult - getKeyPathResult");
+				if(p_msg.result) keypath = p_msg.result as String;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer 
+		width="100%" height="100%"
+		styleName="BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		<mx:HBox width="100%"
+				 paddingLeft="10"
+				 >
+			<grg:TitleBar/>
+		</mx:HBox>
+		
+		<mx:HDividedBox width="100%" height="100%" minHeight="450" paddingLeft="10" paddingRight="10">
+			
+			<grg:LeftTree id="subParamTree" dataProvider="{pm.treeXml}" labelField="@label"
+						  width="250" maxWidth="500" height="100%"
+						  itemClick="{pm.setCurrentSelectedItem(subParamTree.selectedItem)}">
+			</grg:LeftTree>
+			
+			<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0"/>
+				</s:layout>
+				
+				<mx:HBox width="100%" height="27" verticalAlign="top">
+					<s:BorderContainer height="25" borderVisible="false" cornerRadius="5" backgroundColor="#e4e4e4">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="4" paddingTop="2" />
+						</s:layout>
+						<grg:GRGModuleButtonBar id="privilegeBar" width="100%" barType="button" menuId="{menu.id}"/>
+					</s:BorderContainer>
+				</mx:HBox>
+				
+				<grg:DataGrid id="ParamPageGrid" dataProvider="{pm.page.result}"
+							  width="100%" height="100%" paddingLeft="20" styleName="DataGrid">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											textAlign="center"
+											sortable="false"
+											draggable="false"
+											editable="false"
+											resizable="false" />
+						<!--项目键-->
+						<grg:DataGridColumn locale="itemKey"
+											dataField="key" 
+											textAlign="left"
+											/>
+						<!--项目值-->
+						<grg:DataGridColumn locale="itemValue"
+											dataField="value" 
+											textAlign="left"
+											/>
+						<!--备注-->
+						<grg:DataGridColumn locale="paramNote"
+											dataField="note" 
+											textAlign="left"
+											/>
+						<!--
+						<control:DataGridColumn locale="paramStatus" labelFunction="{transferDataDict}"
+							dataField="status" />
+						-->
+					</grg:columns>
+				</grg:DataGrid>
+				<grg:PageNavigatorBar id="ParamPagingBar" x="0" pageVo="{pm.page}" pagingFunction="{pm.loadParamPage}" />
+			</s:BorderContainer>
+		</mx:HDividedBox>
+	</s:BorderContainer>
+</grg:TabModule>

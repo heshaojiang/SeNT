@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "ErrorCodeModule">
+		<title>Error Code</title>
+		<searchItem>Key Word</searchItem>
+		<searchButton>Search</searchButton>
+		<devItem>Device</devItem>
+		<codeItem>ErrCode</codeItem>
+		<brandItem>Brand</brandItem>
+		<descriptionItem>Desc</descriptionItem>
+		<operateItem>Operate</operateItem>
+		<editErrorCodeItem>Edit</editErrorCodeItem>
+		<deleteErrorCodeItem>Delete</deleteErrorCodeItem>
+		<addButtonItem>Add</addButtonItem>
+	</node>
+</nodes>

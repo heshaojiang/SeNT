@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 titleKey="ruleInfo"
+				 layout="vertical" width="590" height="480" locale="viewBlackRegulationInfo"
+				 dataDictionaryPaths="{[BlackRegulationConsts.MONEY_TYPE, 
+				 BlackRegulationConsts.MONEY_DENOMINATION, BlackRegulationConsts.RULE_STATUS]}"
+				 xmlns:s = "library://ns.adobe.com/flex/spark"
+				 xmlns:mx = "library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.formatter.DateFormatter;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.rule.constants.BlackRegulationConsts;
+			import sent.rule.message.BlackRegulationMsg;
+			import sent.rule.message.RegulationDeliverMsg;
+			import sent.rule.pm.BlackRegulationPM;
+			import sent.rule.vo.BlackRegulationVO;
+			
+		
+			
+			[Inject]
+			[Bindable]
+			public var pm:BlackRegulationPM;
+			
+			[Bindable]
+			private var _blackRegulation:BlackRegulationVO;
+			
+			public function set blackRegulation(p_vo:BlackRegulationVO):void
+			{
+				_blackRegulation = p_vo;
+				convertStringWithDataDict();
+				loadBlackDeliverList();
+			}
+			
+			/**
+			 * 用数据字典来转换字符串
+			 * */
+			private function convertStringWithDataDict():void
+			{
+				_blackRegulation.noteType = getTextByKeyOnDataDictPath
+					(_blackRegulation.noteType, BlackRegulationConsts.MONEY_TYPE);
+				_blackRegulation.denomination = getTextByKeyOnDataDictPath
+					(_blackRegulation.denomination, BlackRegulationConsts.MONEY_DENOMINATION);
+			}
+			
+			/**
+			 * 加载规则下发列表
+			 */
+			private  function loadBlackDeliverList():void
+			{
+				var msg:RegulationDeliverMsg = new RegulationDeliverMsg();
+				msg.type = "getRegulationDeliverListByApplyId";
+				msg.args["page"]=pm.blackPage;
+				msg.args["applyId"] = _blackRegulation.regulation;
+				sendMessage(msg);
+			}
+			
+			[MessageHandler(selector="getRegulationDeliverListByApplyIdResult")]
+			public function getRegulationDeliverListResult(p_msg:RegulationDeliverMsg):void
+			{
+				if(p_msg.result)
+					pm.blackPage = p_msg.result as Page;
+			}
+			
+			/**
+			 * 获取数据字典成功后刷新界面
+			 */
+			override protected function getDataDictCallback():void
+			{
+				convertStringWithDataDict();
+				//regulationDeliverList.refresh();
+			}
+			
+			/**
+			 * 显示数据字典转换出来的值
+			 */
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = BlackRegulationConsts.RULE_STATUS;
+				return super.transferDataDict(p_item, column);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<grg:RoundCornerContainer locale="ruleInfo" width="100%" height="125">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout paddingTop="5" paddingLeft="10" paddingRight="10" paddingBottom="5"/>
+			</s:layout>
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="regulation">
+					<grg:Text text="{_blackRegulation.regulation}" 
+								   width="130"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="createName">
+					<grg:Text width="130" text="{_blackRegulation.applyId}"/>
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="createDate">
+					<grg:Text width="165" text="{DateFormatter.format(_blackRegulation.applyDate)}"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:Group>
+	</grg:RoundCornerContainer>
+	<grg:RoundCornerContainer locale="ruleDeliverInfo" width="100%" height="100%">
+		<s:Scroller width="100%" height="100%" minHeight="0" verticalScrollPolicy="auto" horizontalScrollPolicy="off">
+		<s:Group width="100%" height="100%">
+		<!--	<s:layout>
+				<s:HorizontalLayout paddingTop="10" paddingLeft="10" paddingRight="10" paddingBottom="10"/>
+			</s:layout>-->
+			<s:layout>
+				<s:VerticalLayout gap="0" 
+								  paddingTop="0"/>
+			</s:layout>
+			<grg:DataGrid id="seqList" dataProvider="{pm.blackPage.result}" width="100%" height="100%" textAlign = "center"
+						  styleName = "DataGrid">
+				<grg:columns>
+					<grg:DataGridColumn locale="termid" dataField="termid"/>
+					<grg:DataGridColumn locale="status" dataField="status" labelFunction="{transferDataDict}"/>
+				</grg:columns>
+			</grg:DataGrid>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+								  pageVo="{pm.blackPage}"
+								  pagingFunction="{loadBlackDeliverList}"/>
+		</s:Group>
+			</s:Scroller>
+	</grg:RoundCornerContainer>
+	<s:HGroup width="100%" gap="6" height="35" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="close"  iconVisible="false" click="close()"/>
+	</s:HGroup>
+</grg:TitleWindow>

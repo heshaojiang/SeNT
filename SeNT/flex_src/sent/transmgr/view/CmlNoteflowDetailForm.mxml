@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 locale="cmlNoteflowDetailForm" 
+				 titleKey="ATMAddCashPage"
+				 creationComplete="init()"
+				 addedToStage="addToStageHandler()"
+				 xmlns:mx="library://ns.adobe.com/flex/mx" width="480" height="265"  layout = "vertical"
+				 xmlns:parsley="http://www.spicefactory.org/parsley" >
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.utils.UIDUtil;
+			
+			import platform.common.base.BaseService;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.constants.LocaleConsts;
+			import platform.layer.MessageBase;
+			import platform.security.view.ChangePwdForm;
+			import platform.security.view.EditUserInfo;
+			import platform.services.PollingMessageBroker;
+			import platform.vo.org.OrgVo;
+			
+			import sent.transmgr.message.CmlNoteflowMsg;
+			import sent.transmgr.pm.CmlNoteflowModulePM;
+			import sent.transmgr.vo.CmlNoteflowDetailVO;
+/*			
+			[Inject]
+			[Bindable]
+			public var pm:CmlImprecordModulePM;
+			[Bindable]
+			public var cml:CmlImprecordsVO=new CmlImprecordsVO();
+	*/
+			[Inject]
+			[Bindable]
+			public var pm:CmlNoteflowModulePM;
+			/**推送频道消息接收类**/
+			[Inject]
+			public var pollingMessageBroker:PollingMessageBroker;
+			/**
+			 * 用户编号
+			 * */
+			[Bindable]
+			public var userCode:String;
+			private var timer:Timer=new Timer(1000);
+			/**超时时间（分钟）**/
+			private var timeout:int = 20;
+			/**超时定时器**/
+			private var activityTimer:int;
+			/**与后台保持连接防止Session过期的定时器**/
+			private var keepConnectionTimer:int;		
+			/**客户端唯一的标记**/
+			private var loginUid:String = UIDUtil.createUID();
+			//初始化登录用户名称
+			[Bindable]
+			public var userName:String;
+			[Bindable]
+			public var winVo:CmlNoteflowDetailVO;
+			[Bindable]
+			public var userid:String;
+			
+			public function init():void
+			{
+//				timer.addEventListener(TimerEvent.TIMER,loadStatus);
+				
+				var msg2:CmlNoteflowMsg=new CmlNoteflowMsg();
+				//userid=UserInfoInit.userInfo["userCode"];
+				userName=UserInfoInit.userInfo["userName"];
+				
+					msg2.args["userName"]=winVo.operator;//在显示页面已经将operaterId转换成了userName
+
+			}
+			
+			/**
+			 * 保存
+			 */
+			public function save():void
+			{ 
+				trace("CmlNoteflowDetailForm.save");
+				if(termCode == null || termCode.text=="") {
+					AlertHandler.alert("请输入ATM号！");
+					return ;
+				}
+				
+				if((cashCode1 == null || cashCode1.text=="")&&(cashCode2 == null || cashCode2.text=="")&&(cashCode3 == null || cashCode3.text=="")&&(cashCode4 == null || cashCode4.text=="")) {
+					AlertHandler.alert("请输入至少一个钞箱号！");
+					return ;
+				}
+				
+				//	pm.save(termCode.text ,cashCode.text ,UserInfoInit.userInfo["userName"]) ;
+				
+				
+				pm.save(termCode.text ,cashCode1.text ,cashCode2.text,cashCode3.text,cashCode4.text,UserInfoInit.userInfo["userCode"],UserInfoInit.userInfo["orgPathCode"]) ;
+				this.close() ;
+			}
+			
+			/**
+			 * 编辑用户
+			 * */
+			protected function editUser():void
+			{
+				var win:EditUserInfo = new EditUserInfo();
+				context.viewManager.addViewRoot(win);
+				platform.common.manager.PopUpManager.showForm4Parsley(win);
+			}
+			
+			/**
+			 * 显示登录用户信息并调用函数获取菜单
+			 * 
+			 * **/
+			private function showLoginInfo():void
+			{
+				if (operaterUser)
+					operaterUser.label = "";
+				if (operaterUser && UserInfoInit && UserInfoInit.userInfo)
+					operaterUser.label = UserInfoInit.userInfo["userCode"];
+				// operater.label = UserInfoInit.userInfo["userName"];
+				
+				if(UserInfoInit.userInfo["defaultPassword"] == true){
+					changePassword();
+					AlertHandler.alert(LocaleConsts.DEFAULT_PASSWORD);
+				}
+				//init menu bar
+				//initializeMenuBar();
+			}
+			
+			//用户信息处理 start
+			/**
+			 * 获取用户信息显示初始化信息，增加事件监听器等
+			 * */
+			private function initUserCallback():void
+			{
+				showLoginInfo();
+				//init message num
+				//getMessageNum();
+				//如果到达预设的密码过期提醒时间，弹出窗口提示用户
+//				passwordExpiredReminder();
+				
+				if(UserInfoInit.userInfo["flexTimeOut"])
+					timeout = int(UserInfoInit.userInfo["flexTimeOut"]);
+				
+				//添加监听用户活动事件处理器
+				if(timeout > 0){
+					systemManager.addEventListener(MouseEvent.MOUSE_MOVE, clearActivityTimerHandler);
+					systemManager.addEventListener(KeyboardEvent.KEY_DOWN, clearActivityTimerHandler);
+					activityTimer = setTimeout(timeoutHandler, timeout*60*1000);
+				}
+				//保持连接timer
+				keepConnectionTimer = setInterval(invokeService, 10*60*1000);
+				invokeService();
+				
+				if (UserInfoInit.userInfo["multiOnline"] != "Y")
+					pollingMessageBroker.send("poll.newLogin",  UserInfoInit.userInfo["userCode"], loginUid);
+				//加载导航菜单
+				//				loadNavigatorData();
+				/**
+				 * 调用远程的机构信息
+				 * */
+				var remote:RemoteObject = new BaseService("orgInfoService");
+				remote.addEventListener(ResultEvent.RESULT, getUserInitInfo_result);
+				remote.getOrgById(UserInfoInit.userInfo["orgId"]);
+			}
+			/**
+			 * 初始化用户的pathCode
+			 * */
+			public function getUserInitInfo_result(p_evt:ResultEvent):void
+			{
+				var orgInfo:OrgVo = p_evt.result as OrgVo;
+				UserInfoInit.userInfo["orgPathCode"] = orgInfo.pathCode;
+			}
+			/**
+			 * 当显示主界面时对各部分功能进行初始化
+			 * */
+			private function addToStageHandler():void
+			{
+				//开启数据推送频道
+				//				if(pollingMessageBroker)
+				//					pollingMessageBroker.start();
+				//初始化全局变量
+				//				if(appGlobal)
+				//					appGlobal.init();
+				//设置用户信息
+				new UserInfoInit(initUserCallback).getUserInfo();
+			}
+			
+			/**
+			 * 修改密码
+			 * @param p_info
+			 * 
+			 */
+			/**
+			private function changePassword(expired:Boolean=false):void
+			{
+				var changePassword:ChangePassword = new ChangePassword();
+				changePassword.name = "changePassword";
+				changePassword.expired = expired;
+				context.viewManager.addViewRoot(changePassword);
+				platform.common.manager.PopUpManager.showForm(changePassword, this); 
+			}
+			*/
+			/**
+			 * 修改密码
+			 * @param p_info
+			 * 
+			 */
+			private function changePassword(expired:Boolean=false):void
+			{
+				var win:ChangePwdForm = new ChangePwdForm();
+				win.titleKey = "changePassword";
+				context.viewManager.addViewRoot(win);
+				platform.common.manager.PopUpManager.showForm4Parsley(win);
+			}
+			
+			/**
+			 * 鼠标活动时，刷新超时函数
+			 * @param p_evt
+			 * **/
+			private function clearActivityTimerHandler(p_evt:Event):void
+			{
+				clearTimeout(activityTimer);
+				activityTimer = setTimeout(timeoutHandler, timeout*60*1000);
+			}
+			/**
+			 * 当超过设定的时间没有操作时，提示用户，随后退出系统
+			 * */
+			private function timeoutHandler():void
+			{
+				cleanResources();
+				AlertHandler.alert("timeOut", logoOut);
+			}
+			public function logoOut(p_msg:Object = null):void
+			{
+				cleanResources();
+			}
+			//清理资源 start
+			/**
+			 * 清理所有资源和定时器
+			 * */
+			private function cleanResources():void
+			{
+				//关闭
+				//				if(pollingMessageBroker)
+				//					pollingMessageBroker.close();
+				//clear timeres after that session is time out.
+				clearInterval(keepConnectionTimer);
+				clearTimeout(activityTimer);
+				//				removeEventListener("deleteUserModule", deleteUserModule);
+				systemManager.removeEventListener(MouseEvent.MOUSE_MOVE, clearActivityTimerHandler);
+				systemManager.removeEventListener(KeyboardEvent.KEY_DOWN, clearActivityTimerHandler);
+			}
+			/**
+			 * 定时调用远程服务，获取服务器时间并且刷新服务器session
+			 * */
+			private function invokeService():void
+			{
+				var msg:MessageBase = new MessageBase();
+				msg.type = "getServerTime";
+				sendMessage(msg);
+			}
+		]]>
+	</fx:Script>
+	<grg:Form id="form" width="100%" textAlign="left" borderVisible="false">
+		<grg:FormItem id = "termId"
+					  locale = "atmId"
+					  >
+			<grg:TextInput id="termCode" required="true" height="20" width="240"/>
+			<!--<grg:Text text="{pm.cmlImpVO.barcode2}" id="termCode"/> -->
+		</grg:FormItem>
+		<grg:FormItem id = "exportName1" 
+					  textAlign = "left"
+					  locale = "cashBoxNum1"
+					  >	  
+		<grg:TextInput id="cashCode1" required="false" height="20" width="240"/>
+		</grg:FormItem>
+			<grg:FormItem id = "exportName2" 
+						  textAlign = "left"
+						  locale = "cashBoxNum2"
+						  >	  
+				<grg:TextInput id="cashCode2" required="false" height="20" width="240"/>
+			</grg:FormItem>
+				<grg:FormItem id = "exportName3" 
+							  textAlign = "left"
+							  locale = "cashBoxNum3"
+							  >	  
+					<grg:TextInput id="cashCode3" required="false" height="20" width="240"/>
+				</grg:FormItem>
+					<grg:FormItem id = "exportName4" 
+								  textAlign = "left"
+								  locale = "cashBoxNum4"
+								  >	  
+						<grg:TextInput id="cashCode4" required="false" height="20" width="240"/>
+            <!--	<grg:Text text="@{pm.cmlImpVO.barcode1}" id="userId" width="240"/>-->		
+			
+		</grg:FormItem>
+		<grg:FormItem id="operate"  textAlign="left" 
+					  locale="operater" >
+			<grg:LinkButton iconType="loginUser" textDecoration="underline" id="operaterUser" isCustomizeStyle="true" cornerRadius="5" click="editUser()"/>
+			
+		</grg:FormItem>	
+	</grg:Form>
+	<s:HGroup 
+		width = "100%"  gap="6"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle" />
+			</s:layout>
+			<grg:Button id="saveBtn"
+						click = "save()"
+						locale = "saveButton"
+						iconType = "save" />
+		</s:BorderContainer>
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle" />
+			</s:layout>
+			<grg:Button 
+				click = "this.close()"
+				locale = "cancelButton"
+				iconType = "close"/>
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

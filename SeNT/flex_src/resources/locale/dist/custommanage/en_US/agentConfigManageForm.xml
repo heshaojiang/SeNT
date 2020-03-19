@@ -1,0 +1,67 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：agentConfigManageForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "agentConfigManageForm">
+		<addAgentConfigManageForm>Add Agent Config Plan Information</addAgentConfigManageForm>
+		<updateAgentConfigManageForm>Update AgentConfigManage</updateAgentConfigManageForm>
+		<planidItem>plan id</planidItem>
+		<createtimeItem>create time</createtimeItem>
+		<repeattypeItem>repeat type</repeattypeItem>
+		<everydayexetimeItem>set everyday time</everydayexetimeItem>
+		<repeatintervalItem>set everyminute time</repeatintervalItem>
+		<plannameItem>Plan Name</plannameItem>
+		<nextexecutetimeItem>Execute Time</nextexecutetimeItem>
+		<termidlistItem>Term ID</termidlistItem>
+		<taskparaItem>task para</taskparaItem>
+		<taskparaversionItem>task para version</taskparaversionItem>
+		<maxretrytimesItem>max retry times</maxretrytimesItem>
+		<retryintervalItem>retry interval</retryintervalItem>
+		<enabledItem>enabled</enabledItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM Model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<brandItem>Brand</brandItem>
+		<timeoutintervalItem>Timeout Interval (hours)</timeoutintervalItem>
+		<BaseInfo>Base Information</BaseInfo>
+		<AgentInfo>Agent Information</AgentInfo>
+		<agentportItem>agent listening port</agentportItem>
+		<fdgatesvripItem>Distribution Server's IP</fdgatesvripItem>
+		<fdgatesvrportItem>Distribution Server's port</fdgatesvrportItem>
+		<fvsvripItem>View Server's IP</fvsvripItem>
+		<fvsvrportItem>View server's port</fvsvrportItem>
+		<xfscamItem>Camera</xfscamItem>
+		<xfscdmItem>Cash Dispenser Module</xfscdmItem>
+		<xfschkItem>Check Scanner</xfschkItem>
+		<xfscimItem>Cash In Module</xfscimItem>
+		<xfsdepItem>Envelope Deposit</xfsdepItem>
+		<xfsidcItem>Identificaiton Card</xfsidcItem>
+		<xfsjprItem>Journal Printer</xfsjprItem>
+		<xfspbkItem>Passbook Printer</xfspbkItem>
+		<xfspinItem>Encryption Keyboard</xfspinItem>
+		<xfsrprItem>Receipt Printer</xfsrprItem>
+		<xfssiuItem>Sensors and Indicators Unit</xfssiuItem>
+		<xfssprItem>Statement Printer</xfssprItem>
+		<xfsttuItem>Text Terminal Unit</xfsttuItem>
+		<xfsvdmItem>Vendor Dependent</xfsvdmItem>
+		<xfscoincdmItem>Coin</xfscoincdmItem>
+		<StartXFSMonitorItem>Start Agent Status View</StartXFSMonitorItem>
+		<spdelayItem>Delays In Initiating SP (Seconds)</spdelayItem>
+		<sendintervalItem>Interval In Sending Status (Seconds)</sendintervalItem>
+		<agentPredefItem>Agent Type Name</agentPredefItem>
+		<agentPredefNote>Attention：The Part Will Not be Changed Which Written "#"！</agentPredefNote>
+		<addAgentConfigManageForm>Agent Config Insert Information</addAgentConfigManageForm>
+		<hintOfInputTermid>enter terminal id, 900 characters maximum.</hintOfInputTermid>		
+		<speratedWithCommaSemicolonSpace>separated with comma, semicolon or space.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>or click button to choose</hintOfClickButton>
+		<xfsbcrItem>Barcode</xfsbcrItem>
+		<xfsrfidcItem>RF Card Reader</xfsrfidcItem>
+		<monitorPalmVeinItem>Palm Vein Reader</monitorPalmVeinItem>
+		
+		<selectClientBtn>Select Clients</selectClientBtn>
+		<selectRangeBtn>Select Client Range</selectRangeBtn>
+	</node>
+</nodes>

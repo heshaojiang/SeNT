@@ -1,0 +1,164 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow width="400" height="260"
+				   layout="vertical"
+				   locale="termModelForm"
+				   xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:parsley="http://www.spicefactory.org/parsley"
+				   xmlns:grg="http://grg.grgbanking.com/platform/" 
+				   helpTips="helpTip">
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.term.message.TermModelMsg;
+			import platform.term.pm.TermModelFormPM;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:TermModelFormPM;
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+
+			//[Init]
+			public function init():void
+			{
+				trace("TermModelForm.init");
+				pm.initFormData();
+			}
+			
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveResultHandler(msg:TermModelMsg):void
+			{
+				trace("TermModelForm.saveResultHandler");
+				close();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:TermModelMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			override protected function  viewUpdateComplete():void
+			{
+				trace("TermModelForm.viewUpdateComplete");
+				//
+				brandId.selectedValue = pm.termModel.brandId;
+				typeId.selectedValue  = pm.termModel.typeId;
+				modelName.text        = pm.termModel.modelName;
+				journalPath.text      = pm.termModel.journalPath;
+				rbgStatus.value       = pm.termModel.status;
+			}
+			
+			private function save():void
+			{
+				trace("TermModelForm.save");
+				if( VControl.validateAll(form, validators).length > 0 )
+				{
+					return;
+				}
+				
+				var parameter:Object = {};
+				parameter.formType    = titleKey;
+				parameter.id          = pm.termModel.id;
+				parameter.modelName   = StringUtil.trim(modelName.text);
+				parameter.brandId     = StringUtil.trim(brandId.selectedValue);
+				parameter.typeId      = StringUtil.trim(typeId.selectedValue);
+				parameter.journalPath = StringUtil.trim(journalPath.text);
+				parameter.status      = rbgStatus.value;
+				
+				pm.save(parameter);
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+			override protected function cancel():void
+			{
+				trace("TermModelForm.cancel");
+				pm.cancel();
+				close();
+			}
+		]]>
+	</fx:Script>
+
+	<!--data binding start-->
+	<!--
+	<fx:Binding source="modelName.text" destination="pm.termModel.modelName" twoWay="true"/>
+	-->
+	<!--data binding end-->
+	
+	<grg:Form id="form" width="100%" textAlign="left" borderVisible="false">
+		<!-- 型号名称： -->
+		<grg:FormItem locale="modelNameItem" required="true">
+			<grg:TextInput id="modelName" name="modelName" maxChars="32" width="115" maxnum="32" vtype="maxchars" required="true"/>
+		</grg:FormItem>
+		<!-- 所属品牌： -->
+		<grg:FormItem width="100%" textAlign="left" locale="brandItem" required="true">
+			<grg:ComboBox id="brandId" dataProvider="{pm.brandListIncludeEmpty}" labelField="brandName" valueField="id"  
+						  width="115" hasEmptyItem="true" />
+		</grg:FormItem>
+		<!-- 所属类型： -->
+		<grg:FormItem width="100%" textAlign="left" locale="typeItem" required="true">
+			<grg:ComboBox id="typeId" dataProvider="{pm.typeListIncludeEmpty}" labelField="type" valueField="id" 
+						  width="115" hasEmptyItem="true" />
+		</grg:FormItem>
+		<!-- 流水文件路径： -->
+		<grg:FormItem width="100%" textAlign="left" locale="journalPath">
+			<grg:TextInput id="journalPath" maxChars="100" maxnum="100" vtype="maxchars" width="200"/>
+		</grg:FormItem>		
+		<!-- 状态： -->
+		<grg:FormItem  width="100%" textAlign="left" locale="status">
+			<mx:HBox>
+				<grg:RadioButtonGroup id="rbgStatus" />
+				<!-- 启用 -->
+				<grg:RadioButton id="statusEnable" groupName="rbgStatus" name="status"
+									 value="Y" locale="statusEnable" />
+				<!-- 禁用 -->
+				<grg:RadioButton id="statusDisable" groupName="rbgStatus" name="status"
+									 value="N" locale="statusDisable" />
+			</mx:HBox>
+		</grg:FormItem>
+	</grg:Form>
+	
+	<s:HGroup width="100%" gap="10" horizontalAlign="center" verticalAlign="middle">
+		
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn" iconVisible="false" click="save()" locale="saveButton" />
+		</s:BorderContainer> 
+		
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false" click="cancel()" locale="cancelButton" />
+		</s:BorderContainer>
+		
+	</s:HGroup>
+	
+</grg:TitleWindow>
+

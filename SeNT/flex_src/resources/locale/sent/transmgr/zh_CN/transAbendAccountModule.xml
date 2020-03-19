@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+<node locale="transAbendAccountModule">
+ <accountNo>卡号/帐号：</accountNo>
+ <transNotenum>异常交易次数</transNotenum>
+ <transTime>交易时间：</transTime>
+ <to>至</to>
+ <operators>操作</operators>
+<titlemsg>异常交易卡号分析</titlemsg>
+</node>
+</nodes>

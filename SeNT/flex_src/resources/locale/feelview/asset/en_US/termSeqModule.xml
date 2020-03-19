@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termSeqModule">
+		<listTitle>listTitle</listTitle>
+		<installForm>installForm</installForm>
+		<openForm>openForm</openForm>
+		<stopManagerForm>stopManagerForm</stopManagerForm>
+		<transferForm>transferForm</transferForm>
+		<scrapForm>scrapForm</scrapForm>
+		<signedSeq>signedSeq</signedSeq>
+		<installedSeq>installedSeq</installedSeq>
+		<openedSeq>openedSeq</openedSeq>
+		<scrapedSeq>signedSeq</scrapedSeq>
+		<seqno>seqno</seqno>
+		<termtype>termType</termtype>
+		<brand>brand</brand>
+		<model>model</model>
+		<insttype>instType</insttype>
+		<batch>batchNo</batch>
+		<orgname>orgname</orgname>
+		<statu>statue</statu>
+		<operations>operations</operations>
+		<install>install</install>
+		<openExam>to examine Open</openExam>
+		<scrapExam>to examine scrap</scrapExam>
+		<transferExam>to examine transfer</transferExam>
+		<open>open</open>
+		<scrap>scrap</scrap>
+		<installOrg>installOrg</installOrg>
+		<netaddr>netaddr</netaddr>
+		<addr>addr</addr>
+		<instDate>instDate</instDate>
+		<optStatu>optStatu</optStatu>
+		<note>note</note>
+		<transfer>transfer</transfer>
+		<termid>termid</termid>
+		<openDate>openDate</openDate>
+		<scrapDate>scrapDate</scrapDate>
+		<signDate>signDate</signDate>
+		<beginTime>stop beginTime</beginTime>
+		<endTime>stop endTime</endTime>
+		<stop>stop</stop>
+		<stopExamine>stopExamine</stopExamine>
+		<stopManager>stopManager</stopManager>
+		<repStopTitle>repStopTitle</repStopTitle>
+		<reason>stopReason</reason>
+		<stopStatue>stopStatue</stopStatue>
+		<cancelStop>cancelStop</cancelStop>
+		<breakStop>breakStop</breakStop>
+		<instorgname>instorgname</instorgname>
+		<export>export</export>
+	</node>
+</nodes>

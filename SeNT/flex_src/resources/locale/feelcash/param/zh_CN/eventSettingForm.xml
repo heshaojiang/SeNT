@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "eventSettingForm">	
+	<addEventSettingForm>新增事件定义</addEventSettingForm>
+	<updateEventSettingForm>修改事件定义</updateEventSettingForm>
+	<eventName>事件名称:</eventName>
+	<beginDate>事件影响开始日期:</beginDate>
+	<endDate>事件影响结束日期:</endDate>
+	<dayMode>加钞方式:</dayMode>
+	<quotiety>加权系数:</quotiety>
+	<termid>终端编号</termid>
+	<termAddr>安装地址</termAddr>
+	<selectionTerminals>待选终端设备列表:</selectionTerminals>
+	<selectedTerminals>选定终端设备列表:</selectedTerminals>
+	</node>
+</nodes>

@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "dataDirModule">
+		<listTitle>Data Dictionary List</listTitle>
+		<itemKey>Key</itemKey>
+		<itemValue>Value</itemValue>
+		<datadirNote>Note</datadirNote>
+		<itemOrder>Order</itemOrder>
+	</node>
+</nodes>

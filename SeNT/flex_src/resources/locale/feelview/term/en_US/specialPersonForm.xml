@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 自定义人员管理
+     Create Time：2012-3-20   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "specialPersonForm">
+		<addSpecialPersonForm>Add Special Person</addSpecialPersonForm>
+		<updateSpecialPersonForm>Update Special Person</updateSpecialPersonForm>
+		<operatorNameItem>Custom officers name:</operatorNameItem>
+		<corporatorOrgItem>Organization:</corporatorOrgItem>
+		<contactManItem>Name:</contactManItem>
+		<contactTelItem>Telephone:</contactTelItem>
+		<contactMobileItem>MobilePhone:</contactMobileItem>
+		<operatorAddressItem>EmailAddress:</operatorAddressItem>
+		<status>Status:</status>
+		<statusEnable>enable</statusEnable>
+		<statusDisable>disable</statusDisable>
+		<prompt>(if two or more,separated by a comma)</prompt>
+		<promptS>(if two or more,separated by a comma)</promptS>
+		<formatPro>it cannot null before the comma</formatPro>
+		<at>@</at>
+		<memoItem>Memo</memoItem>
+	</node>
+</nodes>

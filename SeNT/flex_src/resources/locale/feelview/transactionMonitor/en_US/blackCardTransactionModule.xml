@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：blackCardTransactionModule<br>
+		Create Time：2011-9-6<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "blackCardTransactionModule">
+		<listTitle>BlackCard Transaction List</listTitle>
+		<cardNumOrBINItem>cardNum/cardBIN</cardNumOrBINItem>
+		<beginDateItem>beginDate</beginDateItem>
+		<endDateItem>endDate</endDateItem>
+		<cardTypeItem>cardType </cardTypeItem>
+		<alarmWayItem>alarmWay</alarmWayItem>
+		<beginTimeItem>beginTime</beginTimeItem>
+		<endTimeItem>endTime</endTimeItem>
+		<toItem>to</toItem>
+	</node>
+</nodes>

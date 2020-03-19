@@ -1,0 +1,34 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termInfoModule">
+		<listTitle>Term Info List</listTitle>
+		<termCodeItem>termCode:</termCodeItem>
+		<termSEQItem>termSEQ</termSEQItem>
+		<counterIdItem>counterId</counterIdItem>
+		<termTypeItem>termType:</termTypeItem>
+		<brandItem>brand:</brandItem>
+		<modelItem>model:</modelItem>
+		<org>organization:</org>
+		<areaIdItem>area:</areaIdItem>
+		<netAddrItem>netAddr:</netAddrItem>
+		<netPortItem> netPort</netPortItem>
+		<saveBoxItem> saveBox</saveBoxItem>
+		<cwdBoxItem> cwdBox</cwdBoxItem>
+		<instDateItem> instDate</instDateItem>
+		<activeDateItem> activeDate</activeDateItem>
+		<servStartDateItem> servStartDate</servStartDateItem>
+		<servEndDateItem> servEndDate</servEndDateItem>
+		<servYearsItem>servYears</servYearsItem>
+		<termAddrItem>termAddr</termAddrItem>
+		<serviceTypeItem>serviceType:</serviceTypeItem>
+		<instTypeItem>instType</instTypeItem>
+		<layTypeItem>layType:</layTypeItem>
+		<isVideoWatchItem>isVideoWatch</isVideoWatchItem>
+		<isUPSItem>isUPS</isUPSItem>
+		<isInterATMItem>isInterATM:</isInterATMItem>
+		<busiBeginTimeItem>busiBeginTime</busiBeginTimeItem>
+		<busiEndTimeItem>busiEndTime</busiEndTimeItem>
+		<softVersionItem>softVersion</softVersionItem>
+		<spVersionItem>spVersion</spVersionItem>
+	</node>
+</nodes>

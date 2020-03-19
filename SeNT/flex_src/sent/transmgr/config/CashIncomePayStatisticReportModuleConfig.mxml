@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns="http://www.spicefactory.org/parsley" 
+		 xmlns:grg="http://grg.grgbanking.com/platform/" 
+		 xmlns:message="sent.transmgr.message.*" 
+		 xmlns:pm="sent.transmgr.pm.*"
+		 xmlns:service="sent.transmgr.service.*">
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.CashIncomePayStatictisRepoetDelegate;
+			import sent.transmgr.delegate.CmlSentInfoDelegate;
+			import sent.transmgr.delegate.TransInfoDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<message:CashIncomePayStatictisReportMsg />
+		<pm:CashIncomePayStatisticReportPM />
+		<grg:GRGRemoteObject id="cashIncomePayStatisticReportService" destination="cashIncomePayStatisticReportService"/>
+		<Object type="{CashIncomePayStatictisRepoetDelegate}">
+			<Property name="service" idRef="cashIncomePayStatisticReportService"/>
+		</Object>
+	</fx:Declarations>
+</Objects>

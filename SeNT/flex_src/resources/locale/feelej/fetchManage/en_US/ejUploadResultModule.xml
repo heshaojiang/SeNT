@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="ejUploadResultModule">
+		<date>Date：</date>
+		<integritys>Integrality：</integritys>
+		<teminalID>Term ID</teminalID>
+		<fileName>FileName</fileName>
+		<journalDate>Date</journalDate>
+		<countNum>File Sum</countNum>
+		<successNum>Success Sum</successNum>
+		<errorNum>Failure Sum</errorNum>
+		<integrity>Integrality</integrity>
+		<titlemsg>Increment Upload Result Query</titlemsg>
+		<uploading>Uploading</uploading>
+		<success>Upload Success</success>
+		<repeat>Upload Repeat</repeat>
+		<uncomplete>Not Complete</uncomplete>
+		<uncheck>Not Complete Check</uncheck>
+		<unupdate>File Not Update</unupdate>
+	</node>
+</nodes>

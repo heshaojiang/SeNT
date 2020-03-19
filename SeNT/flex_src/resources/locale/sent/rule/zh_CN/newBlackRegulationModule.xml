@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="newBlackRegulationModule">
+		<blackRegualtion>黑名单规则</blackRegualtion>
+		<regulation>规则</regulation>
+		<ruleStatus>规则状态</ruleStatus>
+		<applyName>申请人</applyName>
+		<applyOrg>申请机构</applyOrg>
+		<applyDate>申请时间</applyDate>
+		<applyDateColon>申请时间：</applyDateColon>
+		<auditName>审核人</auditName>
+		<auditDate>审核时间</auditDate>
+		<addRegulation>新增</addRegulation>
+		<editRegulation>编辑</editRegulation>
+		<delRegulation>删除</delRegulation>
+		<syncSendToSentServer>下发终端</syncSendToSentServer>
+		<createRule>规则生成</createRule>
+		<reliverDetail>最近下发明细</reliverDetail>
+		<termId>终端编号</termId>
+		<operatorId>业务人员</operatorId>
+		<createDate>创建时间</createDate>
+		<createDateColon>创建时间：</createDateColon>
+		<status>下发状态</status>
+		<deliverDate>下发时间</deliverDate>
+		<deliverStatus>下发状态：</deliverStatus>
+		<auditNote>审核意见</auditNote>
+		
+		<moneyType>币种：</moneyType>
+		<moneyDenomination>面额</moneyDenomination>
+		<reversionDate>审核时间</reversionDate>
+		<operations>操作</operations>
+		<regulationDeliver>规则下发</regulationDeliver>
+		<deleteRegulation>撤销规则</deleteRegulation>
+		<type>规则类型：</type>
+		<termid>终端编号：</termid>
+		<close>关闭</close>
+		<ruleInfo>规则详情</ruleInfo>
+		<ruleDeliverInfo>规则下发详情</ruleDeliverInfo>
+		<termNum>升级终端数量：</termNum>
+		<operators>操作</operators>
+		<applytyp>申请类型：</applytyp>
+		<to>至</to>
+		<applyId>申请编号</applyId>
+		<auditStatus>审批状态</auditStatus>
+		<auditRegulation>审核</auditRegulation>
+		<auditInfo>审核规则</auditInfo>
+		<applyId>申请编号：</applyId>
+		<applyType>申请类型：</applyType>
+		<applyStatus>审核状态：</applyStatus>
+		<reliverInfo>下发详情</reliverInfo>
+		<reliverRule>下发规则</reliverRule>
+		<cancleRule>撤销规则</cancleRule>
+		<ruleAudit>规则审核</ruleAudit>
+		<regulationLabel>规则：</regulationLabel>
+		<ruleStatusLabel>规则状态：</ruleStatusLabel>
+	</node>
+</nodes>

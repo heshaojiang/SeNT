@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="addCashForm">
+		<title>ATM加钞</title>
+		
+		<addCash>加钞</addCash>
+		
+		<atmNumColon>ATM号：</atmNumColon>
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		
+		<zratmdcx>ATM加钞</zratmdcx>
+		
+		<delete>删除</delete>
+		<addCashbox>增加钞箱</addCashbox>
+		
+		<save>保存</save>
+		<cancel>取消</cancel>
+	</node>
+</nodes>

@@ -1,0 +1,223 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	width="100%" height="100%"
+	layout = "horizontal" dataDictionaryPaths = "{[TermConsts.ENABLE_OR_DISABLE]}"
+	locale = "termTypeModule"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:component = "platform.component.*"
+	xmlns:control = "platform.component.controls.*"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/" >
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="TermTypeModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="TermTypeModule"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{TermTypeModuleConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Binding source="type.text" destination="pm.condi"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.config.TermTypeModuleConfig;
+			import platform.term.constants.TermConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.TermTypeMsg;
+			import platform.term.pm.TermTypeModulePM;
+			import platform.vo.term.TermTypeVo;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:TermTypeModulePM;
+			
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function getDataDictCallback():void
+			{
+				(termTypePageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = TermConsts.ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.init();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				termTypePageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			//Add 
+			public function add():void
+			{				
+				//set vo
+				var vo:TermTypeVo = new TermTypeVo();
+				vo.formType = TermLocalKeyConsts.ADD_TERMTYPE_FORM;
+				openWin(TermLocalKeyConsts.ADD_TERMTYPE_FORM, vo);
+				
+			}
+			
+			/**
+			 * edit datadir item
+			 * */
+			public function edit():void
+			{
+				if (termTypePageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				var temp:TermTypeVo = TermTypeVo(termTypePageGrid.checkedItems[0]);
+				var vo:TermTypeVo = temp as TermTypeVo;
+				vo.formType = TermLocalKeyConsts.UPDATE_TERMTYPE_FORM;
+				openWin(TermLocalKeyConsts.UPDATE_TERMTYPE_FORM, vo);
+			}
+			
+			/**
+			 * delete datadir item
+			 * */
+			public function del():void
+			{
+				pm.delTermType(termTypePageGrid.checkedItems);
+			}
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * dispatch event
+			 * */
+			public function openWin(p_winName:String, p_vo:TermTypeVo):void
+			{
+				//dispatch event
+				var win:TermTypeForm = new TermTypeForm();
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getTermTypePageResult")]
+			public function getPageHandler(p_msg:TermTypeMsg):void
+			{
+				if(p_msg.result)
+					termTypePageGrid.checkedItems = [];
+			}
+			
+			
+			private function statusLabel(item : Object,column : DataGridColumn):String{
+				return "";	
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer 
+		width="100%" height="100%" borderVisible="false"
+		styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0"  />
+		</s:layout>
+		
+		<!--<grg:TitleBar/>-->
+		<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+			<grg:TitleBar   locale="titlemsg" width="50%" />
+			<mx:HBox  width="100%" styleName="senHBoxStyle">
+				<mx:HBox height="25" styleName="searchStyle">
+					<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+						<s:layout>
+							<s:HorizontalLayout 
+								horizontalAlign = "left"
+								gap="2"
+								verticalAlign = "middle" />
+						</s:layout>
+						<grg:Label locale = "typeItem" />
+						<grg:TextInput id="type" textAlign="left"
+									   width="150" height="20"
+									   styleName = "TextInput" />
+						<grg:SearchButton id="btn_search" 
+										  locale = "searchButton" menuId="{menu.id}"
+										  iconType = "query" click="pm.page = new Page();pm.loadTermTypePage()"/>
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[this.type]}"/>
+					</s:BorderContainer>
+				</mx:HBox>
+				
+			</mx:HBox>
+		</mx:HBox>
+		<mx:HBox  width="100%" styleName="moduleButtonBarHBoxstyle" >
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>	
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid id="termTypePageGrid" dataProvider="{pm.page.result}"
+						  width="100%" height="100%"
+						  paddingLeft="20"
+						  styleName = "DataGrid">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										textAlign = "center"
+										sortable = "false"
+										draggable = "false"
+										editable = "false"
+										resizable = "false" />
+					<grg:DataGridColumn locale = "code"
+										dataField = "code" />
+					<grg:DataGridColumn locale = "typeItem"
+										dataField = "type" />
+					<grg:DataGridColumn locale = "typeNameItem"
+										dataField = "typeName" />
+					<grg:DataGridColumn locale = "status" labelFunction="{transferDataDict}"
+										dataField = "status"
+										/>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar id="termTypePagingBar"
+							  x = "0" pageVo="{pm.page}"
+							  pagingFunction="{pm.loadTermTypePage}"
+							  bottom = "0" />
+	</s:BorderContainer>
+</grg:TabModule>

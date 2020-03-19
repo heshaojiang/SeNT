@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtOpenModule">
+		<listTitle>列表</listTitle>
+		<wtOpenTitle>开机率统计</wtOpenTitle>
+		<termId>终端编号：</termId>
+		<termType>全部终端类型</termType>
+		<brand>全部终端品牌</brand>
+		<orgId>机构ID</orgId>
+		<orgName>机构名称</orgName>
+		<fullTime>饱和开机(分)</fullTime>
+		<hardTime>部分停止服务</hardTime>
+		<resTime>资源预警</resTime>
+		<conPTime>P通讯故障</conPTime>
+		<breakTime>暂停服务</breakTime>
+		<mainTime>设备维护</mainTime>
+		<stopTime>报停</stopTime>
+		<open>正常运行率</open>
+		<order>排名</order>
+		<org>所属机构：</org>
+		<beginDate>时间范围：</beginDate>
+		<endDate>至</endDate>
+		<export>导  出</export>
+		<conVTime>V通讯故障</conVTime>
+		<routineStopTime>例行停机</routineStopTime>
+		<sysMaintainTime>系统维护模式</sysMaintainTime>
+		<unKnowTime>未知</unKnowTime>
+	</node>
+</nodes>

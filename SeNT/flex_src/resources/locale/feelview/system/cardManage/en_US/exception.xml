@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardManage">
+		<existedTmlSelfBank>This TmlSelfBankCode has already exists！</existedTmlSelfBank>
+		<existedUnionPayCardsInfo>This UnionPayCardsInfo has already exists！</existedUnionPayCardsInfo>
+		<existedSystemInterface>This SystemInterface has already exists！</existedSystemInterface>
+		<bankCodeNotNull>This bankCode can not be empty！</bankCodeNotNull>
+		<cardIdNotNull>This cardId can not be empty！</cardIdNotNull>
+		<interfaceNameNotNull>This interfaceName can not be empty！</interfaceNameNotNull>
+	</node>
+</nodes>

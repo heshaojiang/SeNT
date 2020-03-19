@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termInfoModule
+	 Create Time：2011-8-8  上午09:32:35 
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "assetInputModule">
+		<listTitle>Term Info List</listTitle>
+		<termtype>termType</termtype>
+		<brand>brand</brand>
+		<model>model</model>
+		<insttype>instType</insttype>
+		<batch>batchNo</batch>
+		<sum>sum</sum>
+		<remain>remain</remain>
+		<operations>operations</operations>
+		<Distribution>Distribution</Distribution>
+	</node>
+</nodes>

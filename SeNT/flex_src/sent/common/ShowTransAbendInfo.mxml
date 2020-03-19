@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow dataDictionaryPaths="{[TranAbnoinfoBlackConsts.TRANS_RESULT,TranAbnoinfoBlackConsts.TRANS_CODE]}"
+				 locale="showTransAbendInfo"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 layout="vertical"
+				 width="860" height="570">
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="true"/>
+			<parsley:FlexConfig type="{TranAbnoinfoBlackModuleConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.transmgr.config.TranAbnoinfoBlackModuleConfig;
+			import sent.transmgr.constants.TranAbnoinfoBlackConsts;
+			import sent.transmgr.message.TranAbnoinfoBlackModuleMsg;
+			import sent.transmgr.pm.TranAbnoinfoBlackModulePM;
+			import sent.transmgr.vo.TranAbnoinfoVO;
+			
+			[Inject]
+			[Bindable]
+			public var pm:TranAbnoinfoBlackModulePM;
+			
+			[Bindable]
+			public var tranAbInfoList:ArrayCollection;
+			
+			private var _accountNo:String;
+			private var _termid:String;
+			private var _regulation:String;
+			
+			public function set accountNo(p_value:String):void
+			{
+				_accountNo = p_value;
+				//发送消息根据帐号获取相关交易详情信息
+				var msg:TranAbnoinfoBlackModuleMsg = new TranAbnoinfoBlackModuleMsg();
+				msg.type = "getTranAbnoinfoAnalyseList";	// java: "getTranAbnoinfoAnalyseList", result: "getTranAbnoinfoAnalyseListResult"
+				msg.args["accountNo"] = p_value;
+				sendMessage(msg);
+			}
+			
+			/**
+			 * 根据卡号获取该交易的详细信息
+			 * */
+			[MessageHandler(selector="getTranAbnoinfoAnalyseListResult")]
+			public function getTransSEQListResult(p_msg:TranAbnoinfoBlackModuleMsg):void
+			{
+				trace("ShowTransAbendInfo.getTransSEQListResult");
+				if(p_msg.result){
+					
+					tranAbInfoList= p_msg.result as ArrayCollection;
+				}
+			}
+			
+			public function set termid(p_value:String):void
+			{
+				
+				_accountNo = p_value;
+				
+				//发送消息根据终端D获取相关交易详情信息
+				var msg:TranAbnoinfoBlackModuleMsg = new TranAbnoinfoBlackModuleMsg();
+				msg.type = "getTranAbnoinfoAnalyseByTermidList";
+				msg.args["termid"] = p_value;
+				sendMessage(msg);
+			}
+			/**
+			 * 根据终端编号获取该交易的详细信息
+			 * */
+			[MessageHandler(selector="getTranAbnoinfoAnalyseByTermidListResult")]
+			public function getTransTermResult(p_msg:TranAbnoinfoBlackModuleMsg):void
+			{
+				trace("ShowTransAbendInfo.getTransTermResult");
+				if(p_msg.result){
+					
+					tranAbInfoList= p_msg.result as ArrayCollection;
+				}
+			}
+			public function set regulation(p_value:String):void
+			{
+				_regulation = p_value;
+				//发送消息根据黑名单规则获取相关交易详情信息
+				var msg:TranAbnoinfoBlackModuleMsg = new TranAbnoinfoBlackModuleMsg();
+				msg.type = "getTranAbnoinfoAnalyseByBlReguList";	// java: "getTranAbnoinfoAnalyseByBlReguList", result: "getTranAbnoinfoAnalyseByBlReguListResult"
+				msg.args["regulation"] = p_value;
+				sendMessage(msg);
+			}
+			
+			
+			/**
+			 * 根据黑名单规则获取该交易的详细信息
+			 * */
+			[MessageHandler(selector="getTranAbnoinfoAnalyseByBlReguListResult")]
+			public function getTransBlackResult(p_msg:TranAbnoinfoBlackModuleMsg):void
+			{
+				trace("ShowTransAbendInfo.getTransBlackResult");
+				if(p_msg.result){
+					
+					tranAbInfoList= p_msg.result as ArrayCollection;
+				}
+			}
+			/**
+			 * 转换数据字典
+			 * */
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				trace("ShowTransAbendInfo.transferDataDict");
+				switch(p_column.dataField){
+					case "transCode":
+						currentDataDictPath = TranAbnoinfoBlackConsts.TRANS_CODE;
+						break;
+					case "transResult":
+						currentDataDictPath = TranAbnoinfoBlackConsts.TRANS_RESULT;
+						break;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+			/**
+			 * 显示详细的交易信息
+			 * */
+			public function showTransDetailInfo():void
+			{
+				trace("ShowTransAbendInfo.showTransDetailInfo");
+				
+				var blackObj:TranAbnoinfoVO = operationDataGrid.selectedItem as TranAbnoinfoVO;
+				
+				pm.tranId = blackObj.tranId;
+				pm.blackObj = blackObj;
+				pm.getTransAbnobankNoteSeqByTranId();
+				
+				var win:ViewAbnoBanknote = new ViewAbnoBanknote();
+				
+				this.context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.transInfo = blackObj;
+				win.initData();
+			}
+			
+			/**
+			 * 获取该异常交易的所有冠字号码信息
+			 */
+			[MessageHandler(selector="getTransAbnobanknoteSeqByTranIdResult")]
+			public function getTransAbnobanknoteSeqByTranIdResult(p_msg:TranAbnoinfoBlackModuleMsg):void
+			{
+				trace("ShowTransAbendInfo.getTransAbnobanknoteSeqByTranIdResult");
+				if(p_msg.result)
+				{
+					pm.tranPage = p_msg.result as Page;
+				}
+			} 
+		]]>
+	</fx:Script>
+	
+	<grg:DataGrid dataProvider="{tranAbInfoList}" id="operationDataGrid" 
+				  width="100%" height="100%" 
+				  textAlign = "center"
+				  styleName = "DataGrid">
+		<grg:columns>
+			<grg:DataGridColumn locale = "transCode" labelFunction="{transferDataDict}"
+								dataField = "transCode" />
+			<grg:DataGridColumn locale = "accountNo"
+								dataField = "accountNo" width="165"/>
+			<grg:DataGridColumn locale = "transResult" labelFunction="{transferDataDict}"
+								dataField = "transResult"  />
+			<grg:DataGridColumn locale = "transNotenum"
+								dataField = "transNotenum" />
+			<grg:DataGridColumn locale = "blackNotenum" 
+								dataField = "blackNotenum" width="75"/>
+			<grg:DataGridColumn locale = "repeatNotenum" 
+								dataField = "repeatNotenum"/>
+			<grg:DataGridColumn locale = "callbackNotenum"
+								dataField = "callbackNotenum" />
+			<grg:DataGridColumn locale = "sendTime" width="135">
+				<grg:itemRenderer>
+					<fx:Component>
+						<s:MXItemRenderer>
+							<fx:Script>
+								<![CDATA[
+									import sent.common.utils.DateUtils;
+									[Bindable]
+									private var dateString:String;
+									override public function set data(value:Object):void
+									{
+										super.data = value;
+										dateString = DateUtils.formatYYYYMMDDHHMISS(value.tranDate);
+									}
+								]]>
+							</fx:Script>
+							<grg:Label text="{dateString}" toolTip="{dateString}" fontSize="14" width="100%" lineBreak="explicit" />
+						</s:MXItemRenderer>
+					</fx:Component>
+				</grg:itemRenderer>
+			</grg:DataGridColumn>
+			<grg:DataGridColumn locale = "operators" 
+								headerStyleName="centerDataGridHeader">
+				<grg:itemRenderer>
+					<fx:Component>
+						<s:MXDataGridItemRenderer>
+							<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menuId}"/>
+						</s:MXDataGridItemRenderer>
+					</fx:Component>
+				</grg:itemRenderer>
+			</grg:DataGridColumn>
+		</grg:columns>
+	</grg:DataGrid>
+</grg:TitleWindow>

@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="mainModule">
+		<listTitle>日志列表</listTitle>
+		<date>日期：</date>
+		<to>至：</to>
+		<keyword>关键字：</keyword>
+		<teminalID>终端号</teminalID>
+		<organization>机构</organization>
+		<fileName>文件名</fileName>
+		<journalDate>日期</journalDate>
+		<operation>操作</operation>
+		<status>空间状态</status>
+		<fileSum>文件总和：</fileSum>
+		<limitDays>预计可用天数：</limitDays>
+		<day>天</day>
+		<viewButton>查看</viewButton>
+		<titleMsg>流水查阅</titleMsg>
+	</node>
+</nodes>

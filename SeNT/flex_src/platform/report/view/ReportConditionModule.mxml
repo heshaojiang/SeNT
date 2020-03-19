@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule locale="reportConditionModule" xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   dataDictionaryPaths="{[DataDirConsts.NOTICE_TYPE,DataDirConsts.NOTICE_METHOD,DataDirConsts.NOTICE_STATUS]}"
+			  xmlns:s="library://ns.adobe.com/flex/spark"
+			  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:grg="http://grg.grgbanking.com/platform/" 
+			  layout="horizontal" width="100%" height="100%" xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.datadir.config.DataDirModuleConfig;
+			import platform.report.config.ReportConditionConfig;
+			import platform.report.message.ReportConditionMsg;
+			import platform.report.pm.ReportConditionModulePM;
+			import platform.report.vo.ReportConditionVO;
+			[Inject]
+			[Bindable]
+			public var pm:ReportConditionModulePM;
+			
+			//录入控件下拉列表项
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				loadPage();
+			}
+			
+			private function loadPage():void
+			{
+				pm.loadPage();
+			}
+			
+			//Add 
+			public function add():void
+			{
+				//set vo
+				var vo:ReportConditionVO = new ReportConditionVO();
+				openWin(vo);				
+			}
+			
+			//update 
+			public function edit():void
+			{
+				if (dataGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				openWin(dataGrid.checkedItems[0] as ReportConditionVO);
+			}
+			
+			public function openWin(p_vo:ReportConditionVO):void
+			{
+				//dispatch event
+				var win:ReportConditionForm = new ReportConditionForm();
+//				
+				if (p_vo.id==null || p_vo.id=="")
+					win.titleKey = OperationConsts.ADD;
+				else
+					win.titleKey = OperationConsts.EDIT;
+//				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.menuId = this.menu.id;
+				win.pm.vo = p_vo;
+			}
+			
+			/**
+			 * 保存成功返回结果处理函数
+			 */		
+			[MessageHandler(selector="saveResult")]
+			public function saveSuccessHandler(p_msg:ReportConditionMsg):void
+			{
+				loadPage();
+			}
+			
+			//delete 
+			public function del():void
+			{
+				pm.del(dataGrid.checkedItems);
+			}
+			
+			/**
+			 * 删除成功更新列表
+			 */		
+			[MessageHandler(selector="deleteResult")]
+			public function deleteSuccessHandler(p_msg:ReportConditionMsg):void
+			{
+				loadPage();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{ReportConditionConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<s:BorderContainer width="100%" height="100%" styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="5"/>
+		</s:layout>
+		
+		<!--<s:BorderContainer id="searchBar" width="100%"  height="40" styleName="SearchBar">
+			<s:layout>
+				<s:HorizontalLayout horizontalAlign = "left"
+									paddingLeft="10" gap="8"
+									verticalAlign = "middle"/>
+			</s:layout>
+			<grg:SearchButton click = "pm.page = new Page();loadPage()"
+							  locale = "searchButton"
+							  iconType = "query"  />
+		</s:BorderContainer>-->
+		
+		<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}" />
+		
+		<grg:DataGrid dataProvider="{pm.page.result}" width="100%" height="100%" paddingLeft="20" 
+					  textAlign = "center"
+					  styleName = "DataGrid" id="dataGrid">
+			<grg:columns>
+				<grg:CheckBoxColumn id="checkBoxCol" />
+				<grg:DataGridColumn dataField="name" locale="name1"/>
+				<grg:DataGridColumn dataField="service" locale="service"/>
+				<grg:DataGridColumn dataField="method" locale="method"/>
+				<grg:DataGridColumn dataField="control" locale="control"/>
+				<grg:DataGridColumn dataField="paramDatatype" locale="paramDatatype"/>
+				<grg:DataGridColumn dataField="remark" locale="remark" />
+			</grg:columns>
+		</grg:DataGrid>
+		
+		<grg:PageNavigatorBar pageVo = "{pm.page}" bottom = "2" pagingFunction="{loadPage}"/>
+	</s:BorderContainer>
+</grg:TabModule>

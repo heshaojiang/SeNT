@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="integrityModule">
+		<journalDate>完整性检查日期：</journalDate>
+		<journalDateTitle>完整性检查日期</journalDateTitle>
+		<planDate>计划提取日期</planDate>
+		<termCode>终端编号：</termCode>
+		<termCodeTitle>终端编号</termCodeTitle>
+		<fetchstate>提取状态：</fetchstate>
+		<fetchstateTitle>提取状态</fetchstateTitle>
+		<taskList>任务列表</taskList>
+		<taskDetailInfo>任务详情</taskDetailInfo>
+		<integrity>完整性情况</integrity>
+		<atmCnt>总数</atmCnt>
+		<successCnt>成功数</successCnt>
+		<failCnt>失败数</failCnt>
+		<successRate>成功率</successRate>
+		<taskInfo>任务信息</taskInfo>
+		<operate>操作</operate>
+		<to>至：</to>
+		<reFetchButton>重新提取</reFetchButton>
+		<success>成功</success>
+		<fail>失败</fail>
+		<unexe>未执行</unexe>
+		<titlemsg>完整性检查</titlemsg>
+		<operateItem>操作</operateItem>
+	</node>
+</nodes>

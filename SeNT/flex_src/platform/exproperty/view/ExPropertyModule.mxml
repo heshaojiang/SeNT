@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule locale="exPropertyModule" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   layout="horizontal" width="100%" height="100%" 
+			   dataDictionaryPaths="{[DataDirConsts.YES_OR_NO, DataDirConsts.ENABLE_OR_DISABLE]}"
+			   xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.exproperty.config.ExPropertyConfig;
+			import platform.exproperty.message.ExPropertyMsg;
+			import platform.exproperty.pm.ExPropertyModulePM;
+			import platform.vo.exproperty.ExtendPropertyVO;
+			[Inject]
+			[Bindable]
+			public var pm:ExPropertyModulePM;
+			
+			//表名下拉列表项
+			[Bindable]
+			private var arrTable:ArrayCollection = new ArrayCollection([{label: 'TML_INFO' , value: 'TML_INFO'} , {label: 'USR_USER' , value: 'USR_USER'} , {label: 'ORG_AREA' , value: 'ORG_AREA'} , {label: 'ORG_INFO' , value: 'ORG_INFO'}]);
+			//录入控件下拉列表项
+			
+			override protected function getDataDictCallback():void
+			{
+				(dataGrid.dataProvider as ArrayCollection).refresh();
+			}
+			
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				switch(p_column.dataField){
+					case "required":
+					case "listDisplay":
+						currentDataDictPath = DataDirConsts.YES_OR_NO;
+						break;
+					case "status":
+						currentDataDictPath = DataDirConsts.ENABLE_OR_DISABLE;
+						break;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				loadPage();
+			}
+			
+			//根据名称模糊查询
+			private function loadPage():void
+			{
+				pm.loadPage(table.selectedValue);
+			}
+			
+			//update button item
+			public function edit():void
+			{
+				if (dataGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				openWin(dataGrid.checkedItems[0] as ExtendPropertyVO);
+			}
+			
+			private function openWin(p_vo:ExtendPropertyVO):void
+			{
+				//dispatch event
+				var win:ExPropertyForm = new ExPropertyForm();
+				
+				//win.titleKey = p_winName;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * 保存成功返回结果处理函数
+			 */		
+			[MessageHandler(selector="saveResult")]
+			public function saveSuccessHandler(p_msg:ExPropertyMsg):void
+			{
+				loadPage();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{ExPropertyConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<s:Group width="100%" height="100%">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		
+		<!--<grg:TitleBar/>-->
+		<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+			<grg:TitleBar locale="titlemsg" width="30%"/>
+			<mx:HBox width="100%" styleName="senHBoxStyle">
+				<mx:HBox paddingBottom="3" paddingTop="2">
+					<s:BorderContainer width = "100%" height="25" styleName="searchStyle" borderVisible = "false">
+						<s:layout>
+							<s:HorizontalLayout 
+								horizontalAlign = "left" 
+								gap="5"
+								verticalAlign = "middle" />
+						</s:layout>  
+						<grg:ComboBox id="table"  dataProvider="{arrTable}" labelField = "label"
+									  valueField = "value" width="100" allItemKey="table"/>
+						<grg:SearchButton click = "pm.page = new Page();loadPage()"
+										  locale = "searchButton"
+										  iconType = "query"  />
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[this.table]}"/>
+					</s:BorderContainer>
+				</mx:HBox>
+				
+			</mx:HBox>
+		</mx:HBox>  
+		<mx:HBox width="100%" paddingLeft="10" paddingBottom="2" paddingTop="3">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid id="dataGrid" dataProvider="{pm.page.result}" width="100%" height="100%" paddingLeft="20" 
+						  styleName = "DataGrid">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol" />
+					<grg:DataGridColumn dataField="order" locale="order"
+										textAlign = "center"
+										/>
+					<grg:DataGridColumn dataField="i18nName" 
+										locale="i18nName"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="propertyName" 
+										locale="propertyName"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="fieldName" 
+										locale="fieldName"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="inputType" 
+										locale="inputType"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="required" 
+										locale="required" 
+										labelFunction="transferDataDict"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="status" 
+										locale="status" 
+										labelFunction="transferDataDict"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="listDisplay" 
+										locale="listDisplay" 
+										labelFunction="transferDataDict"
+										textAlign = "left"
+										/>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar pageVo = "{pm.page}" bottom = "2" pagingFunction="{loadPage}"/>
+	</s:Group>
+</grg:TabModule>

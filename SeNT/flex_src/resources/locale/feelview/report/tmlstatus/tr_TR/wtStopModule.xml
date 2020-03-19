@@ -1,0 +1,18 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtStopModule">
+		<listTitle>Arıza Listesi</listTitle>
+		<termId>Terminal Id</termId>
+		<termType>Terminal Tipi</termType>
+		<brand>Marka</brand>
+		<orgId>Şube</orgId>
+		<orgName>Şube Adı</orgName>
+		<beginTime>Başlangıç Zamanı</beginTime>
+		<endTime>Bitiş Zamanı</endTime>
+		<stopTime>ToplamKesintiSüresi(dk)</stopTime>
+		<reason>Sebep</reason>
+		<memo>Açıklama</memo>
+		<disposal>Durum</disposal>
+		<to>Bitiş Zamanı</to>
+	</node>
+</nodes>

@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+    <node locale="showAuditInfo">
+     <regulationAuditTitle>规则审核</regulationAuditTitle>
+    <auditAction>审批动作</auditAction>
+    <actionEnable>通过</actionEnable>
+    <auditNote>审批备注</auditNote>
+    <actionDisable>退回  </actionDisable>
+    <reduitDetail>申请审核记录</reduitDetail>
+    <username>经办人：</username>
+    <orgName>机构：</orgName>
+    <applyResult>审批结果</applyResult>
+    <applyNote>审批备注</applyNote>
+     <applyInfo>申请信息</applyInfo>
+      <applyDetail>申请详情</applyDetail>
+        <applyId>申请编号：</applyId>
+     <username>申请人：</username>
+     <applayDate>申请时间：</applayDate>
+     <applyType>申请类型：</applyType>
+     <regulation>规则：</regulation>
+     <moneyType>币种：</moneyType>
+     <moneyDenomination>面额：</moneyDenomination>
+     <dealwithMode>处理方式：</dealwithMode>
+     <logMode>是否记录流水：</logMode>
+     <creenMode>是否屏幕显示：</creenMode>
+     <enterAccountMode>入账方式：</enterAccountMode>
+     <repeatnum>最多重号冠字号码数：</repeatnum>
+     <termNum>终端数量：</termNum>
+    <createDate>创建时间：</createDate>
+    <createName>业务人员：</createName>
+    <ok>确定</ok>
+    <close>关闭</close>
+    <auditStatus>规则状态</auditStatus>
+    </node>
+</nodes>

@@ -1,0 +1,14 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "knowledgeLibrary">
+		<tittle>tittle</tittle>
+		<libraryTitle>libraryTitle</libraryTitle>
+		<addAssetInputForm>Add Asset Input</addAssetInputForm>
+		<updateAssetInputForm>Update Asset Input</updateAssetInputForm>
+		<creater>creater</creater>
+		<createtime>createtime</createtime>
+		<content>content</content>
+		<resource>resource</resource>
+		<download>download</download>
+	</node>
+</nodes>

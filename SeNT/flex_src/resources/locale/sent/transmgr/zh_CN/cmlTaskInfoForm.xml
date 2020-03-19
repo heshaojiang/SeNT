@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cmlTaskInfoForm">
+	<editTaskInfo>编辑清分任务信息</editTaskInfo>
+	<tmlNumLabel>终端编号：</tmlNumLabel>
+	<sourceOrgLabel>来源机构：</sourceOrgLabel>
+	<selectPeople>清分员：</selectPeople>
+	<operateDateLabel>清分日期：</operateDateLabel>
+
+	<beforeCountLabel>预清分金额：</beforeCountLabel>
+
+	<totalMoneyLabel>清分总金额：</totalMoneyLabel>
+	
+	</node>
+	</nodes>

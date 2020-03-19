@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassListAdd">
+		
+		
+		<!-- 编辑页面 -->
+		<classAddTitle>Add</classAddTitle>
+		<partIdItem>Part ID : </partIdItem>
+		<partCodeItem>Part Code : </partCodeItem>
+		<descriptionItem>Description : </descriptionItem>
+		
+		<classEditTitle>Edit Session</classEditTitle>
+
+	</node>
+</nodes>

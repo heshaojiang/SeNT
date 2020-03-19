@@ -1,0 +1,60 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： termInfoDetailForm 
+	 Create Time：2011-11-21  上午09:32:35 
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termInfoDetailForm">
+		<showTermInfoDetailForm>Show TermInfo Detail</showTermInfoDetailForm>
+		<showHisTermInfoDetailForm>Show TermInfo Detail</showHisTermInfoDetailForm>
+		<termInfoFormDetail>TermInfo Detail</termInfoFormDetail>
+		<BaseInfo>BaseInfo</BaseInfo>
+		<ExtendInfo>ExtendInfo</ExtendInfo>
+		<ResponsibleInfo>TermResponsibleInfo</ResponsibleInfo>
+		<groupItem>group</groupItem>
+		<roleItem>role</roleItem>
+		<responsibleNameItem>responsibleName</responsibleNameItem>
+		<telePhoneItem>telePhone</telePhoneItem>
+		<mobilePhoneItem>mobilePhone</mobilePhoneItem>
+		<postItem>Post:</postItem>
+		<termIdItem>TermId:</termIdItem>
+		<termNameItem>TermName:</termNameItem>
+		<termSEQItem>TermSEQ:</termSEQItem>
+		<counterIdItem>CounterId:</counterIdItem>
+		<termTypeItem>TermType:</termTypeItem>
+		<brandItem>Brand:</brandItem>
+		<modelItem>Model:</modelItem>
+		<orgIdItem>OrgId:</orgIdItem>
+		<areaIdItem>AreaId:</areaIdItem>
+		<netAddrItem>NetAddr:</netAddrItem>
+		<netPortItem>NetPort:</netPortItem>
+		<saveBoxItem>SaveBox:</saveBoxItem>
+		<cwdBoxItem>CwdBox:</cwdBoxItem>
+		<instDateItem>InstDate:</instDateItem>
+		<activeDateItem>ActiveDate:</activeDateItem>
+		<servStartDateItem>ServStartDate:</servStartDateItem>
+		<servEndDateItem>ServEndDate:</servEndDateItem>
+		<servYearsItem>ServYears:</servYearsItem>
+		<termAddrItem>TermAddr:</termAddrItem>
+		<serviceTypeItem>ServiceType:</serviceTypeItem>
+		<instTypeItem>InstType:</instTypeItem>
+		<layTypeItem>LayType:</layTypeItem>
+		<isVideoWatchItem>IsVideoWatch:</isVideoWatchItem>
+		<isUPSItem>IsUPS:</isUPSItem>
+		<isInterATMItem>IsInterATM:</isInterATMItem>
+		<busiBeginTimeItem>BusiBeginTime:</busiBeginTimeItem>
+		<busiEndTimeItem>BusiEndTime:</busiEndTimeItem>
+		<softVersionItem>SoftVersion:</softVersionItem>
+		<spVersionItem>SpVersion:</spVersionItem>
+		<operateButton>operate</operateButton>
+		<editeButton>modify</editeButton>
+		<deleteButton>delete</deleteButton>
+		<status>PassStatus:</status>
+		<termMaintainerItem>TermMaintainer:</termMaintainerItem>
+		<termOperatorItem>TermOperator:</termOperatorItem>
+		<termSupplierItem>TermSupplier:</termSupplierItem>
+		<cashLackNumItem>CashLackNum:</cashLackNumItem>
+		<cashFullNumItem>CashFullNum:</cashFullNumItem>
+		<isVIPItem>IsVIP:</isVIPItem>
+	</node>
+</nodes>

@@ -1,0 +1,38 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 工单表 
+	 Create Time：2011-8-27
+	 Author：whui
+	 -->
+<nodes>
+	<node locale = "wtDispatchModule">
+		<listTitle>Iş Emri Listesi</listTitle>
+		<timerangeItem>Zaman Aralığı</timerangeItem>
+		<toItem>Bitiş Zamanı</toItem>
+		<dispFlagItem>Sevk Türü</dispFlagItem>
+		<flagItem>İş Emri Türü</flagItem>
+		<dispsourceItem>Sipariş Kaynakları</dispsourceItem>
+		<orgItem>Şube</orgItem>
+		<dispidItem>Iş Emri No</dispidItem>
+		<termidItem>Terminal Id</termidItem>
+		<waitingItem>Bekleme</waitingItem>
+		<overtimeItem>Zaman Aşımı Yanıt Vermiyor</overtimeItem>
+		<dispItem>Cevap Alındı</dispItem>
+		<intimeItem>Fazla Mesai</intimeItem>
+		<handlingItem>Çalışılıyor</handlingItem>
+		<overtimerenewItem>Zaman Aşımı Yenileme</overtimerenewItem>
+		<unfinishedItem>Tamamlanmadı</unfinishedItem>
+		<finishedItem>Tamamlandı</finishedItem>
+		<createtimeItem>Oluşturma Zamanı</createtimeItem>
+		<finishtimeItem>Bitiş Zamanı</finishtimeItem>
+		<disptimeItem>Sevk Süresi</disptimeItem>
+		<handlingtimeItem>İşlem Süresi</handlingtimeItem>
+		<dispstatusItem>Bilet Durumu</dispstatusItem>
+		<timesItem>Defa (n)</timesItem>
+		<noteItem>Açıklama</noteItem>
+		<adminidItem>Bakım Personeli</adminidItem>
+		<operationItem>Tamam</operationItem>
+		<dispTotalItem>İş Emirlerinin Toplam Sayısı</dispTotalItem>
+		<resolvedRateItem>Sorun Giderme Oranı</resolvedRateItem>
+		<redispItem>Yeniden Sevkiyat</redispItem>
+	</node>
+</nodes>

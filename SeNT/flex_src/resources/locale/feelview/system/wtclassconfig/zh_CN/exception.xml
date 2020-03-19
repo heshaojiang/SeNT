@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="wtclasscon">
+		<wtclassalreadyexist>相同的记录已经定义!</wtclassalreadyexist>
+	</node>
+</nodes>

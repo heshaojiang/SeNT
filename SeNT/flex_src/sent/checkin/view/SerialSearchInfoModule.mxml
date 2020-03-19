@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   dataDictionaryPaths="{[QUERY_RESULT,NOTE_TYPE]}"
+			   locale="serialSearchInfoModule"
+			   layout="vertical" 
+			   width="100%" height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			private const QUERY_RESULT:String = "SysDatadirMgr.sent.ruleMgr.cmlQueryResult";
+			private const NOTE_TYPE:String = "SysDatadirMgr.sent.transMgr.noteType";
+			import platform.common.vo.Page;
+			import sent.checkin.message.SerialSearchInfoMsg;
+			import sent.checkin.pm.SerialSearchInfoPM;
+			import sent.checkin.config.SerialSearchInfoConfig;
+			import platform.dataDict.DataDictConfig;
+			import sent.common.utils.DateUtils;
+			import sent.common.utils.DataGridColumnUtils;
+			import platform.common.util.DataGridUtil;
+			import mx.collections.ArrayCollection;
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.checkin.view.SerialSearchInfoForm;
+			import platform.common.manager.PopUpManager;
+			import mx.events.CloseEvent;
+			import mx.core.IFlexDisplayObject;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			import platform.common.manager.AlertHandler;
+			import mx.collections.ListCollectionView;
+			import platform.constants.LocaleConsts;
+			import platform.common.manager.LanguageManager;
+			import mx.controls.Alert;
+			
+			[Inject]
+			[Bindable]
+			public var infopm:SerialSearchInfoPM;
+			
+			[Bindable]
+			public var serialSearchInfoPage:Page = new Page();
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			/**
+			 * 获取数据字典成功后刷新界面
+			 */
+			override protected function getDataDictCallback():void
+			{
+				trace("SerialSearchInfoModule.getDataDictCallback");
+				(serialSearchInfoGrid.dataProvider as ListCollectionView).refresh();
+			}
+			/**
+			 * 查询加载人民币冠字号码检索登记薄页面
+			 */
+			public function loadPage():void
+			{
+				trace("SerialSearchInfoModule.loadPage");
+				try
+				{
+					var parameter:Object = {};
+					parameter.page = serialSearchInfoPage;
+					
+					var condition:Object = {};
+					condition.serialNo  = seriaNo.text;
+					condition.startTime = startTime.text;
+					condition.endTime   = endTime.text;
+					parameter.condition = condition;
+					
+					var msg:SerialSearchInfoMsg = new SerialSearchInfoMsg();
+					msg.args["remoteMethod"]   = "querySerialSearchInfoPage";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "SerialSearchInfoModule.querySerialSearchInfoPageResult";
+					msg.args["errorHandler"]   = "SerialSearchInfoModule.querySerialSearchInfoPageError";
+					infopm.sendSerialSearchInfoMsg(msg);
+				}
+				catch(e:Error)
+				{
+					trace(e);
+				}
+			}
+			
+			/**
+			 * 人民币冠字号码检索登记薄loadPage返回结果集
+			 */
+			[MessageHandler(selector="SerialSearchInfoModule.querySerialSearchInfoPageResult")]
+			public function querySerialSearchInfoPageResult(msg:SerialSearchInfoMsg):void
+			{
+				trace("SerialSearchInfoModule.querySerialSearchInfoPageResult");
+				serialSearchInfoPage = msg.result as Page;
+			}
+			
+			/**
+			 * 新增检索号码
+			 */
+			public function add():void
+			{
+				trace("SerialSearchInfoModule.add");
+				var win:SerialSearchInfoForm = new SerialSearchInfoForm();
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				
+				win.addEventListener(CloseEvent.CLOSE, function():void{
+					trace("SerialSearchInfoModule.add - CloseEvent.CLOSE");
+					//loadPage();
+				});
+			}
+			/**
+			 * 编辑
+			 */
+			public function edit():void
+			{
+				trace("SerialSearchInfoModule.edit");
+				if( serialSearchInfoGrid.checkedItems.length!=1 )
+				{
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				
+				var data:Object = serialSearchInfoGrid.checkedItems[0];
+				
+				var win:SerialSearchInfoForm = new SerialSearchInfoForm();
+				win.setMode("edit");
+				win.setFormData(data);
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				
+				win.addEventListener(CloseEvent.CLOSE, function():void{
+					trace("SerialSearchInfoForm.edit - CloseEvent.CLOSE");
+					//
+				});
+			}
+			
+			/**
+			 * 保存成功返回结果
+			 */
+			[MessageHandler(selector="SerialSearchInfoForm.addSerialSearchInfoResult")]
+			public function addSerialSearchInfoResult(msg:SerialSearchInfoMsg):void
+			{
+				loadPage();
+			}
+			/**
+			 * 修改成功返回结果
+			 */
+			[MessageHandler(selector="SerialSearchInfoForm.updateSerialSearchInfoResult")]
+			public function updateSerialSearchInfoResult(msg:SerialSearchInfoMsg):void
+			{
+				loadPage();
+			}
+			/**
+			 * 删除某调数据
+			 */
+			public function del():void
+			{
+				trace("SerialSearchInfoModule.del");
+				if( serialSearchInfoGrid.checkedItems.length==0 )
+				{
+					//AlertHandler.alert("noSelectedRecord");
+					AlertHandler.alert(langMgr.getExceptionMessage("exceptionMessage.pleaseSelectAtLeastOneRecord"));
+					return;
+				}
+				
+				AlertHandler.confirm(function(event:CloseEvent):void{
+					if (event.detail == Alert.YES)
+					{
+						var idArr:Array = DataGridUtil.getPropertys("id", serialSearchInfoGrid.checkedItems).source;
+						var msg:SerialSearchInfoMsg = new SerialSearchInfoMsg();
+						msg.args["remoteMethod"]   = "deleteSerialSearchInfos";//"deleteFaultCheckInInfos";
+						msg.args["methodPrameter"] = idArr;
+						msg.args["resultHandler"]  = "SerialSearchInfoModule.deleteSerialSearchInfosPageResult";
+						msg.args["errorHandler"]   = "SerialSearchInfoModule.deleteSerialSearchInfosPageError";
+						infopm.sendSerialSearchInfoMsg(msg);
+					}
+				}, null, LocaleConsts.CONFIRM_DELETE);
+			}
+			
+			/**
+			 * 返回删除结果
+			 */
+			[MessageHandler(selector="SerialSearchInfoModule.deleteSerialSearchInfosPageResult")]
+			public function deleteSerialSearchInfosPageResult(msg:SerialSearchInfoMsg):void
+			{
+				trace("SerialSearchInfoModule.deleteSerialSearchInfosPageResult");
+				loadPage();
+			}
+			/**
+			 * 查看详细信息
+			 */
+			public function viewRowDetailInfo():void
+			{
+				var data:Object = serialSearchInfoGrid.selectedItem;
+				
+				var win:SerialSearchInfoForm = new SerialSearchInfoForm();
+				win.setMode("view");
+				win.setFormData(data);
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+			}
+			
+			/**
+			 * 导出Excel
+			 */
+			public function exportExcel():void
+			{
+				trace("SerialSearchInfoModule.exportExcel");
+				var arr:ArrayCollection = serialSearchInfoGrid.dataProvider as ArrayCollection;
+				//var isPrintTemplate:int = arr.length ; 				
+				if(arr.length == 0){
+					AlertHandler.alert("页面没有数据需要进行导出");
+					return;
+				}
+				
+				var parameter:Object = {};
+				//parameter.page = searchCheckInInfoPage;
+				parameter.page = new Page();
+				
+				var condition:Object = {};
+				condition.serialNo  = seriaNo.text;
+				condition.startTime = startTime.text;
+				condition.endTime   = endTime.text;
+				parameter.condition = condition;
+				
+				var msg:SerialSearchInfoMsg = new SerialSearchInfoMsg();
+				msg.args["remoteMethod"]   = "exportExcelSerialSearchInfo";//"queryFaultCheckInInfoPage";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "SerialSearchInfoModule.exportExcelSerialSearchInfosPageResult";
+				msg.args["errorHandler"]   = "SerialSearchInfoModule.exportExcelSerialSearchInfosPageError";
+				infopm.sendSerialSearchInfoMsg(msg);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="SerialSearchInfoModule.exportExcelSerialSearchInfosPageResult")]
+			public function exportExcelSerialSearchInfosPageResult(msg:SerialSearchInfoMsg):void
+			{
+				ExternalInterface.call("downloadFile","../servlet/exportFileServlet?fileName=" + msg.result.toString());
+			}
+			//////////////////////
+			
+			/**
+			 *创建报表的序列号 
+			 */
+			private function createRowNo(oItem:Object,iCol:int):String{
+				var iIndex:int = ((serialSearchInfoPage.pageNo - 1) * serialSearchInfoPage.pageSize) + serialSearchInfoPage.result.getItemIndex(oItem) + 1;
+				return String(iIndex);
+			}
+			
+			/**
+			 * 查询结果根据数字字典合并显示
+			 */
+			private function changeSerialResult(item:Object,colimn:int):String{
+				/* if(item.serialResult == 1){
+				return "已找到";
+				}else {
+				return "未找到";
+				} */
+				var serialRet:String = this.getTextByKeyOnDataDictPath(item.serialResult,QUERY_RESULT);
+				//if(StringUtils.isNotBlank(item.noteType)){
+				if(item.serialResult == "1"){
+					var type:String = this.getTextByKeyOnDataDictPath(item.noteType,NOTE_TYPE);
+					serialRet += ", "+type;
+				}
+				return serialRet;
+			}
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-7);
+				endTime.selectedDate = DateUtils.createDate(0);
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="true"/>
+			<parsley:Scope name="SerialSearchInfoModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="SerialSearchInfoModule"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{CmlSentInfoConfig}"/>
+			<parsley:FlexConfig type="{SerialSearchInfoConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+		
+	</fx:Declarations>
+	<mx:VDividedBox 
+		width="100%" height="100%">
+		<s:BorderContainer width="100%" 
+						   height="100%"
+						   styleName="BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" 
+								  paddingTop="0"/>
+			</s:layout>
+			
+			<s:BorderContainer width="100%" height="30" borderVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10"/>
+				</s:layout>
+				
+				<!-- 标题 -->
+				<s:BorderContainer width="30%" height="100%" borderVisible="false">
+					<s:layout>
+						<s:HorizontalLayout paddingTop="5" paddingLeft="0"/>
+					</s:layout>
+					<!--人民币冠字号码检索登记薄-->
+					<grg:TitleBar  id="titleMgr" locale="titlemsg" width="50%" height="30"/> 
+				</s:BorderContainer>
+				
+				<!-- 查询条件 -->
+				<s:BorderContainer borderVisible="false" width="70%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="top"/>
+					</s:layout>
+					<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+						<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" 
+								 paddingTop="2" paddingBottom="3" horizontalAlign="right">
+							<mx:HBox styleName="searchStyle" height="25">
+								<!--冠字号码-->
+								<grg:Label locale="serialNo"/>
+								<grg:TextInput id="seriaNo" textAlign="left" restrict="0-9A-Za-z"
+											   width="100" height="20" maxChars="10" maxnum="10"
+											   styleName="TextInput" />
+								<s:Spacer width="5"/>
+								<!-- 日期 -->
+								<grg:Label locale="SearchTimeColon"/>
+								<grg:SuperDateField id="startTime" required="true"
+													selectedDate="{DateUtils.createDate(-7)}"
+													selectableRange="{{rangeEnd:endTime.selectedDate}}"/>
+								
+								
+								<grg:Label locale="to"/>
+								<grg:SuperDateField id="endTime" required="true"
+													selectedDate="{DateUtils.createDate(0)}"
+													selectableRange="{{rangeStart:startTime.selectedDate}}"/>
+								<s:Spacer width="5"/>
+								<!-- 查询按钮 -->
+								<grg:SearchButton id="searchBtn" iconType="query"
+												  locale="searchButton" click="serialSearchInfoPage.pageNo=1;loadPage()"/>
+								
+								<!-- 重置按钮 -->
+								<grg:ResetButton id="resetBtn" iconType="reset"
+												 locale="resetButton"
+												 resetControls="{[this.seriaNo]}"
+												 click="initSelectDate()" />
+							</mx:HBox>
+						</mx:HBox>
+					</mx:HBox>
+				</s:BorderContainer>
+			</s:BorderContainer>
+			<!-- 功能按钮部份 -->
+			<mx:HBox width="100%" height="29" verticalAlign="top" paddingTop="1" 
+					 paddingLeft="10" horizontalAlign="left">
+				<s:BorderContainer height="26" borderVisible="false" cornerRadius="5" backgroundColor="#ffffff">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2" horizontalAlign="left"/>
+					</s:layout>
+					
+					<!--<grg:GRGModuleButtonBar2 id="privilegeBar2"  menuId="{menu.id}">-->
+					<!--新增-->
+					<grg:Button locale="add" id="addInfo" privilegeCode="add" click="add()" iconType="add"/>
+					<!--编辑-->
+					<grg:Button locale="edit" id="editInfo" privilegeCode="edit" click="edit()" iconType="edit"/>
+					<!--删除-->
+					<grg:Button locale="delete" id="deleteInfo" privilegeCode="del" click="del()" iconType="delete"/>
+					<!--Excel文件导出-->
+					<grg:Button locale="expExcel" id="exportExcel1" privilegeCode="exportExcel" 
+								click="exportExcel()" iconType="export"/>
+					<!--icon="{exportIcon}"
+					<!- -登记查询结果- ->
+					<grg:Button locale="result" id="searchReturn1" privilegeCode="searchReturn" click="searchReturn()" iconType="edit"/>
+					<!- -二次查询登记- ->
+					<grg:Button locale="searchAgain" id="searchAgain1" privilegeCode="searchAgain" click="searchAgain()" iconType="edit"/>
+					<s:Spacer width="5" />
+					<!- -CSV文件导出- ->
+					<grg:Button locale="expCSV" id="expCSV1" privilegeCode="expCSV" click="expCSV()" icon="{exportIcon}"/>
+					<!- -Excel文件导出- ->
+					<grg:Button locale="expExcel" id="exportExcel1" privilegeCode="exportExcel" click="exportExcel()" icon="{exportIcon}"/>
+					
+					</grg:GRGModuleButtonBar2>-->
+					
+				</s:BorderContainer>
+			</mx:HBox>
+			
+			<s:BorderContainer width="100%" height="100%" borderVisible="false">
+				<s:layout>
+					<s:VerticalLayout paddingTop="3"/>
+				</s:layout>
+				<!-- 列表部分 -->
+				<grg:DataGrid id="serialSearchInfoGrid" dataProvider="{serialSearchInfoPage.result}" 
+							  width="100%" height="100%" textAlign="center"
+							  styleName="DataGrid" borderVisible="true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol" textAlign="center" sortable="false" draggable="false" editable="false" resizable="false" />
+						<grg:DataGridColumn locale="rowNo"  textAlign="center" labelFunction="createRowNo" sortable="false" width="50"/>
+						<!-- 检索时间 -->
+						<grg:DataGridColumn locale="SearchDate" dataField="searchDate" labelFunction="{DataGridColumnUtils.formatDateToYYYYMMDD}"/>
+						<!-- 检索人 -->
+						<grg:DataGridColumn locale="SearchMan" dataField="operatorName" />
+						<!-- 冠字号码保管人 -->
+						<grg:DataGridColumn locale="SeriaNoSaver" dataField="serialKeeper" />
+						<!-- 记录时间 -->
+						<grg:DataGridColumn locale="RecordTime" dataField="recordDate" labelFunction="{DataGridColumnUtils.formatDateToYYYYMMDDHHMISS}"/>
+						<!-- 检索号码 -->
+						<grg:DataGridColumn locale="SerialNo" dataField="serialNo" />
+						<!-- 相同号码数量-->
+						<grg:DataGridColumn locale="SameNoCount" dataField="serialCount" /> 
+						<!-- 查询结果 -->
+						<grg:DataGridColumn locale="SearchResult" dataField="noteType" labelFunction="{changeSerialResult}"/>
+						<!-- 查看详情 -->
+						<grg:DataGridColumn headerStyleName="centerDataGridHeader" locale="operations"  width="80">
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXItemRenderer>
+										<s:Image id="viewRowIcon" source="@Embed('/resources/theme/images/icons/detail.png')"
+												 toolTip="查看详情" buttonMode="true"
+												 width="16" height="16" left="32" click="parentDocument.viewRowDetailInfo()" />
+										<!-- 打印详情
+										<s:Image id="showSerialInfo_print" source="@Embed('/resources/theme/images/icons/print.png')" 
+												 toolTip="打印详情" buttonMode="true"
+												 width="16" height="16" left="44" click="parentDocument.showSerialPrintInfo()"/>
+										 -->
+									</s:MXItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>
+					</grg:columns>
+				</grg:DataGrid>
+			</s:BorderContainer>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{serialSearchInfoPage}" pagingFunction="{loadPage}"/>
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

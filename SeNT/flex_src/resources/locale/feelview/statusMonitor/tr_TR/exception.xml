@@ -1,0 +1,9 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "statusMonitorModule">
+	<existedTmlStatusGroup>Grup Mevcut!</existedTmlStatusGroup>
+	<existedTmlStatusPhysical>Fiziksel Durum Mevcut!</existedTmlStatusPhysical>
+	<nameNotNull>Grup Adı Boş Olamaz!</nameNotNull>
+	<brandIdNotNull>Marka Boş Olamaz!</brandIdNotNull>
+	</node>
+</nodes>

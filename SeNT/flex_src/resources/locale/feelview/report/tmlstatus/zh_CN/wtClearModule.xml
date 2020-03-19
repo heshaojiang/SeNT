@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtClearModule">
+		<listTitle>列表</listTitle>
+		<wtClearTitle>清机事件查询</wtClearTitle>
+		<termId>终端编号：</termId>
+		<termType>全部终端类型</termType>
+		<brand>全部终端品牌</brand>
+		<orgId>所属机构：</orgId>
+		<orgName>机构名称</orgName>
+		<beginTime>结算时间：</beginTime>
+		<settleMentDate>清机时间</settleMentDate>
+		<preAddCashMount>上次加钞总金额(元)</preAddCashMount>
+		<totalMount>钞箱总剩余金额(元)</totalMount>
+		<wincornum>废钞回收张数</wincornum>
+		<to>至</to>
+		<layType>全部安装类型 </layType>
+		<boxNumItem>钞箱号</boxNumItem>
+		<denominationItem>面额(元)</denominationItem>
+		<cornNumItem>出钞张数</cornNumItem>
+		<cornCountItem>总金额(元)</cornCountItem>
+		<operateItem>操作</operateItem>
+	</node>
+</nodes>

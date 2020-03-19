@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "noderFileSelectForm">
+		<success_tips>文件已存在，是否需重新获取该远程文件</success_tips>
+		<failed_tips>该文件之前获取失败，是否需重新获取该远程文件</failed_tips>
+		<titlemsg>日志/配置文件管理</titlemsg>
+		<startDateLocal>操作日期：</startDateLocal>
+		<endDateLocal>至</endDateLocal>
+		<fileTypeLabel>文件类型</fileTypeLabel>
+		<fileStatusLabel>文件状态</fileStatusLabel>
+		<searchButton>查询</searchButton>
+		<ipLabel>节点机IP</ipLabel>
+		<org>所属机构</org>
+		<fileType>文件类型</fileType>
+		<operDate>操作日期</operDate>
+		<stauts>文件状态</stauts>
+		<fileFLogConfig>下载操作</fileFLogConfig>
+		<tranData>文件交易信息</tranData>
+		<requestFileButton>申请获取远程节点机文件</requestFileButton>
+	</node>
+</nodes>

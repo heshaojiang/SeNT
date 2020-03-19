@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "menu">
+		<!-- <existKey>已经存在这个健！</existKey> -->
+		<nameAlreadyExisted>该菜单已经存在！ </nameAlreadyExisted>
+		<menuNameNotNull>菜单名称不能为空！</menuNameNotNull><!-- Move to menu -->
+		<existedMenuName>该菜单名已经存在! </existedMenuName>
+		<menuURLValidate> URL 包含非法单引号！</menuURLValidate><!-- Move to menu -->
+		<btnAlreadyAllocated>删除失败，按钮已分配.</btnAlreadyAllocated>
+	</node>
+	<node locale = "button">
+		<btnNameNotNull>按钮名称不能为空！</btnNameNotNull><!-- Move to menu -->
+		<existedButtonName>该按钮名称已经存在！ </existedButtonName>
+	</node>
+</nodes>

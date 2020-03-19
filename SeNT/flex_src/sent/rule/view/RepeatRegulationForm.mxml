@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 dataDictionaryPaths="{[RepeatRegulationConsts.ACCOUNT_MODEL, 
+										 RepeatRegulationConsts.CREEN_MODEL, 
+										 RepeatRegulationConsts.LOG_MODEL, 
+										 RepeatRegulationConsts.PROCESS_MODEL]}"
+				 locale="repeatRegulationForm"
+				 titleKey="addRule"
+				 layout="vertical" 
+				 width="400" height="300" 
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.IList;
+			
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.FormUtils;
+			import platform.common.validator.VControl;
+			import platform.term.view.TermSelectForm;
+			
+			import sent.rule.constants.RepeatRegulationConsts;
+			import sent.rule.message.RepeatRegulationMsg;
+			import sent.rule.pm.RepeatRegulationFormPM;
+			import sent.rule.vo.RepeatRegulationVO;
+			
+			[Inject]
+			[Bindable]
+			public var pm:RepeatRegulationFormPM;
+			
+			//新增后是否关闭窗口
+			[Bindable]
+			private var uncloseAfterSubmit:Boolean;
+			
+			override protected function parsleyInit():void
+			{
+				pm.repeatRegulation = new RepeatRegulationVO();
+			}
+			
+			
+			//选择终端start
+			private function termBrowseHandler():void
+			{
+				var win:TermSelectForm = new TermSelectForm();
+				
+				win.callback = setSelectedTerm;
+				context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.showTermHandler(pm.tmpstr);
+			}
+			private function setSelectedTerm(p_termStr:String):void
+			{
+				pm.tmpstr = p_termStr;
+			}
+			//选择终端end
+			
+			private function submit():void
+			{
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				pm.submit();
+			}
+			
+			/**
+			 * 添加重号列表回调函数
+			 */		
+			[MessageHandler(selector="addRepeatRegulationResult")]
+			public function addAuditRepeatRegulationResult(p_msg:RepeatRegulationMsg):void
+			{
+				if(p_msg.result){
+					if(!uncloseAfterSubmit)
+						close();
+					
+					else
+						FormUtils.resetForm(form);
+				}
+			}
+			
+			/**
+			 * 添加规则下发后的回调函数
+			 */		
+			
+			[MessageHandler(selector="batchAddRepeatRegulationDeliverResult")]
+			public function addRegulationDelliverResult(p_msg:RepeatRegulationMsg):void
+			{
+				if(p_msg.result)
+				{
+					if(!uncloseAfterSubmit)
+					{
+						close();
+					}
+					else
+					{
+						FormUtils.resetForm(form);
+						pm.tmpstr = "";
+					}
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<fx:Binding source="int(repeatnum.text)" destination="pm.repeatRegulation.repeatnum"/>
+	
+	<!--创建重号规则-->
+	<grg:RoundCornerContainer locale="ruleInfo" width="100%" height="130">
+		<grg:Form id="form" width="100%" height="100%">
+			<!--最多重号冠字号码数：-->
+			<grg:FormItem width="100%" locale="repeatnum" required="true">
+				<grg:TextInput width="130" id="repeatnum" text="{pm.repeatRegulation.repeatnum}" restrict="0-9" required="true" maxChars="9"/>
+			</grg:FormItem>
+			<!--处理方式：-->
+			<grg:FormItem width="100%" locale="dealwithMode" required="true">
+				<grg:ComboBox  width="130" dataProvider="{bindableDataDirCache.getItemAt(3) as IList}" labelField="text" valueField="key"
+							  selectedValue="@{pm.repeatRegulation.dealwithMode}" required="true"/>
+			</grg:FormItem>
+			<!--选择要升级的终端：-->
+			<grg:FormItem width="100%" locale="selectTerms" required="true">
+				<mx:HBox width="100%">
+					<grg:TextInput id="selectedTerms" width="130" editable="false" text="{pm.tmpstr}" required="true"/>
+					<grg:Image type="view" click="termBrowseHandler()"/>
+				</mx:HBox>
+			</grg:FormItem>
+		</grg:Form>
+	</grg:RoundCornerContainer>
+
+	<!--说明-->
+	<grg:RoundCornerContainer locale="memo" width="100%" height="60">
+		<s:VGroup width="100%" paddingTop="15" paddingLeft="15" gap="5">
+			<!--● 打“*”项目内容不能为空-->
+			<grg:Label locale="attention1"/>
+		</s:VGroup>
+	</grg:RoundCornerContainer>
+	
+	<s:HGroup width="100%" gap="10"
+			  horizontalAlign="center"
+			  verticalAlign="middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click="submit()"
+						locale="saveButton" />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click="cancel()"
+						locale="cancelButton" />
+		</s:BorderContainer>
+		<grg:CheckBox selected="@{uncloseAfterSubmit}" locale="uncloseAfterSubmit"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

@@ -1,0 +1,18 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：assetInputForm
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "assetInputForm">
+		<addAssetInputForm>Envanter Ekle</addAssetInputForm>
+		<updateAssetInputForm>Envanter Değiştir</updateAssetInputForm>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<modelItem>Model</modelItem>
+		<instTypeItem>Montaj Tipi</instTypeItem>
+		<batchItem>Grup</batchItem>
+		<sumItem>Toplam</sumItem>
+		<prompt>(Bu Model Mevcut Değildir!)</prompt>
+	</node>
+</nodes>

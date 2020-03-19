@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "mergeMenu">
+		<listTitle>合并菜单</listTitle>
+		<internalMenu>在用菜单</internalMenu>
+		<extendMenu>全部菜单</extendMenu>
+	</node>
+</nodes>

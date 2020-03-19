@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="Msg">
+		<dateFailMsg>请选择(?1)天以内的时间进行查询!</dateFailMsg>
+		<selectReguStatus>请至少选择一条待下发的规则</selectReguStatus>
+		<chooseDeliver>请选择待下发的规则  </chooseDeliver>
+		<deliverDetail>已通知服务器端下发规则，但由于网络原因，STS端将会在网络恢复之后将规则下发到ATMC端</deliverDetail>
+		<deliverSuccess>下发成功</deliverSuccess>
+		<chooseCancelDelivered>请选择已经下发的规则进行取消</chooseCancelDelivered>
+		<chooseResovkDelivered>请选择已下发的规则进行撤销</chooseResovkDelivered>
+		<cancelSuccess>撤销成功</cancelSuccess>
+		<cancelFail>操作失败</cancelFail>
+		<picLoading>图片正在加载，请稍等！</picLoading>
+		<picLoadFail>抱歉，图片获取失败！</picLoadFail>
+		<regulationLengthNotice>请按升序输入范围规则！</regulationLengthNotice>
+		<seriaNoNotice>输入的冠字号码必须为10位！</seriaNoNotice>
+		<filePathError>文件路径不正确！</filePathError>
+		<fileFormatError>文件格式不正确！</fileFormatError>
+		<socketConnectedError>socket连接失败！</socketConnectedError>
+		<socketInitError>socket初始化失败！</socketInitError>
+		<sendFileRecevievedError>发送文件接收失败！</sendFileRecevievedError>
+		<sendFileError>发送文件失败！</sendFileError>
+		<serverError>后台服务器失败！</serverError>
+		<reduceFileError>压缩文件失败！</reduceFileError>
+		<openFileError>打开压缩文件失败！</openFileError>
+		<deleteFileError>删除压缩文件失败！</deleteFileError>
+		<serverBusysing>服务器正忙请稍后上传！</serverBusysing>
+		<fileUploadSuccess>上传成功！</fileUploadSuccess>
+		<termNoRegsvr>终端设备没有注册！</termNoRegsvr>
+		<paramNullPoint>接口参数没有赋值！</paramNullPoint>
+		<pleaseInputSameFile>请输入相同的文件进行上传！</pleaseInputSameFile>
+		<fileFormatError>文件格式不正确！</fileFormatError>
+		<loadActiveXFailed>加载ActiveX控件失败,请检查是否下载资源！</loadActiveXFailed>
+		<pleaseDownLoadFile>请选择上传文件！</pleaseDownLoadFile>
+		<noImage>该冠字号没有图片</noImage>
+		<pleaseInPut>请输入终端编号和冠字号码！</pleaseInPut>
+		<pleaseInputTermId>请输入终端编号！</pleaseInputTermId>
+		<selectOneRecordAtLeast>请至少选择一项！</selectOneRecordAtLeast>
+		<termNocite>该终端尚未注册，不能上传！</termNocite>
+		<chooseBlackRuleCanDeleted>只能删除状态为"未审核"、"撤销"的规则</chooseBlackRuleCanDeleted>
+		<chooseBlackRuleCanEdit>只能编辑状态为"未审核"的规则</chooseBlackRuleCanEdit>
+	</node>
+</nodes>

@@ -1,0 +1,200 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 dataDictionaryPaths="{[DataDirConsts.YES_OR_NO, DataDirConsts.TERM_STATUS]}"
+				 paramPaths="{[TermConsts.FEEL_DIST_PORT_DEFAULT, TermConsts.CASH_LACK_NUM, TermConsts.CASH_FULL_NUM]}"
+				 locale="noderInfoForm"
+				 layout="vertical"
+				 helpTips="helpImportTip"
+				 width="450" height="200" creationComplete="init()" >
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.term.constants.TermConsts;
+			import platform.term.message.NoderInfoMsg;
+			import platform.term.pm.NoderInfoModulePM;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:NoderInfoModulePM;
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+			public var callbackFunc:Function;
+			
+			private var file:FileReference;
+			
+			private var downFileName:String = "Noder.xls";
+			
+			/**语言包**/
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			
+			private function save():void
+			{
+				trace("NoderInfoImportForm.save");
+				if( VControl.validateAll(form, validators).length > 0 )
+				{
+					return;
+				}
+				//上传文件验证
+				if( filePath.text=="" )
+				{
+					AlertHandler.alert("chooseExtFlie");
+					return;
+				}
+				if( file.size>30*1024*1024 )
+				{	// 不能大于30M
+					AlertHandler.alert("uploadFileSizeError");
+					return ;
+				}
+				pm.importNoderInfoExcel(file.data);
+				close();
+			}
+			
+			/**
+			 * refresh the layout if it was completed of import some org.
+			 */		
+			[MessageHandler(selector="importExcelSuccess")]
+			public function importExcelResultHandler(p_msg:NoderInfoMsg):void
+			{
+				trace("NoderInfoImportForm.importExcelResultHandler - importExcelSuccess");
+				close();
+			}
+
+			//初始化时指定文件上传url及传递参数等
+			private function init():void
+			{
+				trace("NoderInfoImportForm.init");
+				file = new FileReference();
+				file.addEventListener(Event.SELECT, selectHandler);
+				file.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				file.addEventListener(Event.COMPLETE, completeHandler);
+			}
+			
+			//选择上传文件
+			private function browseFile():void
+			{
+				trace("NoderInfoImportForm.browseFile");
+				var fileTypeArr:Array = new Array();
+				fileTypeArr.push(getFileTypeFilter());
+				file.addEventListener(Event.SELECT, selectHandler);
+				file.browse(fileTypeArr);
+			}
+			
+			//上传文件过滤
+			private function getFileTypeFilter():FileFilter
+			{
+				trace("NoderInfoImportForm.getFileTypeFilter");
+				return new FileFilter("*.*", "*.xls");
+			}
+				
+			private function stSoftware(typeId:int):void
+			{
+				trace("NoderInfoImportForm.stSoftware");
+			}
+			
+			//选中文件
+			private function selectHandler(event:Event):void
+			{
+				trace("NoderInfoImportForm.selectHandler");
+				filePath.text = file.name;
+				file.removeEventListener(Event.SELECT, selectHandler);
+				file.addEventListener(Event.COMPLETE, fileLoadedHandler);
+				file.load();
+			}
+			
+			private function fileLoadedHandler(p_evt:Event):void
+			{
+				trace("NoderInfoImportForm.fileLoadedHandler");
+				file.removeEventListener(Event.COMPLETE, fileLoadedHandler);
+			}
+			
+			//上传错误
+			private function ioErrorHandler(event:IOErrorEvent):void
+			{
+				trace("NoderInfoImportForm.ioErrorHandler");
+				AlertHandler.alert(resourceManager.getString('manager','upFileError'));
+			}
+			
+			//上传完毕
+			private function completeHandler(event:Event):void
+			{
+				trace("NoderInfoImportForm.completeHandler");
+			}
+			
+			private function downFile():void
+			{
+				trace("NoderInfoImportForm.downFile");
+				 var language:String = langMgr.currentLanguage;
+				 ExternalInterface.call("downloadFile","../FileDownloadServlet.let?del=false&fileName="+downFileName+"&language="+language); 
+			}
+			
+		]]>
+	</fx:Script>
+
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		
+		<grg:Form id="form" width="50%" height="100%" paddingTop="20" textAlign="left" borderVisible="false">
+			
+			<!--文件上传：-->
+			<grg:FormItem id="uploadFileItem" locale="uploadFileItem" required="true" direction="horizontal">
+				<grg:TextInput id="filePath" width="200" required="true" editable="false" enabled="false"/>
+				<!--选择文件-->
+				<grg:Button id="CheckUploadDataFrm_browseBtn" locale="chooseButton" click="browseFile()" iconVisible="false"/>
+				<grg:Button id="CheckUploadDataFrm_uploadBtn" locale="uploadButton"  visible="false"/>
+			</grg:FormItem>
+			
+			<!--模板文件-->
+			<grg:FormItem id="modelItem" locale="fileexport" required="false" >
+				<!--下载-->
+				<grg:Button iconType="down" locale="filedown" click="downFile();"/>
+			</grg:FormItem>
+			
+		</grg:Form>
+		
+	</s:Group>
+	
+	<s:HGroup width="100%" gap="10" horizontalAlign="center" verticalAlign="middle">
+		
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="saveButton" click="save()" locale="saveButton" iconVisible="false" />
+		</s:BorderContainer> 
+		
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button click="cancel()" locale="cancelButton" iconVisible="false" />
+		</s:BorderContainer>
+		
+	</s:HGroup> 
+	
+</grg:TitleWindow>
+

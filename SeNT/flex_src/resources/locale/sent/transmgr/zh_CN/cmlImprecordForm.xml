@@ -1,0 +1,26 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale ="cmlImprecordForm">
+		<sendTime>上传时间：</sendTime>
+		<to>至</to>
+		<operator>导入人员：</operator>
+		<uploadStatus>上传状态：</uploadStatus>
+		<termNum>设备编号：</termNum>
+		<selectFileBtn>选择导入文件</selectFileBtn>
+		<failedName>导入失败文件：</failedName>
+		<operations>操作</operations>
+		<import>导入冠字号码文件：</import>
+		<oldName>上传文件名</oldName>
+	    <impDate>上传时间：</impDate>
+	    <titlemsg>清分冠字号码文件上传</titlemsg>
+	    <again>继续上传</again>
+	    <uploadSentInfo>冠字号码文件上传</uploadSentInfo>
+	    <comeOrg>钞票来源：</comeOrg>
+	    <tradeDateLabel>交易时间：</tradeDateLabel>
+	    <businessDataLabel1>交易数据1：</businessDataLabel1>
+	    <businessDataLabel2>交易数据2：</businessDataLabel2>
+	    <tradeTypeLabel>交易类型：</tradeTypeLabel>
+	    <versionLabel>版本：</versionLabel>
+	    <jourNoLabel>流水号：</jourNoLabel>
+	</node>
+</nodes>

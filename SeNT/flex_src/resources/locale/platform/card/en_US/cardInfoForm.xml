@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardInfoForm">
+		<createCardInfo>Add</createCardInfo>
+		<editCardInfo>Edit</editCardInfo>
+		<cardIdLabel>Card ID:</cardIdLabel>
+		<cardNameLabel>Card Name:</cardNameLabel>
+		<bankIdLabel>Bank ID:</bankIdLabel>
+		<bankNameLabel>Bank Name:</bankNameLabel>
+		<lengthLabel>Card Length:</lengthLabel>
+		<idLengthLabel>Card ID Length:</idLengthLabel>
+		<applyATMLabel>Apply ATM:</applyATMLabel>
+		<applyPOSLabel>Apply POS:</applyPOSLabel>
+		<cardTypeLabel>Card Type:</cardTypeLabel>
+	</node>
+</nodes>

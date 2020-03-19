@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+ <nodes>
+     <node locale="chooseUserForm">
+     <chooseUser>选择人员</chooseUser>
+  		<userNameKey>用户名：</userNameKey>
+		 <query>确定</query>
+		<operations>操作</operations>
+		<userName>用户名</userName>
+		<useremail>邮箱</useremail>
+		<areaName>所属区域</areaName>
+		<orgName>所属机构</orgName>
+		<tel>联系电话</tel>
+		<userCode>用户帐号</userCode>
+		<status>状态</status>
+		<titlemsg>用户管理</titlemsg>
+			<noConfig>无</noConfig>
+		<navConfig>导航仓</navConfig>
+		<waitConfig>待办事宜</waitConfig>
+		<monitorStatus>状态监控</monitorStatus>
+		<sendTime>任务绑定时间：</sendTime>
+		<to>至：</to>
+           	
+  
+
+	
+  </node>
+</nodes>

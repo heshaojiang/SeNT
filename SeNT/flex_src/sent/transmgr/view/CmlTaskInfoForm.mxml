@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:grg="http://grg.grgbanking.com/platform/" locale="cmlTaskInfoForm"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="380"
+		 xmlns:parsley="http://www.spicefactory.org/parsley" titleKey="editTaskInfo">
+
+	<fx:Script>
+		<![CDATA[
+			import org.utils.IntegerUtils;
+			
+			import platform.common.manager.PopUpManager;
+			import platform.common.validator.VControl;
+			import platform.vo.security.UserVo;
+			
+			import sent.common.SelectGroupUserWin;
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.message.CmlTaskInfoMsg;
+			import sent.transmgr.pm.CmlTaskInfoFormPM;
+			import sent.transmgr.pm.CmlTaskInfoPM;
+			import sent.transmgr.vo.CmlTaskInfoDetailVO;
+			import sent.transmgr.vo.CmlTaskInfoVO;
+			[Inject]
+			[Bindable]
+			public var pm:CmlTaskInfoFormPM;
+		
+			
+			
+           [Bindable]
+			public var _cmlTaskInfos:CmlTaskInfoVO = new CmlTaskInfoVO();
+			//修改后是否关闭窗口
+			[Bindable]
+			private var uncloseAfterSubmit:Boolean;
+			
+			/**
+			 * 初始化对象
+			 * */
+		
+			
+			override protected function parsleyInit():void
+			{
+				pm.cmlTaskInfoVO = new CmlTaskInfoDetailVO();
+				pm.loadUsersInfo();	
+			}
+			/**
+			 * 更新成功回调函数
+			 * */
+			[MessageHandler(selector="editCmlTaskInfoSuccess")]
+			public function updateTaskInfoHandler(p_msg:CmlTaskInfoMsg):void
+			{
+				close();
+				//刷新清分任务信息列表
+			//   var msg:CmlTaskInfoMsg=new CmlTaskInfoMsg();
+			  // msg.type="refreshCmlTaskInfo";
+			   //sendMessage(msg);
+				   
+			}
+			/**
+			 * 当前选中的用户
+			 * */
+			/* private function userBrowseHandler():void
+			{
+			var win:SelectGroupUserWin = new SelectGroupUserWin();
+			context.viewManager.addViewRoot(win);
+			PopUpManager.showForm4Parsley(win);
+			if(pm.currentSelectedUser)
+			win.selectedUserId = pm.currentSelectedUser.id;
+			win.groupName = "director";
+			win.callback = setSelectedUser;
+			}
+			private function setSelectedUser(p_user:UserVo):void
+			{
+			pm.currentSelectedUser = p_user;
+			selectedUser.text = p_user.userName;
+			}  */
+			
+			
+		
+			/**
+			 * 提交前验证
+			 */
+			
+			private function submit():void
+			{
+				
+			if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+			
+				pm.save(_cmlTaskInfos);
+			}
+		
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<grg:Form id="form"
+			  width="100%"
+			  textAlign = "left"
+			  borderVisible = "false">
+			<grg:FormItem id="tmlNumItem"
+					  width="100%"
+					  required="true"
+					  locale ="tmlNumLabel">
+			<grg:TextInput text="@{_cmlTaskInfos.termId}" 
+						   width="113"  vtype="maxchars" maxChars="50" maxnum="50" required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="operateDateItem"
+					  width="100%"
+					  locale ="operateDateLabel">
+		
+			<grg:TextInput text="{DateUtils.formatDate(_cmlTaskInfos.bindStart)}" editable="false" width="113" />
+			<!--
+				<grg:SuperDateField id="operateDatetime" name="bindStart" selectedDate="@{_cmlTaskInfos.bindStart}" 
+					isShowTime="true" myEnabled = "false" required="true"	width="100%" />
+			-->
+		</grg:FormItem>
+		<grg:FormItem id="beforeCountItem"
+					  width="100%"
+					  required="true"
+					  locale ="beforeCountLabel">
+			<grg:TextInput numberValue="@{_cmlTaskInfos.beforeAmt}" 
+						   width="113"   restrict="0-9" required="true" />
+		</grg:FormItem>
+		
+		
+		<grg:FormItem id="totalMoneyItem"
+					  width="100%"
+					  required="true"
+					  locale ="totalMoneyLabel">
+			<grg:TextInput  name = "totalMoney" numberValue="@{_cmlTaskInfos.statisAmt}" 
+							width="113"   restrict="0-9" required="true"/>
+		</grg:FormItem>	
+	</grg:Form>
+	<s:HGroup width="100%" gap="10"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "submit()"
+						locale = "saveButton"
+						/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "cancel()"
+						locale = "cancelButton"
+						/>
+			
+		</s:BorderContainer>
+	
+	</s:HGroup>
+</grg:TitleWindow>

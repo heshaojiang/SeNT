@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns="http://www.spicefactory.org/parsley" 
+			   xmlns:message="sent.transmgr.message.*"
+			   xmlns:delegate="sent.transmgr.delegate.*"
+			   xmlns:pm="sent.transmgr.pm.*"
+	             xmlns:grg="http://grg.grgbanking.com/platform/">
+				
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.TranAbnoinfoBlackDelegate;
+			import sent.transmgr.delegate.TransAbnobanknoteSeqDelegate;
+			import sent.transmgr.delegate.TransBanknoteSeqDelegate;
+			import sent.transmgr.delegate.TransBanknoteSeqHourDelegate;
+			import sent.transmgr.delegate.TransInfoDelegate;
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<pm:TranAbnoinfoBlackModulePM/>
+	    <message:TranAbnoinfoBlackModuleMsg/>
+		<message:TransInfoMsg/>
+		<!--查询异常冠字号码service-->
+		<grg:GRGRemoteObject id="transAbnobanknoteSeqService" destination="transAbnobanknoteSeqService"/>
+		<Object type="{TransAbnobanknoteSeqDelegate}">
+			<Property name="service" idRef="transAbnobanknoteSeqService"/>
+		</Object>
+		<!--查询异常交易的service-->
+		<grg:GRGRemoteObject id="TranAbnoinfoBlackDelegateService" destination="tranAbnoinfoService"/>
+		<Object type="{TranAbnoinfoBlackDelegate}">
+			<Property name="service" idRef="TranAbnoinfoBlackDelegateService"/>
+		</Object>
+		<!--查询冠字号码service-->
+		<grg:GRGRemoteObject id="transBanknoteSeqService" destination="transBanknoteSeqFuzzyService"/>
+		<Object type="{TransBanknoteSeqDelegate}">
+			<Property name="service" idRef="transBanknoteSeqService"/>
+		</Object>
+		<!--查询冠字号码service-->
+		<grg:GRGRemoteObject id="transBanknoteSeqHourService" destination="transBanknoteSeqHourService"/>
+		<Object type="{TransBanknoteSeqHourDelegate}">
+			<Property name="service" idRef="transBanknoteSeqHourService"/>
+		</Object>
+	</fx:Declarations>
+</fx:Object>

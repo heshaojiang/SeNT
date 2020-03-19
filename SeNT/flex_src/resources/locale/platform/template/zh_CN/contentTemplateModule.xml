@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "contentTemplateModule">
+		<listTitle>模板列表</listTitle>
+		<text>模板内容</text>
+		<name>模板名称</name>
+		<note>备注</note>
+		<titlemsg>故障通知模板</titlemsg>
+		<errorIds>无法删除ID为|的模板，请检查该模板是否存在或已应用于事件定义。</errorIds>
+	</node>
+</nodes>

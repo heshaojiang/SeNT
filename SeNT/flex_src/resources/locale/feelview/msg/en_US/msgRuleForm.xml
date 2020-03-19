@@ -1,0 +1,73 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：msgRuleForm<br>
+	 Create Time：2012-3-21<br>   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "msgRuleForm">
+		<addMsgRuleForm>Add Msg Rule</addMsgRuleForm>
+		<updateMsgRuleForm>Update Msg Rule</updateMsgRuleForm>
+		<RulesDefine>Rules Define</RulesDefine>
+		<SMSNotificationLevel1>SMS notification Level 1</SMSNotificationLevel1>
+		<SMSNotificationLevel2>SMS notification Level 2</SMSNotificationLevel2>
+		<SMSNotificationLevel3>SMS notification Level 3</SMSNotificationLevel3>
+		<createTicketEnable>Yes</createTicketEnable>
+		<createTicketDisable>No</createTicketDisable>
+		<statusEnable>Yes</statusEnable>
+		<statusDisable>No</statusDisable>
+		<sendTotalLevelEnable>Yes</sendTotalLevelEnable>
+		<sendTotalLevelDisable>No</sendTotalLevelDisable>
+		<selectMalfunctionCategoryItem>Select Malfunction Category</selectMalfunctionCategoryItem>
+		<addTerminalItem>Add Terminal</addTerminalItem>
+		
+		<WorkingTimeOne1>WorkingTimeOne</WorkingTimeOne1>
+		<WorkingTimeTwo1>WorkingTimeTwo</WorkingTimeTwo1>
+		<NonworkingTimeOne1>NonworkingTimeOne</NonworkingTimeOne1>
+		<NonworkingTimeTwo1>NonworkingTimeTwo</NonworkingTimeTwo1>
+		
+		<WorkingTimeOne2>WorkingTimeOne</WorkingTimeOne2>
+		<WorkingTimeTwo2>WorkingTimeTwo</WorkingTimeTwo2>
+		<NonworkingTimeOne2>NonworkingTimeOne</NonworkingTimeOne2>
+		<NonworkingTimeTwo2>NonworkingTimeTwo</NonworkingTimeTwo2>
+		
+		<WorkingTimeOne3>WorkingTimeOne</WorkingTimeOne3>
+		<WorkingTimeTwo3>WorkingTimeTwo</WorkingTimeTwo3>
+		<NonworkingTimeOne3>NonworkingTimeOne</NonworkingTimeOne3>
+		<NonworkingTimeTwo3>NonworkingTimeTwo</NonworkingTimeTwo3>
+		
+		<monToFriItem1>Mon To Fri</monToFriItem1>
+		<monToFriItem2>Mon To Fri</monToFriItem2>
+		<satToSunItem1>Sat To Sun</satToSunItem1>
+		<satToSunItem2>Sat To Sun</satToSunItem2>
+		
+		
+		<WorkingTimeOne>WorkingTimeOne</WorkingTimeOne>
+		<WorkingTimeTwo>WorkingTimeTwo</WorkingTimeTwo>
+		<NonworkingTimeOne>NonworkingTimeOne</NonworkingTimeOne>
+		<NonworkingTimeTwo>NonworkingTimeTwo</NonworkingTimeTwo>
+		<monToFriItem>Mon To Fri</monToFriItem>
+		<satToSunItem>Sat To Sun</satToSunItem>
+		<workingTimeItem>WorkingTime</workingTimeItem>
+		<toItem>To</toItem>
+		<minute>minute</minute>
+		<createDispatchItem>Create Dispatch</createDispatchItem>
+		<sendTimeAfterMalfunctionItem>sendTime After Malfunction</sendTimeAfterMalfunctionItem>
+		<sendPersonsItem>sendPersons List</sendPersonsItem>
+		<one>1.</one>
+		<two>2.</two>
+		<three>3.</three>
+		<sms>SMS</sms>
+		<email>EMAIL</email>
+		<chooseTerminalForm>Choose Terminal</chooseTerminalForm>
+		
+		
+		<nameItem>Rule Name</nameItem>
+		<createDateItem>Create Date</createDateItem>
+		<statusItem>Status</statusItem>
+		<sendTotalLevelItem>Send Total Level</sendTotalLevelItem>
+		<createTicketItem>Create Ticket</createTicketItem>
+		<messageContentItem>Message Content</messageContentItem>
+		<finishMessageItem>Finish Message</finishMessageItem>
+		<chooseTerminalForm>Select the terminal query information</chooseTerminalForm>
+	</node>
+</nodes>

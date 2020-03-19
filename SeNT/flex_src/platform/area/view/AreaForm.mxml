@@ -1,0 +1,230 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+					   width="450" height="300" 
+					   textAlign = "left" layout="vertical" horizontalScrollPolicy="off"
+					   locale = "areaForm" verticalScrollPolicy="off"
+					   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					   xmlns:s = "library://ns.adobe.com/flex/spark"
+					   xmlns:mx = "library://ns.adobe.com/flex/mx"
+					   xmlns:parsley="http://www.spicefactory.org/parsley" 
+					   xmlns:grg="http://grg.grgbanking.com/platform/" creationComplete="titlewindow1_creationCompleteHandler(event)"
+					   helpTips="helpTip">
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			
+			import platform.area.constants.AreaLocalKeyConsts;
+			import platform.area.message.AreaMsg;
+			import platform.area.pm.AreaFormPM;
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+
+			[Inject]
+			[Bindable]
+			public var pm:AreaFormPM;
+
+			[Bindable]
+			public var parentName:String = "";
+			
+			public function setMaxOrder():void
+			{
+				if(titleKey == AreaLocalKeyConsts.ADD_AREA_FORM){
+					pm.getMaxOrder();
+				}
+			}
+
+			protected function submit():void
+			{
+				areaName.text = StringUtil.trim(areaName.text);
+				note.text = StringUtil.trim(note.text);
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				pm.save();
+				
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:AreaMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+			
+			[MessageHandler(selector="refreshAreaList")]
+			public function saveResultHandler(p_msg:AreaMsg):void
+			{
+				if (p_msg.result){
+					//					AlertHandler.success("saveSuccess");
+					close();
+				}
+			}
+			private function showExPropHandler(i:int):void
+			{
+				if(form.x == 0 && i == 1){
+					//extendLabel.locale = "baseProperty";
+					showExPropEffect([form], 0, -width);
+					showExPropEffect([grgTileList], width, 0);
+				}else if(form.x == -width && i==2){
+					//extendLabel.locale = "extendProperty";
+					showExPropEffect([form], -width, 0);
+					showExPropEffect([grgTileList], 0, width);
+				}
+			}
+			private function drawCircle():UIComponent{
+				var t:UIComponent= new UIComponent();
+				var circle:Sprite = new Sprite();
+				circle.graphics.lineStyle(2,0xffffff);
+				circle.graphics.drawCircle(16, 0, 11);
+				t.addChild(circle);
+				return t;  
+			}
+
+
+			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+				this.basic.addChildAt(this.drawCircle(),0);
+				this.expend.addChildAt(this.drawCircle(),0);
+			}
+
+		]]>
+	</fx:Script>
+	<!--<s:Scroller width="100%" height="100%">-->
+	<s:BorderContainer borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout gap="0" paddingTop="20" paddingLeft="15"> 
+			</s:HorizontalLayout> 
+		</s:layout>
+		<mx:Canvas borderVisible="false" left="20">
+			<s:BorderContainer x="0" buttonMode="true" click="showExPropHandler(2)"  backgroundImage="@Embed(source='/resources/theme/newui/nav1.png')" borderVisible="false" width="120" height="27">
+				<s:layout>
+					<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+					</s:HorizontalLayout> 
+				</s:layout>
+				<mx:HBox id="basic" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" paddingLeft="15" backgroundAlpha="0"> 
+					<grg:Label backgroundAlpha="0" paddingLeft="3" locale="baseProperty" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(2)"> 
+					</grg:Label>
+				</mx:HBox> 
+			</s:BorderContainer>
+			<s:BorderContainer x="107" buttonMode="true" click="showExPropHandler(1)" backgroundImage="@Embed(source='/resources/theme/newui/nav2.png')" borderVisible="false" width="120" height="27">
+				<s:layout>
+					<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+					</s:HorizontalLayout> 
+				</s:layout>
+				<mx:HBox  id="expend" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" backgroundAlpha="0" paddingLeft="15">  
+					<grg:Label backgroundAlpha="0" paddingLeft="3" locale="extendProperty" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(1)"> 
+					</grg:Label>
+				</mx:HBox>
+			</s:BorderContainer>
+		</mx:Canvas> 
+	</s:BorderContainer> 
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<grg:Form id="form" x="0"
+						width="{width - 100}"
+						paddingTop = "16"
+						textAlign = "left"
+						borderVisible = "false">
+			<grg:FormItem width="100%"
+								textAlign = "left"
+								locale = "parentName"
+								required = "true">
+				<grg:Label text = "{parentName}" width="100%" height="22" toolTip="{parentName}"/>
+			</grg:FormItem>
+			<grg:FormItem width="100%"
+								textAlign = "left"
+								locale = "areaName"
+								required = "true">
+				<grg:TextInput id="areaName"
+								   width="200" text="@{pm.areaInfo.areaName}"
+								   required = "true" 
+								   maxnum="100" maxChars="100"
+								   vtype = "maxchars"/>
+			</grg:FormItem>
+			<grg:FormItem
+								width="100%"
+								locale = "description">
+				<grg:TextInput id="note" text="@{pm.areaInfo.note}"
+								   maxnum="100" maxChars="100"
+								   vtype = "maxchars"
+								   width="200" />
+			</grg:FormItem>
+			<grg:FormItem
+								width="100%"
+								textAlign = "left"
+								locale = "disOrder">
+				<grg:NumericStepper id="order" value="@{pm.areaInfo.order}"
+										minimum = "1" maximum="9999"
+										stepSize = "1" />
+			</grg:FormItem>
+			<grg:FormItem 
+				width="100%"
+				textAlign = "left"
+				locale = "status">
+				<mx:HBox>
+					<grg:RadioButtonGroup id="area_status" value="@{pm.areaInfo.status}" />
+					<grg:RadioButton id="statusEnable" group="{area_status}"
+										 value = "Y"
+										 locale = "statusEnable" />
+					<grg:RadioButton id="statusDisable" group="{area_status}"
+										 value = "N"
+										 locale = "statusDisable" />
+				</mx:HBox>
+			</grg:FormItem>
+		</grg:Form>
+		<grg:GRGAutoTileList id="grgTileList" x="{width}" width="{width - 100}" dataProvider="{pm.extendProperties}" 
+								 itemWidth="220" relativeObject="{pm.areaInfo}"/>
+			
+	</s:Group>	 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn"
+				click = "submit()"
+				iconVisible="false"
+				locale = "saveButton"
+				 />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				iconVisible="false"
+				locale = "cancelButton"
+				 />
+		</s:BorderContainer>
+	</s:HGroup>  
+</grg:TitleWindow>

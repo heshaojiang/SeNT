@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "stopManagerForm">
+		<formTitle>报停管理</formTitle>
+		<stopFormTitle>设备报停申请</stopFormTitle>
+		<termid>终端编号</termid>
+		<tltermid>终端编号：</tltermid>
+		<beginTime>停机开始时间</beginTime>
+		<endTime>停机结束时间</endTime>
+		<stop>设备报停</stop>
+		<stopExamine>报停审核</stopExamine>
+		<stopManager>报停管理</stopManager>
+		<repStopTitle>设备报停记录</repStopTitle>
+		<reason>报停原因</reason>
+		<stopStatue>报停状态</stopStatue>
+		<tlstopStatue>全部报停状态</tlstopStatue>
+		<cancelStop>取消报停</cancelStop>
+		<operations>操作</operations>
+		<breakStop>终止报停</breakStop>
+		<seqno>序列号</seqno>
+		<tlseqno>序列号：</tlseqno>
+		<tlbeginTime>停机开始时间：</tlbeginTime>
+		<tlendTime>停机结束时间：</tlendTime>
+		<tlreason>报停原因：</tlreason>
+		<note>备注：</note>
+	</node>
+</nodes>

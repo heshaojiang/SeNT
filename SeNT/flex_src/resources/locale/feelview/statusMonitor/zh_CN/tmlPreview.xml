@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="tmlPreview">
+	    <termId>终端编号：| </termId>
+	    <myFocus>我的关注</myFocus>
+	    <more>更多信息</more>
+	    <dispatchStatus>工单状态：</dispatchStatus>
+	    <responsibility>责 任 人：</responsibility>
+	    <ipAddress>IP 地 址：</ipAddress>
+	    <megrecard>吞卡张数：</megrecard>
+	    <deviceStatus>故障部件</deviceStatus>
+	    <distribution>远程操作</distribution>
+	    <txnInfo>最近交易</txnInfo>
+	    <deviceName>部件名称：</deviceName>
+	    <errorCode>故障码：</errorCode>
+	    <describ>故障说明：</describ>
+	    <solution>解决办法：</solution>
+	    <txnResult>交易结果：</txnResult>
+	    <txnAmount>金额：</txnAmount>
+	    <txnId>类型：</txnId>
+	    <txnDate>交易时间：</txnDate>
+	    <pan>交易帐号：</pan>
+	    
+	    <remotePrintScreen>远程截屏</remotePrintScreen>
+	    <connectTest>连通测试</connectTest>
+	    <dirBrowse>目录浏览</dirBrowse>
+	    <pause>暂停</pause>
+	    <resume>恢复</resume>
+	    <sysSetting>系统配置</sysSetting>
+	    <reboot>重启</reboot>
+	    <shutdown>关机</shutdown>
+	    <processSearch>进程查询</processSearch>
+	    <msgYstr>连接超时，操作失败</msgYstr>
+	    
+	    <helpTip>终端预览信息：
+故障部件：显示当前有故障的部件与信息
+远程操作：调用远程模块执行操作（连通测试需要在参数中设置ping和telnet命令的目标服务器）
+最近交易：显示此终端上最近的实时交易信息
+</helpTip>
+	</node>
+</nodes>

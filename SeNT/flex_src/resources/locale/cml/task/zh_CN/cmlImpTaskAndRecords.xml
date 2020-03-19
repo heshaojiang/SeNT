@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+ <nodes>
+     <node locale="cmlImpTaskAndRecords">
+     
+   <tmlType>设备类型：</tmlType>
+   <taskFile>任务文件：</taskFile>
+   <chooseButton>选择</chooseButton>
+   <name>文件名称</name>
+   <size>文件大小</size>
+   <errorImportTask>任务文件重复，导入失败</errorImportTask>
+   <progress>进度</progress>
+     <exportTask>导入任务</exportTask>
+     <exportSeq>导入冠字号码</exportSeq>
+    <deleteFile>删除文件</deleteFile>
+     
+
+  
+
+	
+  </node>
+</nodes>

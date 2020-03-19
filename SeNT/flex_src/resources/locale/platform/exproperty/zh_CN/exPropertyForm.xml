@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "exPropertyForm">
+		<propertyName>属性名：</propertyName>
+		<table>表名：</table>
+		<altable>全部表名</altable>
+		<fieldName>字段名：</fieldName>
+		<entityClassProperty>类属性名：</entityClassProperty>
+		<i18nName>显示标题：</i18nName>
+		<inputType>输入控件：</inputType>
+		<service>后台服务：</service>
+		<method>后台方法：</method>
+		<key>下拉列表键域：</key>
+		<label>下拉列表显示域：</label>
+		<paramDatatype>参数数据类型：</paramDatatype>
+		<required>必填：</required>
+		<checkType>校验类型：</checkType>
+		<inputRestrict>输入限制：</inputRestrict>
+		<max>最大字数：</max>
+		<min>最小字数：</min>
+		<status>状态：</status>
+		<listDisplay>是否在列表中显示：</listDisplay>
+		<note>说明：</note>
+	</node>
+</nodes>

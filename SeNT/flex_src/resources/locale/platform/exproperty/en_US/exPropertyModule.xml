@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="exPropertyModule">
+		<listTitle>Extend Property List</listTitle>
+		
+		<i18nName>Display Title</i18nName>
+		<table>Table Name:</table>
+		<propertyName>Property Name</propertyName>
+		<fieldName>Field Name</fieldName>
+		<inputType>Input Component</inputType>
+		<required>Required</required>
+		<status>Status</status>
+		<order>Order Sequence</order>
+		<listDisplay>Display in List</listDisplay>
+	</node>
+</nodes>

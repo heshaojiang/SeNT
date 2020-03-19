@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "transBanknoteSeqModule">
+		
+		<titlemsg>ATM冠字号码检索</titlemsg>
+		
+		<orgid>来源机构：</orgid>
+	    <seriaNo>冠字号码：</seriaNo>
+	    <termid>终端编号：</termid>
+	    <sendTime>交易时间：</sendTime>
+	    <to>至</to>
+	    <noteTypes>钞票类别：</noteTypes>
+	    <noteFlag>钞票标识</noteFlag>
+	    <noteType>钞票类别</noteType>
+	    <denomination>面额</denomination>
+	    <termid>ATM终端号</termid>
+	    <operations>操作</operations>
+	    <fuzzyCount>冠字号码匹配位数：</fuzzyCount>
+	    <isFuzzy>是否模糊检索</isFuzzy>
+	    
+	    <typeName>业务类别</typeName>
+	    <orgName>所属机构</orgName>
+	    <versionNum>版本</versionNum>
+	    <notetypes>钞票类别：</notetypes>
+	    <currency>币种</currency>
+	    
+	</node>
+</nodes>

@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termModelModule">
+		<listTitle>设备型号列表</listTitle>
+		<modelNameItem>型号名称：</modelNameItem>
+		<termBrand>终端品牌：</termBrand>
+		<brandItem>全部品牌</brandItem>
+		<typeItem>所属类型</typeItem>
+		<status>状态</status>
+		<journalPath>流水文件路径</journalPath>
+		<titlemsg>设备型号管理</titlemsg>
+	</node>
+</nodes>

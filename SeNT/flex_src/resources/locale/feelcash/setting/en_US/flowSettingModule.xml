@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "flowSettingModule">
+		<titleKey>Flow parameter setting:</titleKey>
+		<generated>Generated:</generated>
+		<calculated>Calculated:</calculated>
+		<audit>Audit:</audit>
+		<reserve>Reserve:</reserve>
+		<reserved>Reserved:</reserved>
+		<dispatched>Dispatched:</dispatched>
+		<added>Added:</added>
+		<finished>Finished:</finished>
+		<statusEnable>Enable</statusEnable>
+		<statusDisable>Disable</statusDisable>
+	</node>
+</nodes>

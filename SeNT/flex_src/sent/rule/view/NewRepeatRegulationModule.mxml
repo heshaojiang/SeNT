@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:grg="http://grg.grgbanking.com/platform/" 
+				xmlns:parsley="http://www.spicefactory.org/parsley"
+				xmlns:view="sent.rule.view.*" 
+				xmlns:view1="sent.audit.view.*"
+				locale="newRepeatRegulationModule" 
+				layout="vertical" width="100%" height="100%"
+				creationComplete="doInit()">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{NewRepeatRegulationConfig}"/>
+			<parsley:FlexConfig type="{TermInfoConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.util.ComponentRightUtils;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.config.TermInfoConfig;
+			
+			import sent.rule.config.NewRepeatRegulationConfig;
+			import sent.rule.pm.NewRepeatRegulationPM;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/7.png")]
+			public static var file7:Class;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/8.png")]
+			public static var file8:Class;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/9.png")]
+			public static var file9:Class;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/10.png")]
+			public static var file10:Class;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/11.png")]
+			public static var file11:Class;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/12.png")]
+			public static var file12:Class;
+			
+			private var blue:int=0x005CA1;
+			private var nowflag:int=7;
+			
+			[Bindable]
+			public var ruleAudit:String ="规则审核";
+			
+			[Bindable]
+			public var reliverRegulation:String ="下发规则";
+			
+			[Inject]
+			[Bindable]
+			public var pm:NewRepeatRegulationPM;
+			
+			public function doInit():void
+			{
+				trace("NewRepeatRegulationModule.doInit");
+				var arr:ArrayCollection;
+				if(ComponentRightUtils.isVisible('createRegulation','button'))
+				{
+					myViewStack.selectedChild=createRule;
+					return;
+				}
+				if(ComponentRightUtils.isVisible('createRegulation','button'))
+				{
+					repeat.addRule.visible=true;
+					repeat.addRule.includeInLayout=true;
+					repeat.cancel.visible=false;
+					repeat.cancel.includeInLayout=false;
+					repeat.deliver.visible=false;
+					repeat.deliver.includeInLayout=false;
+					myViewStack.selectedChild=createRule;
+			        return;
+				}
+				if(ComponentRightUtils.isVisible('auditRegualtion','button'))
+				{
+					myViewStack.selectedChild=auditRule;
+					return;
+				}
+				if(ComponentRightUtils.isVisible('reliverRegulation','button'))
+				{
+					repeat.addRule.visible=false;
+					repeat.addRule.includeInLayout=false;
+					repeat.cancel.visible=false;
+					repeat.cancel.includeInLayout=false;
+					repeat.deliver.visible=true;
+					repeat.deliver.includeInLayout=true;
+					myViewStack.selectedChild=createRule;
+					return;
+				}
+				if(ComponentRightUtils.isVisible('cancelRegulation','button'))
+				{
+					repeat.addRule.visible=false;
+					repeat.addRule.includeInLayout=false;
+					repeat.cancel.visible=true;
+					repeat.cancel.includeInLayout=true;
+					repeat.deliver.visible=false;
+					repeat.deliver.includeInLayout=false;
+					myViewStack.selectedChild=createRule;
+					return;
+				}
+				if(ComponentRightUtils.isVisible('viewRegulationInfo','button'))
+				{
+					myViewStack.selectedChild=ruleInfo;
+					return;
+				}
+			}
+			
+			protected function imgUploadMgt_clickHandler(event:MouseEvent,i:int,uiC:Canvas,imgNum:int):void
+			{
+				trace("NewRepeatRegulationModule.imgUploadMgt_clickHandler");
+				if(imgNum==7)
+				{
+					repeat.addRule.visible=true;
+					repeat.addRule.includeInLayout=true;
+					repeat.cancel.visible=false;
+					repeat.cancel.includeInLayout=false;
+					repeat.deliver.visible=false;
+					repeat.deliver.includeInLayout=false;
+				}
+				//下发规则
+				if(imgNum==9)
+				{ 
+					repeat.addRule.visible=false;
+					repeat.addRule.includeInLayout=false;
+					repeat.cancel.visible=false;
+					repeat.cancel.includeInLayout=false;
+					repeat.deliver.visible=true;
+					repeat.deliver.includeInLayout=true;
+				}
+				//撤销规则
+				if(imgNum==10)
+				{ 
+					repeat.addRule.visible=false;
+					repeat.addRule.includeInLayout=false;
+					repeat.cancel.visible=true;
+					repeat.cancel.includeInLayout=true;
+					repeat.deliver.visible=false;
+					repeat.deliver.includeInLayout=false;
+				} 
+				
+				myViewStack.selectedChild = uiC;
+				var index:int=VBox(Image(event.currentTarget).parent).tabIndex;
+				var leng:int = this.menubar.getChildren().length;
+				drowline(i);
+				
+			}
+			
+			public function drowline(j:int):void
+			{
+				trace("NewRepeatRegulationModule.drowline");
+				var i:int=j;
+				
+				this.line.graphics.clear();
+				this.line.graphics.lineStyle(2,0xC4C6C8);
+				this.line.graphics.moveTo(0,10);
+				
+				var pointx:Number = 225 + (i-7)*140;  
+				var pxb:Number=pointx-10;
+				var pxe:Number=pointx+10; 
+				
+				this.line.graphics.lineTo(pxb,10);
+				this.line.graphics.lineTo(pointx,5);
+				this.line.graphics.lineTo(pxe,10); 
+				this.line.graphics.lineTo(this.width,10); 
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer  
+		width = "100%" 
+		height = "100%"
+		styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" />
+		</s:layout> 
+		<mx:HBox paddingLeft="10">
+			<!--重号规则-->
+			<grg:TitleBar id="tb" locale="repeatRegualtion" />
+		</mx:HBox>
+		
+		<mx:VBox width="100%" > 
+			<s:BorderContainer borderVisible="false" >
+				<s:layout>
+					<s:VerticalLayout paddingLeft="180" paddingRight="10"  paddingTop="-10"/>
+				</s:layout>
+				<mx:HBox id="menubar" width="100%" horizontalGap="0" paddingLeft="10" paddingRight="10" tabIndex="0" >
+					<mx:VBox visible="{ComponentRightUtils.isVisible('createRegulation','button')}" verticalGap="7" horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="left" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid">
+						<grg:Image id="imgUploadMgt" source="{file7}" click="imgUploadMgt_clickHandler(event,7,createRule,7);"/>
+						<!--规则生成-->
+						<grg:Label fontWeight="bold" locale="createRule" color="0x005CA1" textAlign="center" width="70"/>
+					</mx:VBox>
+					<mx:VBox horizontalAlign="center" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid">
+						<grg:Image source="@Embed('/resources/theme/advert/13.png')"/>
+					</mx:VBox>
+					<mx:VBox id="vb7" verticalGap="7" visible="{ComponentRightUtils.isVisible('auditRegualtion','button')}" horizontalScrollPolicy="off" verticalScrollPolicy="off"  horizontalAlign="left" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid" tabIndex="1">
+						<grg:Image source="{file8}"  click="imgUploadMgt_clickHandler(event,8,auditRule,8);"/>
+						<!--规则审核-->
+						<grg:Label fontWeight="bold"  text="{ruleAudit}({pm.auditCount})" color="0x005CA1" />
+					</mx:VBox>
+					<mx:VBox horizontalAlign="center" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid">
+						<grg:Image source="@Embed('/resources/theme/advert/13.png')"/>
+					</mx:VBox>
+					<mx:VBox visible="{ComponentRightUtils.isVisible('reliverRegulation','button')}" verticalGap="7"  horizontalScrollPolicy="off" verticalScrollPolicy="off"
+							 horizontalAlign="left" verticalAlign="middle" width="70" height="100" 
+							 borderVisible="false" borderStyle="solid" tabIndex="0">
+						<grg:Image  source="{file9}" click="imgUploadMgt_clickHandler(event,9,createRule,9);"/>
+						<!--下发规则-->
+						<grg:Label fontWeight="bold"  text="{reliverRegulation}({pm.reliverCount})" color="0x005CA1"  />
+					</mx:VBox>
+					<mx:VBox horizontalAlign="center"  verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid">
+						<grg:Image source="@Embed('/resources/theme/advert/13.png')"/>
+					</mx:VBox>
+					<mx:VBox visible="{ComponentRightUtils.isVisible('cancelRegulation','button')}" verticalGap="7" horizontalScrollPolicy="off" verticalScrollPolicy="off"  horizontalAlign="left" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid" tabIndex="0">
+						<grg:Image source="{file10}" click="imgUploadMgt_clickHandler(event,10,createRule,10);"/>
+						<!--撤销规则-->
+						<grg:Label fontWeight="bold" locale="cancleRule" color="0x005CA1" textAlign="center" width="70"/>
+					</mx:VBox>
+					<mx:VBox horizontalAlign="center"   verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid">
+						<grg:Image source="@Embed('/resources/theme/advert/13.png')"/>
+					</mx:VBox>
+					<mx:VBox visible="{ComponentRightUtils.isVisible('viewRegulationInfo','button')}" verticalGap="7" horizontalScrollPolicy="off" verticalScrollPolicy="off"  horizontalAlign="left" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid" tabIndex="4">
+						<grg:Image source="{file12}"  click="imgUploadMgt_clickHandler(event,11,ruleInfo,12);"/>
+						<!--下发明细-->
+						<grg:Label fontWeight="bold" locale="reliverDetail" color="0x005CA1" textAlign="center" width="70"/>
+					</mx:VBox>
+				</mx:HBox>
+			</s:BorderContainer>
+			<mx:HBox id="line" width="100%" height="10">
+			</mx:HBox>
+		</mx:VBox> 
+		
+		<mx:ViewStack id="myViewStack" borderVisible="false" borderStyle="solid" width="100%" height="100%" >
+			<mx:Canvas id="createRule" width="100%" height="100%">
+				<view:RepeatRegulationModule  locale="newRepeatRegulationModule" id="repeat"/>
+			</mx:Canvas>
+			<mx:Canvas id="auditRule" width="100%" height="100%">
+				<view1:AuditRepeatInfoModule locale="newRepeatRegulationModule"/>
+			</mx:Canvas>
+			<mx:Canvas id="ruleInfo" width="100%" height="100%">
+				<view1:AuditRepeatLogModule locale="newRepeatRegulationModule"/>
+			</mx:Canvas>
+		</mx:ViewStack>
+		
+	</s:BorderContainer>
+</grg:TabModule>

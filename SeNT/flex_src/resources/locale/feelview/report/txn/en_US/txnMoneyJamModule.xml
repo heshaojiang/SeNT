@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="txnMoneyJamModule">
+		<listTitle>MoneyJam</listTitle>
+		<termIdItem>Terminal Id</termIdItem>
+		<deviceType>Device</deviceType>
+		<beginTime>StartTime</beginTime>
+		<endTime>EndTime</endTime>
+		<dispTotalCountItem>Withdraw Times</dispTotalCountItem>
+		<dispMoneyJamItem>Withdraw Jam Times</dispMoneyJamItem>
+		<dispRateItem>WithDraw/Jam Rate</dispRateItem>
+		<depTotalCountItem>Deposit Times</depTotalCountItem>
+		<depMoneyJamItem>Deposit Jam Times</depMoneyJamItem>
+		<depRateItem>Deposit/Jam Rate</depRateItem>
+		<totalRateItem>Total/Rate</totalRateItem>
+		<org>organization</org>
+		<areaIdItem>areaId</areaIdItem>
+	</node>
+</nodes>

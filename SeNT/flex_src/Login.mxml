@@ -1,0 +1,376 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<s:Group width = "100%" height = "100%"
+		xmlns:fx = "http://ns.adobe.com/mxml/2009"
+		xmlns:s = "library://ns.adobe.com/flex/spark"
+		xmlns:mx = "library://ns.adobe.com/flex/mx"
+		xmlns:grg="http://grg.grgbanking.com/platform/"
+		preinitialize="preinitializeHandler()"
+		addedToStage="loadLangPkg()"
+		>
+	
+	<fx:Metadata>
+		[Event(name="changeState", type="flash.events.Event")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.messaging.messages.HTTPRequestMessage;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import platform.common.formatter.DateFormatter;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.SharedObjectManager;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.component.interfaces.ILocale;
+			import platform.event.LanguageEvent;
+			import platform.global.AppGlobal;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			private var isError:Boolean = false;
+
+			private var validators:Array = [];
+
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+
+			private function preinitializeHandler():void
+			{
+				trace("Login.preinitializeHandler")
+				var systemLanguage:String = StringUtil.replace(flash.system.Capabilities.language, "-", "_");
+				if(systemLanguage == "en"){
+					systemLanguage = systemLanguage + "_US";
+				}
+				langMgr.currentLanguage = systemLanguage;
+				
+				addEventListener(LanguageEvent.LOAD_LANGUAGE, loadLanguageHandler);
+			}
+			
+			private function loadLanguageHandler(p_evt:LanguageEvent):void
+			{
+				trace("Login.loadLanguageHandler")
+				p_evt.stopPropagation();
+				var _target:ILocale = p_evt.target as ILocale;
+				if(_target && _target.fullPaths)
+				{
+					_target.fullPaths = _target.fullPaths.concat(["common.login", "common.main"]);
+				}
+			}
+			
+			private function loadLangPkg():void
+			{
+				trace("Login.loadLangPkg")
+				var _path:String = langMgr.url + "/resources/locale/platform/common/" + langMgr.currentLanguage;
+				//加载公共语言包
+				langMgr.loadLanguageMap("common", _path + "/language.xml", setLangLabel);				
+				//加载公共异常信息
+				langMgr.loadLanguageMap("common", _path + "/exception.xml");
+				//检查是否有记录前个登陆用户
+				checkSharedObject();
+			}
+			
+			
+			//检查sharedObject start
+			public function checkSharedObject():void
+			{
+				trace("Login.checkSharedObject")
+				var obj:Object = SharedObjectManager.getInfo("latestLoginUser", "/loginUser");
+				if(obj != null)
+				{
+					userChecker.selected = true;
+					username.text = obj.toString();
+				}
+			}
+			//检查sharedObject end
+
+			protected function userpwd_enterHandler(event:FlexEvent):void
+			{
+				trace("Login.userpwd_enterHandler")
+				if (event.type == "enter"){
+					userLoginHandler(new MouseEvent(MouseEvent.CLICK));
+				}
+			}
+
+			public function setLangLabel():void
+			{
+				trace("Login.setLangLabel")
+				refleshDropDownList(langMgr.currentLanguage);
+				username.setFocus();
+				username.errorString = "";
+				userpwd.errorString = "";
+			}
+
+			private function httpServiceFaultHandler(event:FaultEvent, p_token:AsyncToken):void
+			{
+				trace("Login.httpServiceFaultHandler")
+				//Alert.show(event.fault.toString());
+				var msg:String = LanguageManager.getInstance().getExceptionMessage("common.loginError");
+				msg = msg + "\r" + event.fault.rootCause;
+				AlertHandler.exception(msg);
+			}
+
+			// userName=admin,loginStatus=Normal
+			private function httpServiceResultHandler(event:ResultEvent, p_token:AsyncToken):void
+			{
+				trace("Login.httpServiceResultHandler")
+				var eventResult:String = StringUtil.trim(event.result.toString());
+				var resultList:Array = eventResult.split(",");
+				
+				var resultObject:Object = new Object();
+				for each (var item:String in resultList)
+				{
+					var key:String = item.substring(0, item.indexOf("="));
+					var value:String = item.substring(item.indexOf("=") + 1);
+					resultObject[key] = value;
+				}
+				
+				if (resultObject.loginStatus == "Normal" || resultObject.loginStatus == "PasswordExpired"){	//正常对应Java LoginStatus.Normal;密码过期 LoginStatus.PasswordExpired
+					resetLoginFormHandler();
+					Mouse.cursor = MouseCursor.AUTO;
+					AppGlobal.currentLoginTime = DateFormatter.format(new Date(), "JJ:NN MM/DD");
+					dispatchEvent(new Event(Index.CHANGE_STATE));
+					if(userChecker.selected)
+						SharedObjectManager.saveInfo("latestLoginUser", resultObject.userName, "/loginUser");
+				}else if(resultObject.loginStatus == "UserNotExisted"){	//用户不存在，对应Java LoginStatus.UserNotExisted
+					erroTip.text = errortipId.toolTip = langMgr.getCommonLanguageMap("login")["userNotFound"] as String;
+					isError = true;
+				}else if(resultObject.loginStatus == "AccountDisabled"){	//用户账号禁用 LoginStatus.AccountDisabled
+					erroTip.text = errortipId.toolTip = langMgr.getCommonLanguageMap("login")["userDisabled"] as String;
+					isError = true;
+				}else if(resultObject.loginStatus == "AccountLockedWithIP"){	//用户账号锁定IP地址
+					erroTip.text = errortipId.toolTip = langMgr.getCommonLanguageMap("login")["userDisabled"] as String;
+					isError = true;
+				}else if(resultObject.loginStatus == "AccountExpired"){	//用户账号过期 LoginStatus.AccountExpired
+					erroTip.text = errortipId.toolTip = langMgr.getCommonLanguageMap("login")["accountExpired"] as String;
+					isError = true;
+				}else if(resultObject.loginStatus == "LockedWithIP"){	//用户账号过期 LoginStatus.AccountExpired
+					erroTip.text = errortipId.toolTip = langMgr.getCommonLanguageMap("login")["LockedWithIP"] as String;
+					isError = true;
+				}else if(resultObject.loginStatus == "WrongPassword"){	//用户密码错误LoginStatus.PasswordError
+					var wrongPwdMsg:String = langMgr.getCommonLanguageMap("login")["wrongPwd"] as String;
+					//admin用户不会锁定，所以无须提示错误信息
+					if(username.text == "admin")
+						wrongPwdMsg = langMgr.getCommonLanguageMap("login")["adminWrongPwd"] as String;
+					wrongPwdMsg = StringUtil.replace(wrongPwdMsg, "(?1)", resultObject.passwordFailCount);
+					wrongPwdMsg = StringUtil.replace(wrongPwdMsg, "(?2)", resultObject.maxLoginFailCount);
+					
+					erroTip.text = errortipId.toolTip = wrongPwdMsg;
+					isError = true;
+				}
+					
+				if(erroTip.text!="")
+					errortipId.visible = true;
+				else
+					errortipId.visible = false;
+			}
+
+			private function languageChangeHandler():void
+			{
+				trace("Login.languageChangeHandler")
+				if(!languageDropDownList.selectedItem)return;
+				var lang:String = String(languageDropDownList.selectedItem.value);
+				if(langMgr.currentLanguage != lang){
+					langMgr.currentLanguage = lang;
+					username.errorString = "";
+					userpwd.errorString = "";
+					erroTip.text = "";
+					errortipId.visible = false;
+					isError = false;
+					loadLangPkg();
+				}
+			}
+
+			private function refleshDropDownList(p_locale:String):void
+			{
+				trace("Login.refleshDropDownList")
+				var languageList:IList = langMgr.getSystemLanguage();
+				var languageList2:ArrayCollection = new ArrayCollection([{label:"中文",value:"zh_CN"}]);
+				languageDropDownList.dataProvider = languageList2;
+				languageDropDownList.labelField = "label";
+				
+				var arr:Array = languageList.toArray();
+				for (var index:int = 0; index < arr.length; index++){
+					if (arr[index].value == p_locale){
+//						logoImg.styleName = langMgr.getCommonLocleValue("logoImg", p_locale);
+//						titleImg.styleName = langMgr.getCommonLocleValue("titleImg", p_locale);
+						languageDropDownList.selectedIndex = index;
+						languageDropDownList.prompt = arr[index].label;
+						break;
+					}
+				}
+			}
+			
+			//记住用户
+			private function rememberSelectedItemChange(p_evt:Event):void
+			{
+				trace("Login.rememberSelectedItemChange")
+				if(!userChecker.selected){
+					var obj:Object = SharedObjectManager.getInfo("latestLoginUser", "/loginUser");
+					if(obj != null)
+						SharedObjectManager.removeInfo("latestLoginUser", "/loginUser");
+				}
+			}
+
+			private function resetLoginFormHandler():void
+			{
+				trace("Login.resetLoginFormHandler")
+				//reset form
+				isError = false;
+				username.text = username.errorString = "";
+				userpwd.text = userpwd.errorString = "";
+				erroTip.text = "";
+			} 
+
+			public function userLoginHandler(event:MouseEvent):void
+			{
+				trace("Login.userLoginHandler")
+				if (VControl.validateAll(loginForm, this.validators).length > 0){
+					return;
+				}
+
+				var _httpService:HTTPService = new HTTPService();
+				_httpService.url = AppGlobal.contextRoot + "/j_spring_security_check.html";
+				_httpService.showBusyCursor = true;
+				_httpService.method = HTTPRequestMessage.POST_METHOD;
+				_httpService.resultFormat = HTTPService.RESULT_FORMAT_TEXT;
+				_httpService.makeObjectsBindable = true;
+				
+				var request:Object = {};
+				var passWord:String = ExternalInterface.call("hex_md5",userpwd.text);
+				var usernameDesStr:String = ExternalInterface.call("strEnc",username.text,"0123456789");
+				request["j_username"] = usernameDesStr;
+				request["j_password"] = passWord;
+				
+				_httpService.request = request;
+				
+				var token:AsyncToken = _httpService.send();
+				token.addResponder(new AsyncResponder(httpServiceResultHandler, httpServiceFaultHandler));
+			}
+			//下载dll控件
+			protected  function downLoad():void
+			{
+				trace("Login.downLoad")
+				navigateToURL(new URLRequest("../flex/dll/UploadFile.zip"),"_self");   
+			}
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:VerticalLayout 
+						  horizontalAlign="center"
+						  paddingBottom="0"
+						  paddingLeft="0"
+						  paddingRight="0"
+						  paddingTop="0"
+						  verticalAlign="middle" />
+	</s:layout>
+	
+	<s:BorderContainer width="1000" height="560"
+					   horizontalCenter="0"
+					   textAlign="left"
+					   verticalCenter="0"
+					   styleName="loginPanel_zh_CN">
+		<s:layout>
+			<s:HorizontalLayout paddingTop="0" paddingLeft="0" paddingRight="0" paddingBottom="0"
+								verticalAlign="middle" horizontalAlign="center"/>
+		</s:layout>
+		<s:BorderContainer width="360" height="212" styleName="loginBgImage">
+			<s:layout>
+				<s:VerticalLayout paddingLeft="60" paddingRight="60"
+								   paddingBottom="30"/>
+			</s:layout>
+			<s:BorderContainer width="215" height="25" backgroundAlpha="0" borderVisible="false" id="errortipId"  visible="false" >
+				<s:layout>
+					<s:HorizontalLayout  paddingTop="6" paddingLeft="14" />
+				</s:layout>
+					<s:BorderContainer width="215" height="25" borderVisible="false"  backgroundImage="@Embed(source='resources/theme/newui/login_errorbg.png')">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="5" verticalAlign="middle" gap="5"/>
+						</s:layout>
+					<grg:Image width="15" source="@Embed(source='resources/theme/newui/login_tip.png')"/>
+					<grg:Text id="erroTip" width="175" visible="true" 
+							  height="20" color="#6C6B63"
+							  fontFamily="Arial"
+							  fontSize="12"
+							  fontWeight="bold"
+							  textAlign="left" />
+					</s:BorderContainer>
+			</s:BorderContainer>
+			
+			<grg:Form id="loginForm" width="100%" height="100%"
+						textAlign="left" paddingLeft="0" paddingRight="0"
+						paddingTop="0" paddingBottom="0" verticalGap="10"
+						horizontalScrollPolicy="off"
+						verticalScrollPolicy="off">
+				
+				<grg:FormItem width="100%">
+					<!--用户名-->
+					<grg:TextInput id="username" required="true" styleName="loginUser" width="100%" height="34"/>
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%">
+					<!--密码-->
+					<grg:TextInput id="userpwd" styleName="loginPsw" width="100%" height="34" required="true" displayAsPassword="true" enter="userpwd_enterHandler(event)" />
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%">
+					<s:BorderContainer width="100%" height="28" borderVisible="false">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="3" paddingRight="6" paddingTop="3" paddingBottom="3"/>
+						</s:layout>
+						<!--语言下拉框-->
+						<grg:DropDownList id="languageDropDownList" styleName="LoginDropDownList"
+										  width="100%" height="100%" textAlign="left" close="languageChangeHandler()" />
+					</s:BorderContainer>
+				</grg:FormItem>
+				
+				<s:HGroup width="100%" height="35"
+						  horizontalAlign="center"
+						  paddingLeft="8"
+						  paddingTop="8"
+						  verticalAlign="middle">
+					<!--记住我-->
+					<grg:CheckBox id="userChecker" styleName="loginCheckBox" locale="rememberUser" 
+								  color="#999999" change="rememberSelectedItemChange(event)"/>
+					<s:BorderContainer height="25" styleName="buttonShadow">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="2"  verticalAlign="middle"/>
+						</s:layout>
+						<!--登 录-->
+						<grg:Button id="submitLogin" click="userLoginHandler(event)" iconVisible="false"
+										locale="loginButton"  width="60"/>
+					</s:BorderContainer>
+					<s:BorderContainer height="25" styleName="buttonShadow">
+						<s:layout>
+							<s:HorizontalLayout  paddingRight="0" verticalAlign="middle"/>
+						</s:layout>
+						<!--下载资源-->
+						<grg:LinkButton  textDecoration="underline"  locale="downLoad" id="loginUser" isCustomizeStyle="true" cornerRadius="2" click="downLoad()"/>
+				</s:BorderContainer>
+				</s:HGroup>
+			</grg:Form>
+				
+		</s:BorderContainer>
+	</s:BorderContainer>
+</s:Group>

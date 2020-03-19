@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   layout="vertical" width="100%" height="100%" 
+			   dataDictionaryPaths="{[RegulationDeliverConsts.APPLY_TYPE, 
+			   RegulationDeliverConsts.REGU_STATUS]}"
+			   xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.rule.config.RegulationDeliverConfig;
+			import sent.rule.constants.RegulationDeliverConsts;
+			import sent.rule.pm.RegulationDeliverPM;
+		
+			[Inject]
+			[Bindable]
+			public var pm:RegulationDeliverPM;
+			
+			[Bindable]
+			private var applyTypes:ArrayCollection;
+			
+			[Bindable]
+			private var regulationStatus:ArrayCollection;
+			
+			override protected function getDataDictCallback():void
+			{
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem:Object = {key:"", text:str};
+				var arrCol:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[RegulationDeliverConsts.APPLY_TYPE]) as ArrayCollection;
+				arrCol.addItemAt(allItem, 0);
+				applyTypes = arrCol;
+				var arrCol1:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[RegulationDeliverConsts.REGU_STATUS]) as ArrayCollection;
+				arrCol1.addItemAt(allItem, 0);
+				regulationStatus = arrCol1;
+				
+				//刷新列表
+				(regulationDeliverDataGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 用数据字典转换列表数据
+			 * */
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				switch(p_column.dataField){
+					case "status":
+						currentDataDictPath = RegulationDeliverConsts.REGU_STATUS;
+						break;
+					case "type":
+						currentDataDictPath = RegulationDeliverConsts.APPLY_TYPE;
+						break;
+				}
+				var t:String=super.transferDataDict(p_item, p_column);
+				return t;
+			}
+			
+			/**
+			 * 格式化日期
+			 * */
+			private function formatDateString(p_item:Object, p_column:DataGridColumn):String
+			{
+				var str:String = p_item[p_column.dataField];
+				if(str == null || str == "")
+					return "";
+				str = str.substr(0, 4) + "-" + str.substr(4, 2) + "-" + str.substr(6, 2) + " "
+					+ str.substr(8, 2) + ":" + str.substr(10, 2) + ":" + str.substr(12, 2);
+				return str;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+		<!--	<parsley:Scope name="regulationDeliver"/> 
+			<parsley:MessageSettings defaultReceiverScope="regulationDeliver"/>-->
+			<parsley:FlexConfig type="{RegulationDeliverConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Binding source="termid.text" destination="pm.regulationDeliver.termid"/>
+	<fx:Binding source="applyType.selectedValue" destination="pm.regulationDeliver.type"/>
+	<fx:Binding source="reguStatus.selectedValue" destination="pm.regulationDeliver.status"/>
+		<mx:VDividedBox width="100%" height="100%">
+					   <s:BorderContainer 
+						   width="100%" height="100%"
+						   styleName = "BorderContainer">
+						   <s:layout>
+							   <s:VerticalLayout gap="0" />
+						   </s:layout>
+						   <mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+							  <!-- <grg:TitleBar locale="titlemsg" width="50%" height="100%"/> -->
+							   <mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+								   <mx:HBox styleName="searchStyle">
+									   <s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+										   <s:layout>
+											   <s:HorizontalLayout 
+												   horizontalAlign = "left"
+												   paddingLeft = "0"
+												   gap="2"
+												   verticalAlign = "middle"/>
+										   </s:layout>
+		<grg:Label locale = "termid" />
+		<grg:TextInput id="termid" textAlign="left" restrict="^'"
+					   width="100" height="20"
+					   styleName = "TextInput" />
+		<grg:Label locale="type"/>
+		<grg:ComboBox id="applyType" dataProvider="{applyTypes}" labelField="text" valueField="key" width="60"/>
+		<grg:Label locale="status"/>
+		<grg:ComboBox id="reguStatus" dataProvider="{regulationStatus}" labelField="text" valueField="key" width="65"/>
+		<grg:SearchButton id="btn_search"
+						  locale = "searchButton" menuId="{menu.id}" 
+						  iconType = "query" click="pm.page = new Page();pm.loadPage()"/>
+		<grg:ResetButton id="resetBtn" locale="resetButton" iconType="reset"
+						 resetControls="{[termid,applyType,reguStatus]}"/>
+	 </s:BorderContainer>
+			</mx:HBox>
+		  </mx:HBox>
+		</mx:HBox>
+		  <mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+	<grg:DataGrid id="regulationDeliverDataGrid" dataProvider="{pm.page.result}"
+				  width="100%" height="100%"
+				  textAlign = "center"
+				  styleName = "DataGrid"
+				  borderVisible = "true">
+		<grg:columns>
+			<grg:DataGridColumn locale = "termid"
+								dataField = "termid" textAlign="left"/>
+			<grg:DataGridColumn locale = "type" labelFunction="transferDataDict"
+								dataField = "type" textAlign="left"/>
+			<grg:DataGridColumn locale = "status" labelFunction="transferDataDict"
+								dataField = "status" textAlign="left"/>
+			<grg:DataGridColumn locale = "date" labelFunction="formatDateString"
+								dataField = "date" textAlign="center"/>
+			
+		</grg:columns>
+	</grg:DataGrid>
+	</mx:HBox>				   
+	<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+						  pageVo="{pm.page}"
+						  pagingFunction="{pm.loadPage}"/>
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="contactorSelector">
+	<contactorSelector>联系人选择</contactorSelector>
+	<contactorsList>联系人列表</contactorsList>
+	<userName>姓名</userName>
+	<userNameLabel>姓名 :</userNameLabel>
+	<e-mail>电子邮箱</e-mail>
+	<cell-phone>手机号码</cell-phone>
+	<recipient>收件人</recipient>
+	<copy>抄送人</copy>
+	</node>
+</nodes>

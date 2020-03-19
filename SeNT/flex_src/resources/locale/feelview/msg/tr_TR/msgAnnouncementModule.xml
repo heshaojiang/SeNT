@@ -1,0 +1,21 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：MsgAnnouncementModule <br>
+	Create Time：2011-9-21 <br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgAnnouncementModule">
+		<listTitle>Duyuru Bildirimi</listTitle>
+		<orgIdItem>Şube</orgIdItem>
+		<sendTimeItem>Gönderim Zamanı</sendTimeItem>
+		<toItem>Bitiş Zamanı</toItem>
+		<titleItem>Konu</titleItem>
+		<creatorItem>Oluşturan</creatorItem>
+		<contentItem>Yayın İçeriği</contentItem>
+		<createTimeItem>Oluşturma Zamanı</createTimeItem>
+		<status>Durum</status>
+		<sendTypeItem>Gönder Tipi</sendTypeItem>
+	</node>
+</nodes>

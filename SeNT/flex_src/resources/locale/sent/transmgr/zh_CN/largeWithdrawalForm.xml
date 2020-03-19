@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="largeWithdrawalForm">
+		
+		<title>大额配钞</title>
+		
+		<cardNumColon>卡号/身份证：</cardNumColon>
+		
+		<zcdkc>支出的捆钞 </zcdkc>
+		
+		<flowNumColon>流转条码：</flowNumColon>
+		
+		<delete>删除</delete>
+		<addCashBunch>增加捆钞</addCashBunch>
+		
+		<save>保存</save>
+		<cancel>取消</cancel>
+		
+		
+	</node>
+</nodes>

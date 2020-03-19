@@ -1,0 +1,11 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "knowledgeLibraryForm">
+		<addAssetInputForm>Add Asset Input</addAssetInputForm>
+		<updateAssetInputForm>Update Asset Input</updateAssetInputForm>
+		<tittleItem>tittle</tittleItem>
+		<contentItem>content</contentItem>
+		<uploadItem>upload</uploadItem>
+		<browse>browse</browse>
+	</node>
+</nodes>

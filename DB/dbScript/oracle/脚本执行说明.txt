@@ -1,0 +1,25 @@
+1修改数据库默认job_queue_processes从1改为40
+run as oracle
+sqlplus / as sysdba
+执行
+ALTER SYSTEM SET job_queue_processes = 40;
+shutdown immediate; 
+startup;
+
+2数据库用户密码　默认为180，超过180天必须改密码或设为没有限制
+run as oracle
+sqlplus / as sysdba
+执行
+SELECT * FROM dba_profiles WHERE profile='DEFAULT' AND resource_name='PASSWORD_LIFE_TIME';
+
+ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;
+
+shutdown immediate; 
+startup;
+
+
+run as oracle
+chmod 755 main.sh
+sh main.sh
+
+

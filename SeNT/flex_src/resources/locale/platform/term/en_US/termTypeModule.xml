@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termTypeModule">
+		<listTitle>Term Type List</listTitle>
+		<typeItem>Type:</typeItem>
+		<typeNameItem>Type Name</typeNameItem>
+		<status>Status</status>
+		<code>Code</code>
+	</node>
+</nodes>

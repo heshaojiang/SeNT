@@ -1,0 +1,231 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow width="400"
+					   height="320"
+					   cornerRadius = "10"
+					   textAlign = "left"
+					   layout = "vertical"
+					   locale = "buttonForm"
+					   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					   xmlns:s = "library://ns.adobe.com/flex/spark"
+					   xmlns:mx = "library://ns.adobe.com/flex/mx"
+					   xmlns:parsley = "http://www.spicefactory.org/parsley" 
+					   xmlns:grg="http://grg.grgbanking.com/platform/">
+
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import platform.common.validator.VControl;
+			import platform.constants.OperationConsts;
+			import platform.menu.constants.MenuLocalKeyConsts;
+			import platform.menu.message.ButtonMsg;
+			import platform.menu.pm.ButtonFormPM;
+			
+			//--------------------------------------
+			//   Property 
+			//--------------------------------------
+			
+			//--------------------------------------
+			//   Property#public 
+			//--------------------------------------
+			
+			[Bindable]
+			/**pm**/
+			[Inject]
+			public var pm:ButtonFormPM = new ButtonFormPM();
+			
+			//--------------------------------------
+			//   Property#private 
+			//--------------------------------------
+			
+			[Bindable]
+			private var buttonTypeData:ArrayCollection = new ArrayCollection([{label: 'button' , value: 'button'} , {label: 'icon' , value: 'icon'}, {label: 'privilege' , value: 'privilege'}]);
+			
+			//--------------------------------------
+			//   Function 
+			//--------------------------------------
+			
+			//--------------------------------------
+			//   Function#public 
+			//--------------------------------------
+			
+			//按照分层规范，不涉及数据模型（menuOrder只是初始化一次性取得无需放到pm中），由view层接受返回消息进行处理
+			/**
+			 * 保存后回调函数
+			 */
+			[MessageHandler(selector="getMaxOrderValueResult")]
+			public function getMaxOrderValueResultHandler(p_msg:ButtonMsg):void
+			{
+				var result:Object = p_msg.result;
+				this.order.value = result as Number;
+				pm.setFromVoOrder(int(result));
+			}
+			
+			[Bindable]
+			private var isIcon:Boolean;
+			
+			private function buttonTypeChangeHandler(p_evt:FlexEvent):void
+			{
+				var comboBox:ComboBox = p_evt.target as ComboBox;
+				if(!comboBox)return;
+				if(comboBox.selectedValue == "icon")
+					isIcon = true;
+				else
+					isIcon = false;
+			}
+			
+			public function init():void
+			{
+				if (titleKey == MenuLocalKeyConsts.ADD_BUTTON_FORM)
+				{
+					pm.getMaxOrderValue();
+				}
+			}
+			
+			//按照分层规范，保存返回之后不涉及数据模型的更新，由view层接受saveResult消息来关闭窗口
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:ButtonMsg):void
+			{
+				close();
+			
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:ButtonMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			//--------------------------------------
+			//   Function#protected 
+			//--------------------------------------
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+			
+			
+			//新增或修改按钮
+			protected function save():void
+			{
+				if (VControl.validateAll(form , validators).length > 0)
+				{
+					return;
+				}
+				pm.save(titleKey == MenuLocalKeyConsts.ADD_BUTTON_FORM ? OperationConsts.ADD : OperationConsts.EDIT);
+				
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+
+		]]>
+	</fx:Script>
+
+	<grg:Form id="form"
+					width="100%"
+					borderVisible = "false" >
+		<grg:FormItem width="100%"
+							textAlign = "left"
+							locale = "subSystem"
+							required = "true">
+			<grg:ROComboBox id="subSystem" selectedValue="@{pm.buttonInfo.subSystem}"
+								service="subsystemService" method="getSubsystemList" 
+								labelField="sysName" valueField="sysName"
+								width="180"/>
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+							textAlign = "left"
+							locale = "buttonName"
+							required = "true">
+			<grg:TextInput id="i18nName"
+							   name = "i18nName"
+							   text = "@{pm.buttonInfo.i18nName}"
+							   required = "true"
+							   width="245" maxChars="32"
+							   fontFamily = "Arial"
+							   maxnum = "32"
+							   vtype = "maxchars" />
+		</grg:FormItem>
+
+		<grg:FormItem width="100%"
+							textAlign = "left"
+							locale = "buttonCode"
+							required = "true">
+			<grg:TextInput id="buttonCode"
+							   text = "@{pm.buttonInfo.buttonCode}"
+							   required = "true"
+							   width="245"
+							   maxnum = "100" maxChars="100"
+							   vtype = "maxchars" />
+		</grg:FormItem>
+
+		<grg:FormItem width="100%"
+							textAlign = "left"
+							locale = "buttonType">
+			<grg:ComboBox id="buttonType"
+							  dataProvider = "{buttonTypeData}"
+							  selectedValue = "@{pm.buttonInfo.buttonType}"
+							  width="180" valueCommit="buttonTypeChangeHandler(event)"
+							  labelField = "label"
+							  valueField = "value" />
+		</grg:FormItem>
+		<grg:FormItem width="100%" visible="{isIcon}" includeInLayout="{isIcon}"
+					  textAlign = "left"
+					  locale = "iconURL">
+			<grg:TextInput text = "@{pm.buttonInfo.iconURL}"
+						   width="245"
+						   maxnum = "400" maxChars="400"
+						   vtype = "maxchars" />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+							textAlign = "left"
+							locale = "buttonOrder">
+			<grg:NumericStepper id="order"
+									name = "order"
+									minimum = "1"
+									value = "@{pm.buttonInfo.order}"
+									maximum = "9999"
+									stepSize = "1" />
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup width="100%"
+			  gap="10"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn" click = "save()"
+							locale = "saveButton"
+							iconVisible="false"
+							 />
+		</s:BorderContainer>
+		<!--<grg:Button click = "pm.reset()"
+						locale = "resetButton"
+						iconType = "reset" />-->
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button click = "cancel()"
+							locale = "cancelButton"
+							iconVisible="false"
+							 />
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

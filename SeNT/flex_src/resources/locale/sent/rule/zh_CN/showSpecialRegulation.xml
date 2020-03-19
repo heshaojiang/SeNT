@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="showSpecialRegulation">
+	  <moneyType>币种：</moneyType>
+	  <moneyDenomination>面额：</moneyDenomination>
+	  <result>监控原因：</result>
+	  <source>来源：</source>
+	  <specialType>特殊规则类型：</specialType>
+	  <regulation>冠字号码：</regulation>
+	  <closeButton>关闭</closeButton>
+	  <specialInfo>特殊规则详情</specialInfo>
+	   <close>关闭</close>
+	</node>
+</nodes>

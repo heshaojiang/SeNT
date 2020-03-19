@@ -1,0 +1,24 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtOpenModule">
+		<listTitle>Modül Listesi</listTitle>
+		<termId>Terminal Id</termId>
+		<termType>Terminal Tipi</termType>
+		<orgId>Şube</orgId>
+		<orgName>Şube Adı</orgName>
+		<brand>Marka</brand>
+		<fullTime>Tam Zamanlı</fullTime>
+		<hardTime>Kısmi Hizmet Zamanı</hardTime>
+		<resTime>Kaynak Zamanı</resTime>
+		<conTime>İletişim Zamanı</conTime>
+		<breakTime>Kesinti Süresi</breakTime>
+		<mainTime>Ekipman Bakım Zamanı</mainTime>
+		<stopTime>Zaman Durdur</stopTime>
+		<open>Aç</open>
+		<order>Sıra</order>
+		<org>Şube</org>
+		<beginDate>Başlangıç Zamanı</beginDate>
+		<endDate>Bitiş Zamanı</endDate>
+		<export>Aktar</export>
+	</node>
+</nodes>

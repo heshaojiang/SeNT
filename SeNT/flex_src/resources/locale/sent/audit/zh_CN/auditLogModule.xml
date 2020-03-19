@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+    <node locale="auditLogModule">
+        <applyId>申请编号：</applyId>
+        <applyType>申请类型：</applyType>
+        <applyStatus>审核状态：</applyStatus>
+        <applayDate>审批时间：</applayDate>
+        <to>至</to>
+        <applyNote>审批说明</applyNote>
+        <username>审批人</username>
+        <operators>操作</operators>
+      <titlemsg>规则下发明细</titlemsg>
+      <regulation>规则</regulation>
+    </node>
+</nodes>

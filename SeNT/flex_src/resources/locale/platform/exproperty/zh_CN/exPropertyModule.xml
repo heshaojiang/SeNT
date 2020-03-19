@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="exPropertyModule">
+		<listTitle>扩展属性列表</listTitle>
+		
+		<i18nName>显示标题</i18nName>
+		<table>表名：</table>
+		<propertyName>属性名</propertyName>
+		<fieldName>字段名</fieldName>
+		<inputType>录入控件</inputType>
+		<required>必填</required>
+		<status>状态</status>
+		<order>排序号</order>
+		<listDisplay>列表中显示</listDisplay>
+		<titlemsg>扩展属性</titlemsg>
+	</node>
+</nodes>

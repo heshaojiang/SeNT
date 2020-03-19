@@ -1,0 +1,306 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Edraw Office Viewer Component Demo - EdrawSoft</title>
+<style>
+<!--
+.Hlink {cursor: hand; text-decoration: underline; color: #0066CC; font-weight:normal;}
+-->
+</style>
+</head>
+
+<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
+<!--
+ 
+function CreateWord()
+{
+		document.all.OA1.CreateNew("Word.Application");
+}
+
+function CreateExcel()
+{
+		document.all.OA1.CreateNew("Excel.Application");
+}
+
+function CreatePpt()
+{
+		document.all.OA1.CreateNew("PowerPoint.Application");
+}
+
+function OpenFromLocal()
+{
+		document.all.OA1.OpenFileDialog();
+		//You can call the Open method to open silently.
+}
+
+function OpenFromServer()
+{
+		var sPath= window.prompt("Type the file url:", "http://www.ocxt.com/demo/samples/sample.doc");
+		document.all.OA1.Open(sPath);
+		//document.all.OA1.Open(sPath, "Word.Application");
+		//document.all.OA1.Open(sPath, "Excel.Application");
+		//document.all.OA1.Open(sPath, "PowerPoint.Application");
+		//document.all.OA1.Open(sPath, "Visio.Application");
+		//document.all.OA1.Open(sPath, "MSProject.Application");
+}
+
+
+function OpenFromServerByPath(sPath)
+{
+		document.all.OA1.Open(sPath);
+}
+
+function PrintDoc()
+{
+		if(document.all.OA1.IsOpened()){
+			document.all.OA1.PrintDialog();
+		}
+}
+
+function PrintPreview()
+{
+		if(document.all.OA1.IsOpened()){
+			document.all.OA1.PrintPreview();
+		}
+}
+
+function ProtectDoc()
+{
+		if(document.all.OA1.GetCurrentProgID() != "PowerPoint.Application")
+		{
+			if(document.all.OA1.IsOpened()){
+				if(document.all.OA1.GetCurrentProgID() == "Word.Application"){
+							document.all.OA1.ProtectDoc(2);//wdAllowOnlyFormFields
+				}
+				else if(document.all.OA1.GetCurrentProgID() == "Excel.Application"){
+					document.all.OA1.ProtectDoc(1);
+				}
+			}
+	 }
+	 else
+		{
+			document.all.OA1.SlideShowPlay(true);
+		}
+}
+
+function UnProtectDoc()
+{
+		if(document.all.OA1.GetCurrentProgID() != "PowerPoint.Application")
+		{
+			if(document.all.OA1.IsOpened())
+			{
+				document.all.OA1.UnProtectDoc();
+			}
+		}
+		else
+		{
+			document.all.OA1.SlideShowExit();
+		}
+}
+
+function DocIsDirty()
+{
+		if(document.all.OA1.IsOpened()){
+			if(document.OA1.IsDirty)
+			{
+					window.alert("The file has been modified!");
+			}
+			else{
+					window.alert("The file hasn't been modified!");
+			} 
+		}
+}
+
+function ShowHideToolbar()
+{
+		if(document.all.OA1.IsOpened()){
+				var x = document.OA1.Toolbars; 
+				document.OA1.Toolbars= ! x;
+		}
+}
+
+function DisableHotKey()
+{
+		if(document.all.OA1.GetCurrentProgID() == "Word.Application"){
+			if(document.all.OA1.IsOpened()){
+				document.all.OA1.WordDisableSaveHotKey(true);
+				document.all.OA1.WordDisablePrintHotKey(true);
+				document.all.OA1.WordDisableCopyHotKey(true);
+			}
+		}
+		else
+		{
+			window.alert("The method doesn't work for the MS Excel, PowerPoint, Project and Visio!");
+		}
+}
+
+function DisableRightClick()
+{
+		if(document.all.OA1.IsOpened()){
+			document.all.OA1.DisableViewRightClickMenu(true);
+		}
+}
+
+function SaveAs()
+{
+		if(document.all.OA1.IsOpened()){
+			document.all.OA1.SaveFileDialog();
+			//You can call the SaveAs method to save silently.
+		}
+}
+
+function SavetoServer()
+{
+	if(document.OA1.IsOpened)
+	{
+		document.OA1.SetAppFocus();
+		document.OA1.HttpInit();	
+		var sFileName = document.OA1.GetDocumentName();
+
+		document.OA1.HttpAddPostOpenedFile (sFileName); //save as the same file format with the sFileName then upload
+		//document.OA1.HttpAddPostOpenedFile (sFileName, 12); //save as docx file then upload
+		//document.OA1.HttpAddPostOpenedFile (sFileName, 0); //save as doc file then upload
+		//document.OA1.HttpAddPostOpenedFile (sFileName, -4143); //save as xls file then upload
+		//document.OA1.HttpAddPostOpenedFile (sFileName, 51); //save as xlxs file then upload
+		
+		document.OA1.HttpPost("http://www.ocxt.com/demo/upload_weboffice.php");
+		if(document.OA1.GetErrorCode() == 0)
+		{		
+			var sPath = "Save successfully! You can download it at http://www.ocxt.com/demo/" + sFileName;
+			window.alert(sPath);
+		}	
+	}
+	else{
+		window.alert("Please open a document firstly!");
+	}
+}
+
+function CloseDoc()
+{
+		if(document.OA1.IsOpened)
+		{
+			document.all.OA1.ExitOfficeApp();
+		}
+}
+
+function VBAProgramming()
+{
+		if(document.OA1.IsOpened)
+		{			
+			if(document.all.OA1.GetCurrentProgID() == "Word.Application"){
+				var objWord = document.OA1.ActiveDocument;
+				var range = objWord.Range(0,0);
+				var WTable = objWord.Tables.Add(range, 3,3);
+				WTable.Cell(1,1).Range.Font.Name = "Times New Roman";		   
+				WTable.Cell(1,1).Range.Text = "Automation 1";    
+				WTable.Cell(1,2).Range.Font.Size = 18;    
+				WTable.Cell(1,2).Range.Bold = true;   
+				WTable.Cell(1,2).Range.Font.Italic = true;  
+				WTable.Cell(1,2).Range.Text = "Automation 2";     
+				WTable.Cell(2,1).Range.ParagraphFormat.Alignment = 1; // 0= Left, 1=Center, 2=Right   
+				WTable.Cell(2,1).Range.Font.Name = "Arial";   
+				WTable.Cell(2,1).Range.Font.Size = 12;   
+				WTable.Cell(2,1).Range.Bold = false;   
+				WTable.Cell(2,1).Range.ParagraphFormat.Alignment = 2;     
+				WTable.Cell(3,3).Range.Font.Name = "Times New Roman";    
+				WTable.Cell(3,3).Range.Font.Size = 14;    
+				WTable.Cell(3,3).Range.Bold = true;    
+				WTable.Cell(3,3).Range.Font.Underline = true;  
+				WTable.Cell(3,3).Range.ParagraphFormat.Alignment = 0;  
+				WTable.Cell(3,2).Range.Text = "Automation 3";
+			}
+			else if(document.all.OA1.GetCurrentProgID() == "Excel.Application"){
+				var objExcel = document.OA1.GetApplication();	
+				var worksheet = objExcel.ActiveSheet;
+				worksheet.cells(1,1).value ="100";
+				worksheet.cells(1,2).value ="101";
+				worksheet.cells(1,3).value ="102";
+				worksheet.cells(2,1).value ="103";
+				worksheet.cells(2,2).value ="104";
+				worksheet.cells(2,3).value ="105";
+			}
+		}
+}
+
+function OA1_NotifyCtrlReady() 
+{	
+		//document.OA1.ShowRibbonTitlebar(false);
+		//If you want to open a document when the page loads, you should put the code here.
+		//document.all.OA1.Open("http://www.ocxt.com/demo/samples/sample.doc");
+}
+
+function OA1_BeforeDocumentOpened()
+{
+		document.OA1.DisableFileCommand(1, false);//wdUIDisalbeOfficeButton
+		document.OA1.DisableFileCommand(2, false);//wdUIDisalbeNew
+		document.OA1.DisableFileCommand(4, false);//wdUIDisalbeOpen
+		//document.OA1.DisableFileCommand(16, true);//wdUIDisalbeSave
+		//document.OA1.DisableFileCommand(32, true);//wdUIDisalbeSaveAs
+}
+
+function OA1_DocumentOpened()
+{
+		//You can do the office automation here
+		//var objWord = document.OA1.ActiveDocument;
+		//objWord.Content.Text = "You can do the office Automation with the Edraw Viewer Component.";
+		document.all.OA1.SetAppFocus();
+}
+
+function OA_DocumentBeforePrint()
+{
+    //window.alert("OA_DocumentBeforePrint");
+}
+
+function OA_WindowBeforeRightClick()
+{
+    //window.alert("OA_WindowBeforeRightClick");
+}
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=OA1 EVENT=NotifyCtrlReady>
+<!--
+ OA1_NotifyCtrlReady();
+//-->
+</SCRIPT>
+
+<script language="javascript" for="OA1" event="DocumentOpened()"> 
+  OA1_DocumentOpened();
+</script>
+
+<script language="javascript" for="OA1" event="BeforeDocumentOpened()"> 
+  OA1_BeforeDocumentOpened();
+</script>
+
+<script language="javascript" for="OA1" event="DocumentBeforePrint()"> 
+  OA_DocumentBeforePrint();
+</script>
+
+<script language="javascript" for="OA1" event="WindowBeforeRightClick()"> 
+  OA_WindowBeforeRightClick();
+</script>
+
+<body>
+
+<table border="1" width="100%" height="100%" id="table1" bordercolorlight="#008080" bordercolordark="#008080" cellspacing="1">
+	<tr>
+		<td bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" rowspan="18" width="100%">
+		<object classid="clsid:7677E74E-5831-4C9E-A2DD-9B1EF9DF2DB4" id="OA1" width="100%" height="100%" codebase="resources/officeviewer.cab#7,5,0,357">
+			<param name="Toolbars" value="-1">
+			<param name="LicenseName" value="30daytrial">
+			<param name="LicenseCode" value="EDWD-3333-2222-1111">
+			<param name="BorderColor" value="15647136">
+			<param name="BorderStyle" value="2">
+		</object>
+		<script language="JavaScript" type="text/javascript" src="NoIEActivate.js"></script>
+		</td>
+	</tr>
+</table>
+
+<p>Please make sure your computer has installed the Microsoft Office. If you 
+find any question or suggest, please feel free to <a href="http://www.ocxt.com/">
+contact us</a>.</p>
+
+</body>
+
+</html>

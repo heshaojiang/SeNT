@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：自助银行信息管理<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "transactionDetailForm">
+	    <showDetail>Transaction infomation</showDetail>
+	    <orgName>Org name:</orgName>
+		<termId>Term id:</termId>
+		<termType>Term type:</termType>
+		<brand>Term brand:</brand>
+		<txnId>Transaction type:</txnId>
+		<txnDate>Date:</txnDate>
+		<txnAmount>Amount:</txnAmount>
+		<pan>Account:</pan>
+		<panIn>Transfer into account</panIn>
+		<apissn>APIS SN:</apissn>
+		<termSn>SN:</termSn>
+		<txnResult>Result:</txnResult>
+		<cardType>Card type:</cardType>
+		<operationId>Operation:</operationId>
+		<cardTypeIn>Into account card type:</cardTypeIn>
+		<cardKind>Card kind:</cardKind>
+		<cardId>Card id:</cardId>
+		<fundType>Currency:</fundType>
+		<abisrespCode>ABIS response code:</abisrespCode>
+		<apisrespCode>APIS response code:</apisrespCode>
+		<abissn>ABIS SN:</abissn>
+		<inCome>In come:</inCome>
+		<txnType>Transaction type:</txnType>
+		<acqCode>ACQ Code:</acqCode>
+		<issCode>ISS Code:</issCode>
+		<statFlag>Is stat:</statFlag>
+		<txnCardFlag>Card flag:</txnCardFlag>
+	</node>
+</nodes>

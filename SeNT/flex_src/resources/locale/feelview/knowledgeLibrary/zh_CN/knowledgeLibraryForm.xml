@@ -1,0 +1,11 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "knowledgeLibraryForm">
+		<addAssetInputForm>新增知识库信息</addAssetInputForm>
+		<updateAssetInputForm>修改知识库信息</updateAssetInputForm>
+		<tittleItem>主题</tittleItem>
+		<contentItem>内容</contentItem>
+		<uploadItem>附件</uploadItem>
+		<browse>浏览</browse>
+	</node>
+</nodes>

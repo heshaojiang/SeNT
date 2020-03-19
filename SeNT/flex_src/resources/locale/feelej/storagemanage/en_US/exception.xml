@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "storagemanage">
+		<!-- <existKey>This Key has already exists!</existKey> -->
+		<menuNameNotNull>Button Name Can Not Be Null!</menuNameNotNull><!-- Move to menu -->
+		<existedMenuName>The Menu Name has already existed. Please change the Menu Name and submit again. </existedMenuName>
+		<nameAlreadyExisted>The Button Name has already existed. Please change the Button Name and submit again. </nameAlreadyExisted>
+		<menuURLValidate> URL can not contain  single quotation marks</menuURLValidate>
+	</node>
+</nodes>

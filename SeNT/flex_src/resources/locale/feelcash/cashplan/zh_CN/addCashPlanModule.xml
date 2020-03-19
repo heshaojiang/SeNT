@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="addCashPlanModule">
+		<addCashPlanForm>新增加钞计划</addCashPlanForm>
+		<updateCashPlanForm>修改编号为[|]的加钞计划</updateCashPlanForm>
+		<terminalCode>终端编号：</terminalCode>
+		<cashPlanDate>加钞日期：</cashPlanDate>
+		<cashPlanType>加钞类型：</cashPlanType>
+		<description>备 注：</description>
+		<organization>机构：</organization>
+		<selectionTerminals>待选终端设备列表</selectionTerminals>
+		<selectedTerminals>选定终端设备列表</selectedTerminals>
+		<filterConditionType>过滤类型:</filterConditionType>
+		<filterCondition>过滤条件:</filterCondition>
+		<terminalId>终端编号</terminalId>
+		<terminalAddress>终端地址</terminalAddress>
+		<dateNotLessThenNow>选择日期不能小于当前日期！</dateNotLessThenNow>
+		
+		<addCashPlangGroupForm>批量新增计划</addCashPlangGroupForm>
+		<selectPlanDate>选择日期加入到批量计划列表</selectPlanDate>
+		<planDateLabel>加钞日期:</planDateLabel>
+		<planGroup>批量计划列表</planGroup>
+		<planDate>加钞日期</planDate>
+		<delOperation>删除</delOperation>
+		
+		<termCode>终端编号</termCode>
+		<termAddr>终端安装地址</termAddr>
+		<selectedTerminalsTitle>选定终端设备列表</selectedTerminalsTitle>
+		<selectionTerminalsTitle>待选终端设备列表</selectionTerminalsTitle>
+		
+		<title1>临时计划</title1>
+		<title2>多日计划</title2>
+	</node>
+</nodes>

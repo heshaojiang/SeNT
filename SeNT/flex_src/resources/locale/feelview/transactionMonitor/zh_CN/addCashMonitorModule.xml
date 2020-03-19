@@ -1,0 +1,44 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：清机加钞监控<br>
+		Create Time：2011-9-13<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "addCashMonitorModule">
+		<listTitle>清机加钞监控列表         .双击一条记录可进入详情页面.</listTitle>
+		<addCashTitle>加钞事件查询</addCashTitle>
+		<searchItem>搜索关键字</searchItem>
+		<orgIdItem>所属网点</orgIdItem>
+		<termIdItem>终端编号：</termIdItem>
+		<tbtermIdItem>终端编号</tbtermIdItem>
+		<addCashAmountItem>加钞总金额（元）</addCashAmountItem>
+		<addCashNumItem>加钞总张数</addCashNumItem>
+		<addCashDateItem>加钞日期：</addCashDateItem>
+		<tbaddCashDateItem>加钞日期</tbaddCashDateItem>
+		<toItem>至</toItem>
+		<cashBoxStatusItem>钞箱状态</cashBoxStatusItem>
+		
+		<cashBoxTypeItem>钞箱类型</cashBoxTypeItem>
+		<cashBoxDenominationItem>钞箱面额</cashBoxDenominationItem>
+		<cashBoxCurrencyItem>钞箱币种</cashBoxCurrencyItem>
+		<cashBoxRemainCountItem>钞箱加钞张数</cashBoxRemainCountItem>
+		
+		<showAddCashMonitorDetailForm>清机加钞监控详细信息</showAddCashMonitorDetailForm>
+		<listTitle>清机加钞监控详细信息列表</listTitle>
+		<searchItem>搜索关键字:</searchItem>
+		<termIdItem>终端编号</termIdItem>
+		<orgIdItem>所属网点</orgIdItem>
+		<termTypeItem>设备类型</termTypeItem>
+		<brandItem>设备品牌</brandItem>
+		<cashBoxTypeItem>钞箱类型</cashBoxTypeItem>
+		<cashBoxCurrencyItem>钞箱币种</cashBoxCurrencyItem>
+		<addCashAmountItem>加钞总金额</addCashAmountItem>
+		<addCashNumItem>加钞总张数</addCashNumItem>
+		<addCashDateItem>加钞日期</addCashDateItem>
+		<cashBoxStatusItem>钞箱状态</cashBoxStatusItem>
+		<createDateItem>报文上传时间</createDateItem>
+		<cashBoxDenominationItem>钞箱面额（元）</cashBoxDenominationItem>
+		<cashBoxRemainCountItem>钞箱加钞张数</cashBoxRemainCountItem>
+		<operateItem>操作</operateItem>
+	</node>
+</nodes>

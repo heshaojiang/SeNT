@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="storageManageModule">
+		<spacesize>Space Size:</spacesize>
+		<filepath>Journal File Path:</filepath>
+		<filenum>File Num:</filenum>
+		<usedspace>Used Space:</usedspace>
+		<freespace>Free Space:</freespace>
+		<freedays>Free Days:</freedays>
+		<filekeepmonths>File Keep Months:</filekeepmonths>
+		<alarmpercent>Alarm Percent:</alarmpercent>
+		<autocleantime>Auto Clean Time:</autocleantime>
+		<recyclebinpath>Recyclebin Path:</recyclebinpath>
+		<recyclebinsize>Recyclebin Used Space:</recyclebinsize>
+		<recyclebinkeepdays>Recyclebin File Keep Days:</recyclebinkeepdays>
+        <backuppath>Backup Path:</backuppath>
+		<one>Num</one>
+		<month>Month</month>
+		<big>Big Than</big>
+		<alert>% Alerting</alert>
+		<day>Day</day>
+		<everyDay>Every Day</everyDay>
+		<diskspace>Disk Space</diskspace>
+		<recyclebinspace>Recyclebin Space</recyclebinspace>
+		<title1>Chart 1:Journal Space Used Picture</title1>
+		<title2>Chart 2:Recyclebin Space Used Picture</title2>
+		<pice1_free>Free Space</pice1_free>
+		<pice1_used>Used Space</pice1_used>
+		<pice2_free>Free Space</pice2_free>
+		<pice2_used>Used Space</pice2_used>
+		<used> used </used>
+		<free> free </free>
+        <journalIconDesc>Journal Space</journalIconDesc>
+        <backupIconDesc>Backup Space</backupIconDesc>
+        <garbageIconDesc>Recycle Bin</garbageIconDesc>
+        <spaceStatus>Space Status</spaceStatus>
+        <spaceConfig>Space Config</spaceConfig>
+	</node>
+</nodes>

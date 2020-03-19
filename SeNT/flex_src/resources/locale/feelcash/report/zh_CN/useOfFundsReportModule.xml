@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="useOfFundsReportModule">
+		<daysPreLabel>最近 :</daysPreLabel>
+		<daysNextLabel>天</daysNextLabel>
+		<chartTitle>资金使用趋势图</chartTitle>
+		<datagridTitle>成本分析列表</datagridTitle>
+		<culomnPlanDate>加钞日期</culomnPlanDate>
+		<amount>资金(万)</amount>
+		<sumActualAmount>加钞总金额</sumActualAmount>
+		<sumCwdAmount>取款总金额</sumCwdAmount>
+		<sumDepAmount>存款总金额</sumDepAmount>
+		<sumBackAmount>回笼总金额</sumBackAmount>
+		<tenthousand>万</tenthousand>
+	</node>
+</nodes>

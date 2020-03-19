@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtDevErrModule">
+		<listTitle>列表</listTitle>
+		<wtDevErrTitle>部件故障明细查询</wtDevErrTitle>
+		<termId>终端编号：</termId>
+		<allTermType>全部终端类型</allTermType>
+		<allBrand>全部终端品牌</allBrand>
+		<termType>终端类型</termType>
+		<brand>终端品牌</brand>
+		<orgId>机构ID</orgId>
+		<orgName>机构名称</orgName>
+		<org>机构：</org>
+		<devCode>故障部件</devCode>
+		<errCode>设备错误码</errCode>
+		<status>设备部件状态</status>
+		<beginTime>故障时间：</beginTime>
+		<to>至</to>
+		<endTime>故障结束时间</endTime>
+		<errorTime>故障时长</errorTime>
+	</node>
+</nodes>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "card">
+		<existedCardInfo>Card Id Already Exists!</existedCardInfo>
+		<existedCardType>Card Id Already Exists!</existedCardType>
+		<cardIdNotNull>Card Id Can Not Be Empty!</cardIdNotNull>
+		<cardNameNotNull>Card Name Can Not Be Empty!</cardNameNotNull>
+		<bankIdNotNull>Bank Id Can Not Be Empty!</bankIdNotNull>
+		<bankNameNotNull>Bank Name Can Not Be Empty!</bankNameNotNull>
+		<invalidIdLength>Card Id Length Must Be Greater Than 0!</invalidIdLength>
+		<invalidLength>Card Number Length Must Be Greater Than 3!</invalidLength>
+		<applyAtmNotNull>Apply ATM Can Not Be Empty!</applyAtmNotNull>
+		<applyPosNotNull>Apply POS Can Not Be Empty!</applyPosNotNull>
+		<cardTypeNotNull>Card Type Can Not Be Empty!</cardTypeNotNull>
+		<orgIdNotNull>Organization Can Not Be Empty!</orgIdNotNull>
+		<selfNotNull>Self Can Not Be Empty!</selfNotNull>
+		<provinceNotNull>Province Can Not Be Empty!</provinceNotNull>
+		<localNotNull>Local Can Not Be Empty!</localNotNull>
+		<cardBinTooLength>Card Bin Length must not be bigger that Card No length!</cardBinTooLength>
+	</node>
+</nodes>

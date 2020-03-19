@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 自定义人员管理
+     Create Time：2012-3-20   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "specialPersonForm">
+		<addSpecialPersonForm>Özel memurları ekle</addSpecialPersonForm>
+		<updateSpecialPersonForm>Özel memurları değiştirme</updateSpecialPersonForm>
+		<operatorNameItem>özel Kişi adı:</operatorNameItem>
+		<corporatorOrgItem>Organizasyon:</corporatorOrgItem>
+		<contactManItem>isim:</contactManItem>
+		<contactTelItem>Telefon:</contactTelItem>
+		<contactMobileItem>Cep Telefonu:</contactMobileItem>
+		<operatorAddressItem>E-posta Adresi:</operatorAddressItem>
+		<status>Durum:</status>
+		<statusEnable>Etkinleştir</statusEnable>
+		<statusDisable>Devre Dışı Bırak</statusDisable>
+		<prompt>(Örnek:+90 212 1234567)</prompt>
+		<promptS>(Örnek:+90 532 1234567)</promptS>
+		<formatPro>virgül önce boş olmayan</formatPro>
+		<at>@</at>
+		<memoItem>not</memoItem>
+	</node>
+</nodes>

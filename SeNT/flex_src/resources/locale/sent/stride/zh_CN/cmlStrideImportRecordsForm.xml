@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cmlStrideImportRecordsForm">
+
+		<cBagCodeItem>包(袋、箱)号：</cBagCodeItem>
+		<rfidItem>RFID：</rfidItem>
+		<bundleCodeItem>捆号：</bundleCodeItem>
+		<bundleCodesItem>捆号：</bundleCodesItem>
+		<toBankCode>报送银行编码：</toBankCode>
+		
+		<strideExport>导出</strideExport>
+		
+		
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<helpTip>
+1.打“*”项内容不能为空
+2.账号不能重复复
+		</helpTip>			
+	</node>
+</nodes>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node key="SysDatadirMgr" name="数据字典管理" noteEnglish="SysDataDirManage" status="Y" language="zh_CN" order="0">
+	<node key="sent" name="冠字号码追踪" noteEnglish="sent" status="Y" language="zh_CN" order="0">
+		<node key="ruleMgr" name="规则管理" noteEnglish="rule management" status="Y" language="zh_CN" order="0">
+		</node>
+		<node key="transMgr" name="交易管理" noteEnglish="transaction management" status="Y" language="zh_CN" order="0">
+			<node key="addCashOperType" name="加钞清机操作类别" noteEnglish="" status="Y" language="zh_CN" order="100">
+				<node key="0" name="加钞" noteEnglish="" status="Y" language="zh_CN" order="1">
+				</node>
+				<node key="1" name="清机" noteEnglish="" status="Y" language="zh_CN" order="2">
+				</node>
+			</node>
+			<node key="addCashATMType" name="加钞清机ATM类型" noteEnglish="" status="Y" language="zh_CN" order="110">
+				<node key="1" name="取款机" noteEnglish="" status="Y" language="zh_CN" order="1">
+				</node>
+				<node key="2" name="存取款一体机" noteEnglish="" status="Y" language="zh_CN" order="2">
+				</node>
+			</node>
+			<node key="cmlCounterRecordBusinessType" name="柜面交易业务类型" noteEnglish="" status="Y" language="zh_CN" order="120">
+				<node key="1" name="存款"     noteEnglish="" status="Y" language="zh_CN" order="1">
+				</node>
+				<node key="2" name="代理存款" noteEnglish="" status="Y" language="zh_CN" order="2">
+				</node>
+				<node key="3" name="取款"     noteEnglish="" status="Y" language="zh_CN" order="3">
+				</node>
+				<node key="4" name="汇款"     noteEnglish="" status="Y" language="zh_CN" order="4">
+				</node>
+				<node key="5" name="残币兑换" noteEnglish="" status="Y" language="zh_CN" order="5">
+				</node>
+				<node key="6" name="零钞兑换" noteEnglish="" status="Y" language="zh_CN" order="6">
+				</node>
+			</node>
+		</node>
+		<node key="cmlMgr" name="清分管理" noteEnglish="" status="Y" language="zh_CN" order="0">
+			<!--<node key="flowStage" name="流转阶段" noteEnglish="" status="Y" language="zh_CN" order="0">
+				<node key="4008" name="支付给柜员" noteEnglish="" status="Y" language="zh_CN" order="1">
+				</node>
+			</node>
+			--><node key="termType" name="业务类别" noteEnglish="" status="Y" language="zh_CN" order="0">
+				<node key="0" name="清分机" noteEnglish="" status="Y" language="zh_CN" order="1">
+				</node>
+				<node key="1" name="ATM" noteEnglish="" status="Y" language="zh_CN" order="2">
+				</node>
+				<node key="2" name="FSN导入" noteEnglish="" status="Y" language="zh_CN" order="3">
+				</node>
+				<node key="3" name="批次" noteEnglish="" status="Y" language="zh_CN" order="4">
+				</node>
+				<node key="4" name="加钞/清机" noteEnglish="" status="Y" language="zh_CN" order="5">
+				</node>
+				<node key="5" name="柜面交易" noteEnglish="" status="Y" language="zh_CN" order="6">
+				</node>
+			</node>
+		</node>
+	</node>
+</node>

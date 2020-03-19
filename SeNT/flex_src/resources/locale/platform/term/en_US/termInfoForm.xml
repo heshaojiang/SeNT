@@ -1,0 +1,52 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termInfoForm">
+		<addTermInfoForm>Add</addTermInfoForm>
+		<updateTermInfoForm>Edit</updateTermInfoForm>
+		<termInfoFormDetail>Detail</termInfoFormDetail>
+		<termCodeItem>termCode:</termCodeItem>
+		<termSEQItem>termSEQ:</termSEQItem>
+		<counterIdItem>counterId:</counterIdItem>
+		<termTypeItem>termType:</termTypeItem>
+		<brandItem>brand:</brandItem>
+		<modelItem>model:</modelItem>
+		<orgIdItem>orgId:</orgIdItem>
+		<areaIdItem>areaId:</areaIdItem>
+		<netAddrItem>netAddr:</netAddrItem>
+		<netPortItem> netPort:</netPortItem>
+		<saveBoxItem> saveBox:</saveBoxItem>
+		<cwdBoxItem> cwdBox:</cwdBoxItem>
+		<instDateItem> instDate:</instDateItem>
+		<activeDateItem> activeDate:</activeDateItem>
+		<servStartDateItem> servStartDate:</servStartDateItem>
+		<servEndDateItem> servEndDate:</servEndDateItem>
+		<servYearsItem>servYears:</servYearsItem>
+		<termAddrItem>termAddr:</termAddrItem>
+		<serviceTypeItem>AutoAssistant:</serviceTypeItem>
+		<instTypeItem>instType:</instTypeItem>
+		<layTypeItem>layType:</layTypeItem>
+		<isVideoWatchItem>isVideoWatch:</isVideoWatchItem>
+		<isUPSItem>isUPS:</isUPSItem>
+		<isInterATMItem>isInterATM:</isInterATMItem>
+		<busiBeginTimeItem>busiBeginTime:</busiBeginTimeItem>
+		<busiEndTimeItem>busiEndTime:</busiEndTimeItem>
+		<softVersionItem>softVersion:</softVersionItem>
+		<spVersionItem>spVersion:</spVersionItem>
+		
+		<termname>Terminal Name</termname>
+		<connserver>Server Name:</connserver>
+		<connprotocol>Connection Protocol:</connprotocol>
+		<connline>Connection Line:</connline>
+		<vip>IS VIP:</vip>
+		<interventionlevel>Intervention Level:</interventionlevel>
+		<post>Post:</post>
+		<xCoordinate>x Coordinate:</xCoordinate>
+		<yCoordinate>y Coordinate:</yCoordinate>
+		<status>Status:</status>
+		<cashlacknum>Cash Lack Number:</cashlacknum>
+		<cashfullnum>Cash Full Number:</cashfullnum>
+		<coinCashLackNum>Coin Lack Number:</coinCashLackNum>
+		<coinCashFullNum>Coin Full Number:</coinCashFullNum>
+		<seconePort>SECOne Port:</seconePort>
+	</node>
+</nodes>

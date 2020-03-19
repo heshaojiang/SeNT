@@ -1,0 +1,9 @@
+2020-03-12 10:09:44 ERROR[com.grgbanking.platform.core.utils.AESUtil.decrypt():90] - Decrypt error! Error string is 'e263a586fa7b21510fa891bbec9f8400'
+javax.crypto.BadPaddingException: Given final block not properly padded
+	at com.sun.crypto.provider.SunJCE_f.b(DashoA13*..)
+	at com.sun.crypto.provider.SunJCE_f.b(DashoA13*..)
+	at com.sun.crypto.provider.AESCipher.engineDoFinal(DashoA13*..)
+	at javax.crypto.Cipher.doFinal(DashoA13*..)
+	at com.grgbanking.platform.core.utils.AESUtil.decrypt(AESUtil.java:78)
+	at com.grgbanking.platform.core.utils.RegExpUtils.parsePassword(RegExpUtils.java:51)
+	at com.grgbanking.platform.core.utils.RegExpUtils.main(RegExpUtils.java:66)

@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：tmlStatusGroup<br>
+		Create Time：2011-10-13<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlStatusGroupModule">
+		<listTitle>Terminal Status Group List</listTitle>
+		<addTmlStatusGroupForm>Add TmlStatusGroup</addTmlStatusGroupForm>
+		<updateTmlStatusGroupForm>Update TmlStatusGroup</updateTmlStatusGroupForm>
+		<name>name</name>
+		<status>status</status>
+		<order>order</order>
+		<level>level</level>
+		<hql>hql</hql>
+		<sum>sumOfATM</sum>
+		<icon>icon</icon>
+		<expressions>expressions</expressions>
+		<nameLocal>nameLocal</nameLocal>
+	</node>
+</nodes>

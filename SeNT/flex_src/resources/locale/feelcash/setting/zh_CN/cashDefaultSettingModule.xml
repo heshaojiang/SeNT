@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cashDefaultSettingModule">
+		<titleKey>算法参数初始化设置</titleKey>
+	
+		<addcashAmount>默认首次加钞金额:</addcashAmount>
+		<notPermittedAddCash>不予许加钞时间:</notPermittedAddCash>
+		<mostAmount>钞满金额:</mostAmount>
+		<jqxs>加权系数:</jqxs>
+		<leastAmount>超少金额:</leastAmount>
+		<bdje>保底金额:</bdje>
+		<arithmeticID>默认算法:</arithmeticID>
+		<addcashMode>算法取整方式:</addcashMode>
+		<notPermittedClean>不予许清机时间:</notPermittedClean>
+		<jczq>加钞周期:</jczq>
+	</node>
+</nodes>

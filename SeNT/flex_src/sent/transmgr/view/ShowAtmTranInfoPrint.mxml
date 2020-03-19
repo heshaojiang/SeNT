@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*"
+				 dataDictionaryPaths="{[CmlSentInfoConsts.NOTE_TYPE,
+				 CmlSentInfoConsts.CURRENCY,
+				 TransInfoConsts.TRANS_CODE,
+				 TransInfoConsts.TRANS_RESULT]}"
+				 locale="showAtmTranInfoPrint" 
+				 titleKey="title"
+				 close="titlewindow1_closeHandler(event)"
+				 layout="vertical" width="750" height="650" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:pdf="org.alivepdf.pdf.*"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Image;
+			import mx.core.FlexGlobals;
+			import mx.events.CloseEvent;
+			import mx.managers.CursorManager;
+			import mx.printing.FlexPrintJob;
+			import mx.printing.FlexPrintJobScaleType;
+			import mx.utils.ObjectProxy;
+			
+			import org.alivepdf.display.Display;
+			import org.alivepdf.layout.Orientation;
+			import org.alivepdf.layout.Resize;
+			import org.alivepdf.layout.Size;
+			import org.alivepdf.layout.Unit;
+			import org.alivepdf.pdf.PDF;
+			import org.alivepdf.saving.Download;
+			import org.alivepdf.saving.Method;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.transmgr.constants.CmlSentInfoConsts;
+			import sent.transmgr.constants.TransInfoConsts;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlSentInfoPM;  
+			
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;
+			
+			[Bindable]
+			public var printGridSource:ArrayCollection = new ArrayCollection;
+			[Bindable]
+			public var printSwitch:String = "";
+			
+			protected var claimPDF:PDF;
+			
+			private var titleHeight:Number = 0;
+			private var cmlSentInfoHeight:Number = 812;
+			
+			override protected function getDataDictCallback():void
+			{
+				printGridSource.refresh();
+			}
+			
+			/**
+			 * 显示数据字典转换出来的值
+			 */
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "noteType")
+				{
+					currentDataDictPath = CmlSentInfoConsts.NOTE_TYPE;
+				}
+				else if(column.dataField == "currency")
+				{
+					currentDataDictPath = CmlSentInfoConsts.CURRENCY;
+				}
+				return super.transferDataDict(p_item, column);
+			}
+			
+			public function initData(tranId:String,atmTranInfo:Object):void
+			{
+				
+				CursorManager.setBusyCursor();
+				
+				//titleLabel.text="ATM:"+atmTranInfo.termId+"   "+"卡号/帐号:"+atmTranInfo.accountNo+"   "+"交易时间:"+atmTranInfo.tranDate;
+				var condition:Object = {};
+				condition.tranId = tranId;
+				
+				var msg:CmlSentInfoMsg = new CmlSentInfoMsg();
+				msg.args["remoteMethod"]   = "getAllCmlSentInfoByTranId";
+				msg.args["methodPrameter"] = condition;
+				msg.args["resultHandler"]  = "ShowAtmTranInfoPrint.getAllCmlSentInfoByTranIdResult";
+				msg.args["errorHandler"]   = "ShowAtmTranInfoPrint.getAllCmlSentInfoByTranIdError";
+				cmlSentInfoPM.sendCmlSentInfoMsg(msg);
+			}
+			
+			[MessageHandler(selector="ShowAtmTranInfoPrint.getAllCmlSentInfoByTranIdResult")]
+			public function getAllCmlSentInfoByTranIdResult(msg:CmlSentInfoMsg):void
+			{
+				CursorManager.removeBusyCursor();
+				printButton.enabled = true;
+				printGridSource = msg.result as ArrayCollection;
+				
+				
+				
+			}
+			
+			private function createRowNo(oItem:Object,iCol:int):String{
+				var iIndex:int = printGridSource.getItemIndex(oItem) + 1;
+				return String(iIndex);
+			}
+			
+			/**
+			 * 打印
+			 */
+			public function printDataGrid():void
+			{
+				var printer:FlexPrintJob = new FlexPrintJob();
+				if(printer.start()){
+					FlexGlobals.topLevelApplication.addElement(printGrid);
+					printGrid.width = printer.pageWidth;
+					printGrid.height = printer.pageHeight;
+					printer.addObject(printGrid);
+					
+					while(printGrid.validNextPage){
+						printGrid.nextPage();
+						printer.addObject(printGrid);
+					}
+					FlexGlobals.topLevelApplication.removeElement(printGrid);
+					
+					printer.send();
+				}
+				
+				close();
+			}
+			
+			
+			
+			/**
+			 * 打印
+			 */
+			public function print():void
+			{
+				
+				var pageCount:int = Math.ceil(printGrid.height/cmlSentInfoHeight);
+				
+				//(i*cmlSentInfoHeight-(i-1)*32-6+cmlSentInfoHeight-32)
+				if((pageCount*cmlSentInfoHeight-(pageCount-1)*32-6)<printGrid.height){
+					pageCount = pageCount +1;
+				}
+				
+				var printer:FlexPrintJob = new FlexPrintJob();
+				if(printer.start()){
+					
+					for(var i:int = 0;i<pageCount;i++){
+						
+						var bit:BitmapData;
+						if(i==0){
+							//第一张图片需要考虑表头的高度不同等
+							bit = copy2(printGrid,new Rectangle(0,i*cmlSentInfoHeight,printGrid.width,cmlSentInfoHeight-6));
+						}else{
+							bit = copy2(printGrid,new Rectangle(0,i*cmlSentInfoHeight-(i-1)*32-6,printGrid.width,cmlSentInfoHeight-32));
+						}
+						var bmp:Bitmap = new Bitmap(bit);
+						
+						var img:Image=new Image();
+						img.width = printer.pageWidth;
+						img.height = printer.pageHeight;
+						img.source=bmp;
+						FlexGlobals.topLevelApplication.addElement(img);
+						printer.addObject(img);
+						FlexGlobals.topLevelApplication.removeElement(img);
+						
+					}
+					printer.send();
+				}
+				
+				close();
+				
+				
+			}
+			
+			
+			/**
+			 * 导出PDF
+			 */
+			public function exportPdf():void
+			{
+				
+				//标题
+				//var titleBmp:BitmapData = new BitmapData(titleLabel.width,titleLabel.height);
+				//titleBmp.draw(titleLabel,new Matrix());
+				//titleHeight = titleLabel.height;
+				
+				//var bmp:BitmapData = new BitmapData(printGrid.width,printGrid.height);
+				//bmp.draw(printGrid,new Matrix());
+				//var bitmap:Bitmap = new Bitmap(bmp); //将位图转换为显示对象
+				
+				var pageCount:int = Math.ceil(printGrid.height/cmlSentInfoHeight);
+				
+				var autoSize:Size = new Size([cmlSentInfoHeight+50,printGrid.width+50],"Tabloid",[11, 17],[279, 432]);
+				var myPDF:PDF = new PDF(Orientation.LANDSCAPE, Unit.MM,autoSize);
+				myPDF.setDisplayMode(Display.REAL); //显示方式，设置为完全显示
+				
+				for(var i:int = 0;i<pageCount;i++){
+					
+					if(i==0){
+						//第一张图片需要考虑表头的高度不同等
+						var bit2:BitmapData = copy2(printGrid,new Rectangle(0,i*cmlSentInfoHeight,printGrid.width,cmlSentInfoHeight-6));
+						var bmp2:Bitmap = new Bitmap(bit2);
+						myPDF.addPage();
+						myPDF.addImage(bmp2);
+						
+					}else{
+						var bit2:BitmapData = copy2(printGrid,new Rectangle(0,i*cmlSentInfoHeight-(i-1)*32-6,printGrid.width,cmlSentInfoHeight-32));
+						var bmp2:Bitmap = new Bitmap(bit2);
+						myPDF.addPage();
+						myPDF.addImage(bmp2);
+					}
+				}
+				
+				//var bytes:ByteArray=myPDF.save(Method.LOCAL);
+				//var f:FileReference=new FileReference();
+				//f.save(bytes, "atmtraninfo.pdf");
+				myPDF.save(Method.REMOTE,"../createpdf",Download.ATTACHMENT,"atmtraninfo.pdf");
+			}
+			
+			
+			//截取BitmapData
+			private function copy(target:BitmapData,rect:Rectangle):BitmapData
+			{
+				var bitmapData:BitmapData = new BitmapData(rect.width,rect.height);
+				bitmapData.copyPixels(target,rect,new Point(0,0));
+				return bitmapData;
+			}
+			
+			//截取BitmapData
+			private function copy2(target:DisplayObject,rect:Rectangle):BitmapData
+			{
+				var matrix:Matrix = new Matrix(1,0,0,1,-rect.x,-rect.y);
+				rect.x = rect.y = 0;
+				var bitmapData:BitmapData = new BitmapData(rect.width,rect.height);
+				bitmapData.draw(target,matrix,null,null,rect);
+				return bitmapData;
+			}
+			
+			
+
+			protected function titlewindow1_closeHandler(event:CloseEvent):void
+			{
+				CursorManager.removeBusyCursor();
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false" />
+	</fx:Declarations>
+	
+	
+	
+	<s:Scroller height="100%">
+		<s:Group id="pringgroup"  width="100%" height="100%">
+			
+			
+			
+			
+			<s:layout>
+				<s:VerticalLayout gap="0" paddingTop="6" />
+			</s:layout>
+			<!-- <s:Label id="titleLabel" text="ATM交易" fontSize="16" right="0" textAlign="center" width="100%" height="20" fontFamily="宋体" fontWeight="bold"/> -->
+			<!--高度设置为1000000是为了能够显示全部信息，否则页面只能查看几十条信息 -->
+			<mx:PrintDataGrid  width="95%" height="100000" id="printGrid" dataProvider="{printGridSource}" textAlign="center" styleName="DataGrid"> 
+				<mx:columns>
+					<!-- 序号 -->
+					<grg:DataGridColumn headerText="序号" textAlign="center" labelFunction="createRowNo" sortable="false" width="40"/>
+					<!--冠字号码-->
+					<grg:DataGridColumn width="80" textAlign="center" resizable="false" dataField="冠字号码">
+						<grg:itemRenderer>
+							<fx:Component>
+								<grg:Text text="{data.seriaNo}" height="22"/>									
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					<!--冠字号码图片-->
+					<grg:DataGridColumn textAlign="center"  width="280" resizable="false" dataField="冠字号图片">
+						<grg:itemRenderer>
+							<fx:Component>
+								<grg:Image horizontalAlign="center" verticalAlign="middle" source="{data.imageArr}"
+										   width="270" height="22"/>	
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					<!--钞票类别-->
+					<grg:DataGridColumn locale="noteType" headerText="钞票类别"   dataField="noteType"     width="60" labelFunction="{transferDataDict}"/>
+					<!--面额-->
+					<grg:DataGridColumn locale="denomination" headerText="面额" dataField="denomination" width="40" />
+					<!--币种-->
+					<grg:DataGridColumn locale="currency" headerText="币种" dataField="currency" width="50" labelFunction="{transferDataDict}"/>
+					<!--交易日期-->
+					<grg:DataGridColumn locale="tranDate" headerText="交易日期"  dataField="tranDate" width="110" labelFunction="{DataGridColumnUtils.formatYYYYMMDDHHMISS}"/>
+					
+				</mx:columns> 
+			</mx:PrintDataGrid>
+		</s:Group>
+	</s:Scroller>
+	
+	<s:HGroup width="100%" gap="6" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="print" id="printButton" iconType="print" click="print()" enabled="false"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

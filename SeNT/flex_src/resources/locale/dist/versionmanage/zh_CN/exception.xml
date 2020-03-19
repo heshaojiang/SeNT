@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "versionManage">
+		<termIdNotNull>该编号不能为空！</termIdNotNull>
+		<existedDistServerConfigId>服务器名称已经存在！</existedDistServerConfigId>
+		<existedAssignPolicyId>均衡服务器记录已经存在！</existedAssignPolicyId>
+	</node>
+</nodes>

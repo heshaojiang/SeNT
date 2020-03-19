@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<containers:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="creationCompleteHandler()"
+						xmlns:s="library://ns.adobe.com/flex/spark" titleKey = "choose"
+						xmlns:mx="library://ns.adobe.com/flex/mx" locale="reportInfoForm"
+						xmlns:containers="platform.component.containers.*" 
+						layout="vertical" width="600" height="450" horizontalAlign="center"
+						xmlns:controls="platform.component.controls.*" xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.XMLListCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.report.pm.ReportInfoFormPM;
+			import platform.security.renderer.RadioButtonItemRenderer;
+			import platform.vo.security.ModuleVO;
+			
+			public var pm:ReportInfoFormPM;
+			
+			private var _dataSource:ArrayCollection;
+			public function set dataSource(p_data:Object):void
+			{
+				_dataSource = new ArrayCollection();
+				var xlCol:XMLListCollection = p_data as XMLListCollection;
+				if(xlCol)
+					_dataSource.source = convertToModuleVO(xlCol.source, null, 1);
+			}
+			private function convertToModuleVO(p_xl:XMLList, p_moduleVO:ModuleVO, p_level:int):Array
+			{
+				var arr:Array = [];
+				for each(var xml:XML in p_xl){
+					var moduleVO:ModuleVO = new ModuleVO();
+					if(p_moduleVO != null)
+						moduleVO.fill(ObjectUtil.copy(p_moduleVO));
+					switch(p_level){
+						//二级菜单
+						case 1:
+							moduleVO.firstId = xml.@id.toString();
+							moduleVO.firstLabel = xml.@label.toString();
+							break;
+						//三级菜单
+						case 2:
+							moduleVO.secondId = xml.@id.toString();
+							moduleVO.secondLabel = xml.@label.toString();
+							break;
+						//大于三级的菜单
+						default:
+							moduleVO.thirdId = xml.@id.toString();
+							moduleVO.thirdLabel = xml.@label.toString();
+							break;
+					}
+					var xmlList:XMLList = xml.elements("node");
+					if(xmlList.length() > 0)
+						arr = arr.concat(convertToModuleVO(xmlList, moduleVO, p_level + 1));
+					//不够三级菜单的补成三级菜单
+					else if(p_level <= 2)
+						arr = arr.concat(convertToModuleVO(new XMLList(xml), moduleVO, p_level + 1));
+					else
+						arr.push(moduleVO);
+				}
+				return arr;
+			}
+			public function get dataSource():Object
+			{
+				return _dataSource;
+			}
+			
+			private function creationCompleteHandler():void
+			{
+				if(_dataSource && _dataSource.length > 0)
+					groupDG.dataProvider = _dataSource;
+			}
+			
+			private function okClick():void
+			{
+				pm.vo.menuName = radioButtonGroup.selection.owner["data"]["firstLabel"];
+				pm.vo.menuName = pm.vo.menuName  + "/" + radioButtonGroup.selection.owner["data"]["secondLabel"];
+				pm.vo.menuName = pm.vo.menuName  + "/" + radioButtonGroup.selection.owner["data"]["thirdLabel"];
+				pm.vo.menuId = radioButtonGroup.selectedValue ? String(radioButtonGroup.selectedValue) : "";
+				
+				close();
+			}
+			
+			override protected function cancel():void
+			{
+				close();
+			}
+		]]>
+	</fx:Script>
+	<controls:RadioButtonGroup id="radioButtonGroup"/>
+	<controls:GroupDataGrid id="groupDG" width="100%" height="100%"
+							dataFields="{['firstLabel', 'secondLabel', 'thirdLabel']}" 
+							groupFields="{['firstId', 'firstLabel', 'secondId', 'secondLabel']}" 
+							itemRenderer="{[{field:'thirdLabel', itemRenderer:RadioButtonItemRenderer}]}"/>
+	<s:HGroup width="100%"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle"
+			  gap="6">
+		<controls:Button click = "okClick()"
+						locale = "okBtn"
+						 />
+		<controls:Button click = "cancel()"
+						locale = "cancelButton"
+						 />
+	</s:HGroup>
+</containers:TitleWindow>

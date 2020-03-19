@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "tranInfoSettingModule">
+		<titleKey>Time Range Setting for analyzing Transaction information</titleKey>
+		<normaldayMovingDay>Normal day:</normaldayMovingDay>
+		<holidayMovingDay>Holiday:</holidayMovingDay>
+		<weekendMovingDay>Weekend:</weekendMovingDay>
+		<movingDay>Average:</movingDay>
+	</node>
+</nodes>

@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="branchFundOutModule">
+		
+		<titlemsg>网点资金调出</titlemsg>
+		
+		<operDateColon>操作日期：</operDateColon>
+		<to>至</to>
+		<atmNunColon>ATM编号：</atmNunColon>
+		<moneyBoxNumOrCardColon>钞箱号/卡号：</moneyBoxNumOrCardColon>
+		<cashboxNumOrCardColon>钞箱号/卡号：</cashboxNumOrCardColon>
+		<operatorColon>操作人：</operatorColon>
+		<organizationColon>所属机构：</organizationColon>
+		
+		
+		
+		<atmAddCashAtBranch>在行atm加钞</atmAddCashAtBranch>
+		<branchDistCashByKXCashBox>款箱配钞</branchDistCashByKXCashBox>
+		<turnInKXCashBox>款箱上缴</turnInKXCashBox>
+		<atmCashBoxReturn>atm钞箱回笼</atmCashBoxReturn>
+		<payToCounter>支付给柜员</payToCounter>
+		<largeWithdrawal>大额取款</largeWithdrawal>
+		
+		
+		<fundOutType>资金调出类型</fundOutType>
+		<barcodeFlowNum>流转条码</barcodeFlowNum>
+		<cashboxNumOrCard>钞箱号/卡号/柜员</cashboxNumOrCard>
+		<atmNum>ATM号</atmNum>
+		<currFlowStage>所处阶段</currFlowStage>
+		<status>状态</status>
+		<operator>操作人</operator>
+		<operDate>操作时间</operDate>
+		<operations>操作</operations>
+		
+		<viewRowDetailInfo>查看详情</viewRowDetailInfo>
+		<viewMoneyBoxFlowInfo>查看钞箱流转详情</viewMoneyBoxFlowInfo>
+		
+	</node>
+</nodes>

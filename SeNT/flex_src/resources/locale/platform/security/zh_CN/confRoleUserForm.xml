@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "confRoleUserForm">
+	<setUser>设置用户  → [ | ]</setUser>
+	<unselected>未选择</unselected>
+		<selected>已选择</selected>
+	</node>
+</nodes>

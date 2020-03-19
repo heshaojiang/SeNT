@@ -1,0 +1,17 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：TML_STATUS_PHYSICAL表的业务模块<br>
+		Create Time：2011-11-26<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlStatusPhysicalModule">
+		<listTitle>Fiziksel Donanım Durumu</listTitle>
+		<addTmlStatusPhysicalForm>Fiziksel Donanım Durumu Ekle</addTmlStatusPhysicalForm>
+		<updateTmlStatusPhysicalForm>Fiziksel Donanım Durumu Değiştir</updateTmlStatusPhysicalForm>
+		<brandItem>Marka</brandItem>
+		<brandNameItem>Marka Adı</brandNameItem>
+		<moduleItem>Model No</moduleItem>
+		<moduleNameItem>Model Adı</moduleNameItem>
+		<locationItem>Fiziksel Ünite Id</locationItem>
+	</node>
+</nodes>

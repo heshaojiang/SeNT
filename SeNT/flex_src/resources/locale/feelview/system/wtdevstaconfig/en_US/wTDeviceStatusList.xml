@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "wTDeviceStatusList">
+		
+		<!-- 类别明细 -->
+		<WTDeviceStatusList>WTDeviceStatus Detail List</WTDeviceStatusList>
+		<WTDeviceStatusListAdd>Add</WTDeviceStatusListAdd>
+		<WTDeviceStatusListEdit>Edit</WTDeviceStatusListEdit>
+		<devStaCidItem>DeviceStatus</devStaCidItem>
+		<partIdItem>partId</partIdItem>
+		<partCodeItem>partCode</partCodeItem>
+		<memoItem>memo</memoItem>
+		<operateItem>operate</operateItem>
+		<editItem>edit</editItem>
+		<deleteItem>delete</deleteItem>
+		<addWTDeviceStatusList>add</addWTDeviceStatusList>
+	</node>
+</nodes>

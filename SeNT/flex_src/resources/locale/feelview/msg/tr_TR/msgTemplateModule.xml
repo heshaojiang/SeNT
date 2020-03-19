@@ -1,0 +1,9 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgTemplateModule">
+		<listTitle>Bildirim Şablon Listesi</listTitle>
+		<name>Adı</name>
+		<content>İçerik</content>
+		<memo>Açıklama</memo>
+	</node>
+</nodes>

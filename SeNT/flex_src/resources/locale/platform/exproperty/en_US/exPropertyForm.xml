@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "exPropertyForm">
+		<propertyName>Property Name:</propertyName>
+		<table>Table Name:</table>
+		<fieldName>Field Name:</fieldName>
+		<entityClassProperty>Class Property Name:</entityClassProperty>
+		<i18nName>Display Title:</i18nName>
+		<inputType>Input Component:</inputType>
+		<service>Java Service:</service>
+		<method>Java Method:</method>
+		<key>DropDownList Key Field:</key>
+		<label>DropDownList label Field:</label>
+		<paramDatatype>Parameter's Data Type:</paramDatatype>
+		<required>Required:</required>
+		<checkType>Check Type:</checkType>
+		<inputRestrict>Input Restrict:</inputRestrict>
+		<max>Max Word Number:</max>
+		<min>Min Word Number:</min>
+		<status>Status:</status>
+		<listDisplay>If Display:</listDisplay>
+		<note>Note:</note>
+	</node>
+</nodes>

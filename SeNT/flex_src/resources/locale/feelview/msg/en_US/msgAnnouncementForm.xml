@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：MsgAnnouncementForm<br>
+	Create Time：2011-9-21 <br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgAnnouncementForm">
+		<addMsgAnnouncementForm>Add Message Announcement</addMsgAnnouncementForm>
+		<updateMsgAnnouncementForm>Modify Message Announcement</updateMsgAnnouncementForm>
+		<announceMessageForm>Announce Message</announceMessageForm>
+		<showAnnounceMessageDetailForm>Show Announce Message Detail</showAnnounceMessageDetailForm>
+		<orgIdItem>OrgId:</orgIdItem>
+		<titleItem>Title:</titleItem>
+		<contentItem>Content:</contentItem>
+		<sendTypeItem>sendType:</sendTypeItem>
+		<allSend>allSend</allSend>
+		<appointPerson>appointPerson</appointPerson>
+		<chooseOrgIdItem>chooseOrgId:</chooseOrgIdItem>
+		<choosePersonItem>choosePerson:</choosePersonItem>
+	</node>
+</nodes>

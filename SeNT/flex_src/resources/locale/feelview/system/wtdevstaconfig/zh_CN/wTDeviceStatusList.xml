@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "wTDeviceStatusList">
+		
+		<!-- 类别明细 -->
+		<WTDeviceStatusList>模块状态明细信息</WTDeviceStatusList>
+		<WTDeviceStatusListAdd>新增</WTDeviceStatusListAdd>
+		<WTDeviceStatusListEdit>编辑</WTDeviceStatusListEdit>
+		<devStaCidItem>模块状态</devStaCidItem>
+		<partIdItem>设备部件代码</partIdItem>
+		<partCodeItem>设备部件状态码</partCodeItem>
+		<memoItem>设备部件状态说明</memoItem>
+		<operateItem>操作</operateItem>
+		<editItem>编辑</editItem>
+		<deleteItem>删除</deleteItem>
+		<addWTDeviceStatusList>添加</addWTDeviceStatusList>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>			
+	</node>
+</nodes>

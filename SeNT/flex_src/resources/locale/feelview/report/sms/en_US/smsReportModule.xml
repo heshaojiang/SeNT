@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--
+		Description：短信发送报表<br>
+		Create Time：2012-02-23<br>     
+		Author：Ming.Zhang <br>
+		Email : zyming1@grgbanking.com <br>
+		-->
+<nodes>
+	<node locale="smsReportModule">
+		<listTitle>SMS Report List</listTitle>
+		<termId>termId</termId>
+		<dispatchId>dispatchId</dispatchId>
+		<dispatchCreate>dispatchCreate</dispatchCreate>
+		<endTime>endDate</endTime>
+		<msgSendNum>msgSendNum</msgSendNum>
+		<emailSendNum>emailSendNum</emailSendNum>
+		<name>name</name>
+		<mobilePhone>mobilePhone</mobilePhone>
+		<emailAddress>emailAddress</emailAddress>
+		<description>description</description>
+		<to>to</to>
+		<orgId>orgId</orgId>
+		<areaId>areaId</areaId>
+		<finishLevel>Level</finishLevel>
+		<troubleIdItem>Ticket ID</troubleIdItem>
+		<devCode>Device</devCode>
+		<finishOrNotItem>FinishOrNot</finishOrNotItem>
+		<smSystemId>SMSystem ID</smSystemId>
+	</node>
+</nodes>

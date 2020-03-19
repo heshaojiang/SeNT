@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "emailSetting">
+		<encoding>Encoding:</encoding>
+		<serverName>Server Name:</serverName>
+		<user>User:</user>
+		<password>Password:</password>
+		<from>From:</from>
+	</node>
+</nodes>

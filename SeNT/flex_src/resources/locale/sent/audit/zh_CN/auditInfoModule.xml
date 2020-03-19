@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+    <node locale="auditInfoModule">
+    <operators>操作</operators>
+    <applytyp>申请类型：</applytyp>
+    <orgId>申请机构</orgId>
+    <applayDate>申请时间：</applayDate>
+    <to>至</to>
+    <applyName>申请人</applyName>
+    <applyId>申请编号</applyId>
+    <auditStatus>审批状态</auditStatus>
+    <auditRegulation>审核</auditRegulation>
+    <audit>审核</audit>
+    <titlemsg>规则审核</titlemsg>
+    <auditInfo>审核规则</auditInfo>
+    </node>
+ </nodes>

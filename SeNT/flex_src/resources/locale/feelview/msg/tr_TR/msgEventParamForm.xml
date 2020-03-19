@@ -1,0 +1,13 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgEventParamForm">
+		<setMsgEventParam>Olay Parametre Tanım</setMsgEventParam>
+		<eventId>Olay Kimliği</eventId>
+		<param>Parametreler:</param>
+		<paramId>Parametre Kodu</paramId>
+		<paramValue>Parametre Değerleri</paramValue>
+		<flag>İşaret</flag>
+		<unSelectedParamId>Parametre Kodu (Seçili Değil)</unSelectedParamId>
+		<selectedParamId>Parametre Kodu (Seçili)</selectedParamId>
+	</node>
+</nodes>

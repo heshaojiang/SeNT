@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "paramForm">
+		<addParamForm>Add</addParamForm>
+		<updateParamForm>Edit</updateParamForm>
+		<keypathItem>Path:</keypathItem>
+		<itemKey>Item Key:</itemKey>
+		<itemValue>Item Value:</itemValue>
+		<note>English Note:</note>
+		<encryptStatus>Encrypt:</encryptStatus>
+	</node>
+</nodes>

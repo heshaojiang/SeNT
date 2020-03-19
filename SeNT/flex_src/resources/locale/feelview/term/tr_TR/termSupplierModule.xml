@@ -1,0 +1,16 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： termSupplierModule 
+	 Create Time：2011-8-22   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termSupplierModule">
+		<listTitle>Terminal Tedarikçi Listesi</listTitle>
+		<operatorNameItem>Tedarikçi Adı</operatorNameItem>
+		<corporatorOrgItem>Tedarikçi Organizasyon</corporatorOrgItem>
+		<tmlBrandItem>Marka</tmlBrandItem>
+		<tmlTypeItem>Terminal Tipi</tmlTypeItem>
+		<tmlModelItem>Model</tmlModelItem>
+		<status>Durum</status>
+	</node>
+</nodes>

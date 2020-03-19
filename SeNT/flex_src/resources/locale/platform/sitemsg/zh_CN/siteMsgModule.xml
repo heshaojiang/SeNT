@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="siteMsgModule">
+		<receivedMsgListTitle>已收信</receivedMsgListTitle>
+		<sendMsgListTitle>已发信</sendMsgListTitle>
+		
+		<content>内容：</content>
+		<sender>发送者</sender>
+		<publishTime>发布时间：</publishTime>
+		<to>至</to>
+		<status>状态</status>
+		<readTime>阅读时间</readTime>
+		<recipient>接收人</recipient>
+		
+		<operations>操作</operations>
+		<readDetail>阅读详情</readDetail>
+		<markReaded>标记为已阅</markReaded>
+		<response>回信</response>
+	</node>
+</nodes>

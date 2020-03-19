@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardTypeModule">
+		<listTitle>银行卡类型列表</listTitle>
+		<cardId>卡标识：</cardId>
+		<org>所属机构</org>
+		<self>本行卡</self>
+		<local>本地卡</local>
+		<province>本省卡</province>
+		<titlemsg>本行卡表</titlemsg>
+	</node>
+</nodes>

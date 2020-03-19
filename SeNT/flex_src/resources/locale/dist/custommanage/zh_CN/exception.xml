@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "custommanage">
+		<termIdNotNull>该编号不能为空！</termIdNotNull>
+		<existedInterceptScreenATMId>服务器名称已经存在！</existedInterceptScreenATMId>
+		<existedAssignPolicyId>均衡服务器记录已经存在！</existedAssignPolicyId>
+	</node>
+</nodes>

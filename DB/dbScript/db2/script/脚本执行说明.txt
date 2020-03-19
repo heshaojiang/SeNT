@@ -1,0 +1,12 @@
+#1.导入数据库脚本
+run as feelview
+chmod 755 main.sh
+sh main.sh
+
+#2.清理数据库历史脚本，由于db2没有job 采用脚本实现
+clean_database_his.sh  清除90天前历史数据
+
+每天凌晨运行 crontab配置如下:
+将定时作业配置到crotab 中，执行命令 crontab -e  ,  编辑操作vi一 样
+将如下的命令加入到 crotab配置中，并保存。
+30 0 * * * /home/feelview/SeNT/shell/clean_database_his.sh >> /home/feelview/SeNT/shell/clean_database_his.log 2>&1 &

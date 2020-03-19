@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="mainStatusMonitorModule">
+	    <listTitle>实时监控</listTitle>
+	    <termNum>终端数量：</termNum>
+	    <unit>台</unit>
+	    <refreshTime>刷新时间：</refreshTime>
+	    <refresh>刷新</refresh>
+	    <setting>设置</setting>
+	    <pcException>P-C 通讯异常</pcException>
+	    <vcException>V-C 通讯异常</vcException>
+	    
+	    <pcExceptionMSG>PC：通信异常</pcExceptionMSG>
+	    <vcExceptionMSG>VC：通信异常</vcExceptionMSG>
+	    
+	    <view>查看</view>
+	    <pauseNo>例行停机(</pauseNo>
+	    <stopNo>报停设备(</stopNo>
+	    <unknowNo>未知设备(</unknowNo>
+	    <close>)</close>
+	    <realTimeInfo>最新故障信息</realTimeInfo>
+	    
+	    <termId>终端编号</termId>
+	    <hardwareStatus>硬件状态</hardwareStatus>
+	    <processStatus>处理状态</processStatus>
+	    <lineStatus>线路状态</lineStatus>
+	    <runStatus>运行状态</runStatus>
+	    <description>内容描述</description>
+	    <receiveTime>接收时间</receiveTime>
+	    
+	    <topLabelA>您一共选择了(</topLabelA>
+	    <topLabelB>)台设备，点击“查看”进入设备状态监控。</topLabelB>
+	    
+	    <health>健康状态</health>
+	    <operStatus>运营状态</operStatus>
+	    
+	    <pCommError>P-C 通讯异常</pCommError>
+	    <vCommError>V-C 通讯异常</vCommError>
+	    <normal>P-C-V 通讯正常</normal>
+    </node>
+</nodes>

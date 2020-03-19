@@ -1,0 +1,23 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：MsgAnnouncementForm<br>
+	Create Time：2011-9-21 <br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgAnnouncementForm">
+		<addMsgAnnouncementForm>Duyuru Bilgisi Ekle</addMsgAnnouncementForm>
+		<updateMsgAnnouncementForm>Duyuru Bilgisi Değiştir</updateMsgAnnouncementForm>
+		<announceMessageForm>Duyuru</announceMessageForm>
+		<showAnnounceMessageDetailForm>Duyuru Detayları</showAnnounceMessageDetailForm>
+		<orgIdItem>Şube:</orgIdItem>
+		<titleItem>Konu:</titleItem>
+		<contentItem>Yayın İçeriği:</contentItem>
+		<sendTypeItem>Gönderilen:</sendTypeItem>
+		<allSend>Gönder</allSend>
+		<appointPerson>Kişiye Özel</appointPerson>
+		<chooseOrgIdItem>Organizasyon Seçimi:</chooseOrgIdItem>
+		<choosePersonItem>Personel Seçimi:</choosePersonItem>
+	</node>
+</nodes>

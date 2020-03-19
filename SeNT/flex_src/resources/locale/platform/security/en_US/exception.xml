@@ -1,0 +1,26 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "security">
+		<existGroup>This Group name has existed!</existGroup>
+		<existRole>This Role name has existed!</existRole>
+		<groupNameNotNull>User Group Can Not Be Null!</groupNameNotNull>
+		<userNameNotNull>User Name Can Not Be Null!</userNameNotNull>
+		<roleNameNotNull>Role Name Can Not Be Null!</roleNameNotNull>
+		<menuNameNotNull>Menu Name Can Not Be Empty!</menuNameNotNull>
+		<buttonNameNotNull>Button Name Can Not Be Empty!</buttonNameNotNull>
+		<existRole>Already Existed Role!</existRole>
+		<roleLevelNotNull>Role Level Can Not Be Empty!</roleLevelNotNull>
+		<statusNotNull>State Can Not Be Empty!</statusNotNull>>
+		<userCodeNotNull>User Code Can Not Be Empty! </userCodeNotNull>
+		<existUser>User Account Already Existed!</existUser>
+		<oldPwdNotNull>Old Password Can Not Be Empty!</oldPwdNotNull>
+		<newPwdNotNull>New Password Can Not Be Empty!</newPwdNotNull>
+		<twoNewPwdInconsistent>Two New Password Inconsistent!</twoNewPwdInconsistent>
+		<pwdTooSimple>The password is too simple. It must be contain with a-Z, 0-9 and the length can not be less that 6 or more than 20.</pwdTooSimple>
+		<userNotFound>User Does Not Exist!</userNotFound>
+		<invalidUserCode>Invalid user code. The user code should be construct with a-z, A-Z, 0-9 and _, and the length can not be less than 3 or more than 32.</invalidUserCode>
+		<incorrectOldPwd>Wrong Old Password! </incorrectOldPwd>
+		<orgNotNull>org can not be null!</orgNotNull>
+		<areaNotNull>area can not be null!</areaNotNull>
+	</node>
+</nodes>

@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termSeqOptLogModule">
+		<seqno>seqno</seqno>
+		<optlogTitle>optlogTitle</optlogTitle>
+		<optstatu>optstatu</optstatu>
+		<opter>opter</opter>
+		<optdate>optdate</optdate>
+		<note>note</note>
+	</node>
+</nodes>

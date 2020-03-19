@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow  xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="400" height="330" locale="showCmlConnectInfosWin"
+		 xmlns:parsley="http://www.spicefactory.org/parsley"
+		 xmlns:grg="http://grg.grgbanking.com/platform/"
+		 titleKey="showCmlConnectInfosWin">
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.cmlConnectInfos.message.CmlConnectInfosMsg;
+			import cml.cmlConnectInfos.vo.CmlConnectInfosVO;
+			
+			import mx.utils.ObjectProxy;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.formatter.DateFormatter;
+			[Bindable]
+			public var _cmlConnectInfos:ObjectProxy = new ObjectProxy();
+			
+			
+			
+			public function set cmlConnectInfos(p_value:Object):void
+			{
+				_cmlConnectInfos = new ObjectProxy(ObjectUtil.copy(p_value));
+				
+			} 
+			
+			/**
+			 * 根据任务编号清分交接的详细信息
+			 */
+			[MessageHandler(selector="getCmlConnectInfosObjectResult")]
+			public function getCmlConnectInfosDetailResult(p_msg:CmlConnectInfosMsg):void
+			{
+				if(p_msg.result){
+					
+					cmlConnectInfos= p_msg.result;
+				}
+			}
+		]]>
+	</fx:Script>
+	<grg:RoundCornerContainer locale="cmlConnectInfosInfo" width="100%" height="230">
+	
+			<grg:Form width="100%" height="100%">
+				<grg:FormItem width="100%" locale="inPerson">
+					<grg:Text text="{_cmlConnectInfos.inPerson}" 
+							  width="130"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="comeOrg">
+					<grg:Text width="130" text="{_cmlConnectInfos.comeOrg}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="connDate">
+					<grg:Text width="200" text="{DateFormatter.format(_cmlConnectInfos.connDate)}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="connAppeal">
+					<grg:Text width="130" text="{_cmlConnectInfos.connAppeal}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="connMemo">
+					<grg:Text width="130" text="{_cmlConnectInfos.connMemo}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="outPerson">
+					<grg:Text text="{_cmlConnectInfos.outPerson}" 
+							  width="130"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="connMoney">
+					<grg:Text width="165" text="{_cmlConnectInfos.connMoney}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="moneyboxCount">
+					<grg:Text width="165" text="{_cmlConnectInfos.moneyboxCount}"/>
+				</grg:FormItem>
+			</grg:Form>
+	
+	</grg:RoundCornerContainer>
+	<s:HGroup width="100%" gap="6" height="35" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="close"  iconVisible="false" click="close()"/>
+	</s:HGroup>
+</grg:TitleWindow>

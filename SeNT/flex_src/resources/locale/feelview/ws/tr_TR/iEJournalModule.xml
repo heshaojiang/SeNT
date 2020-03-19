@@ -1,0 +1,20 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- * Description：WebService接口getElectronicJournalBeforeToday方法查询<br>
+	 * Create Time：2011-11-24<br>   
+	 * Author：Ming.Zhang  <br>
+	 * Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "iEJournalModule">
+		<listTitle>Jurnal Listesi </listTitle>
+		<terminalIdItem>Terminal Id</terminalIdItem>
+		<startTimeItem>Başlangıç Zamanı</startTimeItem>
+		<endTimeItem>Bitiş Zamanı</endTimeItem>
+		<planexetimeItem>Çalışma Zamanı</planexetimeItem>
+		<exebegintimeItem>Çalışma Başlangıç Zamanı</exebegintimeItem>
+		<exeendtimeItem>Çalışma Bitiş Zamanı</exeendtimeItem>
+		<filenameItem>Dosya Adı</filenameItem>
+		<filePathItem>Dosya Yolu</filePathItem>
+		<operateItem>Tamam</operateItem>
+		<downloadButton>Yükle</downloadButton>
+	</node>
+</nodes>

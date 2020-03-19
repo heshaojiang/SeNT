@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley" 
+		   xmlns:pm="platform.card.pm.*" 
+		   xmlns:message="platform.card.message.*" 
+		   xmlns:delegate="platform.card.delegate.*" 
+		   xmlns:service="platform.card.service.*" 
+		   xmlns:services="platform.services.*" 
+		   xmlns:delegate1="platform.datadir.delegate.*"
+		   xmlns:message1="platform.datadir.message.*" >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<!-- cardInfo module -->
+		<pm:CardInfoFormPM/>
+		<pm:CardInfoModulePM/>
+		<message:CardInfoMsg/>
+		<delegate:CardInfoDelegate/>
+		
+		<!-- data dictionary-->
+		<!--<message1:DataDirMsg/>
+		<delegate1:DataDirDelegate/>-->
+		
+		<!-- remote object -->
+		<!--<services:GRGRemoteObject id="dataDirService" destination="sysDatadirService"/>-->
+		<services:GRGRemoteObject id="cardInfoService" destination="cardInfoService"/>
+	</fx:Declarations>
+</fx:Object>

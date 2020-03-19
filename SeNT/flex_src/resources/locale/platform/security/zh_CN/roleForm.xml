@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "roleForm">
+		<addRoleForm>新增</addRoleForm>
+		<updateRoleForm>编辑</updateRoleForm>
+		<roleName>角色名称：</roleName>
+		<roleLevel>角色级别：</roleLevel>
+		<roleStatus>角色状态：</roleStatus>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<orgName>所属机构：</orgName>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>			
+	</node>
+</nodes>

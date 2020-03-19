@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashPlanStatusForm">
+		<submitPlanForm>提交计划</submitPlanForm>
+		<auditPlanForm>同意计划方案</auditPlanForm>
+		<auditRejectPlanForm>驳回计划方案</auditRejectPlanForm>
+		<confirmPlanForm>同意计划现金方案</confirmPlanForm>
+		<confirmRejectPlanForm>驳回计划现金方案</confirmRejectPlanForm>
+		<suggestionLabel>意见 :</suggestionLabel>
+		<planSubmit>提交</planSubmit>
+		<planAudit>审核</planAudit>
+		<planCashOrder>预约</planCashOrder>
+	</node>
+</nodes>

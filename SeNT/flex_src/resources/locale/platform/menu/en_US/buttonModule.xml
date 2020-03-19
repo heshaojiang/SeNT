@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "buttonModule">
+		<listTitle>Button List</listTitle>
+		<buttonNameKey>Button Name: </buttonNameKey>
+		<buttonName>Button Name</buttonName>
+		<buttonCode>Button Code</buttonCode>
+		<buttonType>Button Type</buttonType>
+		<buttonOrder>Button Order</buttonOrder>
+		<subSystem>Sub System:</subSystem>
+	</node>
+</nodes>

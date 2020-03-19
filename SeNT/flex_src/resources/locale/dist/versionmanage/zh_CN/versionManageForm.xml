@@ -1,0 +1,64 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  Description： agent配置
+	  Create Time：2011-9-15   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "versionManageForm">
+		<addVersionManageForm>新增</addVersionManageForm>
+		<auditVersionManage>审核版本管理计划信息</auditVersionManage>
+		<viewVersionManage>详情</viewVersionManage>
+		<uploadVersionManageForm>上传</uploadVersionManageForm>
+		<uploadATMCVersionManageForm>上传</uploadATMCVersionManageForm>
+		<updateAgentConfigManageForm>修改分发服务器配置信息</updateAgentConfigManageForm>
+		<planidItem>计划id：</planidItem>
+		<versionnameItem>版本名称：</versionnameItem>
+		<versionItem>厂商版本：</versionItem>
+		<versiontypeItem>版本类型：</versiontypeItem>
+		<auditrequestItem>提交审核：</auditrequestItem>
+		<auditpassedItem>审核结果：</auditpassedItem>
+		<termidlistItem>终端编号：</termidlistItem>
+		<termtypeItem>终端类型：</termtypeItem>
+		<modelItem>ATM型号：</modelItem>
+		<orgidItem>机构：</orgidItem>
+		<areaidItem>区域：</areaidItem>
+		<brandItem>终端品牌：</brandItem>
+		<fileidItem>文件ID：</fileidItem>
+		<nextexecutetimeItem>执行时间：</nextexecutetimeItem>
+		<nextexecutetimefromItem>执行起始时间：</nextexecutetimefromItem>
+		<nextexecutetimeendItem>执行结束时间：</nextexecutetimeendItem>
+		<createtimeItem>创建时间：</createtimeItem>
+		<createtimefromItem>创建起始时间：</createtimefromItem>
+		<createtimeendItem>创建结束时间：</createtimeendItem>
+		<invalidtimeItem>作废时间：</invalidtimeItem>
+		<invoketimesItem>执行次数：</invoketimesItem>
+		<BaseInfo>基本信息</BaseInfo>
+		<paramInfo>参数信息</paramInfo>
+		<UploadFileInfo>上传文件信息</UploadFileInfo>
+		<uploadFileItem>上传文件：</uploadFileItem>
+		<fileTypeItem>升级类型：</fileTypeItem>
+		<brandConfigItem>品牌配置：</brandConfigItem>
+		<processmethodItem>升级接口版本：</processmethodItem>
+		<savepathItem>文件临时保存路径：</savepathItem>
+		<atmcprocessDetectItem>查看正在运行进程：</atmcprocessDetectItem>
+		<atmcprocessKillItem>终止进程(文件拷贝前)：</atmcprocessKillItem>
+		<atmcprocessRunItem>启动进程(文件拷贝后)：</atmcprocessRunItem>
+		<needRestartItem>是否需要重启：</needRestartItem>
+		<needExtractItem>是否需要解压：</needExtractItem>
+		<hintOfInputTermid>直接输入终端编号，最多可输入900个字符</hintOfInputTermid>
+		<hintOfInputProcess>输入多个进程名,格式："abc.exe|zxy.exe".</hintOfInputProcess>	
+		<speratedWithCommaSemicolonSpace>请以空格、英文分号、英文逗号分隔</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>或点击按钮进行选择</hintOfClickButton>
+		<useLocalFileFirstItem>优先使用本地更新包：</useLocalFileFirstItem>
+		<localFileURLItem>更新包完整路径：</localFileURLItem>
+		<localFileMD5Item>更新包MD5校验值：</localFileMD5Item>
+		
+		<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+		<selectPackage>选择软件包：</selectPackage>
+		<displayHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+		</displayHelp>
+	</node>
+</nodes>

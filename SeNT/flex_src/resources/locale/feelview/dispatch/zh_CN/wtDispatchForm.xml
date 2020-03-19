@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 工单表 
+	 Create Time：2011-8-27
+	 Author：whui
+	 -->
+<nodes>
+	<node locale = "wtDispatchForm">
+		<redispItem>重新派工</redispItem>
+		<listTitle>工单管理员信息列表</listTitle>
+		<searchItem>关键字：</searchItem>
+		<nameItem>姓名</nameItem>
+		<orgnameItem>所属机构</orgnameItem>
+		<telephoneItem>办公电话</telephoneItem>
+		<mobilephoneItem>移动电话</mobilephoneItem>
+		<mailItem>邮箱地址</mailItem>
+		<workdayItem>值班日期</workdayItem>
+		<workbeginItem>上班时间</workbeginItem>
+		<workendItem>下班时间</workendItem>
+		<manageridItem>管理员编号</manageridItem>
+	</node>
+</nodes>

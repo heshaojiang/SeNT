@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "areaForm">
+		<addAreaForm>新增</addAreaForm>
+		<updateAreaForm>编辑</updateAreaForm>
+		<parentName>上级区域：</parentName>
+		<areaName>区域名称：</areaName>
+		<description>描述：</description>
+		<disOrder>显示位置：</disOrder>
+		<status>状态：</status>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>			
+	</node>
+</nodes>

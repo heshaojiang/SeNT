@@ -1,0 +1,73 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cmlUpreportLogModule">
+		<listTitle>cmlUpreportLog列表</listTitle>
+		
+				
+		<cPartMonthdayItem>cPartMonthday：</cPartMonthdayItem>
+		
+				
+		<iIdItem>iId：</iIdItem>
+		
+				
+		<cMachineTypeItem>cMachineType：</cMachineTypeItem>
+		
+				
+		<iCrhCountItem>iCrhCount：</iCrhCountItem>
+		
+				
+		<cDeviceTypeItem>cDeviceType：</cDeviceTypeItem>
+		
+				
+		<cFileNameItem>cFileName：</cFileNameItem>
+		
+				
+		<cPathcodeItem>cPathcode：</cPathcodeItem>
+		
+				
+		<cFromCodeItem>cFromCode：</cFromCodeItem>
+		
+				
+		<cCashTypeItem>cCashType：</cCashTypeItem>
+		
+				
+		<cTranTimeItem>cTranTime：</cTranTimeItem>
+		
+				
+		<cBusinessInformationItem>cBusinessInformation：</cBusinessInformationItem>
+		
+				
+		<cUpreportTypeItem>cUpreportType：</cUpreportTypeItem>
+		
+				
+		<cBusinessTypeItem>cBusinessType：</cBusinessTypeItem>
+		
+				
+		<cDeviceCodeItem>cDeviceCode：</cDeviceCodeItem>
+		
+				
+		<cStartTimeItem>cStartTime：</cStartTimeItem>
+		
+				
+		<iCountItem>iCount：</iCountItem>
+		
+				
+		<iParentIdItem>iParentId：</iParentIdItem>
+		
+				
+		<cEndTimeItem>cEndTime：</cEndTimeItem>
+		
+				
+		<cBankCodeItem>cBankCode：</cBankCodeItem>
+		
+				
+		<iVersionItem>iVersion：</iVersionItem>
+		
+				
+		<cReserveItem>cReserve：</cReserveItem>
+		
+		
+		<addBtn>新增</addBtn>
+		<delBtn>删除啦</delBtn>
+	</node>
+</nodes>

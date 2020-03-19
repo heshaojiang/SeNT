@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="addCashToATMOffBank">
+		
+		<titlemsg>ATM加钞</titlemsg>
+		
+		<operDateColon>操作日期：</operDateColon>
+		<atmNunColon>ATM编号：</atmNunColon>
+		<moneyBoxNumColon>钞箱号：</moneyBoxNumColon>
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		<operatorColon>操作人：</operatorColon>
+		<organizationColon>所属机构：</organizationColon>
+		
+		<to>至</to>
+		
+		<addCashBoxToATM>ATM加钞</addCashBoxToATM>
+		<atmAddCashAtBranch>在行atm加钞</atmAddCashAtBranch>
+		<branchReceiveScanKXCashBox>款箱接收扫描</branchReceiveScanKXCashBox>
+		
+		
+		<fundInType>资金调入类型</fundInType>
+		<cashboxNum>钞箱号</cashboxNum>
+		<barcodeFlowNum>流转条码</barcodeFlowNum>
+		<currFlowStage>所处阶段</currFlowStage>
+		<flowStage>所处阶段</flowStage>
+		<atmNum>ATM号</atmNum>
+		<status>状态</status>
+		<operator>操作人</operator>
+		<operDate>加钞时间</operDate>
+		<operations>操作</operations>
+		<totalNotes>总金额</totalNotes>
+		<orgName>所属机构</orgName>
+		
+		<viewRowDetailInfo>查看详情</viewRowDetailInfo>
+		<viewMoneyBoxFlowInfo>查看钞箱流转详情</viewMoneyBoxFlowInfo>
+		
+	</node>
+</nodes>

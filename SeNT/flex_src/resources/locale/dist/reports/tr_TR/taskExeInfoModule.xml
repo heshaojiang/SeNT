@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "taskExeInfoModule">
+		<listTitle>Listesi</listTitle>
+		<termid>Terminal ID</termid>
+		<termtype>Terminal Tipi</termtype>
+		<brand>Marka</brand>
+		<orgid>Şubesi</orgid>
+		<orgname>Şubesi</orgname>
+		<begintime>Başlangıç Zamanı</begintime>
+		<endtime>Bitiş Zamanı</endtime>				
+		<timeRangeFrom>Başlangıç Zamanı</timeRangeFrom>
+		<choosetime>Tarih</choosetime>
+		<orgrange>Şubesi</orgrange>
+		<timeRangeTo>Bitiş Zamanı</timeRangeTo>
+		<export>Dışa Aktar</export>
+		<areaid>Alan</areaid>
+		<total>Toplam</total>
+		<year>Yıl</year>
+		<month>Ay</month>
+		<planName>Planı Adı</planName>
+		<taskType>Görev Tipi</taskType>
+		<userCode>Kullanıcı</userCode>
+		<planExeTime>Çalışma Zamanı</planExeTime>
+	    <exeBeginTime>Başlama Zamanı</exeBeginTime>
+	    <exeEndTime>Bitiş Zamanı</exeEndTime>
+	    <taskStatus>Görev Durumu</taskStatus>
+	    <extraDescription>Açıklama</extraDescription>
+		<svrName>Görev Sunucusu</svrName>
+		<fileSvrName>Dosya Sunucusu</fileSvrName>
+		<fileURL>Dosya URL</fileURL>	
+	</node>
+</nodes>

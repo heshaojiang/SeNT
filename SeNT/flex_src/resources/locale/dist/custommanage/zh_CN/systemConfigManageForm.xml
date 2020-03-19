@@ -1,0 +1,64 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  * Description： 操作系统配置
+ * Create Time：2011-9-16   
+ * Author：zhangjinpeng 
+ * Email : zjpeng@grgbanking.com  
+	 -->
+<nodes>
+	<node locale = "systemConfigManageForm">
+		<addAgentConfigManageForm>添加操作系统配置更改计划信息</addAgentConfigManageForm>
+		<updateAgentConfigManageForm>修改分发服务器配置信息</updateAgentConfigManageForm>
+		<planidItem>计划id：</planidItem>
+		<createtimeItem>创建时间：</createtimeItem>
+		<repeattypeItem>计划类型：</repeattypeItem>
+		<everydayexetimeItem>每天执行时间：</everydayexetimeItem>
+		<repeatintervalItem>每次间隔时间：</repeatintervalItem>
+		<plannameItem>计划名称：</plannameItem>
+		<nextexecutetimeItem>执行时间：</nextexecutetimeItem>
+		<termidlistItem>终端编号：</termidlistItem>
+		<taskparaItem>任务指令：</taskparaItem>
+		<taskparaversionItem>任务指令版本：</taskparaversionItem>
+		<maxretrytimesItem>最大重试次数：</maxretrytimesItem>
+		<retryintervalItem>重试秒数：</retryintervalItem>
+		<enabledItem>是否可用：</enabledItem>
+		<termtypeItem>终端类型：</termtypeItem>
+		<modelItem>ATM型号：</modelItem>
+		<orgidItem>机构：</orgidItem>
+		<areaidItem>区域：</areaidItem>
+		<brandItem>终端品牌：</brandItem>
+		<timeoutintervalItem>任务超时时间(小时)：</timeoutintervalItem>
+		<BaseInfo>基本信息</BaseInfo>
+		<SystemInfo>操作系统配置信息</SystemInfo>
+		<termidItem>终端编号：</termidItem>
+		<ipaddressItem>IP地址：</ipaddressItem>
+		<subnetmaskItem>子网掩码：</subnetmaskItem>
+		<gatewayItem>网关：</gatewayItem>
+		<dnsItem>DNS：</dnsItem>
+		<altdnsItem>备用DNS：</altdnsItem>
+		<osversionItem>操作系统版本：</osversionItem>
+		<memorysizeItem>内存大小(M)：</memorysizeItem>
+		<disksizeItem>磁盘空间(G)：</disksizeItem>
+		<soundvolItem>系统音量：</soundvolItem>
+		<systimeItem>系统时间：</systimeItem>
+		<lastmodifytimeItem>最后修改时间：</lastmodifytimeItem>
+		<termidItem>终端编号：</termidItem>
+		<termTypeItem>终端类型：</termTypeItem>
+		<brandItem>终端品牌：</brandItem>
+		<modelItem>设备型号：</modelItem>
+		<orgItem>所属机构：</orgItem>
+		<areaIdItem>所属区域：</areaIdItem>
+		<addSystemConfigManageForm>新增</addSystemConfigManageForm>
+		<hintOfInputTermid>直接输入终端编号，最多可输入900个字符</hintOfInputTermid>
+		<speratedWithCommaSemicolonSpace>请以空格、英文分号、英文逗号分隔</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>或点击按钮进行选择</hintOfClickButton>
+		
+			<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+		<agentPredefNote>注：带"#"部分不会被修改</agentPredefNote>
+		<systemConfigHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+3.#表示维持现状，不改变客户端原有配置
+4.系统音量范围0-100
+		</systemConfigHelp>
+	</node>
+</nodes>

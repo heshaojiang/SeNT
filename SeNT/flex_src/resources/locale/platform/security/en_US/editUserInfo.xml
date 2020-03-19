@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "editUserInfo">
+	    <editUserInfo>Edit User Information</editUserInfo>
+	    <username>username:</username>
+	    <tel>telephone:</tel>
+	    <email>email:</email>
+	    <lastLoginTime>last login time:</lastLoginTime>
+	    <loginTotal>login time:</loginTotal>
+	    <loginFirstLabel></loginFirstLabel>
+	    <loginSecondLabel></loginSecondLabel>
+	    <invalidDate>account invalid date:</invalidDate>
+	    <pwInvalidDate>password invalid date:</pwInvalidDate>
+	</node>
+</nodes>

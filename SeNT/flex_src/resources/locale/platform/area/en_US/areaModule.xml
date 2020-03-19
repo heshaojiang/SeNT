@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "areaModule">
+		<listTitle>Area List</listTitle>
+		<areaColumName>Area Name</areaColumName>
+		<note>Description</note>
+		<status>Status</status>
+		<order>Order</order>		
+	</node>
+</nodes>

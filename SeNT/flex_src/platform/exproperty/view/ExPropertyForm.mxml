@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow locale="exPropertyForm" layout="vertical" width="650" height="410" titleKey="editButton"
+				 dataDictionaryPaths="{[DataDirConsts.YES_OR_NO, DataDirConsts.ENABLE_OR_DISABLE]}"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.manager.ExtendPropertiesManager;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.exproperty.message.ExPropertyMsg;
+			import platform.exproperty.pm.ExPropertyFormPM;
+			[Inject]
+			[Bindable]
+			public var pm:ExPropertyFormPM;
+			
+			//表名下拉列表项
+			[Bindable]
+			private var arrTable:ArrayCollection = new ArrayCollection([{label: 'TML_INFO' , value: 'TML_INFO'} , {label: 'USR_USER' , value: 'USR_USER'} , {label: 'ORG_AREA' , value: 'ORG_AREA'} , {label: 'ORG_INFO' , value: 'ORG_INFO'}]);
+			//录入控件下拉列表项
+//			[Bindable]
+//			private var arrInputType:ArrayCollection = new ArrayCollection([{label: 'TextInput' , value: 'TextInput'} , {label: 'ComboBox' , value: 'ComboBox'} , {label: 'ComboBoxTree' , value: 'ComboBoxTree'}, {label: 'Calendar' , value: 'Calendar'}, {label: 'Time' , value: 'Time'}]);
+			//方法参数的数据类型下拉列表项
+//			[Bindable]
+//			private var arrParamType:ArrayCollection = new ArrayCollection([{label: 'String' , value: 'String'} , {label: 'Integer' , value: 'Integer'} , {label: 'Number' , value: 'Number'}, {label: 'Date' , value: 'Date'}, {label: 'Boolean' , value: 'Boolean'}]);
+			
+			 //是否
+			[Bindable]
+			public var arrYesOrNo:ArrayCollection = new ArrayCollection([]);
+			//启用禁用
+			[Bindable]
+			public var arrEnableOrDisable:ArrayCollection = new ArrayCollection([]);
+			override protected function getDataDictCallback():void
+			{
+				arrYesOrNo = dataDictionaryCache[DataDirConsts.YES_OR_NO];
+				arrEnableOrDisable = dataDictionaryCache[DataDirConsts.ENABLE_OR_DISABLE];
+			} 
+			
+			//修改保存
+			protected function save():void
+			{
+				if (VControl.validateAll(form , validators).length > 0)
+				{
+					return;
+				}
+				pm.save();
+			}
+			
+			
+			//按照分层规范，保存返回之后不涉及数据模型的更新，由view层接受saveResult消息来关闭窗口
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:ExPropertyMsg):void
+			{
+				this.close();
+				
+			}
+		]]>
+	</fx:Script>
+	<s:Group width="100%">
+		<s:layout>
+			<s:HorizontalLayout/>
+		</s:layout>
+		<grg:GRGMultiFormTabContainer width="100" forms="{[form, form1]}">
+			
+			<grg:Form id="form"
+							width="50%"
+							height="100%"
+							paddingTop = "16"
+							textAlign = "left"
+							borderVisible = "false">
+				
+				<grg:FormItem width="100%"
+									textAlign = "left"
+									locale = "propertyName"
+									required = "true">
+					<grg:TextInput id="propertyName" restrict="a-zA-Z"
+									   text = "@{pm.formVo.propertyName}"
+									   required = "true"
+									   width="113"
+									   fontFamily = "Arial"
+									   maxnum = "32"
+									   vtype = "maxchars" />
+				</grg:FormItem>
+				<grg:FormItem width="100%"
+							  textAlign = "left" required = "true"
+							  locale = "table">
+					<grg:ComboBox id="table" width="84"
+								  dataProvider = "{arrTable}"
+								  selectedValue = "@{pm.formVo.table}" 
+								  labelField = "label"
+								  valueField = "value" />
+				</grg:FormItem>	
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "entityClassProperty">
+					<grg:TextInput id="entityClassProperty"
+								   text = "@{pm.formVo.entityClassProperty}"
+								   width="113"
+								   maxnum = "300"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "checkType">
+					<grg:TextInput id="checkType"
+								   text = "@{pm.formVo.checkType}"
+								   width="113"
+								   maxnum = "100"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "inputType">
+					<grg:ComboBox id="inputType"
+								  dataProvider = "{ExtendPropertiesManager.exInputComponents}"
+								  selectedValue = "@{pm.formVo.inputType}"
+								  width="113"
+								  labelField = "label"
+								  valueField = "value" />
+				</grg:FormItem>	
+				
+				<grg:FormItem width="100%"
+									textAlign = "left"
+									locale = "service">
+					<grg:TextInput id="service"
+									   text = "@{pm.formVo.service}"
+									   width="113"
+									   maxnum = "100"
+									   vtype = "maxchars" />
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "method">
+					<grg:TextInput id="method"
+								   text = "@{pm.formVo.method}"
+								   width="113"
+								   maxnum = "100"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				
+			
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "key">
+					<grg:TextInput id="key"
+								   text = "@{pm.formVo.key}"
+								   width="113"
+								   maxnum = "100"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "label">
+					<grg:TextInput id="labelField"
+								   text = "@{pm.formVo.label}"
+								   width="113"
+								   maxnum = "100"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				<grg:FormItem width="100%"
+							 textAlign = "left"
+							 locale = "paramDatatype">
+				   <grg:TextInput id="paramDatatype"
+								  text = "@{pm.formVo.paramDatatype}"
+								  width="113"
+								  maxnum = "300"
+								  vtype = "maxchars" />
+			   </grg:FormItem>
+			</grg:Form>
+			<grg:Form id="form1" width="50%" 
+						height="100%"
+						paddingTop = "16"
+						textAlign = "left"
+						borderVisible = "false">
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "fieldName"
+							  required = "true">
+					<grg:TextInput id="fieldName"
+								   text = "@{pm.formVo.fieldName}"
+								   required = "true"
+								   width="113"
+								   fontFamily = "Arial"
+								   maxnum = "32"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "i18nName"
+							  required = "true">
+					<grg:TextInput id="i18nName"
+								   text = "@{pm.formVo.i18nName}"
+								   required = "true"
+								   width="113"
+								   fontFamily = "Arial"
+								   maxnum = "32"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "inputRestrict">
+					<grg:TextInput id="inputRestrict"
+								   text = "@{pm.formVo.inputRestrict}"
+								   width="113"
+								   maxnum = "100"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "max">
+					<grg:TextInput id="max" numberValue="@{pm.formVo.max}"
+								   width="113"
+								   maxnum = "100"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "min">
+					<grg:TextInput id="min"
+								   numberValue = "@{pm.formVo.min}"
+								   width="113"
+								   maxnum = "100"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+				
+				<grg:FormItem visible="true" includeInLayout="true"
+							  width="100%"
+							  locale = "required">
+					<mx:HBox>
+						<grg:RadioButtonGroup id="required" value="@{pm.formVo.required}"/>
+						<grg:RadioButton id="requiredEnable" groupName="required" dataProvider="{arrYesOrNo}"
+										 value="Y"/>
+						<grg:RadioButton id="requiredDisable" groupName = "required" dataProvider="{arrYesOrNo}"
+										 value="N"/>
+					</mx:HBox>	
+				</grg:FormItem>
+				
+				<grg:FormItem visible="true" includeInLayout="true"
+							  width="100%"
+							  locale = "status">
+					<mx:HBox>
+						<grg:RadioButtonGroup id="status1" value="@{pm.formVo.status}"/>
+						<grg:RadioButton id="statusEnable" groupName="status1" dataProvider="{arrEnableOrDisable}"
+										 value="Y"/>
+						<grg:RadioButton id="statusDisable" groupName = "status1" dataProvider="{arrEnableOrDisable}"
+										 value="N"/>
+					</mx:HBox>	
+				</grg:FormItem>
+				
+				<grg:FormItem visible="true" includeInLayout="true"
+							  width="100%"
+							  locale = "listDisplay">
+					<mx:HBox>
+						<grg:RadioButtonGroup id="listDisplay" value="@{pm.formVo.listDisplay}"/>
+						<grg:RadioButton id="listDisplayYes" groupName="listDisplay" dataProvider="{arrYesOrNo}"
+										 value="Y"/>
+						<grg:RadioButton id="listDisplayNo" groupName = "listDisplay" dataProvider="{arrYesOrNo}"
+										 value="N"/>
+					</mx:HBox>	
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%"
+							  textAlign = "left"
+							  locale = "note">
+					<grg:TextInput id="note"
+								   text = "@{pm.formVo.note}"
+								   width="113"
+								   maxnum = "100"
+								   vtype = "maxchars" />
+				</grg:FormItem>
+			</grg:Form>
+		</grg:GRGMultiFormTabContainer>
+	</s:Group> 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "save()"
+				locale = "saveButton"
+				iconVisible="false"
+				 />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				iconVisible="false"
+				locale = "cancelButton"
+				 />
+		</s:BorderContainer>
+	</s:HGroup> 
+</grg:TitleWindow>

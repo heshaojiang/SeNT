@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="blackRegulationForm">
+	    <addRule>新增</addRule>
+	    <ruleInfo>黑名单规则</ruleInfo>
+	    <regulation>规则：</regulation>
+	    <moneyType>币种：</moneyType>
+	    <moneyDenomination>面额：</moneyDenomination>
+	    <selectPeople>选择下一步处理人：</selectPeople>
+	    <selectTerms>选择要升级的终端：</selectTerms>
+	    <memo>说明</memo>
+	    <attention1>● 打“*”项目内容不能为空</attention1>
+		<attention2>● 黑名单规则只能为十位，如“HD90074520”</attention2>
+		<uncloseAfterSubmit>提交后继续新增</uncloseAfterSubmit>
+		<editRule>编辑</editRule>
+    </node>
+</nodes>

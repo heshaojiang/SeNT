@@ -1,0 +1,9 @@
+节点机版本管理/节点机管理  增加节点机类型
+
+脚本为：
+alterTableFNoder.sql
+init_noderType.sql
+
+如果生产版本进行更新，则手工先执行alterTableFNoder.sql，然后再执行init_noderType.sql即可。
+
+如果尚未上线的，则直接执行main.sh即可。

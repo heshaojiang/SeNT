@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="termParamForm">
+	<updateTermParamForm>设置编号为[|]的终端的参数</updateTermParamForm>
+	<termParamForm>终端参数信息</termParamForm>
+	<termArithmeticParamForm>终端加钞算法参数信息</termArithmeticParamForm>
+	<termIdLabel>终端编号 :</termIdLabel>
+	<arithmeticLabel>加钞算法 :</arithmeticLabel>
+	<leastAmountLabel>钞少金额 :</leastAmountLabel>
+	<mostAmountLabel>钞满金额 :</mostAmountLabel>
+	<notPermittedCleanLabel>不允许清机时间 :</notPermittedCleanLabel>
+	<notPermittedAddCashLabel>不允许加钞时间 :</notPermittedAddCashLabel>
+	<addcashModeCashLabel>加钞额设定方式 :</addcashModeCashLabel>
+	<GDJCJE>固定加钞金额 :</GDJCJE>
+	<PCRJQKJE>平常日净取款金额 :</PCRJQKJE>
+	<PCRTS>平常日天数 :</PCRTS>
+	<ZMJQKJE>周末净取款金额 :</ZMJQKJE>
+	<ZMTS>周末天数 :</ZMTS>
+	<JJRJQKJE>节假日净取款金额 :</JJRJQKJE>
+	<JJRTS>节假日天数 :</JJRTS>
+	<JCZQ>加钞周期 :</JCZQ>
+	<ZDJCJE>最大加钞金额 :</ZDJCJE>
+	<RJJYBS>日均交易笔数 :</RJJYBS>
+	<RJJQKJE>日均净取款金额 :</RJJQKJE>
+	<RJSXFSR>日均手续费收入 :</RJSXFSR>
+	<NWHGLF>年维护管理费 :</NWHGLF>
+	<YHNDKLL>银行年贷款利率 :</YHNDKLL>
+	<JQXS>加权系数 :</JQXS>
+	<BDJE>保底金额 :</BDJE>
+	<ZDMBJYCB>终端每笔交易成本 :</ZDMBJYCB>
+	<SBNJCFY>设备年加钞费用 :</SBNJCFY>
+	<MBJYXHFY>每笔交易消耗费用 :</MBJYXHFY>
+	<PJDKL>平均贷款率 :</PJDKL>
+	<GTMBJYCB>柜台每笔交易成本 :</GTMBJYCB>
+	</node>
+</nodes>

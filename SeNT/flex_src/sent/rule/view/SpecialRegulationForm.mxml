@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:parsley="http://www.spicefactory.org/parsley"
+		 xmlns:grg="http://grg.grgbanking.com/platform/"
+		 layout="vertical" width="400" height="320"
+		 locale="specialRegulationForm" 
+		 creationComplete="doInit()"
+		 >
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import org.utils.IntegerUtils;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.FormUtils;
+			import platform.common.validator.VControl;
+			
+			import sent.rule.message.SpecialRegulationModuleMsg;
+			import sent.rule.pm.SpecialRegulationFormPM;
+			import sent.rule.vo.SpecialRegulationVO;
+			
+			[Inject]
+			[Bindable]
+			public var pm:SpecialRegulationFormPM;
+			
+			[Bindable]
+			public var parentName:String = "";
+			
+			//新增后是否关闭窗口
+			[Bindable]
+			private var uncloseAfterSubmit:Boolean;
+			
+			/**面额**/
+			[Bindable]
+			public var moneyDenominationList:ArrayCollection = new ArrayCollection();
+			
+			/**币种**/
+			[Bindable]
+			public var moneyTypeList:ArrayCollection = new ArrayCollection();
+			
+			/**来源**/
+			[Bindable]
+			public var sourceList:ArrayCollection = new ArrayCollection();
+			
+			/**规则**/
+			[Bindable]
+			public var specialTypeList:ArrayCollection = new ArrayCollection();
+			
+			/**
+			 * 判断规则类型
+			 */
+			[Bindable]
+			public var typeFlag:String;
+			
+			/**
+			 * 规则
+			 */
+			[Bindable]
+			public var regulationFlag:String;
+			
+			 private function doInit():void
+			 {
+				if(typeFlag==null)
+				{
+					singleRegulationLabel.visible=true;
+					singleRegulationLabel.includeInLayout=true;
+					doubleRegulationLabel.visible=false;
+					doubleRegulationLabel.includeInLayout=false;
+					regulation1.text=regulationFlag;
+					doubleRegulationLabel.required=false;
+					regulation2.required=false;
+					regulation3.required=false;
+				}
+				if(typeFlag=="0")
+				{
+					singleRegulationLabel.visible=true;
+					singleRegulationLabel.includeInLayout=true;
+					doubleRegulationLabel.visible=false;
+					doubleRegulationLabel.includeInLayout=false;
+					regulation1.text=regulationFlag;
+				   doubleRegulationLabel.required=false;
+				   regulation2.required=false;
+				   regulation3.required=false;
+					
+				}
+				if(typeFlag=="1")
+				{
+					doubleRegulationLabel.visible=true;
+					doubleRegulationLabel.includeInLayout=true;
+					singleRegulationLabel.visible=false;
+					singleRegulationLabel.includeInLayout=false;
+					singleRegulationLabel.required=false;
+					regulation1.required=false;
+					var arr:Array=regulationFlag.split("-");
+					regulation2.text=arr[0];
+					regulation3.text=arr[1];
+				}
+			}  
+			/**
+			 * 添加特殊规则成功关闭当前窗口
+			 */  
+			
+			[MessageHandler(selector="newSpecialRegulationSaveSuccess")]
+			public function addSpecilHandler(p_msg:SpecialRegulationModuleMsg):void
+			{
+				if(p_msg.result)
+				{
+					if(!uncloseAfterSubmit)
+						close();
+					else
+						FormUtils.resetForm(form);
+				}
+				
+			}
+			
+			/**
+			 *修改特殊规则成功后关闭当前窗口 
+			 */
+			
+			[MessageHandler(selector="updateSpecialRegulationSuccess")]
+			public function updateSpecialHandler(p_msg:SpecialRegulationModuleMsg):void
+			{
+				if(p_msg.result){
+					if(!uncloseAfterSubmit)
+						close();
+						
+					else
+						FormUtils.resetForm(form);
+				}
+			}
+			
+			/**
+			 * 提交前验证
+			 */
+			
+			private function submit():void
+			{
+			 	var specialType:String=specialType.selectedValue;
+				//单规则
+				if(specialType=="0"){
+				
+					regulation.text=regulation1.text;
+				
+					
+				}
+				//范围规则
+				if(specialType=="1")
+				{
+					if(regulation2.text>=regulation3.text)
+					{
+						AlertHandler.alert("regulationLengthNotice");
+						return;
+					}
+					else
+					{
+						regulation.text=regulation2.text+"-"+regulation3.text;
+						regulation.minnum=21;
+						regulation.maxChars=21;
+						regulation.maxnum=21;
+						regulation.vtype="maxchars|minchars";
+					} 
+				} 
+			
+				if( VControl.validateAll(form, validators).length > 0 )
+				{
+					return;
+				} 
+			
+				
+				pm.save();
+			}
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+				
+			}
+		 	private function chooseType():void
+			{
+				var specialType:String=specialType.selectedValue;
+				
+				if(specialType=="0"){
+					
+					singleRegulationLabel.visible=true;
+					singleRegulationLabel.includeInLayout=true;
+					doubleRegulationLabel.visible=false;
+					doubleRegulationLabel.includeInLayout=false;
+					doubleRegulationLabel.required=false;
+					regulation2.required=false;
+					regulation3.required=false;
+					singleRegulationLabel.required=true;
+					regulation1.required=true;
+				}
+				if(specialType=="1"){
+					doubleRegulationLabel.visible=true;
+					doubleRegulationLabel.includeInLayout=true;
+					singleRegulationLabel.visible=false;
+					singleRegulationLabel.includeInLayout=false;
+					singleRegulationLabel.required=false;
+					regulation1.required=false;
+					doubleRegulationLabel.required=true;
+					regulation2.required=true;
+					regulation3.required=true;
+				}
+			} 
+		]]>
+	</fx:Script>
+	 
+	<grg:Form id="form"
+			  width="100%"
+			  textAlign="left"
+			  borderVisible="false">
+		<!--币种：-->
+		<grg:FormItem id="moneyTypeLabel"
+					  width="100%"
+					  required="true"
+					  locale="moneyTypeLabel">
+			<grg:ComboBox id="moneyType" name="moneyType" dataProvider="{moneyTypeList}"
+						  width="130" selectedValue="@{pm.specialRegulationVO.moneyType}" labelField="text"
+						  valueField="key"/>
+		</grg:FormItem>
+		<!--面额：-->
+		<grg:FormItem id="moneyDenominationLabel"
+					  width="100%"
+					  required="true"
+					  locale="moneyDenominationLabel">
+			<grg:ComboBox id="moneyDenomination" name="moneyDenomination" dataProvider="{moneyDenominationList}"
+						  width="130" selectedValue="@{pm.specialRegulationVO.moneyDenomination}" labelField="text"
+						  valueField="key"/>
+		</grg:FormItem>
+		<!--来源：-->
+		<grg:FormItem id="sourceLabel"
+					  width="100%"
+					  required="true"
+					  locale="sourceLabel">
+			<grg:ComboBox id="source" name="source" dataProvider="{sourceList}"
+						  width="130" selectedValue="@{pm.specialRegulationVO.source}" labelField="text"
+						  valueField="key"/>
+		</grg:FormItem>
+		<!--监控原因：-->
+		<grg:FormItem id="resultLabel"
+					  width="100%"
+					  required="true"
+					  locale="resultLabel">
+			<grg:TextInput text="@{pm.specialRegulationVO.result}" 
+						   width="130"  vtype="maxchars" maxChars="50" maxnum="50" required="true"/>
+		</grg:FormItem>
+		<!--特殊规则类型-->
+		<grg:FormItem id="specialTypeLabel"
+					  width="100%"
+					  required="true"
+					  locale="specialTypeLabel">
+			<grg:ComboBox id="specialType" name="specialType" change="chooseType()" dataProvider="{specialTypeList}"
+						  width="130" selectedValue="@{pm.specialRegulationVO.specialType}" labelField="text"
+						  valueField="key"/> 
+		</grg:FormItem>
+		<!-- 类型对应的规则-->
+		<grg:FormItem id="singleRegulationLabel" visible="false" includeInLayout="false"
+					  width="100%"
+					  required="true"
+					  locale="regulationLabel">
+			<grg:TextInput id="regulation1" name="regulation" 
+						   width="130"   restrict="0-9a-zA-Z*" 
+						   maxnum="10" minnum="10" vtype="maxchars|minchars" maxChars="10" required="true"/>
+			</grg:FormItem>	
+		<!--冠字号码：-->
+		<grg:FormItem id="doubleRegulationLabel" visible="false" includeInLayout="false"
+					  width="100%"
+					  required="true"
+					  locale="regulationLabel">
+			<grg:TextInput id="regulation2" name="regulation" 
+						   width="130"   restrict="0-9a-zA-Z*" 
+						   maxnum="10" minnum="10" vtype="maxchars|minchars" maxChars="10" required="true"/>
+			
+			<grg:TextInput id="regulation3" name="regulation" 
+						   width="130"   restrict="0-9a-zA-Z*" 
+						   maxnum="10" minnum="10" vtype="maxchars|minchars" maxChars="10" required="true"/>
+		</grg:FormItem>	
+		<!--冠字号码：-->
+		<grg:FormItem id="regulationLabel" visible="false" includeInLayout="false"
+					  width="100%"
+					  locale="regulationLabel">
+			<grg:TextInput id="regulation"   maxnum="10" minnum="10" 
+						   vtype="maxchars|minchars" maxChars="10" 
+						   text="@{pm.specialRegulationVO.regulation}"
+						   width="130"   
+						   />
+		</grg:FormItem>	
+		
+	</grg:Form>
+	
+	<s:HGroup width="100%" gap="10"
+			  horizontalAlign="center"
+			  verticalAlign="middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle" />
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click="submit()"
+						locale="saveButton"
+						/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click="cancel()"
+						locale="cancelButton"
+						/>
+			
+		</s:BorderContainer>
+		
+		<grg:CheckBox id="uncloseAfterSubmitBtn" selected="@{uncloseAfterSubmit}" locale="uncloseAfterSubmit"/>
+		
+	</s:HGroup>
+		
+</grg:TitleWindow>

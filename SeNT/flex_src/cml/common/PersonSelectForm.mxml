@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" layout="vertical"
+		 xmlns:parsley="http://www.spicefactory.org/parsley"
+		 xmlns:grg="http://grg.grgbanking.com/platform/" 
+		 locale="personSelectForm" width="700" height="500">
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.cmlConnectInfos.pm.CmlConnectInfosFormPM;
+	
+			
+			import platform.common.manager.AlertHandler;
+			import platform.constants.LocaleConsts;
+			import platform.vo.security.UserVo;
+			[Inject]
+			[Bindable]
+			public var pm:CmlConnectInfosFormPM;
+			public var callback:Function;
+			override public function dispose():void
+			{
+				operatorDataGrid.checkedItems = [];
+			}
+			public function submit():void
+			{
+				if(operatorDataGrid.selectedItems.length!=1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				else{
+				var user:UserVo=operatorDataGrid.selectedItems[0];
+				pm.user=user;
+				 if(callback != null)
+					callback(user); 
+				 close();
+				} 
+			}
+		]]>
+	</fx:Script>
+	<fx:Binding source="operatorName.text" destination="pm.condi.userName"/>
+	<mx:VDividedBox width="100%" height="100%">
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			<grg:AdvancedSearchBar textAlign = "center"
+								   styleName = "SearchBar" borderVisible="false">
+		
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<grg:TitleBar locale="titlemsg" width="50%" height="100%"/>
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "left"
+									paddingLeft = "0"
+									gap="2"
+									verticalAlign = "middle"/>
+							</s:layout>				
+							
+							<grg:Label locale = "userName" />
+							<grg:TextInput id="operatorName" textAlign="left" restrict="^'" 
+										   width="120" height="20"
+										   styleName = "TextInput" />
+							<grg:SearchButton id="btn_search"
+											  locale = "searchButton" 
+											  iconType = "query" click="pm.page = new Page();pm.loadPage()"/>
+							<grg:ResetButton id="resetBtn" locale="resetButton" iconType="reset"
+											 resetControls="{[operatorName]}"/>
+						</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			</grg:AdvancedSearchBar>
+			<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingTop="2"  />
+					</s:layout>
+					<grg:Button  locale="addPerson" click="submit()" iconVisible="false"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				
+					<grg:DataGrid id="operatorDataGrid" dataProvider="{pm.page.result}"
+							  width="100%" height="100%" paddingLeft="20" paddingTop="2"
+							  styleName = "DataGrid"
+							  borderVisible = "true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											textAlign = "center"
+											sortable = "false"
+											draggable = "false"
+											editable = "false"
+											resizable = "false" />
+						<grg:DataGridColumn locale = "userCode"  width="200"
+											dataField = "userCode" textAlign="left"/>
+						<grg:DataGridColumn locale = "userName"  textAlign="center" width="220"
+											dataField = "userName"/>
+						<grg:DataGridColumn locale = "tel"  width="200"
+											dataField = "tel" textAlign="left"/>
+						<grg:DataGridColumn locale = "mobile"  width="220"
+											dataField = "mobile" textAlign="center"/>
+						
+					</grg:columns>
+				</grg:DataGrid>
+				
+			</mx:HBox>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+								  pageVo="{pm.page}"
+								  pagingFunction="{pm.loadPage}"/>
+			
+	</s:BorderContainer>
+
+</mx:VDividedBox>
+
+</grg:TitleWindow>

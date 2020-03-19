@@ -1,0 +1,58 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termSeqModule">
+		<listTitle>设备资产列表</listTitle>
+		<installForm>安装调试</installForm>
+		<openForm>申请开通</openForm>
+		<stopManagerForm>报停管理</stopManagerForm>
+		<transferForm>迁移申请</transferForm>
+		<scrapForm>报废申请</scrapForm>
+		<signedSeq>已签收待安装</signedSeq>
+		<installedSeq>已安装待开通</installedSeq>
+		<openedSeq>已开通待报废</openedSeq>
+		<scrapedSeq>已报废</scrapedSeq>
+		<termtype>终端类型</termtype>
+		<brand>终端品牌</brand>
+		<model>设备型号</model>
+		<insttype>安装方式</insttype>
+		<batch>采购批次号</batch>
+		<seqno>设备序列号</seqno>
+		<orgname>签收机构</orgname>
+		<statu>当前状态</statu>
+		<operations>操作</operations>
+		<install>安装调试</install>
+		<openExam>开通审核</openExam>
+		<open>申请开通</open>
+		<scrap>申请报废</scrap>
+		<scrapExam>报废审核</scrapExam>
+		<transferExam>迁移审核</transferExam>
+		<stopExam>报停审核</stopExam>
+		<installOrg>安装机构</installOrg>
+		<netaddr>IP地址</netaddr>
+		<addr>安装地址</addr>
+		<instDate>安装日期</instDate>
+		<optStatu>审核</optStatu>
+		<note>备注</note>
+		<transfer>申请迁移</transfer>
+		<termid>终端编号</termid>
+		<openDate>开通日期</openDate>
+		<scrapDate>报废日期</scrapDate>
+		<signDate>到货日期</signDate>
+		<beginTime>停机开始时间</beginTime>
+		<endTime>停机结束时间</endTime>
+		<stop>申请报停</stop>
+		<stopExamine>报停审核</stopExamine>
+		<stopManager>报停管理</stopManager>
+		<repStopTitle>设备报停记录</repStopTitle>
+		<reason>报停原因</reason>
+		<stopStatue>报停状态</stopStatue>
+		<cancelStop>取消报停</cancelStop>
+		<breakStop>终止报停</breakStop>
+		<instorgname>安装机构</instorgname>
+		<export>导出</export>
+	</node>
+</nodes>

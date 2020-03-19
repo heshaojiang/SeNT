@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：黑卡交易规则设置<br>
+		Create Time：2011-9-6<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "blackCardTransactionForm">
+		<addBlackCardTransactionForm>新增</addBlackCardTransactionForm>
+		<updateBlackCardTransactionForm>编辑</updateBlackCardTransactionForm>
+		<showBlackCardTransactionDetailForm>黑卡交易规则设置详细信息</showBlackCardTransactionDetailForm>
+		<cardTypeItem>卡类型：</cardTypeItem>
+		<cardNumOrBINItem>卡号/卡BIN：</cardNumOrBINItem>
+		<alarmWayItem>报警方式：</alarmWayItem>
+		<alarmMobilePhoneItem>报警手机号码：</alarmMobilePhoneItem>
+		<alarmEmailItem>报警电子邮件：</alarmEmailItem>
+		<beginDateItem>有效开始日期：</beginDateItem>
+		<endDateItem>有效结束日期：</endDateItem>
+		<beginTimeItem>监控开始时段：</beginTimeItem>
+		<endTimeItem>至：</endTimeItem>
+		<remarkItem>备注：</remarkItem>
+		<cardBINStartItem>卡Bin起始位：</cardBINStartItem>
+		<prompt>备注长度不能超过100位</prompt>
+		
+		<helpCardBbin>首位为1</helpCardBbin>
+		<helpTip>
+1.打“*”项内容不能为空
+2.通过选择卡类型，可以选择使用卡号还是卡BIN判断		
+		</helpTip>				
+	</node>
+</nodes>

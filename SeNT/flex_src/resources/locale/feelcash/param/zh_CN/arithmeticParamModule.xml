@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+<node locale="arithmeticParamModule">
+<paramCode>参数标识</paramCode>
+<paramName>参数名称</paramName>
+<paramType>参数类型</paramType>
+<paramValue>参数值</paramValue>
+<arithmeticParamView>算法参数列表</arithmeticParamView>
+<realationCode>关联参数</realationCode>
+</node>
+</nodes>

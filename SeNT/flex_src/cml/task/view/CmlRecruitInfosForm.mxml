@@ -1,0 +1,465 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow
+	dataDictionaryPaths="{[CmlRecruitInfosConsts.MONEY_TYPE]}"
+	paramPaths="{[]}"
+					   width="550" height="500"
+					   layout = "vertical"
+					   locale = "cmlRecruitInfosModule"
+					   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					   xmlns:s = "library://ns.adobe.com/flex/spark"
+					   xmlns:mx = "library://ns.adobe.com/flex/mx"
+					   xmlns:parsley="http://www.spicefactory.org/parsley"
+					   xmlns:grg="http://grg.grgbanking.com/platform/" helpTips="termInfoHelp">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import cml.task.constants.CmlRecruitInfosConsts;
+			import cml.task.pm.CmlRecruitInfosPM;
+			import cml.task.vo.CmlSentInfosVO;
+			import cml.task.vo.CmlTaskInfosVO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			
+			import org.utils.IntegerUtils;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.term.constants.TermConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermInfoFormPM;
+			import platform.vo.term.TermBrandVo;
+			import platform.vo.term.TermModelVo;
+			import platform.vo.term.TermTypeVo;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:CmlRecruitInfosPM;
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/add.png")] 
+			private var addIcon:Class; 
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/edit.png")] 
+			private var editIcon:Class; 
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/delete.png")] 
+			private var deleteIcon:Class; 
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+			
+			
+			public function add():void
+			{
+				var cmlSentInfosForm:CmlSentInfosForm=new CmlSentInfosForm();
+				cmlSentInfosForm.titleKey = "addCmlSentInfos";
+				context.viewManager.addViewRoot(cmlSentInfosForm);
+				PopUpManager.showForm(cmlSentInfosForm, this);
+				cmlSentInfosForm.pm.cmlSentInfos = new CmlSentInfosVO();
+				cmlSentInfosForm.pm.cmlSentInfos.tranId=pm.cmlTaskInfos.id;
+			}
+			public function edit():void
+			{
+				if (operationDataGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				
+				var cmlSentInfosForm:CmlSentInfosForm=new CmlSentInfosForm();
+				cmlSentInfosForm.titleKey = "updateCmlSentInfos";
+				context.viewManager.addViewRoot(cmlSentInfosForm);
+				PopUpManager.showForm(cmlSentInfosForm, this);
+				cmlSentInfosForm.pm.cmlSentInfos =operationDataGrid.checkedItems[0];
+			}
+			public function del():void
+			{
+				if (operationDataGrid.checkedItems.length == 0){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				AlertHandler.confirm(closeHandler, this, "confirmDelete");
+			}
+			
+			private function closeHandler(p_evt:CloseEvent):void
+			{
+				if (p_evt.detail == Alert.YES)
+					pm.delBankNote(DataGridUtil.getPropertys("id", operationDataGrid.checkedItems).toString());
+			}
+			
+			[MessageHandler(selector="delBankNoteResult")]
+			public function delBankNoteResult():void
+			{
+				loadPage();
+			}
+			
+			public function init():void
+			{ 
+				this.basic.addChildAt(this.drawCircle(),0);
+				this.expend.addChildAt(this.drawCircle(),0);
+				pm.bankNotesResult.pageSize=5;
+				loadPage();
+			}
+			
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = CmlRecruitInfosConsts.MONEY_TYPE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			
+			protected function loadPage():void
+			{
+				pm.getBankNotes();
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				
+			}
+			
+			override protected function getParamCallback():void
+			{
+//				if(titleKey != TermLocalKeyConsts.ADD_TERMINFO_FORM)return;
+//				pm.termInfo.netPort = sysParams[TermConsts.FEEL_DIST_PORT_DEFAULT].value;
+//				pm.termInfo.cashLackNum = sysParams[TermConsts.CASH_LACK_NUM].value;
+//				pm.termInfo.cashFullNum = sysParams[TermConsts.CASH_FULL_NUM].value;
+			}
+			
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:TermInfoMsg):void
+			{
+				close();
+			}
+			
+			public function set dataProvider(p_obj:Object):void
+			{
+//				pm.termInfoFormInitDatas = p_obj;
+//				model_changeHandler();
+			}
+			
+			private function showError(arr:Array):void{
+				for(var i:int = arr.length; 0 < i; i--)
+				{
+					var ui:UIComponent = arr[i-1];
+					ui.setFocus();
+				}
+				if(arr.length>0){
+					this.setFocus();
+					arr[i].setFocus();		
+				}
+			}
+			
+			private function save():void{
+				var cmlTaskInfos:CmlTaskInfosVO=new CmlTaskInfosVO();
+				cmlTaskInfos.id=pm.cmlTaskInfos.id;
+				cmlTaskInfos.passMoney=IntegerUtils.parseInteger(StringUtil.trim(passMoney.text));
+				cmlTaskInfos.atmMoney=IntegerUtils.parseInteger(StringUtil.trim(atmMoney.text));
+				cmlTaskInfos.stubbedMoney=IntegerUtils.parseInteger(StringUtil.trim(stubbedMoney.text));
+				cmlTaskInfos.trailMoney=IntegerUtils.parseInteger(StringUtil.trim(trailMoney.text));
+				cmlTaskInfos.shadinessMoney=IntegerUtils.parseInteger(StringUtil.trim(shadinessMoney.text));
+				cmlTaskInfos.falseCoinMoney=IntegerUtils.parseInteger(StringUtil.trim(falseCoinMoney.text));
+				cmlTaskInfos.memo=StringUtil.trim(remark.text);
+				pm.saveCmlTaskInfos(cmlTaskInfos);
+				pm.getCmlRecruitInfos();
+				close();
+			}
+			
+
+			protected function model_changeHandler():void
+			{
+//				var modelVo:TermModelVo = this.model.selectedItem as TermModelVo;
+//				if(!modelVo)return;
+//				for(var i:int = 0; i < pm.termInfoFormInitDatas.brandList.length; i++)
+//				{
+//					var termBrandVo:TermBrandVo = pm.termInfoFormInitDatas.brandList.getItemAt(i) as TermBrandVo;
+//					if(termBrandVo && modelVo.brandId == termBrandVo.id){
+//						this.brand.selectedIndex = i;
+//					}
+//				}
+//				
+//				for(var j:int = 0; j < pm.termInfoFormInitDatas.typeList.length; j++)
+//				{
+//					var termTypeVo:TermTypeVo = pm.termInfoFormInitDatas.typeList.getItemAt(j) as TermTypeVo;
+//					if(termTypeVo && modelVo.typeId == termTypeVo.id){
+//						this.termType.selectedIndex = j;
+//					}
+//				}
+			}
+
+			override protected function cancel():void
+			{
+//				pm.cancel();
+				close();
+			}
+			 
+			private function showExPropHandler(i:int):void
+			{
+				if(formContainer.x == 0 && i == 1){
+					showExPropEffect([formContainer], 0, -width);
+					showExPropEffect([grgTileList], width, 0);
+				}else if(formContainer.x == -width && i==2){
+					showExPropEffect([formContainer], -width, 0);
+					showExPropEffect([grgTileList], 0, width);
+				}
+			} 
+			
+			private function drawCircle():UIComponent{
+				var t:UIComponent= new UIComponent();
+				var circle:Sprite = new Sprite();
+				circle.graphics.lineStyle(2,0xffffff);
+				circle.graphics.drawCircle(16, 0, 11);
+				t.addChild(circle);
+				return t;  
+			} 
+		 
+		]]>
+	</fx:Script>
+
+	<!--data binding start-->
+	<fx:Binding source="seriaNum.text" destination="pm.condi.seriaNum"/>
+	<fx:Binding source="cmlType.selectedValue" destination="pm.condi.moneyType"/>
+	<!--data binding end-->
+	<s:BorderContainer borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout gap="0" paddingTop="20" paddingLeft="15"> 
+			</s:HorizontalLayout> 
+		</s:layout>
+	<mx:Canvas borderVisible="false" left="20"> 
+		<s:BorderContainer x="0" click="showExPropHandler(2)" buttonMode="true"  backgroundImage="@Embed(source='/resources/theme/newui/nav1.png')" borderVisible="false" width="120" height="27">
+			<s:layout>
+				<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+				</s:HorizontalLayout> 
+			</s:layout>
+			<mx:HBox id="basic" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" paddingLeft="15" backgroundAlpha="0"> 
+				<grg:Label backgroundAlpha="0" paddingLeft="3" locale="addBaseRecord" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(2)"> 
+				</grg:Label>
+			</mx:HBox> 
+		</s:BorderContainer>
+		<s:BorderContainer x="107" click="showExPropHandler(1)" buttonMode="true" backgroundImage="@Embed(source='/resources/theme/newui/nav2.png')" borderVisible="false" width="120" height="27">
+			<s:layout>
+				<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+				</s:HorizontalLayout> 
+			</s:layout>
+			<mx:HBox  id="expend" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" backgroundAlpha="0" paddingLeft="15">  
+				<grg:Label backgroundAlpha="0" paddingLeft="3" locale="banknoteMsg" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(1)"> 
+				</grg:Label>
+			</mx:HBox>
+		</s:BorderContainer>
+	</mx:Canvas> 
+	</s:BorderContainer>
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<grg:GRGMultiFormTabContainer id="formContainer" width="100%" forms="{[form1]}">
+		<s:VGroup>
+			<grg:Form id="form1"
+					  width="100%"
+					  paddingTop = "20"
+					  textAlign = "left"
+					  borderVisible = "false">
+				<s:HGroup>
+				<s:VGroup>
+				<grg:FormItem id="tmlNumItem"
+							  locale = "tmlNum" 
+							  >
+				<grg:Text id="tmlNum" name = "tmlNum" text="{pm.cmlTaskInfos.tmlNum}"
+								   width="100" 
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="moneySourceItem"
+							  locale = "moneySource" 
+							  >
+					<grg:Text id="moneySource" name = "moneySource" text="{pm.cmlTaskInfos.sourceOrg}"
+								   width="100" />
+				</grg:FormItem>
+				</s:VGroup>
+				<s:VGroup>
+				<grg:FormItem id="operatorNameItem"
+							  locale = "operatorName" 
+							  >
+					<grg:Text id="operatorName" name = "operatorName" text="{pm.cmlTaskInfos.operatorId}"
+								   width="100" 
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="beforeCountItem"
+							  locale = "beforeCountItem"
+							  >
+					<grg:Text id="beforeCount" name = "beforeCount" text="{pm.cmlTaskInfos.beforeCount}"
+								   width="100"
+								   />
+				</grg:FormItem>
+				</s:VGroup>
+				</s:HGroup>
+				<grg:FormItem id="boxIdItem"
+							  locale = "boxId"
+							  >
+					<grg:Text id="boxId" name = "boxId" text="{pm.cmlTaskInfos.boxNum}"
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="passMoneyItem"
+							  locale = "passMoneyItem"
+							  >
+					<grg:TextInput id="passMoney" name = "passMoney" numberValue="{pm.cmlTaskInfos.passMoney}"
+								   width="200"  restrict="0-9"
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="atmMoneyItem"
+							  locale = "atmMoneyItem"
+							  >
+					<grg:TextInput id="atmMoney" name = "atmMoney" numberValue="{pm.cmlTaskInfos.atmMoney}"
+								   width="200"  restrict="0-9"
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="stubbedMoneyItem"
+							  locale = "stubbedMoneyItem"
+							  >
+					<grg:TextInput id="stubbedMoney" name = "stubbedMoney" numberValue="@{pm.cmlTaskInfos.stubbedMoney}"
+								   width="200" restrict="0-9"
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="trailMoneyItem"
+							  locale = "trailMoneyItem"
+							  >
+					<grg:TextInput id="trailMoney" name = "trailMoney" numberValue="@{pm.cmlTaskInfos.trailMoney}"
+								   width="200"  restrict="0-9"
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="shadinessMoneyItem"
+							  locale = "shadinessMoneyItem"
+							  >
+					<grg:TextInput id="shadinessMoney" name = "shadinessMoney" numberValue="@{pm.cmlTaskInfos.shadinessMoney}"
+								   width="200"  restrict="0-9"
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="falseCoinMoneyItem"
+							  locale = "falseCoinMoneyItem"
+							  >
+					<grg:TextInput id="falseCoinMoney" name = "falseCoinMoney" numberValue="@{pm.cmlTaskInfos.falseCoinMoney}"
+								   width="200"  restrict="0-9"
+								   />
+				</grg:FormItem>
+				<grg:FormItem id="remarkItem"
+							  locale = "remark"
+							  >
+					<grg:TextArea id="remark" name = "remark" text="@{pm.cmlTaskInfos.memo}"
+								   width="200"  
+								   />
+				</grg:FormItem>
+				</grg:Form>
+			<s:HGroup 
+				width="500" gap="10"
+				horizontalAlign = "center"
+				verticalAlign = "middle">
+				<s:BorderContainer id="saveButton" height="27" styleName="buttonShadow">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+					</s:layout>
+					<grg:Button
+						click = "save()"
+						locale = "saveButton"
+						iconVisible="false"/>
+				</s:BorderContainer> 
+				<s:BorderContainer height="27" styleName="buttonShadow">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+					</s:layout>
+					<grg:Button 
+						click = "cancel()"
+						locale = "cancelButton"
+						iconVisible="false"
+						/>
+				</s:BorderContainer>
+			</s:HGroup>
+			</s:VGroup>
+		</grg:GRGMultiFormTabContainer>
+		
+
+		
+		
+		<s:Group id="grgTileList"  x="{width}" width="{width - 100}">
+			
+			<grg:GRGMultiFormTabContainer width="100%" forms="{[]}">
+
+				<s:VGroup>	
+
+					
+				<mx:HBox styleName="searchStyle" >  
+				
+					<grg:Label locale = "seriaNum" />
+					<grg:TextInput id="seriaNum" textAlign="left" restrict="0-9a-zA-Z*"  vtype="bankcard|maxchars"  maxnum="20"
+											   width="100"
+											   styleName = "TextInput" />
+					<grg:Label locale = "cmlType" />
+					<grg:ComboBox id="cmlType"  dataProvider="{bindableDataDirCache.getItemAt(0) as IList}"
+								  labelField = "text" valueField = "key"/>		
+					<grg:SearchButton id="btn_search" 
+												  locale = "searchButton" 
+												  iconType = "query" click="loadPage()"/>
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+									 resetControls="{[seriaNum,cmlType]}"/>
+				</mx:HBox>
+					<!-- 操作按钮 -->
+					<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+						<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+							<s:layout>
+								<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+							</s:layout>
+							<mx:Button  icon="{addIcon}" locale="add" click="add()"/>
+							<mx:Button  icon="{editIcon}" locale="edit" click="edit()"/>
+							<mx:Button  icon="{deleteIcon}" locale="deleteIcon" click="del()"/>
+						</s:BorderContainer>
+					</mx:HBox> 
+				<grg:DataGrid dataProvider="{pm.bankNotesResult.result}" id="operationDataGrid" 
+							  width="100%" height="100%"
+							  textAlign="center"
+							  styleName = "DataGrid">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol" 
+											textAlign="center"
+											editable="false"
+											sortable="false"
+											draggable="false"
+											resizable="false"
+											/>
+						<grg:DataGridColumn locale = "seriaNo"
+											dataField = "seriaNo" width="40"/>
+						<grg:DataGridColumn locale = "moneyType"
+											dataField = "moneyType" width="40" labelFunction="{transferDataDict}"/>
+					</grg:columns>
+				</grg:DataGrid>
+				<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+									  pageVo="{pm.bankNotesResult}"  pagingFunction="{loadPage}"
+									 />
+			</s:VGroup>
+			</grg:GRGMultiFormTabContainer>
+			
+			<grg:GRGAutoTileList id="grgTile" width="100%" 
+								 />
+		</s:Group>
+	</s:Group>	  
+</grg:TitleWindow>
+

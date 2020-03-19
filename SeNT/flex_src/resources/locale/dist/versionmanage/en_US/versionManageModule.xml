@@ -1,0 +1,51 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：agentConfigManageForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "versionManageModule">
+		<listTitle>Version Manage Plan List</listTitle>
+		<planidItem>Plan ID</planidItem>
+		<versionnameItem>Version Name</versionnameItem>
+		<versionItem>Version</versionItem>
+		<versiontypeItem>Version Type</versiontypeItem>
+		<auditrequestItem>Audit Request</auditrequestItem>
+		<auditpassedItem>Plan Status</auditpassedItem>
+		<termidlistItem>Term ID</termidlistItem>
+		<termipItem>Terminal IP</termipItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM Model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<brandItem>Brand</brandItem>
+		<fileidItem>File ID</fileidItem>
+		<nextexecutetimeItem>Executing Time</nextexecutetimeItem>
+		<nextexecutetimefromItem>Executing Time From</nextexecutetimefromItem>
+		<nextexecutetimeendItem>Executing Time To</nextexecutetimeendItem>
+		<createtimeItem>Creating Time</createtimeItem>
+		<createtimefromItem>Creating Time From</createtimefromItem>
+		<createtimeendItem>Creating Time To</createtimeendItem>
+		<invalidtimeItem>Invalid Time</invalidtimeItem>
+		<invoketimesItem>Invoke Times</invoketimesItem>
+		<noteItem>Note</noteItem>
+		<enabledItem>Enabled</enabledItem>
+		<operateButton>Operation</operateButton>
+		
+		<!-- plan表 -->
+		<termidItem>Term ID</termidItem>
+		<taskidItem>task id</taskidItem>
+		<planexetimeItem>plan time</planexetimeItem>
+		<exebegintimeItem>Actual Execution Starting Time</exebegintimeItem>
+		<exeendtimeItem>Actual Execution Terminating Time </exeendtimeItem>
+		<taskstatusItem>Task Status</taskstatusItem>
+		<extradescriptionItem>Task Remarks</extradescriptionItem>
+		<exepercentItem>Completion Percentage</exepercentItem>
+		<resultfileidItem>result fileid</resultfileidItem>
+		<retriedtimesItem>retried times</retriedtimesItem>
+		<timeoutedItem>Timeout</timeoutedItem>
+		<svrnameItem>Server Name</svrnameItem>
+		<picturelinkItem>Link</picturelinkItem>
+		<picturelink>See File</picturelink>
+	</node>
+</nodes>

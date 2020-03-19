@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "msg">
+		<existedMsgAnnouncement>该 公告已经存在！</existedMsgAnnouncement>
+		<TitleNotNull>该标题不能为空！</TitleNotNull>
+		<existedMsgEventDef>此机构事件已经存在了！</existedMsgEventDef>
+		<existedwTDeviceStatusal>此模块状态已经存在1!</existedwTDeviceStatusal>
+	</node>
+</nodes>

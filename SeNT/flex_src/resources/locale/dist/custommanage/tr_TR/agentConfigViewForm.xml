@@ -1,0 +1,40 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- /**Description：客户端升级包管理
+ * Create Time：2011-11-29   
+ * Author：zhangjinpeng 
+ * Email : zjpeng@grgbanking.com 
+ */
+	 -->
+<nodes>
+	<node locale = "agentConfigViewForm">
+		<termidItem>Terminal Id</termidItem>
+		<agentportItem>Agent Bağlantı Noktası (Port)</agentportItem>
+		<fdgatesvripItem>Dağıtım Sunucusu IP</fdgatesvripItem>
+		<fdgatesvrportItem>Dağıtım Sunucusu Bağlantı Noktası (Port)</fdgatesvrportItem>
+		<fvsvripItem>İzleme Sunucusu IP</fvsvripItem>
+		<fvsvrportItem>İzleme Sunucusu Bağlantı Noktası (Port)</fvsvrportItem>
+		<xfscamItem>Kamera</xfscamItem>
+		<xfscdmItem>Para Çekme</xfscdmItem>
+		<xfschkItem>Çek Defteri</xfschkItem>
+		<xfscimItem>Para Yatırma</xfscimItem>
+		<xfsdepItem>Zarfla Para Yatırma</xfsdepItem>
+		<xfsidcItem>Kart Okuyucu</xfsidcItem>
+		<xfsjprItem>Günlük Yazıcısı</xfsjprItem>
+		<xfspbkItem>Hesap Cüzdanı Yazıcısı</xfspbkItem>
+		<xfspinItem>Tuş Takımı</xfspinItem>
+		<xfsrprItem>Makbuz Yazıcısı</xfsrprItem>
+		<xfssiuItem>Sensör</xfssiuItem>
+		<xfssprItem>Durum Yazıcı</xfssprItem>
+		<xfsttuItem>Operatör Paneli</xfsttuItem>
+		<xfsvdmItem>Üretici Modülleri</xfsvdmItem>
+		<xfscoincdmItem>Bozuk Para Modülü</xfscoincdmItem>
+		<spdelayItem>SP Başlatmadan Bekle (Saniye)</spdelayItem>
+		<sendintervalItem>Durum İletim Sıklığı (Saniye)</sendintervalItem>
+		<lastmodifytimeItem>Son Yapılandırma Zamanı</lastmodifytimeItem>
+		<viewTitle>Agent Yapılandırma Ayarlarını Görüntüle</viewTitle>
+		<StartXFSMonitorItem>Agent Durum İzleme Başla</StartXFSMonitorItem>
+		<xfsbcrItem>Barkod tarayıcı</xfsbcrItem>
+		<xfsrfidcItem>RF Kart Okuyucu</xfsrfidcItem>
+		<monitorPalmVeinItem>Palm Ven Okuyucu</monitorPalmVeinItem>
+	</node>
+</nodes>

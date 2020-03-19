@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="smsSendForm">
+		<title>标题：</title>
+		<content>内容：</content>
+		<sender>发送者：</sender>
+		<sendTime>发送时间：</sendTime>
+		<recipient>手机：</recipient>
+		<note>备注：</note>
+		
+		<sendSms>发短信</sendSms>
+		<smsSednHelp>
+1.打“*”项内容不能为空
+2.内容不能超过100个字节
+		</smsSednHelp>
+	</node>
+</nodes>

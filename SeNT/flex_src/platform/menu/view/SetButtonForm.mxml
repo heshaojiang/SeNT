@@ -1,0 +1,87 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+			   width="600" height="410"
+			   textAlign = "left"
+			   verticalAlign = "middle"
+			   layout = "vertical"
+			   locale = "setButtonForm"
+			   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+			   xmlns:s = "library://ns.adobe.com/flex/spark"
+			   xmlns:mx = "library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/">
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import platform.common.manager.AlertHandler;
+			import platform.constants.LocaleConsts;
+			import platform.menu.message.MenuMsg;
+			import platform.menu.pm.SetButtonPM;
+			
+			import spark.layouts.TileLayout;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:SetButtonPM = new SetButtonPM();
+
+			/*========================================================*/
+			/*   Function        creationComplete = "loadButtonPage()"                                      */
+			/*========================================================*/
+
+			public function get layoutType():TileLayout
+			{
+				var layout:TileLayout = new TileLayout();
+				layout.columnAlign = "left";
+				layout.orientation = "rows";
+				//layout.columnWidth=60;
+				//layout.requestedColumnCount=6;
+				layout.rowAlign = "justify";
+				return layout;
+			}
+
+			//保存
+			protected function save():void
+			{
+				pm.saveMenuButtonSetting(buttonSet.selectedItems, buttonSet.disSelectedItems);
+			}			
+			/**save success handler**/
+			[MessageHandler(selector="setMenuButtonsSaveResult")]
+			public function saveBackHandler(p_msg:MenuMsg):void
+			{
+				//AlertHandler.success(LocaleConsts.SAVE_SUCCESS);  	//操作成功时不允许提示
+				close();
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller width="100%" height="100%" horizontalScrollPolicy="off">
+		<grg:CheckBoxGroup id="buttonSet" dataProvider="{pm.privilegeBtns}"
+					   width="100%"
+					   labelField = "i18nName"
+					   layout = "{layoutType}"
+					   selectedField = "checked" />
+	</s:Scroller>
+	
+	<s:HGroup 
+			  width="100%" height="50" gap="6"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+
+		<grg:Button locale = "saveButton"
+						
+						 iconVisible="false"
+						click = "save()" />
+		<grg:Button locale = "cancelButton"
+						
+						 iconVisible="false"
+						click = "pm.cancel();close()" />
+	</s:HGroup>
+</grg:TitleWindow>

@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="dataReportInfoModule">
+	<titleMgr>网点情况</titleMgr>
+		<operDateColon>日期：</operDateColon>
+		<to>至</to>
+		<organizationColon>所属机构：</organizationColon>
+		<modeldown>导出</modeldown>
+	</node>
+</nodes>

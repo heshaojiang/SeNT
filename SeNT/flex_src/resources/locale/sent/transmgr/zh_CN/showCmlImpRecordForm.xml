@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="showCmlImpRecordForm">
+		
+		<title>导入信息</title>
+		
+		<cmlImpInfo>导入信息</cmlImpInfo>
+		
+		<bankNameColon>机构名：</bankNameColon>
+		<branchColon>网点：</branchColon>
+		<orgCodeColon>机构号：</orgCodeColon>
+		<termCodeColon>终端编号：</termCodeColon>
+		<termTypeColon>设备类型：</termTypeColon>
+		<operaterStatusColon>上传状态：</operaterStatusColon>
+		<operatorerColon>操作员：</operatorerColon>
+		<operaterDateColon>操作时间：</operaterDateColon>
+		<seriaNumColon>上传记录数：</seriaNumColon>
+		<versionNum>版别</versionNum>
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		
+		<serialNoInfo>冠字号信息</serialNoInfo>
+		
+		<seriaNo>冠字号码</seriaNo>
+		<seriaNoColon>冠字号码：</seriaNoColon>
+		<urlName>冠字号码图片</urlName>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		<bankingOrgCode>金融机构代码：</bankingOrgCode>
+		<expExcel>导出</expExcel>
+		
+	</node>
+</nodes>

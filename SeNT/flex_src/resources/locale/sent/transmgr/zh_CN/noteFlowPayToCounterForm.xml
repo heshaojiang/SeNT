@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="noteFlowPayToCounterForm">
+		<titlemsg>支付给柜员</titlemsg>
+		
+		<payToCounterColon>支付给柜员：</payToCounterColon>
+		
+		
+		<noteFlowBarcodePayToCounter>支付给柜员的捆钞条码 </noteFlowBarcodePayToCounter>
+		
+		
+		<flowNumColon>流转条码：</flowNumColon>
+		
+		
+		<delete>删除</delete>
+		<addCashBunch>增加捆钞</addCashBunch>
+		
+		<save>保存</save>
+		<cancel>取消</cancel>
+	</node>
+</nodes>

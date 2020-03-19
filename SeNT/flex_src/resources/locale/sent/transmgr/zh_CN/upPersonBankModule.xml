@@ -1,0 +1,38 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="upPersonBankModule">
+		<sendTime>上传时间：</sendTime>
+		<exportTime>上报时间：</exportTime>
+		<to>至</to>
+		<operaterId>上传人员</operaterId>
+		<uploadStatus>状态：</uploadStatus>
+		<tmlNum>终端编号</tmlNum>
+		<termId>终端编号：</termId>
+		<operations>操作</operations>
+		<import>导入冠字号码文件</import>
+		<fileName>文件名</fileName>
+		<oldName>原文件名</oldName>
+		<impDate>时间：</impDate>
+		<titlemsg>冠字号文件上报人行</titlemsg>
+		<exportTitlemsg>上传人行文件下载（CRH）</exportTitlemsg>
+		<autoUploadStatus>自动上报状态</autoUploadStatus>
+		<autoUploadStatusColon>自动上报状态：</autoUploadStatusColon>
+		<again>继续上传</again>
+		<uploadOrg>所属机构：</uploadOrg>
+		<uploadOrgNo>所属机构：</uploadOrgNo>
+		<upPersonFileTypes>上报类型：</upPersonFileTypes>
+		<uploadSentInfo>冠字号码导入详情</uploadSentInfo>
+		<recordNum>冠字号记录数</recordNum>
+		<endDate>时间</endDate>
+		<rowNo>序号</rowNo>
+		<filePath>文件全路径</filePath>
+	    <exportDate>上报日期</exportDate>
+	    <errMsg>错误信息</errMsg>
+		<searchPic>查看详情</searchPic>
+		<downLoadButton>下载</downLoadButton>
+		<upPersonByConditionLoc>上报人行</upPersonByConditionLoc>
+		<upPersonByTranLoc>按交易上报</upPersonByTranLoc>
+		<fileBelongFlag>上报类型</fileBelongFlag>
+		<orgNameItem>上报机构</orgNameItem>
+	</node>
+</nodes>

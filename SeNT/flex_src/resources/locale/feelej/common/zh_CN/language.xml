@@ -1,0 +1,42 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "main">
+		<version>集中电子流水管理系统 1.0</version>
+		<loginTimeLabel>登陆时间：</loginTimeLabel>
+		<loginUserLabel>登陆用户：</loginUserLabel>
+	</node>
+	<!-- Button Start-->
+	<node locale = "button">
+		<deleteImmediate>移到垃圾箱</deleteImmediate>
+		<deleteForever>彻底删除</deleteForever>
+		<cleanrecyclegin>清空垃圾箱</cleanrecyclegin>
+		<download>下载</download>
+		<print>打印</print>
+		<loginButton>登  陆</loginButton>
+		<viewButton>查看</viewButton>
+		<fetchImmediately>立即提取</fetchImmediately>
+		<backupButton>备份</backupButton>
+	</node>
+	<!-- Button End-->
+	<!-- Components Start-->
+	<node locale = "components">
+		<components.totalpage>总页码</components.totalpage>
+		<keyword>关键字</keyword>
+	</node>
+	<!-- Components End-->
+	<node locale = "image">
+		<viewButton>流水详细信息</viewButton>
+	</node>
+	<node locale = "Msg">
+		<noMatchedItems>没有匹配项！</noMatchedItems>
+		<fetchEjTolong>提取流水超时!</fetchEjTolong>
+		<confirmClean>确定清空垃圾箱吗(永久删除)？</confirmClean>
+		<vtype-int>只能输入整数!</vtype-int>
+		<noSupportedExplore>您的浏览器不支持脚本，打印功能将被禁用！</noSupportedExplore>
+		<downloadFileFail>下载流水文件错误</downloadFileFail>
+        <confirmBackup>确认备份？</confirmBackup>
+        <confirmContinue>共有(?1)个流水文件，搜索关键字可能需要比较长的时间，建议选择终端和时间再进行搜索。确认继续？</confirmContinue>
+        <exportTips>请先提取流水再导出！</exportTips>
+        <timeAreaError>开始时间不能大于结束时间！</timeAreaError>
+	</node>
+</nodes>

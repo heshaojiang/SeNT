@@ -1,0 +1,21 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 工单表 
+	 Create Time：2011-8-27
+	 Author：whui
+	 -->
+<nodes>
+	<node locale = "wtDispatchForm">
+		<redispItem>Yeniden Sevkiyat</redispItem>
+		<listTitle>Sevkiyat Listesi</listTitle>
+		<searchItem>Anahtar Kelime</searchItem>
+		<nameItem>İsim</nameItem>
+		<orgnameItem>Şube</orgnameItem>
+		<telephoneItem>Telefon</telephoneItem>
+		<mobilephoneItem>Cep Telefonu</mobilephoneItem>
+		<mailItem>E-posta Adresi</mailItem>
+		<workdayItem>İş Günü</workdayItem>
+		<workbeginItem>İşe Başlama</workbeginItem>
+		<workendItem>İşi Bitirme</workendItem>
+		<manageridItem>Yönetici</manageridItem>
+	</node>
+</nodes>

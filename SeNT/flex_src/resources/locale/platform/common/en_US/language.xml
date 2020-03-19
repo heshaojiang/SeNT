@@ -1,0 +1,224 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="main">
+		<!-- Main Start-->
+		<language>Language:</language>
+		<version>JavaPlatform 1.0</version>
+		<copyright>Copyright © 2012 GRGBanking Equipment Co., Ltd.</copyright>
+		<loginTimeLabel>Login Time:</loginTimeLabel>
+		<loginUserLabel>Login User:</loginUserLabel>
+	</node>
+	<node locale="login">
+		<loginusername>UserName:</loginusername>
+		<loginpassword>PassWord:</loginpassword>
+		<loginlanguage>Language:</loginlanguage>
+		<login-error>UserName or PassWord is Error!</login-error>
+		<userDisabled>User is disabled!</userDisabled>
+		<accountExpired>User Account has expired!</accountExpired>
+		<wrongPwd>Wrong Password Input For (?1) Times! The User Will Be Locked When Wrong Password Input For (?2) Times!</wrongPwd>
+		<userNotFound>User Name Is Not Existed!</userNotFound>
+		<LockedWithIP>This Account is locked with IP!</LockedWithIP>
+	</node>
+	<node locale="language">
+		<zh_CN>Chinese</zh_CN>
+		<en_US>English</en_US>
+	</node>
+	<!-- Main End-->
+	<!-- Button Start-->
+	<node locale="button">
+		<mergeMenu>Merge Menu</mergeMenu>
+		<import>Import</import>
+		<sync>Synchronize</sync>
+		<setDefaultPage>Save as Favorite Page</setDefaultPage>
+		<setFavoriteModule>Set Default Menu</setFavoriteModule>
+		<resetpass>ChangePIN</resetpass>
+		<logout>Exit</logout>
+		<help>Help</help>
+		<message>Message</message>
+		<expanded>Expand</expanded>
+		<collapse>Collapse</collapse>
+		<query>Find</query>
+		<saveButton>Save</saveButton>
+		<addButton>Add</addButton>
+		<editButton>Edit</editButton>
+		<delButton>Delete</delButton>
+		<delSelectedButton>Delete</delSelectedButton>
+		<closeButton>Close</closeButton>
+		<resetButton>Reset</resetButton>
+		<submitButton>Submit</submitButton>
+		<cancelButton>Cancel</cancelButton>
+		<searchButton>Search</searchButton>
+		<setButtons>setButtons</setButtons>
+		<loginButton>Login</loginButton>
+		<downLoad>downLoad</downLoad>
+		<moveAllButton>Remove All</moveAllButton>
+		<moveSlectedButton>Remove</moveSlectedButton>
+		<addAllButton>Add All</addAllButton>
+		<addSlectedButton>Add</addSlectedButton>
+		<sortButton>Sort</sortButton>
+		<upButton>Up</upButton>
+		<downButton>Down</downButton>
+		<todayBtn>today</todayBtn>
+		<okBtn>submit</okBtn>
+		<add>Add</add>
+		<edit>Edit</edit>
+		<choose>Choose</choose>
+		<writeLetter>Write Letter</writeLetter>
+		<sendSMS>Send SMS</sendSMS>
+		<reply>Reply</reply>
+		<markReaded>Mark Readed</markReaded>
+		<readDetail>Read Detail</readDetail>
+	</node>
+	<!-- Button End-->
+	<!-- Components Start-->
+	<node locale="components">
+		<rememberUser>remember me</rememberUser>
+		<comboBoxDefaultText>Please select one...</comboBoxDefaultText>
+		<all>all</all>
+	
+		<components.unselected>UnSelected</components.unselected>
+		<components.selected>Selected</components.selected>
+		<components.pagenum>Current Page</components.pagenum>
+		<components.perpage>Records/Per Page</components.perpage>
+		<components.allrecorditem>Total Records:</components.allrecorditem>
+		<components.allpage>, </components.allpage>
+		<components.currentpage>Pages, </components.currentpage>
+		<components.previousPage>Previous</components.previousPage>
+		<components.nextPage>Next</components.nextPage>
+		<components.changeTo>Page To</components.changeTo>
+		<components.page>.</components.page>
+		
+		<!-- sort components -->
+		<sortWin>Sort Window</sortWin>
+
+		<!-- DateSelect -->
+		<!-- week data -->
+		<sunday>Su</sunday>
+		<monday>Mo</monday>
+		<tuesday>Tu</tuesday>
+		<wednesday>We</wednesday>
+		<thursday>Th</thursday>
+		<friday>Fr</friday>
+		<saturday>Sa</saturday>
+		<!-- week data -->
+		<!-- time -->
+		<hour>hour:</hour>
+		<minute>minute:</minute>
+		<dateSelector>Date Selector</dateSelector>
+		<time>Time</time>
+		<!-- time -->
+		<!-- DateSelect -->
+<!--		<checked>Select</checked>-->
+<!--		<unChecked>DeSelect</unChecked>-->
+<!--		<selectAll>Select All</selectAll>-->
+<!--		<deSelectAll>DeSelect All</deSelectAll>-->
+		<dateChooser>
+			<monthNames>January|February|March|April|May|June|July|August|September|October|November|December</monthNames>
+	  		<dayNames>S|M|T|W|T|F|S</dayNames>
+	  		<yearSymbol>Y</yearSymbol>
+	 		<monthSymbol>M</monthSymbol>
+		</dateChooser>
+		<extendProperty>>>Extend Property</extendProperty>
+		<baseProperty>&lt;&lt;Base Property</baseProperty>
+		
+		<enter>Enter></enter>
+	</node>
+	<!-- Components End-->
+	<node locale="image">
+		<closeAllButton>Close All Window</closeAllButton>
+		<changeView>Change View</changeView>
+		<settingButton>Setting Button</settingButton>
+		<settingRole>Setting Role</settingRole>
+		<settingGroup>Setting Group</settingGroup>
+		<settingUser>Setting User</settingUser>
+		<settingPrivilege>Setting Privilege</settingPrivilege>
+		<resetPassword>Reset PassWord</resetPassword>
+		<firstNavBtn>First Page</firstNavBtn>
+		<preNavBtn>Previous Page</preNavBtn>
+		<nextNavBtn>Next Page</nextNavBtn>
+		<lastNavBtn>Last Page</lastNavBtn>
+		<fullscreen>Full Screen</fullscreen>
+		<resumescreen>Normal Screen</resumescreen>
+		<searchImage>Search</searchImage>
+		<expandImage>Expand</expandImage>
+		<collapseImage>Collapse</collapseImage>
+	</node>
+	<node locale="Msg">
+		<mainPageIsValid>Your default menu is invalid, please reset it.</mainPageIsValid>
+		<setMainPageSuccess>Success!</setMainPageSuccess>
+		<ignoreItems>has been ignored.please check whether its have children.</ignoreItems>
+		<passwordExpired>Your password has expired.please change your password!</passwordExpired>
+		<passwordWillExpired>Your password will be expired at few days in the furture.please change it as soon as possible!</passwordWillExpired>
+		<systemInfo>System Info</systemInfo>
+		<exceptionLabel>Exception</exceptionLabel>
+		<success>Success</success>
+		<delSuccess>Delete Success</delSuccess>
+		<delFailure>Delete failure</delFailure>
+		<saveSuccess>Save Success</saveSuccess>
+		<resetSuccess>Reset Success!</resetSuccess>
+		<!-- <error>Error</error> -->
+		<confirm>OK</confirm>
+		<cancel>Cancel</cancel>
+		<confirmDelete>Confirm Delete The Selected Records?</confirmDelete>
+		<confirmLogout>Confirm Logout?</confirmLogout>
+		<timeOut>Session timeout, pls login again!</timeOut>
+		<defaultPassword>please change the default password!</defaultPassword>
+		<pwdNotNull>Password can not null!</pwdNotNull>
+		<newPwdInconsistent>The Two New Password Inconsistent!</newPwdInconsistent>
+		<pwdLenError>Password length Error!(6-20 Characters)</pwdLenError>
+		<confirmResetPwd>Are You Sure To Reset The Password?</confirmResetPwd>
+		<noSelectedRecord>Please Select One Record!</noSelectedRecord>
+		<!-- <wrongPassword>Error!\nWrong Password!</wrongPassword> -->
+		<noSelectedNode>Not Selected Node!</noSelectedNode>
+		<nameAlreadyExisted>Name Already Existed!</nameAlreadyExisted>
+		<searchKeyNotNull>Search Key Is NULL!</searchKeyNotNull>
+		<!-- <alreadyAssign>Already Be Assign</alreadyAssign> -->
+		<noChange>No Change!</noChange>
+		<inputNotNull>The Input can not be null!</inputNotNull>
+		<moduleIsSoMuch>The opened windows are so much, please close any and try again!</moduleIsSoMuch>
+		<!-- <existKey>This Key has already exists!</existKey> -->
+		<noPrivilege>User do not have any privilege!</noPrivilege>
+		<importFail>Import Fail:</importFail>
+		<userLoginAtOtherPlace>User account has logined at other place, system will exit!</userLoginAtOtherPlace>
+		<moduleLoadError>Module load failed，please check if the flash file is existed!</moduleLoadError>
+	</node>
+	<node locale="validator">
+		<vtype-required>This field is required!</vtype-required>
+		<vtype-email>E-mail format error!</vtype-email>
+		<vtype-password>Password format is not correct!</vtype-password>
+		<vtype-bankcard>Bank card format is not correct!</vtype-bankcard>
+		<vtype-ip>IP format is not correct!</vtype-ip>
+		<vtype-englishchar>Enter English and characters only!</vtype-englishchar>
+		<vtype-english>Enter Letters only!</vtype-english>
+		<vtype-chinese>Enter the Chinese only!</vtype-chinese>
+		<vtype-url>URL format is not correct!</vtype-url>
+		<vtype-idcard>ID card format is not correct!</vtype-idcard>
+		<vtype-date>Date format is not correct!</vtype-date>
+		<vtype-datetime>DateTime format is not correct!</vtype-datetime>
+		<vtype-unsafe>Enter the security characters only!</vtype-unsafe>
+		<vtype-engdigit>Enter numbers in English only!</vtype-engdigit>
+		<vtype-number>Enter numbers only!</vtype-number>
+		<vtype-int>Enter Integer only!</vtype-int>
+		<vtype-unchinese>Can not enter Chinese!</vtype-unchinese>
+		<vtype-maxchars> Maximum number of characters can not exceed</vtype-maxchars>
+		<vtype-minchars> Minimum number of characters not less than</vtype-minchars>
+		<vtype-minchars-zh_CN> (Chinese characters are double-byte)</vtype-minchars-zh_CN>
+	</node>
+	<!-- Dynamic Skin -->
+	<node locale="logoImg">
+		<zh_CN>logoImg_zh_CN</zh_CN>
+		<en_US>logoImg_en_US</en_US>
+	</node>
+	<node locale="titleImg">
+		<zh_CN>titleImg_zh_CN</zh_CN>
+		<en_US>titleImg_en_US</en_US>
+	</node>
+	<node locale="bannerImg">
+		<zh_CN>bannerImg_zh_CN</zh_CN>
+		<en_US>bannerImg_en_US</en_US>
+	</node>
+	<node locale="mainSkin">
+		<zh_CN>mainContainer_zh_CN</zh_CN>
+		<en_US>mainContainer_en_US</en_US>
+	</node>
+</nodes>

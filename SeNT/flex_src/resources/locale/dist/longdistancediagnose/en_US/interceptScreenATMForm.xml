@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：interceptScreenATMForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "interceptScreenATMForm">
+		<addInterceptScreenATMForm>Add Intercept Screen Plan Information</addInterceptScreenATMForm>
+		<updateInterceptScreenATMForm>Update InterceptScreenATM</updateInterceptScreenATMForm>
+		<planidItem>plan id</planidItem>
+		<createtimeItem>Creating Time</createtimeItem>
+		<repeattypeItem>repeat type</repeattypeItem>
+		<everydayexetimeItem>set everyday time</everydayexetimeItem>
+		<repeatintervalItem>set everyminute time</repeatintervalItem>
+		<plannameItem>Plan Name</plannameItem>
+		<nextexecutetimeItem>Executing Time</nextexecutetimeItem>
+		<termidlistItem>Term ID</termidlistItem>
+		<taskparaItem>task para</taskparaItem>
+		<taskparaversionItem>task para version</taskparaversionItem>
+		<maxretrytimesItem>max retry times</maxretrytimesItem>
+		<retryintervalItem>retry interval</retryintervalItem>
+		<enabledItem>enabled</enabledItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM Model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<brandItem>Brand</brandItem>
+		<timeoutintervalItem>Timeout (hours)</timeoutintervalItem>
+		<addInterceptScreenATMForm>Insert InterceptScreen Plan</addInterceptScreenATMForm>
+		<addProcessForm>Insert Receive Process Plan</addProcessForm>
+		<addHardwareForm>Insert Test Hardware Status Plan</addHardwareForm>
+		<hintOfInputTermid>enter terminal id, 900 characters maximum.</hintOfInputTermid>		
+		<speratedWithCommaSemicolonSpace>separated with comma, semicolon or space.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>or click button to choose</hintOfClickButton>
+	</node>
+</nodes>

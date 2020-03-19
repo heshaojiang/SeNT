@@ -1,0 +1,276 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:parsley="http://www.spicefactory.org/parsley" 
+				xmlns:grg="http://grg.grgbanking.com/platform/"
+				dataDictionaryPaths="{[TermConsts.ENABLE_OR_DISABLE]}"
+				width="100%" height="100%"
+				layout="horizontal" 
+				locale="termModelModule">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="TermModelModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="TermModelModule"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{TermModelModuleConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Binding source="modelName.text" destination="pm.condi.modelName"/>
+	<fx:Binding source="brandId.selectedValue" destination="pm.condi.brandId"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.config.TermModelModuleConfig;
+			import platform.term.constants.TermConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.TermModelMsg;
+			import platform.term.pm.TermModelModulePM;
+			import platform.vo.term.TermModelVo;
+			
+			//========================
+			/** 设备型号管理 **/
+			//========================
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:TermModelModulePM;
+			
+			private var brandIdDataProvider:ArrayCollection = new ArrayCollection();
+			
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function getDataDictCallback():void
+			{
+				trace("TermModelModule.getDataDictCallback");
+				(termModelPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				trace("TermModelModule.transferDataDict");
+				if(column.dataField == "status")
+					currentDataDictPath = TermConsts.ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("TermModelModule.viewUpdateComplete");
+				//pm.init();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				trace("TermModelModule.dispose");
+				termModelPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			//Add 
+			public function add():void
+			{		
+				trace("TermModelModule.add");		
+				//set vo
+				var vo:TermModelVo = new TermModelVo();
+				vo.formType = TermLocalKeyConsts.ADD_TERMMODEL_FORM;
+				openWin(TermLocalKeyConsts.ADD_TERMMODEL_FORM, vo);
+			}
+			
+			/**
+			 * edit datadir item
+			 */
+			public function edit():void
+			{
+				trace("TermModelModule.edit");
+				if (termModelPageGrid.checkedItems.length != 1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var temp:TermModelVo = TermModelVo(termModelPageGrid.checkedItems[0]);
+				
+				var vo:TermModelVo = temp as TermModelVo;
+				vo.formType = TermLocalKeyConsts.UPDATE_TERMMODEL_FORM;
+				
+				openWin(TermLocalKeyConsts.UPDATE_TERMMODEL_FORM, vo);
+				
+			}
+			
+			/**
+			 * delete datadir item
+			 */
+			public function del():void
+			{
+				trace("TermModelModule.del");
+				pm.delTermModel(termModelPageGrid.checkedItems);
+			}
+			
+			override protected function parsleyInit():void
+			{
+				trace("TermModelModule.parsleyInit");
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * dispatch event
+			 */
+			public function openWin(p_winName:String, p_vo:TermModelVo):void
+			{
+				trace("TermModelModule.openWin");
+				//dispatch event
+				var win:TermModelForm = new TermModelForm();
+				
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				
+				win.init();
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getTermModelPageResult")]
+			public function getPageHandler(p_msg:TermModelMsg):void
+			{
+				trace("TermModelModule.getPageHandler-getTermModelPageResult");
+				if(p_msg.result)
+				{
+					termModelPageGrid.checkedItems = [];
+				}
+			}
+			
+			private function reset():void
+			{
+				trace("TermModelModule.reset");
+				this.modelName.text = null;
+				this.brandId.selectedIndex = 0;
+			}
+			
+			
+				
+			public function loadPage():void
+			{
+				pm.loadTermModelPage();
+			}
+		]]>
+	</fx:Script>
+	<s:BorderContainer 
+		width="100%" height="100%"
+		styleName="BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		
+		<!--<grg:TitleBar/>-->
+		<mx:HBox width="100%" styleName="firHBoxStyle" borderVisible="false" height="30">
+			<!-- 设备型号 -->
+			<grg:TitleBar locale="titlemsg" width="50%"/>
+			<mx:HBox  width="100%" styleName="senHBoxStyle" height="30">  
+				<s:BorderContainer  
+					textAlign="center"
+					styleName="searchStyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout 
+							horizontalAlign="right"
+							gap="2"
+							verticalAlign="middle" />
+					</s:layout>
+					<!-- 全部品牌： -->
+					<grg:Label locale="termBrand" />
+					<grg:ComboBox id="brandId" width="105" allItemKey="brandItem" textAlign="left" hasAllItem="true"
+								  dataProvider="{pm.brandIdListForModule}" labelField="brandName" valueField="id"/>
+					<!-- 型号名称： -->
+					<grg:Label locale="modelNameItem" />
+					<grg:TextInput id="modelName" textAlign="left" restrict="^'"
+								   width="113" height="20"
+								   styleName="TextInput" />
+					<grg:SearchButton id="btn_search"
+									  locale="searchButton" menuId="{menu.id}" 
+									  iconType="query" click="pm.page=new Page();pm.loadTermModelPage()"/>
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[this.brandId,this.modelName]}"/>
+				</s:BorderContainer>  
+			</mx:HBox>
+		</mx:HBox>
+		<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid id="termModelPageGrid" dataProvider="{pm.page.result}"
+						  width="100%" height="100%"
+						  paddingLeft="20"
+						  styleName="DataGrid">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										sortable="false"
+										draggable="false"
+										editable="false"
+										resizable="false" 
+										textAlign="center"
+										/>
+					<!-- 型号名称： -->
+					<grg:DataGridColumn locale="modelNameItem"
+										dataField="modelName" 
+										textAlign="left"
+										/>
+					<!-- 全部品牌 -->
+					<grg:DataGridColumn locale="brandItem"
+										dataField="brandName" 
+										textAlign="left"
+										/>
+					<!-- 所属类型 -->
+					<grg:DataGridColumn locale="typeItem"
+										dataField="typeName" 
+										textAlign="left"
+										/>
+					<!-- 流水文件路径 -->
+					<grg:DataGridColumn locale="journalPath" 
+										dataField="journalPath"
+										textAlign="left"
+										/>
+					<!-- 状态 -->
+					<grg:DataGridColumn locale="status" 
+										labelFunction="{transferDataDict}"
+										dataField="status"
+										textAlign="left"
+										/>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox> 
+		<grg:PageNavigatorBar id="termModelPagingBar" x="0" pageVo="{pm.page}"
+							  pagingFunction="{pm.loadTermModelPage}"
+							  bottom="0" />
+	</s:BorderContainer>
+</grg:TabModule>

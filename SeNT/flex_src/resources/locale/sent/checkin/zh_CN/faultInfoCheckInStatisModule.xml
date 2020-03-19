@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="faultInfoCheckInStatisModule">
+		<titlemsg>涉假查询统计</titlemsg>
+		
+		<clearingDateColon>查询日期：</clearingDateColon>
+		<organizationColon>所属机构：</organizationColon>		
+		<to>至</to>		
+		<orgName>所属机构</orgName>
+		<clearingDate>清分日期</clearingDate>
+		<noteCount>清分量</noteCount>
+		<totalNotes>金额</totalNotes>
+		<allNoteCount>清分量总计：</allNoteCount>
+		<allTotalNotes>金额总计：</allTotalNotes>
+		
+		<queryCount>查询业务办理次数</queryCount>
+		<queryResult>查询结果</queryResult>
+		<hasPaid>付出假币</hasPaid>
+		<hasNotPaid>未付出假币</hasNotPaid>
+		<columnNo>序号</columnNo>
+
+		<expExcel>Excel文件导出</expExcel>
+		<sorgName>金融机构名称</sorgName>
+		<applyDatetime>申请时间</applyDatetime>
+
+	</node>
+</nodes>

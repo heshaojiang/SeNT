@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 银行管机员管理 
+	 Create Time：2011-8-19   
+	 Author：Ken.Hu 
+	 Email : hhquan@grgbanking.com -->
+<nodes>
+	<node locale = "termRelativeForm">
+		<addTermRelativePersonForm>Add</addTermRelativePersonForm>
+		<updateTermRelativePersonForm>Update</updateTermRelativePersonForm>
+		<settingTermEquipmentForm>Setting TermEquipment</settingTermEquipmentForm>
+		<managerIdItem>ManagerId:</managerIdItem>
+		<personNameItem>Name:</personNameItem>
+		<traderNameItem>Trader Name:</traderNameItem>
+		<corporatorOrgItem>Organization:</corporatorOrgItem>
+		<contactTelItem>TelePhone:</contactTelItem>
+		<contactMobileItem>MobilePhone:</contactMobileItem>
+		<roleTypes>RoleTypes:</roleTypes>
+		<tmlModelItem>Terminal Model:</tmlModelItem>
+		<workdayItem>Workday:</workdayItem>
+		<workBeginTimeItem>WorkBeginTime:</workBeginTimeItem>
+		<workEndTimeItem>WorkEndTime:</workEndTimeItem>
+		<email>Email:</email>
+		<address>Address:</address>
+		<status>Status:</status>
+		<statusEnable>enable</statusEnable>
+		<statusDisable>disable</statusDisable>
+		<prompt>(if two or more,separated by a comma)</prompt>
+		<promptS>(if two or more,separated by a comma)</promptS>
+		<at>@</at>
+	</node>
+</nodes>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 width="400" height="260" layout="vertical" locale="penaltyInfoPrintForm"
+				 cornerRadius="10" titleKey="penaltyInfoTitle" helpTips="helpTip"
+				 horizontalScrollPolicy="off">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.util.DateUtils;
+			import platform.common.vo.Page;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermInfoModulePM;
+			import platform.vo.term.TermInfoVo;
+			
+			import sent.checkin.pm.PenaltyInfoPrintFormPM;
+			import sent.common.utils.StringUtils;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			import sent.transmgr.vo.CmlSentInfoVO;		
+			
+			[Inject]
+			[Bindable]
+			public var termInfoModulePM:TermInfoModulePM;
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;
+			
+			[Bindable]
+			private var sentInfoVO:CmlSentInfoVO ;
+			[Bindable]
+			private var termInfoVo:TermInfoVo ;
+			[Bindable]
+			public var page:Page = new Page();
+			[Bindable]
+			private var penaltyInfoNOGen:String;
+			
+			public function initData(vo:CmlSentInfoVO):void
+			{
+				sentInfoVO = ObjectUtil.copy(vo) as CmlSentInfoVO;
+				
+				//getCmlSentInfoDetail(sentInfoVO.id,sentInfoVO.fromTableName);
+				
+				var nd:Date = new Date();
+				penaltyInfoNOGen = nd.fullYear.toString()+int(nd.month+1).toString()+
+					int(nd.date+1).toString()+nd.hours+nd.minutes+nd.seconds+
+					sentInfoVO.seriaNo.substring(6);
+				var txt:String = "\n罚没单号："+penaltyInfoNOGen+"\n\n"+
+					"罚没终端："+sentInfoVO.termId+"\n\n"+
+					"冠字号码："+sentInfoVO.seriaNo+"\n\n"+
+					"所属机构："+sentInfoVO.orgName+"\n";
+				printTxt.htmlText = txt;
+			}
+			
+			///////////////////////////
+			
+			//根据冠字号记录，查询终端设备
+			public function getTermInfoById(termId:String):void
+			{
+				trace("ViewCmlTaskSeqForm.getCmlSentInfoDetail");
+				//pm.queryPenaltyTerm(sentInfoVO.termid);
+				var parameter:Object = {};
+				parameter["p_termid"] = termId;
+				var msg:TermInfoMsg = new TermInfoMsg();
+				msg.args["remoteMethod"]   = "getTermInfoById";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "PenaltyInfoPrintForm.getTermInfoByIdResult";
+				msg.args["errorHandler"]   = "PenaltyInfoPrintForm.getTermInfoByIdError";
+				termInfoModulePM.getTermInfoById(msg);
+			}		
+			[MessageHandler(selector="PenaltyInfoPrintForm.getTermInfoByIdResult")]
+			public function getTermInfoByIdResult(p_msg:TermInfoMsg):void
+			{
+				trace("PenaltyInfoPrintForm.getTermInfoByIdResult");
+				if(p_msg.result)
+				{
+					termInfoVo = p_msg.result as TermInfoVo;
+				}
+			}			
+			
+			///////////////////////////
+			
+			//获得冠字号详细信息
+			public function getCmlSentInfoDetail(cmlSentInfoId:String,fromTableName:String):void
+			{
+				trace("ViewCmlTaskSeqForm.getCmlSentInfoDetail");
+				
+				var parameter:Object = {};
+				parameter.id = cmlSentInfoId;
+				parameter.tableName = fromTableName;
+				
+				var cmlSentInfoMsg:CmlSentInfoMsg = new CmlSentInfoMsg();
+				cmlSentInfoMsg.args["remoteMethod"]   = "getCmlSentInfosByIdFromTable";
+				cmlSentInfoMsg.args["methodPrameter"] = parameter;
+				cmlSentInfoMsg.args["resultHandler"]  = "ViewCmlTaskSeqForm.getCmlSentInfosByIdFromTableResult";
+				cmlSentInfoMsg.args["errorHandler"]   = "ViewCmlTaskSeqForm.getCmlSentInfosByIdFromTableError";
+				cmlSentInfoPM.sendCmlSentInfoMsg(cmlSentInfoMsg);
+			}			
+			[MessageHandler(selector="ViewCmlTaskSeqForm.getCmlSentInfosByIdFromTableResult")]
+			public function getCmlSentInfosByIdFromTableResult(msg:CmlSentInfoMsg):void
+			{
+				trace("ViewCmlTaskSeqForm.getCmlSentInfosByIdFromTableResult");
+				var vo:CmlSentInfoVO = msg.result as CmlSentInfoVO;
+				if( vo!=null ){
+					
+					setImageData(vo);
+				}
+			}
+			
+			///////////////////////////
+			
+			//打印
+			protected function grgbtn_print_clickHandler(event:MouseEvent):void
+			{
+				var pj:PrintJob = new PrintJob();
+				if( pj.start()!=true )
+				{
+					return;
+				}else{
+					
+					pj.addPage(printContainer);
+					pj.send();
+					close();
+				}
+			}
+
+			//取消
+			protected function grgbtn_cancel_clickHandler(event:MouseEvent):void
+			{
+				close();
+			}
+			
+			private function setImageData(value:Object):void
+			{
+				/* super.data = value;
+				if( data.imageArr!=null )
+				{
+					myImage.source = data.imageArr;
+					myImage.width = 320;
+					myImage.height = 40;	
+				}
+				else if( StringUtils.isNotBlank(data.fullUrl) )
+				{
+					myImage.source = ".ImageServlet?urlName=" + data.fullUrl;
+					myImage.width = 160;
+					myImage.height = 40;	
+				} */
+			} 
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<!--<grg:Form id="printForm" width="100%"
+			  textAlign = "left" 
+			  borderVisible = "true">
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "penaltyInfoNO">
+			<grg:TextInput id="penaltyInfoNO" text="{penaltyInfoNOGen}" editable="false"
+						   width="165" maxChars="50" required = "true"/>
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "penaltyGrp">
+			<grg:TextInput id="penaltyGrp" text="{sentInfoVO.termid}" editable="false"
+						   width="165" maxChars="50" required = "true"/>
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "penaltySeriaNO">
+			<grg:TextInput id="penaltySeriaNO" text="{sentInfoVO.seriaNo}" editable="false"
+						   width="165" maxChars="50" required = "true"/>
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "penaltyPic">
+			<grg:Image id="myImage"  horizontalAlign="center" verticalAlign="middle" />									
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "penaltyResponGrp">
+			<grg:TextInput id="penaltyResponGrp" text="{sentInfoVO.orgName}" editable="false"
+						   width="165" maxChars="50" required = "true"/>
+		</grg:FormItem>
+	</grg:Form>-->
+	<s:HGroup id="printGroup" width="100%" height="80%" 
+			 horizontalAlign = "center" verticalAlign = "middle">
+		<s:BorderContainer id="printContainer" width="70%" height="85%">
+			<mx:Text id="printTxt" fontFamily="Consolas" fontSize="12" width="90%" paddingLeft="10"/>
+		</s:BorderContainer>
+	</s:HGroup>
+	<s:HGroup width="100%" gap="10" horizontalAlign = "center" verticalAlign = "middle">
+		<grg:Button id="grgbtn_print" locale="printPenalty" iconVisible="false" click="grgbtn_print_clickHandler(event)"/>
+		<grg:Button id="grgbtn_cancel" locale="cancelPenalty" iconVisible="false" click="grgbtn_cancel_clickHandler(event)"/>
+	</s:HGroup>
+</grg:TitleWindow>

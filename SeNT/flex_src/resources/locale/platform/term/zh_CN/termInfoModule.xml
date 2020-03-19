@@ -1,0 +1,49 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="termInfoModule">
+		<listTitle>终端设备信息列表</listTitle>
+		<termCodeItem>终端编号：</termCodeItem>
+		<termSEQItem>设备序列号</termSEQItem>
+		<counterIdItem>柜员号</counterIdItem>
+		<termTypeItem>终端类型</termTypeItem>
+		<alltermTypeItem>全部终端类型</alltermTypeItem>
+		<brandItem>终端品牌</brandItem>
+		<modelItem>设备型号</modelItem>
+		<allbrandItem>全部终端品牌</allbrandItem>
+		<allmodelItem>全部设备型号</allmodelItem>
+		<org>所属机构：</org>
+		<termBrand>终端品牌：</termBrand>
+		<termType>终端类型：</termType>
+		<termModel>设备型号：</termModel>
+		<areaIdItem>所属区域：</areaIdItem>
+		<netAddrItem>终端IP：</netAddrItem>
+		<netPortItem>终端PORT</netPortItem>
+		<saveBoxItem>存款箱数量</saveBoxItem>
+		<cwdBoxItem>取款箱数量</cwdBoxItem>
+		<instDateItem>安装日期</instDateItem>
+		<activeDateItem>开通时间</activeDateItem>
+		<servStartDateItem>维护开始日期</servStartDateItem>
+		<servEndDateItem>维护到期日期</servEndDateItem>
+		<servYearsItem>维护年限</servYearsItem>
+		<termAddrItem>安装地址</termAddrItem>
+		<serviceTypeItem>全部布放模式</serviceTypeItem>
+		<instTypeItem>安装方式</instTypeItem>
+		<layTypeItem>全部设立形式</layTypeItem>
+		<isVideoWatchItem>是否视频监控</isVideoWatchItem>
+		<isUPSItem>是否安装UPS</isUPSItem>
+		<isInterATMItem>国际卡ATM</isInterATMItem>
+		<busiBeginTimeItem>营业开始时间</busiBeginTimeItem>
+		<busiEndTimeItem>营业结束时间</busiEndTimeItem>
+		<softVersionItem>ATMC版本号</softVersionItem>
+		<spVersionItem>SP版本号</spVersionItem>
+		<titlemsg>终端基础信息管理</titlemsg>
+		<fileupload>导入</fileupload>
+		<fileExport>导出</fileExport>
+		<syncSendToSentServer>同步发送</syncSendToSentServer>
+		<operation>打印</operation>
+		<barcodeprint>条码</barcodeprint>
+		<qrcodeprint>二维码</qrcodeprint>
+		
+		<tellerIpItem>所属柜台IP</tellerIpItem>
+	</node>
+</nodes>

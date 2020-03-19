@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="noderInfoModule">
+		<listTitle>终端设备信息列表</listTitle>
+		<termCodeItem>所属机构号：</termCodeItem>
+		<termSEQItem>设备序列号</termSEQItem>
+		<counterIdItem>柜员号</counterIdItem>
+		<termTypeItem>终端类型</termTypeItem>
+		<alltermTypeItem>全部终端类型</alltermTypeItem>
+		<brandItem>终端品牌</brandItem>
+		<modelItem>设备型号</modelItem>
+		<allbrandItem>全部终端品牌</allbrandItem>
+		<allmodelItem>全部设备型号</allmodelItem>
+		<org>所属机构：</org>
+		<termBrand>终端品牌：</termBrand>
+		<termType>终端类型：</termType>
+		<termModel>设备型号：</termModel>
+		<areaIdItem>所属区域：</areaIdItem>
+		<netAddrItem>节点机IP：</netAddrItem>
+		<netPortItem>终端PORT</netPortItem>
+		<saveBoxItem>存款箱数量</saveBoxItem>
+		<cwdBoxItem>取款箱数量</cwdBoxItem>
+		<instDateItem>安装日期</instDateItem>
+		<activeDateItem>开通时间</activeDateItem>
+		<servStartDateItem>维护开始日期</servStartDateItem>
+		<servEndDateItem>维护到期日期</servEndDateItem>
+		<servYearsItem>维护年限</servYearsItem>
+		<termAddrItem>安装地址</termAddrItem>
+		<serviceTypeItem>全部布放模式</serviceTypeItem>
+		<instTypeItem>安装方式</instTypeItem>
+		<layTypeItem>全部设立形式</layTypeItem>
+		<isVideoWatchItem>是否视频监控</isVideoWatchItem>
+		<isUPSItem>是否安装UPS</isUPSItem>
+		<isInterATMItem>国际卡ATM</isInterATMItem>
+		<busiBeginTimeItem>营业开始时间</busiBeginTimeItem>
+		<busiEndTimeItem>营业结束时间</busiEndTimeItem>
+		<softVersionItem>ATMC版本号</softVersionItem>
+		<spVersionItem>SP版本号</spVersionItem>
+		<titlemsg>节点机管理</titlemsg>
+		<fileupload>导入</fileupload>
+		<fileExport>导出</fileExport>
+		<syncSendToSentServer>同步发送</syncSendToSentServer>
+		<operations>选择设备</operations>
+		<runningStatus>运行状态</runningStatus>
+		<statusTime>状态更新时间</statusTime>
+		<parameter>参数信息</parameter>
+		<device>设备信息</device>
+		<noderVersion>节点机版本号</noderVersion>
+		<runningStatusLabel>运行状态</runningStatusLabel>
+		<noderIP>节点机IP</noderIP>
+		<installDir>节点机安装目录</installDir>
+		<midLevelIP>中间层IP</midLevelIP>
+		<importNoderInfoForm>导入节点机信息</importNoderInfoForm>
+		<fileFLogConfig>日志/配置文件管理</fileFLogConfig>
+		<noderType>节点机类型</noderType>
+	</node>
+</nodes>

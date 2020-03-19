@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="common">
+		<fileNotFound>文件不存在</fileNotFound>
+		<exceedMaxFileSize>流水文件大小超过最大限制</exceedMaxFileSize>
+		<fileServerError>文件服务器错误</fileServerError>
+		<httpConnError>HTTP链接错误</httpConnError>
+		<deleteEjFail>删除流水文件失败</deleteEjFail>
+		<moveEjFail>移动流水文件到垃圾箱失败</moveEjFail>
+		<decryptException>解密流水文件发生异常</decryptException>
+		<unzipException>解压流水文件发生异常</unzipException>
+		<readFileException>读取流水文件发生异常</readFileException>
+	</node>
+</nodes>

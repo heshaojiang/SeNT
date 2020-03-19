@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "wTDeviceStatusModule">
+		<listTitle>Donanım Durum Listesi</listTitle>
+		<devStatusIdItem>Kategori Kodu</devStatusIdItem>
+		<devStatusNameItem>Kategori Adı</devStatusNameItem>
+		<devStatusNameEnItem>İngilizce Kategori Adı</devStatusNameEnItem>
+		<levelsItem>Kategori Seviyesi</levelsItem>
+		<operateItem>Tamam</operateItem>
+		<editDetail>Yapılandırma Ayrıntıları</editDetail>
+		
+		
+		<WTDeviceStatusList>Donanım Durum Listesi</WTDeviceStatusList>
+		<WTDeviceStatusListAdd>Donanım Durum Listesi Ekle</WTDeviceStatusListAdd>
+		<WTDeviceStatusListEdit>Donanım Durum Listesi Düzenle</WTDeviceStatusListEdit>
+		<devStaCidItem>Donanım Durumu</devStaCidItem>
+		<partIdItem>Donanım Id</partIdItem>
+		<partCodeItem>Donanım Kodu</partCodeItem>
+		<memoItem>Açıklama</memoItem>
+		<operateItem>Tamam</operateItem>
+		<editItem>Değiştir</editItem>
+		<deleteItem>Sil</deleteItem>
+		<addWTDeviceStatusList>Ekle</addWTDeviceStatusList>
+	</node>
+</nodes>

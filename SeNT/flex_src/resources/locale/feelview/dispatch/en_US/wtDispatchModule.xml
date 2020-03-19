@@ -1,0 +1,38 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 工单表 
+	 Create Time：2011-8-27
+	 Author：whui
+	 -->
+<nodes>
+	<node locale = "wtDispatchModule">
+		<listTitle>dipatch list</listTitle>
+		<timerangeItem>time range:</timerangeItem>
+		<toItem>to</toItem>
+		<dispFlagItem>dispatch type:</dispFlagItem>
+		<flagItem>dispatch status</flagItem>
+		<dispsourceItem>dispatch source</dispsourceItem>
+		<orgItem>branch:</orgItem>
+		<dispidItem>dispatch No.</dispidItem>
+		<termidItem>terminal No.:</termidItem>
+		<waitingItem>waiting</waitingItem>
+		<overtimeItem>overtime no response</overtimeItem>
+		<dispItem>dispatched</dispItem>
+		<intimeItem>overtime to scene</intimeItem>
+		<handlingItem>handling</handlingItem>
+		<overtimerenewItem>overtime&amp;not renew</overtimerenewItem>
+		<unfinishedItem>unfinished</unfinishedItem>
+		<finishedItem>finished</finishedItem>
+		<createtimeItem>create time</createtimeItem>
+		<finishtimeItem>finish time</finishtimeItem>
+		<disptimeItem>dispatch time</disptimeItem>
+		<handlingtimeItem>handling time</handlingtimeItem>
+		<dispstatusItem>dispatch status</dispstatusItem>
+		<timesItem>times(m)</timesItem>
+		<noteItem>note</noteItem>
+		<adminidItem>maintainer</adminidItem>
+		<operationItem>operation</operationItem>
+		<dispTotalItem>total number</dispTotalItem>
+		<resolvedRateItem>resolved rate</resolvedRateItem>
+		<redispItem>redispatch</redispItem>
+	</node>
+</nodes>

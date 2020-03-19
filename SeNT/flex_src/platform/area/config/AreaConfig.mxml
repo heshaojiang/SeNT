@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley" 
+		   xmlns:services="platform.services.*" xmlns:pm="platform.area.pm.*" 
+		   xmlns:message="platform.area.message.*" xmlns:delegate="platform.area.delegate.*" xmlns:layer="platform.layer.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<!-- cardType module -->
+		<pm:AreaFormPM/>
+		<pm:AreaModulePM/>
+		<message:AreaMsg/>
+		<delegate:AreaDelegate/>
+		
+		<!-- remote object -->
+		<services:GRGRemoteObject id="areaService" destination="areaService"/>
+	</fx:Declarations>
+</fx:Object>

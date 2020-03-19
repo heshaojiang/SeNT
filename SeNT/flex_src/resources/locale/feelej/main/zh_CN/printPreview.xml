@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="printPreview">
+		<printPreview>打印预览</printPreview>
+		<allPage>所有页</allPage>
+		<currPage>当前页</currPage>
+		<pageRange>页数：</pageRange>
+		<printGuide>请键入页码和/或页码范围（用逗号分隔），例如：1，3，5-12</printGuide>
+		<print>打印</print>
+		<cancel>取消</cancel>
+		<previous>上一页</previous>
+		<next>下一页</next>
+		<actualSize>真实大小</actualSize>
+		<fitPage>适应整个页面</fitPage>
+		<fitWidth>适应页面宽度</fitWidth>
+		<zoomOut>放大</zoomOut>
+		<zoomIn>缩小</zoomIn>
+	</node>
+</nodes>

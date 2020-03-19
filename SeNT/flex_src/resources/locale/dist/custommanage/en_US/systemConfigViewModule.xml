@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：distServerConfigForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "systemConfigViewModule">
+		<termidItem>Terminal ID</termidItem>
+		<ipaddressItem>IP Address</ipaddressItem>
+		<subnetmaskItem>Subnet mask</subnetmaskItem>
+		<gatewayItem>Gateway</gatewayItem>
+		<dnsItem>DNS</dnsItem>
+		<altdnsItem>Alternative DNS</altdnsItem>
+		<osversionItem>OS Version</osversionItem>
+		<memorysizeItem>Memory Size(M)</memorysizeItem>
+		<disksizeItem>Disk Size(G)</disksizeItem>
+		<soundvolItem>Sound Volume</soundvolItem>
+		<systimeItem>System Date</systimeItem>
+		<lastmodifytimeItem>Latest Modification Time</lastmodifytimeItem>
+		<termidItem>terminla id</termidItem>
+		<termTypeItem>Term Type</termTypeItem>
+		<brandItem>Brand</brandItem>
+		<modelItem>Model</modelItem>
+		<orgItem>Organization</orgItem>
+		<areaIdItem>Area ID</areaIdItem>
+	</node>
+</nodes>

@@ -1,0 +1,326 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/"
+	dataDictionaryPaths="{[DataDirConsts.ENABLE_OR_DISABLE]}"
+	locale="orgModule"
+	layout="horizontal"
+	width="100%" height="100%"
+	top="5">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="OrgModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="OrgModule"/>
+			<parsley:FlexConfig type="{OrgConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{BlackRegulationConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.org.config.OrgConfig;
+			import platform.org.constants.OrgLocalKeyConsts;
+			import platform.org.message.OrgMsg;
+			import platform.org.pm.OrgModulePM;
+			import platform.vo.org.OrgVo;
+			
+			import sent.rule.config.BlackRegulationConfig;
+			import sent.rule.pm.BlackRegulationPM;
+			import sent.rule.vo.BlackRegulationVO;
+			import sent.rule.message.BlackRegulationMsg;
+			
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:OrgModulePM;
+			
+			[Inject]
+			[Bindable]
+			public var blackRegulationPM:BlackRegulationPM;
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function getDataDictCallback():void
+			{
+				(orgPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = DataDirConsts.ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			[MessageHandler(selector="getOrgPageResult")]
+			public function getOrgPage(p_msg:OrgMsg):void
+			{
+				if(p_msg.result)
+					orgPageGrid.checkedItems = [];
+			}
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.loadOrgTree();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				orgPageGrid.checkedItems = [];
+				pm.page = new Page();
+			}
+			
+			[MessageHandler(selector="getTopOrgResult")]
+			public function editTopOrg(p_msg:OrgMsg):void
+			{
+				openWin(OrgLocalKeyConsts.UPDATE_ORG_FORM, p_msg.result as OrgVo, true);
+			}
+			
+			/**
+			 * 打开子窗口
+			 * @param p_winName 打开窗口类型（新增或编辑）
+			 * @param p_vo 要新增或修改的VO
+			 * @param p_isEditTopOrg 是否在编辑顶级机构
+			 */
+			private function openWin(p_winName:String, p_vo:OrgVo, p_isEditTopOrg:Boolean = false):void
+			{
+				var win:OrgForm = new OrgForm();
+				win.titleKey = p_winName;
+				if( p_isEditTopOrg )
+					win.parentName = "";
+				else
+					win.parentName = pm.vo.orgName;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+				win.init();
+			}
+			
+			public function add():void
+			{
+				if (null == pm.vo.id)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_NODE);
+					return;
+				}
+				var vo:OrgVo = new OrgVo();
+				vo.level = String(Number(pm.vo.level) + 1);
+				vo.id = pm.vo.id;
+				vo.parentId = pm.vo.id;
+				openWin(OrgLocalKeyConsts.ADD_ORG_FORM, vo);
+			}
+			
+			//delete org
+			public function del():void
+			{
+				if (orgPageGrid.checkedItems.length == 0)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				
+				AlertHandler.confirm(closeHandler, this, LocaleConsts.CONFIRM_DELETE);
+			}
+			
+			private function closeHandler(event:CloseEvent):void
+			{
+				if (event.detail == Alert.YES)
+				{
+					pm.batchDelete(DataGridUtil.getPropertys("id", orgPageGrid.checkedItems));
+				}
+			}
+			
+			//update org
+			public function edit():void
+			{
+				if( orgPageGrid.checkedItems.length == 0 || orgPageGrid.checkedItems.length > 1 )
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				openWin(OrgLocalKeyConsts.UPDATE_ORG_FORM, orgPageGrid.checkedItems[0] as OrgVo);
+			}
+			
+			public function editTopNode():void
+			{
+				pm.editTopOrg();
+			}
+			
+			public function importFile():void
+			{
+				var vo:OrgVo = new OrgVo();
+				
+				var win:OrgImportForm = new OrgImportForm();
+				win.titleKey = OrgLocalKeyConsts.IMPORT_ORG_FORM;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+			}
+			
+			public function syncSendToSentServer():void
+			{
+				
+				var msg:BlackRegulationMsg = new BlackRegulationMsg();
+				msg.args["remoteMethod"]   = "syncSendToSentServer";
+				msg.args["methodPrameter"] = 2;
+				msg.args["resultHandler"]  = "OrgModule.syncSendToSentServerResult";
+				msg.args["errorHandler"]   = "OrgModule.syncSendToSentServerError";
+				
+				blackRegulationPM.syncSendToSentServer(msg);
+				
+				
+				//pm.syncSendToSentServer();
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="OrgModule.syncSendToSentServerResult")]
+			public function syncSendToSentServerResult(msg:BlackRegulationMsg):void
+			{
+				trace("OrgModule.syncSendToSentServerResult");
+				var result:Object = msg.result;
+				var returnResult:int=1;
+				if(result != null){
+					returnResult = ObjectUtil.copy(msg.result) as int;
+					if(returnResult == 0){
+						AlertHandler.alert("同步成功!");
+					}else{
+						AlertHandler.alert("同步失败!");
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="OrgModule.syncSendToSentServerError")]
+			public function syncSendToSentServerError(msg:BlackRegulationMsg):void
+			{
+				trace("OrgModule.syncSendToSentServerError");
+				trace(msg.result);
+			}
+			
+			
+			//导出excel
+			public function export():void
+			{
+				
+				//pm.exportExcel();
+				// var langMgr:LanguageManager = LanguageManager.getInstance();
+				var msg:OrgMsg = new OrgMsg();
+				msg.type = "exportOrgInfo";
+				msg.args["orgId"] = String(pm.treeXml.@id);
+				// msg.args["language"] = langMgr.currentLanguage;
+				sendMessage(msg);
+			}
+			[MessageHandler(selector="exportOrgInfoResult")]
+			public function exportOrgExcelResultHandler(p_msg:OrgMsg):void
+			{
+				
+				//var language:String = langMgr.currentLanguage;
+				ExternalInterface.call("downloadFile","../servlet/exportFileServlet?fileName=" + p_msg.result.toString()); 
+				
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%" paddingLeft="10" paddingRight="10" gap="0">
+		<!--机构管理-->
+		<grg:TitleBar locale="titlemsg" width="50%"/> 
+		<s:HGroup width="100%" height="100%" paddingTop="3">
+			<mx:HDividedBox width="100%" height="100%"> 
+				<grg:LeftTree id="orgTree" dataProvider="{pm.treeXml}"
+							  width="194" minWidth="230"  maxWidth="250" height="100%"
+							  itemClick="pm.orgTreeItemClickHandler(orgTree.selectedItem as XML)"/>
+				
+				<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+					
+					<s:layout>
+						<s:VerticalLayout gap="0"/>
+					</s:layout> 
+					
+					<mx:HBox width="100%" height="30" verticalAlign="top">
+						<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+							<s:layout>
+								<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+							</s:layout>
+							<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+							<grg:Button locale="fileExport" iconType="export" click="export();"  />
+							<!--导入-->
+							<grg:Button locale="fileupload" iconType="import" click="importFile();"  />
+							
+							<!--同步发送-->
+							<grg:Button id="syncSendToSentServerBtn" locale="syncSendToSentServer" privilegeCode="syncSendToSentServer" 
+										icon="@Embed('resources/theme/images/icons/output.png')" click="syncSendToSentServer()" />
+						</s:BorderContainer> 
+					</mx:HBox>
+					
+					<grg:GRGExtendPropDataGrid id="orgPageGrid" dataProvider="{pm.page.result}"
+											   width="100%" height="100%"
+											   paddingLeft="20" itemType="{OrgVo}"
+											   textAlign="center"
+											   doubleClickEnabled="true"
+											   styleName="DataGrid">
+						<grg:columns>
+							<grg:CheckBoxColumn id="checkBoxCol" textAlign="center" sortable="false" draggable="false" editable="false"
+												resizable="false" />
+							<!--机构顺序-->
+							<grg:DataGridColumn locale="orgOrder" dataField="order"  textAlign="center" />
+							<!--机构代码-->
+							<grg:DataGridColumn locale="orgCode" dataField="orgCode"  textAlign="left" />
+							<!--机构名称-->
+							<grg:DataGridColumn locale="orgName" dataField="orgName"  textAlign="left" />
+							<!--联系人-->
+							<grg:DataGridColumn locale="contactPerson" dataField="contact" textAlign="left" />
+							<!--联系电话-->
+							<grg:DataGridColumn locale="telephone" dataField="tel"  textAlign="left" />
+							<!--机构地址-->
+							<grg:DataGridColumn locale="orgAddress" dataField="address"  textAlign="left" />
+							<!--状态-->
+							<grg:DataGridColumn locale="status" dataField="status"  textAlign="left" labelFunction="{transferDataDict}" />
+						</grg:columns>
+					</grg:GRGExtendPropDataGrid>
+					
+					<grg:PageNavigatorBar id="orgPagingBar" x="0" pageVo="{pm.page}" pagingFunction="{pm.loadOrgPage}" bottom="0" />
+					
+				</s:BorderContainer>
+			</mx:HDividedBox>
+		</s:HGroup>
+	</s:VGroup>
+</grg:TabModule>

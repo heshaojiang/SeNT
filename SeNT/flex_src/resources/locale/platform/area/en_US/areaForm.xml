@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "areaForm">
+		<addAreaForm>Add</addAreaForm>
+		<updateAreaForm>Edit</updateAreaForm>
+		<parentName>ParentName:</parentName>
+		<areaName>AreaName:</areaName>
+		<description>Description:</description>
+		<disOrder>DisLocation:</disOrder>
+		<status>Status:</status>
+		<statusEnable>Enable</statusEnable>
+		<statusDisable>Disable</statusDisable>
+	</node>
+</nodes>

@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlDistributeCashForm">
+		<distributeCash>配钞</distributeCash>
+		
+		<atmDistByBunch>ATM分捆配钞</atmDistByBunch>
+		<atmDistByWholeBox>ATM整箱配钞</atmDistByWholeBox>
+		<distByKXCashBox>款箱配钞</distByKXCashBox>
+		<distByCashBag>人行钞袋配钞</distByCashBag>
+		<branchDistByKXCashBox>网点款箱配钞</branchDistByKXCashBox>
+		
+		
+		<zrcxdkc>装入钞箱的捆钞 </zrcxdkc>
+		<zrkxdkc>装入款箱的捆钞 </zrkxdkc>
+		<zrcddkc>装入钞袋的捆钞 </zrcddkc>
+		
+		
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		<kxcashboxNumColon>款箱号：</kxcashboxNumColon>
+		<cashbagNumColon>钞袋号：</cashbagNumColon>
+		
+		
+		<followTypeColon>配钞渠道：</followTypeColon>
+		<flowNumColon>流转条码：</flowNumColon>
+		
+		
+		<delete>删除</delete>
+		<addCashBunch>增加捆钞</addCashBunch>
+		
+		<save>保存</save>
+		<cancel>取消</cancel>
+	</node>
+</nodes>

@@ -1,0 +1,179 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow
+			   width="450" height="300"
+					   layout = "vertical"
+					   locale = "cmlImpRecordsAginForm"
+					   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					   xmlns:s = "library://ns.adobe.com/flex/spark"
+					   xmlns:mx = "library://ns.adobe.com/flex/mx"
+					   xmlns:parsley="http://www.spicefactory.org/parsley"
+					   xmlns:grg="http://grg.grgbanking.com/platform/" helpTips="helpImportTip">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import cml.task.message.CmlTaskInfosMsg;
+			import cml.task.pm.CmlTaskInfosPM;
+			import cml.task.vo.CmlImpRecordsVO;
+			import cml.task.vo.CmlTaskInfosVO;
+			
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.manager.AlertHandler;
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:CmlTaskInfosPM;
+			
+			[Bindable]
+			public var cmlImpRecords:CmlImpRecordsVO = new CmlImpRecordsVO();
+            [Bindable]
+			public var cmlTaskInfos:CmlTaskInfosVO = new CmlTaskInfosVO();
+            [Bindable]
+			public var obj:Object = new Object();
+			
+			[Bindable]
+			
+			public var index:Number = new Number();
+			
+			
+			public var fr:FileReference ;
+			
+			public var callBack:Function;
+			
+		
+		
+			
+	 		 public function browseFile():void{
+				
+	 			 fr = new FileReference();
+		 	 var   ff:FileFilter= new FileFilter("ALLFILE(csv,xls)","*.csv;*.xls" );
+		 	 var arr:Array = new Array();
+		  	arr.push(ff);
+		 		 fr.browse(arr);
+		  fr.addEventListener(Event.SELECT,selectHandler);
+		  
+	  
+	 	 		}
+			
+			public function selectHandler(event:Event):void{
+			
+				fr.load();
+				filePath.text = fr.name;
+			
+			
+			}
+			
+			public function save():void{
+				var msg:CmlTaskInfosMsg = new CmlTaskInfosMsg();
+				 msg.type="checkAgainFile";
+				msg.args["name"]=fr.name;
+				msg.args["taskNum"]=cmlTaskInfos.taskNum;
+				msg.args["oldName"]=cmlImpRecords.oldName;
+				sendMessage(msg);
+			
+//				pm.checkFile(fr.name,cmlTaskInfos.taskNum,cmlImpRecords.oldName,0xB);
+				//pm.checkAgainFile(fr.name,cmlTaskInfos.taskNum,cmlImpRecords.oldName);
+				
+				//pm.checkFile(arr, cmlTaskInfos.taskNum);
+				//pm.updateImpRecords(cmlImpRecords,cmlTaskInfos,fr.data, obj.tmlType,fr.name);
+			}
+			
+			//[MessageHandler(selector="checkAgainFileResult")]
+			
+		
+			
+			[MessageHandler(selector="checkAgainFileResult")]
+			public function checkUploadFileResult(r_result:CmlTaskInfosMsg):void{
+				if(r_result){
+					var a:Number = r_result.result as Number;
+				if(a > 0){
+						filePath.text = "";
+				
+					}else{
+						pm.updateImpRecords(cmlImpRecords,cmlTaskInfos,fr.data, obj.tmlType,fr.name);
+					}
+						
+					}
+					}
+
+			[MessageHandler(selector="updateImpRecordsResult")]
+			public function updateImpRecordsResult(r_result:CmlTaskInfosMsg):void{
+				if(r_result){
+				  cmlImpRecords = r_result.result as CmlImpRecordsVO;
+				  if(null != callBack){
+				  callBack(cmlImpRecords,index);
+				  close();
+				  }
+				}
+			
+			}
+		]]>
+	</fx:Script>
+
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<grg:Form id="form"
+					  width="50%" height="100%"
+					  paddingTop = "20"
+					  textAlign = "left"
+					  borderVisible = "false">
+			
+				<grg:FormItem width="100%" locale="tmlNum" >
+					<grg:Text text="@{cmlTaskInfos.tmlNum}" 
+							  width="130"/>
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%" locale="moneySource">
+					<grg:Text width="130" text="{obj.orgInfoName}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="tmlType">
+					<grg:Text width="130" text="{obj.tmlType}"/>
+				</grg:FormItem>
+				
+				
+				<grg:FormItem width="100%" locale="fileName">
+					<grg:Text width="130" text="{cmlImpRecords.oldName}"/>
+				</grg:FormItem>
+				
+				
+				
+				<grg:FormItem width="100%" locale="operator">
+					<grg:Text width="130" text="{obj.operatorName}"/>
+				</grg:FormItem>
+					<grg:FormItem id="uploadFileItem" locale="filePath" required="true" direction="horizontal">
+						<grg:TextInput  id="filePath" width="200" required="true" editable="false" enabled="false" />
+						<grg:Button id="CheckUploadDataFrm_browseBtn" locale="chooseButton" click="browseFile()"/>
+					</grg:FormItem>
+			</grg:Form>
+		</s:Group>
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="saveButton"
+				click = "save()"
+				locale = "saveButton"
+				 />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton"
+				 />
+		</s:BorderContainer>
+	</s:HGroup> 
+</grg:TitleWindow>
+

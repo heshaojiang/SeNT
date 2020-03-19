@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "menuModule">
+		<listTitle>Menu List</listTitle>
+		<menuColumnName>Menu Name</menuColumnName>
+		<menuLinkURL>Menu URL</menuLinkURL>
+		<rootURL>Root URL</rootURL>
+		<menuOrder>Menu Order</menuOrder>
+		<operations>operations</operations>
+	</node>
+</nodes>

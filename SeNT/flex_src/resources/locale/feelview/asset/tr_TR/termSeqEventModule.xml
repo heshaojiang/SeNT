@@ -1,0 +1,41 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termSeqEventModule">
+		<openExamineForm>Kontrole Başla</openExamineForm>
+		<stopExamineForm>Kontrolü Durdur</stopExamineForm>
+		<scrapExamineForm>Kontrolü İptal Et</scrapExamineForm>
+		<transferExamineForm>Kontrolü Aktar</transferExamineForm>
+		<openEvent>İşlemi Aç</openEvent>
+		<transferEvent>İşlemi Aktar</transferEvent>
+		<stopEvent>İşlemi Durdur</stopEvent>
+		<scrapEvent>İşlemi İptal Et</scrapEvent>
+		<seqno>Sıra Numarası</seqno>
+		<termtype>Terminal Tipi</termtype>
+		<brand>Marka</brand>
+		<model>Model</model>
+		<insttype>Montaj Tipi</insttype>
+		<batch>Grup</batch>
+		<orgname>Şube</orgname>
+		<statu>Durum</statu>
+		<operations>Tamam</operations>
+		<openEventdate>İşlem Açılış Tarihi</openEventdate>
+		<opendate>Açılış Tarihi</opendate>
+		<Eventtermid>İşlem Terminal Id</Eventtermid>
+		<termid>Terminal Id</termid>
+		<addr>Adres</addr>
+		<beginTime>Başlangıç Zamanı</beginTime>
+		<endTime>Bitiş Zamanı</endTime>
+		<reason>Sebep</reason>
+		<scrapDate>İptal Tarihi</scrapDate>
+		<address>Adres</address>
+		<oldTermid>Eski Terminal Id</oldTermid>
+		<oldOrgname>Eski Organizasyon</oldOrgname>
+		<oldAddress>Eski Adres</oldAddress>
+		<optStatu>Durum</optStatu>
+		<note>Açıklama</note>
+	</node>
+</nodes>

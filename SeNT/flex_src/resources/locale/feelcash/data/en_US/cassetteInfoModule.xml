@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cassetteInfoModule">
+		<newCassetteInfo>Add CassetteInfo</newCassetteInfo>
+	    <editCassetteInfo>Edit CassetteInfo</editCassetteInfo>
+	    
+		<termCode>Terminal Code</termCode>
+		<termAddr>Terminal Address</termAddr>
+		<amount>Amount</amount>
+		<slotLocat>Slot Location</slotLocat>
+		<creator>Creator</creator>
+		<createDate>Create Date</createDate>
+	</node>
+</nodes>

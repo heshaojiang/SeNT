@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+<node locale="arithmeticParamForm">
+<addArithmeticParamForm>新增参数</addArithmeticParamForm>
+<updateArithmeticParamForm>修改参数</updateArithmeticParamForm>
+<arithmeticParamCode>参数标识 :</arithmeticParamCode>
+<arithmeticParamName>参数名称 :</arithmeticParamName>
+<arithmeticParamType>参数类型 :</arithmeticParamType>
+<arithmeticParamValue>参数值 :</arithmeticParamValue>
+<realationCodeLabel>关联参数 :</realationCodeLabel>
+</node>
+</nodes>

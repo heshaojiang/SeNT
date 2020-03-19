@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "orgModule">
+		<listTitle>Organization List</listTitle>
+		<editTopOrg>Edit Top Organize</editTopOrg>
+		<orgCode>Org Code</orgCode>
+		<orgName>Org Name</orgName>
+		<contactPerson>Contact</contactPerson>
+		<telephone>Phone No.</telephone>
+		<orgAddress>Address</orgAddress>
+		<orgOrder>Order</orgOrder>
+		<status>Status</status>
+	</node>
+</nodes>

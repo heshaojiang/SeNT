@@ -1,0 +1,246 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley"
+	xmlns:grg="http://grg.grgbanking.com/platform/"
+	locale="dataDirModule"
+	layout="horizontal"
+	width="100%" height="100%">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="DataDirModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="DataDirModule"/>
+			<parsley:FlexConfig type="{DataDirModuleConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.dataDict.DataDirMsg;
+			import platform.datadir.config.DataDirModuleConfig;
+			import platform.datadir.local.DataDirFormConsts;
+			import platform.datadir.pm.DataDirModulePM;
+			import platform.vo.datadir.DataDirVo;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/			
+			[Inject]
+			[Bindable]
+			public var pm:DataDirModulePM;
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/	
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("DataDirModule.viewUpdateComplete");
+				pm.loadDataDirTree();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				trace("DataDirModule.dispose");
+				dataDirPageGrid.checkedItems = [];
+				pm.page = new Page();
+			}
+			
+			//Add 
+			public function add():void
+			{
+				trace("DataDirModule.add");
+				if (null == pm.curNodeData.parentid)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_NODE);
+					return;
+				}
+				
+				//set vo
+				var vo:DataDirVo = new DataDirVo();
+				vo.parentid = pm.curNodeData.id;
+				vo.order = getNextOrder() ;
+				
+				var msg:DataDirMsg = new DataDirMsg();
+				msg.type = "getKeyPath";	// java: "getKeyPath", result: "getKeyPathResult"
+				msg.args["id"] = pm.curNodeData.id;
+				msg.args["winType"] = DataDirFormConsts.ADD_DATADIR_FORM;
+				msg.args["vo"] = vo;
+				sendMessage(msg);
+			}
+			
+			/*return order number of next new rocord*/
+			private function getNextOrder():int
+			{
+				trace("DataDirModule.getNextOrder");
+				var max:int = 0;
+				for each(var obj:Object in dataDirPageGrid.dataProvider)
+				{
+					if (int(obj["order"])>max)
+					{
+						max = int(obj["order"]);
+					}
+				}
+				
+				return max+1;
+			}
+			
+			/**
+			 * edit datadir item
+			 * */
+			public function edit():void
+			{
+				trace("DataDirModule.edit");
+				if (dataDirPageGrid.checkedItems.length != 1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				
+				var msg:DataDirMsg = new DataDirMsg();
+				msg.type = "getKeyPath";
+				msg.args["id"] = pm.curNodeData.id;
+				msg.args["winType"] = DataDirFormConsts.UPDATE_DATADIR_FORM;
+				msg.args["vo"] = DataDirVo(dataDirPageGrid.checkedItems[0]);
+				sendMessage(msg);
+			}			
+			
+			/**
+			 * 打开编辑窗口
+			 * */
+			[MessageHandler(selector="getKeyPathResult")]
+			public function getKeyPathHandler(p_msg:DataDirMsg):void
+			{
+				trace("DataDirModule.getKeyPathHandler - getKeyPathResult");
+				p_msg.args["vo"].keypath = p_msg.result as String; 
+				openWin(p_msg.args["winType"], p_msg.args["vo"]);
+			}
+			
+			/**
+			 * delete datadir item
+			 * */
+			public function del():void
+			{
+				trace("DataDirModule.del");
+				pm.delDataDir(dataDirPageGrid.checkedItems);
+			}
+			
+			override protected function parsleyInit():void
+			{
+				trace("DataDirModule.parsleyInit");
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * dispatch event
+			 * */
+			private function openWin(p_winName:String, p_vo:DataDirVo):void
+			{
+				trace("DataDirModule.openWin");
+				//dispatch event
+				var win:DataDirForm = new DataDirForm();				
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getDataDirPageResult")]
+			public function getPageHandler(p_msg:DataDirMsg):void
+			{
+				trace("DataDirModule.getPageHandler - getDataDirPageResult");
+				if(p_msg.result)
+				{
+					dataDirPageGrid.checkedItems = [];
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%" paddingLeft="10" paddingRight="10">
+		
+		<!--数据字典-->
+		<grg:TitleBar locale="titlemsg" width="100%"/>
+		
+		<mx:HDividedBox width="100%" height="100%">
+			
+			<grg:LeftTree id="subDataDirTree" dataProvider="{pm.treeXml}" width="250" maxWidth="500" height="100%"
+						  itemClick="{pm.setCurrentSelectedItem(subDataDirTree.selectedItem)}">
+			</grg:LeftTree>
+			
+			<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0"/>
+				</s:layout> 
+				
+				<mx:HBox width="100%" paddingLeft="10">
+					<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+						</s:layout>
+						<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+					</s:BorderContainer>
+				</mx:HBox>
+				
+				<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+					
+					<grg:DataGrid id="dataDirPageGrid" dataProvider="{pm.page.result}"
+								  width="100%" height="100%" paddingLeft="20" styleName="DataGrid">
+						<grg:columns>
+							<grg:CheckBoxColumn id="checkBoxCol"
+												textAlign="center"
+												sortable="false"
+												draggable="false"
+												editable="false"
+												resizable="false" />
+							<!--顺序-->
+							<grg:DataGridColumn locale="itemOrder"
+												dataField="order" 
+												textAlign="center"
+												/>
+							<!--项目键-->
+							<grg:DataGridColumn locale="itemKey"
+												dataField="key" 
+												textAlign="left"
+												/>
+							<!--项目值-->
+							<grg:DataGridColumn locale="itemValue"
+												dataField="value" 
+												textAlign="left"
+												/>
+							<!--备注-->
+							<grg:DataGridColumn locale="datadirNote"
+												dataField="noteEn" 
+												textAlign="left"
+												/>
+						</grg:columns>
+					</grg:DataGrid>
+				</mx:HBox>
+				
+				<grg:PageNavigatorBar id="dataDirPagingBar" x="0" pageVo="{pm.page}" pagingFunction="{pm.loadDataDirPage}" bottom="0" />
+				
+			</s:BorderContainer>
+		</mx:HDividedBox>
+	</s:VGroup>
+</grg:TabModule>

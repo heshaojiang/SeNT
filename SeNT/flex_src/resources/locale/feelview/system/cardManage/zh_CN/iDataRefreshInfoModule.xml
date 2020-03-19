@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- * Description： 刷新数据缓存接口<br>
+	 * Create Time：2011-11-16<br>  
+	 * Author：Ming.Zhang  <br>
+	 * Email : zyming1@grgbanking.com <br>
+	 -->
+<nodes>
+	<node locale = "iDataRefreshInfoModule">
+		<listTitle>刷新缓存数据接口按钮列表</listTitle>
+		<status>状态</status>
+		<refreshAllButton>刷新所有缓存</refreshAllButton>
+		<refreshEventDefButton>刷新终端事件定义缓存</refreshEventDefButton>
+		<refreshOrgEventDefButton>刷新机构事件定义缓存</refreshOrgEventDefButton>
+		<refreshBankCardInfoButton>刷新本行卡卡表信息缓存</refreshBankCardInfoButton>
+		<refreshBlackCardInfoButton>刷新黑卡规则缓存</refreshBlackCardInfoButton>
+		<refreshTmlInfoButton>刷新终端信息缓存</refreshTmlInfoButton>
+		<refreshUnionPayCardInfoButton>刷新银联卡表信息缓存</refreshUnionPayCardInfoButton>
+		<refreshDataDirButton>刷新数据字典缓存</refreshDataDirButton>
+		<refreshWtClasslistButton>刷新运行状态类别信息缓存</refreshWtClasslistButton>
+		<refreshMessageRule>刷新通知规则</refreshMessageRule>
+		<synchronizationResponsible>同步终端维护人员</synchronizationResponsible>
+		<helpSetServer>必须设置param.feelview.system.serverIP为监控报文处理服务器实际IP，多个服务器用,分隔，对应各自的端口在serverPort也用,分隔配置</helpSetServer>
+	</node>
+</nodes>

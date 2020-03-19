@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "groupModule">
+		<listTitle>GroupList</listTitle>
+		<keyword>Group Name:</keyword>
+		<grpName>Name</grpName>
+		<grpNote>Note</grpNote>
+		<status>Status</status>
+		<operations>Operation</operations>
+	</node>
+</nodes>

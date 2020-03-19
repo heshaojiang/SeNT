@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="loginLogModule">
+		
+		<titlemsg>登录日志</titlemsg>
+		
+		<beginTime>时间范围：</beginTime>
+		<to>至</to>
+		<userIdColon>用户帐号：</userIdColon>
+		
+		
+		
+		
+		<userId>用户帐号</userId>
+		<userName>用户名</userName>
+		<hostIp>客户端 ip</hostIp>
+		<loginTime>登入时间</loginTime>
+		<logoutTime>登出时间</logoutTime>
+		<result>登录结果</result>
+		<note>备注</note>
+		
+		
+		<listTitle>登录日志列表</listTitle>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</node>
+</nodes>

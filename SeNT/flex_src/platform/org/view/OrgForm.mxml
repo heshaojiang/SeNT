@@ -1,0 +1,332 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow dataDictionaryPaths="{[DataDirConsts.ORG_LEVEL]}"
+				width="400" height="550"
+				cornerRadius = "10"
+				textAlign = "left"
+				layout = "vertical"
+				locale = "orgForm"
+				xmlns:fx = "http://ns.adobe.com/mxml/2009"
+				xmlns:s = "library://ns.adobe.com/flex/spark"
+				xmlns:mx = "library://ns.adobe.com/flex/mx"
+				xmlns:parsley="http://www.spicefactory.org/parsley"
+				xmlns:grg="http://grg.grgbanking.com/platform/" helpTips="orgHelp">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.org.constants.OrgConsts;
+			import platform.org.constants.OrgLocalKeyConsts;
+			import platform.org.message.OrgMsg;
+			import platform.org.pm.OrgFormPM;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:OrgFormPM;
+			
+			[Bindable]
+			private var orgLevel:String;
+			
+			[Bindable]
+			public var parentName:String = "";
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function getDataDictCallback():void
+			{
+				if(pm.orgInfo.level)
+					convertOrgLevel();
+			}
+			
+			public function init():void
+			{
+				if(titleKey == OrgLocalKeyConsts.ADD_ORG_FORM){
+					pm.getMaxOrder();
+				}
+				if(dataDictionaryCache[DataDirConsts.ORG_LEVEL])
+					convertOrgLevel(); 
+				this.basic.addChildAt(this.drawCircle(),0);
+				this.expend.addChildAt(this.drawCircle(),0);
+			}
+			
+			private function convertOrgLevel():void
+			{
+				var arrc:ArrayCollection = dataDictionaryCache[DataDirConsts.ORG_LEVEL] as ArrayCollection;
+				arrc.source.sortOn("key", Array.NUMERIC);
+				var str:String = "";
+				for(var i:int = 0;i < arrc.length;i++){
+					var obj:Object = arrc.getItemAt(i);
+					if(int(obj.key) <= int(pm.orgInfo.level))
+						str += obj.text + "/";
+					else
+						break;
+				}
+				orgLevel = str.substr(0, str.length - 1);
+			}
+			
+			protected function submit():void
+			{
+				orgCode.text = StringUtil.trim(orgCode.text);
+				orgName.text = StringUtil.trim(orgName.text);
+				orgFullName.text = StringUtil.trim(orgFullName.text);
+				finacialCode.text = StringUtil.trim(finacialCode.text);
+				contact.text = StringUtil.trim(contact.text);
+				tel.text = StringUtil.trim(tel.text);
+				contact.text = StringUtil.trim(contact.text);
+				//				address.text = StringUtil.trim(address.text);
+				
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				//				pm.orgInfo.status = org_status.value.toString();
+				if (titleKey == OrgLocalKeyConsts.ADD_ORG_FORM){
+					pm.update("newOrg");
+				}else if (titleKey == OrgLocalKeyConsts.UPDATE_ORG_FORM){
+					pm.update("update");
+				}
+				
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="orgSaveError")]
+			public function saveErrorHandler(p_msg:OrgMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}			
+
+			[MessageHandler(selector="orgSaveSuccess")]
+			public function saveResultHandler(p_msg:OrgMsg):void
+			{
+				if (p_msg.result){
+					if (p_msg.result == "-2") {
+						//未改变
+					}else if (p_msg.result == "-1") {
+						AlertHandler.alert(LocaleConsts.NAME_ALREADY_EXISTED);
+					}else if (p_msg.result == "0"){
+						//						AlertHandler.success("saveSuccess");
+						close();
+					}
+				}
+			}
+			
+			private function showExPropHandler(i:int):void
+			{
+				if(form.x == 0 && i == 1){
+					//extendLabel.locale = "baseProperty";
+					showExPropEffect([form], 0, -width);
+					showExPropEffect([grgTileList], width, 0);
+				}else if(form.x == -width && i==2){
+					//extendLabel.locale = "extendProperty";
+					showExPropEffect([form], -width, 0);
+					showExPropEffect([grgTileList], 0, width);
+				}
+			} 
+			
+			private function drawCircle():UIComponent{
+				var t:UIComponent= new UIComponent();
+				var circle:Sprite = new Sprite();
+				circle.graphics.lineStyle(2,0xffffff);
+				circle.graphics.drawCircle(16, 0, 11);
+				t.addChild(circle);
+				return t;  
+			}
+		]]>
+	</fx:Script>
+	<s:BorderContainer borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout gap="0" paddingTop="20" paddingLeft="15"> 
+			</s:HorizontalLayout> 
+		</s:layout>
+		<mx:Canvas borderVisible="false" left="20">
+		<s:BorderContainer x="0" buttonMode="true" click="showExPropHandler(2)"  backgroundImage="@Embed(source='/resources/theme/newui/nav1.png')" borderVisible="false" width="120" height="27">
+			<s:layout>
+				<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+				</s:HorizontalLayout> 
+			</s:layout>
+			<mx:HBox id="basic" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" paddingLeft="15" backgroundAlpha="0"> 
+			<grg:Label backgroundAlpha="0" paddingLeft="3" locale="baseProperty" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(2)"> 
+			</grg:Label>
+			</mx:HBox> 
+		</s:BorderContainer>
+		<s:BorderContainer x="107" buttonMode="true" click="showExPropHandler(1)" backgroundImage="@Embed(source='/resources/theme/newui/nav2.png')" borderVisible="false" width="120" height="27">
+			<s:layout>
+				<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+				</s:HorizontalLayout> 
+			</s:layout>
+			<mx:HBox  id="expend" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" backgroundAlpha="0" paddingLeft="15">  
+			<grg:Label backgroundAlpha="0" paddingLeft="3" locale="extendProperty" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(1)"> 
+			</grg:Label>
+			</mx:HBox>
+		</s:BorderContainer>
+		</mx:Canvas> 
+	</s:BorderContainer> 
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<grg:Form id="form"
+						width="100%" height="100%"
+						paddingTop = "20"
+						textAlign = "left"
+						borderVisible = "false">
+			<grg:FormItem locale = "orgLevel"
+								width="100%"
+								textAlign = "left">
+				<grg:TextInput width="230" text = "{orgLevel}" borderVisible = "false" 
+							   toolTip="{orgLevel}" editable = "false"
+							   contentBackgroundAlpha = "0"/>
+			</grg:FormItem>
+			<grg:FormItem locale = "parentName"
+								width="100%"
+								textAlign = "left">
+				<grg:Label text = "{parentName}" toolTip="{parentName}"/>
+			</grg:FormItem>
+			<grg:FormItem locale = "orgCode"
+								width="100%"
+								textAlign = "left"
+								required = "true">
+				<grg:TextInput id="orgCode" text="@{pm.orgInfo.orgCode}" maxChars="32"
+							   width="230" required="true" maxnum="32" restrict="0-9a-zA-Z"
+								   vtype="maxchars"/>
+			</grg:FormItem>
+			<grg:FormItem locale = "orgName"
+								width="100%"
+								textAlign = "left"
+								required = "true">
+				<grg:TextInput id="orgName" text="@{pm.orgInfo.orgName}"
+							   width="230" required="true" maxnum="100" maxChars="100"
+								   vtype = "maxchars"/>
+			</grg:FormItem>
+			<grg:FormItem locale = "orgFullName"
+								width="100%" required="true">
+				<grg:TextInput id="orgFullName" maxnum="200"
+								   vtype = "maxchars" maxChars="200"
+								   width="230" required="true" text="@{pm.orgInfo.orgFullName}"/>
+			</grg:FormItem>
+	<!--		<container:FormItem 
+				width="100%"
+				locale = "areaName"
+				required = "true">
+				<tree:GRGComboxBoxAreaTree  id="areaId" selectedValue="@{pm.orgInfo.areaId}"
+											width="150"
+											textAlign = "left"
+											treeheight="150"
+											valueField = "@id" />
+			</container:FormItem>-->
+			<grg:FormItem locale = "finacialCode" width="100%" textAlign = "left">
+				<grg:TextInput id="finacialCode" name = "finacialCode" maxnum="64"
+							   vtype = "maxchars" maxChars="64" restrict="0-9a-zA-Z*"
+							   width="230" text="@{pm.orgInfo.finacialCode}"/>
+			</grg:FormItem>
+			<grg:FormItem locale = "contactPerson"
+								width="100%"
+								textAlign = "left">
+				<grg:TextInput id="contact" name = "contact" maxnum="60"
+								   vtype = "maxchars" maxChars="60"
+								   width="230" text="@{pm.orgInfo.contact}"/>
+			</grg:FormItem>
+			<grg:FormItem locale = "telephone"
+								width="100%"
+								textAlign = "left">
+				<grg:TextInput id="tel" name = "tel" maxnum="50" maxChars="13"
+								   vtype = "maxchars" restrict="0-9-(),"
+								   width="230" text="@{pm.orgInfo.tel}"/>
+				<grg:Label locale="telTips"/>
+			</grg:FormItem>
+			<grg:FormItem locale = "orgAddress"
+								width="100%"
+								textAlign = "left">
+				<grg:TextInput id="address" name = "address" maxnum="200"
+								   vtype = "maxchars" maxChars="200"
+								   width="230" text="@{pm.orgInfo.address}"/>
+			</grg:FormItem>
+			<grg:FormItem 
+				width="100%"
+				textAlign = "left"
+				locale = "orgOrder">
+				<grg:NumericStepper id="order" name = "order"
+										minimum = "1" value="@{pm.orgInfo.order}"
+									 maximum="9999"
+										stepSize = "1" />
+			</grg:FormItem>
+			<grg:FormItem 
+				width="100%"
+				textAlign = "left"
+				locale = "status">
+				<mx:HBox>
+					
+					<grg:RadioButtonGroup id="org_status" value="@{pm.orgInfo.status}" />
+					<grg:RadioButton id="statusEnable" group = "{org_status}"
+										 value = "Y"
+										 locale = "statusEnable" />
+					<grg:RadioButton id="statusDisable" group = "{org_status}"
+										 value = "N"
+										 locale = "statusDisable" />
+				</mx:HBox>
+			</grg:FormItem>
+			<grg:FormItem locale = "note"
+								width="100%"
+								textAlign = "left">
+				<grg:TextArea id="note" maxnum="200"
+								  vtype = "maxchars" maxChars="200"
+								  width="230" text="@{pm.orgInfo.note}"/>
+			</grg:FormItem>
+		</grg:Form>
+		<grg:GRGAutoTileList id="grgTileList" x="{width}" width="{width - 100}" dataProvider="{pm.extendProperties}" 
+								 itemWidth="220" relativeObject="@{pm.orgInfo}"/>
+		
+	</s:Group>	 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn"
+						iconVisible="false"
+						click = "submit()"
+						locale = "saveButton"
+						 />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "cancel()"
+						locale = "cancelButton"
+						 />
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

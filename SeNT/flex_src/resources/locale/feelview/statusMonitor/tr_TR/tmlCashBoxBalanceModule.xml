@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：钱箱余额查询<br>
+        Create Time：2011-12-24 <br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlCashBoxBalanceModule">
+		<listTitle>Denge sorgu liste kutusu</listTitle>
+		<termIdItem>rminal numarası</termIdItem>
+		<orgIdItem>üyelik</orgIdItem>
+		<cashBoxOneItem>Kutu A</cashBoxOneItem>
+		<cashBoxTwoItem>Kutu iki</cashBoxTwoItem>
+		<cashBoxThreeItem>Kutu üç</cashBoxThreeItem>
+		<cashBoxFourItem>Kutu dört</cashBoxFourItem>
+		<cashBoxFiveItem>Kutu beş</cashBoxFiveItem>
+		<cashBoxSixItem>Kutu altı</cashBoxSixItem>
+		<cashBoxSevenItem>Kutu yedi</cashBoxSevenItem>
+		<cashBoxEightItem>Kutu sekiz</cashBoxEightItem>
+		<cashBoxNineItem>Kutu dokuz</cashBoxNineItem>
+	</node>
+</nodes>

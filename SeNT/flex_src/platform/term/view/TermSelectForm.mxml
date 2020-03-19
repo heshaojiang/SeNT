@@ -1,0 +1,585 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 	 
+				xmlns:parsley="http://www.spicefactory.org/parsley"	
+				xmlns:grg="http://grg.grgbanking.com/platform/"  
+				dataDictionaryPaths="{[DataDirConsts.YES_OR_NO]}"
+				locale="termSelectForm"	
+				titleKey="title" 
+				width = "750" height = "500"
+				layout="horizontal" 
+				creationComplete="titlewindow1_creationCompleteHandler(event)">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:FlexConfig type="{TermSelectFormConfig}"/>
+			<parsley:FlexConfig type="{TermInfoConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Binding source="termid.text" destination="pm.condi.termCode"/>
+	<fx:Binding source="model.selectedValue" destination="pm.condi.model"/>	
+	<fx:Binding source="brand.selectedValue" destination="pm.condi.brand" />
+	<fx:Binding source="orgid.selectedValue" destination="pm.condi.orgid"/>
+	<fx:Binding source="areaid.selectedValue" destination="pm.condi.areaid"/>	
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.term.config.TermInfoConfig;
+			import platform.term.config.TermSelectFormConfig;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermInfoPM;
+			import platform.term.pm.TermSelectFormPM;
+			import platform.vo.term.TermInfoVo;
+			
+			import sent.common.utils.StringUtils;
+
+			[Inject]
+			[Bindable]
+			public var pm:TermSelectFormPM;	
+			
+			[Inject]
+			[Bindable]
+			public var termInfoPM:TermInfoPM;	
+			
+			public var callback:Function;
+
+			//传入传出参数，终端号字符串
+			private var termStr:String;
+			private var terminals:Array;
+			private var selpage:Page = new Page();
+			public var initTermStr:String;
+			public var initOrgStr:String;
+
+			[Bindable] //用于绑定右侧终端datagrid数据源
+			private var selterms:ArrayCollection = new ArrayCollection();			
+
+			override public function dispose():void
+			{
+				trace("TermSelectForm.dispose");
+				termInfoPageGrid.checkedItems = [];
+			}
+			
+			/**
+			 * 设置返回终端数组
+			 */
+			private function setTermStr() :void
+			{
+				trace("TermSelectForm.setTermStr");
+				var tmpStr:String="";
+				if( selterms!=null && selterms.length > 0 )
+				{					
+					for each (var row:Object in selterms.source)
+					{
+						tmpStr = tmpStr+row["termCode"]+",";
+					}
+				}
+				
+				termStr = tmpStr.substr(0, tmpStr.length-1);
+				
+//				if(termStr == "")
+//				{
+//					AlertHandler.alert("请选择终端下发");
+//					return;
+//				}
+				
+				if(callback != null)
+				{
+					callback(termStr);
+				}
+				
+				close();
+			}
+			
+			override protected function cancel():void
+			{		
+				trace("TermSelectForm.cancel");		
+				close();
+			}
+			
+
+			//响应点击选中按钮事件
+			protected function select_clickHandler(event:MouseEvent):void
+			{
+				trace("TermSelectForm.select_clickHandler");
+				if (termInfoPageGrid.checkedItems.length == 0)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				
+				for each (var term:TermInfoVo in termInfoPageGrid.checkedItems)
+				{
+					selterms.addItem(ObjectUtil.copy(term));
+					removeLeftresultItem(term);
+				}
+			}
+
+			//选中的终端从左边列表中去掉
+			private function removeLeftresultItem(termInfoVo:TermInfoVo):void
+			{
+				var leftResult:ArrayCollection = pm.page.result;
+				for( var i:int=leftResult.length-1; i>=0; i-- )
+				{
+					var perTermInfo:TermInfoVo = leftResult[i] as TermInfoVo;
+					if( perTermInfo.termCode==termInfoVo.termCode )
+					{
+						leftResult.removeItemAt(i);
+					}
+				}
+			}
+			
+			//响应点击不选按钮事件
+			protected function desel_clickHandler(event:MouseEvent):void
+			{
+				trace("TermSelectForm.desel_clickHandler");
+				if (termInfoSelGrid.checkedItems.length == 0)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+			
+				var i:int = 0; 
+				while (i < termInfoSelGrid.checkedItems.length)
+				{
+					removeSelectedItem(termInfoSelGrid.checkedItems[i]);
+				}
+				
+				//重新获取左边终端列表
+				queryLeftList();
+			}
+
+			//从已选终端列表中移除
+			private function removeSelectedItem(termInfoVo:TermInfoVo):void
+			{
+				for( var i:int=selterms.length-1; i>=0; i-- )
+				{
+					var perTermInfo:TermInfoVo = selterms[i] as TermInfoVo;
+					if( perTermInfo.termCode==termInfoVo.termCode )
+					{
+						selterms.removeItemAt(i);
+					}
+				}
+			}
+
+			/**
+			 * 打开终端选择界面
+			 */
+			public function showTermHandler(str:String):void
+			{
+				trace("TermSelectForm.showTermHandler");
+				termStr = str;
+				if( termStr!=null && termStr.length>1 )
+				{					
+					getTermInfoListByTermCodes();
+				}
+			}
+			
+			/**
+			 * 初始化已选择终端列表
+			 */
+			private function getTermInfoListByTermCodes():void
+			{
+				trace("TermSelectForm.getTermInfoListByTermCodes");
+				
+				var msg:TermInfoMsg = new TermInfoMsg();
+				msg.args["remoteMethod"]   = "getTermInfoListByTermCodes";
+				msg.args["methodPrameter"] = termStr;
+				msg.args["resultHandler"]  = "TermSelectForm.getTermInfoListByTermCodesResult";
+				msg.args["errorHandler"]   = "TermSelectForm.getTermInfoListByTermCodesError";
+				
+				termInfoPM.sendTermInfoMsg(msg);
+			}
+			
+			/**
+			 * 初始化已选择终端列表 结果处理
+			 */
+			[MessageHandler(selector="TermSelectForm.getTermInfoListByTermCodesResult")]
+			public function getTermInfoListByTermCodesResult(msg:TermInfoMsg):void
+			{
+				trace("TermSelectForm.getTermInfoListByTermCodesResult");
+				selterms = msg.result as ArrayCollection;
+				pm.condi.termCode = "";
+				
+				//如果查询出的终端号少于传入的终端号，仍需显示数据库中没有的终端号
+				var tmpary:Array = termStr.split(",");
+				var selectedTermCodes:ArrayCollection = DataGridUtil.getPropertys("termCode", selterms.source);
+				for each( var tmpTermCode:String in tmpary )
+				{
+					if( selectedTermCodes.contains(tmpTermCode) )
+					{
+						continue;
+					}
+					var term:TermInfoVo = new TermInfoVo();
+					term.termCode = tmpTermCode;
+					selterms.addItem(term);
+				}
+			}
+			
+			/**
+			 * 初始化已选择终端列表 异常处理
+			 */
+			[MessageHandler(selector="TermSelectForm.getTermInfoListByTermCodesError")]
+			public function getTermInfoListByTermCodesError(msg:TermInfoMsg):void
+			{
+				trace("TermSelectForm.getTermInfoListByTermCodesError");
+			}
+			
+			/**
+			 * 通过终端ID获取终端数据结果集回调函数
+			 */
+			[MessageHandler(selector="getTermInfoBySelTermidResult")]
+			public function getTermInfoBySelTermidResult(p_msg:TermInfoMsg):void
+			{
+				trace("TermSelectForm.getTermInfoBySelTermidResult");
+				selpage = p_msg.result as Page;
+				selterms = selpage.result;
+				pm.condi.termCode = "";
+				
+				var tmpary:Array;
+				tmpary = termStr.split(",");
+				
+				//如果查询出的终端号少于传入的终端号，仍需显示数据库中没有的终端号
+				if( tmpary.length > selterms.source.length )
+				{
+					var idx:int;
+					for each (var row:Object in selterms)
+					{
+						idx = tmpary.indexOf(row.termCode, 0);
+						if (idx>=0)
+						{
+							tmpary.splice(idx,1);
+						}
+					}
+					for (var j:int=0; j<tmpary.length; j++)
+					{
+						var term:TermInfoVo = new TermInfoVo();
+						term.termCode = tmpary[j];
+						selterms.addItem(term);
+					}
+				}
+			}
+
+			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+				trace("TermSelectForm.titlewindow1_creationCompleteHandler");
+				if(initOrgStr!=null && initOrgStr!=""){
+					orgid.visible = false;
+					orgid.includeInLayout = false;
+					orgidLabel.visible = false;
+					orgidLabel.includeInLayout = false;
+					areaid.visible = false;
+					areaid.includeInLayout = false;
+					areaidLabel.visible = false;
+					areaidLabel.includeInLayout = false;
+				}
+				queryLeftList();
+			}
+			
+			private function queryLeftList():void
+			{
+				trace("TermSelectForm.queryLeftList");
+				var condition:Object = {};
+				condition.termCode = StringUtils.trim(termid.text);
+				condition.model = StringUtils.trim(model.selectedValue);
+				condition.brand = StringUtils.trim(brand.selectedValue);
+				try{
+					condition.pathCode = String(orgid.selectedItem.@pathCode);
+				}catch(e:Error){
+					condition.pathCode = UserInfoInit.userInfo["orgPathCode"];
+				}
+				if(areaid.selectedValue == null)
+					condition.areaid = StringUtils.trim(UserInfoInit.userInfo["areaId"]);
+				else
+					condition.areaid = StringUtils.trim(areaid.selectedValue);
+				
+				if(initOrgStr!=null && initOrgStr!=""){
+					condition.initOrgStr = initOrgStr;
+				}
+				
+				pm.getTermInfo(condition);
+			}
+
+			/**
+			 * 获取左边终端列表结果集回调函数
+			 */
+			[MessageHandler(selector="getTermInfoByTermidResult")]
+			public function getTermInfoByTermidResult(p_msg:TermInfoMsg):void
+			{
+				trace("TermSelectForm.getTermInfoByTermidResult");
+				if(initTermStr!=""){
+				var tmpary:Array = initTermStr.split(",");
+				for each( var tmpTermCode:String in tmpary ){
+					
+				var leftResult:ArrayCollection = pm.page.result;
+				for( var i:int=leftResult.length-1; i>=0; i-- )
+				{
+					var perTermInfo:TermInfoVo = leftResult[i] as TermInfoVo;
+					if( perTermInfo.termCode==tmpTermCode)
+					{
+						selterms.addItem(ObjectUtil.copy(perTermInfo));
+						leftResult.removeItemAt(i);
+					}
+				}
+					
+			   }
+				initTermStr = "";
+				}else{
+					for each (var term:TermInfoVo in selterms)
+					{
+						removeLeftresultItem(term);
+					}
+				}
+			}
+			
+		]]> 
+	</fx:Script>
+	
+	<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" /> 
+		</s:layout>
+		<!-- 查询条件，包括：终端编号、品牌、终端类型、终端型号、所属机构、所属区域  -->
+		<s:BorderContainer width="100%" height="96" textAlign="center" styleName="SearchBar" borderVisible="false">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			<s:BorderContainer width="100%" height="32" backgroundAlpha="0" borderVisible="false">
+				<s:layout>
+					<s:HorizontalLayout horizontalAlign="left" paddingLeft="0" verticalAlign="middle" /> 
+				</s:layout>
+				<s:HGroup id="conditions" verticalAlign="middle" gap="6" width="693">
+					<!--设备型号-->
+					<grg:Label locale="modelItem"/>
+					<grg:ComboBox id="model" 
+								  name="model" 
+								  textAlign="left" allItemKey="allModel"
+								  hasAllItem="true" 
+								  dataProvider="{pm.searchBarInitDatas.modelList}"
+								  labelField="modelName" 
+								  valueField="id" width="100" />
+					<!--终端品牌-->
+					<grg:Label locale="brandItem"/>
+					<grg:ComboBox id="brand" 
+								  name="brand" 
+								  textAlign="left"  allItemKey="allBrand"
+								  hasAllItem="true" 
+								  dataProvider="{pm.searchBarInitDatas.brandList}" 
+								  labelField="brandName" 
+								  valueField="id" width="100" />
+					<!--所属机构-->
+					<grg:Label locale="org" id="orgidLabel"/>
+					<grg:GRGComboBoxOrgTree id="orgid" defaultField="true"
+											width="120"
+											textAlign="left"
+											treeHeight="150"/>
+					<!--所属区域-->
+					<grg:Label locale="areaIdItem" id="areaidLabel"/>
+					<grg:GRGComboxBoxAreaTree  id="areaid"
+											   width="100"
+											   textAlign="left"
+											   treeHeight="150"/>
+				</s:HGroup>
+			</s:BorderContainer>
+
+			<s:BorderContainer width="100%" height="59" backgroundAlpha="0" borderVisible="false">
+				<s:layout>
+					<s:HorizontalLayout horizontalAlign="left" paddingLeft="0" verticalAlign="middle" /> 
+				</s:layout>
+				<s:HGroup id="conditions2" verticalAlign="middle" gap="6" width="692" height="48">
+					<!--终端编号-->
+					<grg:Label locale="termCodeItem"/>
+					<grg:TextInput id="termid" width="300" styleName="TextInput" textAlign="left" restrict="^'"/>
+					<s:HGroup 
+						gap="10"
+						horizontalAlign="center"
+						verticalAlign="middle"> 
+						<s:BorderContainer height="27" styleName="buttonShadow">
+							<s:layout>
+								<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+							</s:layout>
+							<grg:SearchButton id="btn_search" 
+											  locale="searchButton"  
+											  visible="true" 
+											  iconType="query" 
+											  iconVisible="false"
+											  click="queryLeftList();"/>
+						</s:BorderContainer>
+					</s:HGroup> 
+					
+				</s:HGroup>
+			</s:BorderContainer>
+		</s:BorderContainer>
+		
+		<s:BorderContainer width="100%" height="27" borderVisible="false">
+			<s:BorderContainer width="299" height="25" styleName="TitleBar">
+				<s:layout>
+					<s:HorizontalLayout horizontalAlign="left" paddingLeft="2" verticalAlign="middle" /> 
+				</s:layout>
+				<!--待选终端设备列表-->
+				<grg:Label locale="selectTitle" text="Terminals for select"/> 
+			</s:BorderContainer>
+			<s:BorderContainer width="299" height="25" styleName="TitleBar" x="407">
+				<s:layout>
+					<s:HorizontalLayout horizontalAlign="left" paddingLeft="2" verticalAlign="middle" /> 
+				</s:layout>
+				<!--已选终端设备列表-->
+				<grg:Label locale="selectedTitle" text="Selected Terminals"/> 
+			</s:BorderContainer>
+		</s:BorderContainer>
+			
+		<s:HGroup width="100%" height="298">
+			<grg:DataGrid id="termInfoPageGrid" styleName="DataGrid" headerSeparatorSkin="mx.skins.ProgrammaticSkin" verticalGridLines="false" horizontalGridLines="false" dataProvider="{pm.page.result}" width="300" height="297" textAlign="left" paddingLeft="20" borderColor="#C5C5C5" borderVisible="true">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										textAlign="center"
+										sortable="false"
+										draggable="false"
+										editable="false"
+										resizable="false" />
+					<!--终端编号-->
+					<grg:DataGridColumn 
+						locale="termCodeItem" 
+						dataField="termCode" /> 
+					<!--终端品牌-->
+					<grg:RODataGridColumn 
+						locale="brandItem" 
+						dataField="brand" 
+						labelField="brandName" 
+						valueField="id" 
+						service="termBrandService" 
+						method="getAllTermBrand" /> 
+					<!--设备型号-->
+					<grg:RODataGridColumn 
+						locale="modelItem" 
+						dataField="model" 
+						labelField="modelName" 
+						valueField="id" 
+						service="termModelService" 
+						method="getAllTermModel" /> 
+					<!--所属机构-->
+					<grg:RODataGridColumn 
+						locale="org" 
+						dataField="orgId" 
+						labelField="orgName" 
+						valueField="id" 
+						service="orgInfoService" 
+						method="getAllOrg" /> 
+				</grg:columns>
+			</grg:DataGrid>
+			
+			<s:BorderContainer 
+				width="112" height="100%"
+				backgroundAlpha="0"
+				borderVisible="false"
+				borderWeight="0">
+				<s:layout>
+					<s:VerticalLayout 
+						horizontalAlign="center"
+						verticalAlign="middle"
+						gap="30" />
+				</s:layout>
+				<s:BorderContainer width="{select.width+6}" height="27" styleName="buttonShadow">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+					</s:layout>
+					<grg:Button id="select" 
+								locale="addSlectedButton"
+								iconType="addselected"
+								click="select_clickHandler(event)"/>
+				</s:BorderContainer>
+				<s:BorderContainer width="{select.width+6}" height="27" styleName="buttonShadow">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+					</s:layout>
+					<grg:Button id="desel" 
+								locale="moveSlectedButton"
+								iconType="moveselected"
+								click="desel_clickHandler(event)"/>		
+				</s:BorderContainer>	
+			</s:BorderContainer> 
+			
+			<grg:DataGrid id="termInfoSelGrid" styleName="DataGrid"  
+						  verticalGridLines="false" horizontalGridLines="false" 
+						  headerSeparatorSkin="mx.skins.ProgrammaticSkin" 
+						  dataProvider="{selterms}" width="300" height="297" textAlign="left" 
+						  paddingLeft="20" borderColor="#C5C5C5" borderVisible="true" editable="false">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol0"
+										textAlign="center"
+										sortable="false"
+										draggable="false"
+										editable="false"
+										resizable="false" 
+										
+										/>	
+					<!--终端编号-->
+					<grg:DataGridColumn 
+						locale="termCodeItem" 
+						dataField="termCode" /> 	
+					<!--终端品牌-->
+					<grg:RODataGridColumn 
+						locale="brandItem" 
+						dataField="brand" 
+						labelField="brandName" 
+						valueField="id" 
+						service="termBrandService" 
+						method="getAllTermBrand" /> 
+					<!--设备型号-->
+					<grg:RODataGridColumn 
+						locale="modelItem" 
+						dataField="model" 
+						labelField="modelName" 
+						valueField="id" 
+						service="termModelService" 
+						method="getAllTermModel" /> 
+					<!--所属机构-->
+					<grg:RODataGridColumn 
+						locale="org" 
+						dataField="orgId" 
+						labelField="orgName" 
+						valueField="id" 
+						service="orgInfoService" 
+						method="getAllOrg" /> 
+				</grg:columns>
+			</grg:DataGrid>
+		</s:HGroup> 
+		<s:HGroup 
+			width="100%" gap="10"
+			horizontalAlign="center"
+			verticalAlign="middle">
+			<s:BorderContainer height="27" styleName="buttonShadow">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+				</s:layout>
+				<grg:Button id="saveBtn"
+							click="setTermStr();"
+							locale="saveButton"
+							 iconVisible="false"/>
+			</s:BorderContainer> 
+			<s:BorderContainer height="27" styleName="buttonShadow">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+				</s:layout>
+				<grg:Button 
+					id="cancelBtn"
+					click="cancel()"
+					locale="cancelButton"
+					iconVisible="false"
+					 />
+			</s:BorderContainer>
+		</s:HGroup> 
+	</s:BorderContainer>
+</grg:TitleWindow>

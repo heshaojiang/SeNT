@@ -1,0 +1,23 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- * Description：iDataRefreshInfoModule<br>
+	 * Create Time：2011-11-16<br>  
+	 * Author：Ming.Zhang  <br>
+	 * Email : zyming1@grgbanking.com <br>
+	 -->
+<nodes>
+	<node locale = "iDataRefreshInfoModule">
+		<listTitle>Önbellek Listesi</listTitle>
+		<status>Durum</status>
+		<refreshAllButton>Önbellek Yenile</refreshAllButton>
+		<refreshEventDefButton>Olay Bazlı Önbellek Yenile</refreshEventDefButton>
+		<refreshOrgEventDefButton>Şube Bazlı Önbellek Yenile</refreshOrgEventDefButton>
+		<refreshBankCardInfoButton>Banka Kartı Önbellek Yenile</refreshBankCardInfoButton>
+		<refreshBlackCardInfoButton>Black Card Önbellek Yenile</refreshBlackCardInfoButton>
+		<refreshTmlInfoButton>Terminal Bilgileri Önbellek Yenile</refreshTmlInfoButton>
+		<refreshUnionPayCardInfoButton>UnionPay Önbellek Yenile</refreshUnionPayCardInfoButton>
+		<refreshDataDirButton>Veri Sözlüğü Önbellek Yenile</refreshDataDirButton>
+		<refreshWtClasslistButton>Ayrıntılı Önbellek Yenile</refreshWtClasslistButton>
+		<refreshMessageRule>refreshMessageRule</refreshMessageRule>
+		<synchronizationResponsible>SynchronizationRes</synchronizationResponsible>
+	</node>
+</nodes>

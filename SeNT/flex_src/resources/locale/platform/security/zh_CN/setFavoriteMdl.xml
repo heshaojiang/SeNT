@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "setFavoriteMdl">
+		<setFavoriteModule>设置默认打开菜单模块</setFavoriteModule>
+		<firstLabel>一级菜单</firstLabel>
+		<secondLabel>二级菜单</secondLabel>
+		<thirdLabel>三级菜单</thirdLabel>
+	</node>
+</nodes>

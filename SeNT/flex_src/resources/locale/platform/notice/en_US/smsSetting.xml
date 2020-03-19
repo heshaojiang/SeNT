@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "smsSetting">
+		<sendMethod> Send Method:</sendMethod>
+		<encoding>Encoding:</encoding>
+		<comPort>Com Port:</comPort>
+		<comBaud>Com Baud:</comBaud>
+		<manufacturer>Manufacturer：</manufacturer>
+		<model>Model：</model>
+		<contentTemplate>Content Template:</contentTemplate>
+		<serverIP>Server IP:</serverIP>
+		<serverPort>Server Port:</serverPort>
+		<user>User:</user>
+		<password>Password:</password>
+		<ftpDir>FTP Directory:</ftpDir>
+		<ftpFileName>FTP FileName:</ftpFileName>
+		<dbType>DB Type:</dbType>
+		<dbSid>DB SID:</dbSid>
+		<sql>SQL:</sql>
+	</node>
+</nodes>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow 
+	width="600" height="400" close="titlewindow1_closeHandler(event)"
+	layout = "vertical"
+	locale = "cmlImpRecordsList"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley"
+	xmlns:grg="http://grg.grgbanking.com/platform/">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			
+			import platform.common.util.DataGridUtil;
+			import platform.common.util.DateUtils;
+			protected function cid_selectAllHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+			
+				// TODO Auto-generated method stub
+			}
+
+
+			protected function query_clickHandler(event:MouseEvent):void
+			{
+			
+			}
+			
+
+
+
+			protected function titlewindow1_closeHandler(event:CloseEvent):void
+			{
+				
+				//关闭时候清空数据
+				if(callBack != null){
+					
+					callBack();}
+			}
+
+		]]>
+	</fx:Script>
+
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		
+		
+	
+	</fx:Declarations>
+
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import platform.common.manager.PopUpManager;
+
+			import mx.core.IFlexDisplayObject;
+			import cml.task.constants.CmlTaskInfosConsts;
+			import cml.task.vo.CmlImpRecordsVO;
+			import mx.collections.ArrayCollection;
+			import cml.task.pm.CmlTaskInfosPM;
+			[Inject]
+			[Bindable]
+			public var pm:CmlTaskInfosPM;
+		
+			[Bindable]
+			public var cmlImpRecordsList:ArrayCollection  = new ArrayCollection();
+
+			
+			public var callBack:Function;
+		
+		
+		public function labelFunction(item:Object, column:DataGridColumn):String{
+	
+			 var temp:String   = item[column.dataField];
+			 if(temp == "0"){
+			 	 temp ="导入成功";
+			 }else{
+			 	 temp="导入失败";
+			 }
+			
+			return temp;
+			 	 
+			}
+			public function aginImp():void{
+			
+		       var win:CmlImpRecordsAginForm = new CmlImpRecordsAginForm();
+			   pm.cmlImpRecords = cmlImpRecords.selectedItem as CmlImpRecordsVO;
+			   win.index = cmlImpRecords.selectedIndex as int;
+			   win.cmlImpRecords = pm.cmlImpRecords;
+			   win.obj = pm.obj;
+			   win.cmlTaskInfos = pm._cmlTaskInfos;
+			   win.callBack = refersh;
+			   win.titleKey = CmlTaskInfosConsts.IMP_RECORDS;
+			   context.viewManager.addViewRoot(win);
+			  	PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				win.callBack = refersh;
+
+		  
+			}
+		
+          public function refersh(cm:CmlImpRecordsVO ,index:int):void{
+			cmlImpRecordsList.removeItemAt(index);
+				cmlImpRecordsList.addItemAt(cm,index);
+				cmlImpRecords.dataProvider =cmlImpRecordsList;
+		  }
+
+		]]>
+	</fx:Script>
+	
+	<mx:VDividedBox 
+		width="100%" height="100%">
+		
+		<s:BorderContainer >
+			<mx:HBox width="100%" height="100%" paddingBottom="5" paddingLeft="10" paddingRight="10" borderVisible="false">
+				<mx:HBox width="100%" height="100%" paddingBottom="5" paddingLeft="10" paddingRight="10" borderVisible="false">
+					<grg:DataGrid id="cmlImpRecords" dataProvider="{cmlImpRecordsList}"
+											   
+								  width="100%" height="100%"
+											   styleName = "DataGrid"  
+											   borderVisible = "true">
+						
+						<grg:columns>
+							<grg:DataGridColumn locale = "statu" 
+												dataField = "operateStatus" textAlign="center" labelFunction="{labelFunction}"/>
+							
+					
+							<grg:DataGridColumn locale = "oldName" 
+												dataField = "oldName" textAlign="left"/>
+							<grg:DataGridColumn locale = "tmlNum"
+												dataField = "tmlNum"  textAlign="left"/>
+							
+							<grg:RODataGridColumn locale = "operator"
+												  dataField = "operaterId"
+												  labelField = "userName"
+												  valueField = "userCode"
+												  service = "userService"
+												  method = "getAllUserInfo" 
+												  textAlign = "center"  />
+							
+							<grg:DataGridColumn locale="againImp">
+								
+								<grg:itemRenderer>
+									
+									<fx:Component>	
+										<s:MXDataGridItemRenderer>
+										<fx:Script>
+											<![CDATA[
+												[Bindable]
+												private var operateStatus:String;
+												//钞票类型
+												[Bindable]
+												private var status:Boolean ;
+												
+												override public function set data(value:Object):void
+												{
+													super.data = value;
+													operateStatus = data.operateStatus;
+													if(operateStatus == "0"){
+														status = false;	 
+													}else{
+														status = true;
+													}
+													
+												}
+												protected function againImp_clickHandler(event:MouseEvent):void
+												{
+													
+													parentDocument.aginImp();
+													// TODO Auto-generated method stub
+												}
+											]]>
+										</fx:Script>
+										<grg:Button visible="{status}"  locale="againImp" click="againImp_clickHandler(event)"/>
+											</s:MXDataGridItemRenderer>	
+										</fx:Component>
+									</grg:itemRenderer>
+								
+								</grg:DataGridColumn>
+						</grg:columns>
+					</grg:DataGrid>
+			</mx:HBox>
+			</mx:HBox>
+		
+		
+	
+		</s:BorderContainer>
+	</mx:VDividedBox>
+
+</grg:TitleWindow>

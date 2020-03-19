@@ -1,0 +1,76 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+			   width="550" height="440"
+			   cornerRadius = "10"
+			   textAlign = "left"
+			   layout = "vertical"
+			   showIcon = "false"
+			   locale = "confGrpUserForm"
+			   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+			   xmlns:s = "library://ns.adobe.com/flex/spark"
+			   xmlns:mx = "library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/">
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import platform.security.message.GroupMsg;
+			import platform.security.pm.ConfGrpUserFormPM;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:ConfGrpUserFormPM;
+			
+			/**
+			 * 
+			 * */
+			[MessageHandler(selector="configureGrpUserResult")]
+			public function configureGrpUserResult(p_msg:GroupMsg):void
+			{
+				close();
+			}
+			
+			override protected function cancel():void
+			{
+				close();
+			}
+		]]>
+	</fx:Script>
+
+	<grg:MultiList id="multiList"
+						 width="100%" height="100%"
+						 dataProvider = "{pm.leftDataProvider}"
+						 labelField = "userName"
+						 rightDataProvider = "{pm.rightDataProvider}" /> 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "pm.save(multiList.selectedItems())"
+				locale = "saveButton"
+				iconVisible="false" />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton"
+				iconVisible="false"/>
+		</s:BorderContainer>
+	</s:HGroup> 
+</grg:TitleWindow>

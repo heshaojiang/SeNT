@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：distServerConfigForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "agentVersionDiversityModule">
+		<termidItem>Terminal ID</termidItem>
+		<fileidItem>File Id</fileidItem>
+		<operateButton>Operation</operateButton>
+		<statusItem>Status</statusItem>
+		<termTypeItem>Term Type</termTypeItem>
+		<brandItem>Brand</brandItem>
+		<modelItem>Model</modelItem>
+		<orgItem>Organization</orgItem>
+		<areaIdItem>Area ID</areaIdItem>
+	</node>
+</nodes>

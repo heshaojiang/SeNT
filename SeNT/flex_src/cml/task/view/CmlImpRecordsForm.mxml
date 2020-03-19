@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow 	width="500" height="400"
+					layout = "vertical"
+					locale = "cmlImpRecordsForm"
+					xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					xmlns:s = "library://ns.adobe.com/flex/spark"
+					xmlns:mx = "library://ns.adobe.com/flex/mx"
+					xmlns:parsley="http://www.spicefactory.org/parsley"
+					xmlns:grg="http://grg.grgbanking.com/platform/" >
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		<mx:DateFormatter id="df" formatString="YYYY-MM-DD JJ:NN:SS"/>
+		
+	</fx:Declarations>
+	<fx:Binding destination="obj" source="pm.obj"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import cml.task.constants.CmlTaskInfosConsts;
+			import cml.task.message.CmlTaskInfosMsg;
+			import cml.task.pm.CmlTaskInfosPM;
+			import cml.task.vo.CmlImpRecordsVO;
+			import cml.task.vo.CmlTaskInfosVO;
+			
+			import flexlib.scheduling.scheduleClasses.schedule_internal;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.INavigatorContent;
+			import mx.core.UIComponent;
+			
+			import org.spicefactory.parsley.core.messaging.receiver.impl.MessageHandler;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.constants.LocaleConsts;
+			
+			[Bindable]
+			public var cmlTaskInfos:CmlTaskInfosVO ;
+			
+			[Bindable]
+			public var pendingFiles:ArrayCollection =new ArrayCollection();
+			[Bindable]
+			public var obj:Object = new Object;
+			
+			//计数器
+			public var coin :Number  = 0;
+			
+			[Inject]
+			[Bindable]
+			public var pm:CmlTaskInfosPM ;
+			
+			//此处上传结果
+			[Bindable]
+			public var resultImp:ArrayCollection = new ArrayCollection;
+			
+			//用来显示的 
+			[Bindable]
+			public var viewFile:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			public var arrayfile:ArrayCollection = new ArrayCollection();
+			
+			public var fileRec:FileReferenceList;
+		
+
+			protected function cancle_clickHandler(event:MouseEvent):void
+			{
+				clearFile();
+			}	
+			public   function deleteSignFile(event:Event):void{
+
+		    var index :int  =fileDataGrid.selectedIndex;
+		
+				viewFile.removeItemAt(index );
+		
+				pendingFiles.removeItemAt(index );
+					
+			}
+			protected function chooseFile_clickHandler(event:MouseEvent):void
+			{
+				var arry:Array = new Array();
+				fileRec = new FileReferenceList();
+				 var fileFilte:FileFilter = new FileFilter("File(*.csv,*.xls)","*.csv;*.xls");
+					 arry.push(fileFilte);
+			 		fileRec.browse(arry);
+			     fileRec.addEventListener(Event.SELECT,dispath);
+				
+			}
+
+			/**处理选择的文件*/
+			private function dispath(event:Event):void{
+
+		     	for( var i:int = 0 ; i<fileRec.fileList.length;i++){
+				
+			   var file:FileReference =FileReference(fileRec.fileList[i]);
+				 file.load();  
+				pendingFiles.addItem(file);
+				var temp :Object = new Object();
+				temp.name = file.name;
+				temp.size =(file.size/1024).toFixed(2)+"KB";
+				temp.type= file.type.substr(1);
+				viewFile.addItem(temp);
+				}
+			
+				
+			
+			}
+	
+		
+			
+			/**删除重复文件*/
+		private function cleardoubleFile():void{
+			for(var k :int   = 0 ; k< pendingFiles.length -1 ; k++){
+				for(var j :int = pendingFiles.length -1 ; j > k ; j--){
+					if(viewFile.getItemAt(k).name == viewFile.getItemAt(j).name){
+						viewFile.removeItemAt(j);
+						pendingFiles.removeItemAt(j);
+						
+					}  
+					
+				}
+		 
+			}
+		}
+			private function save():void{
+				if(pendingFiles.length == 0){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}else  if(pendingFiles.length < 6){
+					cleardoubleFile();
+					
+				var arr:ArrayCollection = new ArrayCollection();
+				 for(var i:int = 0; i < pendingFiles.length ; i ++){ 
+					 var fr:FileReference =FileReference(pendingFiles.getItemAt(i));
+				          var te:Array = new Array();
+						  te.push(i,fr.name,null);
+						  arr.addItem(te);
+				
+			}      
+				 pm.checkFile(arr, cmlTaskInfos.taskNum );
+				}else{
+					 AlertHandler.ShowQuestion(yesDo,this,"checkFiveFile",noDo);
+						function yesDo():void{
+							cleardoubleFile();
+							
+					if(pendingFiles.length > 5){	
+					 for(var i :int  = pendingFiles.length-1; i > 4 ; i--){
+					pendingFiles.removeItemAt(i);
+					viewFile.removeItemAt(i);
+		
+					 }
+					 }
+					}
+					 function noDo():void{
+						 fileRec.fileList.length = 0;
+						 pendingFiles.removeAll();
+						 viewFile.removeAll();
+						 
+					 }};	 
+				
+				}
+			
+			/**解析返回结果*/
+			[MessageHandler(selector="parseSentForCmlImpRecordsResult")]
+			public function parseSentForCmlImpRecordsResult(r_result:CmlTaskInfosMsg):void{
+			 if(r_result ){
+				 var resultTemp:CmlImpRecordsVO = r_result.result as CmlImpRecordsVO;
+			  	resultImp.addItem(resultTemp);
+			  /**全部返回跳转 */ 
+			  if(resultImp.length == viewFile.length){
+				  var win:CmlImpRecordsList = new CmlImpRecordsList();
+				  win.cmlImpRecordsList = resultImp;
+				  win.titleKey = CmlTaskInfosConsts.CURRENT_IMP_STATU;
+				  context.viewManager.addViewRoot(win);
+				  PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				  win.callBack = clearFile;
+
+			 }
+			}
+			}
+	
+		[MessageHandler(selector="importExcelForCmlImpRecordsResult")]
+			public function importExcelForCmlImpRecordsResult(r_result:CmlTaskInfosMsg):void{
+				if(r_result){
+					var win:CmlImpRecordsList = new CmlImpRecordsList();
+					win.cmlImpRecordsList= r_result.result as ArrayCollection;
+				
+		
+//					resultImp.addItem(resultTemp);
+//					/**全部返回跳转 */ 
+//					if(resultImp.length == viewFile.length){
+		
+						
+						win.titleKey = CmlTaskInfosConsts.CURRENT_IMP_STATU;
+						context.viewManager.addViewRoot(win);
+						PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+						
+						win.callBack = clearFile;
+					//	win.cmlImpRecordsList= resultTemps;
+					
+		
+					}
+					}
+			
+			
+			
+			/**
+			 * 清除所有数据 
+			 */
+			public  function clearFile():void{
+			
+				arrayfile.removeAll();
+			    viewFile.removeAll();
+				pendingFiles.removeAll();
+				//resultImp.removeAll();
+			    //coin = 0;
+				this.dispose();
+			 
+			}
+				
+			
+			/**
+			 * 对重复数据进行删除处理
+			 */
+				[MessageHandler(selector="checkUploadFileResult")]
+			public function checkUploadFileResult(r_result:CmlTaskInfosMsg):void{
+					if(r_result){
+						var result:ArrayCollection = r_result.result as ArrayCollection;
+					 
+				
+					if(result.length > 0 ){
+						var temp:String= new String();
+							for(var k:int = 0 ; k< result.length ; k++){
+								if( k == 0 ){
+									temp += FileReference(pendingFiles.getItemAt(result.getItemAt(k) as int)).name +","; 
+									pendingFiles.removeItemAt(result.getItemAt(k) as int);
+									viewFile.removeItemAt(result.getItemAt(k) as int);
+								}else{
+									var index:Number = result.getItemAt(k) as int ;
+									index = index - k ;
+									temp += FileReference(pendingFiles.getItemAt(index)).name +","; 
+									pendingFiles.removeItemAt(index);
+									viewFile.removeItemAt(index);
+									
+								}
+							} 
+							AlertHandler.alert(temp.substr(0,temp.length-1)+"重复，已经删除");	
+							arrayfile = new ArrayCollection();
+							var dataArray:ArrayCollection = new ArrayCollection();
+							
+							for(var j:int = 0 ; j <pendingFiles.length ; j++){
+								var tempArr:Array  = new Array();
+								tempArr.push(FileReference(pendingFiles.getItemAt(j)).data,FileReference(pendingFiles.getItemAt(j)).name,j);
+								dataArray.addItem(tempArr);
+							}
+								pm.importExcelToCmlImpRecords(dataArray,cmlTaskInfos,obj.tmlType);
+								
+							 }
+							
+					else{
+						var dataArr:ArrayCollection = new ArrayCollection();
+						
+						for(var z:int = 0 ; z <pendingFiles.length ; z++){
+							var tempAr:Array  = new Array();
+							tempAr.push(FileReference(pendingFiles.getItemAt(z)).data,FileReference(pendingFiles.getItemAt(z)).name,z);
+							dataArr.addItem(tempAr);
+							}
+						pm.importExcelToCmlImpRecords(dataArr,cmlTaskInfos,obj.tmlType);
+					}
+		}
+						/* var a:int = r_result.result as int;
+						if( a != 0xA){
+							arrayfile.addItem(a);
+						   }else{
+							coin += 1;
+						   }
+						if(arrayfile.length + coin == pendingFiles.length ){
+							var temp:String= new String();
+							if(arrayfile.length > 0){
+							for(var k:int = 0 ; k< arrayfile.length ; k++){
+								if( k == 0 ){
+							  temp += FileReference(pendingFiles.getItemAt(arrayfile.getItemAt(k) as int)).name +","; 
+							  pendingFiles.removeItemAt(arrayfile.getItemAt(k) as int);
+							  viewFile.removeItemAt(arrayfile.getItemAt(k) as int);
+								}else{
+									var index:Number = arrayfile.getItemAt(k) as int ;
+									index = index - k ;
+									temp += FileReference(pendingFiles.getItemAt(index)).name +","; 
+									pendingFiles.removeItemAt(index);
+									viewFile.removeItemAt(index);
+									
+								}
+								} 
+							Alert.show(temp.substr(0,temp.length-1)+"重复，已经删除");	
+							arrayfile = new ArrayCollection();;
+							coin = 0;
+							return ;
+							}else {
+						var arrdata :Array  = new Array()
+						
+							for(var j:int = 0 ; j <pendingFiles.length ; j++){
+						arrdara.addItem(FileReference(pendingFiles.getItemAt(j)).data);
+						
+				
+								pm.importExcelToCmlImpRecords(FileReference(pendingFiles.getItemAt(j)).data,cmlTaskInfos, obj.tmlType,pendingFiles.getItemAt(j).name,j);
+							}
+						
+							
+							}
+						
+					
+						} */
+				
+				
+			
+				
+			
+		}
+		]]>
+		</fx:Script>
+	<mx:VDividedBox width="100%" height="100%">
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+	<grg:RoundCornerContainer locale="taskInfo" width="100%" height="70">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout paddingBottom="6"  paddingLeft="10" paddingRight="10" />
+			</s:layout>
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="tmlNum" >
+					<grg:Text text="@{cmlTaskInfos.tmlNum}" 
+							  width="130"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="moneySource">
+					<grg:Text width="130" text="{obj.orgInfoName}"/>
+				</grg:FormItem>
+				</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="tmlType">
+					<grg:Text width="130" text="{obj.tmlType}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="operator">
+					<grg:Text width="130" text="{obj.operatorName}"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:Group>
+	</grg:RoundCornerContainer>
+		<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+			<s:layout>
+				<s:HorizontalLayout 
+					horizontalAlign = "left"
+					paddingLeft = "0"
+					gap="2"
+					verticalAlign = "middle"/>
+			</s:layout>
+					<grg:Button id="btn_search"
+									  locale = "chooseFile"  
+									  iconType = "query" click="chooseFile_clickHandler(event)"/>
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+									 click="cancle_clickHandler(event)" />
+					
+					<grg:Button id="deleteBtn" locale="deleteFile"  iconVisible="false" click="deleteSignFile(event)"/>
+				</s:BorderContainer>
+	<grg:RoundCornerContainer  width="100%" height="100%" locale="impSeq">
+	<grg:DataGrid  id="fileDataGrid" dataProvider="{viewFile}"  width="100%" height="100%" styleName = "DataGrid">
+							<grg:columns>
+								<grg:CheckBoxColumn id="checkBoxCol" />
+							<grg:DataGridColumn  locale="fileName" dataField="name" />
+							<grg:DataGridColumn  locale="fileSize" dataField="size"  />	
+						<!--	<grg:DataGridColumn locale="action"   paddingLeft="25" >
+								<grg:itemRenderer>
+									<fx:Component>
+										<mx:HBox>-->
+								<!--<grg:Button locale="deleteFile" click="outerDocument.deleteSignFile(event)"/>	-->
+								<!--		</mx:HBox>
+									</fx:Component>
+								</grg:itemRenderer>
+							</grg:DataGridColumn>-->
+						</grg:columns>
+					</grg:DataGrid>
+	</grg:RoundCornerContainer>
+				
+				<s:HGroup 
+					width="100%" gap="10"
+					horizontalAlign = "center"
+					verticalAlign = "middle">
+					<s:BorderContainer height="27" styleName="buttonShadow">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+						</s:layout>
+						<grg:Button 
+							click = " save()" id="savebtn"
+							locale = "saveButton" 
+							iconVisible="false"
+							/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer height="27" styleName="buttonShadow">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+						</s:layout>
+						
+						<grg:Button 
+							click = "cancel()"
+							locale = "cancelButton"
+							iconVisible="false"
+							/>
+					</s:BorderContainer>
+				</s:HGroup>
+	</s:BorderContainer>
+</mx:VDividedBox>
+</grg:TitleWindow>

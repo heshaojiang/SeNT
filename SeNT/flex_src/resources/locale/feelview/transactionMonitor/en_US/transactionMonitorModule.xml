@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "transactionMonitorModule">
+		<listTitle>Transaction Monitor</listTitle>
+		<searchItem>Key Word</searchItem>
+		<orgIdItem>Branch</orgIdItem>
+		<termIdItem>Term Id</termIdItem>
+		<atmBrandItem>Brand</atmBrandItem>
+		<atmTypeItem>Type</atmTypeItem>
+		<transTimeItem>Time</transTimeItem>
+		<transAmonutItem>Money</transAmonutItem>
+		<transAccountItem>Account</transAccountItem>
+		<transResultItem>Result</transResultItem>
+		<refreshInterval>Refresh Interval</refreshInterval>
+	</node>
+</nodes>

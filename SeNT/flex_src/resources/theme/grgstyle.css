@@ -1,0 +1,119 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace flexlib "http://code.google.com/p/flexlib/";
+@namespace supertabs "flexlib.controls.tabBarClasses.*";
+
+global
+{
+	color: #000000;
+	fillAlphas: 1.0, 1.0;
+}
+
+s|Application
+{
+	backgroundImage: Embed(source="grgstyle.swf",symbol="BackgroundImage");
+}
+
+supertabs|SuperTab{
+	tabCloseButtonStyleName: "tabCloseButton";
+}
+
+.tabCloseButton{
+	upSkin:Embed(source="grgstyle.swf", symbol="Panel_closeButtonUpSkin"); 
+	downSkin:Embed(source="grgstyle.swf", symbol="Panel_closeButtonDownSkin");
+	overSkin:Embed(source="grgstyle.swf", symbol="Panel_closeButtonOverSkin");
+	disabledSkin:Embed(source="grgstyle.swf", symbol="Panel_closeButtonDisabledSkin");
+}
+
+
+flexlib|SuperTabNavigator{
+	borderColor: #a3a3a3;
+}
+
+
+/*(s|TabBar{
+	firstButtonStyleName: "tabStyle";
+	tabStyleName: "tabStyle";
+	lastButtonStyleName: "tabStyle";
+}*/
+mx|TabBar{
+	firstTabStyleName:"tabStyle";
+	tabStyleName:"tabStyle";
+	lastTabStyleName:"tabStyle";
+}
+
+.tabStyle {
+	disabledSkin: Embed(source="grgstyle.swf", symbol="Tab_disabledSkin");
+	downSkin: Embed(source="grgstyle.swf", symbol="Tab_downSkin");
+	overSkin: Embed(source="grgstyle.swf", symbol="Tab_overSkin");
+	selectedDisabledSkin: Embed(source="grgstyle.swf", symbol="TabSelected_disabledSkin");
+	selectedDownSkin: Embed(source="grgstyle.swf", symbol="TabSelected_upSkin");
+	selectedOverSkin: Embed(source="grgstyle.swf", symbol="TabSelected_upSkin");
+	selectedUpSkin: Embed(source="grgstyle.swf", symbol="TabSelected_upSkin");
+	upSkin: Embed(source="grgstyle.swf", symbol="Tab_upSkin");
+}
+
+mx|PopUpButton{
+	disabledSkin: Embed(source="grgstyle.swf", symbol="PopUpButton_disabledSkin");
+	downSkin: Embed(source="grgstyle.swf", symbol="PopUpButton_downLeftSkin");
+	overSkin: Embed(source="grgstyle.swf", symbol="PopUpButton_overLeftSkin");	
+	popUpDownSkin: Embed(source="grgstyle.swf", symbol="PopUpButton_downRightSkin");
+	popUpOverSkin: Embed(source="grgstyle.swf", symbol="PopUpButton_overRightSkin");
+	upSkin: Embed(source="grgstyle.swf", symbol="PopUpButton_upSkin");
+}
+
+
+.mainWindow{
+	backgroundImage:Embed(source="images/welcome.png");
+}
+
+
+/**Banner**/
+.banner_logo{
+	backgroundImage:Embed(source="images/banner_logo.png");
+}
+
+.banner_fill{
+	backgroundImage:Embed(source="images/banner_fill.png");
+}
+
+.banner_right{
+	backgroundImage:Embed(source="images/banner_right.png");
+}
+/*Banner*/
+
+
+.MenuBar{
+	/*backgroundSkin: Embed(source="grgstyle.swf", symbol="MenuBar_backgroundSkin");
+	itemUpSkin: Embed(source="grgstyle.swf", symbol="MenuBar_itemUpSkin");
+	itemOverSkin: Embed(source="grgstyle.swf", symbol="MenuBar_itemOverSkin");
+	itemDownSkin: Embed(source="grgstyle.swf", symbol="MenuBar_itemDownSkin");
+	*/
+	/*disabledSkin: Embed(source="grgstyle.swf", symbol="PopUpButton_disabledSkin");
+	downSkin: Embed(source="grgstyle.swf", symbol="MenuBar_itemDownSkin");
+	overSkin: Embed(source="grgstyle.swf", symbol="MenuBar_itemOverSkin");	
+	upSkin: Embed(source="grgstyle.swf", symbol="MenuBar_itemUpSkin");
+	*/
+	
+	buttonStyleName:"buttonBarButton";
+}
+.buttonBarButton 
+{ 
+	disabledSkin: Embed(source="grgstyle.swf", symbol="ButtonBar_buttonDisabledSkin"); 
+	downSkin: Embed(source="grgstyle.swf", symbol="ButtonBar_buttonDownSkin"); 
+	overSkin: Embed(source="grgstyle.swf", symbol="ButtonBar_buttonOverSkin"); 
+	selectedDisabledSkin: Embed(source="grgstyle.swf", symbol="ButtonBar_buttonSelectedDisabledSkin"); 
+	selectedDownSkin: Embed(source="grgstyle.swf", symbol="ButtonBar_buttonSelectedUpSkin"); 
+	selectedOverSkin: Embed(source="grgstyle.swf", symbol="ButtonBar_buttonSelectedUpSkin");
+	selectedUpSkin: Embed(source="grgstyle.swf", symbol="ButtonBar_buttonSelectedUpSkin");
+	upSkin: Embed(source="grgstyle.swf", symbol="ButtonBar_buttonUpSkin"); 
+}
+
+.Tree{
+	defaultLeafIcon: Embed(source="grgstyle.swf",symbol="Tree_defaultLeafIcon");
+	disclosureClosedIcon: Embed(source="grgstyle.swf",symbol="Tree_disclosureClosedIcon");
+	disclosureOpenIcon: Embed(source="grgstyle.swf",symbol="Tree_disclosureOpenIcon");
+	folderClosedIcon: Embed(source="grgstyle.swf",symbol="Tree_folderClosedIcon");
+	folderOpenIcon: Embed(source="grgstyle.swf",symbol="Tree_folderOpenIcon");
+}

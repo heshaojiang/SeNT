@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "eventSettingForm">	
+	<addEventSettingForm>Add Event Form</addEventSettingForm>
+	<updateEventSettingForm>Update Event Form</updateEventSettingForm>
+	<eventName>Name Of Event:</eventName>
+	<beginDate>Begin Date Of Event Affect:</beginDate>
+	<endDate>End Date Of Event Affect:</endDate>
+	<dayMode>Add Cash Mode:</dayMode>
+	<quotiety>Weighting factor:</quotiety>
+	<termid>Terminal Code:</termid>
+	<termAddr>Terminal Addr</termAddr>
+	<selectionTerminals>Candidate Terminal List</selectionTerminals>
+	<selectedTerminals>Selected Terminal List</selectedTerminals>
+	</node>
+</nodes>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassModule">
+		<classConfigItem>运行状态类别</classConfigItem>
+		<classIdItem>类别标识</classIdItem>
+		<classNameItem>类别名称</classNameItem>
+		<classNameEnItem>英文名</classNameEnItem>
+		<levelsItem>故障等级</levelsItem>
+		<colorCodeItem>颜色</colorCodeItem>
+		<operateItem>操作</operateItem>
+		<editItem>编辑</editItem>
+		<editDetail>明细配置</editDetail>
+		<wtOpenDetail>开机率设置</wtOpenDetail>
+		<!-- 编辑页面 -->
+		<classIdEditItem>类别标识 : </classIdEditItem>
+		<classNameEditItem>类别名称 : </classNameEditItem>
+		<classNameEnEditItem>英文名 : </classNameEnEditItem>
+		<levelsEditItem>故障等级 : </levelsEditItem>
+		<colorCodeEditItem>颜色 : </colorCodeEditItem>
+		
+		<!-- 类别明细 -->
+		<classListTitleItem>运行状态类别明细</classListTitleItem>
+		<partIdItem>部件</partIdItem>
+		<partCodeItem>部件状态</partCodeItem>
+		<memoItem>故障描述</memoItem>
+		
+		<!-- 类别明细 -->
+		<classListTitleItem>故障种类明细</classListTitleItem>
+		<tlpartIdItem>运行状态</tlpartIdItem>
+		<tlpartCode>部件</tlpartCode>
+		<tlpartCodeItem>部件状态</tlpartCodeItem>
+		<tlmemoItem>故障描述</tlmemoItem>
+		<tloperateItem>操作</tloperateItem>
+		<tleditItem>编辑</tleditItem>
+		<tldeleteItem>删除</tldeleteItem>
+		
+		<addWtClassList>添加</addWtClassList>
+	</node>
+</nodes>

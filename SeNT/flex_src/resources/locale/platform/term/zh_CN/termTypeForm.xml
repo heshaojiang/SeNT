@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termTypeForm">
+		<addTermTypeForm>新增</addTermTypeForm>
+		<updateTermTypeForm>编辑</updateTermTypeForm>
+		<typeItem>终端类型：</typeItem>
+		<typeNameItem>型号名称：</typeNameItem>
+		<status>状态：</status>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<code>代码：</code>
+		<termTypeHelp>
+1.打"**"项目内容不能为空
+2.终端类型必须为英文字符且长度在3和10个字符之间，系统会自动转成大写
+		</termTypeHelp>
+	</node>
+</nodes> 

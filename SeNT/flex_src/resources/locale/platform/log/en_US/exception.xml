@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "log">
+		<userIdNotNull></userIdNotNull>
+		<hostIpNotNull></hostIpNotNull>
+		<loginResultNotNull></loginResultNotNull>
+		<loginLogNotFound></loginLogNotFound>
+		<userNameNotNull></userNameNotNull>
+		<menuNameNotNull></menuNameNotNull>
+	</node>
+</nodes>

@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：信息通知结果查询<br>
+	Create Time：2011-9-21<br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgSendResultModule">
+		<listTitle>信息通知模版列表</listTitle>
+		<viewList>信息通知详细信息</viewList>
+		<orgIdItem>机构范围</orgIdItem>
+		<searchItem>终端编号/工单编号/手机号码/邮件</searchItem>
+		<termIdItem>终端编号</termIdItem>
+		<troubleIdItem>工单编号</troubleIdItem>
+		<mobilePhoneItem>手机号码</mobilePhoneItem>
+		<adminIdItem>通知人</adminIdItem>
+		<createMsgItem>生成时间</createMsgItem>
+		<sendItem>发送时间</sendItem>
+		<toItem>至</toItem>
+		<flagItem>发送状态</flagItem>
+		<SMSContentItem>信息内容</SMSContentItem>
+		<typeItem>类型</typeItem>
+		<phoneOrEmail>手机/邮件</phoneOrEmail>
+		<levelItem>创建等级</levelItem>
+		<titlemsg>信息通知查询结果</titlemsg>
+	</node>
+</nodes>

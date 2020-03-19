@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<nodes>
+	<node locale = "deviceErrorCodeModule">
+		<title>设备故障记录</title>
+		<searchItem>搜索关键字</searchItem>
+		<termIdItem>终端编号</termIdItem>
+		<termTypeItem>终端类型</termTypeItem>
+		<termBrandItem>终端品牌</termBrandItem>
+		<orgNameItem>机构名称</orgNameItem>
+		<devCodeItem>设备部件</devCodeItem>
+		<errCodeItem>设备错误码</errCodeItem>
+		<beginTimeItem>开始时间</beginTimeItem>
+		<endTimeItem>结束时间</endTimeItem>
+		<errorTimeItem>故障时长</errorTimeItem>
+	</node>
+</nodes>

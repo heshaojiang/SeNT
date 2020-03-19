@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：黑卡交易规则设置<br>
+		Create Time：2011-9-6<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "blackCardTransactionModule">
+		<listTitle>黑卡交易规则列表</listTitle>
+		<cardNumOrBINItem>卡号/卡BIN：</cardNumOrBINItem>
+		<tbcardNumOrBINItem>卡号/卡BIN</tbcardNumOrBINItem>
+		<beginDateItem>有效开始日期：</beginDateItem>
+		<tbbeginDateItem>有效开始日期</tbbeginDateItem>
+		<endDateItem>有效结束日期</endDateItem>
+		<cardTypeItem>卡类型 </cardTypeItem>
+		<alarmWayItem>报警方式</alarmWayItem>
+		<beginTimeItem>监控开始时段</beginTimeItem>
+		<endTimeItem>监控结束时段</endTimeItem>
+		<toItem>至</toItem>
+		<titlemsg>黑卡规则设置管理</titlemsg>
+		<activeDate>有效日期：</activeDate>
+	</node>
+</nodes>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="boxInfoPrintForm">
+		<addBoxInfoForm>新增</addBoxInfoForm>
+		<updateBoxInfoForm>编辑</updateBoxInfoForm>
+		<orgid>所属机构</orgid>
+		<boxNum>钞箱编码</boxNum>
+		<boxType>钞箱类别</boxType>
+		<atmModel>ATM型号</atmModel>
+		<atmBoxtype>ATM钞箱类型</atmBoxtype>
+		<status>状态</status>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<saveButton>保存</saveButton>
+		<cancelButton>取消</cancelButton>
+		<barCodePrintBoxInfoForm>条码打印</barCodePrintBoxInfoForm>
+		<qrCodePrintBoxInfoForm>二维码打印</qrCodePrintBoxInfoForm>
+		<uploadFileItem>文件上传</uploadFileItem>
+		<chooseButton>浏览</chooseButton>
+		<uploadButton>上传</uploadButton>
+		<fileexport>文件导出</fileexport>
+		<filedown>文件下载</filedown>
+		<upload>上传</upload>
+		<importBoxInfo>钞箱导入</importBoxInfo>
+		<orgidLabel>所属机构：</orgidLabel>
+		<boxNumLabel>钞箱编码：</boxNumLabel>
+		<boxTypeLabel>钞箱类别：</boxTypeLabel>
+		<print_label_boxinfo_title>钞箱信息</print_label_boxinfo_title>
+		<label_ImageCode128>条码</label_ImageCode128>
+		<label_ImageQR>二维码</label_ImageQR>
+	</node>
+</nodes>

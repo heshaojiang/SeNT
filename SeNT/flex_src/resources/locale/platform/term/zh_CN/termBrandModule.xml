@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termBrandModule">
+		<listTitle>设备品牌列表</listTitle>
+		<brandNameItem>品牌名称：</brandNameItem>
+		<companyNameItem>厂商名称</companyNameItem>
+		<companyAddressItem>厂商地址</companyAddressItem>
+		<status>状态</status>
+		<code>代码</code>
+		<titlemsg>设备品牌管理</titlemsg>
+	</node>
+</nodes>

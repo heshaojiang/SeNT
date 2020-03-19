@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="distributionWindow">
+	    <listTitle>远程截屏</listTitle>
+	    <ipaddressItem>IP地址：</ipaddressItem>
+		<subnetmaskItem>子网掩码：</subnetmaskItem>
+		<gatewayItem>网关：</gatewayItem>
+		<dnsItem>DNS：</dnsItem>
+		<altdnsItem>备用DNS：</altdnsItem>
+		<osversionItem>操作系统版本：</osversionItem>
+		<memorysizeItem>内存大小(M)：</memorysizeItem>
+		<disksizeItem>磁盘空间(G)：</disksizeItem>
+		<soundvolItem>系统音量：</soundvolItem>
+		<systimeItem>系统时间：</systimeItem>
+		<lastmodifytimeItem>最后修改时间</lastmodifytimeItem>
+		<msgYstr>连接超时，操作失败</msgYstr>
+		<remotePrintScreen>远程截屏</remotePrintScreen>
+	    <connectTest>连通测试</connectTest>
+	    <dirBrowse>目录浏览</dirBrowse>
+	    <pause>暂停</pause>
+	    <resume>恢复</resume>
+	    <sysSetting>系统配置</sysSetting>
+	    <reboot>重启</reboot>
+	    <shutdown>关机</shutdown>
+	    <processSearch>进程查询</processSearch>
+	</node>
+</nodes>

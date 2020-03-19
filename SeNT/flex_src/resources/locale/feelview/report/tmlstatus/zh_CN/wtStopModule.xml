@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtStopModule">
+		<listTitle>列表</listTitle>
+		<wtstopTitle>停机事件明细查询</wtstopTitle>
+		<termId>终端编号：</termId>
+		<termType>全部终端类型</termType>
+		<brand>全部终端品牌</brand>
+		<orgId>所属机构：</orgId>
+		<orgName>机构名称</orgName>
+		<beginTime>停机时间：</beginTime>
+		<endTime>停机结束时间</endTime>
+		<stopTime>停机总时长</stopTime>
+		<reasonRemark>停机原因</reasonRemark>
+		<reason>停机类型</reason>
+		<memo>存放停机原因的文字解析</memo>
+		<disposal>是否处理</disposal>
+		<to>至</to>
+	</node>
+</nodes>

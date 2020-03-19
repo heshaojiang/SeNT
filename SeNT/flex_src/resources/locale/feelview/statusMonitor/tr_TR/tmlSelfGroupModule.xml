@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<nodes>
+	<node locale = "tmlSelfGroupModule">
+		<listTitle>Terminal Listesi</listTitle>
+		<addTmlStatusGroupForm>Ekle</addTmlStatusGroupForm>
+		<updateTmlStatusGroupForm>Düzenle</updateTmlStatusGroupForm>
+		<name>Grup Adı</name>
+		<status>Durum</status>
+		<order>Sıra</order>
+		<level>Level</level>
+		<hql>SQL</hql>
+		<sum>Sum</sum>
+		<icon>Image/package</icon>
+		<expressions>Expression</expressions>
+		<nameLocal>LocalName</nameLocal>
+		<common>Ortak</common>
+		<commonY>Evet</commonY>
+		<commonN>Hayır</commonN>
+		<addTmlSelfGroupForm>Ekle</addTmlSelfGroupForm>
+		
+		<termIdItem>Terminal Id</termIdItem>
+		<termSEQItem>Terminal Seri Numarası</termSEQItem>
+		<counterIdItem>Sayaç Id</counterIdItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<modelItem>Model</modelItem>
+		<org>Şube</org>
+		<areaIdItem>İl</areaIdItem>
+		<netAddrItem>Terminal IP</netAddrItem>
+		<selectATMIDDispenseButton>ATM Seçim</selectATMIDDispenseButton>
+		<selectATMIDChooseButton>Seçim</selectATMIDChooseButton>
+		<selectATMIDFinishButton>Kaydet</selectATMIDFinishButton>
+		<operateItem>Oper</operateItem>
+		<deleteItem>Del</deleteItem>
+		<layTypeItem>Lokasyon</layTypeItem>
+		
+		<addTerminalForGroup>Ekle Terminal</addTerminalForGroup>
+	</node>
+</nodes>

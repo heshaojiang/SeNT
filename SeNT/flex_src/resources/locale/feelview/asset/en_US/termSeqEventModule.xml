@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termSeqEventModule">
+		<openExamineForm>openExamineForm</openExamineForm>
+		<stopExamineForm>stopExamineForm</stopExamineForm>
+		<scrapExamineForm>scrapExamineForm</scrapExamineForm>
+		<transferExamineForm>transferExamineForm</transferExamineForm>
+		<openEvent>openEvent</openEvent>
+		<transferEvent>transferEvent</transferEvent>
+		<stopEvent>stopEvent</stopEvent>
+		<scrapEvent>scrapEvent</scrapEvent>
+		<seqno>seqno</seqno>
+		<termtype>termType</termtype>
+		<brand>brand</brand>
+		<model>model</model>
+		<insttype>instType</insttype>
+		<batch>batchNo</batch>
+		<orgname>orgname</orgname>
+		<statu>statue</statu>
+		<operations>operations</operations>
+		<openEventdate>openEventdate</openEventdate>
+		<opendate>opendate</opendate>
+		<Eventtermid>Eventtermid</Eventtermid>
+		<termid>termid</termid>
+		<addr>addr</addr>
+		<beginTime>beginTime</beginTime>
+		<endTime>endTime</endTime>
+		<reason>reason</reason>
+		<scrapDate>scrapDate</scrapDate>
+		<address>address</address>
+		<oldTermid>oldTermid</oldTermid>
+		<oldOrgname>oldOrgname</oldOrgname>
+		<oldAddress>oldAddress</oldAddress>
+		<optStatu>optStatu</optStatu>
+		<note>note</note>
+	</node>
+</nodes>

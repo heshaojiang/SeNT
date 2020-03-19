@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:mx = "library://ns.adobe.com/flex/mx"
+		 xmlns:fx = "http://ns.adobe.com/mxml/2009"
+		 xmlns:s = "library://ns.adobe.com/flex/spark"
+		 height="21"
+		 implements="platform.component.interfaces.IExProperties,platform.component.interfaces.IValidator" 
+		 xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Metadata>
+		[Event(name="change", type="mx.events.CalendarLayoutChangeEvent")]
+	</fx:Metadata>
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"/>
+	</s:layout>
+	<grg:TextInput id="returnTime" width="{isShowTime ? 140 : 80}" textAlign="left" textInput="returnTime_textInputHandler(event)"
+				  doubleClickEnabled="true" doubleClick="returnTime_doubleClickHandler(event)" keyDown="returnTime_keyDownHandler(event)"
+				  editable="{initeditable}" text="@{_text}" focusOut="returnTime_focusOutHandler(event)"/>
+	<grg:Image buttonMode="true" width="16" height="16" click="open(event)" includeInLayout="{isOpen}" name="timeChoooser"
+			   source="@Embed(source='/sent/transmgr/view/component/dateChooserOpen.png')" visible="{isOpen}"/>
+	<grg:Image buttonMode="true" width="16" height="16" click="open(event)" includeInLayout="{!isOpen}" name="timeChoooser"
+			   source="@Embed(source='/sent/transmgr/view/component/dateChooserClosed.png')" visible="{!isOpen}"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.containers.HBox;
+			import platform.common.manager.AlertHandler;
+			import platform.component.controls.Label;
+			import mx.controls.TileList;
+			import mx.core.UIComponent;
+			import mx.events.CalendarLayoutChangeEvent;
+			import mx.events.ListEvent;
+			import mx.formatters.DateFormatter;
+			import mx.managers.PopUpManager;
+			import mx.utils.ObjectProxy;
+			import mx.utils.ObjectUtil;
+			import platform.component.controls.DayCell;
+			import platform.common.manager.LanguageManager;
+			import platform.common.util.DateUtils;
+			import platform.component.controls.NumericStepper;
+			import spark.components.BorderContainer;
+			import spark.layouts.VerticalLayout;
+			
+			/**是否必填项**/
+			public var required:Boolean;
+			[Bindable]
+			public var disabledRanges:Array;
+			[Bindable]
+			public var selectableRange:Object;
+			
+			public static const RANGE_START_STR:String = "rangeStart";
+			public static const RANGE_END_STR:String = "rangeEnd";
+			
+			[Bindable]
+			private var _text:String = "";
+			public function set text(str:String):void
+			{
+				_text = str;
+			}
+			public function get text():String
+			{
+				return _text;
+			}
+			
+			/**
+			 * 实现扩展属性统一取值接口
+			 */		
+			[Bindable]
+			[Bindable("change")]
+			[Bindable("valueCommit")]
+			public function get exPropertiesValue():*
+			{
+				return selectedDate;
+			}
+			public function set exPropertiesValue(p_value:*):void
+			{
+				selectedDate = p_value;
+			}
+			private var _relativeKey:String;
+			public function get relativeKey():String
+			{
+				return _relativeKey;
+			}
+			public function set relativeKey(p_value:String):void
+			{
+				_relativeKey = p_value;
+			}
+			
+			[Bindable("change")]
+			public function set selectedDate(date:Date):void
+			{
+				nowTime = date;
+				_text = isShowTime ? DateUtils.formatDate(date, "YYYY-MM-DD JJ:NN:SS") : DateUtils.formatDate(date);
+				dispatchEvent(new CalendarLayoutChangeEvent(CalendarLayoutChangeEvent.CHANGE));
+			}
+			public function get selectedDate():Date
+			{
+				return DateUtils.formatStrToDate(_text, isShowTime);
+				//return nowTime;
+			}
+			
+			//获得检证类型
+			private var _vtype:String;
+			public function getVType():String
+			{
+				return _vtype;
+			}
+			public function get vtype():String
+			{
+				return _vtype;
+			}
+			public function set vtype( value:String ):void
+			{
+				_vtype = value;
+			}
+			
+			//是否可以为空
+			public function getBlank():Boolean
+			{
+				return !required;
+			}
+			//控件名称
+			public function getLabelText():String
+			{
+				return _text;
+			}
+			//获得控件的值
+			public function getValue():Object
+			{
+				return null;
+			}
+			public function getMaxChars():int
+			{
+				return 0;
+			}
+			public function getMinChars():int
+			{
+				return 0;
+			}
+			
+			/**
+			 * 是否可编辑
+			 * */
+			[Bindable]
+			private var initeditable:Boolean = true;
+			public function set myEnabled(str:Boolean):void
+			{
+//				initeditable = str;
+			}
+			public function get myEnabled(): Boolean
+			{
+				return returnTime.editable;
+			}
+			
+			/**是否显示时间**/
+			[Bindable]
+			public var isShowTime:Boolean;
+			/**浮动窗口宽度**/
+			private const m_width:Number = 210;
+			/**浮动窗口高度**/
+			private const m_height:Number = 210;
+			/**浮动窗口实例**/
+			private var pop:BorderContainer;
+			/**日期控件**/
+			private var tileList:TileList;
+			/**浮动窗口的打开状态**/
+			[Bindable]
+			private var isOpen:Boolean = false;
+			/**当前选中的日期时间**/
+			private var nowTime:Date;
+			/**存放时、分、秒控件，以便在窗口关闭时可以移除事件，释放资源**/
+			private var timeControls:Object = {};
+			
+			/**
+			 * 打开浮动的日期选择窗口
+			 * @param event
+			 * */
+			private function open(event:MouseEvent):void
+			{
+				initTime();
+				if(!isOpen){
+					var obj:Object = LanguageManager.getInstance().getCommonLanguageMap("components");
+					pop = PopUpManager.createPopUp(this, BorderContainer, false) as BorderContainer; 
+					pop.styleName = "dateSelectorStyle";
+					var layout:VerticalLayout = new VerticalLayout();
+					layout.gap = 0;
+					layout.paddingLeft = 3;
+					layout.paddingRight = 3;
+					layout.paddingTop = 3;
+					layout.paddingBottom = 3;
+					pop.layout = layout;
+//					stage.addChild(pop);
+//					Object(pop).showCloseButton = false;//true;
+					pop.move(event.stageX + event.target.width - event.localX - m_width, event.stageY + event.target.height - event.localY + 5);
+//					pop.width = m_width;
+//					pop.height = m_height;
+//					pop.x = event.localX + event.target.width - m_width;
+//					pop.y = event.localY + event.target.height + 5;
+//					Object(pop).title = obj["dateSelector"];
+					pop.setStyle("fontSize", 12);
+					
+					var hBoxTop:BorderContainer = new BorderContainer();
+					hBoxTop.styleName = "dateSelectorHeaderBg";
+					var hLayout:HorizontalLayout = new HorizontalLayout();
+					hLayout.verticalAlign = "middle";
+					hLayout.horizontalAlign = "center";
+					hBoxTop.layout = hLayout;
+					hBoxTop.width = m_width;
+					hBoxTop.height = 30;
+//					hBoxTop.height = m_height;
+//					hBoxTop.setStyle("horizontalAlign", "center");
+//					hBoxTop.setStyle("verticalAlign", "middle");
+					var year:NumericStepper = new NumericStepper();
+					year.setStyle("fontSize", 10);
+					year.stepSize = 1;
+					year.maxChars = 4;
+					year.minimum = 1999;
+					year.maximum = 2999;
+					year.width = 60;
+					year.height = 21;
+					year.value = nowTime.fullYear;
+					year.addEventListener(Event.CHANGE, yearChangeHandler);
+					
+					var y_label:Label = new Label();
+					y_label.text = obj["dateChooser"]["yearSymbol"];
+					y_label.setStyle("textAlign", "center");
+					y_label.width = 30;
+					
+					var month:NumericStepper = new NumericStepper();
+					month.setStyle("fontSize", 10);
+					month.stepSize = 1;
+					month.maxChars = 2;
+					month.minimum = 1;
+					month.maximum = 12;
+					month.width = 50;
+					month.height = 21;
+					month.value = nowTime.month + 1;
+					month.addEventListener(Event.CHANGE, monthChangeHandler);
+					
+					var m_label:Label = new Label();
+					m_label.text = obj["dateChooser"]["monthSymbol"];
+					m_label.setStyle("textAlign", "center");
+					m_label.width = 40;
+					
+					timeControls.year = hBoxTop.addElement(year);
+					hBoxTop.addElement(y_label);
+					timeControls.month = hBoxTop.addElement(month);
+					hBoxTop.addElement(m_label);
+					
+					pop.addElement(hBoxTop);
+					
+					var hBox:BorderContainer = new BorderContainer();
+					hBox.styleName = "dateSelectorDayStyle";
+					var dLayout:HorizontalLayout = new HorizontalLayout();
+					dLayout.verticalAlign = "middle";
+					dLayout.horizontalAlign = "center";
+					hBox.layout = dLayout;
+					hBox.width = m_width;
+					hBox.height = 20;
+					var str:String = String(obj["dateChooser"]["dayNames"]);
+					if(!str)
+						str = "日|一|二|三|四|五|六";
+					var weekName:Array = str.split("|");
+					for(var index:int = 0; index < weekName.length; index++){
+						var lab:Label = new Label();
+						lab.text = weekName[index];
+						lab.width = m_width/10;
+						lab.setStyle("textAlign",　"center");
+						lab.setStyle("fontSize",　12);
+						if(index　==　0){
+							lab.setStyle("color",　"red");
+						}
+						hBox.addElement(lab);
+					}
+					pop.addElement(hBox);
+					
+					var tileContainer:BorderContainer = new BorderContainer();
+					tileContainer.styleName = "dateSelectorDayNumBg";
+					var tLayout:HorizontalLayout = new HorizontalLayout();
+					tLayout.verticalAlign = "middle";
+					tLayout.horizontalAlign = "center";
+					tileContainer.layout = tLayout;
+					tileList = new TileList();
+					tileList.itemRenderer = new ClassFactory(DayCell);
+					tileList.styleName = "dateSelectorDayNum";
+					tileList.columnCount　=　7;
+					tileList.width = m_width - 2;
+//					tileList.columnWidth = 27;
+					tileList.doubleClickEnabled = true;
+					tileList.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, tileListDoubleClickHandler);
+					tileList.addEventListener(ListEvent.ITEM_CLICK, tileListClickHandler);
+					generateDate();
+					tileContainer.addElement(tileList);
+					pop.addElement(tileContainer);
+					
+					if(isShowTime){
+						var hBoxBottom:BorderContainer = new BorderContainer();
+						hBoxBottom.styleName = "dateSelectorHeaderBg";
+						var sLayout:HorizontalLayout = new HorizontalLayout();
+						sLayout.verticalAlign = "middle";
+						sLayout.horizontalAlign = "center";
+						hBoxBottom.layout = sLayout;
+						hBoxBottom.height = 30;
+						hBoxBottom.width = m_width;
+						
+//						var time_label:Label = new Label();
+//						time_label.locale = "time";
+//						time_label.setStyle("textAlign", "center");
+//						time_label.width = 30;
+						
+						var hour:NumericStepper = new NumericStepper();
+						hour.setStyle("fontSize", 10);
+						hour.stepSize = 1;
+						hour.maxChars = 2;
+						hour.minimum = 0;
+						hour.maximum = 23;
+						hour.width = 45;
+						hour.height = 21;
+						hour.value = nowTime.hours;
+						hour.setStyle("paddingRight", 0);
+						hour.addEventListener(Event.CHANGE, hourChangeHandler);
+						
+						var h_label:Label = new Label();
+						h_label.text = ":";
+						h_label.setStyle("textAlign", "center");
+						h_label.width = 10;
+						
+						var minute:NumericStepper = new NumericStepper();
+						minute.setStyle("fontSize", 10);
+						minute.stepSize = 1;
+						minute.maxChars = 2;
+						minute.minimum = 0;
+						minute.maximum = 59;
+						minute.width = 45;
+						minute.height = 21;
+						minute.value = nowTime.minutes;
+						minute.addEventListener(Event.CHANGE, minuteChangeHandler);
+						
+						var mi_label:Label = new Label();
+						mi_label.text = ":";
+						mi_label.setStyle("textAlign", "center");
+						mi_label.width = 10;
+						
+						var second:NumericStepper = new NumericStepper();
+						second.setStyle("fontSize", 10);
+						second.stepSize = 1;
+						second.maxChars = 2;
+						second.minimum = 0;
+						second.maximum = 59;
+						second.width = 45;
+						second.height = 21;
+						second.value = nowTime.seconds;
+						second.addEventListener(Event.CHANGE, secondChangeHandler);
+						
+//						hBoxBottom.addChild(time_label);
+						timeControls.hour = hBoxBottom.addElement(hour);
+						hBoxBottom.addElement(h_label);
+						timeControls.minute = hBoxBottom.addElement(minute);
+						hBoxBottom.addElement(mi_label);
+						timeControls.second = hBoxBottom.addElement(second);
+						pop.addElement(hBoxBottom);
+						
+					}
+					isOpen = true;
+				}else{
+					close();
+				}
+			}
+			
+			/**
+			 * 点击右边的小图标时，初始化nowTime的值和文本框显示的日期
+			 * */
+			protected function initTime():void
+			{
+				if(returnTime.text)
+					nowTime = DateFormatter.parseDateString(returnTime.text);
+				if(nowTime == null)
+					nowTime = new Date();
+				selectedDate = ObjectUtil.copy(nowTime) as Date;
+				stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+			}
+
+			/**
+			 * 当鼠标在日期控件外点击时，关闭日期控件
+			 * @param p_evt
+			 * */
+			private function mouseDownHandler(p_evt:MouseEvent):void
+			{
+				if(!pop || !isOpen)return;
+				//检测鼠标点击的位置是否在控件外部
+				if(!pop.hitTestPoint(p_evt.stageX, p_evt.stageY))
+					close();
+			}
+			
+			/**
+			 * 窗口关闭时清理资源
+			 * */
+			private function close():void
+			{
+				if(!pop)return;
+				PopUpManager.removePopUp(pop);
+//				stage.removeChild(pop);
+				isOpen = false;
+				if(stage)
+					stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+				if(tileList){
+					tileList.removeEventListener(ListEvent.ITEM_DOUBLE_CLICK, tileListDoubleClickHandler);
+					tileList.removeEventListener(ListEvent.ITEM_CLICK, tileListClickHandler);
+				}
+				if(timeControls.year)
+					timeControls.year.removeEventListener(Event.CHANGE, yearChangeHandler);
+				if(timeControls.month)
+					timeControls.month.removeEventListener(Event.CHANGE, monthChangeHandler);
+				if(timeControls.hour)
+					timeControls.hour.removeEventListener(Event.CHANGE, hourChangeHandler);
+				if(timeControls.minute)
+					timeControls.minute.removeEventListener(Event.CHANGE, minuteChangeHandler);
+				if(timeControls.second)
+					timeControls.second.removeEventListener(Event.CHANGE, secondChangeHandler);
+				timeControls = {};
+				tileList = null;
+				pop = null;
+			}
+			
+			//点击年、月、时、分、秒控件时，更新nowTime的值 start
+			/**
+			 * 选择年控件改变时重新生成日期列表
+			 * */
+			private function yearChangeHandler(evt:Event):void
+			{
+				var numeric:NumericStepper = evt.target as NumericStepper;
+				nowTime.fullYear = numeric.value;
+				generateDate();
+				//selectedDate = ObjectUtil.copy(nowTime) as Date;
+			}
+			/**
+			 * 选择月控件改变时重新生成日期列表
+			 * */
+			private function monthChangeHandler(evt:Event):void
+			{
+				var numeric:NumericStepper = evt.target as NumericStepper;
+				nowTime.month = numeric.value - 1;
+				nowTime.month = numeric.value - 1;
+				generateDate();
+				//selectedDate = ObjectUtil.copy(nowTime) as Date;
+			}
+			private function hourChangeHandler(evt:Event):void
+			{
+				var numeric:NumericStepper = evt.target as NumericStepper;
+				nowTime.hours = numeric.value;
+				generateDate();
+				selectedDate = ObjectUtil.copy(nowTime) as Date;
+			}
+			private function minuteChangeHandler(evt:Event):void
+			{
+				var numeric:NumericStepper = evt.target as NumericStepper;
+				nowTime.minutes = numeric.value;
+				generateDate();
+				selectedDate = ObjectUtil.copy(nowTime) as Date;
+			}
+			private function secondChangeHandler(evt:Event):void
+			{
+				var numeric:NumericStepper = evt.target as NumericStepper;
+				nowTime.seconds = numeric.value;
+				generateDate();
+				selectedDate = ObjectUtil.copy(nowTime) as Date;
+			}
+			//点击年、月、时、分、秒控件时，更新nowTime的值 end
+			
+			//日期列表事件start
+			//单击
+			private function tileListClickHandler(event:ListEvent):void
+			{
+				var obj:Object = tileList.selectedItem;
+				if(!obj || !obj.enabled)return;
+				var isRepeatClick:Boolean = nowTime.date == Number(obj.data);					
+				setTime();
+				if(isRepeatClick)
+					close();
+			}
+			//双击
+			private function tileListDoubleClickHandler(event:ListEvent):void
+			{
+				setTime();
+				close();
+			}
+			//日期列表事件end
+			
+			/**
+			 * 设置时间
+			 * */
+			private function setTime():void
+			{
+				var obj:Object = tileList.selectedItem;
+				if(!obj || !obj.enabled)return;
+				nowTime.setDate(obj.data);
+				selectedDate = ObjectUtil.copy(nowTime) as Date;
+			}
+			
+			/**
+			 * 生成日期列表
+			 * */
+			private function generateDate():void
+			{
+				if(!tileList)return;
+				var tmpDate:Date = new Date(nowTime.fullYear,　nowTime.month　+　1,　0);
+				var sumDay:Number = tmpDate.date;
+				
+				var firstDay:Date = new Date(nowTime.fullYear,　nowTime.month,　1);
+				var wday:Number = firstDay.day;
+				
+				var todayNum:Number = nowTime.date;
+				
+				var rowNum:uint = Math.ceil((sumDay　+　wday)/7);
+				tileList.rowCount　=　rowNum;
+				tileList.height = rowNum * 24;
+				
+				var myDP:Array = [];
+				for(var i:int　=　0; i　<　sumDay; i++){
+					var date:int = i + 1;
+					var enabled:Boolean = true;
+					var theDate:Date = new Date(nowTime.fullYear, nowTime.month, date);
+					if(isShowTime)
+						theDate.setHours(nowTime.hours, nowTime.minutes, nowTime.seconds);
+					var startDate:Date;
+					var endDate:Date;
+					//
+					if(selectableRange != null){
+						startDate = selectableRange[RANGE_START_STR] as Date;
+//						if(startDate != null) 
+//							startDate.setHours(0, 0, 0, 0);
+						endDate = selectableRange[RANGE_END_STR] as Date;
+//						if(endDate != null) 
+//							endDate.setHours(0, 0, 0, 0);
+						if(startDate != null && theDate < startDate)
+							enabled = false;
+						else if(endDate != null && theDate > endDate)
+							enabled = false;
+					}
+					if(disabledRanges != null){
+						for each(var disabledRange:Object in disabledRanges){
+							startDate = disabledRange[RANGE_START_STR] as Date;
+//							if(startDate != null) 
+//								startDate.setHours(0, 0, 0, 0);
+							endDate = disabledRange[RANGE_END_STR] as Date;
+//							if(endDate != null)
+//								endDate.setHours(0, 0, 0, 0);
+							if(startDate != null && endDate != null){
+								if(theDate >= startDate && theDate <= endDate)
+									enabled = false;
+							}else{
+								if(startDate != null && theDate >= startDate)
+									enabled = false;
+								if(enabled && endDate != null && theDate <= endDate)
+									enabled = false;
+							}
+						}
+					}
+					
+					myDP.push(new ObjectProxy({label:date, data:date, enabled:enabled}));
+				}
+				for(i　=　0; i　<　wday; i++){
+					myDP.unshift(null);
+				}
+				
+				tileList.dataProvider = myDP;
+				tileList.labelField = "label";
+				tileList.selectedIndex = wday + todayNum - 1;
+			}
+
+			/**
+			 * 外部验证失败时设置文本框报错字符串
+			 * */
+			override public function set errorString(value:String):void
+			{
+				returnTime.errorString = value;
+			}
+			/**
+			 * 双击文本框时，清空日期
+			 * */
+			protected function returnTime_doubleClickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				nowTime = null;
+				selectedDate = null;
+			}
+
+			protected function returnTime_textInputHandler(event:TextEvent = null):void
+			{
+				returnTime.errorString = "";
+				var typeStr:String = event ? event.text : "";
+				if(!_text)return;
+				var beginNum:int = returnTime.selectionActivePosition;
+				var endNum:int = returnTime.selectionAnchorPosition;
+				if(beginNum > endNum){
+					var tmpNum:int = beginNum;
+					beginNum = endNum;
+					endNum = tmpNum;
+				}
+				var nText:String = _text.substring(0, beginNum) + typeStr + _text.substring(endNum, _text.length);
+				var arr:Array = nText.split(" ");
+				var obj:Object = LanguageManager.getInstance().getCommonLanguageMap("Msg");
+				if(arr.length == 1){
+					//日期与时间之前没用空格分隔
+					var index:int = arr[0].toString().indexOf(":");
+					if(index >= 0){
+						returnTime.errorString = obj["dateLackSeperator"];
+						return;
+					}
+				}else if(arr.length == 2){
+					var timeArr:Array = arr[1].toString().split(":");
+					//时间长度有错
+					if(timeArr.length < 3){
+						returnTime.errorString = obj["timeFormatError"];
+						return;
+					}
+					//小时错
+					if(int(timeArr[0]) > 23 || int(timeArr[0]) < 0){
+						returnTime.errorString = obj["hourRangeError"];
+						return;
+					}
+					//分钟错
+					if(int(timeArr[1]) > 59 || int(timeArr[1]) < 0){
+						returnTime.errorString = obj["minuteRangeError"];
+						return;
+					}
+					//秒错
+					if(int(timeArr[2]) > 59 || int(timeArr[2]) < 0){
+						returnTime.errorString = obj["secondRangeError"];
+						return;
+					}
+				}else{
+					//格式错
+					returnTime.errorString = obj["dateTimeFormatError"];
+					return;
+				}
+				var ymdArr:Array = arr[0].toString().split("-");
+				//日期长度有错
+				if(ymdArr.length < 3){
+					returnTime.errorString = obj["dateFormatError"];
+					return;
+				}
+				//年份有错
+				if(int(ymdArr[0]) > 2099 || int(ymdArr[0]) < 1990){
+					returnTime.errorString = obj["yearRangeError"];
+					return;
+				}
+				//月份有错
+				if(ymdArr[1] > 12 || ymdArr[1] < 1){
+					returnTime.errorString = obj["monthRangeError"];
+					return;
+				}
+				//日期有错
+				var tmpDate:Date = new Date(int(ymdArr[0]),　ymdArr[1],　0);
+				if(int(ymdArr[2]) > tmpDate.date || int(ymdArr[2]) < 1){
+					returnTime.errorString = ymdArr[1] + obj["dayRangeErrorBefore"] + tmpDate.date + obj["dayRangeErrorAfter"];
+					return;
+				}
+			}
+
+			protected function returnTime_keyDownHandler(event:KeyboardEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(event.keyCode == Keyboard.BACKSPACE || event.keyCode == Keyboard.DELETE)
+					returnTime_textInputHandler();
+			}
+
+			protected function returnTime_focusOutHandler(event:FocusEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(!returnTime.errorString){
+					returnTime.errorString = returnTime.errorString;
+				}
+				selectedDate = DateUtils.formatStrToDate(_text, isShowTime);
+			}
+
+		]]>
+	</fx:Script>
+</s:Group>

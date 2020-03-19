@@ -1,0 +1,21 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：systemInterfaceForm<br>
+		Create Time：2011-9-2<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "systemInterfaceForm">
+		<addSystemInterfaceForm>Sistem Arayüz Ekle</addSystemInterfaceForm>
+		<updateSystemInterfaceForm>Sistem Arayüz Değiştir</updateSystemInterfaceForm>
+		<showSystemInterfaceDetailForm>sistem Arayüzünü Göster</showSystemInterfaceDetailForm>
+		<projectItem>Projenin Adı:</projectItem>
+		<fatherModuleItem>Ana Donanım:</fatherModuleItem>
+		<moduleItem>Donanım:</moduleItem>
+		<typeItem>Tip:</typeItem>
+		<catalogItem>Katalog:</catalogItem>
+		<interfaceNameItem>Arabirim Adı:</interfaceNameItem>
+		<descriptionItem>Açıklama:</descriptionItem>
+		<creatorItem>Oluşturan:</creatorItem>
+		<createTimeItem>Oluşturma Tarihi:</createTimeItem>
+	</node>
+</nodes>

@@ -1,0 +1,141 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley"
+	xmlns:grg="http://grg.grgbanking.com/platform/"
+	width="400"
+	height="280"
+	layout="vertical"
+	locale="dataDirForm"
+	helpTips="datadirHelp">
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			//--------------------------------------
+			//   Import 
+			//--------------------------------------
+			
+			import platform.common.validator.VControl;
+			import platform.constants.OperationConsts;
+			import platform.dataDict.DataDirMsg;
+			import platform.datadir.local.DataDirFormConsts;
+			import platform.datadir.pm.DataDirFormPM;
+			
+			//--------------------------------------
+			//   Property 
+			//--------------------------------------
+			
+			//--------------------------------------
+			//   Property#public 
+			//--------------------------------------
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+			[Bindable]
+			[Inject]
+			public var pm:DataDirFormPM;
+			
+			//--------------------------------------
+			//   Function 
+			//--------------------------------------
+			
+			//--------------------------------------
+			//   Function#public 
+			//--------------------------------------
+			
+			public function save():void
+			{
+				if (VControl.validateAll(form , validators).length > 0)
+				{
+					return;
+				}
+				pm.save(titleKey == DataDirFormConsts.ADD_DATADIR_FORM ? OperationConsts.ADD : OperationConsts.EDIT);
+				
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:DataDirMsg):void
+			{
+				close();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:DataDirMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			//--------------------------------------
+			//   Function#protected 
+			//--------------------------------------
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+		]]>
+	</fx:Script>
+
+	<grg:Form id="form" width="100%" textAlign="left" borderVisible="false">
+		<!--路径：-->
+		<grg:FormItem id="keypathItem" width="100%" locale="keypathItem">
+			<grg:TextInput id="keypath" width="230" toolTip="{pm.datadir.keypath}" borderVisible="false"
+				   	text="{pm.datadir.keypath}" editable="false" contentBackgroundAlpha="0" />
+		</grg:FormItem>
+		<!--项目主键：-->
+		<grg:FormItem id="itemKey" width="100%" textAlign="left" locale="itemKey" required="true">
+			<grg:TextInput id="key" name="key" text="@{pm.datadir.key}" width="230"
+				   	restrict="0-9a-zA-Z\-\_\#" maxChars="32" required="true" />
+		</grg:FormItem>
+		<!--项目值：-->
+		<grg:FormItem id="itemValue" width="100%" locale="itemValue" required="true">
+			<grg:TextInput id="value" name="value" text="@{pm.datadir.value}" width="230" maxnum="32" maxChars="32"
+				   	vtype="maxchars" required="true" />
+		</grg:FormItem>
+		<!--英文备注：-->
+		<grg:FormItem id="itemNote" width="100%" textAlign="left" locale="note">
+			<grg:TextInput id="noteEn" name="noteEn" text="@{pm.datadir.noteEn}" width="230" maxChars="100"
+				   	vtype="maxchars" maxnum="100" />
+		</grg:FormItem>
+		<!--顺序：-->
+		<grg:FormItem id="itemOrder" width="100%" textAlign="left" locale="itemOrder">
+			<grg:NumericStepper id="order" name="order" minimum="1" value="@{pm.datadir.order}"
+					maximum="9999" stepSize="1" />
+		</grg:FormItem>
+	</grg:Form>
+	
+	<s:HGroup width="100%" gap="10" horizontalAlign="center" verticalAlign="middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button  id="submitBtn"  click="save()" locale="saveButton" iconVisible="false" />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button  click="cancel()" locale="cancelButton" iconVisible="false" />
+		</s:BorderContainer>
+	</s:HGroup>  
+	
+</grg:TitleWindow>
+

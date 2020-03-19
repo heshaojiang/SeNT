@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="showCmlConnectInfosWin">
+	<inPerson>清分交接人员：</inPerson>
+	<comeOrg>现金来源机构：</comeOrg>
+	<connDate>交接日期：</connDate>
+	<outPerson>外部交接人员：</outPerson>
+	<connMoney>交接现金：</connMoney>
+	<moneyboxCount>款箱数量：</moneyboxCount>
+	<cmlConnectInfosInfo>清分交接信息</cmlConnectInfosInfo>
+	<connAppeal>清分要求：</connAppeal>
+	<connMemo>备注：</connMemo>
+	<saveButton>确定</saveButton>
+	<cancelButton>取消</cancelButton>
+	<close>关闭</close>
+	<showCmlConnKey>清分交接详情</showCmlConnKey>
+	</node>
+</nodes>

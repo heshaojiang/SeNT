@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "paramModule">
+		<listTitle>Param List</listTitle>
+		<itemKey>Key</itemKey>
+		<itemValue>Value</itemValue>
+		<paramNote>Note</paramNote>
+		<paramStatus>Status</paramStatus>
+	</node>
+</nodes>

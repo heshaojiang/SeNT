@@ -1,0 +1,3 @@
+Manifest-Version: 1.2.6
+Main-Class: org.jsmsengine.CService
+Created-By: Delenikas Thanasis

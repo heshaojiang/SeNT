@@ -1,0 +1,1014 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<s:Group name="main" width="100%" height="100%" minHeight="560" minWidth="1000"
+		 preinitialize="preinitializeHandler()"
+		 creationComplete="creationCompleteHandler()"
+		 addedToStage="addToStageHandler()"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:flexlib="http://code.google.com/p/flexlib/"
+		 xmlns:parsley="http://www.spicefactory.org/parsley" 
+		 xmlns:grg="http://grg.grgbanking.com/platform/"
+		 xmlns:view="platform.navigator.view.*">
+	<fx:Metadata>
+		[Event(name="changeState", type="flash.events.Event")]
+	</fx:Metadata>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->		
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="main"/>
+			<parsley:FlexConfig type="{SystemConfig}"/> 
+			<parsley:FlexConfig type="{UserFunctionConfig}"/>
+			<parsley:FlexConfig type="{UserInfoConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flexlib.events.SuperTabEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.ItemClickEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.utils.ObjectUtil;
+			import mx.utils.UIDUtil;
+			
+			import org.spicefactory.parsley.core.context.Context;
+			
+			import platform.common.base.BaseService;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.ReflectUtil;
+			import platform.component.complex.accordionmenu.GRGTopBar;
+			import platform.component.complex.accordionmenu.GrgExpendMenuBar;
+			import platform.component.containers.TabModule;
+			import platform.component.containers.TabVBox;
+			import platform.component.interfaces.ILocale;
+			import platform.config.SystemConfig;
+			import platform.constants.LocaleConsts;
+			import platform.event.DataEvent;
+			import platform.event.LanguageEvent;
+			import platform.global.AppGlobal;
+			import platform.layer.MessageBase;
+			import platform.layer.PollingMessage;
+			import platform.module.ManagedModule;
+			import platform.module.ModulesManager;
+			import platform.navigator.config.UserFunctionConfig;
+			import platform.security.config.UserInfoConfig;
+			import platform.security.message.UserInfoMsg;
+			import platform.security.view.ChangePwdForm;
+			import platform.security.view.EditUserInfo;
+			import platform.services.PollingMessageBroker;
+			import platform.vo.org.OrgVo;
+			import platform.vo.security.UserVo;
+			
+			
+			/**上下文菜单**/
+			[Inject]
+			[Bindable]
+			public var context:Context;
+			/**全局变量类**/
+			[Inject]
+			public var appGlobal:AppGlobal;
+			/**推送频道消息接收类**/
+			[Inject]
+			public var pollingMessageBroker:PollingMessageBroker;
+			/**消息发送器**/
+			[MessageDispatcher]
+			public var sendMessage:Function;
+			/**菜单列表**/
+			[Bindable]
+			private var menuDataProvider:XMLListCollection;
+			/**模组管理器**/
+			private var mdlMgr:ModulesManager;
+			/**与后台保持连接防止Session过期的定时器**/
+			private var keepConnectionTimer:int;			
+			/**超时定时器**/
+			private var activityTimer:int;
+			/**超时时间（分钟）**/
+			private var timeout:int = 20;
+			/**客户端唯一的标记**/
+			private var loginUid:String = UIDUtil.createUID();
+			/**是否显示导航窗口**/
+			[Bindable]
+			private var isShowNavigator:Boolean = false;
+			/**浮动菜单列表**/
+			private var extendMenuWin:GrgExpendMenuBar; 
+			/**消息条数**/
+			[Bindable]
+			private var mesgNum:String = "0";
+			[Bindable]
+			private var message:String = "";
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/	
+			//初始化设置 start
+			/**
+			 * parsley框架初始化完成时，初始化系统的部分功能
+			 * **/
+			[Init]
+			public function parsleyInit():void
+			{ 
+				trace("Main.parsleyInit");
+				//初始化全局变量
+				appGlobal.init();
+				
+				//初始化推送频道
+				if(!pollingMessageBroker.initialized)
+					pollingMessageBroker.start();
+			}
+			/**
+			 * 当显示主界面时对各部分功能进行初始化
+			 * */
+			private function addToStageHandler():void
+			{
+				trace("Main.addToStageHandler");
+				//开启数据推送频道
+				//				if(pollingMessageBroker)
+				//					pollingMessageBroker.start();
+				//初始化全局变量
+				//				if(appGlobal)
+				//					appGlobal.init();
+				//设置用户信息
+				new UserInfoInit(initUserCallback).getUserInfo();
+			}
+			/**
+			 * 预加载时增加设置子窗口语言包路径处理函数
+			 * */
+			protected function preinitializeHandler():void
+			{
+				trace("Main.preinitializeHandler");
+				addEventListener(LanguageEvent.LOAD_LANGUAGE, settingChildrenFullPathHandler);
+				addEventListener("openNewModule", openNewModuleHandler);
+			}
+			private function openNewModuleHandler(p_evt:platform.event.DataEvent):void
+			{
+				trace("Main.openNewModuleHandler");
+				p_evt.stopPropagation();
+				mdlMgr.addModule(ReflectUtil.XmlObjectToObject(getModuleInfoByPath(p_evt.targetModule)), p_evt.data as Array);
+			}
+			/**
+			 * 接收到子窗口获取语言包路径的请求后，设置子窗口的语言包路径
+			 * @param p_evt
+			 * 
+			 */
+			private function settingChildrenFullPathHandler(p_evt:LanguageEvent):void
+			{
+				trace("Main.settingChildrenFullPathHandler");
+				p_evt.stopPropagation();
+				var _target:ILocale = p_evt.target as ILocale;
+				if(_target && _target.fullPaths)
+					_target.fullPaths = _target.fullPaths.concat(["common.main"]);
+			}
+			/**
+			 * 创建完成时进行初始化模组管理器、刷新语言、加载默认模组等操作
+			 * */
+			private function creationCompleteHandler():void
+			{
+				trace("Main.creationCompleteHandler");
+				mdlMgr = ModulesManager.getInstance(mainWindow);
+				//菜单信息初始化完成后加载默认模组
+				if(menuDataProvider)
+					loadDefaultModule();
+				mainWindow.addEventListener(SuperTabEvent.TAB_CLOSE, handleModuleDestory);
+				resourcesChanged();
+			}
+			//初始化设置 end
+			
+			
+			//子功能 start
+			/**
+			 * 设置默认打开的模组子功能
+			 */
+			private function setDefaultModule():void
+			{
+				trace("Main.setDefaultModule");
+				var userVO:UserVo = ObjectUtil.copy(UserInfoInit.userInfo["userBaseInfo"]) as UserVo;
+				if(mainWindow.selectedChild)
+					userVO.defaultModule = TabVBox(mainWindow.selectedChild).id;
+				else
+					userVO.defaultModule = "";
+				var msg:UserInfoMsg = new UserInfoMsg();
+				msg.type = "updateUser";
+				msg.args["vo"] = userVO;
+				sendMessage(msg);
+			}
+			
+			[MessageHandler(selector="saveResult")]
+			public function saveResultHandler(p_msg:UserInfoMsg):void
+			{
+				trace("Main.saveResultHandler");
+				if(p_msg.result)
+					AlertHandler.alert("setMainPageSuccess");
+			}
+			/**
+			 * 修改密码
+			 * @param p_info
+			 * 
+			 */
+			/**
+			private function changePassword(expired:Boolean=false):void
+			{
+				trace("Main.changePassword");
+				var changePassword:ChangePassword = new ChangePassword();
+				changePassword.name = "changePassword";
+				changePassword.expired = expired;
+				context.viewManager.addViewRoot(changePassword);
+				platform.common.manager.PopUpManager.showForm(changePassword, this); 
+			}
+			*/
+			/**
+			 * 修改密码
+			 * @param p_info
+			 * 
+			 */
+			private function changePassword(expired:Boolean=false):void
+			{
+				
+				//dispatch event
+				var win:ChangePwdForm = new ChangePwdForm();
+				win.titleKey = "changePassword";
+				context.viewManager.addViewRoot(win);
+				platform.common.manager.PopUpManager.showForm4Parsley(win);
+			}
+			//子功能 end
+			
+			
+			
+			
+			//登出处理函数  start
+			/**
+			 * 登出处理函数
+			 * */
+			protected function logoOutHandler(event:MouseEvent):void
+			{
+				trace("Main.logoOutHandler");
+				AlertHandler.confirm(function(p_event:CloseEvent):void
+				{
+					if (p_event.detail == Alert.YES){
+						logoOut();
+					}
+				}, this, LocaleConsts.CONFIRM_LOGOUT);	
+			}
+			
+			[MessageHandler(selector="logout")]
+			public function logoOut(p_msg:Object = null):void
+			{
+				trace("Main.logoOut");
+				cleanResources();
+				
+				//				var ro:RemoteObject = new RemoteObject();
+				//				ro.endpoint = AppGlobal.contextRoot + GRGRemoteObject.END_POINT;
+				//				ro.initialize();
+				//				ro.disconnect();
+				//				ro.logout();
+				//				
+				//				pollingMessageBroker.cs.disconnectAll(); 
+				
+				var _httpService:HTTPService = new HTTPService();
+				_httpService.url = AppGlobal.contextRoot + "/j_spring_security_logout.html";
+				_httpService.method = "POST";
+				_httpService.resultFormat = HTTPService.RESULT_FORMAT_TEXT;
+				var async:AsyncToken = _httpService.send();
+				async.addResponder(new AsyncResponder(httpServiceResultHandler, null, async)); 
+			}
+			
+			
+			private function httpServiceResultHandler(p_evt:ResultEvent, p_token:AsyncToken):void
+			{
+				trace("Main.httpServiceResultHandler");
+				mdlMgr.closeAllModules();
+				platform.common.manager.PopUpManager.removeAllPopUp();
+				Mouse.cursor = MouseCursor.AUTO;
+				dispatchEvent(new Event(Index.CHANGE_STATE));
+				menuDataProvider = new XMLListCollection();
+				//				isShowNavigator = true;
+			}
+			//登出处理函数  end
+			
+			
+			
+			//超时不活动处理 start
+			/**
+			 * 鼠标活动时，刷新超时函数
+			 * @param p_evt
+			 * **/
+			private function clearActivityTimerHandler(p_evt:Event):void
+			{
+				//trace("Main.clearActivityTimerHandler");
+				clearTimeout(activityTimer);
+				activityTimer = setTimeout(timeoutHandler, timeout*60*1000);
+			}
+			/**
+			 * 当超过设定的时间没有操作时，提示用户，随后退出系统
+			 * */
+			private function timeoutHandler():void
+			{
+				trace("Main.timeoutHandler");
+				cleanResources();
+				AlertHandler.alert("timeOut", logoOut);
+			}
+			//超时不活动处理 end
+			
+			
+			
+			//清理资源 start
+			/**
+			 * 清理所有资源和定时器
+			 * */
+			private function cleanResources():void
+			{
+				trace("Main.cleanResources");
+				//关闭
+				//				if(pollingMessageBroker)
+				//					pollingMessageBroker.close();
+				//clear timeres after that session is time out.
+				clearInterval(keepConnectionTimer);
+				clearTimeout(activityTimer);
+//				removeEventListener("deleteUserModule", deleteUserModule);
+				systemManager.removeEventListener(MouseEvent.MOUSE_MOVE, clearActivityTimerHandler);
+				systemManager.removeEventListener(KeyboardEvent.KEY_DOWN, clearActivityTimerHandler);
+			}
+			/**
+			 * 关闭Moudle时清理相关资源
+			 * @param event
+			 * 
+			 * */
+			private function handleModuleDestory(event:SuperTabEvent):void
+			{
+				trace("Main.handleModuleDestory");
+				event.stopPropagation();
+				var mdl:TabModule = event.target as TabModule;
+				var mdlName:String = "";
+				if(mdl){
+					mdlName = mdl.managedModule.name;
+					mainWindow.closeTab(mainWindow.getChildIndex(TabVBox(mdl.parent)));
+				}else{
+					mdlName = Object(mainWindow.getChildAt(event.tabIndex)).id;
+				}
+				if(mdlName)
+					mdlMgr.closeModule(mdlName);
+				//				if(mdlMgr.moduleCache.length <= 0)
+				//					isShowNavigator = true;
+			}
+			//清理资源 end
+			
+			
+			//打开模组start
+			/**
+			 * 响应top菜单栏单击事件，打开相应的模块
+			 * @param event
+			 * 
+			 * */
+			protected function menuItemClickHandler(event:ItemClickEvent):void
+			{
+				trace("Main.menuItemClickHandler");
+				if(!event.item)
+					return;
+				var xml:XML = event.item as XML;
+				//打开一级菜单
+				if(xml.@menuURL != null && xml.@menuURL != "#"){
+					loadModule(xml); 
+				}
+			}
+			/**
+			 * 加载用户默认设置打开的模组
+			 * */
+			private function loadDefaultModule():void
+			{ 
+				trace("Main.loadDefaultModule");
+				//如果用户设置了默认打开的模组，则直接打开
+				if(UserInfoInit.userInfo["defaultModule"]){
+//					var url:String=UserInfoInit.userInfo["defaultModule"];
+//					if(this.defaultModuleId!=null){
+//						this.closeModule(defaultModuleId);
+//					}
+//					if(url && url!=""){
+//						hasDefaultModule=true; 
+//						loadModule(getModuleInfoByPath(url)); 
+//					}
+					loadModule(getModuleInfoByPath(UserInfoInit.userInfo["defaultModule"]));
+				}
+			}
+			/**
+			 * 模组内调用其他模块
+			 * */ 
+			public function loadOtherModule(menuId:String):void
+			{ 
+				trace("Main.loadOtherModule");
+				var xml:XML = getModuleInfoById(menuId);
+				if(!xml){
+					AlertHandler.alert("mainPageIsValid");
+					return;
+				}
+				loadModule(xml); 
+			}
+			
+			/**
+			 * 根据ID获取菜单相关的节点信息
+			 * @param p_id
+			 * @return
+			 * 
+			 * */
+			private function getModuleInfoById(p_id:String):XML
+			{
+				trace("Main.getModuleInfoById");
+				var xml:XML = new XML("<root>" + menuDataProvider.toXMLString() + "</root>");
+				var xl:XMLList = xml.descendants("node").(@id == p_id);
+				if(xl && xl.length() > 0)
+					return xl[0];
+				return null;
+			}
+			/**
+			 * 根据路径获取菜单相关的节点信息
+			 * @param p_id
+			 * @return
+			 * 
+			 * */
+			public function getModuleInfoByPath(p_path:String):XML
+			{
+				trace("Main.getModuleInfoByPath");
+				var xml:XML = new XML("<root>" + menuDataProvider.toXMLString() + "</root>");
+				var xl:XMLList = xml.descendants("node").(@menuURL == p_path);
+				if(xl && xl.length() > 0)
+					return xl[0];
+				return null;
+			}
+			/**
+			 * 加载并显示模组
+			 * @param p_info
+			 * 
+			 */
+			public function loadModule(p_info:XML):void
+			{
+				trace("Main.loadModule");
+				var obj:Object = ReflectUtil.XmlObjectToObject(p_info);
+//				if(defaultModuleId==null && this.hasDefaultModule==true){
+//					defaultModuleId=obj.name;
+//				}
+				if(!obj)return;
+				var arr:Array = String(obj.menuURL).split("@");
+				obj.menuURL = arr[0];
+				if(arr.length > 1){
+					arr = String(arr[1]).split(",");
+				}else{
+					arr = [];
+				}
+				mdlMgr.addModule(obj, arr, hideNavigator);
+				//统计用户点击菜单次数
+//				var msg:UserFunctionMsg = new UserFunctionMsg();
+//				msg.type = "userMenuLog";
+//				msg.args["menuId"] = obj.id;
+//				sendMessage(msg);
+			}
+			//打开模组end
+			
+			
+			
+			
+			//用户信息处理 start
+			/**
+			 * 获取用户信息显示初始化信息，增加事件监听器等
+			 * */
+			private function initUserCallback():void
+			{
+				trace("Main.initUserCallback");
+				showLoginInfo();
+				//init message num
+				//getMessageNum();
+				//如果到达预设的密码过期提醒时间，弹出窗口提示用户
+				passwordExpiredReminder();
+				
+				if(UserInfoInit.userInfo["flexTimeOut"])
+					timeout = int(UserInfoInit.userInfo["flexTimeOut"]);
+				
+				//添加监听用户活动事件处理器
+				if(timeout > 0){
+					systemManager.addEventListener(MouseEvent.MOUSE_MOVE, clearActivityTimerHandler);
+					systemManager.addEventListener(KeyboardEvent.KEY_DOWN, clearActivityTimerHandler);
+					activityTimer = setTimeout(timeoutHandler, timeout*60*1000);
+				}
+				//保持连接timer
+				keepConnectionTimer = setInterval(invokeService, 10*60*1000);
+				invokeService();
+				
+				if (UserInfoInit.userInfo["multiOnline"] != "Y")
+					pollingMessageBroker.send("poll.newLogin",  UserInfoInit.userInfo["userCode"], loginUid);
+				//加载导航菜单
+//				loadNavigatorData();
+				/**
+				 * 调用远程的机构信息
+				 * */
+				var remote:RemoteObject = new BaseService("orgInfoService");
+				remote.addEventListener(ResultEvent.RESULT, getUserInitInfo_result);
+				remote.getOrgById(UserInfoInit.userInfo["orgId"]);
+			}
+			/**
+			 * 初始化用户的pathCode
+			 * */
+			public function getUserInitInfo_result(p_evt:ResultEvent):void
+			{
+				trace("Main.getUserInitInfo_result");
+				var orgInfo:OrgVo = p_evt.result as OrgVo;
+				UserInfoInit.userInfo["orgPathCode"] = orgInfo.pathCode;
+			}
+			/**
+			 * 显示登录用户信息并调用函数获取菜单
+			 * 
+			 * **/
+			private function showLoginInfo():void
+			{
+				trace("Main.showLoginInfo");
+				if (loginUser)
+				{
+					loginUser.label = "";
+				}
+				if (loginUser && UserInfoInit && UserInfoInit.userInfo)
+				{
+					loginUser.label = UserInfoInit.userInfo["userName"];
+				}
+				if(UserInfoInit.userInfo["defaultPassword"] == true)
+				{
+					changePassword();
+					AlertHandler.alert(LocaleConsts.DEFAULT_PASSWORD);
+				}
+				//init menu bar
+				initializeMenuBar();
+			}
+			/**
+			 * 密码过期前提醒用户
+			 * */
+			private function passwordExpiredReminder():void
+			{
+				trace("Main.passwordExpiredReminder");
+				var now:Date = new Date();
+				var invalidDay:Date = UserVo(UserInfoInit.userInfo["userBaseInfo"]).pwInvalidDate;
+				if(!invalidDay)return;
+				var dis:int = Math.ceil((invalidDay.getTime() - now.getTime())/(1000*60*60*24));
+				
+				if(dis <= 0){
+					changePassword(true);
+					AlertHandler.alert("passwordExpired");
+				}else if(dis <= int(UserInfoInit.userInfo["passwordRemindDays"])){
+					AlertHandler.alert("passwordWillExpired");
+				}
+			}
+			//用户信息处理 end
+			
+			
+			
+			
+			//相同用户在不同地点登录时，踢出操作 Start
+			[MessageHandler(selector="poll.newLogin")]
+			public function receiverNewLogin(p_msg:PollingMessage = null):void
+			{
+				trace("Main.receiverNewLogin");
+				if (p_msg.result==UserInfoInit.userInfo["userCode"] && loginUid!=p_msg.uid){
+					AlertHandler.alert("userLoginAtOtherPlace", receiverNewLoginCallBack);
+				}
+			}
+			public function receiverNewLoginCallBack(event:CloseEvent):void
+			{
+				trace("Main.receiverNewLoginCallBack");
+				logoOut();
+			}
+			//相同用户在不同地点登录时，踢出操作 end
+			
+			
+			
+			/***
+			 * 设置语言选择下拉框的数据源
+			 * **/
+			override protected function resourcesChanged():void
+			{
+				trace("Main.resourcesChanged");
+				super.resourcesChanged();
+				if(!logo)return;
+				//根据语言包改变整体样式
+				var langMgr:LanguageManager = LanguageManager.getInstance();
+				logo.styleName = langMgr.getCommonLocleValue("logoImg", langMgr.currentLanguage);
+				//bannerName.styleName = langMgr.getCommonLocleValue("bannerImg", langMgr.currentLanguage);
+			}
+			
+			/**
+			 * 定时调用远程服务，获取服务器时间并且刷新服务器session
+			 * */
+			private function invokeService():void
+			{
+				trace("Main.invokeService");
+				var msg:MessageBase = new MessageBase();
+				msg.type = "getServerTime";
+				sendMessage(msg);
+			}
+			[MessageHandler(selector="getServerTimeResult")]
+			public function getServerTimeResult(p_msg:MessageBase):void
+			{
+				trace("Main.getServerTimeResult");
+				UserInfoInit.serverTime = p_msg.result as Date;
+			}
+			
+			private function getMessageNum():void
+			{
+				trace("Main.getMessageNum");
+				var msg:MessageBase = new MessageBase();
+				msg.type = "getMessageNum";
+				msg.args["userCode"] = UserInfoInit.userInfo["id"];
+				sendMessage(msg);
+			}
+			[MessageHandler(selector="getMessageNumResult")]
+			public function getMessageNumResult(p_msg:MessageBase):void
+			{
+				trace("Main.getMessageNumResult");
+				mesgNum = p_msg.result as String;
+				var v:String = LanguageManager.getInstance().getCommonLanguageMap("button")["message"] as String ;
+				message =  v+'('+mesgNum+')';
+				
+			}
+			/**
+			 * 获取菜单导航条数据
+			 * 
+			 */
+			private function initializeMenuBar():void
+			{
+				trace("Main.initializeMenuBar");
+				var msg:MessageBase = new MessageBase();
+				msg.type = "getMenuTreeByUser";
+				msg.args["userCode"] = UserInfoInit.userInfo["userCode"];
+				sendMessage(msg);
+			}
+			[MessageHandler(selector="getMenuTreeByUserResult")]
+			public function getMenuTreeResult(p_msg:MessageBase):void
+			{
+				trace("Main.getMenuTreeResult");
+				var treeXml:String = p_msg.result as String;
+				if (treeXml == null) {
+					AlertHandler.alert(LocaleConsts.NO_PRIVILEGE);
+				}
+				var xml:XML = new XML(treeXml);
+				menuDataProvider = new XMLListCollection(xml.elements("node"));
+				//当用户尚未分配任何权限时提示用户
+				if(menuDataProvider.length <= 0)
+					AlertHandler.alert(LocaleConsts.NO_PRIVILEGE);
+				if(initialized)
+					loadDefaultModule();
+			}
+			
+			/**
+			 * 隐藏导航窗口
+			 * */
+			private function hideNavigator():void
+			{
+				trace("Main.hideNavigator");
+				//				if(isShowNavigator)
+				//					isShowNavigator = false;
+			}
+			
+			/**
+			 * 关闭所有窗口
+			 * */
+			public function closeAll():void
+			{ 
+				trace("Main.closeAll");
+				mdlMgr.closeAllModules();
+				//				isShowNavigator = true;
+			}
+			
+			/**
+			 * open message module
+			 * @param evt
+			 * 
+			 */
+			private function openMessageModule():void
+			{
+				trace("Main.openMessageModule");
+				loadModule(getModuleInfoByPath("platform/sitemsg/view/ReceivedMsgModule"));
+			} 
+			
+			//获取导航栏数据
+//			[Bindable]
+//			private var navigatorDataProvider:ArrayCollection;
+//			[MessageHandler(selector="loadNavigatorData")]
+//			public function loadNavigatorData(p_msg:UserFunctionMsg = null):void
+//			{
+//				if(p_msg && !p_msg.result)return;
+//				var msg:UserFunctionMsg = new UserFunctionMsg();
+//				msg.type = "getNavigatorTreeByUser";
+//				sendMessage(msg);
+//			}
+//			[MessageHandler(selector="getNavigatorTreeByUserResult")]
+//			public function getNavigatorTreeByUserResult(p_msg:UserFunctionMsg):void
+//			{
+//				navigatorDataProvider = p_msg.result as ArrayCollection;
+//			}
+//			private function deleteUserModule(p_evt:platform.event.DataEvent):void
+//			{
+//				p_evt.stopPropagation();
+//				var msg:UserFunctionMsg = new UserFunctionMsg();
+//				msg.type = "delUserModule";
+//				msg.args["vo"] = p_evt.data;
+//				sendMessage(msg);
+//			}
+			//获取导航栏数据
+			
+			/**
+			 * 编辑用户
+			 * */
+			protected function editUser():void
+			{
+				trace("Main.editUser");
+				var win:EditUserInfo = new EditUserInfo();
+				context.viewManager.addViewRoot(win);
+				platform.common.manager.PopUpManager.showForm4Parsley(win);
+			}
+			
+			
+			/**
+			 * 浮动菜单定时器
+			 * */
+			private var menuTimer:uint;
+			/**
+			 * 触发关闭事件间隔
+			 * */
+			private const menuInterval:uint = 200;
+			/**
+			 * 关闭浮动菜单窗口
+			 * */
+			private function closeExtendMenuWindow():void
+			{
+				trace("Main.closeExtendMenuWindow");
+				clearInterval(menuTimer);
+				if(extendMenuWin == null || extendMenuWin.isRollOver || menuIconStatus == "show")
+					return;
+				expendmenu.type = "showExpendMenu";
+				extendMenuWin.dp = new ArrayCollection();
+				extendMenuWin.removeEventListener("closeTabModule", closeTabModuleHandler);
+				extendMenuWin.removeEventListener("closeAllTabModule", closeAllTabModuleHandler);
+				extendMenuWin.removeEventListener("closeFloatMenu", closeFloatMenuHandler);
+				mx.managers.PopUpManager.removePopUp(extendMenuWin);
+			}
+			private function showTabModuleHandler(p_evt:platform.event.DataEvent):void
+			{
+				trace("Main.showTabModuleHandler");
+				var mdl:TabModule = p_evt.data.module as TabModule;
+				if(mdl)
+					mainWindow.selectedIndex = mainWindow.getChildIndex(TabVBox(mdl.parent));
+			}
+			private function closeTabModuleHandler(p_evt:platform.event.DataEvent):void
+			{
+				trace("Main.closeTabModuleHandler");
+				p_evt.stopPropagation();
+				var mm:ManagedModule = p_evt.data as ManagedModule;
+				var mdl:TabModule = mm.module as TabModule;
+				if(mdl)
+					mainWindow.closeTab(mainWindow.getChildIndex(TabVBox(mdl.parent)));
+				//如果是状态监控，把详细信息界面也移除
+				if(mm.moduleInfo && mm.moduleInfo.url == 
+					"feelview/statusMonitor/view/MainStatusMonitorModule.swf"){
+					var arrCol:ArrayCollection = mdlMgr.moduleCache;
+					for(var i:int = 0;i < arrCol.length;i++){
+						var item:ManagedModule = arrCol.getItemAt(i) as ManagedModule;
+						if(item.moduleInfo && item.moduleInfo.url == 
+							"feelview/statusMonitor/view/StatusMonitorModule.swf"){
+							mainWindow.closeTab(mainWindow.getChildIndex(TabVBox((item.module as TabModule).parent)));
+							mdlMgr.closeModule(item.name);
+							break;
+						}
+					}
+				}
+				mdlMgr.closeModule(mm.name);
+			}
+			private function closeAllTabModuleHandler(p_evt:Event):void
+			{
+				trace("Main.closeAllTabModuleHandler");
+				closeAll();
+			}
+			private function closeFloatMenuHandler(p_evt:Event):void
+			{
+				trace("Main.closeFloatMenuHandler");
+				menuTimer = setInterval(closeExtendMenuWindow, menuInterval);
+			}
+			/**
+			 * 打开浮动菜单窗口
+			 * */
+			private var menuIconStatus:String = "hide";
+			public function showCatchModule(p_evt:MouseEvent, type:String):void
+			{
+				trace("Main.showCatchModule");
+				menuIconStatus = type;
+				if(type == "show"){
+					if(extendMenuWin && extendMenuWin.isPopUp)return;
+					extendMenuWin = mx.managers.PopUpManager.createPopUp(this, GrgExpendMenuBar, false) as GrgExpendMenuBar;
+					extendMenuWin.addEventListener("showTabModule", showTabModuleHandler);
+					extendMenuWin.addEventListener("closeTabModule", closeTabModuleHandler);
+					extendMenuWin.addEventListener("closeAllTabModule", closeAllTabModuleHandler);
+					extendMenuWin.addEventListener("closeFloatMenu", closeFloatMenuHandler);
+					expendmenu.type = "expendMenu";
+					extendMenuWin.dp = mdlMgr.moduleCache;
+					extendMenuWin.move(p_evt.stageX + p_evt.target.width - p_evt.localX - extendMenuWin.width,
+						p_evt.stageY + p_evt.target.height - p_evt.localY);
+				}else if(type == "hide"){
+					menuTimer = setInterval(closeExtendMenuWindow, menuInterval);
+				}
+			}
+			
+			/**
+			 * 打开首页
+			 * */
+			private function openMainPage():void
+			{
+				trace("Main.openMainPage");
+				if(!UserInfoInit.userInfo["defaultModule"])return;
+				var mainPagePath:String = String(UserInfoInit.userInfo["defaultModule"]);
+				var info:XML = getModuleInfoByPath(mainPagePath);
+				var arrCol:ArrayCollection = mdlMgr.moduleCache;
+				var mainPageIsOpen:Boolean;
+				var mm:ManagedModule;
+				for(var i:int = 0;i < arrCol.length;i++){
+					mm = arrCol.getItemAt(i) as ManagedModule;
+					if(!mm)continue;
+					if(String(info.@id) == mm.name){
+						mainPageIsOpen = true;
+						break;
+					}
+				}
+				if(mainPageIsOpen && mm && mm.module){
+					//首页已经打开
+					var index:int = mainWindow.getChildIndex(TabVBox(TabModule(mm.module).parent));
+					if(index >= 0){
+						mainWindow.selectedIndex = index;
+						return;
+					}
+				}
+				//首页未加载
+				loadModule(info);
+			}
+			private function mainPageIconChangeStyleHandler(p_str:String):void
+			{
+				trace("Main.mainPageIconChangeStyleHandler");
+				if(p_str == "showBG")
+					mainPage.setStyle("backgroundAlpha", 1);
+				else if(p_str == "hideBG")
+					mainPage.setStyle("backgroundAlpha", 0);
+			}
+			
+			/**
+			 * 加载语言 文本
+			 * */
+			private  function getMesg():String
+			{
+				trace("Main.getMesg");
+				var v:String = LanguageManager.getInstance().getCommonLanguageMap("button")["message"] as String ;
+				return  v+'('+mesgNum+')';
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer id="mainPanel"
+					   width="100%" height="100%"
+					   minHeight="560"
+					   minWidth="1000"
+					   borderVisible="false"
+					   borderWeight="0">
+		<s:layout>
+			<s:VerticalLayout gap="0" /> 
+		</s:layout>
+		
+		
+		<!--title bar-->
+		<s:BorderContainer id="header" width="100%" height="65" borderWeight="0" borderVisible="false"
+						   backgroundImage="@Embed(source='/resources/theme/newui/Top_bg.png')">
+			
+			<s:layout>
+				<s:HorizontalLayout gap="0" />
+			</s:layout>
+			
+			<!-- logo区 -->
+			<s:BorderContainer width="171" height="100%" borderVisible="false" backgroundAlpha="0"  >
+				<s:layout>
+					<s:VerticalLayout paddingTop="5" paddingLeft="19" paddingRight="25"/>
+				</s:layout>
+				<s:BorderContainer id="logo" x="0" width="128" height="48" borderVisible="false"></s:BorderContainer>
+			</s:BorderContainer>
+			
+			<s:BorderContainer width="100%" height="100%" styleName="banner_fill" borderVisible="false" backgroundAlpha="0">
+				
+				<s:layout>
+					<s:VerticalLayout  gap="0" paddingTop="3"/>
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="26" borderVisible="false" backgroundAlpha="0">
+					
+					<s:layout>
+						<s:HorizontalLayout />
+					</s:layout>
+					
+					<s:BorderContainer width="100%" height="100%" borderVisible="false" backgroundAlpha="0">
+						<s:layout>
+							<s:HorizontalLayout gap="0" verticalAlign="top" horizontalAlign="right" paddingRight="10"/>
+						</s:layout>
+						<grg:LinkButton id="loginUser"          iconType="loginUser"   textDecoration="underline" isCustomizeStyle="true" cornerRadius="5" click="editUser()" />
+						<grg:LinkButton locale="changePassword" iconType="resetKey"    textDecoration="underline" isCustomizeStyle="true" cornerRadius="5" click="changePassword()" />
+						<grg:LinkButton locale="logout"         iconType="userExit"    textDecoration="underline" isCustomizeStyle="true" cornerRadius="5" click="logoOutHandler(event)" />
+						<!--
+						<grg:LinkButton locale="help"           iconType="helpMessage" textDecoration="underline" isCustomizeStyle="true" cornerRadius="5" />
+						-->
+					</s:BorderContainer>
+					
+				</s:BorderContainer>
+				
+				<s:BorderContainer width="100%" height="34"  borderVisible="false" backgroundAlpha="0">
+					
+					<s:layout>
+						<s:HorizontalLayout gap="0" verticalAlign="middle"/>
+					</s:layout>
+					
+					<grg:Image source="@Embed(source='/resources/theme/newui/tab_head.png')"/>  
+					
+					<s:BorderContainer width="100%"  height="34" backgroundAlpha="1" styleName="NavigatorBar" borderVisible="false">
+						
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="5" paddingTop="1" gap="10"/>
+						</s:layout>
+						
+						<s:BorderContainer id="mainPage" buttonMode="true" height="34" click="openMainPage()" rollOver="mainPageIconChangeStyleHandler('showBG')"
+										   rollOut="mainPageIconChangeStyleHandler('hideBG')" borderVisible="false"
+										   backgroundAlpha="0" backgroundImage="@Embed(source='/resources/theme/newui/menubar/mouseOver.png')">
+							
+							<s:layout>
+								<s:HorizontalLayout horizontalAlign="right" verticalAlign="middle" gap="0" paddingRight="4"/>
+							</s:layout>
+							
+							<s:BorderContainer backgroundAlpha="0" borderVisible="false">
+								<s:layout> 
+									<s:HorizontalLayout/>
+								</s:layout>
+								<grg:Image id="mainPageIcon" type="headBack" locale="headpage"/>
+							</s:BorderContainer>
+							
+							<s:BorderContainer height="100%" backgroundAlpha="0" borderVisible="false">
+								<s:layout>
+									<s:VerticalLayout horizontalAlign="right" verticalAlign="middle"/>
+								</s:layout>
+								<grg:Label color="white" backgroundAlpha="0" locale="mainPage" styleName="tabStyle"/>
+							</s:BorderContainer>
+						</s:BorderContainer>
+						
+						<grg:GRGTopBar id="menuBar" width="100%" height="34" itemClick="menuItemClickHandler(event)" fontFamily="宋体" top="2"
+									   buttonMode="true" labelField="@label" dataProvider="{menuDataProvider}" verticalAlign="middle"/>
+						
+						<s:BorderContainer width="34" height="100%" backgroundAlpha="0" borderVisible="false">
+							<s:layout>
+								<s:HorizontalLayout horizontalAlign="right" verticalAlign="middle" paddingRight="10"/>
+							</s:layout>
+							<grg:Image id="expendmenu" type="showExpendMenu" rollOver="showCatchModule(event, 'show')" rollOut="showCatchModule(event, 'hide')" locale="headpage"/> 
+						</s:BorderContainer>
+						
+					</s:BorderContainer>
+				</s:BorderContainer>
+			</s:BorderContainer>
+		</s:BorderContainer>
+		
+		
+		<!--main area-->
+		<s:BorderContainer id="mainContainer" 
+						   width="100%" height="100%"
+						   horizontalCenter="0" minHeight="480"
+						   verticalCenter="0" top="5" bottom="5"
+						   styleName="mainContainer_bg"
+						   borderVisible="false">
+			<s:layout>
+				<s:BasicLayout />
+			</s:layout>
+			<grg:GRGSuperTabNavigator id="mainWindow" tabHeight="0" borderVisible="false" includeInLayout="{!isShowNavigator}"
+									  visible="true" tabStyleName="tabStyle"
+									  width="100%" height="100%"
+									  styleName="mainWindow" />
+		</s:BorderContainer>
+		
+		
+		<!-- footer -->
+		<s:BorderContainer id="footer"
+						   width="100%" height="20"
+						   backgroundImage="@Embed(source='/resources/theme/newui/bottom_bg.png')"
+						   borderVisible="false">
+			<s:layout>
+				<s:HorizontalLayout verticalAlign="middle" horizontalAlign="center" />
+			</s:layout>
+			<grg:Text width="340" selectable="false"
+					  textAlign="left"
+					  locale="copyright"
+					  htmlEnable="true" />
+		</s:BorderContainer>
+	</s:BorderContainer>
+</s:Group>

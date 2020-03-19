@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 locale="showSpecialRegulation"
+		 dataDictionaryPaths="{[SpecialRegulationConstants.SOURCE,SpecialRegulationConstants.MONEY_DENOMINATION,SpecialRegulationConstants.MONEY_TYPE,SpecialRegulationConstants.SPECIAL_TYPE]}"
+		 xmlns:s="library://ns.adobe.com/flex/spark" titleKey="specialInfo"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="350" height="275"
+	     xmlns:grg="http://grg.grgbanking.com/platform/"
+	     xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.utils.ObjectProxy;
+			import mx.utils.ObjectUtil;
+			
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.rule.constants.SpecialRegulationConstants;
+			import sent.rule.message.SpecialRegulationModuleMsg;
+			import sent.rule.vo.SpecialRegulationVO;
+			[Bindable]
+			public var _specialRegulation:ObjectProxy = new ObjectProxy();
+			
+		
+			
+			public function set specialRegulation(p_value:Object):void
+			{
+				_specialRegulation = new ObjectProxy(ObjectUtil.copy(p_value));
+				convertStringWithDataDict();
+			} 
+			  
+			private function convertStringWithDataDict():void
+			{
+				//转换成数据字典中对应的值
+				_specialRegulation.specialType=getTextByKeyOnDataDictPath(_specialRegulation.specialType,SpecialRegulationConstants.SPECIAL_TYPE);//特殊规则类型
+				_specialRegulation.moneyType=getTextByKeyOnDataDictPath(_specialRegulation.moneyType,SpecialRegulationConstants.MONEY_TYPE);//币种
+				_specialRegulation.moneyDenomination=getTextByKeyOnDataDictPath(_specialRegulation.moneyDenomination,SpecialRegulationConstants.MONEY_DENOMINATION);//面额
+				_specialRegulation.source = getTextByKeyOnDataDictPath(_specialRegulation.source,SpecialRegulationConstants.SOURCE);//来源
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				convertStringWithDataDict();
+			}
+			 
+			/**
+			 * 根据特殊规则获取该交易的详细信息
+			 */
+			[MessageHandler(selector="getSpecialRegulationObjectResult")]
+			public function getSpecialRegulationResult(p_msg:SpecialRegulationModuleMsg):void
+			{
+				if(p_msg.result){
+					
+					specialRegulation= p_msg.result ;
+				}
+			}
+				
+			
+		]]>
+	</fx:Script>
+	<grg:RoundCornerContainer locale="specialInfo" width="100%" height="180">
+		<s:HGroup width="100%" height="100%">
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="moneyType">
+					<grg:Text text="{_specialRegulation.moneyType}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="moneyDenomination">
+					<grg:Text text="{_specialRegulation.moneyDenomination}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="source">
+					<grg:Text text="{_specialRegulation.source}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="result">
+					<grg:Text text="{_specialRegulation.result}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="specialType">
+					<grg:Text text="{_specialRegulation.specialType}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="regulation">
+					<grg:Text text="{_specialRegulation.regulation}"/>
+				</grg:FormItem>
+			</grg:Form>
+			</s:HGroup>
+	</grg:RoundCornerContainer>
+	<s:HGroup width="100%" gap="6" height="35" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="close" iconVisible="false" click="close()"/>
+	</s:HGroup>
+</grg:TitleWindow>

@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termRangeSelectForm">
+	    <title>终端选择</title>
+		<selectTitle>待选终端设备列表</selectTitle>
+		<selectedTitle>已选终端设备列表</selectedTitle>
+		<termCodeItem>终端编号</termCodeItem>
+		<termSEQItem>设备序列号</termSEQItem>
+		<counterIdItem>柜员号</counterIdItem>
+		<termTypeItem>终端类型：</termTypeItem>
+		<brandItem>终端品牌：</brandItem>
+		<modelItem>设备型号：</modelItem>
+		<org>所属机构：</org>
+		<areaIdItem>所属区域：</areaIdItem>
+		<netAddrItem>终端IP</netAddrItem>
+		<netPortItem>终端PORT</netPortItem>
+		<saveBoxItem>存款箱数量</saveBoxItem>
+		<cwdBoxItem>取款箱数量</cwdBoxItem>
+		<instDateItem>安装日期</instDateItem>
+		<activeDateItem>开通时间</activeDateItem>
+		<servStartDateItem>维护开始日期</servStartDateItem>
+		<servEndDateItem>维护到期日期</servEndDateItem>
+		<servYearsItem>维护年限</servYearsItem>
+		<termAddrItem>安装地址</termAddrItem>
+		<serviceTypeItem>布放模式</serviceTypeItem>
+		<instTypeItem>安装方式</instTypeItem>
+		<layTypeItem>设立形式</layTypeItem>
+		<isVideoWatchItem>是否视频监控</isVideoWatchItem>
+		<isUPSItem>是否安装UPS</isUPSItem>
+		<isInterATMItem>是否国际卡ATM</isInterATMItem>
+		<busiBeginTimeItem>营业开始时间</busiBeginTimeItem>
+		<busiEndTimeItem>营业结束时间</busiEndTimeItem>
+		<softVersionItem>ATMC版本号</softVersionItem>
+		<spVersionItem>SP版本号</spVersionItem>
+		<allBrand>全部终端品牌</allBrand>
+		<allModel>全部设备型号</allModel>
+		<allType>全部终端类型</allType>
+	</node>
+</nodes>

@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：systemInterfaceForm<br>
+		Create Time：2011-9-2<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "systemInterfaceForm">
+		<addSystemInterfaceForm>Add SystemInterface</addSystemInterfaceForm>
+		<updateSystemInterfaceForm>Update SystemInterface</updateSystemInterfaceForm>
+		<showSystemInterfaceDetailForm>Show SystemInterface Detail</showSystemInterfaceDetailForm>
+		<projectItem>Project:</projectItem>
+		<fatherModuleItem>FatherModule:</fatherModuleItem>
+		<moduleItem>Module:</moduleItem>
+		<typeItem>Type:</typeItem>
+		<catalogItem>Catalog:</catalogItem>
+		<interfaceNameItem>InterfaceName:</interfaceNameItem>
+		<descriptionItem>Description:</descriptionItem>
+		<creatorItem>Creator:</creatorItem>
+		<createTimeItem>CreateTime:</createTimeItem>
+	</node>
+</nodes>

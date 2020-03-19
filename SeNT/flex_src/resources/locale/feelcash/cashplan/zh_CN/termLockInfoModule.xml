@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="termLockInfoModule">
+	<termLockList>锁定终端列表</termLockList>
+	<termUnLockList>已解锁终端列表</termUnLockList>
+	<termId>终端编号</termId>
+	<orgName>所属机构</orgName>
+	<modelName>终端型号</modelName>
+	<termAddr>终端地址</termAddr>
+	<status>锁定状态</status>
+	<lockStartDate>锁定开始时间</lockStartDate>
+	<lockEndDate>锁定结束时间</lockEndDate>
+	<lockedBy>锁定人</lockedBy>
+	<unlockBy>解锁人</unlockBy>
+	<lockDate>锁定创建时间</lockDate>
+	<unlockDate>解锁时间</unlockDate>
+	<lockType>锁定类型</lockType>
+	<note>说明</note>
+	<orgRange>机构范围</orgRange>
+	
+	</node>
+</nodes>

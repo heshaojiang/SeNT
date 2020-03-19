@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "asset">
+		<existedBatch>This batch number has already exists !</existedBatch>
+		<existedNetaddr>This IP has already exists !</existedNetaddr>
+		<batchNotNull>This batch number can not be empty !</batchNotNull>
+	</node>
+</nodes>

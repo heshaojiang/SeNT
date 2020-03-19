@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 xmlns:parsley="http://www.spicefactory.org/parsley" 
+				 dataDictionaryPaths="{[AuditLogConstants.APPLY_STATUS,
+										 AuditLogConstants.APPLY_TYPE,
+										 BlackRegulationConsts.MONEY_DENOMINATION,
+										 BlackRegulationConsts.MONEY_TYPE]}"
+				 locale="showAuditRepeatInfo"
+				 layout="vertical" width="550" height="460">
+	<fx:Declarations>
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.utils.ObjectProxy;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.DataGridUtil;
+			import platform.common.util.DateUtils;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.audit.constants.AuditLogConstants;
+	
+			import sent.audit.message.AuditRepeatInfoMsg;
+			import sent.audit.pm.AuditBlackInfoModulePM;
+			import sent.audit.pm.AuditRepeatInfoModulePM;
+			import sent.audit.vo.AuditInfoDetailVO;
+			import sent.audit.vo.AuditLogVO;
+			import sent.rule.constants.BlackRegulationConsts;
+			import sent.rule.message.BlackRegulationMsg;
+			import sent.rule.message.RepeatRegulationMsg;
+			import sent.rule.vo.BlackRegulationVO;
+			import sent.rule.vo.RepeatRegulationVO;
+			
+			
+			[Bindable]
+			public var pm:AuditRepeatInfoModulePM;
+			
+			[Bindable]
+			protected  var _auditInfo:ObjectProxy = new ObjectProxy();
+			
+			
+			[Bindable]
+			//申请类型
+			/* public var applayType:String;
+			[Bindable]
+			public var applyId:String; */
+			
+			[Bindable]
+			//重号规则信息
+			public var repeatRegulation:RepeatRegulationVO=new RepeatRegulationVO();
+			
+			[Bindable]
+			public var auditDetail:AuditInfoDetailVO=new AuditInfoDetailVO();
+			[Bindable]
+			//审核流程信息
+			private var auiditList:ArrayCollection=new ArrayCollection();
+			[Bindable]
+			//填写的审核信息
+			private var audit:AuditLogVO;
+			/**
+			 * 设置交易信息接口
+			 * */
+			public function set auditInfo(p_value:Object):void
+			{
+				_auditInfo = new ObjectProxy(ObjectUtil.copy(p_value));
+				
+				_auditInfo.applyType=getTextByKeyOnDataDictPath(_auditInfo.applyType,AuditLogConstants.APPLY_TYPE);
+				
+				var trDate:String=_auditInfo.applayDate.substr(0,4)+"-"+_auditInfo.applayDate.substr(4,2)+"-"+_auditInfo.applayDate.substr(6,2)
+				var trTime:String=_auditInfo.applayDate.substr(8,2)+":"+_auditInfo.applayDate.substr(10,2)+":"+_auditInfo.applayDate.substr(12,2);
+				_auditInfo.applayDate=trDate+" "+trTime;  
+			}
+			
+			/**
+			 *查看黑名单规则 
+			 */
+			
+			[MessageHandler(selector="getRepeatRegulationByApplyIdResult")]
+			public function getRepeatRegulationByApplyIdResult(p_msg:AuditRepeatInfoMsg):void	
+			{
+				if(p_msg.result)
+					repeatRegulation = p_msg.result as RepeatRegulationVO;
+				convertStringWithDataDict();
+			}
+			
+			/* override protected function viewUpdateComplete():void
+			{
+			
+			if(auditDetail.applyType=="1")
+			{
+			blackDetail.visible=true;
+			repeatDetail.visible=false;
+			repeatDetail.includeInLayout=false;
+			blackDetail.includeInLayout = true;
+			}
+			if(auditDetail.applyType=="2")
+			{
+			repeatDetail.visible=true;
+			repeatDetail.includeInLayout = true;
+			blackDetail.visible=false;
+			blackDetail.includeInLayout=false;
+			}
+			
+			}  */
+			
+			/**
+			 * 数据字典转换的值
+			 * 
+			 **/
+			
+			override protected function getDataDictCallback():void
+			{  
+				//申请类型
+				_auditInfo.applyType= getTextByKeyOnDataDictPath(_auditInfo.applyType,AuditLogConstants.APPLY_TYPE);
+			
+				//是否屏幕显示
+				
+				(auditListInfo.dataProvider as ListCollectionView).refresh();
+				
+			}
+			/**
+			 * 用数据字典来转换字符串
+			 * */
+			private function convertStringWithDataDict():void
+			{
+				_auditInfo.applyType= getTextByKeyOnDataDictPath(_auditInfo.applyType,AuditLogConstants.APPLY_TYPE);
+				
+				//是否屏幕显示
+				
+			} 
+			
+
+			
+			/**
+			 * 显示审核流程列表
+			 */
+			[MessageHandler(selector="getRepeatAuditLogByApplyIdResult")]
+			public function getAuditLogByApplyIdResult(p_msg:AuditRepeatInfoMsg):void
+			{
+				if(p_msg.result)
+					auiditList = p_msg.result as ArrayCollection ;
+				convertStringWithDataDict();
+			}
+			
+			/**
+			 *审核 动作
+			 */
+			private function submit():void
+			{
+				auditNote.text = StringUtil.trim(auditNote.text);
+				if(auditNote.text)
+				{
+					auditNote.text="";
+				}
+				if(pm.auditLog.applyResult)
+				{
+					close();
+				}
+				pm.ruditRegulation(auditDetail); 
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<!--申请信息-->
+	<grg:RoundCornerContainer locale="applyInfo" width="100%" height="75">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout  paddingLeft="10" paddingRight="10" />
+			</s:layout>
+			<grg:Form width="50%" height="100%">
+				<!--申请类型：-->
+				<grg:FormItem width="100%" locale="applyType">
+					<grg:Text text="{_auditInfo.applyType}"/>
+				</grg:FormItem>
+				<!--经办人：-->
+				<grg:FormItem width="100%" locale="username">
+					<grg:Text text="{_auditInfo.username}"/>
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<!--申请时间：-->
+				<grg:FormItem width="100%" locale="applayDate" >
+					<grg:Text text="{_auditInfo.applayDate}"/>
+				</grg:FormItem>
+				<!--机构：-->
+				<grg:FormItem width="100%" locale="orgName">
+					<grg:Text text="{_auditInfo.orgName}"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:Group>
+	</grg:RoundCornerContainer>
+	<!--申请详情-->
+	<grg:RoundCornerContainer locale="applyDetail" width="100%" height="78" id="repeatDetail" >
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout  paddingLeft="10" paddingRight="10"/>
+			</s:layout>
+			<grg:Form width="50%" height="100%">
+				<!--最多重号冠字号码数：-->
+				<grg:FormItem width="100%" locale="repeatnum">
+					<grg:Text text="{repeatRegulation.repeatnum}"/>
+				</grg:FormItem>
+				<!--创建时间：-->
+				<grg:FormItem width="100%" locale="createDate">
+					<grg:Text text="{DateUtils.formatDate(repeatRegulation.createDate,'YYYY-MM-DD JJ:NN:SS')}"/>
+				</grg:FormItem>
+				
+			</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<!--终端数量：-->
+				<grg:FormItem width="100%" locale="termNum">
+					<grg:Text text="{repeatRegulation.termNum}"/>
+				</grg:FormItem>
+				<!--业务人员：-->
+				<grg:FormItem width="100%" locale="createName">
+					<grg:Text text="{repeatRegulation.createName}"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:Group>
+	</grg:RoundCornerContainer>
+	
+	<!--申请审核记录-->
+	<grg:RoundCornerContainer locale="reduitDetail" width="100%" height="100%">
+		<s:VGroup width="100%" height="100%">
+			
+			<grg:DataGrid dataProvider="{auiditList}" 
+						  width="100%" height="100"
+						  textAlign = "center"
+						  styleName = "DataGrid" id="auditListInfo">
+				<grg:columns>
+					<!--经办人：-->
+					<grg:DataGridColumn locale = "username" 
+										dataField = "username" />
+					<!--申请时间：-->
+					<grg:DataGridColumn locale = "applayDate"
+										dataField = "applayDate" labelFunction="{DataGridUtil.formatTime}"/>
+				</grg:columns>
+			</grg:DataGrid>
+			<grg:Form width="100%" height="100%" id="form">
+				<!--审批动作-->
+				<grg:FormItem width="100%" locale="auditAction">
+					<mx:HBox>
+						<grg:RadioButtonGroup id="audit_Action"  value="@{pm.auditLog.applyResult}" />
+						<!--通过-->
+						<grg:RadioButton id="actionEnable" group = "{audit_Action}"
+										 value = "Y" selected="true"
+										 locale = "actionEnable" />
+						<!--退回-->
+						<grg:RadioButton id="actionDisable" group = "{audit_Action}"
+										 value = "N"
+										 locale = "actionDisable" />
+					</mx:HBox>
+				</grg:FormItem>
+				<!--审批备注-->
+				<grg:FormItem width="100%" locale="auditNote">
+					<grg:TextArea maxnum="200"  id="auditNote"
+								  maxChars="200" 
+								  width="100%" text="@{pm.auditLog.applyNote}"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:VGroup>
+	</grg:RoundCornerContainer>
+	
+	<s:HGroup width="100%" gap="10"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "submit()"
+						locale = "saveButton"
+						/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "cancel()" 
+						locale = "cancelButton"
+						/>
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

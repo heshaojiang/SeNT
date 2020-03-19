@@ -1,0 +1,56 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：agentConfigManageForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "versionManageForm">
+		<addVersionManageForm>Add Version Manage Plan Information</addVersionManageForm>
+		<auditVersionManage>Audit Version Manage Plan Information</auditVersionManage>
+		<viewVersionManage>View Version Manage Plan Information</viewVersionManage>
+		<updateAgentConfigManageForm>Update AgentConfigManage</updateAgentConfigManageForm>
+		<planidItem>Plan Id</planidItem>
+		<versionnameItem>Version Name</versionnameItem>
+		<versionItem>Version</versionItem>
+		<versiontypeItem>Version Type</versiontypeItem>
+		<auditrequestItem>Audit Request</auditrequestItem>
+		<auditpassedItem>Audit Passed</auditpassedItem>
+		<termidlistItem>Term ID</termidlistItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM Model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<brandItem>Brand</brandItem>
+		<fileidItem>File Id</fileidItem>
+		<nextexecutetimeItem>Executing Time</nextexecutetimeItem>
+		<nextexecutetimefromItem>Execute Time From</nextexecutetimefromItem>
+		<nextexecutetimeendItem>Execute Time End</nextexecutetimeendItem>
+		<createtimeItem>Create Time</createtimeItem>
+		<createtimefromItem>Create Time From</createtimefromItem>
+		<createtimeendItem>Create Time End</createtimeendItem>
+		<invalidtimeItem>Invalid Time</invalidtimeItem>
+		<invoketimesItem>Invoke Times</invoketimesItem>
+		<BaseInfo>Base Information</BaseInfo>
+		<paramInfo>Param Info</paramInfo>
+		<UploadFileInfo>Upload File Information</UploadFileInfo>
+		<uploadFileItem>Upload File</uploadFileItem>
+		<fileTypeItem>File Type</fileTypeItem>
+		<processmethodItem>Update Interface Version</processmethodItem>
+		<brandConfigItem>Brand Config</brandConfigItem>
+		<savepathItem>File Save Path</savepathItem>
+		<atmcprocessDetectItem>Detect Running Process</atmcprocessDetectItem>
+		<atmcprocessKillItem>Kill Process(Before File Copy)</atmcprocessKillItem>
+		<atmcprocessRunItem>Running Process(After File Copy)</atmcprocessRunItem>
+		<needRestartItem>Need To Restart</needRestartItem>
+		<needExtractItem>Need To Extract</needExtractItem>
+		<hintOfInputTermid>enter terminal id, 900 characters maximum.</hintOfInputTermid>	
+		<hintOfInputProcess>Enter Processes Like "abc.exe|zxy.exe"</hintOfInputProcess>		
+		<speratedWithCommaSemicolonSpace>separated with comma, semicolon or space.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>or click button to choose</hintOfClickButton>
+		<useLocalFileFirstItem>Use Local File First</useLocalFileFirstItem>
+		<localFileURLItem>Local File Path</localFileURLItem>
+		<localFileMD5Item>Local File MD5</localFileMD5Item>
+		
+		<selectPackage>Select Software Package</selectPackage>
+	</node>
+</nodes>

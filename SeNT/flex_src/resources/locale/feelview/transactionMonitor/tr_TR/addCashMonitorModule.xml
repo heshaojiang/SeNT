@@ -1,0 +1,40 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：清机加钞监控<br>
+		Create Time：2011-9-13<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "addCashMonitorModule">
+		<listTitle>Nakit İzleme Listesi   .Ayrıntıları sayfasına girmek için rekor bir çift tıklatın.</listTitle>
+		<searchItem>Ara</searchItem>
+		<orgIdItem>Şube</orgIdItem>
+		<termIdItem>Terminal Id</termIdItem>
+		<addCashAmountItem>addCashAmountItem</addCashAmountItem>
+		<addCashNumItem>addCashNumItem</addCashNumItem>
+		<addCashDateItem>addCashDateItem</addCashDateItem>
+		<toItem>Bitiş Zamanı</toItem>
+		<cashBoxStatusItem>Kaset Durumu</cashBoxStatusItem>
+		<cashBoxTypeItem>Kaset Tipi</cashBoxTypeItem>
+		<cashBoxDenominationItem>Kaset Dağılımı</cashBoxDenominationItem>
+		<cashBoxCurrencyItem>Döviz Tipi</cashBoxCurrencyItem>
+		<cashBoxRemainCountItem>Kaset Kalan Miktar</cashBoxRemainCountItem>
+		
+		
+		<showAddCashMonitorDetailForm>Nakit İzleme Detayları</showAddCashMonitorDetailForm>
+		<listTitle>Nakit İzleme Detay Listesi</listTitle>
+		<searchItem>Ara:</searchItem>
+		<termIdItem>Terminal Id</termIdItem>
+		<orgIdItem>Şube</orgIdItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<cashBoxTypeItem>Kaset Tipi</cashBoxTypeItem>
+		<cashBoxCurrencyItem>Döviz Tipi</cashBoxCurrencyItem>
+		<addCashAmountItem>addCashAmountItem</addCashAmountItem>
+		<addCashNumItem>addCashNumItem</addCashNumItem>
+		<addCashDateItem>addCashDateItem</addCashDateItem>
+		<cashBoxStatusItem>cashBoxStatusItem</cashBoxStatusItem>
+		<createDateItem>Oluşturma Tarihi:</createDateItem>
+		<cashBoxDenominationItem>Kaset Dağılımı</cashBoxDenominationItem>
+		<cashBoxRemainCountItem>Kaset Mevcut Miktar</cashBoxRemainCountItem>
+	</node>
+</nodes>

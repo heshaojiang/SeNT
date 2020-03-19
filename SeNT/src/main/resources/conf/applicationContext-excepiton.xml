@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:jee = "http://www.springframework.org/schema/jee"
+	   xmlns:tx = "http://www.springframework.org/schema/tx"
+	   xmlns:context = "http://www.springframework.org/schema/context"
+	   xmlns:aop = "http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation = "http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<description>异常处理框架配置</description>
+
+	<!-- 启动@Aspectj标注 -->
+	<!-- aop:aspectj-autoproxy /-->
+
+	<bean id = "springContextHolder"
+		  class = "com.grgbanking.platform.core.spring.SpringContextHolder"
+		  scope = "singleton"
+		  lazy-init = "false">
+	</bean>
+	<!-- 记录异常日志 -->
+	<bean id = "exceptionLog"
+		  class = "com.grgbanking.platform.core.exception.handler.ExceptionLogger">
+		<property name = "noCatchedExceptions">
+			<set>
+<!--				<value>org.springframework.security.userdetails.UsernameNotFoundException</value>-->
+			</set>
+		</property>
+	</bean>
+
+	<!-- 转换成Flex可用的异常，供错误提示用 -->
+	<bean id = "flexHandler"
+		  class = "com.grgbanking.platform.core.exception.handler.ExceptionMessageTransfer">
+		<property name = "noCatchedExceptions">
+			<set>
+				<value>com.grgbanking.platform.core.exception.SysException</value>
+				<value>com.grgbanking.platform.core.exception.AppException</value>
+				<value>org.springframework.security.userdetails.UsernameNotFoundException</value>
+			</set>
+		</property>
+	</bean>
+
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="exPointcut1" expression="execution(* com.grgbanking..service.*.*(..)) &amp;&amp; !execution(* com.grgbanking..ws.*.*(..))"/>
+
+		<aop:aspect ref="exceptionLog" order="3">
+			<aop:after-throwing pointcut-ref="exPointcut1" method="log" throwing="ex"/>
+		</aop:aspect>
+
+		<aop:aspect ref="flexHandler" order="1">
+			<aop:after-throwing pointcut-ref="exPointcut1" method="handle" throwing="ex"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

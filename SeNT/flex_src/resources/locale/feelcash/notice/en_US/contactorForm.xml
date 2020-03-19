@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="contactorForm">
+		<addContactorForm>Add Contactor:</addContactorForm>
+		<updateContactorForm>Update Contactor:</updateContactorForm>
+		<contactorName>Contactor Name:</contactorName>
+		<contactorEmail>Email:</contactorEmail>
+		<contcatorMobile>Mobile:</contcatorMobile>
+		<company>Company:</company>
+		<job>Job:</job>
+		<note>Note:</note>
+	</node>
+</nodes>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="termLockInfoForm">
+	<addTermLockInfoForm>AddTermLockInfoForm</addTermLockInfoForm>
+	<updateTermLockInfoForm>UpdateTermLockInfoForm</updateTermLockInfoForm>
+	<selectionTerminals>SelectionTerminals</selectionTerminals>
+	<selectedTerminals>SelectedTerminals</selectedTerminals>
+	<termId>Term Code</termId>
+	<termAddr>Term Address</termAddr>
+	<status>Status</status>
+	<lockStartDate>Locked Start Date</lockStartDate>
+	<lockEndDate>Locked End Date</lockEndDate>
+	<lockedBy>Locked By</lockedBy>
+	<unlockBy>Unlocked By</unlockBy>
+	<lockDate>Locked Date</lockDate>
+	<unlockDate>Unlocked Date</unlockDate>
+	<lockType>Lock Type</lockType>
+	<note>Note</note>
+	<terminalId>TerminalId</terminalId>
+	<terminalAddress>TerminalAddress</terminalAddress>
+	</node>
+</nodes>

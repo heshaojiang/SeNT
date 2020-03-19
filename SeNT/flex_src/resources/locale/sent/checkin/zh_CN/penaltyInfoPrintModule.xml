@@ -1,0 +1,44 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="penaltyInfoPrintModule">
+	
+		<titlemsg>假钞罚没单</titlemsg>
+		
+		<tranTimeColon>交易日期：</tranTimeColon>
+		<seriaNoColon>冠字号码：</seriaNoColon>
+		<orgIdColon>所属机构：</orgIdColon>
+	  	<noteTypeColon>钞票类别：</noteTypeColon>
+	    <termTypeColon>业务类型：</termTypeColon>
+	    <termIdColon>终端编号：</termIdColon>
+	    <to>至</to>
+	    
+	    <expCSV>CSV文件导出</expCSV>
+	    <fsnZip>FSN文件导出</fsnZip>
+	    
+	    
+	    <seriaNo>冠字号码</seriaNo>
+	    <noteType>钞票类别</noteType>
+	    <currency>币种</currency>
+	    <denomination>面额</denomination>
+	    <termid>终端编号</termid>
+	    <orgName>所属机构</orgName>
+	    <versionNum>版本</versionNum>
+	    <typeName>业务类别</typeName>
+	    <sendTime>时间</sendTime>
+		<operations>操作</operations>
+		<columnNo>序号</columnNo>
+	    
+	    <showPenaltyDetailInfo>查看罚没单详情</showPenaltyDetailInfo>
+		<viewNoteflowDetailInfo>查看流转详情</viewNoteflowDetailInfo>
+	    
+	    
+	    <!--
+	    <noteTypes>钞票类别：</noteTypes> 
+	    <noteFlag>钞票标识</noteFlag>
+	    <termid>ATM终端号</termid>
+	    <fuzzyCount>冠字号码匹配位数：</fuzzyCount>
+	    <isFuzzy>是否模糊检索</isFuzzy>
+		-->
+		
+	</node>
+</nodes>

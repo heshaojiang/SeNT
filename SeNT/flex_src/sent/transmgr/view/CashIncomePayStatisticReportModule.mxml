@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   locale="cashDistributeReportModule"
+			   layout="vertical" width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="CashIncomePayStatisticReportModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="CashIncomePayStatisticReportModule"/>
+			<parsley:FlexConfig type="{CashIncomePayStatisticReportModuleConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import platform.common.vo.Page;
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.CashIncomePayStatisticReportModuleConfig;
+			import sent.transmgr.message.CashIncomePayStatictisReportMsg;
+			import sent.transmgr.pm.CashIncomePayStatisticReportPM;
+			import mx.printing.FlexPrintJob;
+			import mx.printing.FlexPrintJobScaleType;
+			import mx.core.FlexGlobals;
+			import mx.controls.Image;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+
+
+			
+			[Inject]
+			[Bindable]
+			public var cashIncomePayStatisticReportPM:CashIncomePayStatisticReportPM;
+			
+			[Bindable] 
+			public var sourceData:Object = new Object();
+			
+			
+			protected function searchButtonClickHandler(event:MouseEvent):void
+			{
+				trace("CashIncomePayStatisticReportModule.searchButtonClickHandler");
+				cashIncomePayStatisticReportPM.page = new Page();
+				loadPage();
+			}
+			/**
+			 * 根据条件查询 
+			 */
+			protected function loadPage():void
+			{
+				trace("CashIncomePayStatisticReportModule.loadPage");
+				
+				if( this.startTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeNull"));
+					return;
+				}
+				if( this.endTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.endTimeCannotBeNull"));
+					return;
+				}
+				if( this.startTime.selectedDate.time > this.endTime.selectedDate.time )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeGreaterThanEndTime"));
+					return;
+				}
+				
+				var parameter:Object = {};						
+				
+				var condition:Object = {};
+				condition.startTime = startTime.text;
+				condition.endTime = endTime.text;
+				condition.orgId = orgId.selectedValue;
+				condition.flag=isLoopOrg.selected.toString();
+				
+				parameter.condition = condition;
+				
+				var msg:CashIncomePayStatictisReportMsg = new CashIncomePayStatictisReportMsg();
+				msg.args["remoteMethod"]   = "getCashIncomePayStatisticReport";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "CashIncomePayStatisticReportModule.getCashIncomePayStatisticReportResult";
+				msg.args["errorHandler"]   = "CashIncomePayStatisticReportModule.getCashIncomePayStatisticReportError";
+				cashIncomePayStatisticReportPM.sendCashIncomePayStatictisReportMsg(msg);
+			}		
+			
+			
+			[MessageHandler(selector="CashIncomePayStatisticReportModule.getCashIncomePayStatisticReportResult")]
+			public function getCashIncomePayStatisticReportResult(p_msg:CashIncomePayStatictisReportMsg):void
+			{
+				if(p_msg.result)
+				{	
+					sourceData = p_msg.result.gridResult as Object;
+				}
+			}
+			
+			[MessageHandler(selector="CashIncomePayStatisticReportModule.getCashIncomePayStatisticReportError")]
+			public function getCashIncomePayStatisticReportError(p_msg:CashIncomePayStatictisReportMsg):void
+			{
+				
+			}
+			
+			/**
+			 * 打印
+			 */
+			protected function grgbtn_print_clickHandler(event:MouseEvent):void
+			{
+				datagridReport.selectedIndex = -1;
+				var printer:FlexPrintJob  = new FlexPrintJob ();
+				if( printer.start()!=true )
+				{
+					return;
+				}else{
+					var width:Number = datagridReportPrintGrp.width;
+					var height:Number = datagridReportPrintGrp.height;
+					
+					var bit:BitmapData;
+					bit = copy(datagridReportPrintGrp,new Rectangle(0,0,width,height));
+					var bmp:Bitmap = new Bitmap(bit);
+					
+					var img:Image=new Image();
+					img.width = printer.pageWidth;
+					img.height = printer.pageHeight;
+					img.source=bmp;
+					FlexGlobals.topLevelApplication.addElement(img);
+					printer.addObject(img);
+					FlexGlobals.topLevelApplication.removeElement(img);
+					
+					printer.send();
+				}
+			}
+			
+			//截取BitmapData
+			private function copy(target:DisplayObject,rect:Rectangle):BitmapData
+			{
+				var matrix:Matrix = new Matrix(1,0,0,1,-rect.x,-rect.y);
+				rect.x = rect.y = 0;
+				//matrix.scale(1.4,1.4);
+				var bitmapData:BitmapData = new BitmapData(rect.width,rect.height);
+				bitmapData.draw(target,matrix,null,null,rect);
+				return bitmapData;
+			}
+			
+			
+			/**
+			 * 重置
+			 */
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+		]]>
+	</fx:Script>
+	<!-- 条件搜索 -->
+	<grg:AdvancedSearchBar
+		textAlign = "center"
+		styleName = "SearchBar" borderVisible="false">
+		<grg:layout>
+			<s:VerticalLayout paddingTop="0" gap="0"/>
+		</grg:layout>
+			<!-- 查询条件 -->
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<grg:TitleBar id="titleMgr" locale="TitleMsg" height="100%" width="50%" />
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="left"
+									paddingLeft="0"
+									gap="2"
+									verticalAlign="middle"/>
+							</s:layout>
+							
+							<!--是否循环遍历子机构：-->
+							<grg:CheckBox id="isLoopOrg" selected="true">
+							</grg:CheckBox>
+
+							
+							<grg:Label locale="orgName"/>
+							<grg:GRGComboBoxOrgTree id="orgId"
+													defaultField="true"
+													width="100"
+													textAlign="left"
+													treeHeight="300"	
+													/>
+							<s:Spacer width="5" />
+							<grg:Label locale="startTime"/>
+							<grg:SuperDateField width="165" id="startTime" myEnabled="false" selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+												selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<grg:SuperDateField width="165" id="endTime" myEnabled="false" selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"
+												selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+							<!--查询-->
+							<grg:SearchButton id="searchBtn" locale="searchBtn" iconType="query" 
+											  click="searchButtonClickHandler(event)" />
+							<!--重置-->
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetBtn" 
+											 resetControls="{[orgId,startTime,endTime]}" click="initSelectDate()" />
+						</s:BorderContainer>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox>
+	</grg:AdvancedSearchBar>
+
+	
+	<s:VGroup id="datagridReportPrintGrp" height="95%" width="100%">   
+		<s:Group width="100%" height="1%">
+		</s:Group>	
+		<s:Group width="100%" >
+			<grg:Label width="100%" textAlign="center" fontWeight="bold" fontSize="16" locale="TitleMsg" fontFamily="宋体"/>
+		</s:Group>
+			<!-- 明细数据部分 -->
+				<mx:AdvancedDataGrid  id="datagridReport" width="100%" height="100%" editable="false" dataProvider="{sourceData}"  
+									  sortableColumns="false" sortExpertMode="true" >
+					<mx:groupedColumns>
+						<mx:AdvancedDataGridColumn headerText="银行"  dataField="bank" headerWordWrap="true" width="40" editable="false" textAlign="center" />
+						<mx:AdvancedDataGridColumnGroup headerText="现金收入" headerWordWrap="true" width="40">
+							<mx:AdvancedDataGridColumn  headerText="金额" headerWordWrap="true" wordWrap="true"
+														width="20"  dataField="incomeCount" editable="true" />
+						   </mx:AdvancedDataGridColumnGroup>
+						<mx:AdvancedDataGridColumnGroup headerText="现金付出" headerWordWrap="true" width="200" >
+							<mx:AdvancedDataGridColumn  headerText="金额" headerWordWrap="true" wordWrap="true"
+														width="20"  dataField="cashPayCount" editable="true" />
+							<mx:AdvancedDataGridColumnGroup headerText="其中：经过清分机清分后付出" width="80">
+								<grg:AdvancedDataGridColumn headerText="100元/50元" width="20" dataField="sorterBig" headerWordWrap="true" wordWrap="true" editable="true"/>
+								<grg:AdvancedDataGridColumn headerText="20元/10元" width="20" dataField="sorterMiddle" wordWrap="true" editable="true"/>
+								<grg:AdvancedDataGridColumn headerText="5元/1元" width="20" dataField="sorterSmall" wordWrap="true" editable="true" />
+								<grg:AdvancedDataGridColumn headerText="合计金额" width="20" dataField="sorterCount" wordWrap="true" editable="true" />
+							</mx:AdvancedDataGridColumnGroup>
+							<mx:AdvancedDataGridColumnGroup headerText="其中：经过手工清分后付出" width="80">
+								<mx:AdvancedDataGridColumn headerText="100元/50元" width="20" dataField="byHandBig" wordWrap="true" editable="true" />
+								<mx:AdvancedDataGridColumn headerText="20元/10元" width="20" dataField="byHandMiddle" wordWrap="true" editable="true" />
+								<mx:AdvancedDataGridColumn headerText="5元 /1元" width="20" dataField="byHandSmall" wordWrap="true" editable="true" />
+								<mx:AdvancedDataGridColumn headerText="合计金额" width="20" dataField="byHandCount" wordWrap="true" editable="true" />
+							</mx:AdvancedDataGridColumnGroup>
+						</mx:AdvancedDataGridColumnGroup>
+					</mx:groupedColumns>
+				</mx:AdvancedDataGrid>
+	</s:VGroup>
+
+		<s:HGroup width="100%" gap="10" horizontalAlign = "center" verticalAlign = "middle">
+			<s:Button id="grgbtn_print" label="打印" click="grgbtn_print_clickHandler(event)"/>
+		</s:HGroup>	
+</grg:TabModule>

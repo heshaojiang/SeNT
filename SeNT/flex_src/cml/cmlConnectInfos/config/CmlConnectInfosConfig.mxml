@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns="http://www.spicefactory.org/parsley" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"  xmlns:pm="cml.cmlConnectInfos.pm.*" xmlns:message="cml.cmlConnectInfos.message.*" xmlns:grg="http://grg.grgbanking.com/platform/">
+
+	<fx:Script>
+		<![CDATA[
+			import cml.cmlConnectInfos.delegate.CmlConnectInfosDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<pm:CmlConnectInfosModulePM/>
+		<pm:CmlConnectInfosFormPM/>
+	<!--	<pm:PersonSelectFormPM/>-->
+		<message:CmlConnectInfosMsg/>	
+		<grg:GRGRemoteObject id="cmlConnectInfosService" destination="cmlConnectInfosService"/>
+		<Object type="{CmlConnectInfosDelegate}">
+			<Property name="service" idRef="cmlConnectInfosService"/>
+		</Object>
+	</fx:Declarations>
+	
+</fx:Object>

@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：distServerConfigForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "agentConfigViewForm">
+		<termidItem>Terminal ID</termidItem>
+		<agentportItem>Agent Listening Port</agentportItem>
+		<fdgatesvripItem>Distribution Gate Server's IP</fdgatesvripItem>
+		<fdgatesvrportItem>Distribution Gate Server's Listening Port</fdgatesvrportItem>
+		<fvsvripItem>View Server's IP</fvsvripItem>
+		<fvsvrportItem>View Server's Port</fvsvrportItem>
+		<xfscamItem>Camera</xfscamItem>
+		<xfscdmItem>Cash Dispenser Module</xfscdmItem>
+		<xfschkItem>Check Scanner</xfschkItem>
+		<xfscimItem>Cash In Module</xfscimItem>
+		<xfsdepItem>Envelope Deposit</xfsdepItem>
+		<xfsidcItem>Identificaiton Card</xfsidcItem>
+		<xfsjprItem>Journal Printer</xfsjprItem>
+		<xfspbkItem>Passbook Printer</xfspbkItem>
+		<xfspinItem>Encryption Keyboard</xfspinItem>
+		<xfsrprItem>Receipt Printer</xfsrprItem>
+		<xfssiuItem>Sensors and Indicators Unit</xfssiuItem>
+		<xfssprItem>Statement Printer</xfssprItem>
+		<xfsttuItem>Text Terminal Unit</xfsttuItem>
+		<spdelayItem>Delays In Initiating SP (Seconds)</spdelayItem>
+		<sendintervalItem>Interval In Sending Status (Seconds)</sendintervalItem>
+		<lastmodifytimeItem>config last modify time</lastmodifytimeItem>
+		<viewTitle>Agent Config Information View</viewTitle>
+		<xfsvdmItem>Vendor Dependent</xfsvdmItem>
+		<xfscoincdmItem>Coin</xfscoincdmItem>
+		<StartXFSMonitorItem>Start Agent Status View</StartXFSMonitorItem>
+		<xfsbcrItem>Barcode</xfsbcrItem>
+		<xfsrfidcItem>RF Card Reader</xfsrfidcItem>
+		<monitorPalmVeinItem>Palm Vein Reader</monitorPalmVeinItem>
+		
+	</node>
+</nodes>

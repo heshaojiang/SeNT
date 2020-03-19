@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- * Description：iDataRefreshInfoModule<br>
+	 * Create Time：2011-11-16<br>  
+	 * Author：Ming.Zhang  <br>
+	 * Email : zyming1@grgbanking.com <br>
+	 -->
+<nodes>
+	<node locale = "iDataRefreshInfoModule">
+		<listTitle>IDataRefreshInfo Button List</listTitle>
+		<status>status</status>
+		<refreshAllButton>refreshAll</refreshAllButton>
+		<refreshEventDefButton>refreshEventDef</refreshEventDefButton>
+		<refreshOrgEventDefButton>refreshOrgEventDef</refreshOrgEventDefButton>
+		<refreshBankCardInfoButton>refreshBankCardInfo</refreshBankCardInfoButton>
+		<refreshBlackCardInfoButton>refreshBlackCardInfo</refreshBlackCardInfoButton>
+		<refreshTmlInfoButton>refreshTmlInfo</refreshTmlInfoButton>
+		<refreshUnionPayCardInfoButton>refreshUnionPayCardInfo</refreshUnionPayCardInfoButton>
+		<refreshDataDirButton>refreshDataDir</refreshDataDirButton>
+		<refreshWtClasslistButton>refreshWtClasslist</refreshWtClasslistButton>
+		<refreshMessageRule>refreshMessageRule</refreshMessageRule>
+		<synchronizationResponsible>SynchronizationRes</synchronizationResponsible>
+	</node>
+</nodes>

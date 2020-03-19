@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termSeqOptLogModule">
+		<seqno>设备序列号</seqno>
+		<optlogTitle>资产管理操作日志</optlogTitle>
+		<optstatu>操作步骤</optstatu>
+		<opter>操作人</opter>
+		<optdate>操作时间</optdate>
+		<note>备注</note>
+	</node>
+</nodes>

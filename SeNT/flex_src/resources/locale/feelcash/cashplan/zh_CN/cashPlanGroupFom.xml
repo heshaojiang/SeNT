@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashPlanGroupFom">
+		<addCashPlangGroupForm>批量新增计划</addCashPlangGroupForm>
+		<selectPlanDate>选择日期加入到批量计划列表</selectPlanDate>
+		<planDateLabel>加钞日期:</planDateLabel>
+		<planGroup>批量计划列表</planGroup>
+		<planDate>计划日期</planDate>
+		<delOperation>删除</delOperation>
+	</node>
+</nodes>

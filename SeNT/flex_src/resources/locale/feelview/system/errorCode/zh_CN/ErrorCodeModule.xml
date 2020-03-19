@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "ErrorCodeModule">
+		<title>故障码管理</title>
+		<searchItem>关键字: </searchItem>
+		<searchButton>查询</searchButton>
+		<devItem>设备部件</devItem>
+		<allDevItem>全部设备部件</allDevItem>
+		<codeItem>故障码</codeItem>
+		<brandItem>设备品牌</brandItem>
+		<allBrandItem>全部设备品牌</allBrandItem>
+		<descriptionItem>描述</descriptionItem>
+		<operateItem>操作</operateItem>
+		<editErrorCodeItem>编辑</editErrorCodeItem>
+		<deleteErrorCodeItem>删除</deleteErrorCodeItem>
+		<addButtonItem>添加</addButtonItem>
+		<titlemsg>故障码信息管理</titlemsg>
+		<handleItem>解决办法</handleItem>
+	</node>
+</nodes>

@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale ="showCmlImprecordsModule">
+		<sendTime>上传时间：</sendTime>
+		<to>至</to>
+		<operaterId>上传人员</operaterId>
+		<uploadStatus>状态：</uploadStatus>
+		<tmlNum>终端编号</tmlNum>
+		<termId>终端编号：</termId>
+		<operations>操作</operations>
+		<import>导入冠字号码文件</import>
+		<fileName>文件名</fileName>
+		<oldName>原文件名</oldName>
+	    <impDate>时间：</impDate>
+	    <titlemsg>冠字号文件上传监控</titlemsg>
+	    <again>继续上传</again>
+	    <uploadOrg>所属机构：</uploadOrg>
+	    <uploadOrgNo>所属机构：</uploadOrgNo>
+	    <uploadSentInfo>冠字号码导入详情</uploadSentInfo>
+	    <recordNum>冠字号记录数</recordNum>
+	    <endDate>时间</endDate>
+		<rowNo>序号</rowNo>
+	     <searchPic>查看详情</searchPic>
+	     <oldNameForCondition>原文件名：</oldNameForCondition>
+	     <personForUpload>上传人员：</personForUpload>
+	</node>
+</nodes>

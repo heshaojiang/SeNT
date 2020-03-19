@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="costOfAddCashReportMoudule">
+		<daysPreLabel>DaysPre :</daysPreLabel>
+		<daysNextLabel>Days</daysNextLabel>
+		<chartTitle>Add Cash Cost Title</chartTitle>
+		<datagridTitle>Cost Title</datagridTitle>
+		<culomnPlanDate>AddCash Day</culomnPlanDate>
+		<culomnSumPlan>AddCash Terminal</culomnSumPlan>
+		<culomnSumTerms>All Used Terminal</culomnSumTerms>
+		<culomnCostUtilization>Cost Rate(%)</culomnCostUtilization>
+	</node>
+</nodes>

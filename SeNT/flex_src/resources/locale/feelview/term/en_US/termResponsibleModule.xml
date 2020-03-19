@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termResponsibleModule
+	 Create Time：2011-12-23   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termResponsibleModule">
+		<listTitle>TermResponsibleModule List</listTitle>
+		<termIdItem>TermId</termIdItem>
+		<groupItem>Group</groupItem>
+		<roleItem>Role</roleItem>
+		<responsibleNameItem>ResponsibleName</responsibleNameItem>
+		<telePhoneItem>TelePhone</telePhoneItem>
+		<mobilePhoneItem>MobilePhone</mobilePhoneItem>
+		<emailItem>Email</emailItem>
+		<descriptionItem>Description</descriptionItem>
+<!--		<rolepersonIdItem>RolepersonId</rolepersonIdItem>-->
+	</node>
+</nodes>

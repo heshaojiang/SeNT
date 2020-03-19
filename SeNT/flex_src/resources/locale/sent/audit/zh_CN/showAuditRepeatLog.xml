@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+    <node locale="showAuditRepeatLog">
+      <applyInfo>申请信息</applyInfo>
+      <applyDetail>申请详情</applyDetail>
+     <termid>终端编号</termid> 
+     <orgid>机构编号：</orgid>
+     <status>规则状态</status>
+     <applyId>申请编号：</applyId>
+     <username>申请人：</username>
+     <applayDate>申请时间：</applayDate>
+     <applyType>申请类型：</applyType>
+     <regulation>规则：</regulation>
+     <moneyType>币种：</moneyType>
+     <moneyDenomination>面额：</moneyDenomination>
+     <dealwithMode>处理方式：</dealwithMode>
+     <logMode>是否记录流水：</logMode>
+     <creenMode>是否屏幕显示：</creenMode>
+     <enterAccountMode>入账方式：</enterAccountMode>
+     <repeatnum>最多重号冠字号码数：</repeatnum>
+     <termNum>终端数量：</termNum>
+    <createDate>创建时间：</createDate>
+    <createName>业务人员：</createName>
+    <regulationDevi>规则下发详情</regulationDevi>
+    <close>关闭</close>
+    <orgName>机构编号：</orgName>
+   </node>
+</nodes>

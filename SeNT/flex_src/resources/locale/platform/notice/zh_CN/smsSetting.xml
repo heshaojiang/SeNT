@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "smsSetting">
+		<sendMethod>　发送方式：</sendMethod>
+		<encoding>字符集：</encoding>
+		<comPort>串口号：</comPort>
+		<comBaud>串口速率：</comBaud>
+		<manufacturer>短信猫模块：</manufacturer>
+		<model>型号：</model>
+		<contentTemplate>内容模板：</contentTemplate>
+		<serverIP>服务器IP：</serverIP>
+		<serverPort>服务器端口：</serverPort>
+		<user>用户：</user>
+		<password>密码：</password>
+		<ftpDir>FTP目录：</ftpDir>
+		<ftpFileName>FTP文件名模板：</ftpFileName>
+		<dbType>数据库类型：</dbType>
+		<dbSid>数据库SID：</dbSid>
+		<sql>SQL：</sql>
+		<titlemsg>短信参数</titlemsg>
+		<helpSMSTemplate>
+1.固定字符必须用{}包围
+2.{$mobile}表示手机号
+3.{$content}表示短信内容
+4.{$sendTime}表示发送时间，sendTime后面用:跟时间格式
+5.mobile与content后用:可跟R/L，表示右补还是左补空格， R/L后跟此字段的最大长度，如{$mobile:R60}表示在手机号码后面补空格，总长度为60，手机号11位，则补49个空格。</helpSMSTemplate>
+	    <comPortTemplate>
+1.Windows环境下串口为COM1
+2.Linux环境下串口为/dev/ttyS0 
+		</comPortTemplate>
+		<comBaudTemplate>
+		根据短信猫的实际情况，修改串口速率
+		</comBaudTemplate>
+	</node>
+</nodes>

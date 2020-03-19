@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow dataDictionaryPaths="{[DataDictPathConsts.ATM_BOX_TYPES,TermConsts.ENABLE_OR_DISABLE,DataDictPathConsts.BOX_TYPE]}"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 layout="vertical" width="415" height="300"
+				 locale="boxInfoForm"
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			
+			import platform.cashbox.constants.BoxConsts;
+			import platform.cashbox.message.BoxInfoMsg;
+			import platform.cashbox.pm.BoxInfoFormPM;
+			import platform.cashbox.pm.BoxInfoModulePM;
+			import platform.cashbox.vo.BoxInfoVO;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.constants.TermConsts;
+			
+			import sent.transmgr.constants.DataDictPathConsts;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:BoxInfoFormPM;
+			
+			[Inject]
+			[Bindable]
+			public var pmModule:BoxInfoModulePM;
+			
+			[Bindable]
+			public var boxTypes:ArrayList;
+			
+			[Bindable]
+			public var boxInfoVO:BoxInfoVO;
+			
+			[Bindable]
+			public var usageStatus:String;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			/**save success handler**/
+			/**
+			 * 保存后回调函数
+			 */		
+			[MessageHandler(selector="saveBoxInfoResult")]
+			public function saveBackHandler(p_msg:BoxInfoMsg):void
+			{
+				var result:Object = p_msg.result;
+				//已存在
+				if(result == "-1"){
+					AlertHandler.alert(LocaleConsts.NAME_ALREADY_EXISTED);
+				}
+				close();
+				//刷新主界面
+				pmModule.loadBoxInfoPage();
+			}
+			 
+			override protected function parsleyInit():void
+			{
+				if(titleKey == "updateBoxInfoForm"){
+					if(boxInfoVO.boxType != BoxConsts.BOX_TYPE_ATM){
+						atmModel.enabled = false;
+						atmModel.selectedValue = null;
+						atmBoxtype.enabled = false;
+						atmBoxtype.selectedValue = null;
+						atmBoxtypeItem.visible = false;
+						atmBoxtypeItem.includeInLayout = false;
+						atmModelItem.visible = false;
+						atmModelItem.includeInLayout = false;
+
+					}else{
+						return;
+					}
+				}else{
+					statusEnable.selected = true;
+				}
+			}
+			 
+			public function set dataProvider(p_obj:Object):void
+			{
+				//pmModule.getBoxInfoFormInitDatas();
+				pm.boxInfoFormInitDatas = p_obj;
+				//model_changeHandler();
+			}
+			
+			private function save():void
+			{
+				orgid.selectedValue = StringUtil.trim(orgid.selectedValue);
+				boxNum1.text = StringUtil.trim(boxNum1.text);
+				boxType.selectedValue = StringUtil.trim(boxType.selectedValue);
+				//atmModel.selectedValue = StringUtil.trim(atmModel.selectedValue);
+				//atmBoxtype.selectedValue = StringUtil.trim(atmBoxtype.selectedValue);
+
+				rbg_status.value = StringUtil.trim(rbg_status.value);
+				pm.boxInfoVO.usageStatus = BoxConsts.INIT_BOX_USAGE_STATUS;
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				if(/^[A-Za-z0-9]+$/.test(boxNum1.text)){
+					pm.save(titleKey == "addBoxInfoForm" ?
+						OperationConsts.ADD : OperationConsts.EDIT);
+				}else{
+					AlertHandler.alert(langMgr.getExceptionMessage("alertMessage.inputNotMatched"));
+				}
+			}
+			
+			public function boxTypeControl():void
+			{	
+				//判断窗口为新增窗口还是编辑窗口
+				if(titleKey == "addBoxInfoForm"){
+					//若是新增窗口，则判断要新增的钱箱类别，若为ATM钞箱，则有atm型号和钞箱类型可选择
+					//反之，则atm型号以及钞箱类型都不可编辑，且无初始选中值
+					if(boxType.selectedValue == BoxConsts.BOX_TYPE_ATM){
+						atmModel.enabled = true;
+						atmBoxtype.enabled = true;
+						atmModel.selectedIndex = 0;
+						atmBoxtype.selectedIndex = 0;
+						atmBoxtypeItem.visible = true;
+						atmBoxtypeItem.includeInLayout = true;
+						atmModelItem.visible = true;
+						atmModelItem.includeInLayout = true;
+					}else{
+						atmModel.enabled = false;
+						atmBoxtype.enabled = false;
+						atmModel.selectedIndex = -1;
+						atmBoxtype.selectedIndex = -1;
+						atmBoxtypeItem.visible = false;
+						atmBoxtypeItem.includeInLayout = false;
+						atmModelItem.visible = false;
+						atmModelItem.includeInLayout = false;
+						
+					}
+				}else{
+					//若是编辑窗口，则判断要编辑的信息的钱箱类别是否为ATM钞箱
+					if(boxType.selectedValue == BoxConsts.BOX_TYPE_ATM){
+						atmModel.enabled = true;
+						atmBoxtype.enabled = true;
+						atmModel.selectedValue = boxInfoVO.atmModel;
+						atmBoxtype.selectedValue = boxInfoVO.atmBoxTypes;
+						atmBoxtypeItem.visible = true;
+						atmBoxtypeItem.includeInLayout = true;
+						atmModelItem.visible = true;
+						atmModelItem.includeInLayout = true;
+					}else{
+						atmModel.enabled = false;
+						atmBoxtype.enabled = false;
+						atmModel.selectedIndex = -1;
+						atmBoxtype.selectedIndex = -1;
+						atmBoxtypeItem.visible = false;
+						atmBoxtypeItem.includeInLayout = false;
+						atmModelItem.visible = false;
+						atmModelItem.includeInLayout = false;
+					}
+				}
+			}
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+	</fx:Declarations>
+	
+	<grg:Form id="form"
+			  width="100%"
+			  textAlign = "left"
+			  borderVisible = "false">
+		<!-- 钞箱所属机构 -->
+		<grg:FormItem 
+			locale = "orgid"
+			required = "true">
+			<grg:GRGComboBoxOrgTree id="orgid" name="orgid" 
+									selectedValue="@{pm.boxInfoVO.orgid}"
+									valueField="@id" textAlign="left"
+									width="245" treeHeight="150"/>
+		</grg:FormItem>
+		<!-- 钞箱编号 -->
+		<grg:FormItem id="boxNum"
+					  locale = "boxNum"
+					  required = "true">
+			<grg:TextInput id="boxNum1" name = "boxNum" maxChars="20" text="@{pm.boxInfoVO.boxNum}"
+						   width="245" maxnum="20" vtype="maxchars"
+						   required="true"/>
+		</grg:FormItem>
+		<!-- 钱箱类别 -->
+		<grg:FormItem locale="boxType" required="true">
+			<grg:ComboBox id="boxType" change="boxTypeControl()"
+						  dataProvider="{bindableDataDirCache.getItemAt(2) as IList}"
+						  labelField="text" valueField="key"
+						  selectedValue="@{pm.boxInfoVO.boxType}" width="200" />
+		</grg:FormItem>
+		<!-- 钞箱所属ATM型号 -->
+		<grg:FormItem id="atmModelItem" locale="atmModel"
+					  required="false">
+			<grg:ROComboBox id="atmModel" name="atmModel"
+						  service="termInfoService" method="getTermModelList" args="{['Y','N']}" required="false"
+						  selectedValue="@{pm.boxInfoVO.atmModel}"
+						  labelField="modelName"
+						  valueField="id" textAlign="left" width="200"/>
+		</grg:FormItem>
+		<!-- atm钞箱类型 -->
+		<grg:FormItem id="atmBoxtypeItem" locale="atmBoxtype" required="false">
+			<grg:ComboBox id="atmBoxtype" name="atmBoxtype" required="false"
+						  dataProvider="{bindableDataDirCache.getItemAt(0) as IList}"  labelField="text" valueField="key"
+						  selectedValue="@{pm.boxInfoVO.atmBoxTypes}" width="200"/>
+		</grg:FormItem>
+		<!-- 钞箱状态 -->
+		<grg:FormItem 
+			width="100%"
+			textAlign = "left"
+			locale = "status">
+			<mx:HBox>
+				<grg:RadioButtonGroup id="rbg_status" value="@{pm.boxInfoVO.boxStatus}"/>
+				<grg:RadioButton id="statusEnable" groupName="rbg_status"
+								 value = "Y" 
+								 locale = "statusEnable" />
+				<grg:RadioButton id="statusDisable" groupName = "rbg_status"
+								 value = "N"
+								 locale = "statusDisable" />
+			</mx:HBox>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = " save()"
+				locale = "saveButton"
+				iconVisible="false"
+				/>
+		</s:BorderContainer>
+		<!--<grg:Button 
+		click = "pm.reset()"
+		locale = "resetButton"
+		iconType = "reset" />-->
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton"
+				iconVisible="false"
+				/>
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

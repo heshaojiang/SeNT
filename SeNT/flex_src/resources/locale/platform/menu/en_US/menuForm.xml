@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "menuForm">
+		<addMenuForm>Add</addMenuForm>
+		<updateMenuForm>Edit</updateMenuForm>
+		<parentMenuName>ParentName:</parentMenuName>
+		<menuName>MenuName:</menuName>
+		<menuUrl>Model URL:</menuUrl>
+		<rootURL>Root URL:</rootURL>
+		<menuLevel>menuLevel:</menuLevel>
+		<menuOrder>menuOrder:</menuOrder>
+		<iconUrl>icon URL:</iconUrl>
+		<note>Note:</note>
+	</node>
+</nodes>

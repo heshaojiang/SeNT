@@ -1,0 +1,157 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+					   width="400" height="260"
+					   layout = "vertical"
+					   locale = "termTypeForm"
+					   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					   xmlns:s = "library://ns.adobe.com/flex/spark"
+					   xmlns:mx = "library://ns.adobe.com/flex/mx"
+					   xmlns:parsley="http://www.spicefactory.org/parsley"
+					   xmlns:grg="http://grg.grgbanking.com/platform/" helpTips="termTypeHelp">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.OperationConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.TermTypeMsg;
+			import platform.term.pm.TermTypeFormPM;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:TermTypeFormPM;
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:TermTypeMsg):void
+			{
+				close();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:TermTypeMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			private function save():void{
+				type.text = StringUtil.trim(type.text);
+				typeName.text = StringUtil.trim(typeName.text);
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				pm.save(titleKey == TermLocalKeyConsts.ADD_TERMTYPE_FORM ?
+					OperationConsts.ADD : OperationConsts.EDIT);
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+			
+		]]>
+	</fx:Script>
+
+	<!--data binding start-->
+	<fx:Binding source="type.text" destination="pm.termType.type" twoWay="true"/>
+	<fx:Binding source="typeName.text" destination="pm.termType.typeName" twoWay="true"/>
+	<!--data binding end-->
+	
+	<grg:Form id="form"
+					width="100%"
+					textAlign = "left"
+					borderVisible = "false">
+		<grg:FormItem 
+							locale = "code"
+							required = "true">
+			<grg:TextInput id="code" name = "code" text="@{pm.termType.code}"
+						   width="245" maxnum="2" vtype="maxchars"
+							   required="true"/>
+		</grg:FormItem>
+		
+		<grg:FormItem id="typeItem"
+							locale = "typeItem"
+							required = "true">
+			<grg:TextInput id="type" name = "type" maxChars="20"
+						   width="245" maxnum="20" vtype="maxchars"
+							   required="true"/>
+		</grg:FormItem>
+
+		<grg:FormItem id="typeNameItem"
+							width="100%"
+							textAlign = "left"
+							locale = "typeNameItem"
+							required = "true">
+			<grg:TextInput id="typeName" name = "typeName" maxChars="50"
+						   width="245" maxnum="50" vtype="maxchars"
+							   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem 
+			width="100%"
+			textAlign = "left"
+			locale = "status">
+			<mx:HBox>
+				<grg:RadioButtonGroup id="rbg_status" value="@{pm.termType.status}"/>
+				<grg:RadioButton id="statusEnable" groupName="rbg_status"
+									 value = "Y"
+									 locale = "statusEnable" />
+				<grg:RadioButton id="statusDisable" groupName = "rbg_status"
+									 value = "N"
+									 locale = "statusDisable" />
+				
+			</mx:HBox>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup 
+			  width="100%" gap="10"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn"
+				click = " save()"
+				locale = "saveButton"
+				iconVisible="false"
+				 />
+		</s:BorderContainer>
+		<!--<grg:Button 
+						click = "pm.reset()"
+						locale = "resetButton"
+						iconType = "reset" />-->
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+							click = "cancel()"
+							locale = "cancelButton"
+							iconVisible="false"
+							 />
+</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>
+

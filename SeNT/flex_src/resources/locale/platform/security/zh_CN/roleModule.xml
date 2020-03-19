@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="roleModule">
+		
+		<titlemsg>角色管理</titlemsg>
+		
+		
+		<listTitle>角色列表</listTitle>
+		<roleNameKey>角色名：</roleNameKey>
+		<roleName>角色名称</roleName>
+		<roleLevel>角色级别</roleLevel>
+		<operater>操作</operater>
+		<status>状态</status>
+		
+		<setPrivileges>设置权限</setPrivileges>
+		<setUsers>设置用户</setUsers>
+		<setGroups>设置组</setGroups>
+		<orgName>所属机构：</orgName>
+		
+	</node>
+</nodes>

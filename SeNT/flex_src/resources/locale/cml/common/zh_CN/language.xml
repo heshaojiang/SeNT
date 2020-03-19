@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "Msg">
+	<againChoose>操作员和设备都必须重新选择！</againChoose>
+	<NoChecked>此交接已安排任务，不能选择！</NoChecked>
+	</node>
+</nodes>

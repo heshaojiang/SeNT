@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*" 
+				 xmlns:component="sent.transmgr.view.component.*"
+				 locale="addCashForm" 
+				 titleKey="title"
+				 layout="vertical" width="540" height="400"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectUtil;
+			import mx.utils.StringUtil;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.AlertHandler;
+			
+			import sent.transmgr.constants.CmlMgrConsts;
+			import sent.transmgr.message.CmlNoteflowDetailInfoMsg;
+			import sent.transmgr.pm.CmlNoteflowDetailInfoPM;
+			import sent.transmgr.view.component.CmlCashboxNumTextInputComponent;
+			import sent.transmgr.vo.CmlNoteflowInfoVO;
+			
+			private var _self:AddCashForm = this as AddCashForm;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowDetailInfoPM:CmlNoteflowDetailInfoPM;
+			
+			
+			// { 在这里放上VO只是为了解决flex的bug，虽然这些VO没有用到, 请不要删除
+			[Bindable]
+			private var _cmlNoteflowInfoVO:CmlNoteflowInfoVO = new CmlNoteflowInfoVO();
+			// }
+			
+			
+			/**
+			 * 
+			 */
+			override protected function getDataDictCallback():void
+			{
+			}
+			
+			
+			
+			
+			
+			
+			
+			public function fillFirstCashboxNum(cashboxNum:String):void
+			{
+				var cashboxNumComp:CmlCashboxNumTextInputComponent = null;
+				if( cashboxNumListBox.numElements==0 )
+				{
+					cashboxNumComp = addOneCashboxNumComponent();
+				}
+				else
+				{
+					cashboxNumComp = cashboxNumListBox.getElementAt(0) as CmlCashboxNumTextInputComponent;
+				}
+				cashboxNumComp.cashboxNum.text = cashboxNum;
+			}
+			
+
+			protected function addClickHandler(event:MouseEvent):void
+			{
+				addOneCashboxNumComponent();
+			}
+			
+			protected function addOneCashboxNumComponent():CmlCashboxNumTextInputComponent
+			{
+				var cashboxNumComp:CmlCashboxNumTextInputComponent = new CmlCashboxNumTextInputComponent();
+				cashboxNumComp.addEventListener(MouseEvent.CLICK, cashboxNumTextInputComponent_clickHandler);
+				cashboxNumListBox.addElement(cashboxNumComp);
+				return cashboxNumComp;
+			}
+
+
+			protected function cashboxNumTextInputComponent_clickHandler(event:MouseEvent):void
+			{
+				if( event.currentTarget is CmlCashboxNumTextInputComponent )
+				{
+					var cashboxNumComp:CmlCashboxNumTextInputComponent = event.currentTarget as CmlCashboxNumTextInputComponent;
+					// 判断点击的是不是'删除'按钮
+					if( cashboxNumComp.deleteBtn==event.target )
+					{
+						if( cashboxNumListBox.numElements>1 )
+						{
+							cashboxNumListBox.removeElement(cashboxNumComp);
+						}
+						else
+						{
+							var msg:String = langMgr.getExceptionMessage("exceptionMessage.needMoreThanOneCashbox");
+							AlertHandler.alert(msg);
+						}
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function save():void
+			{
+				var alertMsg:String;
+				
+				var sAtmNum:String = StringUtil.trim(this.atmNum.text);
+				if( sAtmNum=="" )
+				{
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.pleaseInputAtmNum");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				
+				var checkCashboxNumDuplicatedMap:Object = {};
+				var submitData:Object = {};
+				submitData.atmNum = sAtmNum;
+				submitData.cashboxNumArr = [];
+				for( var i:int=0; i<cashboxNumListBox.numElements; i++ )
+				{
+					var ve:IVisualElement = cashboxNumListBox.getElementAt(i);
+					if( ve is CmlCashboxNumTextInputComponent )
+					{
+						var cashboxNum:String = StringUtil.trim((ve as CmlCashboxNumTextInputComponent).cashboxNum.text);
+						if( cashboxNum!="" )
+						{
+							if( checkCashboxNumDuplicatedMap[cashboxNum]!=null )
+							{
+								alertMsg = StringUtil.substitute(langMgr.getExceptionMessage("exceptionMessage.cashboxNumDuplicatedFill"), cashboxNum);
+								AlertHandler.alert(alertMsg);
+								return ;
+							}
+							checkCashboxNumDuplicatedMap[cashboxNum] = cashboxNum;
+							submitData.cashboxNumArr.push( cashboxNum );
+						}
+					}
+				}
+				
+				if( submitData.cashboxNumArr.length==0 )
+				{
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.needMoreThanOneCashbox");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				
+				var msg:CmlNoteflowDetailInfoMsg = new CmlNoteflowDetailInfoMsg();
+				msg.args["remoteMethod"]   = "addMiltiAtmAddCash";
+				msg.args["methodPrameter"] = submitData;
+				msg.args["resultHandler"]  = "AddCashForm.addMiltiAtmAddCashResult";
+				msg.args["errorHandler"]   = "AddCashForm.addMiltiAtmAddCashError";
+				cmlNoteflowDetailInfoPM.sendCmlNoteflowDetailInfoMsg(msg);
+				
+				this.enabled = false;
+			}
+			
+			[MessageHandler(selector="AddCashForm.addMiltiAtmAddCashResult")]
+			public function addMiltiAtmAddCashResult(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				this.enabled = true;
+				
+				var alertMsg:String = "";
+				if( msg.result>0 )
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.addCashSuccess");
+				}
+				else
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.addCashFail");
+				}
+				Alert.show(alertMsg, "系统提示", 4, null, function():void{
+					_self.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				});
+			}
+			
+			[MessageHandler(selector="AddCashForm.addMiltiAtmAddCashError")]
+			public function addMiltiAtmAddCashError(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				this.enabled = true;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	
+	<s:HGroup width="100%" gap="0" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<!-- ATM号 -->
+		<grg:Label locale="atmNumColon" />
+		<grg:TextInput id="atmNum" width="200" />
+	</s:HGroup>
+	
+	<!-- 装入ATM的钞箱 -->
+	<grg:RoundCornerContainer locale="zratmdcx" id="cmlSeqInfo" width="100%"  height="100%">
+		<s:Scroller width="100%" height="100%" verticalScrollPolicy="on">
+			<s:VGroup gap="0" paddingTop="20" paddingLeft="50" paddingRight="10">
+				
+				<s:VGroup id="cashboxNumListBox" width="100%" gap="10">
+					<component:CmlCashboxNumTextInputComponent click="cashboxNumTextInputComponent_clickHandler(event)" />
+					<component:CmlCashboxNumTextInputComponent click="cashboxNumTextInputComponent_clickHandler(event)" />
+					<component:CmlCashboxNumTextInputComponent click="cashboxNumTextInputComponent_clickHandler(event)" />
+					<component:CmlCashboxNumTextInputComponent click="cashboxNumTextInputComponent_clickHandler(event)" />
+				</s:VGroup>
+				
+				<s:VGroup horizontalAlign="left" paddingTop="10">
+					<grg:Button locale="addCashbox" iconVisible="false" click="addClickHandler(event)" />
+				</s:VGroup>
+				
+			</s:VGroup>
+		</s:Scroller>
+	</grg:RoundCornerContainer>
+	
+	<!-- 保存、取消 -->
+	<s:HGroup width="100%" gap="6" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="save" iconVisible="false" click="save()" />
+		<grg:Button locale="cancel" iconVisible="false" click="cancel()" />
+	</s:HGroup>
+	
+</grg:TitleWindow>

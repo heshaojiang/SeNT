@@ -1,0 +1,21 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：设备状态组<br>
+		Create Time：2011-10-13<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlStatusGroupModule">
+		<listTitle>Donanım Durumu</listTitle>
+		<addTmlStatusGroupForm>Donanım Durum Grubu Ekle</addTmlStatusGroupForm>
+		<updateTmlStatusGroupForm>Donanım Durum Grubu Değiştir</updateTmlStatusGroupForm>
+		<name>Grup Adı</name>
+		<status>Durum</status>
+		<order>Talep</order>
+		<level>Seviye</level>
+		<hql>Sorgu</hql>
+		<sum>Toplam</sum>
+		<icon>Simge</icon>
+		<expressions>Formül</expressions>
+		<nameLocal>Yerel Dil</nameLocal>
+	</node>
+</nodes>

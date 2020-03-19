@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark"    xmlns:parsley="http://www.spicefactory.org/parsley"
+		   xmlns:grg="http://grg.grgbanking.com/platform/" locale="cmlReportModule"
+		   xmlns:mx="library://ns.adobe.com/flex/mx" layout="absolute" width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		
+	
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.report.message.CmlReportMsg;
+			import cml.report.pm.CmlReportModulePM;
+			
+			import mx.collections.ArrayCollection;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.formatter.DateFormatter;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.vo.CmlTaskInfoVO;
+			
+		
+	[Inject]
+	[Bindable]
+	public var pm:CmlReportModulePM;
+	[Bindable]
+	public var page:Page=new Page();
+	
+	/**
+	*导出按钮的图标
+	**/
+	[Bindable]
+	[Embed(source="resources/theme/images/icons/export.png")] 
+	private var exportInfo:Class; 
+	
+/**
+ * 导出ATM加钞信息
+ * */
+	public function exportAtm():void
+	{
+	var msg:CmlReportMsg  = new CmlReportMsg();
+	msg.type = "exportATM";
+	msg.args["startTime"] =df.format(pm.cond.startTime);
+	msg.args["endTime"] =df.format(pm.cond.endTime);
+	msg.args["toatmnum"]=pm.cond.toatmnum;
+	sendMessage(msg);
+	}
+			/**
+			 * 显示清分任务详情
+			 * */
+			public function showTransDetailInfo():void{
+				var obj:CmlTaskInfoVO =reportATMInfoDataGrid.selectedItem as CmlTaskInfoVO;
+				//pm.toatmnum=obj.toatmnum;
+				pm.loadReportAtm();
+				var win:ShowATMReport= new ShowATMReport();
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.cmlTaskInfo = ObjectUtil.copy(reportATMInfoDataGrid.selectedItem) as CmlTaskInfoVO;
+			   
+			}
+			
+	]]>
+	</fx:Script>
+	
+	<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	<fx:Declarations>
+		
+		<parsley:ContextBuilder>
+			<fx:Script>
+				<![CDATA[
+					import cml.report.config.CmlReportConfig;
+				]]>
+			</fx:Script>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="cmlReportModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="cmlReportModule"/>
+			<parsley:FlexConfig type="{CmlReportConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+		<mx:DateFormatter id="df" formatString="YYYY-MM-DD JJ:NN:SS" />
+	</fx:Declarations>
+	<fx:Binding source="startTime.selectedDate" destination="pm.cond.startTime"/>
+	<fx:Binding source="endTime.selectedDate" destination="pm.cond.endTime"/>
+	<fx:Binding source="atmNum.text" destination="pm.cond.toatmnum"/>
+	<!--<fx:Binding source="orgId.selectedValue" destination="pm.cond.orgName"/>-->
+	
+	<!--搜索条件框-->
+	<s:BorderContainer width="100%" 
+					   height="100%"
+					   styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign = "center"
+			styleName = "SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<grg:TitleBar locale="titlemsg" width="50%"/>
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">  
+						<grg:Label locale = "atmNum" />
+						<grg:TextInput id="atmNum"  textAlign="left" restrict="^'"
+									   width="100" height="20"
+									   styleName = "TextInput" />
+						<grg:Label locale="sendTime" />
+						<grg:SuperDateField id="startTime" width="190" myEnabled="false"
+											selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+						<grg:Label locale="to"/>
+						<grg:SuperDateField id="endTime" width="190" myEnabled="false" 
+											selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+					<!--	<grg:Label locale="orgId"/>
+						<grg:GRGComboBoxOrgTree id="orgId"
+												defaultField="true"
+												width="120"
+												textAlign="left"
+												treeHeight="300"	/>
+						-->
+						<!--<grg:Label locale = "operatorName" />
+						<grg:TextInput id="operatorName" textAlign="left" 
+						width="100" height="20"
+						styleName = "TextInput" />-->
+						<!--	<grg:ExpansionButton/>-->		
+						<grg:SearchButton id="btn_search"
+										  locale = "searchButton" menuId="{menu.id}" 
+										  iconType = "query" click="pm.page = new Page();pm.loadPage()"/>
+						
+					<!--	<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 			-->
+						<grg:ResetButton id="resetBtn" locale="resetButton" iconType="reset"
+										 resetControls="{[atmNum,startTime,endTime]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+			<!--<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					<mx:HBox width="100%" styleName="expHBoxStyle">  
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "right"
+									gap="2"
+									verticalAlign = "middle" />
+							</s:layout>-->
+						
+							
+						
+					<!--	</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>-->
+		</grg:AdvancedSearchBar>
+		<!--导出按钮-->
+		<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+			<!--<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+			<s:layout>
+			<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+			</s:layout>
+			<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+			</s:BorderContainer>-->
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:Button icon="{exportInfo}"  locale="export" click="exportAtm()"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid id="reportATMInfoDataGrid" dataProvider="{pm.page.result}"
+						  width="100%" height="100%"
+						  textAlign = "center"
+						  styleName = "DataGrid"
+						  borderVisible = "true">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol" />
+					
+					<grg:DataGridColumn locale = "atmNum"
+										dataField = "toatmnum"  />
+					
+					<grg:DataGridColumn locale = "boxCount"
+										dataField = "boxCount"/>
+					<grg:DataGridColumn locale="atmMoney"
+										dataField="atmMoney" />
+					<grg:DataGridColumn locale="passMoney" 
+										dataField="passMoney"/>
+					<grg:DataGridColumn locale="totalMoney"
+										dataField="totalMoney"/>
+					<grg:DataGridColumn locale = "operators" 
+										headerStyleName="centerDataGridHeader">
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+				</grg:DataGridColumn>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+							  pageVo="{pm.page}"
+							  pagingFunction="{pm.loadPage}"/>
+	</s:BorderContainer>
+	
+</grg:TabModule>
+

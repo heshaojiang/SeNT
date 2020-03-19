@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：addCashMonitorDetailForm<br>
+		Create Time：2011-9-13<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "addCashMonitorDetailForm">
+		<showAddCashMonitorDetailForm>Show AddCash Monitor Detail</showAddCashMonitorDetailForm>
+		<listTitle>AddCash Monitor Detail List</listTitle>
+		<searchItem>SearchKeyword:</searchItem>
+		<termIdItem>TermId</termIdItem>
+		<orgIdItem>OrgId</orgIdItem>
+		<termTypeItem>TermType</termTypeItem>
+		<brandItem>Brand</brandItem>
+		<cashBoxTypeItem>CashBoxType</cashBoxTypeItem>
+		<cashBoxCurrencyItem>CashBoxCurrency</cashBoxCurrencyItem>
+		<addCashAmountItem>AddCashAmount</addCashAmountItem>
+		<addCashNumItem>AddCashNum</addCashNumItem>
+		<addCashDateItem>AddCashDate</addCashDateItem>
+		<cashBoxStatusItem>CashBoxStatus</cashBoxStatusItem>
+		<createDateItem>CreateDate</createDateItem>
+		<cashBoxDenominationItem>CashBoxDenomination</cashBoxDenominationItem>
+		<cashBoxRemainCountItem>CashBoxRemainCount</cashBoxRemainCountItem>
+	</node>
+</nodes>

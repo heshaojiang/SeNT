@@ -1,0 +1,198 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： agent配置
+	  Create Time：2011-9-15   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "versionManageModule">
+		<listTitle>版本管理计划列表</listTitle>
+		<createdOrgItem>机构:</createdOrgItem>
+		<createdUserItem>创建人</createdUserItem>
+		<submitUserItem>提交人</submitUserItem>
+		<distributeOptionButton>条件下发</distributeOptionButton>
+		<distributeSelectedButton>终端下发</distributeSelectedButton>
+		<resetTaskButton>重置任务</resetTaskButton>
+		<versionnameItemNew>版本名称：</versionnameItemNew>
+		<createdOrgItem>机构:</createdOrgItem>
+		<createdUserItem>创建人</createdUserItem>
+		<taskProgressItem>任务进度</taskProgressItem>
+		<taskTotalItem>任务总数</taskTotalItem>
+		<auditpassedItemNew>全部计划状态</auditpassedItemNew>
+		<orgidItemNew>机构：</orgidItemNew>
+		<brandItemNew>全部终端品牌</brandItemNew>
+		<termtypeItemNew>全部终端类型</termtypeItemNew>
+		<planidItem>计划id</planidItem>
+		<versionnameItem>版本名称</versionnameItem>
+		<versionItem>版本</versionItem>
+		<versiontypeItem>版本类型</versiontypeItem>
+		<auditrequestItem>提交审核</auditrequestItem>
+		<auditpassedItem>计划状态</auditpassedItem>
+		<termidlistItem>终端编号</termidlistItem>
+		<termipItem>终端IP：</termipItem>
+		<termtypeItem>终端类型</termtypeItem>
+		<modelItem>ATM型号</modelItem>
+		<orgidItem>机构</orgidItem>
+		<areaidItem>区域</areaidItem>
+		<brandItem>终端品牌</brandItem>
+		<fileidItem>文件ID</fileidItem>
+		<nextexecutetimeItem>执行时间</nextexecutetimeItem>
+		<nextexecutetimefromItem>执行时间：</nextexecutetimefromItem>
+		<nextexecutetimeendItem>至</nextexecutetimeendItem>
+		<createtimeItem>创建时间</createtimeItem>
+		<createtimefromItem>创建时间：</createtimefromItem>
+		<createtimeendItem>至</createtimeendItem>
+		<invalidtimeItem>作废时间</invalidtimeItem>
+		<invoketimesItem>执行次数</invoketimesItem>
+		<noteItem>备注</noteItem>
+		<enabledItem>是否作废</enabledItem>
+		<operateButton>操作</operateButton>
+		
+		<!-- plan表 -->
+		<listTitle>远程诊断服务器列表</listTitle>
+		<taskstatusItemNew>全部任务状态</taskstatusItemNew>
+		<termidItemNew>终端ID：</termidItemNew>
+		
+		<termidItem>终端ID</termidItem>
+		<taskidItem>任务id</taskidItem>
+		<planexetimeItem>计划执行时间</planexetimeItem>
+		<exebegintimeItem>开始时间</exebegintimeItem>
+		<exeendtimeItem>结束时间</exeendtimeItem>
+		<taskstatusItem>任务状态</taskstatusItem>
+		<extradescriptionItem>任务备注</extradescriptionItem>
+		<exepercentItem>完成百分比</exepercentItem>
+		<resultfileidItem>文件号</resultfileidItem>
+		<retriedtimesItem>重试次数</retriedtimesItem>
+		<timeoutedItem>是否超时</timeoutedItem>
+		<svrnameItem>服务器名称</svrnameItem>
+		<picturelinkItem>链接</picturelinkItem>
+		<picturelink>查看文件</picturelink>
+		
+		<!-- 任务数 -->
+		<taskSuccessNum>成功数:</taskSuccessNum>
+		<taskRunningNum>执行中数:</taskRunningNum>
+		<taskFailureNum>失败数:</taskFailureNum>
+		<taskWaitingNum>待执行数:</taskWaitingNum>
+		
+		<VersionManageModuleTitleMsg>广告下发</VersionManageModuleTitleMsg>
+		<AdvertManageModuleTitleMsg>广告管理</AdvertManageModuleTitleMsg>
+		<uploadMgt>上传管理</uploadMgt>
+		<waitingAudit>等待审核</waitingAudit>
+		<publishPlan>下发计划</publishPlan>
+		<publishAudit>下发审核</publishAudit>
+		<publishExecute>下发执行</publishExecute>
+		<publishSearch>下发查询</publishSearch>
+		
+		<btnAdd>新增</btnAdd>
+		<btnEdit>编辑</btnEdit>
+		<btnDel>删除</btnDel>
+		<btnCommitAudit>提交审批</btnCommitAudit>
+		<imgCommitAudit>提交审批</imgCommitAudit>
+		<btnAudit>审批</btnAudit>
+		<imgAudit>审批</imgAudit>
+		<btnInvalid>失效</btnInvalid>
+		<imgInvalid>失效</imgInvalid>
+		<btnDownload>下载</btnDownload>
+		<imgDownload>下载</imgDownload>
+		<btnCancel>作废</btnCancel>
+		<imgCancel>作废</imgCancel>
+		
+		<!--softwarePackageModule-->
+		<titleSoftwarePackage>软件包管理</titleSoftwarePackage>
+		<titleUseage>全部用途</titleUseage>
+		<titleName>名称：</titleName>
+		<titleBrand>全部厂商</titleBrand>
+		<titleModel>全部机型</titleModel>
+		<titleVendorVersion>厂商版本：</titleVendorVersion>
+		<titleBankVersion>银行版本：</titleBankVersion>
+		<titleStatus>全部状态</titleStatus>
+		<titleAudit>审核通过：</titleAudit>
+		<titleNote>备注：</titleNote>
+		
+		<labelUseage>用途</labelUseage>
+		<labelName>名称</labelName>
+		<labelBrand>厂商</labelBrand>
+		<labelModel>机型</labelModel>
+		<labelVendorVersion>厂商版本</labelVendorVersion>
+		<labelBankVersion>银行版本</labelBankVersion>
+		<labelStatus>状态</labelStatus>
+		<labelNote>备注</labelNote>
+		
+		<operCommit>提交审核</operCommit>
+		<operAudit>审核</operAudit>
+		<operateButton>操作</operateButton>
+		
+		<titleFile>软件包文件：</titleFile>
+		<uploadSoftwarePakcage>必须选择上传软件包！</uploadSoftwarePakcage>
+		
+		<addSoftwarePackage>新增</addSoftwarePackage>
+		<editSoftwarePackage>编辑</editSoftwarePackage>
+		<auditSoftwarePackage>审核</auditSoftwarePackage>
+		
+		<SoftwarePackageModuleTitleMsg>软件包管理</SoftwarePackageModuleTitleMsg>
+		
+		
+		<btnAdd>新增</btnAdd>
+		<btnEdit>编辑</btnEdit>
+		<btnDel>删除</btnDel>
+		<btnCommitAudit>提交审批</btnCommitAudit>
+		<imgCommitAudit>提交审批</imgCommitAudit>
+		<btnAudit>审批</btnAudit>
+		<imgAudit>审批</imgAudit>
+		<btnInvalid>失效</btnInvalid>
+		<imgInvalid>失效</imgInvalid>
+		<btnDownload>下载</btnDownload>
+		<imgDownload>下载</imgDownload>
+		
+		<!-- taskExeInfoModule -->
+		<listTitle>查询结果列表</listTitle>
+		<termidNew>终端编号：</termidNew>
+		<planNameNew>计划名称：</planNameNew>
+		<termid>终端编号</termid>
+		<termtype>全部终端类型</termtype>
+		<brand>全部终端品牌</brand>
+		<orgid>所属机构：</orgid>
+		<orgname>机构名称</orgname>
+		<begintime>从</begintime>
+		<endtime>到</endtime>				
+		<timeRangeFrom>执行时间：</timeRangeFrom>
+		<choosetime>日期</choosetime>
+		<orgrange>所属机构：</orgrange>
+		<timeRangeTo>至</timeRangeTo>
+		<export>导  出</export>
+		<areaid>所属区域：</areaid>
+		<total>总计</total>
+		<year>年</year>
+		<month>月</month>
+		<planName>计划名称</planName>
+		<taskType>任务类型</taskType>
+		<userCode>操作用户</userCode>
+		<planExeTime>计划执行时间</planExeTime>
+	    <exeBeginTime>执行开始时间</exeBeginTime>
+	    <exeEndTime>执行结束时间</exeEndTime>
+	    <taskStatus>任务状态</taskStatus>
+	    <extraDescription>描述</extraDescription>
+		<svrName>分发服务器</svrName>
+		<fileSvrName>文件服务器</fileSvrName>
+		<fileURL>文件路径</fileURL>	
+		
+		<TaskExeInfoModuleTitleMsg>任务执行情况统计</TaskExeInfoModuleTitleMsg>
+		
+		<AgentManageModuleTitleMsg>Agent管理</AgentManageModuleTitleMsg>
+		<listTitle>客户端升级包列表</listTitle>
+		<fileidItem>文件id</fileidItem>
+		<versionItemNew>版本号：</versionItemNew>
+		<versionItem>版本号</versionItem>
+		<urlItem>文件地址</urlItem>
+		<md5Item>MD5</md5Item>
+		<sha1Item>SHA1</sha1Item>
+		<fileUploadDateItem>文件上传时间</fileUploadDateItem>
+		<fileUploadDateFromItem>文件上传时间：</fileUploadDateFromItem>
+		<fileUploadDateEndItem>至</fileUploadDateEndItem>
+		<noteItem>备注</noteItem>
+		<operateButton>操作</operateButton>
+		<fileNameItem>软件名称</fileNameItem>
+		<atmcTilte>ATMC管理</atmcTilte>
+		<alltaskstatus>全部状态</alltaskstatus>
+	</node>
+</nodes>

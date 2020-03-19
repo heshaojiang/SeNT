@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   dataDictionaryPaths="{[DataDirConsts.YES_OR_NO]}"
+			   locale="termInfoModule"
+			   layout="horizontal"
+			   width="100%" height="100%"
+			   >
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="TermInfoModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="TermInfoModule"/>
+			<parsley:FlexConfig type="{TermInfoModuleConfig}"/>
+			<parsley:FlexConfig type="{BlackRegulationConfig}"/>
+			<parsley:FlexConfig type="{ParamConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Binding source="termCode.text" destination="pm.condi.termCode"/>
+	<fx:Binding source="netAddr.text" destination="pm.condi.netAddr"/>
+	<fx:Binding source="model.selectedValue" destination="pm.condi.model"/>
+	<fx:Binding source="termType.selectedValue" destination="pm.condi.termType"/>
+	<fx:Binding source="brand.selectedValue" destination="pm.condi.brand"/>
+	<fx:Binding source="orgid.selectedValue" destination="pm.condi.orgId"/>
+	<fx:Binding source="areaid.selectedValue" destination="pm.condi.areaPathCode"/>
+	<fx:Binding source="isLoopOrg.selected.toString()" destination="pm.condi.flag"/>
+	<!--
+	<fx:Binding source="serviceType.selectedValue" destination="pm.condi.serviceType"/>
+	<fx:Binding source="layType.selectedValue" destination="pm.condi.layType"/>
+	<fx:Binding source="isInterATM.selectedValue" destination="pm.condi.isInterATM"/>
+	-->
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.param.config.ParamConfig;
+			import platform.term.config.TermInfoModuleConfig;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermInfoModulePM;
+			import platform.vo.term.TermInfoVo;
+			import platform.common.util.DataGridUtil;
+
+			
+			import sent.rule.config.BlackRegulationConfig;
+			import sent.rule.message.BlackRegulationMsg;
+			import sent.rule.pm.BlackRegulationPM;
+			import sent.rule.vo.BlackRegulationVO;
+			
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:TermInfoModulePM;
+			
+			[Inject]
+			[Bindable]
+			public var blackRegulationPM:BlackRegulationPM;
+			
+			[Bindable]
+			private var isInterATMSource:IList;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+
+			public var orgName:String;
+			public var termCodeValue:String;
+			public var termModelName:String;
+			public var termBrandName:String;
+			public var termTypeName:String;
+			public var ip:String;
+			
+			[Bindable]
+			public var s:Array = new Array();
+			
+			[Bindable]
+			public var boxQRCodePrintSwitch:String = new String();
+			
+			public var printModel:String;
+			
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("TermInfoModule.viewUpdateComplete");
+				pm.init();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				isInterATMSource = bindableDataDirCache.getItemAt(0) as IList;
+			}
+			
+			override public function dispose():void
+			{
+				trace("TermInfoModule.dispose");
+				termInfoPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			//Add 
+			public function add():void
+			{
+				trace("TermInfoModule.add");
+				//set vo
+				var vo:TermInfoVo = new TermInfoVo();
+				vo.formType = TermLocalKeyConsts.ADD_TERMINFO_FORM;
+				vo.activeDate = new Date();
+				openWin(TermLocalKeyConsts.ADD_TERMINFO_FORM, vo);
+			}
+			
+			/**
+			 * edit datadir item
+			 * */
+			public function edit():void
+			{
+				trace("TermInfoModule.edit");
+				if (termInfoPageGrid.checkedItems.length != 1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var temp:TermInfoVo = TermInfoVo(termInfoPageGrid.checkedItems[0]);
+				var vo:TermInfoVo = temp as TermInfoVo;
+				vo.formType = TermLocalKeyConsts.UPDATE_TERMINFO_FORM;
+				openWin(TermLocalKeyConsts.UPDATE_TERMINFO_FORM, vo);
+				
+			}
+			
+			/**
+			 * delete datadir item
+			 * */
+			public function del():void
+			{
+				trace("TermInfoModule.del");
+				pm.delTermInfo(termInfoPageGrid.checkedItems);
+			}
+			
+			
+			//Add 
+			public function importFile():void
+			{
+				trace("TermInfoModule.importFile");
+				//set vo
+				var vo:TermInfoVo = new TermInfoVo();
+				vo.formType = TermLocalKeyConsts.ADD_TERMINFO_FORM;
+				vo.activeDate = new Date();
+				//dispatch event
+				var win:TermInfoImportForm = new TermInfoImportForm();
+				
+				//win.titleKey = TermLocalKeyConsts.UPDATE_TERMINFO_FORM;
+				win.titleKey = "importTermInfoForm";
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+			}
+			
+			override protected function parsleyInit():void
+			{
+				trace("TermInfoModule.parsleyInit");
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * dispatch event
+			 * */
+			public function openWin(p_winName:String, p_vo:TermInfoVo):void
+			{
+				trace("TermInfoModule.openWin");
+				//dispatch event
+				var win:TermInfoForm = new TermInfoForm();
+				
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				
+				win.pm.vo = p_vo;
+				win.dataProvider = ObjectUtil.copy(pm.termInfoFormInitDatas) as Object;
+				win.pm.menuId = this.menu.id;	
+				
+				win.init();
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getTermInfoPageResult")]
+			public function getPageHandler(p_msg:TermInfoMsg):void
+			{
+				trace("TermInfoModule.getPageHandler - getTermInfoPageResult1");
+				modelItem.getDataList();
+				termTypeItem.getDataList();
+				orgId.getDataList();
+				areaId.getDataList();
+//				if(p_msg.result)
+//					termInfoPageGrid.checkedItems = [];
+			}
+			
+			protected function termInfoPageGrid_doubleClickHandler(event:MouseEvent):void
+			{
+				trace("TermInfoModule.termInfoPageGrid_doubleClickHandler");
+				var vo:TermInfoVo = TermInfoVo(termInfoPageGrid.selectedItem);
+				vo.formType = TermLocalKeyConsts.READ_TERMINFO_FORM;
+				var win:TermInfoForm = new TermInfoForm();
+				win.readOnly = true;
+				win.titleKey = TermLocalKeyConsts.READ_TERMINFO_FORM;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.vo = vo;
+				win.pm.termInfoFormInitDatas = ObjectUtil.copy(pm.termInfoFormInitDatas);
+				//				FormUtils.readOnlyForm(win.form);
+				//				FormUtils.readOnlyForm(win.form2);
+				win.saveButton.visible = false;
+				win.saveButton.includeInLayout = false;
+				win.init();
+				/* win.resetButton.visible = false;
+				win.resetButton.includeInLayout = false; */
+			}
+			
+			
+			//导出excel
+			public function export():void
+			{
+				var arr:ArrayCollection = termInfoPageGrid.dataProvider as ArrayCollection;
+				var isPrintTemplate:int = arr.length ; 
+						 
+				pm.export(isPrintTemplate);
+				// var langMgr:LanguageManager = LanguageManager.getInstance();
+				//var msg:OrgMsg = new OrgMsg();
+				// var termInfoMsg : TermInfoMsg = new TermInfoMsg;
+				// termInfoMsg.type = "exportTermInfo";
+				// termInfoMsg.args["orgId"] = String(pm.treeXml.@id);
+				// msg.args["language"] = langMgr.currentLanguage;
+				//sendMessage(termInfoMsg);
+			}
+			
+			public function syncSendToSentServer():void
+			{
+				
+				var msg:BlackRegulationMsg = new BlackRegulationMsg();
+				msg.args["remoteMethod"]   = "syncSendToSentServer";
+				msg.args["methodPrameter"] = 1;
+				msg.args["resultHandler"]  = "TermInfoModule.syncSendToSentServerResult";
+				msg.args["errorHandler"]   = "TermInfoModule.syncSendToSentServerError";
+				
+				blackRegulationPM.syncSendToSentServer(msg);
+				
+				
+				//pm.syncSendToSentServer();
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="TermInfoModule.syncSendToSentServerResult")]
+			public function syncSendToSentServerResult(msg:BlackRegulationMsg):void
+			{
+				trace("ermInfoModule.syncSendToSentServerResult");
+				var result:Object = msg.result;
+				var returnResult:int=1;
+				if(result != null){
+					returnResult = ObjectUtil.copy(msg.result) as int;
+					if(returnResult == 0){
+						AlertHandler.alert("同步成功!");
+					}else{
+						AlertHandler.alert("同步失败!");
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="TermInfoModule.syncSendToSentServerError")]
+			public function syncSendToSentServerError(msg:BlackRegulationMsg):void
+			{
+				trace("TermInfoModule.syncSendToSentServerError");
+				trace(msg.result);
+			}
+			
+			[MessageHandler(selector="exportOrgInfoResult")]
+			public function exportOrgExcelResultHandler(termInfoMsg:TermInfoMsg):void
+			{
+				if(termInfoMsg)
+				{
+					var fileName:String = termInfoMsg.result.toString();
+					if(fileName=="noData")
+					{
+						var alertMsg:String = langMgr.getExceptionMessage("exceptionMessage.noDataToExport");
+						AlertHandler.alert(alertMsg);
+						return;
+					}    
+					else
+					{
+						//调用js打开连接下载
+						ExternalInterface.call("downloadFile","../servlet/exportFileServlet?fileName=" + termInfoMsg.result.toString()); 
+					}
+				}
+			}
+
+			public function resetComboBox():void
+			{
+				brand.selectedValue = "";
+				termType.selectedValue = "";
+				model.selectedValue = "";
+			}
+			
+			public function printInfo(pml:String):void
+			{
+				this.printModel = pml;
+				var termInfoVo:TermInfoVo = termInfoPageGrid.selectedItem as TermInfoVo; 
+				//获取钞箱类型数据字典转换值
+				termCodeValue= DataGridUtil.getItemValue(termInfoPageGrid.selectedItem,"termCode").toString();
+		
+				pm.getTermInfoForPrint(termCodeValue);
+			}
+			
+			
+			
+			[MessageHandler(selector="getTermInfoForPrintResult")]
+			public function getTermInfoForPrintResultHandler(p_msg:TermInfoMsg):void
+			{
+				//var adb:BoxInfoVO = p_msg.result as BoxInfoVO;
+				//box = adb;
+				var sresult:Array = p_msg.result as Array;
+				s = sresult;
+		
+				orgName = s[0];
+				ip = s[1];
+				termModelName = s[2];
+				termBrandName = s[3];
+				termTypeName = s[4];
+				boxQRCodePrintSwitch = s[5];
+				
+				
+				var win:TermInfoPrintForm = new TermInfoPrintForm();
+				var termInfoVo:TermInfoVo = new TermInfoVo();
+				
+				termInfoVo.termCode = termCodeValue;
+				termInfoVo.orgId = orgName;
+				termInfoVo.netAddr = ip;
+				termInfoVo.model = termModelName;
+				termInfoVo.brand = termBrandName;
+				termInfoVo.termType = termTypeName;
+				
+				if(boxQRCodePrintSwitch=="1" && printModel=="1"){
+					var printInfo:String = "终端编号："+termCodeValue + "\n终端IP："+ ip
+						+"\n所属机构："+orgName+"\n设备型号："+termModelName+"\n终端品牌："+termBrandName+"\n终端类型："+termTypeName;
+					
+					ExternalInterface.call("printQRCode", printInfo,termCodeValue); 
+					
+				}else{
+					
+					if(printModel=="0"){
+						win.titleKey = "barCodePrintTermInfoForm";
+					}else{
+						win.titleKey = "qrCodePrintTermInfoForm";
+					}
+					win.termInfoVo = termInfoVo;
+					
+					//加入到parsley上下文
+					_context.viewManager.addViewRoot(win);
+					PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+					
+					
+					
+					
+				}
+
+				
+			}
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="100%" 
+					   height="100%"
+					   styleName="BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign="center"
+			styleName="SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<!--设备信息-->
+				<grg:TitleBar locale="titlemsg" width="50%"/>
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">  
+						
+						<!--是否循环遍历子机构：-->
+						<grg:CheckBox id="isLoopOrg" selected="true">
+						</grg:CheckBox>
+						
+						<!--所属机构：-->
+						<grg:Label locale="org"/>
+						<grg:GRGComboBoxOrgTree id="orgid" defaultField="true"
+												width="110" 
+												textAlign="left"
+												treeHeight="150"/> 
+						<!--终端品牌：-->
+						<grg:Label locale="termBrand"/>
+						<grg:ComboBox id="brand" name="brand" textAlign="left" hasAllItem="true"
+									  dataProvider="{pm.searchBarInitDatas.brandList}" 
+									  labelField="brandName" valueField="id" allItemKey="allbrandItem"
+									  width="110"/> 
+						<!--终端IP：-->
+						<grg:Label locale="netAddrItem" />
+						<grg:TextInput id="netAddr" textAlign="left" restrict="0-9\."
+									   width="113" height="20"
+									   styleName="TextInput" /> 
+						<!--终端编号：-->
+						<grg:Label locale="termCodeItem" />
+						<grg:TextInput id="termCode" textAlign="left" restrict="0-9a-zA-Z\-"
+									   width="114" height="20"
+									   styleName="TextInput"/> 
+						<grg:SearchButton id="btn_search"
+										  locale="searchButton" menuId="{menu.id}" 
+										  iconType="query" click="pm.page=new Page();pm.loadTermInfoPage()"/>
+						<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" click="resetComboBox()" resetControls="{[termCode,termType,netAddr,brand,model,orgid,areaid/*,serviceType,layType,isInterATM*/]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+			
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					
+					<mx:HBox width="100%" styleName="expHBoxStyle">  
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							
+							<s:layout>
+								<s:HorizontalLayout horizontalAlign="right" gap="2" verticalAlign="middle" />
+							</s:layout>
+							
+							<!--所属区域：-->
+							<grg:Label locale="areaIdItem"/>
+							<grg:GRGComboxBoxAreaTree  id="areaid" valueField="@pathCode"
+													   width="110"
+													   textAlign="left"
+													   treeHeight="150"/> 
+							<!--设备类型：-->
+							<grg:Label locale="termType"/>
+							<grg:ComboBox id="termType" name="termType" textAlign="left" hasAllItem="true"
+										  dataProvider="{pm.searchBarInitDatas.typeList}" 
+										  labelField="typeName" valueField="id" allItemKey="alltermTypeItem"
+										  width="110"/> 
+							<!--设备型号：-->
+							<grg:Label locale="termModel"/>
+							<grg:ComboBox id="model" name="model" textAlign="left" hasAllItem="true"
+										  dataProvider="{pm.searchBarInitDatas.modelList}" 
+										  labelField="modelName" valueField="id" allItemKey="allmodelItem"
+										  width="110"/> 
+		
+							<!--
+							<grg:ComboBox id="serviceType" name="serviceType" selectedIndex="-1"
+										  dataProvider="{pm.searchBarInitDatas.serviceTypeList}" 
+										  labelField="value" valueField="key"
+										  width="110" textAlign="left" hasAllItem="true" allItemKey="serviceTypeItem"
+										  />
+							<grg:ComboBox id="layType" name="layType"  selectedIndex="-1"
+										  dataProvider="{pm.searchBarInitDatas.layTypeList}" 
+										  labelField="value" valueField="key"
+										  width="110" textAlign="left" hasAllItem="true" allItemKey="layTypeItem"
+										  /> 
+							<grg:ComboBox id="isInterATM" name="isInterATM"  selectedIndex="-1"
+										  dataProvider="{isInterATMSource}"
+										  labelField="text" valueField="key"
+										  width="110" textAlign="left" hasAllItem="true" allItemKey="isInterATMItem"
+										  />
+							-->
+							
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+				<s:BorderContainer width="100%" height="1" backgroundColor="#E0E1E4" borderVisible="false">
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+			
+		</grg:AdvancedSearchBar>
+		
+		<!-- 操作按钮 -->
+		<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}" styleName="moduleButtonBarstyle"/>
+				<grg:Button locale="fileExport" iconType="export" click="export();"  />
+				<!--导入-->
+				<grg:Button locale="fileupload" iconType="import" click="importFile();" />
+				
+				<!--同步发送-->
+				<grg:Button id="syncSendToSentServerBtn" locale="syncSendToSentServer" privilegeCode="syncSendToSentServer" 
+							icon="@Embed('resources/theme/images/icons/output.png')" click="syncSendToSentServer()" />
+			</s:BorderContainer>
+		</mx:HBox> 
+		
+		<!-- 列表 -->
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:GRGExtendPropDataGrid id="termInfoPageGrid" dataProvider="{pm.page.result}" 
+									   doubleClickEnabled="true" doubleClick="termInfoPageGrid_doubleClickHandler(event)"
+									   width="100%" height="100%" textAlign="left"
+									   paddingLeft="20" itemType="{TermInfoVo}"
+									   styleName="DataGrid" headerStyleName="dataGridHeaderStyle">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										sortable="false"
+										draggable="false"
+										editable="false"
+										resizable="false" 
+										textAlign="center"
+										/>
+					<!--终端编号：-->
+					<grg:DataGridColumn locale="termCodeItem"
+										dataField="termCode" 
+										textAlign="left"
+										/>
+					<!--所属机构：-->
+					<grg:RODataGridColumn locale="org"
+										  dataField="orgId"
+										  id="orgId"
+										  labelField="orgName"
+										  valueField="id"
+										  service="orgInfoService"
+										  method="getAllOrg" 
+										  textAlign="left"
+										  />
+					<!--终端IP：-->
+					<grg:DataGridColumn locale="netAddrItem"
+										dataField="netAddr" 
+										textAlign="left"
+										/>
+					<!--  所属柜台IP    -->
+					<grg:DataGridColumn locale="tellerIpItem"
+										dataField="tellerIp" 
+										textAlign="left"
+										/>
+					
+					<!--设备型号-->
+					<grg:RODataGridColumn  locale="modelItem"
+										   id="modelItem"
+										   dataField="model"
+										   labelField="modelName"
+										   valueField="id"
+										   service="termModelService"
+										   method="getAllTermModel" 
+										   textAlign="left"
+										   />
+					<!--终端品牌-->
+					<grg:RODataGridColumn locale="brandItem"
+										  dataField="brand"
+										  labelField="brandName"
+										  valueField="id"
+										  service="termBrandService"
+										  method="getAllTermBrand" 
+										  textAlign="left"
+										  />
+					<!--终端类型-->
+					<grg:RODataGridColumn  locale="termTypeItem"
+										   id="termTypeItem"
+										   dataField="termType"
+										   labelField="typeName"
+										   valueField="id"
+										   service="termTypeService"
+										   method="getAllTermType" 
+										   textAlign="left"
+										   />
+					<!--所属区域：-->
+					<grg:RODataGridColumn locale="areaIdItem"
+										  dataField="areaId"
+										  id="areaId"
+										  labelField="areaName"
+										  valueField="id"
+										  service="areaService"
+										  method="getAllArea" 
+										  textAlign="left"
+										  />
+					<!--设备序列号-->
+					<grg:DataGridColumn locale="termSEQItem"
+										dataField="termSEQ" 
+										textAlign="left"
+										/>
+					<!--柜员号-->
+					<grg:DataGridColumn locale="counterIdItem"
+										dataField="counterCode" 
+										textAlign="left"
+										/>
+					<grg:DataGridColumn locale="operation" textAlign="center" width="180">
+						<grg:itemRenderer>
+							
+							<fx:Component>
+								<s:MXItemRenderer>
+									<s:layout>
+										<s:HorizontalLayout horizontalAlign="center" />
+									</s:layout>
+									<fx:Script>
+										<![CDATA[
+											import mx.events.FlexEvent;
+											
+											import sent.common.utils.StringUtils;
+											
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												barcodeprintButton.visible = true;
+												barcodeprintButton.includeInLayout = true;
+												qrcodeprintButton.visible = true;
+												qrcodeprintButton.includeInLayout = true;
+											}
+										]]>
+									</fx:Script>
+									<grg:GRGModuleButtonBar2 width="100%" height="16" align="center" menuId="{parentDocument.menu.id}">
+										<grg:Button id="barcodeprintButton" locale="barcodeprint" iconType="print" click="outerDocument.printInfo('0')"/>
+										<grg:Button id="qrcodeprintButton" locale="qrcodeprint" iconType="print" click="outerDocument.printInfo('1')"/>
+									</grg:GRGModuleButtonBar2>
+								</s:MXItemRenderer>
+							</fx:Component>	
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+				</grg:columns>
+			</grg:GRGExtendPropDataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar id="termInfoPagingBar"
+							  x="0" pageVo="{pm.page}"
+							  pagingFunction="{pm.loadTermInfoPage}"
+							  bottom="0" />
+	</s:BorderContainer>
+</grg:TabModule>

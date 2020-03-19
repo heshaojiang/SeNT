@@ -1,0 +1,27 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtDevErrStatModule">
+		<listTitle>Arıza Durum Listesi</listTitle>
+		<termId>Terminal Id</termId>
+		<termType>Terminal Tipi</termType>
+		<brand>Marka</brand>
+		<orgId>Şube</orgId>
+		<orgName>Şube Adı</orgName>
+		<org>Şube</org>
+		<errTotalCount>Toplam Arıza Sayısı</errTotalCount>
+		<errCode>Donanım Hata Kodu</errCode>
+		<status>Durum</status>
+		<beginTime>Başlangıç Zamanı</beginTime>
+		<endTime>Bitiş Zamanı</endTime>
+		<stopTime>Toplam Zaman</stopTime>
+		<errorTime>Toplam Arıza Sayısı</errorTime>
+		<wtDevErrDevCodeCount1>Günlük Yazıcısı</wtDevErrDevCodeCount1>
+		<wtDevErrDevCodeCount2>Makbuz Yazıcısı</wtDevErrDevCodeCount2>
+		<wtDevErrDevCodeCount3>Kart Okuyucu</wtDevErrDevCodeCount3>
+		<wtDevErrDevCodeCount4>Para Çekme</wtDevErrDevCodeCount4>
+		<wtDevErrDevCodeCount5>Para Yatırma</wtDevErrDevCodeCount5>
+		<wtDevErrDevCodeCount6>Diğer Donanım</wtDevErrDevCodeCount6>
+		<wtDevErrDevCodeCount7>Bağlantı Hatası</wtDevErrDevCodeCount7>
+		<to>Bitiş Zamanı</to>
+	</node>
+</nodes>

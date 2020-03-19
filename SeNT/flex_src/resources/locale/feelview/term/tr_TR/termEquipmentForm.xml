@@ -1,0 +1,23 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： termEquipmentForm
+	 Create Time：2011-8-30   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termEquipmentForm">
+		<addTermEquipmentForm>Donanım ekle</addTermEquipmentForm>
+		<updateTermEquipmentForm>Donanım Değiştir</updateTermEquipmentForm>
+		<settingTermEquipmentForm>Donanım Ayarlar</settingTermEquipmentForm>
+		<listTitle>Donanım Listesi</listTitle>
+		<searchItem>Ara</searchItem>
+		<termIdItem>Terminal Id</termIdItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<modelItem>Model</modelItem>
+		<org>Şube</org>
+		<areaIdItem>İl</areaIdItem>
+		<netAddrItem>Terminal IP</netAddrItem>
+		<operateItem>Tamam</operateItem>
+		<responsibleNameItem>Sorumlu</responsibleNameItem>
+	</node>
+</nodes>

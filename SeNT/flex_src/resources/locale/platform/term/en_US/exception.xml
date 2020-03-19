@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "term">
+		<existedTerminalType>This Terminal Type has already exists!</existedTerminalType>
+		<existedTerminalTypeCode>This Terminal Type has already exists!</existedTerminalTypeCode>
+		<importExcelError>Import excel error!</importExcelError>
+		<existedTerminalTypeName>This Terminal Type Name has already exists!</existedTerminalTypeName>
+		<existedBrandName>This  Terminal Brand Name has already exists!</existedBrandName>
+		<existedBrandCode>This  Terminal Brand Code has already exists!</existedBrandCode>
+		<existedModelName>This  Terminal Model Name has already exists!</existedModelName>
+		<existedTermCode>This Terminal Code has already exists!</existedTermCode>
+		<existedNetAddr>This Net Addresss has already exists!</existedNetAddr>
+		<terminalTypeNotNull>This terminal type can not be empty!</terminalTypeNotNull>
+		<terminalTypeNameNotNull>this terminal type name can not be empty!</terminalTypeNameNotNull>
+		<terminalBrandNameNotNull>this terminal brand name can not be empty!</terminalBrandNameNotNull>
+		<companyNameNotNull>this terminal company name can not be empty!</companyNameNotNull>
+		<companyAddressNotNull>this terminal company address can not be empty!</companyAddressNotNull>
+		<terminalModelNameNotNull>this terminal model name can not be empty!</terminalModelNameNotNull>
+		<termCodeNotNull>this terminal code can not be empty!</termCodeNotNull>
+		<orgNotNull>org can not be null!</orgNotNull>
+		<areaNotNull>area can not be null!</areaNotNull>
+		<modelNotNull>terminal model can not be null!</modelNotNull>
+	</node>
+</nodes>

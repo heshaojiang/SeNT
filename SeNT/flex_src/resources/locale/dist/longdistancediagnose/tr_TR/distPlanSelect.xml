@@ -1,0 +1,64 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 
+	 Create Time：2011-9-20
+	 Author：何志鹏
+	 Email : hzpeng@grgbanking.com -->
+<nodes>
+	<node locale = "distPlanSelect">
+		<listTitle>Terminal Listesi</listTitle>
+		<termIdItem>Terminal ID</termIdItem>
+		<termCodeItem>Terminal ID</termCodeItem>
+		<termSEQItem>Terminal Seri Numarası</termSEQItem>
+		<counterIdItem>Sayaç ID</counterIdItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<modelItem>Model</modelItem>
+		<org>Şube</org>
+		<areaIdItem>İl</areaIdItem>
+		<netAddrItem>Terminal IP</netAddrItem>
+		<netPortItem>Terminal Port</netPortItem>
+		<saveBoxItem>Para Yatırma</saveBoxItem>
+		<cwdBoxItem>Para Çekme</cwdBoxItem>
+		<instDateItem>Kurulum Tarihi</instDateItem>
+		<activeDateItem>Hizmete Alınma Tarihi</activeDateItem>
+		<servStartDateItem>Bakım Başlangıç ​​Tarihi</servStartDateItem>
+		<servEndDateItem>Bakım Bitiş Tarihi</servEndDateItem>
+		<servYearsItem>Bakım Süresi (Yıl)</servYearsItem>
+		<termAddrItem>Yükleme Adresi</termAddrItem>
+		<serviceTypeItem>Servis Tipi</serviceTypeItem>
+		<instTypeItem>Montaj Tipi</instTypeItem>
+		<layTypeItem>Yerleşim Tipi</layTypeItem>
+		<isVideoWatchItem>Video</isVideoWatchItem>
+		<isUPSItem>UPS</isUPSItem>
+		<isInterATMItem>Uluslararası</isInterATMItem>
+		<busiBeginTimeItem>İş Başlangıç ​​Saati</busiBeginTimeItem>
+		<busiEndTimeItem>İş Bitiş Saati</busiEndTimeItem>
+		<softVersionItem>ATMC Sürüm Numarası</softVersionItem>
+		<spVersionItem>SP Sürüm Numarası</spVersionItem>
+		<planidItem>Plan Id</planidItem>
+		<createtimeItem>Oluşturma Zamanı</createtimeItem>
+		<repeattypeItem>Tekrar Tipi</repeattypeItem>
+		<everydayexetimeItem>Tekrar Çalışma (Saat)</everydayexetimeItem>
+		<repeatintervalItem>Tekrar Çalışma (Dakika)</repeatintervalItem>
+		<plannameItem>Plan Adı</plannameItem>
+		<nextexecutetimeItem>Çalışma Zamanı</nextexecutetimeItem>
+		<termidlistItem>Terminal Id</termidlistItem>
+		<taskparaItem>Görev Talimatları</taskparaItem>
+		<taskparaversionItem>Görev Talimat Sürümü</taskparaversionItem>
+		<maxretrytimesItem>Maksimum Deneme Sayısı</maxretrytimesItem>
+		<retryintervalItem>Yeniden Deneme (Saniye)</retryintervalItem>
+		<enabledItem>Aktif mi?</enabledItem>
+		<termidItem>Terminal ID</termidItem>
+		<termipItem>Terminal IP</termipItem>
+		<termtypeItem>Terminal Tipi</termtypeItem>
+		<modelItem>Model</modelItem>
+		<orgidItem>Şube</orgidItem>
+		<areaidItem>İl</areaidItem>
+		<timeoutintervalItem>Süre Aşımı (saat)</timeoutintervalItem>
+		<instructionOfChooseATM>.</instructionOfChooseATM>
+		
+		
+		<selectATMPageTitle>ATM Seçim</selectATMPageTitle>
+		<selectATMCannotMorethanTen>Seçilen ATM Sayısı 10u Geçemez.</selectATMCannotMorethanTen>
+	</node>
+</nodes>

@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "holidayForm">	
+	<addHolidayForm>Add Holiday Form:</addHolidayForm>
+	<updateHolidayForm>Update Holiday Form:</updateHolidayForm>
+	<holidayName>Holiday Name:</holidayName>
+	<holidayStart> Start Date:</holidayStart>
+	<holidayEnd>End Date:</holidayEnd>
+	<holidayOrder>Order:</holidayOrder>
+
+	</node>
+</nodes>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="actualCashInputModule">
+		<originalLabel>机构 :</originalLabel>
+		<terminalIdLabel>终端编号 :</terminalIdLabel>
+		<termCashInfoListLabel>终端加钞信息列表</termCashInfoListLabel>
+		<selecteFileLabel>选择文件 :</selecteFileLabel>
+		<fileLabel>文件</fileLabel>
+		<termId>终端编号</termId>
+		<orgName>机构名称</orgName>
+		<model>型号</model>
+		<address>安装地址</address>
+		<addCashDate>加钞日期</addCashDate>
+		<addcashAmount>加钞金额</addcashAmount>
+		<recoverAmount>回笼金额</recoverAmount>
+		<addcashTime>实际加钞时间</addcashTime>
+		<fileLabelFirst>编号为[</fileLabelFirst>
+		<fileLabelLast>]的</fileLabelLast>
+	</node>
+</nodes>

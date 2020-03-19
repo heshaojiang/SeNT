@@ -1,0 +1,78 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cmlUpreportLogForm">
+		<addCmlUpreportLogForm>新增</addCmlUpreportLogForm>
+		<updateCmlUpreportLogForm>编辑</updateCmlUpreportLogForm>
+
+				
+		<cPartMonthdayItem>cPartMonthday：</cPartMonthdayItem>
+		
+				
+		<iIdItem>iId：</iIdItem>
+		
+				
+		<cMachineTypeItem>cMachineType：</cMachineTypeItem>
+		
+				
+		<iCrhCountItem>iCrhCount：</iCrhCountItem>
+		
+				
+		<cDeviceTypeItem>cDeviceType：</cDeviceTypeItem>
+		
+				
+		<cFileNameItem>cFileName：</cFileNameItem>
+		
+				
+		<cPathcodeItem>cPathcode：</cPathcodeItem>
+		
+				
+		<cFromCodeItem>cFromCode：</cFromCodeItem>
+		
+				
+		<cCashTypeItem>cCashType：</cCashTypeItem>
+		
+				
+		<cTranTimeItem>cTranTime：</cTranTimeItem>
+		
+				
+		<cBusinessInformationItem>cBusinessInformation：</cBusinessInformationItem>
+		
+				
+		<cUpreportTypeItem>cUpreportType：</cUpreportTypeItem>
+		
+				
+		<cBusinessTypeItem>cBusinessType：</cBusinessTypeItem>
+		
+				
+		<cDeviceCodeItem>cDeviceCode：</cDeviceCodeItem>
+		
+				
+		<cStartTimeItem>cStartTime：</cStartTimeItem>
+		
+				
+		<iCountItem>iCount：</iCountItem>
+		
+				
+		<iParentIdItem>iParentId：</iParentIdItem>
+		
+				
+		<cEndTimeItem>cEndTime：</cEndTimeItem>
+		
+				
+		<cBankCodeItem>cBankCode：</cBankCodeItem>
+		
+				
+		<iVersionItem>iVersion：</iVersionItem>
+		
+				
+		<cReserveItem>cReserve：</cReserveItem>
+		
+		
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<helpTip>
+1.打“*”项内容不能为空
+2.账号不能重复复
+		</helpTip>			
+	</node>
+</nodes>

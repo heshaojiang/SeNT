@@ -1,0 +1,16 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：UnionPayCardsInfo Manage<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "unionPayCardsInfoModule">
+		<listTitle>UnionPay Yönetim Listesi</listTitle>
+		<cardIdItem>Kimlik Id</cardIdItem>
+		<cardNameItem>Kart Adı</cardNameItem>
+		<publishBankNameItem>Banka adı</publishBankNameItem>
+		<cardIdSizeItem>Kart Başlangıç P​ozisyonu</cardIdSizeItem>
+		<cardTypeItem>Kart Tipi</cardTypeItem>
+		<status>Durum</status>
+	</node>
+</nodes>

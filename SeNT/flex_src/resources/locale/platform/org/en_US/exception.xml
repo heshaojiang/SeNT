@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "org">
+		<noParentOrgSelected>Please Select A Parent Organization!</noParentOrgSelected>
+		<orgCodeNotNull>Organization Code Can Not Be Empty!</orgCodeNotNull>
+		<orgNameNotNull>Organization Name Can Not Be Empty!</orgNameNotNull>
+		<orgChildrenNotNull>This Organization contain children organization. Please delete all the children organization first. </orgChildrenNotNull>
+		<existedOrgId>The OrgId has already existed. Please change the OrgId and submit again.  </existedOrgId>
+		<areaNotNull>area can not be null!</areaNotNull>
+		<importExcelError>import error!</importExcelError>
+	</node>
+</nodes>

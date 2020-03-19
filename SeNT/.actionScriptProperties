@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="Index.mxml" projectUUID="fcac2edd-1f08-49d5-b49b-33507a79f2dc" version="6">
+  <compiler additionalCompilerArguments="-locale zh_CN" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="WebContent/flex" sourceFolderPath="flex_src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="flex_libs"/>
+    </libraryPath>
+    <sourceAttachmentPath>
+      <sourceAttachmentPathEntry kind="3" linkType="1" path="E:/work/grgbanking/dev/SeNT1.2-OneTable/20140211-Standard-b11-MultiTable/flex_libs/PlatformLib.swc" sourcepath="E:/work/grgbanking/dev/PlatformLib_20131124/src" useDefaultLinkType="false"/>
+    </sourceAttachmentPath>
+  </compiler>
+  <applications>
+    <application path="Index.mxml"/>
+  </applications>
+  <modules>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlNoteflowInfoModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlNoteflowInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlNoteflowInfoSituationReportModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlNoteflowInfoSituationReportModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/rule/view/NewRepeatRegulationModule.swf" optimize="true" sourcePath="flex_src/sent/rule/view/NewRepeatRegulationModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlInfoByHandModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlInfoByHandModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlNoteflowATMAddCashReportModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlNoteflowATMAddCashReportModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/CashSerial/view/CashSerialToPBOCModule.swf" optimize="true" sourcePath="flex_src/platform/CashSerial/view/CashSerialToPBOCModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlTaskInfoModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlTaskInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/security/view/GroupModule.swf" optimize="true" sourcePath="flex_src/platform/security/view/GroupModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/term/view/NoderVersionInfoModule.swf" optimize="true" sourcePath="flex_src/platform/term/view/NoderVersionInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/ClearingCenterFundOutModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/ClearingCenterFundOutModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/BankFinanceInModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/BankFinanceInModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/ClearingCenterFundInModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/ClearingCenterFundInModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/rule/view/NewBlackRegulationModule.swf" optimize="true" sourcePath="flex_src/sent/rule/view/NewBlackRegulationModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/checkin/view/FaultInfoCheckInStatisModule.swf" optimize="true" sourcePath="flex_src/sent/checkin/view/FaultInfoCheckInStatisModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/term/view/TermBrandModule.swf" optimize="true" sourcePath="flex_src/platform/term/view/TermBrandModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/menu/view/MenuModule.swf" optimize="true" sourcePath="flex_src/platform/menu/view/MenuModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/FundOutModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/FundOutModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/datadir/view/DataDirModule.swf" optimize="true" sourcePath="flex_src/platform/datadir/view/DataDirModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/TransBanknoteSeqModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/TransBanknoteSeqModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/param/view/ParamModule.swf" optimize="true" sourcePath="flex_src/platform/param/view/ParamModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/TransAbendBlackModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/TransAbendBlackModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/PackingWithMoneyModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/PackingWithMoneyModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/term/view/NoderInfoModule.swf" optimize="true" sourcePath="flex_src/platform/term/view/NoderInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/AddCashToATMOffBank.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/AddCashToATMOffBank.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/watch/view/TransHourInfoModule.swf" optimize="true" sourcePath="flex_src/sent/watch/view/TransHourInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/ShowCmlImprecordsModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/ShowCmlImprecordsModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/security/view/UserModule.swf" optimize="true" sourcePath="flex_src/platform/security/view/UserModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/log/view/LoginLogModule.swf" optimize="true" sourcePath="flex_src/platform/log/view/LoginLogModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/term/view/TermInfoModule.swf" optimize="true" sourcePath="flex_src/platform/term/view/TermInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlSentInfoModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlSentInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/rule/view/SpecialRegulationModule.swf" optimize="true" sourcePath="flex_src/sent/rule/view/SpecialRegulationModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlImprecordModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlImprecordModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/stride/view/CmlStrideImportRecordsModule.swf" optimize="true" sourcePath="flex_src/sent/stride/view/CmlStrideImportRecordsModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/BranchFundInModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/BranchFundInModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/cashbox/view/BoxInfoModule.swf" optimize="true" sourcePath="flex_src/platform/cashbox/view/BoxInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/TransMgrModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/TransMgrModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/term/view/TermTypeModule.swf" optimize="true" sourcePath="flex_src/platform/term/view/TermTypeModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/area/view/AreaModule.swf" optimize="true" sourcePath="flex_src/platform/area/view/AreaModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/UploadStateModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/UploadStateModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlNoteflowInfoMgrModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlNoteflowInfoMgrModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/TransAbendAccountModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/TransAbendAccountModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlLoadNotesRecordModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlLoadNotesRecordModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/menu/view/ButtonModule.swf" optimize="true" sourcePath="flex_src/platform/menu/view/ButtonModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/security/view/RoleModule.swf" optimize="true" sourcePath="flex_src/platform/security/view/RoleModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/org/view/OrgModule.swf" optimize="true" sourcePath="flex_src/platform/org/view/OrgModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/checkin/view/PenaltyInfoPrintModule.swf" optimize="true" sourcePath="flex_src/sent/checkin/view/PenaltyInfoPrintModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/term/view/TermModelModule.swf" optimize="true" sourcePath="flex_src/platform/term/view/TermModelModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/checkin/view/SerialSearchInfoModule.swf" optimize="true" sourcePath="flex_src/sent/checkin/view/SerialSearchInfoModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="platform/log/view/TmlDataBackupModule.swf" optimize="true" sourcePath="flex_src/platform/log/view/TmlDataBackupModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CmlCounterRecordModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CmlCounterRecordModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/TransBankNoteSeqAllModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/TransBankNoteSeqAllModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/checkin/view/FaultInfoCheckInModule.swf" optimize="true" sourcePath="flex_src/sent/checkin/view/FaultInfoCheckInModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/TransAbendTermModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/TransAbendTermModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/UpPersonBankModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/UpPersonBankModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/BranchFundOutModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/BranchFundOutModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/TranAbnoinfoBlackModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/TranAbnoinfoBlackModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/LargeWithdrawModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/LargeWithdrawModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/DistributeCounterModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/DistributeCounterModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CashDistributeReportModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CashDistributeReportModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CashSorterStatisticalReportModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CashSorterStatisticalReportModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/CashIncomePayStatisticReportModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/CashIncomePayStatisticReportModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/BankSNMarkReportModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/BankSNMarkReportModule.mxml"/>
+    <module application="flex_src/Index.mxml" destPath="sent/transmgr/view/BankSNMarkApplicationModule.swf" optimize="true" sourcePath="flex_src/sent/transmgr/view/BankSNMarkApplicationModule.mxml"/>
+  </modules>
+  <buildCSSFiles/>
+</actionScriptProperties>

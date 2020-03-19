@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：specialPersonModule
+     Create Time：2012-3-20   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "specialPersonModule">
+		<listTitle>özel Kişi Listesi</listTitle>
+		<operatorNameItem>özel Kişi adı</operatorNameItem>
+		<corporatorOrgItem>Organizasyon</corporatorOrgItem>
+		<contactManItem>isim</contactManItem>
+		<contactTelItem>Telefon</contactTelItem>
+		<contactMobileItem>Cep Telefonu</contactMobileItem>
+		<operatorAddressItem>E-posta Adresi</operatorAddressItem>
+		<status>Durum</status>
+		<memoItem>not</memoItem>
+	</node>
+</nodes>

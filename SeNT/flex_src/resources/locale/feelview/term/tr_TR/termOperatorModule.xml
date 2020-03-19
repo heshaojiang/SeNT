@@ -1,0 +1,17 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： termOperatorModule 
+	 Create Time：2011-8-15   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termOperatorModule">
+		<listTitle>Terminal Operatörleri Listesi</listTitle>
+		<operatorNameItem>Operatör Adı</operatorNameItem>
+		<corporatorOrgItem>Bakımcı Organizasyon</corporatorOrgItem>
+		<contactManItem>İlgili</contactManItem>
+		<contactTelItem>Telefon</contactTelItem>
+		<contactMobileItem>Cep Telefonu</contactMobileItem>
+		<operatorAddressItem>Adres</operatorAddressItem>
+		<status>Durum</status>
+	</node>
+</nodes>

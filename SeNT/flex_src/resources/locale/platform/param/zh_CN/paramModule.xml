@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="paramModule">
+		<titlemsg>参数管理</titlemsg>
+		<listTitle>参数管理</listTitle>
+		<itemKey>项目键</itemKey>
+		<itemValue>项目值</itemValue>
+		<paramNote>备注</paramNote>
+		<paramStatus>状态</paramStatus>
+	</node>
+</nodes>

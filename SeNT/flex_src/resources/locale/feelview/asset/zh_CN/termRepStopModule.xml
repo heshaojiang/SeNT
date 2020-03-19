@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termRepStopModule">
+		<repStopTitle>报停记录列表</repStopTitle>
+		<beginTime>报停开始时间</beginTime>
+		<termid>终端编号</termid>
+		<seqno>设备序列号</seqno>
+		<endTime>报停结束时间</endTime>
+		<reason>报停原因</reason>
+		<stopStatue>当前状态</stopStatue>
+		<stopstatu>状态</stopstatu>
+	</node>
+</nodes>

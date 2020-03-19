@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description： 公告管理 <br>
+	Create Time：2011-9-21 <br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgAnnouncementModule">
+		<listTitle>公告管理列表</listTitle>
+		<orgIdItem>机构范围</orgIdItem>
+		<sendTimeItem>发送时间</sendTimeItem>
+		<toItem>至</toItem>
+		<titleItem>标题</titleItem>
+		<creatorItem>发布人</creatorItem>
+		<contentItem>发布内容</contentItem>
+		<createTimeItem>添加时间</createTimeItem>
+		<status>状态</status>
+		<sendTypeItem>发送方式</sendTypeItem>
+	</node>
+</nodes>

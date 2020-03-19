@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*" 
+				 dataDictionaryPaths="{[ CmlMgrConsts.FLOW_STAGE,
+										 CmlMgrConsts.FLOW_STATUS,
+										 CmlMgrConsts.NOTE_TYPE,
+										 CmlSentInfoConsts.CURRENCY, 
+										 CmlSentInfoConsts.MONEYDENOMINATION]}"
+				 locale="showCmlNoteflowInfo" 
+				 titleKey="noteflowDetail"
+				 layout="vertical" width="800" height="590"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.utils.ObjectUtil;
+			import mx.utils.object_proxy;
+			
+			import platform.common.vo.Page;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			import sent.common.utils.DrawCustomRect;
+			import sent.common.utils.GraphicUtils;
+			import sent.common.utils.ObjectUtils;
+			import sent.common.utils.RectSprite;
+			import sent.common.utils.StringUtils;
+			import sent.transmgr.constants.CmlMgrConsts;
+			import sent.transmgr.constants.CmlSentInfoConsts;
+			import sent.transmgr.message.CmlNoteflowDetailInfoMsg;
+			import sent.transmgr.message.CmlNoteflowInfoMsg;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlNoteflowDetailInfoPM;
+			import sent.transmgr.pm.CmlNoteflowInfoPM;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			import sent.transmgr.vo.CmlNoteflowDetailInfoVO;
+			import sent.transmgr.vo.CmlNoteflowInfoVO;
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowInfoPM:CmlNoteflowInfoPM;
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowDetailInfoPM:CmlNoteflowDetailInfoPM;
+			
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;
+			
+			
+			
+			private var barcodeFlowNum:String;	//流转条码
+			
+			
+			
+			[Bindable] 
+			private var cmlNoteflowInfoVO:CmlNoteflowInfoVO;
+			
+			/**
+			 * 
+			 */
+			[Bindable]
+			public var noteflowDetailPage:Page = new Page();
+			
+			/**
+			 * 用于钞票流转列表
+			 */
+			[Bindable]
+			public var cmlSentInfoPage:Page = new Page();
+			//private var isDataDictLoad:Boolean = false;
+			//private var isDetailCallBack:Boolean = false;
+			private var drawCustomRect:DrawCustomRect = new DrawCustomRect();
+			
+			/**
+			 * 初始化数据
+			 */ 
+			public function initData(barcodeFlowNum:String):void
+			{
+				trace("ShowCmlNoteflowInfo.initData");	
+				
+				this.barcodeFlowNum = barcodeFlowNum;
+				
+				//getCmlNoteflowInfoByBarcodeFlowNum();
+				
+			}
+			
+			/////////////
+			
+			private function getCmlNoteflowInfoByBarcodeFlowNum():void
+			{
+				trace("ShowCmlNoteflowInfo.getCmlNoteflowInfoByBarcodeFlowNumResult");
+				var msg:CmlNoteflowInfoMsg = new CmlNoteflowInfoMsg();
+				msg.args["remoteMethod"]   = "getCmlNoteflowInfoByBarcodeFlowNum";
+				msg.args["methodPrameter"] = this.barcodeFlowNum;
+				msg.args["resultHandler"]  = "ShowCmlNoteflowInfo.getCmlNoteflowInfoByBarcodeFlowNumResult";
+				msg.args["errorHandler"]   = "ShowCmlNoteflowInfo.getCmlNoteflowInfoByBarcodeFlowNumError";
+				cmlNoteflowInfoPM.sendCmlNoteflowInfoMsg(msg);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ShowCmlNoteflowInfo.getCmlNoteflowInfoByBarcodeFlowNumResult")]
+			public function getCmlNoteflowInfoByBarcodeFlowNumResult(msg:CmlNoteflowInfoMsg):void
+			{
+				trace("ShowCmlNoteflowInfo.getCmlNoteflowInfoByBarcodeFlowNumResult");
+				this.cmlNoteflowInfoVO = msg.result as CmlNoteflowInfoVO;
+				if( this.cmlNoteflowInfoVO!=null )
+				{
+					//getCmlNoteflowDetailInfosPageByFlowNum();
+					//getCmlSentInfosPageByFlowNum();
+				}
+			}
+			
+			/////////////
+			
+			private function getCmlNoteflowDetailInfosPageByFlowNum():void
+			{
+				trace("ShowCmlNoteflowInfo.getCmlNoteflowDetailInfosPageByFlowNum");	
+				
+				noteflowDetailPage.result.removeAll();
+				
+				var parameter:Object = {};
+				parameter["page"] = noteflowDetailPage;
+				
+				var condition:Object = {};
+				condition.barcodeFlowNum = this.barcodeFlowNum;
+				parameter["condition"] = condition;
+				
+				var cmlNoteflowDetailInfoMsg:CmlNoteflowDetailInfoMsg = new CmlNoteflowDetailInfoMsg();
+				cmlNoteflowDetailInfoMsg.args["remoteMethod"]   = "getCmlNoteflowDetailInfosPageByFlowNum";
+				cmlNoteflowDetailInfoMsg.args["methodPrameter"] = parameter;
+				cmlNoteflowDetailInfoMsg.args["resultHandler"]  = "ShowCmlNoteflowInfo.getCmlNoteflowDetailInfosPageByFlowNumResult";
+				cmlNoteflowDetailInfoMsg.args["errorHandler"]   = "ShowCmlNoteflowInfo.getCmlNoteflowDetailInfosPageByFlowNumError";
+				cmlNoteflowDetailInfoPM.sendCmlNoteflowDetailInfoMsg(cmlNoteflowDetailInfoMsg);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ShowCmlNoteflowInfo.getCmlNoteflowDetailInfosPageByFlowNumResult")]
+			public function getCmlNoteflowDetailInfosPageByFlowNumResult(p_msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("ShowCmlNoteflowInfo.getCmlNoteflowDetailInfosPageByFlowNumResult");	
+				noteflowDetailPage = p_msg.result as Page;
+				/* isDetailCallBack = true;
+				if(isDataDictLoad) //数据字典加载完成
+				var arrColl:ArrayCollection = noteflowDetailPage.result as ArrayCollection;
+				if(arrColl.length>0)
+					drawGraphics_flowInfos(arrColl,cmlDetailInfoGroup);*/
+				
+				drawCustomRect.groupComponent = cmlDetailInfoGroup;
+				transferNoteflowDict(noteflowDetailPage.result);
+				drawCustomRect.drawGraphics_flowInfos(noteflowDetailPage.result,"0000");//
+			}
+			private function transferNoteflowDict(arrColl:ArrayCollection):void{
+				for each(var itemObj:CmlNoteflowDetailInfoVO in arrColl){
+					itemObj.flowStageValue = this.getTextByKeyOnDataDictPath(itemObj.flowStage, CmlMgrConsts.FLOW_STAGE);
+					itemObj.statusValue = this.getTextByKeyOnDataDictPath(itemObj.status, CmlMgrConsts.FLOW_STATUS);
+					
+				}
+			}
+			
+			////////////
+			
+			/**
+			 * 根据业务流转号码获取冠字号码分页
+			 */ 
+			private function getCmlSentInfosPageByFlowNum():void
+			{
+				trace("ShowCmlNoteflowInfo.getCmlSentInfosPageByFlowNum");	
+				
+				cmlSentInfoPage.result.removeAll();
+				
+				var parameter:Object = {};
+				parameter["page"] = cmlSentInfoPage;
+				
+				var condition:Object = {};
+				condition.monthDay = StringUtils.substring(this.cmlNoteflowInfoVO.clearingDate, 4, 8);		// 取MMDD
+				condition.barcodeFlowNum = this.barcodeFlowNum;
+				parameter["condition"] = condition;
+				
+				var cmlSentInfoMsg:CmlSentInfoMsg = new CmlSentInfoMsg();
+				cmlSentInfoMsg.args["remoteMethod"]   = "getCmlSentInfosPageByFlowNum";
+				cmlSentInfoMsg.args["methodPrameter"] = parameter;
+				cmlSentInfoMsg.args["resultHandler"]  = "ShowCmlNoteflowInfo.getCmlSentInfosPageByFlowNumResult";
+				cmlSentInfoMsg.args["errorHandler"]   = "ShowCmlNoteflowInfo.getCmlSentInfosPageByFlowNumError";
+				cmlSentInfoPM.sendCmlSentInfoMsg(cmlSentInfoMsg);
+			}
+			
+			/**
+			 * 根据业务流转号码获取冠字号码分页 成功处理回调
+			 */
+			[MessageHandler(selector="ShowCmlNoteflowInfo.getCmlSentInfosPageByFlowNumResult")]
+			public function getCmlSentInfosByIdFromTableResult(p_msg:CmlSentInfoMsg):void
+			{
+				trace("ShowCmlNoteflowInfo.getCmlSentInfosPageByFlowNumResult");			
+				if( p_msg.result!=null )
+				{					
+					cmlSentInfoPage = p_msg.result as Page;
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			override protected function getDataDictCallback():void
+			{
+				trace("ShowCmlNoteflowInfo.getDataDictCallback");
+				
+				ObjectUtils.dispatchAllPropertyChangeEvent(this.cmlNoteflowInfoVO);
+				//ObjectUtils.dispatchAllPropertyChangeEvent(this.noteflowDetailPage.result);
+				noteflowDetailPage.result.refresh();
+				cmlSentInfoPage.result.refresh();
+				
+				getCmlNoteflowInfoByBarcodeFlowNum();
+				getCmlNoteflowDetailInfosPageByFlowNum();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "noteType")
+				{
+					currentDataDictPath = CmlSentInfoConsts.NOTE_TYPE;
+				}
+				else if(column.dataField == "currency")
+				{
+					currentDataDictPath = CmlSentInfoConsts.CURRENCY;
+				}
+				else if(column.dataField=="denomination")
+				{
+					currentDataDictPath = CmlSentInfoConsts.MONEYDENOMINATION;
+				}
+				return super.transferDataDict(p_item, column);
+			}			
+			
+			public function transformFlowStage(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = CmlMgrConsts.FLOW_STAGE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			
+			public function showCashATMCardNum(p_item:Object, column:DataGridColumn):String
+			{
+				if( p_item.barcode2!=null && p_item.barcode2!="")
+				{
+					return p_item.barcode2
+				}
+				else
+				{
+					return p_item.barcode1;
+				}
+			}
+			
+			public function formatOperDate(p_item:Object, column:DataGridColumn):String
+			{
+				return DateUtils.formatYYYYMMDDHHMISS(p_item.date);
+			}
+			
+			
+			public function transformFlowStatus(item:Object, column:DataGridColumn):String
+			{
+				return this.getTextByKeyOnDataDictPath(item.status, CmlMgrConsts.FLOW_STATUS);	//getFlowStatusLabelByKey(item.status);
+			}
+			
+			/**
+			 * 获取钞票类型颜色
+			 */  
+			public function getNoteTypeColor(noteType:String):String
+			{
+				switch(noteType)
+				{
+					case "1":   return "#00aa00";	//绿色代表真抄
+					case "0":   return "#ff0000";	//红色代表可疑抄
+					case "201": return "#0000aa";	//蓝色代表黑名单
+					case "3":   return "#ff9900";	//橘黄色代表重号
+				}
+				return "#00aa00";		//绿色代表真抄
+			}	
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<!-- 流转基本信息 -->
+	<grg:RoundCornerContainer locale="noteflowBasicInfo" width="100%" id="noteflowBasicInfo">
+		<s:HGroup width="100%" paddingLeft="50">
+			<grg:Form>
+				<!--流转号码：-->
+				<grg:FormItem width="100%" locale="barcodeFlowNumColon">
+					<grg:TextInput text="{cmlNoteflowInfoVO.tdBarcodeFlownum}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--交易流水：-->
+				<grg:FormItem width="100%" locale="transSeqNumColon">
+					<grg:TextInput text="{cmlNoteflowInfoVO.journalNo}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--所处阶段：-->
+				<grg:FormItem width="100%" locale="flowStageColon">
+					<grg:TextInput text="{this.getTextByKeyOnDataDictPath(cmlNoteflowInfoVO.flowStage, CmlMgrConsts.FLOW_STAGE)}" width="200" editable="false" />
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form>
+				<!--设备编号：-->
+				<grg:FormItem width="100%" locale="deviceNumColon">
+					<grg:TextInput text="{cmlNoteflowInfoVO.termId}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--清分日期：-->
+				<grg:FormItem width="100%" locale="clearingDateColon">
+					<grg:TextInput text="{DateUtils.formatYYYYMMDDHHMISS(cmlNoteflowInfoVO.clearingDate)}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--钞票总额：-->
+				<grg:FormItem width="100%" locale="noteTotalColon">
+					<grg:TextInput text="{cmlNoteflowInfoVO.statisAmt}" width="200" editable="false" />
+				</grg:FormItem>
+			</grg:Form>
+		</s:HGroup>
+	</grg:RoundCornerContainer>
+	
+	<mx:Spacer height="7" />
+	
+	<!-- 流转详细信息 -->
+	<grg:RoundCornerContainer locale="flowInfoShowInTable" width="100%" height="138" id="noteflowDetailInfo">
+		<s:VGroup width="100%" height="100%" gap="0" paddingTop="0">
+			<grg:DataGrid id="noteflowDetailDataGrid" dataProvider="{noteflowDetailPage.result}" 
+						  width="100%" height="100%" textAlign="center" styleName="DataGrid"
+						  verticalScrollPolicy="auto">
+				<grg:columns>
+					<!--流转号码-->
+					<grg:DataGridColumn locale="barcodeFlowNum"           dataField="barcodeFlowNum" width="55" />
+					<!--所处阶段-->
+					<grg:DataGridColumn locale="flowStage"                dataField="flowStage"      width="55" labelFunction="{transformFlowStage}" />
+					<!--钞箱号/ATM号/卡号-->
+					<grg:DataGridColumn locale="cashNumOrATMNumOrCardNum"                            width="70" labelFunction="{showCashATMCardNum}" />
+					<!--操作人-->
+					<grg:DataGridColumn locale="operator"                 dataField="operator"       width="40" />
+					<!--操作时间-->
+					<grg:DataGridColumn locale="operDate"                 dataField="date"           width="55" labelFunction="{formatOperDate}" />
+					<!--流转状态-->
+					<grg:DataGridColumn locale="flowStatus"               dataField="status"         width="55" labelFunction="{transformFlowStatus}" />
+				</grg:columns>
+			</grg:DataGrid>
+			<grg:PageNavigatorBar id="pagebar1" bottom="0" pageVo="{noteflowDetailPage}" pagingFunction="{getCmlNoteflowDetailInfosPageByFlowNum}"/>
+		</s:VGroup>
+	</grg:RoundCornerContainer>	
+	<!-- 四种颜色图示 
+	<common:Legend/>-->
+	<mx:Spacer height="5" />
+	
+	<!-- 流转详细信息展示 -->
+	<grg:RoundCornerContainer locale="flowInfoShowInChart" id="cmlSeqInfo" width="100%" height="100%">
+		<s:Scroller width="100%" height="100%" verticalScrollPolicy="auto">
+			<s:VGroup paddingLeft="20">
+				<s:VGroup id="cmlDetailInfoGroup" width="100%" gap="0" paddingTop="0" paddingLeft="70">
+					
+				</s:VGroup>
+			</s:VGroup>
+		</s:Scroller>
+	</grg:RoundCornerContainer>
+	
+	<s:HGroup width="100%" gap="6" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="cancelButton" iconVisible="false" click="cancel()"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

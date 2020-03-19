@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 报停管理
+	 Create Time：2011-8-8   
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termRepStopMgrModule">
+	
+		<listTitle>终端设备信息列表</listTitle>
+		<termIdItem>终端编号：</termIdItem>
+		<tbtermIdItem>终端编号</tbtermIdItem>
+		<termSEQItem>设备序列号</termSEQItem>
+		<counterIdItem>柜员号</counterIdItem>
+		<termTypeItem>全部终端类型</termTypeItem>
+		<tbtermTypeItem>终端类型</tbtermTypeItem>
+		<brandItem>终端品牌</brandItem>
+		<allbrandItem>全部终端品牌</allbrandItem>
+		<tbbrandItem>终端品牌</tbbrandItem>
+		<allmodelItem>全部设备型号</allmodelItem>
+		<modelItem>设备型号</modelItem>
+		<tbmodelItem>设备型号</tbmodelItem>
+		<org>所属机构：</org>
+		<tborg>所属机构</tborg>
+		<areaIdItem>所属区域：</areaIdItem>
+		<tbareaIdItem>所属区域</tbareaIdItem>
+		<netAddrItem>终端IP</netAddrItem>
+		<netPortItem>终端PORT</netPortItem>
+		<saveBoxItem>存款箱数量</saveBoxItem>
+		<cwdBoxItem>取款箱数量</cwdBoxItem>
+		<instDateItem>安装日期</instDateItem>
+		<activeDateItem>开通时间</activeDateItem>
+		<servStartDateItem>维护开始日期</servStartDateItem>
+		<servEndDateItem>维护到期日期</servEndDateItem>
+		<servYearsItem>维护年限</servYearsItem>
+		<termAddrItem>安装地址</termAddrItem>
+		<serviceTypeItem>全部安装方式</serviceTypeItem>
+		<instTypeItem>安装方式</instTypeItem>
+		<layTypeItem>全部设立形式</layTypeItem>
+		<isVideoWatchItem>是否视频监控</isVideoWatchItem>
+		<isUPSItem>是否安装UPS</isUPSItem>
+		<isInterATMItem>全部国际卡ATM</isInterATMItem>
+		<busiBeginTimeItem>营业开始时间</busiBeginTimeItem>
+		<busiEndTimeItem>营业结束时间</busiEndTimeItem>
+		<softVersionItem>ATMC版本号</softVersionItem>
+		<spVersionItem>SP版本号</spVersionItem>
+		<operations>操作</operations>
+		<stopMgr>报停管理</stopMgr>
+		<setManage>责任人管理</setManage>
+		<titlemsg>报停管理</titlemsg>
+		<tmltitlemsg>终端设置管理</tmltitlemsg>
+		<repersonTitlemsg>设备责任人管理查询</repersonTitlemsg>
+	</node>
+</nodes>

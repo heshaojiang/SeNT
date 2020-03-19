@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：agentConfigManageForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "systemConfigManageForm">
+		<addAgentConfigManageForm>Add System Config Plan Information</addAgentConfigManageForm>
+		<updateAgentConfigManageForm>Update AgentConfigManage</updateAgentConfigManageForm>
+		<planidItem>plan id</planidItem>
+		<createtimeItem>create time</createtimeItem>
+		<repeattypeItem>repeat type</repeattypeItem>
+		<everydayexetimeItem>set everyday time</everydayexetimeItem>
+		<repeatintervalItem>set everyminute time</repeatintervalItem>
+		<plannameItem>Plan Name</plannameItem>
+		<nextexecutetimeItem>Executing time</nextexecutetimeItem>
+		<termidlistItem>Term ID</termidlistItem>
+		<taskparaItem>task para</taskparaItem>
+		<taskparaversionItem>task para version</taskparaversionItem>
+		<maxretrytimesItem>max retry times</maxretrytimesItem>
+		<retryintervalItem>retry interval</retryintervalItem>
+		<enabledItem>enabled</enabledItem>
+		<termtypeItem>term type</termtypeItem>
+		<modelItem>ATM model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<brandItem>Brand</brandItem>
+		<timeoutintervalItem>Timeout (hours)</timeoutintervalItem>
+		<BaseInfo>Base Information</BaseInfo>
+		<SystemInfo>System Information</SystemInfo>
+		<termidItem>Terminal ID</termidItem>
+		<ipaddressItem>IP Address</ipaddressItem>
+		<subnetmaskItem>Subnet Mask</subnetmaskItem>
+		<gatewayItem>Gateway</gatewayItem>
+		<dnsItem>DNS</dnsItem>
+		<altdnsItem>Alternative DNS</altdnsItem>
+		<osversionItem>OS Version</osversionItem>
+		<memorysizeItem>Memory Size(M)</memorysizeItem>
+		<disksizeItem>Disk Size(G)</disksizeItem>
+		<soundvolItem>Sound Volume</soundvolItem>
+		<systimeItem>System Date</systimeItem>
+		<lastmodifytimeItem>Lastest Config Modify Time</lastmodifytimeItem>
+		<termidItem>Terminal ID</termidItem>
+		<termTypeItem>Term Type</termTypeItem>
+		<brandItem>brand</brandItem>
+		<modelItem>model</modelItem>
+		<orgItem>organization</orgItem>
+		<areaIdItem>areaId</areaIdItem>
+		<addSystemConfigManageForm>System Config Insert Information</addSystemConfigManageForm>
+		<hintOfInputTermid>enter terminal id, 900 characters maximum.</hintOfInputTermid>		
+		<speratedWithCommaSemicolonSpace>separated with comma, semicolon or space.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>or click button to choose</hintOfClickButton>
+		
+		<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+	</node>
+</nodes>

@@ -1,0 +1,66 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：分发计划与任务资源文件 
+	 Create Time：2011-9-19
+	 Author：何志鹏
+	 Email : hzpeng@grgbanking.com -->
+<nodes>
+	<node locale="distPlanModule">
+		<listTitle>intercept screen List</listTitle>
+		<planidItem>plan id</planidItem>
+		<plantypeItem>task type</plantypeItem>
+		<createtimeItem>Creating Time</createtimeItem>
+		<createtimefromItem>Creating Time From</createtimefromItem>
+		<createtimeendItem>Creating Time To</createtimeendItem>
+		<repeattypeItem>repeat type</repeattypeItem>
+		<repeattypeItem1>Repeat Type</repeattypeItem1>
+		<everydayexetimeItem>set everyday time</everydayexetimeItem>
+		<repeatintervalItem>set everyminute time</repeatintervalItem>
+		<plannameItem>Plan Name</plannameItem>
+		<nextexecutetimeItem>Executing Time</nextexecutetimeItem>
+		<nextexecutetimefromItem>Executing Time From</nextexecutetimefromItem>
+		<nextexecutetimeendItem>Executing Time To</nextexecutetimeendItem>
+		<termidlistItem>Term ID</termidlistItem>
+		<taskparaItem>task para</taskparaItem>
+		<taskparaversionItem>task para version</taskparaversionItem>
+		<maxretrytimesItem>max retry times</maxretrytimesItem>
+		<retryintervalItem>retry interval</retryintervalItem>
+		<enabledItem>enabled</enabledItem>
+		<brandItem>Brand</brandItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM Model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<timeoutintervalItem>timeout interval</timeoutintervalItem>
+		<errordescriptionItem>Error Description</errordescriptionItem>
+
+		<!-- plan表 -->
+		<termidItem>Term ID</termidItem>
+		<taskidItem>task id</taskidItem>
+		<planexetimeItem>plan time</planexetimeItem>
+		<exebegintimeItem>Actual Execution Starting Time</exebegintimeItem>
+		<exeendtimeItem>Actual Execution Terminating Time </exeendtimeItem>
+		<taskstatusItem>Task Satus</taskstatusItem>
+		<extradescriptionItem>Task Remarks</extradescriptionItem>
+		<exepercentItem>Completion Percentage</exepercentItem>
+		<resultfileidItem>result fileid</resultfileidItem>
+		<retriedtimesItem>retried times</retriedtimesItem>
+		<timeoutedItem>Overtime</timeoutedItem>
+		<svrnameItem>Server Name</svrnameItem>
+		<picturelinkItem>Link</picturelinkItem>
+		<picturelink>See File</picturelink>
+		<resetlink>See Reset Status</resetlink>
+
+		<operateButton>Operation</operateButton>
+		<enableButton>Enable</enableButton>
+		<disableButton>Disable</disableButton>
+
+		<!-- 列表标题  -->
+		<connectTestList>PingTelnet Test List</connectTestList>
+		<pauseRestoreList>Pause Restore List</pauseRestoreList>
+		<resetHardWareList>Reset HardWare List</resetHardWareList>
+		<restartShutDownList>Restart ShutDown List</restartShutDownList>
+		<timeTaskList>Time Task List</timeTaskList>
+		
+		
+	</node>
+</nodes>

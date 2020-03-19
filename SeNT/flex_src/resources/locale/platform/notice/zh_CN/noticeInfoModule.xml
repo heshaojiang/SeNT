@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="noticeInfoModule">
+		<listTitle>信息通知查询</listTitle>
+		
+		<noticeType>通知分类</noticeType>
+		<allnoticeType>全部通知分类</allnoticeType>
+		<title>终端编号</title>
+		<content>内容</content>
+		<sender>发送者</sender>
+		<sendTime>发送时间：</sendTime>
+		<to>至</to>
+		<recipient>接收者</recipient>
+		<status>全部状态</status>
+		<noticeMethod>通知方式</noticeMethod>
+		<allnoticeMethod>全部通知方式</allnoticeMethod>
+		<note>备注</note>
+		<key>关键字：</key>
+		
+		<sendSms>发短信</sendSms>
+		<mobile>手机</mobile>
+		<titlemsg>公告通知</titlemsg>
+	</node>
+</nodes>

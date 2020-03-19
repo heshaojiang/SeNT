@@ -1,0 +1,15 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "transactionMonitorModule">
+		<listTitle>İşlem İzleme</listTitle>
+		<searchItem>Ara</searchItem>
+		<orgIdItem>Organizasyon</orgIdItem>
+		<termIdItem>Terminal Id</termIdItem>
+		<atmBrandItem>Marka</atmBrandItem>
+		<atmTypeItem>Cihaz Tipi</atmTypeItem>
+		<transTimeItem>İşlem Zamanı</transTimeItem>
+		<transAmonutItem>İşlem Miktarı</transAmonutItem>
+		<transAccountItem>Ticaret Hesabı</transAccountItem>
+		<transResultItem>İşlem Sonuç</transResultItem>
+	</node>
+</nodes>

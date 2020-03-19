@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：addCashMonitorModule<br>
+		Create Time：2011-9-13<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "addCashMonitorModule">
+		<listTitle>Add Cash Monitor List   .Double-click a record to enter the details page.</listTitle>
+		<searchItem>searchKeyword</searchItem>
+		<orgIdItem>orgId</orgIdItem>
+		<termIdItem>termId</termIdItem>
+		<addCashAmountItem>addCashAmount</addCashAmountItem>
+		<addCashNumItem>addCashNum</addCashNumItem>
+		<addCashDateItem>addCashDate</addCashDateItem>
+		<toItem>to</toItem>
+		<cashBoxStatusItem>cashBoxStatus</cashBoxStatusItem>
+		
+		<cashBoxTypeItem>cashBoxType</cashBoxTypeItem>
+		<cashBoxDenominationItem>cashBoxDenomination</cashBoxDenominationItem>
+		<cashBoxCurrencyItem>cashBoxCurrency</cashBoxCurrencyItem>
+		<cashBoxRemainCountItem>cashBoxRemainCount</cashBoxRemainCountItem>
+		
+		<showAddCashMonitorDetailForm>Show AddCash Monitor Detail</showAddCashMonitorDetailForm>
+		<listTitle>AddCash Monitor Detail List</listTitle>
+		<searchItem>SearchKeyword:</searchItem>
+		<termIdItem>TermId</termIdItem>
+		<orgIdItem>OrgId</orgIdItem>
+		<termTypeItem>TermType</termTypeItem>
+		<brandItem>Brand</brandItem>
+		<cashBoxTypeItem>CashBoxType</cashBoxTypeItem>
+		<cashBoxCurrencyItem>CashBoxCurrency</cashBoxCurrencyItem>
+		<addCashAmountItem>AddCashAmount</addCashAmountItem>
+		<addCashNumItem>AddCashNum</addCashNumItem>
+		<addCashDateItem>AddCashDate</addCashDateItem>
+		<cashBoxStatusItem>CashBoxStatus</cashBoxStatusItem>
+		<createDateItem>CreateDate</createDateItem>
+		<cashBoxDenominationItem>CashBoxDenomination</cashBoxDenominationItem>
+		<cashBoxRemainCountItem>CashBoxRemainCount</cashBoxRemainCountItem>
+		<operateItem>operation</operateItem>
+	</node>
+</nodes>

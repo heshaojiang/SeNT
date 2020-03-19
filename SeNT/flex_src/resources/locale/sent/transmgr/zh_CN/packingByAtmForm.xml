@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="packingByAtmForm">
+		<title>ATM钞箱配钞</title>
+		<cashboxNumColon>ATM钞箱号：</cashboxNumColon>
+		<zrcxdkc>ATM钞箱配钞</zrcxdkc>
+	  <addCashBunch>添加条码</addCashBunch>
+	   <flowNumColon>流转条码：</flowNumColon>
+	  <save>保存</save>
+	  <cancel>取消</cancel>
+	</node>
+</nodes>

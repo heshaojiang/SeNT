@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="distributeCounterForm">
+		<title>发放柜员</title>
+		<cashboxNumColon>柜员号：</cashboxNumColon>
+		<zrcxdkc>发放柜员配钞</zrcxdkc>
+	  <addCashBunch>添加条码</addCashBunch>
+	  <flowNumColon>流转条码：</flowNumColon>
+	  <save>保存</save>
+	  <cancel>取消</cancel>
+	</node>
+</nodes>

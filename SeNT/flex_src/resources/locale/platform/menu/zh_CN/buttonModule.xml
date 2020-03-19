@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "buttonModule">
+		<listTitle>按钮列表</listTitle>
+		<buttonNameKey>按钮名称：</buttonNameKey>
+		<buttonName>按钮名称</buttonName>
+		<buttonCode>按钮代码</buttonCode>
+		<buttonType>按钮类型</buttonType>
+		<buttonOrder>按钮排序</buttonOrder>
+		<subSystem>全部子系统</subSystem>
+		<subSystemColumn>所在子系统</subSystemColumn>
+		<subSystemItem>所在子系统：</subSystemItem>
+		<titlemsg>按钮管理</titlemsg>
+	</node>
+</nodes>

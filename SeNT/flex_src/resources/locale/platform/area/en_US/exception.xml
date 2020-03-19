@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "area">
+		<noParentAreaSelected>Please Select A Parent Area!</noParentAreaSelected><!-- Move to area -->
+		<existed>The Area Name already existed.</existed>
+		<childrenNotNull>This Area contain children area. Please delete all the children area first. </childrenNotNull>
+		<parentNotNull>Please select Parent Area.</parentNotNull>
+		<areaNameNotNull>Area Name Can Not Be Empty.</areaNameNotNull>
+	</node>
+</nodes>

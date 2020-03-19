@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="actualCashInputModule">
+		<originalLabel>Organization :</originalLabel>
+		<terminalIdLabel>Terminal code:</terminalIdLabel>
+		<termCashInfoListLabel>Terminal plan information list</termCashInfoListLabel>
+		<selecteFileLabel>Select file :</selecteFileLabel>
+		<fileLabel>File</fileLabel>
+		<termId>Terminal code</termId>
+		<orgName>Organization name</orgName>
+		<model>model</model>
+		<address>address</address>
+		<addCashDate>Date added</addCashDate>
+		<addcashAmount>Amount added</addcashAmount>
+		<recoverAmount>Amount of withdrawal</recoverAmount>
+		<addcashTime>Time added</addcashTime>
+		<fileLabelFirst>Code[</fileLabelFirst>
+		<fileLabelLast>]'s </fileLabelLast>
+	</node>
+</nodes>

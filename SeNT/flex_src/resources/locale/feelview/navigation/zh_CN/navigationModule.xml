@@ -1,0 +1,44 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "navigationModule">
+	    <openWt>开机率：</openWt>
+	    <currentOrg>当前机构：</currentOrg>
+	    <statisticsTime>统计时间：</statisticsTime>
+	    <wtOrder>排行榜</wtOrder>
+	    <transNumOrder>存取款交易量排名（万笔）</transNumOrder>
+	    <averageTransNumOrder>台均存取款交易量排名（笔/台）</averageTransNumOrder>
+	    <top10>前五</top10>
+	    <last10>后五</last10>
+	    
+	    <openWtList>开机率排名</openWtList>
+	    <transNumList>存取款排名(万笔)</transNumList>
+	    <averTransNumList>台均存取款排名(笔/台)</averTransNumList>
+	    <more>.....................</more>
+	    
+	    <label1>监控终端台数： </label1>
+	    <label2>&nbsp;&nbsp;&nbsp;全功能台数： </label2>
+	    <label3>半功能台数： </label3>
+	    <label4>交易量： </label4>
+	    <label5> 笔/秒 </label5>
+	    <label6> 万笔</label6>
+	    <label7>今天存取款：</label7>
+	    <label8> 万笔 </label8>
+	    <label9> 万元</label9>
+	    <label11>今天累计：</label11>
+	    <label10>&nbsp;&nbsp;&nbsp;停止服务台数：</label10>
+	    <label12>服务状态统计：</label12>
+	    
+	    <openwtLineChart>开机率</openwtLineChart>
+	    <transLineChart>交易量</transLineChart>
+	    <transNumLine>紫色：交易笔数</transNumLine>
+	    <transAmountLine>绿色：交易金额</transAmountLine>
+	    <openWtLegend>红色线表示开机率平均值</openWtLegend>
+	    
+	    <hours>时间(小时)</hours>
+	    
+	    <num>交易笔数(万笔/小时)</num>
+	    <amount>交易金额(万元/小时)</amount>
+	    <openWtRatio>开机率(百分比)</openWtRatio>
+	    <averageValue>当前开机率平均值</averageValue>
+	</node>
+</nodes>

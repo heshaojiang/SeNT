@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashPlanStatusForm">
+		<submitPlanForm>Submit plan</submitPlanForm>
+		<auditPlanForm>Audit plan</auditPlanForm>
+		<auditRejectPlanForm>Audit and reject plan</auditRejectPlanForm>
+		<confirmPlanForm>Confirm plan</confirmPlanForm>
+		<confirmRejectPlanForm>Confirm and reject plan</confirmRejectPlanForm>
+		<suggestionLabel>Suggestion :</suggestionLabel>
+	</node>
+</nodes>

@@ -1,0 +1,20 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	  Description： 操作系统配置
+	  Create Time：2011-9-16   
+	  Author：zhangjinpeng 
+	  Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "agentVersionDiversityModule">
+		<termidItem>Terminal Id</termidItem>
+		<fileidItem>Dosya No</fileidItem>
+		<operateButton>Tamam</operateButton>
+		<statusItem>Durum</statusItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<modelItem>Model</modelItem>
+		<orgItem>Şube</orgItem>
+		<areaIdItem>İl</areaIdItem>
+	</node>
+</nodes>

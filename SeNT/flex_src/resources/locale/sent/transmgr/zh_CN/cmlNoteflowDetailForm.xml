@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale ="cmlNoteflowDetailForm">
+		<ATMAddCashPage>ATM加钞页面</ATMAddCashPage>
+	    <atmId>ATM编号</atmId>
+	    <cashBoxNum>钞箱号</cashBoxNum>
+	    <operater>操作人</operater>
+	    <resetButton>重置</resetButton>   
+	    <saveButton>确定</saveButton> 
+	    <cancelButton>取消</cancelButton>
+	    <cashBoxNum1>钞箱号1：</cashBoxNum1>
+	    <cashBoxNum2>钞箱号2：</cashBoxNum2>
+	    <cashBoxNum3>钞箱号3：</cashBoxNum3>
+	    <cashBoxNum4>钞箱号4：</cashBoxNum4>
+	</node>
+</nodes>

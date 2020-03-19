@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:grg="http://grg.grgbanking.com/platform/"
+		 xmlns:parsley="http://www.spicefactory.org/parsley" locale="showATMReport" titleKey="atmTile"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="700" height="420">
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		
+			<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.report.config.CmlReportConfig;
+			import cml.report.message.CmlReportMsg;
+			import cml.report.pm.CmlReportModulePM;
+			
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.vo.Page;
+			
+			import sent.transmgr.vo.CmlTaskInfoVO;
+			[Inject]
+			[Bindable]
+			public var pm:CmlReportModulePM;
+			[Bindable]
+			public var cmlATMList:ArrayCollection;
+			[Bindable]
+			public var page:Page=new Page();
+			/**
+			 * 清分信息
+			 * */
+			[Bindable]
+			private var _cmlTaskInfo:CmlTaskInfoVO = new CmlTaskInfoVO();
+			/***
+			 * 赋值
+			 * */
+			public function set cmlTaskInfo(p_vo:CmlTaskInfoVO):void
+			{
+				_cmlTaskInfo = p_vo;
+				//TODO
+				//cmlTime = DateFormatter.format(_cmlTaskInfo.bindStart);
+				
+				//convertStringWithDataDict();
+				
+			}
+			/* public function loadReportAtm():void
+			{
+			//根据交易冠字号显示
+			var seqMsg:CmlReportMsg = new CmlReportMsg();
+			seqMsg.type = "getAllATMInfo";
+			seqMsg.args["page"] = page;
+			seqMsg.args["toatmnum"]=_cmlTaskInfo.toatmnum;
+			sendMessage(seqMsg); 
+			}
+			/**
+			 * 获取所有的交易信息
+			 * */
+			/*[MessageHandler(selector="getAllATMInfoResult")]
+			public function getAllTranResult(p_msg:CmlReportMsg):void
+			{
+				if(p_msg.result)
+					page = p_msg.result as Page;
+				
+			} */
+		]]>
+	</fx:Script>
+	<grg:RoundCornerContainer locale="ATMInfo" width="100%"  height="100%" id="cmlATMInfo">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<!--<s:VerticalLayout gap="0" 
+								  paddingTop="0"/>-->
+				<s:VerticalLayout gap="10" paddingTop="10" paddingLeft="10" paddingRight="10" paddingBottom="10"/>
+			</s:layout>
+			<grg:DataGrid id="ATMList" dataProvider="{pm.reportPage.result}" width="100%" height="100%" textAlign = "center"
+						  styleName = "DataGrid" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<grg:columns>
+					<!--<grg:CheckBoxColumn/>-->
+					<grg:DataGridColumn locale="toatmnum"  dataField="toatmnum" width="90" textAlign="center"/>
+					<grg:DataGridColumn locale="boxNum" dataField="boxNum" width="70" />
+                   <grg:DataGridColumn locale="atmMoney" dataField="atmMoney" width="55"/>
+					<grg:DataGridColumn locale="passMoney" dataField="passMoney" width="70"/>
+					<grg:DataGridColumn locale="totalMoney" dataField="totalMoney" width="55"/>
+				</grg:columns>
+			</grg:DataGrid>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+								  pageVo="{pm.reportPage}"
+								  pagingFunction="{pm.loadReportAtm}"/>
+		</s:Group>
+		
+	</grg:RoundCornerContainer>
+	<s:HGroup width="100%" gap="6" height="35" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="close" iconVisible="false" click="close()"/>
+	</s:HGroup>
+</grg:TitleWindow>

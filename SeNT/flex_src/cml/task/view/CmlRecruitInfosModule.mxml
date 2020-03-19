@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule dataDictionaryPaths="{[]}" 
+			   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   locale="cmlRecruitInfosModule"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   layout="vertical" width="100%" height="100%">
+	<fx:Script>
+		<![CDATA[
+			import cml.task.config.CmlRecruitInfosConfig;
+			import cml.task.constants.CmlRecruitInfosConsts;
+			import cml.task.pm.CmlRecruitInfosPM;
+			import cml.task.vo.CmlTaskInfosVO;
+			
+			import mx.collections.ListCollectionView;
+			import mx.core.IFlexDisplayObject;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			
+			
+			
+			[Inject]
+			[Bindable]
+			public var pm:CmlRecruitInfosPM;
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/add.png")] 
+			private var addIcon:Class; 
+			
+			override protected function getDataDictCallback():void
+			{
+				
+				(operationDataGrid.dataProvider as ListCollectionView).refresh();
+			} 
+			
+			
+			/**
+			 * 显示数据字典转换出来的�?
+			 */
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				//				if(column.dataField == "transResult")
+				//					currentDataDictPath = TransInfoConsts.TRANS_RESULT;
+				//				else if(column.dataField == "transCode")
+				//					currentDataDictPath = TransInfoConsts.TRANS_CODE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			override protected function viewUpdateComplete():void
+			{
+				pm.cmlTaskInfos = new CmlTaskInfosVO();
+			}
+			
+			override public function dispose():void
+			{
+				operationDataGrid.checkedItems = [];
+				
+			}
+			
+			/**
+			 * 根据条件查询 
+			 */
+			
+			protected function loadPage():void
+			{
+				pm.getCmlRecruitInfos();
+			}
+			
+			public function openWin(p_winName:String, p_vo:CmlTaskInfosVO):void
+			{
+				//dispatch event
+				var win:CmlRecruitInfosForm = new CmlRecruitInfosForm();
+				
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.cmlTaskInfos = p_vo;
+				win.dataProvider =  ObjectUtil.copy(pm) as Object;
+				win.pm.menuId = this.menu.id;		
+				win.init();
+			}
+			
+			protected function addRecord():void
+			{
+				if(operationDataGrid.checkedItems.length!=1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var temp:CmlTaskInfosVO= CmlTaskInfosVO(operationDataGrid.checkedItems[0]);
+				openWin(CmlRecruitInfosConsts.ADD_RECORD, temp);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="cmlRecruitInfosModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="cmlRecruitInfosModule"/>
+			<parsley:FlexConfig type="{CmlRecruitInfosConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+		<mx:DateFormatter id="df" formatString="YYYY-MM-DD HH:MM:SS"/>
+	</fx:Declarations>
+	
+	<fx:Binding source="startTime.selectedDate" destination="pm.condi.startTime"/>
+	<fx:Binding source="endTime.selectedDate" destination="pm.condi.endTime"/>
+	<fx:Binding source="termid.text" destination="pm.condi.tmlNum"/>
+	<fx:Binding source="operator.text" destination="pm.condi.operatorName"/>
+	
+	<s:BorderContainer width="100%" 
+					   height="100%"
+					   styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign = "center"
+			styleName = "SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<grg:TitleBar id="titleRecruitInfos" locale="titlemsg" width="50%"/>
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">  
+						<grg:Label locale = "tmlNum" />
+						<grg:TextInput id="termid" textAlign="left" restrict="0-9a-zA-Z*"  vtype="bankcard|maxchars"  maxnum="32"
+									   width="190" height="20"
+									   styleName = "TextInput" />
+						
+						<grg:Label locale = "operatorName" />
+						<grg:TextInput id="operator" textAlign="left" restrict="0-9a-zA-Z"
+									   width="90" height="20"
+									   styleName = "TextInput" />
+						
+						<grg:SearchButton id="btn_search" menuId="{menu.id}"
+										  locale = "searchButton" 
+										  iconType = "query" click="loadPage()"/>
+						
+						<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 			
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+										 resetControls="{[termid, operator,
+										 startTime, endTime]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					<mx:HBox width="100%" styleName="expHBoxStyle" id="hbMgr">  
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "right" id="layoutMgr"
+									gap="2"
+									verticalAlign = "middle" />
+							</s:layout>
+							<grg:Label locale="sendTime" />
+							<grg:SuperDateField width="190" id="startTime"  myEnabled="false" selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<grg:SuperDateField width="190" id="endTime" myEnabled="false" selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+		</grg:AdvancedSearchBar>
+		
+		<!-- 操作按钮 -->
+		<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:Button  icon="{addIcon}" locale="addRecord" click="addRecord()"/>
+			</s:BorderContainer>
+		</mx:HBox> 
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+		<grg:DataGrid dataProvider="{pm.page.result}" id="operationDataGrid" 
+					  width="100%" height="100%"
+					  textAlign="center"
+					  styleName = "DataGrid">
+			<grg:columns>
+				<grg:CheckBoxColumn id="checkBoxCol" 
+									textAlign="center"
+									editable="false"
+									sortable="false"
+									draggable="false"
+									resizable="false"
+									/>
+				<grg:DataGridColumn locale = "tmlId" labelFunction="{transferDataDict}"
+									dataField = "tmlNum" width="55"/>
+				<grg:DataGridColumn locale = "userName"
+									dataField = "operatorId" width="50"/>
+				<grg:DataGridColumn locale = "bindStart"
+				 width="135" dataField="operateDate" labelFunction="{DataGridUtil.formatTime}"/>
+				<grg:DataGridColumn locale = "beforeCount"
+									dataField = "beforeCount" width="55"/>
+				<grg:DataGridColumn locale = "passMoney" 
+									dataField = "passMoney" width="60"/>
+				<grg:DataGridColumn locale = "atmMoney" 
+									dataField = "atmMoney" width="55"/>
+				<grg:DataGridColumn locale = "stubbedMoney"
+									dataField = "stubbedMoney" width="55"/>
+				<grg:DataGridColumn locale = "trailMoney" 
+									dataField = "trailMoney" width="57"/>
+				<grg:DataGridColumn locale = "shadinessMoney"
+									dataField="shadinessMoney" width="50"/>
+				<grg:DataGridColumn locale = "falseCoinMoney"
+										dataField="falseCoinMoney" width="50"/>
+				<grg:DataGridColumn locale = "totalMoney"
+										dataField="totalMoney" width="70"/>
+			</grg:columns>
+		</grg:DataGrid>
+			</mx:HBox>
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+							  pageVo="{pm.page}"
+							  pagingFunction="{loadPage}"/>
+	</s:BorderContainer>
+	
+</grg:TabModule>

@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtServiceTimeReportModule">
+		<listTitle>Sorgu Sonuçları Listesi</listTitle>
+		<termId>Terminal ID </termId>
+		<termType>Terminal Tipi</termType>
+		<brand>Marka</brand>
+		<orgId>Şube</orgId>
+		<orgName>Şube</orgName>
+		<oosTime>Hizmetini Durdurun(Dakika)</oosTime>
+		<maintainTime>Yönetici Modu (Dakika)</maintainTime>
+		<serviceTime>Servis Modu (Dakika)</serviceTime>
+		<fullTime>Toplam Süre (Dakika)</fullTime>
+		<inServiceRate>Çalışma Hızı</inServiceRate>
+		<org>Şube</org>
+		<beginDate>İstatistik Zamanı Dan </beginDate>
+		<endDate>için</endDate>
+		<export>İhracat</export>
+	</node>
+</nodes>

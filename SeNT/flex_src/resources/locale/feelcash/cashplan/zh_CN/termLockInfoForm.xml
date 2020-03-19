@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="termLockInfoForm">
+	<addTermLockInfoForm>新增锁定终端</addTermLockInfoForm>
+	<updateTermLockInfoForm>修改锁定终端</updateTermLockInfoForm>
+	<selectionTerminals>待选终端列表</selectionTerminals>
+	<selectedTerminals>已选终端列表</selectedTerminals>
+	<termId>终端编号</termId>
+	<termAddr>终端地址</termAddr>
+	<status>锁定状态</status>
+	<lockStartDate>锁定开始时间</lockStartDate>
+	<lockEndDate>锁定结束时间</lockEndDate>
+	<lockedBy>锁定人</lockedBy>
+	<unlockBy>解锁人</unlockBy>
+	<lockDate>锁定创建时间</lockDate>
+	<unlockDate>解锁时间</unlockDate>
+	<lockType>锁定类型</lockType>
+	<note>说明</note>
+	<terminalId>终端编号</terminalId>
+	<terminalAddress>终端地址</terminalAddress>
+	</node>
+</nodes>

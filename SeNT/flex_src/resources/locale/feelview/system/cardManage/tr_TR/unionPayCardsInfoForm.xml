@@ -1,0 +1,21 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--   Description：UnionPayCardsInfo Manage<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "unionPayCardsInfoForm">
+		<addUnionPayCardsInfoForm>UnionPay Ekle</addUnionPayCardsInfoForm>
+		<updateUnionPayCardsInfoForm>UnionPay Değiştir</updateUnionPayCardsInfoForm>
+		<cardIdItem>Kart Id:</cardIdItem>
+		<cardNameItem>Kart Adı:</cardNameItem>
+		<publishBankNameItem>Banka adı:</publishBankNameItem>
+		<publishBankIdItem>Veren Banka Kodu:</publishBankIdItem>
+		<cardNumberSizeItem>Kart Numarası Uzunluğu:</cardNumberSizeItem>
+		<cardIdSizeItem>Kart Başlangıç Pozisyonu:</cardIdSizeItem>
+		<applyATMItem>ATM Kullanılır:</applyATMItem>
+		<applyPOSItem>POS Kullanılır:</applyPOSItem>
+		<cardTypeItem>Kart Tipi:</cardTypeItem>
+		<status>Durum:</status>
+	</node>
+</nodes>

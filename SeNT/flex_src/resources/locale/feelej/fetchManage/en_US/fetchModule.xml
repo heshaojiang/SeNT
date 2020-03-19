@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="fetchModule">
+		<listTitle>E-Journal Detail</listTitle>
+		<termId>Terminal ID</termId>
+		<previousMatch>Previous</previousMatch>
+		<nextMatch>Next</nextMatch>
+		<ejList>E-Journal List</ejList>
+		<fetchEjTimeDesc>Status: Fetching EJ, Used time</fetchEjTimeDesc>
+		<fetchEjSuccess>Status: Fetch EJ Successful, Used time</fetchEjSuccess>
+        <fetchEjFail>Status: Fetch EJ Fail, Pleas contact system admin!</fetchEjFail>
+		<loadingDesc>According to the network condition, Fetch EJ should be need 1 to 5 minutes</loadingDesc>
+		<date>Time</date>
+		<to>To</to>
+		<export>Export</export>
+		<searchTips>Tips:Expand five lines at the begin and end for time search</searchTips>
+	</node>
+</nodes>

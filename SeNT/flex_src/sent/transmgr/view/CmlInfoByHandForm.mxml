@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 dataDictionaryPaths="{[CmlInfoByHandConsts.TRAN_TYPE]}"
+				 locale="cmlInfoByHandForm"
+				 layout="vertical" width="375" height="375">
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.controls.Alert;
+			
+			import org.idmedia.as3commons.util.Map;
+			import org.spicefactory.lib.util.collection.MapEntry;
+			import org.utils.IntegerUtils;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			
+			import sent.transmgr.config.CmlInfoByHandConfig;
+			import sent.transmgr.constants.CmlInfoByHandConsts;
+			import sent.transmgr.message.CmlInfoByHandMsg;
+			import sent.transmgr.pm.CmlInfoByHandFormPM;
+			import sent.transmgr.pm.CmlInfoByHandModulePM;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**新增和修改子窗体PM**/
+			[Inject]
+			[Bindable]
+			public var pm:CmlInfoByHandFormPM;
+			
+			/**父窗体PM**/
+			[Bindable]
+			public var tranTypeArr:ArrayCollection = new ArrayCollection([
+				{lable:"清分机交易",key:"0"},
+				{lable:"ATM存款交易",key:"1"},
+				{lable:"手动导入交易",key:"2"},
+				{lable:"现金流转",key:"3"},
+				{lable:"加钞交易",key:"4"},
+				{lable:"柜面收款交易",key:"5"},
+				{lable:"ATM取款交易",key:"6"},
+				{lable:"柜面付款交易",key:"7"},
+				{lable:"ATM现金圈存",key:"8"},
+			]);
+			
+			[Inject]
+			[Bindable]
+			public var superPm:CmlInfoByHandModulePM;				
+			/**
+			 * 初始化，根据不同titlekey控制不同的显示样式 
+			 */
+			override protected function parsleyInit():void
+			{
+				var titleKey : String =  StringUtil.trim(this.titleKey);
+				if (CmlInfoByHandConsts.TITLE_KEY_EDIT == titleKey){					
+					this.orgIdName.enabled = false;
+				}else{
+					this.orgIdName.enabled = true;
+				}
+				
+			}		
+			/** 
+			 * 保存数据
+			 *   
+			 */
+			public function save():void
+			{
+				//使用VControl对输入的数据进行校验
+				if (VControl.validateAll(this.infoForms, validators).length > 0){
+					return;
+				}
+				var titleKey : String =  StringUtil.trim(this.titleKey);		
+				pm.conditions.pathCode = String(orgIdName.selectedItem.@pathCode);
+				//根据窗体的模式，进行不同的操作（新增/编辑）
+				if (CmlInfoByHandConsts.TITLE_KEY_ADD == titleKey){
+					pm.save(CmlInfoByHandConsts.FORM_TYPE_ADD);
+					
+				}else{
+					pm.save(CmlInfoByHandConsts.FORM_TYPE_EDIT);
+				}
+			}
+			
+			/**
+			 * 保存
+			 * @param p_msg
+			 * 
+			 */
+			[MessageHandler(selector="saveCmlInfoByHandResult")]
+			public function saveCmlInfoByHandResultHandler(p_msg:CmlInfoByHandMsg):void{
+				var returnCode:int = p_msg.result.toString();
+				if (returnCode == 0){
+					AlertHandler.alert(CmlInfoByHandConsts.ALERT_EXIST);
+				}else{
+					close();
+					superPm.queryData();
+				}
+			}
+			
+			/**
+			 * 保存银行信息的错误异常处理
+			 * @param p_msg
+			 * 
+			 */
+			[MessageHandler(selector="saveCmlInfoByHandError")]
+			public function saveCmlInfoByHandErrorHandler(p_msg:CmlInfoByHandMsg):void{
+				AlertHandler.alert(p_msg.result.toString());
+			}
+		]]>
+	</fx:Script>
+	<grg:Form id="infoForms" width="100%" textAlign="left" borderVisible="false">
+		<grg:FormItem locale = "orgName">
+			<grg:GRGComboBoxOrgTree id="orgIdName"
+								selectedValue="@{pm.childrenVO.orgid}"
+								valueField="@id"
+								width="150"
+								textAlign="left"
+								treeHeight="300" />
+		</grg:FormItem>
+		<grg:FormItem locale="currency" required="true" >
+			<grg:TextInput id="currency" enabled="false"  width="150" text="CNY" editable="false"/>
+		</grg:FormItem>
+		<grg:FormItem locale = "hundredCount"  required="true">
+			<grg:TextInput id="hundredCount" required="true" maxnum="18" vtype="int|maxchars" maxChars="18"
+						   restrict="0-9" width="150"  text="@{pm.childrenVO.hundredCount}"/>
+		</grg:FormItem>
+		<grg:FormItem locale = "fiftyCount" required="true">
+			<grg:TextInput id="fiftyCountt" required="true"  maxnum="18" vtype="int|maxchars" maxChars="18"
+						  width="150" restrict="0-9" text="@{pm.childrenVO.fiftyCount}" />
+		</grg:FormItem>
+		<grg:FormItem locale = "twentyCount" required="true" >
+			<grg:TextInput id="twentyCount" 
+						   width="150" restrict="0-9" required="true"  maxnum="18" vtype="int|maxchars" 
+						   maxChars="18" text="@{pm.childrenVO.twentyCount}" />
+		</grg:FormItem>
+		<grg:FormItem locale = "tenCount"  required="true">
+			<grg:TextInput id="tenCount"   restrict="0-9" width="150" required="true" maxnum="18" vtype="int|maxchars" maxChars="18"
+						   text="@{pm.childrenVO.tenCount}" />
+		</grg:FormItem>
+		<grg:FormItem locale = "fiveCount"  required="true">
+			<grg:TextInput id="fiveCount" restrict="0-9" required="true" maxnum="18" vtype="int|maxchars" maxChars="18"
+						   width="150" text="@{pm.childrenVO.fiveCount}" />
+		</grg:FormItem>
+		<grg:FormItem locale = "oneCount" required="true" >
+			<grg:TextInput id="oneCount"  restrict="0-9" required="true"
+						   width="150" maxnum="18" vtype="int|maxchars" maxChars="18" text="@{pm.childrenVO.oneCount}" />
+		</grg:FormItem>
+		<grg:FormItem locale = "tranType" >
+			<grg:ComboBox id="tranType"  labelField="lable" dataProvider="{tranTypeArr}" valueField="key" 
+						 selectedValue="@{pm.childrenVO.tranType}" width="150" />
+		</grg:FormItem>
+		
+	</grg:Form>	
+	<s:BorderContainer width="100%" height="25" styleName="TitleBar" borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle" horizontalAlign="center"/>
+		</s:layout>
+		<grg:Button id="saveBtn"  click = "save()" iconType="save" locale = "saveBtn" />
+		<grg:Button id="closeBtn" click = "close()" iconType="close" locale = "closeBtn" />
+	</s:BorderContainer>
+	
+</grg:TitleWindow>

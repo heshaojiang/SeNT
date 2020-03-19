@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow 
+				width="400" height="260"
+				layout = "vertical"
+				locale = "cardTypeForm"
+				xmlns:fx = "http://ns.adobe.com/mxml/2009"
+				xmlns:s = "library://ns.adobe.com/flex/spark"
+				xmlns:mx = "library://ns.adobe.com/flex/mx"
+				xmlns:parsley="http://www.spicefactory.org/parsley"
+				xmlns:grg="http://grg.grgbanking.com/platform/"
+				helpTips="cardHelp">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import platform.card.message.CardTypeMsg;
+			import platform.card.pm.CardTypeFormPM;
+			import platform.common.validator.VControl;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:CardTypeFormPM;
+			
+			/**update card type success handler**/
+			[MessageHandler(selector="saveCardTypeResult")]
+			public function updateBackHandler(p_msg:CardTypeMsg):void
+			{
+				close();
+			}
+			
+			/**
+			 * 提交前验证
+			 * */
+			private function save():void
+			{
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				pm.save();
+			}
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+		]]>
+	</fx:Script>
+	
+	<grg:Form id="form"
+					width="100%"
+					textAlign = "left"
+					borderVisible = "false">
+		<grg:FormItem id="orgIdLabel" required="true"
+							locale = "orgIdLabel">
+			<!--<control:ROComboBoxTree id="orgId" selectedValue="@{pm.cardType.orgId}"
+									width="150"
+									textAlign = "left"
+									labelField = "@label"
+									treeheight="150"
+									valueField = "@id"
+									service = "orgInfoService"
+									method = "getOrgTree" />-->
+			<grg:GRGComboBoxOrgTree id="orgId" selectedValue="@{pm.cardType.orgId}"
+									 valueField = "@id"
+									 width="150"
+									 textAlign = "left"
+									 treeHeight="150"/>
+		</grg:FormItem>
+		
+		<grg:FormItem id="cardIdLabel"
+							width="100%"
+							textAlign = "left"
+							locale = "cardIdLabel"
+							required = "true">
+			<grg:TextInput id="cardId" name = "cardId" text="@{pm.cardType.cardId}"
+							   width="245" vtype="bankcard" maxChars="32"
+							   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="selfLabel"
+							width="100%"
+							locale = "selfLabel"
+							required = "true">
+			<grg:TextInput id="self" name = "self" text="@{pm.cardType.self}"
+							   width="245" maxnum="100" vtype="maxchars" maxChars="100"
+							   required="true" restrict="0-9;,"/>
+		</grg:FormItem>
+		<grg:FormItem id="provinceLabel"
+							width="100%"
+							locale = "provinceLabel"
+							required="true">
+			<grg:TextInput id="province" name = "province" text="@{pm.cardType.province}"
+							   width="245" maxnum="100" vtype="maxchars" required="true" maxChars="100"
+							   restrict="0-9;,"/>
+		</grg:FormItem>
+		<grg:FormItem id="localLabel"
+							width="100%"
+							required="true"
+							locale = "localLabel">
+			<grg:TextInput id="local" name = "local" text="@{pm.cardType.local}" restrict="0-9;," maxChars="100"
+							   width="245" maxnum="100" vtype="maxchars" required="true"/>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup 
+		width="100%" gap="6"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+				click = "save()"
+				locale = "saveButton"
+				 />
+		</s:BorderContainer>
+		
+		<!--<grg:Button 
+			click = "pm.reset()"
+			locale = "resetButton"
+			iconType = "reset" />-->
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+				click = "cancel()"
+				locale = "cancelButton"
+				 />
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

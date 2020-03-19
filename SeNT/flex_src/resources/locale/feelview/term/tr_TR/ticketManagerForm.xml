@@ -1,0 +1,27 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：ticketManagerForm  
+	 Create Time：2011-8-26   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "ticketManagerForm">
+		<addTicketManagerForm>Çağrı Yöneticisi Ekle</addTicketManagerForm>
+		<updateTicketManagerForm>Çağrı Yöneticisi Degistir</updateTicketManagerForm>
+		<managerIdItem>Yönetici Id:</managerIdItem>
+		<operatorNameItem>Operatör Adı:</operatorNameItem>
+		<corporatorOrgItem>Organizasyon:</corporatorOrgItem>
+		<contactTelItem>Telefon:</contactTelItem>
+		<contactMobileItem>Cep Telefonu:</contactMobileItem>
+		<operatorAddressItem>E-posta Adresi:</operatorAddressItem>
+		<workdayItem>İşgünü:</workdayItem>
+		<workBeginTimeItem>Başlama Zamanı:</workBeginTimeItem>
+		<workEndTimeItem>Bitiş Zamanı:</workEndTimeItem>
+		<status>Durum:</status>
+		<statusEnable>Etkinleştir</statusEnable>
+		<statusDisable>Devre Dışı Bırak</statusDisable>
+		<prompt>(Örnek:+90 212 1234567)</prompt>
+		<promptS>(Örnek:+90 532 1234567)</promptS>
+		<!-- (Birden fazla ise "," ile ayrılmalı) -->
+		<at>@</at>
+	</node>
+</nodes>

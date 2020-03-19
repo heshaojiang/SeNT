@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="downloadOption">
+		<downloadOption>下载</downloadOption>
+		<decrypt>解密</decrypt>
+		<undecrypt>不解密</undecrypt>
+        <downloadStatus>状态：</downloadStatus>
+        <ready>就绪</ready>
+		<decrypting>正在解密中，請稍等。。。</decrypting>
+		<decryptSuccess>解密成功</decryptSuccess>
+		<download>下载</download>
+		<progressStatus>正在下载</progressStatus>
+	</node>
+</nodes>

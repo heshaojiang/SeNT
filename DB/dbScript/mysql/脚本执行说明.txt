@@ -1,0 +1,7 @@
+1因为需要使用mysql的event执行定时删除任务
+需要用户feelview用户具有event权限，具有create routine权限，调用存储过程执行时需要使用excute权限，存储过程调用具体的SQL语句时，需要用户具有执行该SQL的权限。
+在安装mysql创建feelview用户时，建议把所有权限勾上。
+
+run as root
+chmod 755 main.sh
+sh main.sh

@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：终端责任人信息列表，主要用于终端基础信息管理
+	 Create Time：2011-9-19 
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termResponsibleForm">
+		<addTermResponsibleForm>新增</addTermResponsibleForm>
+		<updateTermResponsibleForm>编辑</updateTermResponsibleForm>
+		<showTermResponsibleDetailForm>查看终端责任人信息</showTermResponsibleDetailForm>
+		<termIdItem>终端编号：</termIdItem>
+		<groupItem>责任人分组：</groupItem>
+		<roleItem>分组角色：</roleItem>
+		<responsibleNameItem>负责人姓名：</responsibleNameItem>
+		<telePhoneItem>固定电话：</telePhoneItem>
+		<mobilePhoneItem>移动电话：</mobilePhoneItem>
+		<emailItem>邮箱地址：</emailItem>
+		<descriptionItem>人员描述：</descriptionItem>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>				
+	</node>
+</nodes>

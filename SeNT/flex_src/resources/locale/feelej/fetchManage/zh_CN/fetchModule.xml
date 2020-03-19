@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="fetchModule">
+		<listTitle>流水详细信息</listTitle>
+		<termId>终端编号：</termId>
+		<previousMatch>上一个</previousMatch>
+		<nextMatch>下一个</nextMatch>
+		<ejList>流水文件列表</ejList>
+		<fetchEjTimeDesc>状态：正在提取流水，已用时</fetchEjTimeDesc>
+		<fetchEjSuccess>状态：提取流水成功，用时</fetchEjSuccess>
+		
+        <fetchEjFail>状态：提取流水失败，请联系管理员！</fetchEjFail>
+        <fetchEjTolongs>提取流水超时!</fetchEjTolongs>
+		<loadingDesc>根据网络状况不同，提取完毕可能需要1-5分钟</loadingDesc>
+		<date>时间：</date>
+		<to>至：</to>
+		<keyword>关键字：</keyword>
+		<findButton>查  找</findButton>
+		<printButton>打  印</printButton>
+		<fetchImmediately>提  取</fetchImmediately>
+		<export>导  出</export>
+		<searchTips>提示：时间段搜索前后扩展5行</searchTips>
+		
+	</node>
+</nodes>

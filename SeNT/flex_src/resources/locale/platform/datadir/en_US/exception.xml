@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "datadir">
+		<existedKey>This Key has already exists！</existedKey>
+		<fullPathNotNull>Full path can not be empty！</fullPathNotNull>
+	</node>
+</nodes>

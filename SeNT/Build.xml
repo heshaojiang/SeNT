@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project name="Manager" default="clean" basedir=".">
+
+	<echo message="ANT building..............." />
+
+	<property environment="env" />
+	<property name="WebRoot.dir" value="./WebContent" />
+	<property name="classes.dir" value="{WebRoot.dir}/WEB-INF/classes" />
+	<property name="war.dir" value="c:\dist" />
+	<property name="Version" value="Manager_${buildVersion}" />
+	<!--<property name="tomcat.dir" value="./tomcat/webapps/feelview" />-->
+	<target name="ChangeTestSVNTag" if="TEST">
+		<echo message="修改Test Tag"/>
+		<replace file="src\main\resources\system.properties" token="version=SeNT 1.2 PR1 b3" value="version=${Version}"/>	
+	</target>	
+	<target name="ChangeSVNTag" depends="ChangeTestSVNTag" unless="TEST">
+		<echo message="修改Tag"/>
+		<replace file="src\main\resources\system.properties" token="version=SeNT 1.2 PR1 b3" value="version=${Version}"/>	
+	</target>
+
+	<target name="compile" depends="ChangeSVNTag" description="Compile the java source files">
+		
+		<echo message="create files" />
+		
+		<replace file="flex_src\IndexPage.html" token="1,1,1,0" value="${mainVersion},${secondVersion},${PRVersion},${buildPart}"/>
+		
+		<mkdir dir="./build/classes" />
+		<mkdir dir="${war.dir}" />
+
+		<echo message="compile java sources" />
+		
+		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true">
+			<compilerarg line="-Xlint:unchecked -encoding UTF-8"/>
+			<src path="./src" />
+			<classpath>
+				<pathelement location="${classes.dir}" />
+				<fileset dir="${WebRoot.dir}/WEB-INF/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<!-- 
+				<fileset dir="${env.JAVA_HOME}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${env.CATALINA_HOME}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				 -->
+				<fileset dir="./lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="C:\Program Files (x86)\Java\jdk1.6.0_43\jre\lib">
+					<!--fileset dir="D:\SVN\jdk1.6\jre\lib"-->
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="./build/classes" overwrite="true">
+			<fileset dir="./src/main/resources">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<copy todir="./build/classes" overwrite="true">
+			<fileset dir="./src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="deploy" depends="compile">
+		<!--
+		<copy todir="${tomcat.dir}" overwrite="true">
+			<fileset dir="${WebRoot.dir}">
+				<exclude name="**/*.scc" />
+			</fileset>
+		</copy>	
+		-->
+		<copy todir="${WebRoot.dir}/WEB-INF/classes" overwrite="true">
+			<fileset dir="./build/classes" >
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<!--
+	<target name="war" depends="compile">
+		<echo message="package war file" />
+		<tstamp prefix="versionSign">
+			<format property="TimeSign" pattern="yyyy-MM-dd HH.mm.ss" />
+			<format property="DateSign" pattern="yyyyMMdd" />
+		</tstamp>
+		<war destfile="${war.dir}/Deom-${versionSign.TimeSign}.war" webxml="${WebRoot.dir}/WEB-INF/web.xml">
+			<lib dir="${WebRoot.dir}/WEB-INF/lib" />
+			<classes dir="./build/classes" />
+			<fileset dir="${WebRoot.dir}">
+				<exclude name="WEB-INF/classes/**/**" />
+				<exclude name="WEB-INF/lib/**/**" />
+			</fileset>
+		</war>
+	</target>-->
+	
+
+	<target name="zip" depends="deploy" description="zip the documentation">
+		<zip basedir="${WebRoot.dir}" destfile="./build/${Version}.zip"  />
+		<copy file="./build/${Version}.zip" todir="${publishDir}\artifacts" overwrite="true"/>
+	</target>
+	
+	<target name="clean" depends="zip">
+		<echo message="clean file" />
+	  <delete dir="./build" />
+	</target>		
+	
+
+	
+</project>

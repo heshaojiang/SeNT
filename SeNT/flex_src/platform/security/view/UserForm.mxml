@@ -1,0 +1,472 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow dataDictionaryPaths="{[DataDirConsts.POS_LEVEL, DataDirConsts.POS_TYPE]}"
+				 width="450" height="560"
+				 layout="vertical"
+				 showIcon="false" 
+				 locale="userForm"
+				 helpTips="usertips"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:userDefined="platform.date.*"
+				 xmlns:grg="http://grg.grgbanking.com/platform/" creationComplete="titlewindow1_creationCompleteHandler(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.controls.Alert;
+			
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.security.message.UserMsg;
+			import platform.security.pm.UserFormPM; 
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.AlertHandler;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:UserFormPM;
+			
+			[Bindable]
+			private var defauleModule:ArrayCollection=new ArrayCollection();
+			/**
+			 * 职位级别
+			 * */
+			//			[Bindable]
+			//			public var posLevelArr:ArrayCollection;
+			
+			/**
+			 * 岗位级别
+			 * */
+			//			[Bindable]
+			//			public var posTypeArr:ArrayCollection;
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			//			override protected function getDataDictCallback():void
+			//			{
+			//				posLevelArr = dataDictionaryCache[DataDirConsts.POSITION_LEVEL];
+			//				posTypeArr = dataDictionaryCache[DataDirConsts.POSTTION_TYPE];
+			//			}
+			
+			override protected function cancel():void
+			{
+				close();
+				pm.cancel();
+			}
+			
+			private function showError(arr:Array):void
+			{
+				for(var i:int = arr.length; 0 < i; i--)
+				{
+					var ui:UIComponent = arr[i-1];
+					ui.setFocus();
+				}
+				if(arr.length>0){
+					this.setFocus();
+					arr[i].setFocus();		
+				}
+			}
+			
+			private function submit():void
+			{
+				var arr:Array = VControl.validateAll(form, this.validators);
+				if (arr.length > 0){ 
+					if (form.x == -width){
+						showExPropEffect([form], -width, 0);
+						showExPropEffect([grgTileList], 0, width);
+					}
+					showError(arr);
+					return;
+				}
+				
+				var telText:String = tel.text;
+				var mobileText:String = mobile.text;
+				if(telText!=null && (telText.indexOf("!")!=-1||telText.indexOf("$")!=-1||telText.indexOf("#")!=-1||telText.indexOf("%")!=-1||telText.indexOf("&")!=-1)){
+					AlertHandler.alert("固定电话号码有非法字符.");
+					return;
+				}
+				if(mobileText!=null && (mobileText.indexOf("!")!=-1||mobileText.indexOf("$")!=-1||mobileText.indexOf("#")!=-1||mobileText.indexOf("%")!=-1||mobileText.indexOf("&")!=-1)){
+					AlertHandler.alert("手机号码有非法字符.");
+					return;
+				}
+				
+				arr = VControl.validateAll(form2, this.validators);
+				if (arr.length > 0){ 
+					if(form.x == 0){
+						showExPropEffect([form], 0, -width);
+						showExPropEffect([grgTileList], width, 0);
+					}
+					showError(arr);
+					return;
+				}
+				
+				pm.save();
+				
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+			[MessageHandler(selector="saveResult")]
+			public function saveResult(p_msg:UserMsg):void
+			{
+				if (p_msg.result)
+					close();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:UserMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			
+			private function showExPropHandler(i:int):void
+			{
+				if(form.x == 0 && i == 1){ 
+					showExPropEffect([form], 0, -width);
+					showExPropEffect([grgTileList], width, 0);
+				}else if(form.x == -width && i==2){ 
+					showExPropEffect([form], -width, 0);
+					showExPropEffect([grgTileList], 0, width);
+				}
+			}
+			
+			private function drawCircle():UIComponent
+			{
+				var t:UIComponent= new UIComponent();
+				var circle:Sprite = new Sprite();
+				circle.graphics.lineStyle(2,0xffffff);
+				circle.graphics.drawCircle(16, 0, 11);
+				t.addChild(circle);
+				return t;  
+			}
+			
+			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+				LanguageManager.getInstance().resourceManager.update();
+				this.basic.addChildAt(this.drawCircle(),0);
+				this.expend.addChildAt(this.drawCircle(),0);
+				var obj:Object = new Object();
+				//var obj1:Object = new Object();
+				//var obj2:Object = new Object();  
+				//var obj3:Object = new Object();
+				
+				obj.name = LanguageManager.getInstance().resourceManager.getObject("platform", "userModule")["noConfig"];
+				//obj1.name = LanguageManager.getInstance().resourceManager.getObject("platform", "userModule")["navConfig"];
+				//obj2.name = LanguageManager.getInstance().resourceManager.getObject("platform", "userModule")["waitConfig"];
+				//obj3.name = LanguageManager.getInstance().resourceManager.getObject("platform", "userModule")["monitorStatus"];
+				
+				obj.url="";
+				//obj1.url="feelview/navigation/view/NavigationModule";
+				//obj2.url = "feelview/index/view/IndexModule";
+				//obj3.url="feelview/statusMonitor/view/MainStatusMonitorModule";
+				
+				this.defauleModule.addItem(obj);
+				//this.defauleModule.addItem(obj1);
+				//this.defauleModule.addItem(obj2); 
+				//this.defauleModule.addItem(obj3); 
+			}
+			
+			
+			public var pagesArr:ArrayCollection = new ArrayCollection([
+				{url:"",pageName:"无"},
+				{url:"sent/transmgr/view/ShowCmlImprecordsModule",pageName:"冠字号文件上传监控"},
+				{url:"sent/transmgr/view/TransMgrModule",pageName:"ATM交易检索"},
+				{url:"sent/transmgr/view/CmlLoadNotesRecordModule",pageName:"ATM加钞检索"},
+				{url:"sent/transmgr/view/CmlTaskInfoModule",pageName:"清分交易检索"},
+				{url:"sent/transmgr/view/CmlCounterRecordModule",pageName:"柜面交易检索"},
+				{url:"sent/transmgr/view/TransBankNoteSeqAllModule",pageName:"冠字号查询"},
+				{url:"sent/transmgr/view/CmlNoteflowInfoSituationReportModule",pageName:"清分量统计报表"},
+				{url:"sent/transmgr/view/CmlNoteflowATMAddCashReportModule",pageName:"ATM加钞统计报表"}
+			]);
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer borderVisible="false">
+		
+		<s:layout>
+			<s:HorizontalLayout gap="0" paddingTop="20" paddingLeft="15"> 
+			</s:HorizontalLayout> 
+		</s:layout>
+		
+		<mx:Canvas borderVisible="false" left="20">
+			<s:BorderContainer x="0" buttonMode="true" click="showExPropHandler(2)"  backgroundImage="@Embed(source='/resources/theme/newui/nav1.png')" borderVisible="false" width="120" height="27">
+				<s:layout>
+					<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+					</s:HorizontalLayout> 
+				</s:layout>
+				<mx:HBox id="basic" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" paddingLeft="15" backgroundAlpha="0"> 
+					<grg:Label backgroundAlpha="0" paddingLeft="3" locale="baseProperty" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(2)"> 
+					</grg:Label>
+				</mx:HBox> 
+			</s:BorderContainer>
+			<s:BorderContainer x="107" buttonMode="true" click="showExPropHandler(1)" backgroundImage="@Embed(source='/resources/theme/newui/nav2.png')" borderVisible="false" width="120" height="27">
+				<s:layout>
+					<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+					</s:HorizontalLayout> 
+				</s:layout>
+				<mx:HBox  id="expend" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" backgroundAlpha="0" paddingLeft="15">  
+					<grg:Label backgroundAlpha="0" paddingLeft="3" locale="extendProperty" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(1)"> 
+					</grg:Label>
+				</mx:HBox>
+			</s:BorderContainer>
+		</mx:Canvas> 
+	</s:BorderContainer> 
+	
+	
+	
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		
+		<grg:Form id="form"
+				  width="100%" height="100%"
+				  paddingTop="16"
+				  textAlign="left"
+				  borderVisible="false">
+			<!--用户名：-->
+			<grg:FormItem width="100%"
+						  locale="userName"
+						  required="true"
+						  borderVisible="false">
+				<!--用户名不能超过32个字符并且不能小于3字符！-->
+				<grg:TextInput id="userName" name="userName" maxChars="32"
+							   width="113" locale="userNameTip"
+							   text="@{pm._user.userName}"
+							   required="true" maxnum="32" minnum="3"
+							   vtype="maxchars|minchars" />
+			</grg:FormItem>
+			
+			<!--用户帐号：-->
+			<grg:FormItem width="100%"
+						  locale="userCode"
+						  required="true">
+				<!--用户账号不能超过32个字符并且不能小于3字符！-->
+				<grg:TextInput id="userCode" name="userCode" maxChars="32"
+							   locale="userCodeTip" restrict="a-zA-Z0-9\-\_\."
+							   width="113" maxnum="32" minnum="3"
+							   required="true" text="@{pm._user.userCode}"
+							   vtype="maxchars|minchars" />
+			</grg:FormItem>
+			
+			
+			
+			<grg:FormItem 
+				width="100%"
+				locale = "userLevel" required="true">
+				<grg:ComboBox id="userLevel" width="84"  name = "userLevel" labelField="value" dataProvider="{pm.userLevels}"
+							  valueField="key" selectedValue="@{pm._user.f1}" required="true"/>
+			</grg:FormItem>
+			
+			
+			
+			
+			<!--首页配置-->
+			<grg:FormItem  width="100%" locale="headConfig">
+				<!--
+				<grg:ComboBox id="headConfig" width="84"  name="headConfig" labelField="name" dataProvider="{defauleModule}"
+							  valueField="url" selectedValue="@{pm._user.defaultModule}"/>
+				-->
+				<grg:ComboBox id="headConfig" width="200"  name="headConfig" labelField="pageName"
+							  valueField="url" selectedValue="@{pm._user.defaultModule}"
+							  dataProvider="{pagesArr}">
+				</grg:ComboBox>
+					
+		
+			</grg:FormItem>
+			<!--所在机构：-->
+			<grg:FormItem  width="100%" locale="orgName" required="true">
+				<grg:GRGComboBoxOrgTree id="orgId" selectedValue="@{pm._user.orgId}"
+										valueField="@id"
+										textAlign="left"
+										width="200"
+										treeHeight="300" />
+			</grg:FormItem>
+			<!--所在区域：-->
+			<grg:FormItem  width="100%" locale="areaName" required="true">
+				<grg:GRGComboxBoxAreaTree  id="areaId" selectedValue="@{pm._user.areaId}"
+										   textAlign="left"
+										   width="200"
+										   treeHeight="300"
+										   valueField="@id" />
+			</grg:FormItem>
+			
+			<!--工号 -->
+			<grg:FormItem 
+				width="100%"
+				locale="workId">
+				<grg:TextInput id="workId" name="workId" text="@{pm._user.workId}"
+							   width="113" maxnum="32" maxChars="32"
+							   vtype="maxchars" />
+			</grg:FormItem>
+			<!--固定电话：-->
+			<grg:FormItem width="100%" locale="telephone">
+				<mx:HBox><grg:TextInput id="tel" name="tel" maxnum="17" text="@{pm._user.tel}"
+										width="113" restrict="0-9()\\-^!@#$%\\^" maxChars="17"
+										vtype="maxchars" />
+					<!--（电话格式：13612345678）-->
+					<grg:MsgTip locale="telTips"/></mx:HBox>
+			</grg:FormItem>
+			
+			
+			<!--手机 -->
+			<grg:FormItem  width="100%" locale="mobile">
+				<mx:HBox>
+					<grg:TextInput id="mobile" name="mobile" maxnum="14" text="@{pm._user.mobile}"
+								   width="113" restrict="0-9()\\-^!@#$%\\^" maxChars="14"
+								   vtype="maxchars" />
+					<!--（电话格式：13612345678）-->
+					<grg:MsgTip locale="telTips"/>
+				</mx:HBox>
+			</grg:FormItem>
+			<!--邮箱：-->
+			<grg:FormItem width="100%" locale="email">
+				<grg:TextInput id="email" name="email" text="@{pm._user.email}"  restrict="0-9a-zA-Z-_"
+							   width="113" maxnum="100" maxChars="100"
+							   vtype="email|maxchars" />
+			</grg:FormItem>
+			
+			<!--账号失效日期 -->
+			<grg:FormItem
+				width="100%"
+				locale="invalidDate">
+				<userDefined:SuperDateField id="invalidDate" selectedDate="@{pm._user.invalidDate}"/>
+			</grg:FormItem>
+			
+			<!--密码失效日期 -->
+			<grg:FormItem
+				width="100%"
+				locale="pwInvalidDate">
+				<userDefined:SuperDateField id="pwInvalidDate" selectedDate="@{pm._user.pwInvalidDate}"/>
+			</grg:FormItem>
+			
+			<!-- 帐号是否可多人登陆 -->
+			<grg:FormItem 
+				width="100%"
+				locale="multiOnline">
+				<mx:HBox>
+					<grg:RadioButtonGroup id="multiOnline" value="@{pm._user.multiOnline}"/>
+					<!--启用-->
+					<grg:RadioButton id="multiOnlineEnable" groupName="multiOnline"
+									 locale="statusEnable" value="Y"/>
+					<!--禁用-->
+					<grg:RadioButton id="multiOnlineDisable" groupName="multiOnline"
+									 locale="statusDisable" value="N"/>
+				</mx:HBox>	
+			</grg:FormItem>
+			<!--状态：-->
+			<grg:FormItem width="100%" locale="status">
+				<mx:HBox>
+					<grg:RadioButtonGroup id="user_status" value="@{pm._user.status}"/>
+					<!--启用-->
+					<grg:RadioButton id="userEnable" groupName="user_status"
+									 locale="statusEnable" value="Y"/>
+					<!--禁用-->
+					<grg:RadioButton id="userDisable" groupName="user_status"
+									 locale="statusDisable" value="N"/>
+				</mx:HBox>	
+			</grg:FormItem>
+		</grg:Form>
+		<s:Group id="grgTileList"  x="{width}" width="{width - 100}">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			<grg:Form id="form2" width="100%"  borderVisible="true" paddingBottom="6">
+				<!--身份证号码 -->
+				<grg:FormItem 
+					width="100%"
+					locale="cardId">
+					<grg:TextInput id="cardId" text="@{pm._user.cardId}"
+								   width="113" maxnum="20" maxChars="20"
+								   vtype="maxchars" />
+				</grg:FormItem>
+				
+				<!--柜员组好 -->
+				<grg:FormItem 
+					width="100%"
+					locale="tellerGroup">
+					<grg:TextInput id="tellerGroup" text="@{pm._user.tellerGroup}"
+								   width="113" maxnum="20" maxChars="20"
+								   vtype="maxchars" />
+				</grg:FormItem>
+				
+				<!--尾箱号码 -->
+				<grg:FormItem 
+					width="100%"
+					locale="tailBoxNo">
+					<grg:TextInput id="tailBoxNo" text="@{pm._user.tailBoxNo}"
+								   width="113" maxnum="20" maxChars="20"
+								   vtype="maxchars" />
+				</grg:FormItem>
+				
+				<!--职位级别 -->
+				<grg:FormItem width="100%" locale="posLevel">
+					<grg:ComboBox id="posLevel" dataProvider="{bindableDataDirCache.getItemAt(0) as IList}" name="posLevel" 
+								  labelField="text" width="84" valueField="key" selectedValue="@{pm._user.posLevel}"/>
+				</grg:FormItem>
+				
+				<!--岗位级别 -->
+				<grg:FormItem width="100%" locale="posType">
+					<grg:ComboBox id="posType" width="84" dataProvider="{bindableDataDirCache.getItemAt(1) as IList}" name="posType" labelField="text"
+								  valueField="key" selectedValue="@{pm._user.posType}"/>
+				</grg:FormItem>
+				
+				<!--绑定IP -->
+				<grg:FormItem locale="ip">
+					<grg:TextInput id="ip" text="@{pm._user.ip}"
+								   width="150" maxnum="32" vtype="ip"
+								   maxChars="32" />
+				</grg:FormItem>
+			</grg:Form>
+			<grg:GRGAutoTileList id="grgTile" width="100%" dataProvider="{pm.extendProperties}" 
+								 itemWidth="{form2.width}" relativeObject="@{pm._user}"/>
+		</s:Group>
+	</s:Group>	 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign="center"
+		verticalAlign="middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn"
+				click="submit()"
+				locale="saveButton"
+				iconVisible="false"
+				/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click="cancel()"
+				iconVisible="false"
+				locale="cancelButton"
+				/>
+		</s:BorderContainer>
+	</s:HGroup> 
+</grg:TitleWindow>

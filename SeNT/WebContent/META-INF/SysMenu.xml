@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu name="菜单管理" menuURL="" iconURL="" level="1" rootURL="#" note="" visible="Y" order="0" language="zh_CN"><!--
+	
+	<menu name="冠字号码追踪" menuURL="#" iconURL="" level="2" rootURL="#" note="" visible="Y" order="10" language="zh_CN">
+		<menu name="交易检索" menuURL="#" iconURL="" level="3" rootURL="#" note="" visible="Y" order="10" language="zh_CN">
+			<menu name="清分交易检索" menuURL="sent/transmgr/view/CmlTaskInfoModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="0" language="zh_CN">
+				<button name="导出" noteEnglish="export" buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="" order="0" language="zh_CN"></button>
+			</menu>
+			<menu name="冠字号码全程追踪" menuURL="sent/transmgr/view/TransBankNoteSeqAllModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="0" language="zh_CN">
+				<button name="CSV文件导出" noteEnglish="expCSV" buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="" order="0" language="zh_CN"></button>
+				<button name="FSN文件导出" noteEnglish="expFSN" buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="" order="0" language="zh_CN"></button>
+			</menu>
+			<menu name="ATM加钞清机检索" menuURL="sent/transmgr/view/CmlLoadNotesRecordModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="80" language="zh_CN">
+				<button name="查看详情" noteEnglish="viewRowDetailInfo" buttonType="icon" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+			</menu>
+			<menu name="柜面交易检索" menuURL="sent/transmgr/view/CmlCounterRecordModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="90" language="zh_CN">
+				<button name="查看详情" noteEnglish="viewRowDetailInfo" buttonType="icon" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+			</menu>
+		</menu>
+		
+		<menu name="纸币流转" menuURL="#" iconURL="" level="3" rootURL="#" note="" visible="Y" order="20" language="zh_CN">
+			<menu name="离行ATM加钞" menuURL="sent/transmgr/view/AddCashToATMOffBank" iconURL="" level="4" rootURL="#" note="" visible="Y" order="100" language="zh_CN">
+				<button name="ATM加钞"         noteEnglish="addCashBoxToATM"             buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="查看详情"        noteEnglish="viewRowDetailInfo"           buttonType="icon"   subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="查看钞箱流转详情" noteEnglish="viewMoneyBoxFlowInfo"       buttonType="icon"   subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+			</menu>
+			<menu name="网点资金调入" menuURL="sent/transmgr/view/BranchFundOutModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="200" language="zh_CN">				
+				<button name="款箱接收扫描"    noteEnglish="branchReceiveScanKXCashBox"  buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="查看详情"        noteEnglish="viewRowDetailInfo"           buttonType="icon"   subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="查看钞箱流转详情" noteEnglish="viewMoneyBoxFlowInfo"       buttonType="icon"   subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+			</menu>
+			<menu name="网点资金调出" menuURL="sent/transmgr/view/BranchFundOutModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="300" language="zh_CN">
+				<button name="atm钞箱回笼"     noteEnglish="atmCashBoxReturn"          buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="款箱配钞"        noteEnglish="branchDistCashByKXCashBox" buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="款箱上缴"        noteEnglish="turnInKXCashBox"           buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="在行atm加钞"     noteEnglish="atmAddCashAtBranch"        buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="支付给柜员"      noteEnglish="payToCounter"              buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="大额取款"        noteEnglish="largeWithdrawal"           buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="查看详情"        noteEnglish="viewRowDetailInfo"         buttonType="icon"   subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="查看钞箱流转详情" noteEnglish="viewMoneyBoxFlowInfo"      buttonType="icon"   subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+			</menu>
+			<menu name="清分量统计报表" menuURL="sent/transmgr/view/CmlNoteflowInfoSituationReportModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="400" language="zh_CN">
+			</menu>
+			<menu name="ATM加钞统计报表" menuURL="sent/transmgr/view/CmlNoteflowATMAddCashReportModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="500" language="zh_CN">
+			</menu>
+		</menu>
+	</menu>
+	
+	<menu name="涉假信息" menuURL="#" iconURL="" level="2" rootURL="#" note="" visible="Y" order="20" language="zh_CN">
+		<menu name="涉假信息" menuURL="#" iconURL="" level="3" rootURL="#" note="" visible="Y" order="0" language="zh_CN">
+			<menu name="客户涉假信息登记" menuURL="sent/checkin/view/FaultInfoCheckInModule" iconURL="" level="4" rootURL="#" note="" visible="Y" order="100" language="zh_CN">
+				<button name="新增"         noteEnglish="add"               buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="编辑"         noteEnglish="edit"              buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="删除"         noteEnglish="delete"            buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="查看详情"     noteEnglish="viewRowDetailInfo" buttonType="icon"   subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				
+				<button name="登记查询结果"  noteEnglish="searchReturn" buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="二次查询登记"  noteEnglish="searchAgain"  buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="CSV文件导出"   noteEnglish="expCSV"       buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				<button name="Excel文件导出" noteEnglish="exportExcel"  buttonType="button" subSystem="纸币冠字号码追踪系统" iconURL="sent/view.png" order="0" language="zh_CN"></button>
+				
+			</menu>
+		</menu>
+	</menu>
+	
+--></menu>

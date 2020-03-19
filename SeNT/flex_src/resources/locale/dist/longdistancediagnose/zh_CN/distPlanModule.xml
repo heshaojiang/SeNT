@@ -1,0 +1,83 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：分发计划与任务资源文件
+	 Create Time：2011-9-19
+	 Author：何志鹏
+	 -->
+<nodes>
+	<node locale = "distPlanModule">
+		<listTitle>远程诊断服务器列表</listTitle>
+		<createdOrgItem>机构:</createdOrgItem>
+		<createdUserItem>创建人</createdUserItem>
+		<taskProgressItem>任务进度</taskProgressItem>
+		<taskTotalItem>任务总数</taskTotalItem>
+		<plannameItemNew>计划名称：</plannameItemNew>
+		<planidItem>计划id</planidItem>
+		<createtimeItem>创建时间</createtimeItem>
+		<createtimefromItem>创建时间：</createtimefromItem>
+		<createtimeendItem>至</createtimeendItem>
+		<repeattypeItem>计划类型</repeattypeItem>
+		<repeattypeItem1>重复类型</repeattypeItem1>
+		<everydayexetimeItem>每天执行时间</everydayexetimeItem>
+		<repeatintervalItem>每次间隔时间</repeatintervalItem>
+		<plannameItem>计划名称</plannameItem>
+		<nextexecutetimeItem>执行时间</nextexecutetimeItem>
+		<nextexecutetimefromItem>执行起始时间</nextexecutetimefromItem>
+		<nextexecutetimeendItem>执行结束时间</nextexecutetimeendItem>
+		<termidlistItem>终端编号</termidlistItem>
+		<taskparaItem>任务指令</taskparaItem>
+		<taskparaversionItem>任务指令版本</taskparaversionItem>
+		<maxretrytimesItem>最大重试次数</maxretrytimesItem>
+		<retryintervalItem>重试秒数</retryintervalItem>
+		<enabledItem>是否可用</enabledItem>
+		<brandItem>终端品牌</brandItem>
+		<termtypeItem>终端类型</termtypeItem>
+		<modelItem>ATM型号</modelItem>
+		<orgidItem>机构</orgidItem>
+		<areaidItem>区域</areaidItem>
+		<timeoutintervalItem>任务超时时间</timeoutintervalItem>
+		<errordescriptionItem>错误描述</errordescriptionItem>
+		<planstatusItem>计划状态</planstatusItem>
+		<!-- plan表 -->
+		<listTitle>远程诊断服务器列表</listTitle>
+		<termidItemNew>终端ID：</termidItemNew>
+		<taskstatusItemNew>任务状态：</taskstatusItemNew>
+		<termidItem>终端ID</termidItem>
+		<taskidItem>任务id</taskidItem>
+		<planexetimeItem>计划执行时间</planexetimeItem>
+		<exebegintimeItem>开始时间</exebegintimeItem>
+		<exeendtimeItem>结束时间</exeendtimeItem>
+		<taskstatusItem>任务状态</taskstatusItem>
+		<extradescriptionItem>任务备注</extradescriptionItem>
+		<exepercentItem>完成百分比</exepercentItem>
+		<resultfileidItem>文件号</resultfileidItem>
+		<retriedtimesItem>重试次数</retriedtimesItem>
+		<timeoutedItem>是否超时</timeoutedItem>
+		<svrnameItem>服务器名称</svrnameItem>
+		<picturelinkItem>链接</picturelinkItem>
+		<picturelink>查看文件</picturelink>
+		<resetlink>查看重置结果</resetlink>
+        <resetTaskButton>重置任务</resetTaskButton>
+		<operateButton>操作</operateButton>
+		<enableButton>启用</enableButton>
+		<disableButton>禁用</disableButton>
+
+		<!-- 列表标题  -->
+		<connectTestList>连通测试列表</connectTestList>
+		<pauseRestoreList>暂停恢复列表</pauseRestoreList>
+		<resetHardWareList>硬件模块重置列表</resetHardWareList>
+		<restartShutDownList>重启关机列表</restartShutDownList>
+		<timeTaskList>定时任务列表</timeTaskList>
+		
+		<!-- 任务数 -->
+		<taskSuccessNum>成功数:</taskSuccessNum>
+		<taskRunningNum>执行中数:</taskRunningNum>
+		<taskFailureNum>失败数:</taskFailureNum>
+		<taskWaitingNum>待执行数:</taskWaitingNum>
+		
+		<TimeTaskPlanTitleMsg>定时提取流水</TimeTaskPlanTitleMsg>
+		<RestartShutDownPlanTitleMsg>重启|关闭系统</RestartShutDownPlanTitleMsg>
+		<PauseRestorePlanTitleMsg>暂停|恢复ATMC</PauseRestorePlanTitleMsg>
+		<DistPlanTitleMsg>连通测试</DistPlanTitleMsg>
+		<alltaskstatus>全部状态</alltaskstatus>
+	</node>
+</nodes>

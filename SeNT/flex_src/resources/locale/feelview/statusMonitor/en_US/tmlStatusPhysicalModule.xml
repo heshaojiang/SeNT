@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：tmlStatusPhysicalModule<br>
+		Create Time：2011-11-26<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlStatusPhysicalModule">
+		<listTitle>Terminal Status Physical Module List</listTitle>
+		<addTmlStatusPhysicalForm>Add TmlStatusPhysical</addTmlStatusPhysicalForm>
+		<updateTmlStatusPhysicalForm>Edit TmlStatusPhysical</updateTmlStatusPhysicalForm>
+		<brandItem>brandId</brandItem>
+		<brandNameItem>brandName</brandNameItem>
+		<moduleItem>modelId</moduleItem>
+		<moduleNameItem>modelName</moduleNameItem>
+		<locationItem>PhysicalLocation</locationItem>
+	</node>
+</nodes>

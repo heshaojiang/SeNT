@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow locale="reportInfoForm" layout="vertical" width="500" height="300"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.XMLListCollection;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.ExtendPropertiesManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.layer.MessageBase;
+			import platform.report.message.ReportInfoMsg;
+			import platform.report.pm.ReportInfoFormPM;
+			[Inject]
+			[Bindable]
+			public var pm:ReportInfoFormPM;
+		
+			private var fileRef:FileReference;
+			
+			[Bindable]
+			private var isAdd:Boolean = false;
+			
+			[Bindable]
+			private var menuDataProvider:XMLListCollection;
+			
+			override protected function viewUpdateComplete():void
+			{
+				if (titleKey==OperationConsts.ADD)
+					isAdd=true;
+				pm.loadRoles();
+				fileRef = new FileReference();
+				fileRef.addEventListener(Event.SELECT, selectHandler);
+				fileRef.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				fileRef.addEventListener(ProgressEvent.PROGRESS,onPorgress);
+				fileRef.addEventListener(Event.COMPLETE, completeHandler);
+				
+				//加载菜单
+				var msg:MessageBase = new MessageBase();
+				msg.type = "getMenuTreeByUser";
+				msg.args["userCode"] = UserInfoInit.userInfo["userCode"];
+				sendMessage(msg);
+				
+				if (code.numberValue==0)
+					code.text = "";
+				
+			}
+			
+			[MessageHandler(selector="getMenuTreeByUserResult")]
+			public function getMenuTreeResult(p_msg:MessageBase):void
+			{
+				var treeXml:String = p_msg.result as String;
+				if (treeXml == null) {
+					AlertHandler.alert(LocaleConsts.NO_PRIVILEGE);
+				}
+				var xml:XML = new XML(treeXml);
+				menuDataProvider = new XMLListCollection(xml.elements("node"));
+			}
+			
+			//选中文件
+			private function selectHandler(event:Event):void {
+				file.text = fileRef.name;
+				fileRef.load();
+			}
+			//上传错误
+			private function ioErrorHandler(event:IOErrorEvent):void {
+				AlertHandler.alert("uploadFileError");
+			}
+			//进度条显示
+			private function onPorgress(event:ProgressEvent):void{
+				var proc:uint = event.bytesLoaded/event.bytesTotal*100;
+				//progressBar.setProgress(proc,100);
+				//progressBar.label=resourceManager.getString("check","uploadProgress")+proc+"%";
+			}
+			
+			//上传完毕
+			private function completeHandler(event:Event):void {
+				//progressBar.visible = false;
+				pm.vo.fileData = fileRef.data;
+				AlertHandler.alert("uploadFile");
+			}
+			
+			//修改保存
+			protected function save():void
+			{
+				if (VControl.validateAll(form , validators).length > 0)
+				{
+					return;
+				}
+				if(isAdd && role.selectedValue==""){
+					AlertHandler.exception("reportInfo.roleNotNull");
+					return;
+				}
+				pm.vo.role = role.selectedValue.split(",");
+				pm.save();
+			}
+			
+			
+			//按照分层规范，保存返回之后不涉及数据模型的更新，由view层接受saveResult消息来关闭窗口
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:ReportInfoMsg):void
+			{
+				this.close();
+			}
+			
+			//选择上传文件
+			private function browseFile():void{
+				var fileTypeArr:Array = new Array();
+				fileTypeArr.push(new FileFilter("*.jasper;*.zip","*.jasper;*.zip"));
+				fileRef.browse(fileTypeArr);
+				
+			}
+			
+			/**
+			 * 设置默认打开的模组
+			 * */
+			private function selectMenu():void
+			{
+				var win:SelectMenu = new SelectMenu();
+				win.dataSource = menuDataProvider;
+				context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.pm = pm;
+			}
+		]]>
+	</fx:Script>
+	<grg:Form id="form"
+			  width="100%"
+			  height="100%"
+			  paddingTop = "16"
+			  textAlign = "left"
+			  borderVisible = "false">
+		
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "code"
+					  required = "true">
+			<grg:TextInput id="code" numberValue="@{pm.vo.code}" editable="{isAdd}"
+						   width="100%"
+						   maxnum = "4"
+						   maxChars="4"
+						   vtype = "int" />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "file"
+					  required = "true">
+			<s:HGroup width="100%">
+				<grg:TextInput id="file" editable="false" text="@{pm.vo.file}"
+							   width="100%" required = "true"
+							   vtype = "maxchars" />
+				<grg:Button locale="choose" click="browseFile()"/>
+			</s:HGroup>
+		</grg:FormItem>
+		<grg:FormItem width="100%" visible="{isAdd}" includeInLayout="{isAdd}"
+					  textAlign = "left"
+					  locale = "menu"
+					  required = "true">
+			<s:HGroup width="100%">
+				<grg:TextInput id="menu" editable="false"
+							   width="100%" text="@{pm.vo.menuName}"
+							   vtype = "maxchars" />
+				<grg:Button locale="choose" click="selectMenu()"/>
+			</s:HGroup>
+		</grg:FormItem>
+		<grg:FormItem width="100%" visible="{isAdd}" includeInLayout="{isAdd}"
+					  textAlign = "left"
+					  locale = "reportName"
+					  required = "true">
+			<grg:TextInput id="reportName"
+						   text="@{pm.vo.reportName}"
+						   width="100%"
+						   maxChars="100"
+						   vtype = "maxchars" />
+		</grg:FormItem>
+		<grg:FormItem width="100%" visible="{isAdd}" includeInLayout="{isAdd}"
+					  textAlign = "left"
+					  locale = "role"
+					  required = "true">
+			<grg:ComboCheck id="role" dataProvider="{pm.roleList}"
+							width="100%" 
+							labelField = "roleName"
+							valueField = "id"  />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "note">
+			<grg:TextArea id="note" maxnum="200"
+						  vtype = "maxchars" maxChars="200"
+						  width="100%" text="@{pm.vo.note}"/>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup width="100%"
+			  height="30"
+			  horizontalAlign = "center"
+			  horizontalCenter = "0"
+			  verticalAlign = "bottom">
+		<grg:Button click = "save()"
+						locale = "saveButton"
+						 />
+		<grg:Button click = "pm.cancel();close();"
+					locale = "cancelButton"
+					 />
+	</s:HGroup>
+</grg:TitleWindow>

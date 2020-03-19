@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- /**Description：客户端升级包管理
+ * Create Time：2011-11-29   
+ * Author：zhangjinpeng 
+ * Email : zjpeng@grgbanking.com 
+ */ -->
+<nodes>
+	<node locale = "agentInstallpkgInfoForm">
+		<addAgentInstallpkgInfoForm>Add Agent Install Package Information</addAgentInstallpkgInfoForm>
+		<updateAgentInstallpkgInfoForm>Update Agent Install Package Information</updateAgentInstallpkgInfoForm>
+		<fileidItem>File Id</fileidItem>
+		<versionItem>Version</versionItem>
+		<urlItem>URL</urlItem>
+		<md5Item>MD5</md5Item>
+		<sha1Item>SHA1</sha1Item>
+		<fileUploadDateItem>File Upload Time</fileUploadDateItem>
+		<noteItem>Note</noteItem>
+		<uploadFileItem>Upload File</uploadFileItem>
+		<UploadFileInfo>Upload File Information</UploadFileInfo>
+	</node>
+</nodes>

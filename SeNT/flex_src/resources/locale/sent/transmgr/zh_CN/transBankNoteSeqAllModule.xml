@@ -1,0 +1,47 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="transBankNoteSeqAllModule">
+	
+		<titlemsg>冠字号查询及追踪</titlemsg>
+<!--<titlemsg>假钞罚没单</titlemsg>-->
+		
+		<tranTimeColon>交易日期：</tranTimeColon>
+		<seriaNoColon>冠字号码：</seriaNoColon>
+		<orgIdColon>所属机构：</orgIdColon>
+	  	<noteTypeColon>钞票类别：</noteTypeColon>
+	    <termTypeColon>业务类型：</termTypeColon>
+	    <termIdColon>终端编号：</termIdColon>
+	    <to>至</to>
+	    
+	    <expCSV>CSV文件导出</expCSV>
+	    <fsnZip>FSN文件导出</fsnZip>
+	    
+	    
+	    <seriaNo>冠字号码</seriaNo>
+	    <noteType>钞票类别</noteType>
+	    <currency>币种</currency>
+	    <denomination>面额</denomination>
+	    <termid>终端编号</termid>
+	    <orgName>所属机构</orgName>
+	    <versionNum>版别</versionNum>
+	    <typeName>业务类别</typeName>
+	    <sendTime>交易时间</sendTime>
+		<operations>操作</operations>
+		<columnNo>序号</columnNo>
+	    
+	    <showTransDetailInfo>查看交易详情</showTransDetailInfo>
+		<viewNoteflowDetailInfo>查看冠字号追踪详情</viewNoteflowDetailInfo>
+	    
+	    <type>机型</type>
+	    <machineType>设备类别</machineType>
+	    <moneyType>钞票类型</moneyType>
+	    <!--
+	    <noteTypes>钞票类别：</noteTypes> 
+	    <noteFlag>钞票标识</noteFlag>
+	    <termid>ATM终端号</termid>
+	    <fuzzyCount>冠字号码匹配位数：</fuzzyCount>
+	    <isFuzzy>是否模糊检索</isFuzzy>
+		-->
+		
+	</node>
+</nodes>

@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "paramForm">
+		<addParamForm>新增</addParamForm>
+		<updateParamForm>编辑</updateParamForm>
+		<keypathItem>路径：</keypathItem>
+		<itemKey>项目主健：</itemKey>
+		<itemValue>项目值：</itemValue>
+		<note>备注：</note>
+		<encryptStatus>加密：</encryptStatus>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>			
+	</node>
+</nodes>

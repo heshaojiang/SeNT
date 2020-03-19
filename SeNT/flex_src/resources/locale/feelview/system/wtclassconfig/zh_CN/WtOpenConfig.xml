@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtOpenConfig">
+		
+		<!-- 开机率设置 -->
+		<wtOpenConfigTitleItem>开机率设置</wtOpenConfigTitleItem>
+		<deductNumerator>分子扣除</deductNumerator>
+		<deductDenominator>分母扣除</deductDenominator>
+		<deductAll>分子分母均扣除</deductAll>
+		<notCalculate>不计算</notCalculate>
+		<helpTip>
+1.选择此类别的开机率计算公式		
+		</helpTip>				
+	</node>
+</nodes>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow locale="writeLetterForm" layout="vertical" width="400" height="220" titleKey="writeLetter"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009"  
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley" helpTips="helpTip">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.sitemsg.message.SiteMsg;
+			import platform.sitemsg.pm.WriteLetterFormPM;
+			
+			[Inject]
+			[Bindable]
+			public var pm:WriteLetterFormPM;
+			public var operation:String;
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.loadRecipient();
+				
+			}
+			
+			//修改保存
+			protected function save():void
+			{
+				if (VControl.validateAll(form , validators).length > 0)
+				{
+					return;
+				}
+				if(recipient.selectedValue==""){
+					AlertHandler.exception("siteMsg.recipientNotNull");
+					return;
+				}
+				pm.vo.userIds = recipient.selectedValue.split(",");
+				pm.vo.sender = UserInfoInit.userInfo["id"];
+				pm.saveLetter(this.operation);
+			}
+			
+			
+			//按照分层规范，保存返回之后不涉及数据模型的更新，由view层接受saveResult消息来关闭窗口
+			/**save success handler**/
+			[MessageHandler(selector="saveLetterResult")]
+			public function saveBackHandler(p_msg:SiteMsg):void
+			{
+				this.close();
+				
+			}
+		]]>
+	</fx:Script>
+	<grg:Form id="form"
+					width="100%"
+					height="100%"
+					paddingTop = "20"
+					textAlign = "left"
+					borderVisible = "false">
+		
+		<grg:FormItem width="100%"
+							textAlign = "left"
+							locale = "recipient"
+							required = "true">
+			<grg:ComboCheck id="recipient" dataProvider="{pm.recipients}" 
+								   width="245" defaultValue="{[pm.vo.sender]}"
+								   labelField = "userName"
+								   valueField = "id"  />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "content"
+					  required = "true">
+			<grg:TextArea id="content" maxnum="200" required="true"
+						  vtype = "maxchars" maxChars="200"
+						  width="245" text="@{pm.vo.content}"/>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup width="100%"
+			  horizontalAlign = "center"
+			  horizontalCenter = "0"
+			  paddingTop="20"
+			  paddingBottom="10"
+			  gap="10"
+			  verticalAlign = "top">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button click = "save()"
+						locale = "saveButton"
+						iconVisible="false"
+						 />
+		</s:BorderContainer>
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button click = "close();"
+						locale = "cancelButton"
+						iconVisible="false"
+						 />
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

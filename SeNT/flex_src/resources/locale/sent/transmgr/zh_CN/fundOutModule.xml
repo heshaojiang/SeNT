@@ -1,0 +1,61 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="fundOutModule">
+		
+		<titlemsg>出库管理</titlemsg>
+		
+		<operDateColon>操作日期：</operDateColon>
+		<to>至</to>
+		<atmNunColon>ATM编号：</atmNunColon>
+		<moneyBoxNumColon>钞箱号：</moneyBoxNumColon>
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		<operatorColon>操作人：</operatorColon>
+		<organizationColon>所属机构：</organizationColon>
+		
+		
+		<deliverCashInBank>行内出库</deliverCashInBank>
+		<deliverCashByPboc>人行出库</deliverCashByPboc>
+		<deliverCashForOtherBank>同业出库</deliverCashForOtherBank>
+		
+		
+
+		
+		
+		<fundOutType>资金调出类型</fundOutType>
+		<barcodeFlowNum>流转条码</barcodeFlowNum>
+		<cashboxNum>钞箱号</cashboxNum>
+		<atmNum>ATM号</atmNum>
+		<currFlowStage>所处阶段</currFlowStage>
+		<status>状态</status>
+		<operator>操作人</operator>
+		<operDate>操作时间</operDate>
+		<operations>操作</operations>
+		<orgName>所属机构</orgName>
+		<receiveOrgName>接收机构</receiveOrgName>
+		<atmCode>ATM编号</atmCode>
+		<totalNotes>统计金额</totalNotes>
+		
+		<viewRowDetailInfo>查看详情</viewRowDetailInfo>
+		<viewMoneyBoxFlowInfo>查看钞箱流转详情</viewMoneyBoxFlowInfo>
+		
+		<!--
+		<operDateColon>操作日期：</operDateColon>
+		<atmNunColon>ATM编号：</atmNunColon>
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		<operatorColon>操作人：</operatorColon>
+		<organizationColon>所属机构：</organizationColon>
+		
+		<to>至</to>
+		
+		<barcodeFlowNum>流转条码</barcodeFlowNum>
+		<cashboxNum>钞箱号</cashboxNum>
+		<atmNum>ATM号</atmNum>
+		<operator>操作人</operator>
+		<operDate>操作时间</operDate>
+		<operations>操作</operations>
+		-->
+		
+		
+		
+	</node>
+</nodes>

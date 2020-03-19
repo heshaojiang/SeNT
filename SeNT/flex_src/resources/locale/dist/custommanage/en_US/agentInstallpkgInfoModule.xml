@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- /**Description：客户端升级包管理
+ * Create Time：2011-11-29   
+ * Author：zhangjinpeng 
+ * Email : zjpeng@grgbanking.com 
+ */ -->
+<nodes>
+	<node locale = "agentInstallpkgInfoModule">
+		<listTitle>Agent Install Package List</listTitle>
+		<fileidItem>File Id</fileidItem>
+		<versionItem>Version</versionItem>
+		<urlItem>URL</urlItem>
+		<md5Item>MD5</md5Item>
+		<sha1Item>SHA1</sha1Item>
+		<fileUploadDateItem>File Upload Time</fileUploadDateItem>
+		<fileUploadDateFromItem>File Upload Time From</fileUploadDateFromItem>
+		<fileUploadDateEndItem>File Upload Time To</fileUploadDateEndItem>
+		<noteItem>Note</noteItem>
+		<operateButton>Operation</operateButton>
+	</node>
+</nodes>

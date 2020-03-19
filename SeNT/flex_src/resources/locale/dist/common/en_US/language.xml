@@ -1,0 +1,330 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="main">
+		<!-- Main Start-->
+		<language>Language:</language>
+		<version>FEEL Distribution 3.0</version>
+		<copyright>Copyright © 2012 GRGBanking Equipment Co., Ltd.</copyright>
+		<loginTimeLabel>Login Time:</loginTimeLabel>
+		<loginUserLabel>Login User:</loginUserLabel>
+	</node>
+	<node locale="login">
+		<loginusername>Username:</loginusername>
+		<loginpassword>Password:</loginpassword>
+		<loginlanguage>Language:</loginlanguage>
+		<login-error>Username or Password is Error!</login-error>
+		<userLocked>User is disabled or password has expired!</userLocked>
+		<wrongPwd>Wrong Password Input For (?1) Times! The User Will Be Locked When Wrong Password Input For (?2) Times!</wrongPwd>
+		<userNotFound>Username Is Not Existed!</userNotFound>
+	</node>
+	<node locale="language">
+		<zh_CN>简体中文</zh_CN>
+		<en_US>English</en_US>
+		<tr_TR>Türkçe</tr_TR>
+	</node>
+	<!-- Main End-->
+	<!-- Button Start-->
+	<node locale="button">
+		<mergeMenu>Merge Menu</mergeMenu>
+		<setFavoriteModule>Set Default Menu</setFavoriteModule>
+		<resetpass>ChangePIN</resetpass>
+		<logout>Exit</logout>
+		<help>Help</help>
+		<expanded>Expand</expanded>
+		<collapse>Collapse</collapse>
+		<query>Find</query>
+		<saveButton>Save</saveButton>
+		<addButton>Add</addButton>
+		<editButton>Edit</editButton>
+		<delButton>Delete</delButton>
+		<delSelectedButton>DeleteSelected</delSelectedButton>
+		<closeButton>Close</closeButton>
+		<resetButton>Reset</resetButton>
+		<submitButton>Submit</submitButton>
+		<cancelButton>Cancel</cancelButton>
+		<searchButton>Search</searchButton>
+		<setButtons>setButtons</setButtons>
+		<loginButton>Login</loginButton>
+		<moveAllButton>Remove All</moveAllButton>
+		<moveSlectedButton>Remove</moveSlectedButton>
+		<addAllButton>Add All</addAllButton>
+		<addSlectedButton>Add</addSlectedButton>
+		<sortButton>Sort</sortButton>
+		<upButton>Up</upButton>
+		<downButton>Down</downButton>
+		<todayBtn>today</todayBtn>
+		<okBtn>submit</okBtn>
+		
+		<leftButton>Left</leftButton>
+		<rightButton>Right</rightButton>
+		<upButton>Up</upButton>
+		<downButton>Down</downButton>
+		<setParamButton>setParam</setParamButton>
+		
+		<exportButton>export</exportButton>
+		<tmlSettingButton>Terminal Setting</tmlSettingButton>
+		<importButton>import</importButton>
+		<announceButton>announce</announceButton>
+		<chooseButton>choose</chooseButton>
+		<downloadButton>download</downloadButton>
+		<searchLinkButton>search link</searchLinkButton>
+		<updateButton>Update Plan</updateButton>
+		<selectATMIDDispenseButton>send task by selected list</selectATMIDDispenseButton>
+		<selectSearchCondDispenseButton>send task by query condition</selectSearchCondDispenseButton>
+		<addSelectATMIDDispenseButton>add selected to list</addSelectATMIDDispenseButton>
+		<viewSelectSearchCondDispenseButton>view selected list</viewSelectSearchCondDispenseButton>
+		<deleteSelectedATMButton>delete</deleteSelectedATMButton>
+		<distributeSelectedButton>send by selected ATMs</distributeSelectedButton>
+		<distributeOptionButton>send by query condition</distributeOptionButton>
+		<resetTaskButton>Reset Task</resetTaskButton>
+		<normal>Same</normal>
+		<abnormal>Different</abnormal>
+		<searchAgentConfigButton>AGENT Config</searchAgentConfigButton>
+		<uploadButton>Upload File</uploadButton>
+		<downloadButton>Check File</downloadButton>
+		<invalidButton>Invalid</invalidButton>
+		<commitAuditButton>Commit Audit</commitAuditButton>
+		<auditButton>Audit</auditButton>
+	</node>
+	<!-- Button End-->
+	<!-- Components Start-->
+	<node locale="components">
+		<all>all</all>
+	
+		<components.unselected>UnSelected</components.unselected>
+		<components.selected>Selected</components.selected>
+		<components.pagenum>Current Page</components.pagenum>
+		<components.perpage>Records/Per Page</components.perpage>
+		<components.allrecorditem>Records</components.allrecorditem>
+		<components.allpage>Pages</components.allpage>
+		<components.currentpage>Current Page</components.currentpage>
+
+		<!-- sort components -->
+		<sortWin>Sort Window</sortWin>
+
+		<!-- DateSelect -->
+		<!-- week data -->
+		<sunday>Su</sunday>
+		<monday>Mo</monday>
+		<tuesday>Tu</tuesday>
+		<wednesday>We</wednesday>
+		<thursday>Th</thursday>
+		<friday>Fr</friday>
+		<saturday>Sa</saturday>
+		<!-- week data -->
+		<!-- time -->
+		<hour>hour:</hour>
+		<minute>minute:</minute>
+		<!-- time -->
+		<!-- DateSelect -->
+		<checked>Select</checked>
+		<unChecked>DeSelect</unChecked>
+		<selectAll>Select All</selectAll>
+		<deSelectAll>DeSelect All</deSelectAll>
+	</node>
+	<!-- Components End-->
+	<node locale="image">
+		<closeAllButton>Close All Window</closeAllButton>
+		<settingButton>Setting Button</settingButton>
+		<settingRole>Setting Role</settingRole>
+		<settingGroup>Setting Group</settingGroup>
+		<settingUser>Setting User</settingUser>
+		<settingPrivilege>Setting Privilege</settingPrivilege>
+		<resetPassword>Reset PassWord</resetPassword>
+		<firstNavBtn>First Page</firstNavBtn>
+		<preNavBtn>Previous Page</preNavBtn>
+		<nextNavBtn>Next Page</nextNavBtn>
+		<lastNavBtn>Last Page</lastNavBtn>
+		<fullscreen>Full Screen</fullscreen>
+		<resumescreen>Normal Screen</resumescreen>
+		<searchImage>Search</searchImage>
+		<expandImage>Expand</expandImage>
+		<collapseImage>Collapse</collapseImage>
+	</node>
+	<node locale="Msg">
+		<passwordExpired>Your password is expired at few days in the furture.please change it as soon as possible!</passwordExpired>
+		<systemInfo>System Info</systemInfo>
+		<success>Success</success>
+		<delSuccess>Delete Success</delSuccess>
+		<saveSuccess>Save Success</saveSuccess>
+		<resetSuccess>Reset Success</resetSuccess>
+		<!-- <error>Error</error> -->
+		<confirm>OK</confirm>
+		<cancel>Cancel</cancel>
+		<confirmDelete>Confirm Delete The Selected Records?</confirmDelete>
+		<moreThanTree>double click to see list</moreThanTree>
+		<confirmLogout>Confirm Logout?</confirmLogout>
+		<timeOut>Session Time Out!</timeOut>
+		<defaultPassword>please change the default password!</defaultPassword>
+		<pwdNotNull>Password can not null!</pwdNotNull>
+		<newPwdInconsistent>The Two New Password Inconsistent!</newPwdInconsistent>
+		<pwdLenError>Password length Error!(6-20 Characters)</pwdLenError>
+		<confirmResetPwd>Are You Sure To Reset The Password?</confirmResetPwd>
+		<noSelectedRecord>Please Selected One Record!</noSelectedRecord>
+		<!-- <wrongPassword>Error!\nWrong Password!</wrongPassword> -->
+		<noSelectedNode>Not Selected Node!</noSelectedNode>
+		<nameAlreadyExisted>Name Already Existed!</nameAlreadyExisted>
+		<searchKeyNotNull>Search Key Is NULL!</searchKeyNotNull>
+		<!-- <alreadyAssign>Already Be Assign</alreadyAssign> -->
+		<noChange>No Change!</noChange>
+		<inputNotNull>The Input can not be null!</inputNotNull>
+		<moduleIsSoMuch>The opened windows are so much, please close any and try again!</moduleIsSoMuch>
+		<!-- <existKey>This Key has already exists!</existKey> -->
+		<noPrivilege>User do not have any privilege!</noPrivilege>
+		<overDis>overDisAsset</overDis>
+		<failEdit>signed!do not edit</failEdit>
+		<redisConfirm>redisConfirm</redisConfirm>
+		<signed>signed</signed>
+		<signFailReason>owen same seqno,sign failed!</signFailReason>
+		<noFileId>file id is null</noFileId>
+		<nullFileId>file is not exist</nullFileId>
+		<canNotConnectTermid>Can Not Connect To Terminfo.Please Check The Net Or Try Again！</canNotConnectTermid>
+		<canNotFindFile>Can Not Found The Children Dir.Please Check The Net Or Try Again！</canNotFindFile>
+		<nullsearchid>The Termid Or Excuting Time Has Not Been Chosen </nullsearchid>
+		<nullPathOrWildcard>Path or Wildcard is NULL!</nullPathOrWildcard>
+		<inputDataInvalid>Data you entered is invalid, please check.</inputDataInvalid>
+		<nullChooseUpdateTime>Update(Create) Time Has Not Been Chosen</nullChooseUpdateTime>
+		<chooseUpdateTime>The Executing Time Is:</chooseUpdateTime>
+		<nullsearchFile>The File Has Not Been Chosen </nullsearchFile>
+		<notStateLink>list state is wrong</notStateLink>
+		<auditPlanSuccess>Audit Plan Success</auditPlanSuccess>
+		<signSucc>sign success!</signSucc>
+		<noReamin>no remain!could not sign</noReamin>
+		<openConfirm>openConfirm</openConfirm>
+		<examineSuccess>examineSuccess</examineSuccess>
+		<failCancel>Stopping or stoped!do not cancel</failCancel>
+		<failBreak>not Stopping!do not break</failBreak>
+		<cancelConfirm>Are You Sure To cancel The termStop?</cancelConfirm>
+		<breakConfirm>Are You Sure To break The termStop?</breakConfirm>
+		<failStop>CAN NOT FIND MATCH TERMINFO!</failStop>
+		<confirmInvalid>Confirm Invalid The Selected Records?</confirmInvalid>
+		<invalidSuccess>Invalid Success</invalidSuccess>
+		<confirmCommitAudit>Confirm Commit The Selected Records? </confirmCommitAudit>
+		<commitAuditSuccess>Commit Audit Success</commitAuditSuccess>
+		<confirmAudit>Confirm Audit The Selected Records? </confirmAudit>
+		<listIsInvalid>Record Has Been Invalided</listIsInvalid>
+		<listCanNotAudit>Record Status Is Not Commit Status, Can Not Been Audited</listCanNotAudit>
+		<listIsCommit>Record Has Been Commited</listIsCommit>
+		<listIsUpload>Record Has Been uploaded FILE</listIsUpload>
+		<listDoNotUpload>Please Upload File To Server First</listDoNotUpload>
+		<auditSuccess>Audit Success</auditSuccess>
+		<chooseExeFile>Please Choose Exe's File！</chooseExeFile>
+		<chooseFile>Please Choose Upload's File！</chooseFile>
+		<selectRecordExist>The Number of Record has Already Existed！Can Not Add Any More！</selectRecordExist>
+		<chooseFileTooBig>Your Choose File Is Bigger Than 30M ！</chooseFileTooBig>
+		<onlyCanDelOnePlanOnce>Only Can Delete a TimeTask Plan once.</onlyCanDelOnePlanOnce>
+		<hasUnfinishTask>The selected plan has unfinished task, can not delete.</hasUnfinishTask>
+		<onlyCanSelectOnePlan>Only can select a plan record.</onlyCanSelectOnePlan>
+		<resetFailTask>Confirm to reset fail tasks(execute failed, (no more retry);task timeout;cannot connect to agent, wait for agent to get its own tasks)?</resetFailTask>
+		<confirmEnablePlan>Are you confirm to enable this plan?</confirmEnablePlan>
+		<confirmDisablePlan>Are you confirm to disable this plan?</confirmDisablePlan>
+		<failToOperation>Can not to do this operation,please check!</failToOperation>
+		<hasbeensent>This message has been sent, can not be edite or delete !</hasbeensent>
+		<hasbeenannounced>This message has been announced !</hasbeenannounced>
+		<selectATMMustSelectOne>Please select a terminal at least！</selectATMMustSelectOne>
+		<selectNullTerminfo>Can Not Find Any Terminfo By SQL</selectNullTerminfo>
+		<chooseTerminfoNum>From The SQL((Select By Brand、Term Type、Model、Organization、Area Id)), The Terminfo's Numbers Is:</chooseTerminfoNum>
+		<selectedTerminfoByPlanidNum>The Terminfo Number Your Choose Is：</selectedTerminfoByPlanidNum>
+		<selectNullTerminfoByPlanid>Don't choose Any Terminfo!</selectNullTerminfoByPlanid>
+		<distributeTaskRecordNum>Distributting Task Number Is：</distributeTaskRecordNum>
+		<rebootByForce>This Doing Will Reboot or Shutdown ATM By Force!</rebootByForce>
+		<selectATMCannotMorethanTen>Select termnials cannot more then ten.</selectATMCannotMorethanTen>
+		<hasalreadyexisted>this record has already existed!</hasalreadyexisted>
+		<uploadFile>Upload File Success!</uploadFile>
+		<uploadFileError>Upload File Fail！File Is Too Big Or The NET Can't Transport!</uploadFileError>
+		<existedDistServerConfigId>Server's Name Or Ip Has Been Existed!</existedDistServerConfigId>
+		<confirmDistributeSelectedTask>Confirm Distribute The Selected Records?</confirmDistributeSelectedTask>
+		<confirmResetTaskAsProhibited>Confirm Reset The Selected Tasks?</confirmResetTaskAsProhibited>
+		<distTaskRecordSuccess>Distribute Task Success!</distTaskRecordSuccess>
+		<distTaskRecodeResetSuccess>Reset Task Success!</distTaskRecodeResetSuccess>
+		<noDistTaskRecordNum>Can Not Find Any Task Record By Selected!</noDistTaskRecordNum>
+		<insertSelectedATMSuccuss>Insert Success！</insertSelectedATMSuccuss>
+		<processTypeStart>Start</processTypeStart>
+		<processTypeTerminate>Terminate</processTypeTerminate>
+		<auditStatusCreated>created</auditStatusCreated>
+		<auditStatusSubmited>submitted</auditStatusSubmited>
+		<auditStatusApproved>approved</auditStatusApproved>
+		<auditStatusRejected>rejected</auditStatusRejected>
+		<auditStatusUnknown>unknown</auditStatusUnknown>
+	</node>	
+	<node locale="validator">
+		<vtype-required>This field is required!</vtype-required>
+		<vtype-email>E-mail format error!</vtype-email>
+		<vtype-password>Password format is not correct!</vtype-password>
+		<vtype-bankcard>Bank card format is not correct!</vtype-bankcard>
+		<vtype-ip>IP format is not correct!</vtype-ip>
+		<vtype-englishchar>Enter English and characters only!</vtype-englishchar>
+		<vtype-english>Enter Letters only!</vtype-english>
+		<vtype-chinese>Enter the Chinese only!</vtype-chinese>
+		<vtype-url>URL format is not correct!</vtype-url>
+		<vtype-idcard>ID card format is not correct!</vtype-idcard>
+		<vtype-date>Date format is not correct!</vtype-date>
+		<vtype-datetime>DateTime format is not correct!</vtype-datetime>
+		<vtype-unsafe>Enter the security characters only!</vtype-unsafe>
+		<vtype-engdigit>Enter numbers in English only!</vtype-engdigit>
+		<vtype-number>Enter numbers only!</vtype-number>
+		<vtype-int>Enter Integer only!</vtype-int>
+		<vtype-unchinese>Can not enter Chinese!</vtype-unchinese>
+		<vtype-maxchars> Maximum number of characters can not exceed</vtype-maxchars>
+		<vtype-minchars> Minimum number of characters not less than</vtype-minchars>
+		<vtype-minchars-zh_CN> (Chinese characters are double-byte)</vtype-minchars-zh_CN>
+	</node>
+	<node locale="FDTaskType">
+		<task201>query agent config</task201>
+		<task202>modify agent config</task202>
+		<task208>query OS config</task208>
+		<task209>modify OS config</task209>
+		<task301>screenshot</task301>
+		<task308>ping/telnet</task308>
+		<task309>get process info</task309>
+		<task401>restart ATM</task401>
+		<task402>shutdown ATM</task402>
+		<task403>pause ATMC service</task403>
+		<task404>resume ATMC service</task404>
+		<task405>execute script</task405>
+		<task406>start/terminate process</task406>
+		<task408>get file</task408>
+		<task409>send file</task409>
+		<task410>delete file</task410>
+		<task411>reset hardware</task411>
+		<task412>get crm log</task412>
+		<task501>query software version</task501>
+		<task502>adv. upgrade</task502>
+		<task503>ATMC upgrade</task503>
+		<task504>SP upgrade</task504>
+		<task505>Firmware upgrade</task505>
+		<task509>Agent self-upgrade</task509>
+		<task601>timely task - 1 time everyday</task601>
+		<task602>timely task - 1 time in future</task602>
+		<task603>timely task - every X minutes</task603>
+	</node>
+	<node locale="FDTaskStatus">
+		<status_0>no task/prohibited</status_0>
+		<status_1>unassigned</status_1>
+		<status_2>assigning</status_2>
+		<status_3>assigned, but not executed yet</status_3>
+		<status_4>executing</status_4>
+		<status_5>execute failed, retry later</status_5>
+		<status_6>execute failed, no more retry</status_6>
+		<status_7>task timeout</status_7>
+		<status_8>cannot connect to agent</status_8>
+		<status_9>execute success</status_9>
+	</node>
+	
+	<!-- Dynamic Skin -->
+	<node locale="loginSkin">
+		<zh_CN>loginPanel_zh_CN</zh_CN>
+		<en_US>loginPanel_en_US</en_US>
+		<tr_TR>loginPanel_tr_TR</tr_TR>
+	</node>
+	<node locale="logoSkin">
+		<zh_CN>banner_logo_zh_CN</zh_CN>
+		<en_US>banner_logo_en_US</en_US>
+		<tr_TR>banner_logo_tr_TR</tr_TR>
+	</node>
+	<node locale="mainSkin">
+		<zh_CN>mainContainer_zh_CN</zh_CN>
+		<en_US>mainContainer_en_US</en_US>
+		<tr_TR>mainContainer_tr_TR</tr_TR>
+	</node>
+</nodes>

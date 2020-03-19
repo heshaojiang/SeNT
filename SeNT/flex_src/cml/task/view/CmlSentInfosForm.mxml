@@ -1,0 +1,113 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+	dataDictionaryPaths="{[CmlRecruitInfosConsts.MONEY_TYPE]}"
+	width="400" height="200"
+				 layout = "vertical"
+				 showIcon = "false"
+				 locale = "cmlRecruitInfosModule"
+				 xmlns:fx = "http://ns.adobe.com/mxml/2009"
+				 xmlns:s = "library://ns.adobe.com/flex/spark"
+				 xmlns:mx = "library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 helpTips="helpTip">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.task.constants.CmlRecruitInfosConsts;
+			import cml.task.message.CmlRecruitInfosMsg;
+			import cml.task.pm.CmlRecruitInfosPM;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.validator.VControl;
+			import platform.security.message.RoleMsg;
+			import platform.security.pm.RoleFormPM;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:CmlRecruitInfosPM;
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function cancel():void
+			{
+				close();
+			}
+			
+			private function submit():void
+			{
+				if (VControl.validateAll(form, validators).length > 0)
+					return;
+				pm.saveCmlSentInfos();
+			}
+			
+			[MessageHandler(selector="saveCmlSentInfoResult")]
+			public function saveCmlSentInfosResult(p_msg:CmlRecruitInfosMsg):void
+			{
+				if (null != p_msg.result){
+					if (p_msg.result == "-1")
+						AlertHandler.alert("nameAlreadyExisted");
+					else if (p_msg.result == "0")
+					{
+						close();
+						pm.getBankNotes();
+					}
+					else
+						AlertHandler.alert(p_msg.result.toString());
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<grg:Form id="form"
+			  width="100%"
+			  textAlign = "left"
+			  borderVisible = "false">
+		<grg:FormItem 
+			width="100%"
+			locale = "seriaNoItem"
+			required = "true">
+			<grg:TextInput id="seriaNo" name = "seriaNo" maxnum="50" vtype="maxchars" maxChars="50"
+						   width="113" required="true" text="@{pm.cmlSentInfos.seriaNo}"/>
+		</grg:FormItem>
+		<grg:FormItem 
+			width="100%"
+			locale = "moneyTypeItem">
+			<grg:ComboBox id="moneyType" width="100"  dataProvider="{bindableDataDirCache.getItemAt(0) as IList}"
+						  labelField = "text" valueField = "key" selectedValue="@{pm.cmlSentInfos.moneyType}"/>	
+		</grg:FormItem>
+	</grg:Form> 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "submit()"
+				locale = "saveButton"
+				iconVisible="false"
+				/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				iconVisible="false"
+				locale = "cancelButton"
+				/>
+		</s:BorderContainer>
+	</s:HGroup> 
+</grg:TitleWindow>

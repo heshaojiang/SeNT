@@ -1,0 +1,14 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "knowledgeLibrary">
+		<tittle>Konu</tittle>
+		<libraryTitle>Konu</libraryTitle>
+		<addAssetInputForm>Bilgi Ekle</addAssetInputForm>
+		<updateAssetInputForm>Bilgi Düzenle</updateAssetInputForm>
+		<creater>Oluşturan</creater>
+		<createtime>Oluşturma Zamanı</createtime>
+		<content>İçerik</content>
+		<resource>Kaynak</resource>
+		<download>Yükle</download>
+	</node>
+</nodes>

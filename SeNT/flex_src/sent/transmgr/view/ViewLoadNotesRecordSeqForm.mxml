@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*"
+				 dataDictionaryPaths="{[DataDictPathConsts.CML_LOAD_NOTES_RECORD_ADD_CASH_OPER_TYPE,
+				 						DataDictPathConsts.CML_LOAD_NOTES_RECORD_ADD_CASH_ATM_TYPE,
+				 						CmlSentInfoConsts.NOTE_TYPE,
+				 						CmlSentInfoConsts.CURRENCY,CmlSentInfoConsts. VERSION_NUM]}"
+				 locale="viewLoadNotesRecordSeqForm" 
+				 titleKey="title"
+				 layout="vertical" width="800" height="590"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.utils.ObjectProxy;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.transmgr.constants.CmlSentInfoConsts;
+			import sent.transmgr.constants.DataDictPathConsts;
+			import sent.transmgr.message.CmlLoadNotesRecordMsg;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlBatchRecordPM;
+			import sent.transmgr.pm.CmlLoadNotesRecordPM;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			import sent.transmgr.vo.CmlSentInfoVO;
+			
+			[Inject]
+			[Bindable]
+			public var cmlLoadNotesRecordPM:CmlLoadNotesRecordPM;
+			
+			
+			[Inject]
+			[Bindable]
+			public var cmlBatchRecordPM:CmlBatchRecordPM;
+			
+			
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;
+			
+			[Bindable]
+			private var fromTableName:String;
+			
+			[Bindable]
+			private var cmlSentInfoId:String = "";
+			
+//			[Bindable]
+//			private var tranId:String = "";
+			
+			
+			[Bindable]
+			private var _cmlSentInfoVO:CmlSentInfoVO = new CmlSentInfoVO();
+			
+			[Bindable]
+			private var _cmlLoadNotesRecord:ObjectProxy = new ObjectProxy();
+			
+			[Bindable]
+			private var dataGridAC:ArrayCollection = new ArrayCollection();
+			
+			////////////////////
+			
+			private function set cmlLoadNotesRecord(obj:Object):void
+			{
+				if( obj is ObjectProxy )
+				{
+					_cmlLoadNotesRecord = obj as ObjectProxy;
+				}
+				else
+				{
+					_cmlLoadNotesRecord = new ObjectProxy(obj);
+				}
+			}
+			
+			//////////////////////
+			
+			/**
+			 * 
+			 */
+			public function initData(id:String, fromTableName:String):void
+			{
+				trace("ViewLoadNotesRecordSeqForm.initData");
+				this.fromTableName = fromTableName;
+				this.cmlSentInfoId = id;
+				getCmlSentInfoDetail();
+			}
+			
+			////////////////////////////
+			
+			/**
+			 * 
+			 */
+			public function getCmlSentInfoDetail():void
+			{
+				trace("ViewLoadNotesRecordSeqForm.getCmlSentInfoDetail");
+				var parameter:Object = {};
+				parameter.tableName = this.fromTableName;
+				parameter.id = this.cmlSentInfoId;
+				
+				var cmlSentInfoMsg:CmlSentInfoMsg = new CmlSentInfoMsg();
+				cmlSentInfoMsg.args["remoteMethod"]   = "getCmlSentInfosByIdFromTable";
+				cmlSentInfoMsg.args["methodPrameter"] = parameter;
+				cmlSentInfoMsg.args["resultHandler"]  = "ViewLoadNotesRecordSeqForm.getCmlSentInfosByIdFromTableResult";
+				cmlSentInfoMsg.args["errorHandler"]   = "ViewLoadNotesRecordSeqForm.getCmlSentInfosByIdFromTableError";
+				cmlSentInfoPM.sendCmlSentInfoMsg(cmlSentInfoMsg);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ViewLoadNotesRecordSeqForm.getCmlSentInfosByIdFromTableResult")]
+			public function getCmlSentInfosByIdFromTableResult(msg:CmlSentInfoMsg):void
+			{
+				trace("ViewLoadNotesRecordSeqForm.getCmlSentInfosByIdFromTableResult");
+				_cmlSentInfoVO = msg.result as CmlSentInfoVO;
+				if( _cmlSentInfoVO!=null )
+				{
+					getCmlLoadNotesRecordDetail();
+					dataGridAC.removeAll();
+					dataGridAC.addItem(_cmlSentInfoVO);
+				}
+			}
+			
+			///////////////////////////
+			
+			private function getCmlLoadNotesRecordDetail():void
+			{
+				trace("ViewLoadNotesRecordSeqForm.getCmlLoadNotesRecordDetail");
+				var msg:CmlLoadNotesRecordMsg = new CmlLoadNotesRecordMsg();
+				msg.args["remoteMethod"]   = "getCmlLoadNotesRecordDetailById";
+				msg.args["methodPrameter"] = this._cmlSentInfoVO.tranId;
+				msg.args["resultHandler"]  = "ViewLoadNotesRecordSeqForm.getCmlLoadNotesRecordDetailByIdResult";
+				msg.args["errorHandler"]   = "ViewLoadNotesRecordSeqForm.getCmlLoadNotesRecordDetailByIdError";
+				cmlLoadNotesRecordPM.sendCmlLoadNotesRecordMsg(msg);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ViewLoadNotesRecordSeqForm.getCmlLoadNotesRecordDetailByIdResult")]
+			public function getCmlLoadNotesRecordDetailByIdResult(msg:CmlLoadNotesRecordMsg):void
+			{
+				trace("ViewLoadNotesRecordSeqForm.getCmlLoadNotesRecordDetailByIdResult");
+				if( msg.result!=null )
+				{
+					cmlLoadNotesRecord = new ObjectProxy(msg.result);
+				}
+				else
+				{
+					this.cmlLoadNotesRecord = new ObjectProxy();
+					this._cmlLoadNotesRecord.bankName = "找不到加钞交易信息";
+				}
+			}
+			
+			//////////////////
+			
+			
+			
+			/**
+			 * 显示数据字典转换出来的值
+			 */
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "noteType")
+				{
+					currentDataDictPath = CmlSentInfoConsts.NOTE_TYPE;
+				}
+				else if(column.dataField == "currency")
+				{
+					currentDataDictPath = CmlSentInfoConsts.CURRENCY;
+				}
+				else if(column.dataField == "versionNum")
+				{
+					currentDataDictPath = CmlSentInfoConsts.VERSION_NUM;
+				}
+				return super.transferDataDict(p_item, column);
+			}
+			
+			
+			/**
+			 * 获取钞票类型颜色
+			 */  
+			public function getNoteTypeColor(noteType:String):String
+			{
+				switch(noteType)
+				{
+					case "1":   return "#00aa00";	//绿色代表真抄
+					case "0":   return "#ff0000";	//红色代表可疑抄
+					case "201": return "#0000aa";	//蓝色代表黑名单
+					case "3":   return "#ff9900";	//橘黄色代表重号
+				}
+				return "#00aa00";		//绿色代表真抄
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure />
+	</fx:Declarations>
+	
+	<!--加钞交易信息-->
+	<grg:RoundCornerContainer locale="loadNotesRecordInfo" width="100%">
+		<s:HGroup paddingLeft="35">
+			<grg:Form width="50%" height="100%">
+				<!--行名：-->
+				<grg:FormItem width="100%" locale="bankNameColon">
+					<grg:TextInput text="{_cmlLoadNotesRecord.bankName}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--机构号：-->
+				<grg:FormItem width="100%" locale="orgCodeColon">
+					<grg:TextInput text="{_cmlLoadNotesRecord.orgCode}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--ATM编号：-->
+				<grg:FormItem width="100%" locale="atmIdColon">
+					<grg:TextInput text="{_cmlLoadNotesRecord.atmCode}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--钞箱编号：-->
+				<grg:FormItem width="100%" locale="cashboxIdColon">
+					<grg:TextInput text="{_cmlLoadNotesRecord.cashboxCode}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--金额：-->
+				<grg:FormItem width="100%" locale="tranAmountColon">
+					<grg:TextInput text="{_cmlLoadNotesRecord.tranAmount}" width="200" editable="false" />
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form paddingLeft="35" height="100%">
+				<!--网点：-->
+				<grg:FormItem width="100%" locale="branchColon">
+					<grg:TextInput text="{_cmlLoadNotesRecord.pathCodeName}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--金融机构代码：-->
+				<grg:FormItem width="100%" locale="finacialCode">
+					<grg:TextInput text="{_cmlLoadNotesRecord.finacialCode}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--终端编号：-->
+				<grg:FormItem width="100%" locale="termIdColon">
+					<grg:TextInput text="{_cmlLoadNotesRecord.termCode}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--业务类型：-->
+				<grg:FormItem width="100%" locale="atmTypeColon">
+					<grg:TextInput text="{getTextByKeyOnDataDictPath(_cmlLoadNotesRecord.operType, DataDictPathConsts.CML_LOAD_NOTES_RECORD_ADD_CASH_OPER_TYPE) +
+								   '/' +  getTextByKeyOnDataDictPath(_cmlLoadNotesRecord.type,     DataDictPathConsts.CML_LOAD_NOTES_RECORD_ADD_CASH_ATM_TYPE)}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--张数：-->
+				<grg:FormItem width="100%" locale="tranCountColon">
+					<grg:TextInput text="{_cmlLoadNotesRecord.tranCount}" width="200" editable="false" />
+				</grg:FormItem>
+			</grg:Form>
+		</s:HGroup>
+	</grg:RoundCornerContainer>
+	
+	<common:Legend/>
+	
+	<!-- 纸币冠字号列表 -->
+	<grg:RoundCornerContainer locale="serialNoInfo" width="100%"  height="100%">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:VerticalLayout gap="0" paddingTop="0" />
+			</s:layout>
+			<grg:DataGrid id="cmlSentInfoDataGrid" dataProvider="{dataGridAC}" width="100%" height="100%"  textAlign="center" styleName="DataGrid">
+				<grg:columns>
+					<!--冠字号码-->
+					<grg:DataGridColumn locale="seriaNo" width="100" textAlign="center" resizable="false">
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<s:layout>
+										<s:HorizontalLayout horizontalAlign="center" />
+									</s:layout>
+									<!--
+									<fx:Script>
+										<![CDATA[
+											[Bindable]
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												serNoColor.setStyle("color", this.parentDocument.getNoteTypeColor(data.noteType)); 
+											}
+										]]>
+									</fx:Script>
+									-->
+									<grg:Label id="serNoColor" paddingTop="5" fontFamily="Verdana" width="90" text="{data.seriaNo}" textAlign="center"/>
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					<!--冠字号码图片-->
+					<grg:DataGridColumn  locale="urlName" id="picName" textAlign="center"  width="320" resizable="false">
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<s:layout>
+										<s:HorizontalLayout horizontalAlign="center" />
+									</s:layout>
+									<fx:Script>
+										<![CDATA[																			
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												if( data.imageArr!=null )
+												{
+													myImage.source = data.imageArr;
+												}
+												else
+												{
+													myImage.source = ".ImageServlet?urlName=" + data.fullUrl;
+												}
+												if( data.width )
+												{
+													myImage.width = data.width ;
+												}
+												if( data.height )
+												{
+													myImage.height = data.height ;
+												}						
+											} 
+										]]>
+									</fx:Script>
+									<grg:Image id="myImage"  horizontalAlign="center" verticalAlign="middle" />									
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					<!--钞票类别-->
+					<grg:DataGridColumn locale="noteType"     dataField="noteType"     width="80" labelFunction="{transferDataDict}"/>
+					<!--面额-->
+					<grg:DataGridColumn locale="denomination" dataField="denomination" width="50" />
+					<!--币种-->
+					<grg:DataGridColumn locale="currency"     dataField="currency"     width="50" labelFunction="{transferDataDict}"/>
+					<grg:DataGridColumn locale="versionNum"     dataField="versionNum"     width="50" labelFunction="{transferDataDict}"/>
+					<!--交易日期-->
+					<grg:DataGridColumn locale="tranDate"     dataField="tranDate"     width="100" labelFunction="{DataGridColumnUtils.formatYYYYMMDDHHMISS}"/>
+				</grg:columns>
+			</grg:DataGrid>
+		</s:Group>
+	</grg:RoundCornerContainer>
+	
+	<s:HGroup width="100%" gap="6" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="cancelButton" iconVisible="false" click="cancel()"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

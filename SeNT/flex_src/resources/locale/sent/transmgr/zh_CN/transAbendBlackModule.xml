@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="transAbendBlackModule">
+    <regulation>违反黑名单规则：</regulation>
+    <transTime>交易时间：</transTime>
+    <to>至</to>
+    <count>异常交易次数</count>
+    <operators>操作</operators>
+    <titlemsg>黑名单交易规则分析</titlemsg>
+</node>
+</nodes>

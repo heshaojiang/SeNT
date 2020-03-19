@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="serialInfoPrintForm">
+
+		<penaltyInfoTitle>电子版查询通知书</penaltyInfoTitle>
+		<penaltyInfoNO>罚没单号：</penaltyInfoNO>
+		<penaltyGrp>罚没终端：</penaltyGrp>
+		<penaltySeriaNO>假币冠字号：</penaltySeriaNO>
+		<penaltyPic>假币冠图片：</penaltyPic>
+		<penaltyResponGrp>责任单位：</penaltyResponGrp>
+		<printPenalty>打印</printPenalty>
+		<cancelPenalty>取消</cancelPenalty>
+		<helpTip>打“*”项内容不能为空</helpTip>
+
+		<serialInfoTitle_loc>电子版查询通知书</serialInfoTitle_loc>
+		<lbl_serialInfo_noticeTitle_loc>人民币冠字号码查询结果通知书</lbl_serialInfo_noticeTitle_loc>
+		<lbl_serialInfo_queryComp_loc>查询单位(盖章)：</lbl_serialInfo_queryComp_loc>
+		<lbl_serialInfo_number_loc>编号：</lbl_serialInfo_number_loc>
+		<lbl_serialInfo_applyName_loc>查询人</lbl_serialInfo_applyName_loc>
+		<lbl_serialInfo_depositBank_loc>取款行（地点）</lbl_serialInfo_depositBank_loc>
+		<lbl_serialInfo_depositDate_loc>取款时间</lbl_serialInfo_depositDate_loc>
+		<lbl_serialInfo_tranType_loc>支付渠道</lbl_serialInfo_tranType_loc>
+		<lbl_serialInfo_serialNO_loc>申请查询冠字号码</lbl_serialInfo_serialNO_loc>
+		<lbl_serialInfo_relateId_loc>经办人</lbl_serialInfo_relateId_loc>
+		<lbl_serialInfo_checkId_loc>复核人</lbl_serialInfo_checkId_loc>
+		<sign_loc>查询人（或代理查询人）签字：</sign_loc>
+
+		<payType_identi3>柜面</payType_identi3>
+		<payType_identi2>存取款一体机</payType_identi2>
+		<payType_identi1>取款机</payType_identi1>
+		<lbl_serialInfo_tranType_value0>  ☑取款机     口存取款一体机     口柜台     口其他</lbl_serialInfo_tranType_value0>
+		<lbl_serialInfo_tranType_value1>  口取款机     ☑存取款一体机     口柜台     口其他</lbl_serialInfo_tranType_value1>
+		<lbl_serialInfo_tranType_value2>  口取款机     口存取款一体机     ☑柜台     口其他</lbl_serialInfo_tranType_value2>
+		<lbl_serialInfo_tranType_value3>  口取款机     口存取款一体机     口柜台     ☑其他</lbl_serialInfo_tranType_value3>
+
+	</node>
+</nodes>

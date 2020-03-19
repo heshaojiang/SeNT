@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cmlInfoByHandModule">
+			
+			<pageTitle>手工清分管理</pageTitle>
+			<orgName>所属机构</orgName>
+			<organization>所属机构</organization>
+			<startTime>交易时间</startTime>
+			<to>至</to>
+			<currency>币种</currency>
+			<hundredCount>100元张数</hundredCount>
+			<fiftyCount>50元张数</fiftyCount>
+			<twentyCount>20元张数</twentyCount>
+			<tenCount>10元张数</tenCount>
+			<fiveCount>5元张数</fiveCount>
+			<oneCount>1元张数</oneCount>
+			<tdOperator>操作人</tdOperator>
+			<pathcode>所属机构</pathcode>
+			<tranTime>操作时间</tranTime>
+			<tranType>交易类型</tranType>
+			<searchBtn>查询</searchBtn>
+			<resetBtn>重置</resetBtn>
+			
+			
+	</node>
+
+</nodes>

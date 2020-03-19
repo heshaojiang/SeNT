@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtOpenModule">
+		<listTitle>list</listTitle>
+		<termId>termId:</termId>
+		<termType>termType:</termType>
+		<orgId>orgId:</orgId>
+		<orgName>orgName</orgName>
+		<brand>brand</brand>
+		<fullTime>fullTime</fullTime>
+		<hardTime>partStopTime</hardTime>
+		<resTime>resTime</resTime>
+		<conTime>conTime</conTime>
+		<breakTime>breakTime</breakTime>
+		<mainTime>mainTime</mainTime>
+		<stopTime>stopTime</stopTime>
+		<open>open</open>
+		<order>order</order>
+		<org>org:</org>
+		<beginDate>beginDate:</beginDate>
+		<endDate>endDate</endDate>
+		<export>export</export>
+	</node>
+</nodes>

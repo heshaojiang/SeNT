@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：黑卡交易监控<br>
+		Create Time：2011-9-7<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "blackCardTransactionMonitorModule">
+		<listTitle>黑卡交易监控列表</listTitle>
+		<orgIdItem>所属机构：</orgIdItem>
+		<tborgIdItem>所属机构</tborgIdItem>
+		<searchItem>搜索关键字</searchItem>
+		<termIdItem>终端编号：</termIdItem>
+		<tbtermItem>终端编号</tbtermItem>
+		<termTypeItem>设备类型</termTypeItem>
+		<brandItem>设备品牌</brandItem>
+		<dateItem>交易时间：</dateItem>
+		<tbdateItem>交易时间</tbdateItem>
+		<toItem>至</toItem>
+		<txnIdItem>交易类型</txnIdItem>
+		<txnamountItem>交易金额</txnamountItem>
+		<panItem>交易账号</panItem>
+		<panInItem>转入账号</panInItem>
+		<txnResultItem>交易结果 </txnResultItem>
+		<tracenoItem>终端流水号</tracenoItem>
+		<pan>交易帐号：</pan>
+		<tlcardtype2>全部卡别</tlcardtype2>
+		<tltxnid>全部交易类型</tltxnid>
+		<layType>全部安装类型</layType>
+		<traceno>终端流水号: </traceno>
+		<feelsn>主机流水号: </feelsn>
+		<tlcardclass>全部卡种</tlcardclass>
+		<tltermtype>全部终端类型</tltermtype>
+		<tlbrand>全部终端品牌</tlbrand>
+		<titlemsg>黑卡交易</titlemsg>
+<!--		<feelSnItem>前置流水号</feelSnItem>-->
+<!--		<hostSerialNumberItem>主机流水号</hostSerialNumberItem>-->
+<!--		<cardTypeItem>卡种类型</cardTypeItem>-->
+	</node>
+</nodes>

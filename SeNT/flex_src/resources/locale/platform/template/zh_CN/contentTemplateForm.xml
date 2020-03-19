@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "contentTemplateForm">
+		<content>模板内容：</content>
+		<name>模板名称：</name>
+		<note>备注：</note>
+		<unselected>未选择</unselected>
+		<selected>已选择</selected>
+		<helpTip>
+1.打“*”项内容不能为空
+2.从左边选择要选择的内容，点击"添加"，设置到右边列表
+3.通过右边的向上、向下调整数据顺序
+</helpTip>
+	</node>
+</nodes>

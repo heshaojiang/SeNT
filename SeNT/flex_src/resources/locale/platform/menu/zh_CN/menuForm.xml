@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="menuForm">
+		<addMenuForm>新增</addMenuForm>
+		<updateMenuForm>编辑</updateMenuForm>
+		<parentMenuName>上级菜单：</parentMenuName>
+		<menuName>菜单名称：</menuName>
+		<menuUrl>模块路径：</menuUrl>
+		<rootURL>FLEX根路径：</rootURL>
+		<menuLevel>菜单层次：</menuLevel>
+		<menuOrder>菜单排序：</menuOrder>
+		<iconUrl>图标路径：</iconUrl>
+		<note>备注信息：</note>
+		<isVisible>是否可见：</isVisible>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>			
+	</node>
+</nodes>

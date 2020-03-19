@@ -1,0 +1,23 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：黑卡交易监控<br>
+		Create Time：2011-9-7<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "blackCardTransactionMonitorModule">
+		<listTitle>Şüpheli Kart İzleme Listesi</listTitle>
+		<orgIdItem>Organizasyon</orgIdItem>
+		<searchItem>Ara</searchItem>
+		<termIdItem>Terminal No</termIdItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<dateItem>Tarih</dateItem>
+		<toItem>Bitiş Zamanı</toItem>
+		<txnIdItem>İşlem Id</txnIdItem>
+		<txnamountItem>İşlem Miktarı</txnamountItem>
+		<panItem>Ticaret Hesabı</panItem>
+		<panInItem>Dikkatine</panInItem>
+		<txnResultItem>İşlem Sonuçları </txnResultItem>
+		<tracenoItem>İzleme Numarası</tracenoItem>
+	</node>
+</nodes>

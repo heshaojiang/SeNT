@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="sysBackupModule">
+	   <listTitle>备份列表</listTitle>
+	   <beginTime>开始时间：</beginTime>
+	   <endTime>结束时间：</endTime>
+       <backupTime>备份时间</backupTime>
+       <backupPath>备份路径</backupPath>
+       <backupButton>备  份</backupButton>
+       <status>状态：</status>
+       <statusTitle>状态</statusTitle>
+       <remark>备注</remark>
+       <dbmd5>数据库MD5</dbmd5>
+       <ejFilemd5>流水文件MD5</ejFilemd5>
+       <titlemsg>流水备份</titlemsg>
+       <allItem>全部</allItem>
+	</node>
+</nodes>

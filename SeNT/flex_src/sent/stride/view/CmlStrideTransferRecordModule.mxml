@@ -1,0 +1,387 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	width="100%" height="100%"
+	layout = "horizontal" dataDictionaryPaths = "{[CmlStrideTransferRecordConsts.ENABLE_OR_DISABLE]}"
+	locale = "cmlStrideTransferRecordModule"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/" >
+	<fx:Declarations> 
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{CmlStrideTransferRecordModuleConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<!-- 绑定搜索栏条件，传递到后台作为map条件参数
+	<fx:Binding source="account.text" destination="pm.condi.account"/>
+	<fx:Binding source="studentName.text" destination="pm.condi.studentName"/>
+	-->
+	<fx:Binding source="orgId.selectedValue" destination="pm.condi.orgId"/>
+	<fx:Script> 
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.core.IFlexDisplayObject;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.util.TestUtils;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import sent.stride.config.CmlStrideTransferRecordModuleConfig;
+			import sent.stride.constants.CmlStrideTransferRecordConsts;
+			import sent.stride.constants.CmlStrideTransferRecordLocalKeyConsts;
+			import sent.stride.message.CmlStrideTransferRecordMsg;
+			import sent.stride.pm.CmlStrideTransferRecordModulePM;
+			import sent.stride.vo.CmlStrideTransferRecordVO; 
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:CmlStrideTransferRecordModulePM;
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/add.png")] 
+			private var addIcon:Class; 
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/view_note.png")] 
+			private var viewNoteIcon:Class; 
+			
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			
+			/**
+			 *  初始化 
+			 */
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * 获取数字字典回调处理方法 
+			 */
+			override protected function getDataDictCallback():void
+			{
+				(cmlStrideTransferRecordPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 显示数据字典转换出来的值
+			 * 在dataGrid中列调用转换：	labelFunction="{transferDataDict}"
+			 **/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = CmlStrideTransferRecordConsts.ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			/**
+			 * 页面加载完成 
+			 */
+			override protected function viewUpdateComplete():void
+			{
+				pm.init();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			/**
+			 * 销毁
+			 */ 
+			override public function dispose():void
+			{
+				cmlStrideTransferRecordPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			/**
+			 * 新增
+			 */ 
+			public function add():void
+			{				
+				//set vo
+				var vo:CmlStrideTransferRecordVO = new CmlStrideTransferRecordVO();
+				vo.formType = CmlStrideTransferRecordLocalKeyConsts.ADD_FORM;
+				openWin(CmlStrideTransferRecordLocalKeyConsts.ADD_FORM, vo);
+				
+			}
+			
+			/**
+			 * 编辑
+			 * */
+			public function edit():void
+			{
+				if (cmlStrideTransferRecordPageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var temp:CmlStrideTransferRecordVO = CmlStrideTransferRecordVO(cmlStrideTransferRecordPageGrid.checkedItems[0]);
+				var vo:CmlStrideTransferRecordVO = temp as CmlStrideTransferRecordVO;
+				vo.formType = CmlStrideTransferRecordLocalKeyConsts.UPDATE_FORM;
+				openWin(CmlStrideTransferRecordLocalKeyConsts.UPDATE_FORM, vo);
+				
+			}
+			
+			/**
+			 * 删除
+			 * */
+			public function del():void
+			{				
+				pm.delCmlStrideTransferRecord(cmlStrideTransferRecordPageGrid.checkedItems);
+			}
+	
+			
+			/**
+			 * 打开窗口
+			 * */
+			public function openWin(p_winName:String, p_vo:CmlStrideTransferRecordVO):void
+			{
+				//dispatch event
+				//var win:CmlStrideTransferRecordForm = new CmlStrideTransferRecordForm();
+				
+				//win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				//_context.viewManager.addViewRoot(win);
+				//PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				//win.pm.vo = p_vo;
+				//win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getCmlStrideTransferRecordPageResult")]
+			public function getPageHandler(p_msg:CmlStrideTransferRecordMsg):void
+			{
+				if(p_msg.result)
+					cmlStrideTransferRecordPageGrid.checkedItems = [];
+			}	
+			
+			public function delShow():void
+			{
+				AlertHandler.alert("Show delShow()");
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer 
+		width="100%" height="100%"
+		styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		
+		<!-- 搜索栏 -->
+		<!--<grg:TitleBar/>-->
+		<mx:HBox width="100%" styleName="firHBoxStyle" borderVisible="false" height="30">
+			<grg:TitleBar locale="titlemsg" width="50%"/>
+			<mx:HBox  width="100%" styleName="senHBoxStyle" height="30">  
+				<s:BorderContainer  
+					textAlign = "center"
+					styleName = "searchStyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout 
+							horizontalAlign = "right"
+							gap="2"
+							verticalAlign = "middle" />
+					</s:layout>  
+					
+					<!-- 根据实际修改
+					<grg:Label locale = "accountItem" />
+					<grg:TextInput id="account" textAlign="left" restrict="^'"
+								   width="113" height="20"
+								   styleName = "TextInput" />
+					<grg:Label locale = "studentNameItem" />
+					<grg:TextInput id="studentName" textAlign="left" restrict="^'"
+								   width="113" height="20"
+								   styleName = "TextInput" />
+					<grg:Label locale = "orgNameItem" />
+					-->
+					
+					<grg:GRGComboBoxOrgTree id="orgId"
+											defaultField="true"
+											width="80"
+											textAlign="left"
+											treeHeight="300"/>
+					<grg:SearchButton id="btn_search"
+									  locale = "searchButton" menuId="{menu.id}" 
+									  iconType = "query" click="pm.page = new Page();pm.loadCmlStrideTransferRecordPage()"/>
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[this.account,this.studentName,this.orgId]}"/>
+					
+				</s:BorderContainer>   
+			</mx:HBox>
+		</mx:HBox>
+		
+		<!-- 表格标题 -->
+		<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<!-- 
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				-->
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				
+				<grg:GRGModuleButtonBar2 id="privilegeBar2"  menuId="{menu.id}">
+					<grg:Button id="addBtn" privilegeCode="add" click="add()" 
+								locale="addBtn"  height="21"  icon="{addIcon}"   />
+					<s:Spacer width="20" />
+					<grg:Button id="delBtn" privilegeCode="del" click="delShow()" 
+								locale="delBtn"  height="21" />
+					<s:Spacer width="20" />
+					<grg:Image id="viewRowDetailInfoImage" privilegeCode="viewRowDetailInfo"  source="{viewNoteIcon}"
+							     height="21" />					
+					<grg:Image id="showDetailInfo" privilegeCode="showDetailInfo"  source="{viewNoteIcon}"
+							   height="21" />
+					
+				</grg:GRGModuleButtonBar2>
+			</s:BorderContainer>
+		</mx:HBox>
+		
+		<!-- 表格内容 -->
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid id="cmlStrideTransferRecordPageGrid" dataProvider="{pm.page.result}"
+						  width="100%" height="100%"
+						  paddingLeft="20"
+						  styleName = "DataGrid">
+				<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											sortable = "false"
+											draggable = "false"
+											editable = "false"
+											resizable = "false" 
+											textAlign = "center"
+											/>
+					
+																																																															
+						<grg:DataGridColumn locale = "cBagCodeItem"
+											dataField = "bagCode" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cFromCodeItem"
+											dataField = "fromCode" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cCashTypeItem"
+											dataField = "cashType" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cPathcodeItem"
+											dataField = "pathcode" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cTranTimeItem"
+											dataField = "tranTime" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cCurrencyItem"
+											dataField = "currency" 
+											textAlign = "left"
+											/>
+					
+																																							
+						<grg:DataGridColumn locale = "iTdTranAmtItem"
+											dataField = "tdTranAmt" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cTranDateItem"
+											dataField = "tranDate" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cBusinessTypeItem"
+											dataField = "businessType" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "iCountItem"
+											dataField = "count" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cBankCodeItem"
+											dataField = "bankCode" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "iVersionItem"
+											dataField = "version" 
+											textAlign = "left"
+											/>
+					
+																																								
+						<grg:DataGridColumn locale = "cReserveItem"
+											dataField = "reserve" 
+											textAlign = "left"
+											/>
+					
+																					
+					<!-- 根据实际修改
+					<grg:RODataGridColumn labelField = "orgName"
+										  locale = "orgNameItem" 
+										  dataField = "orgId"
+										  valueField = "id"
+										  service = "orgInfoService"
+										  method = "getAllOrg" 
+										  textAlign = "left"
+										  />
+				
+					
+					<grg:DataGridColumn locale = "birthdayItem" 
+										dataField = "birthday"
+										textAlign = "left"
+										labelFunction="{DataGridUtil.formatTime}"
+										/>
+										
+					<grg:DataGridColumn locale = "status" 
+										labelFunction="{transferDataDict}"
+										dataField = "status"
+										textAlign = "left"
+										/>
+					-->
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox> 
+		<grg:PageNavigatorBar id="cmlStrideTransferRecordPagingBar"
+							  x = "0" pageVo="{pm.page}"
+							  pagingFunction="{pm.loadCmlStrideTransferRecordPage}"
+							  bottom = "0" />
+	</s:BorderContainer>
+</grg:TabModule>

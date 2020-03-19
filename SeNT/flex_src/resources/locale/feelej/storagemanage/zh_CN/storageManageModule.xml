@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="storageManageModule">
+		<spacesize>磁盘大小：</spacesize>
+		<filepath>电子流水空间路径：</filepath>
+		<filenum>流水文件数：</filenum>
+		<usedspace>已用空间：</usedspace>
+		<freespace>剩余空间：</freespace>
+		<freedays>预计可用天数：</freedays>
+		<filekeepmonths>文件保留时长：</filekeepmonths>
+		<alarmpercent>流水已用空间状态门限：</alarmpercent>
+		<autocleantime>自动定期清理：</autocleantime>
+		<recyclebinpath>垃圾箱路径：</recyclebinpath>
+		<recyclebinsize>垃圾箱已用空间：</recyclebinsize>
+		<recyclebinkeepdays>垃圾箱文件暂存天数：</recyclebinkeepdays>
+		<cleanrecyclegin>清空</cleanrecyclegin>
+		<backuppath>备份空间路径：</backuppath>
+		<one>个</one>
+		<month>月</month>
+		<big>大于</big>
+		<alert>% 报警 (注：已用/(空闲 + 已用) )</alert>
+		<day>天</day>
+		<everyDay>每天</everyDay>
+		<diskspace>磁盘空间使用情况分布图</diskspace>
+		<recyclebinspace>垃圾箱空间使用情况分布图</recyclebinspace>
+		<title1>图表一：流水空间使用情况分布图</title1>
+		<title2>图表二：垃圾箱空间使用情况分布图</title2>
+		<pice1_free>空闲空间</pice1_free>
+		<pice1_used>已用空间</pice1_used>
+		<pice2_free>空闲空间</pice2_free>
+		<pice2_used>已用空间</pice2_used>
+    <used> 已用 </used>
+    <free> 可用 </free>
+    <journalIconDesc>电子流水空间</journalIconDesc>
+    <backupIconDesc>备份空间</backupIconDesc>
+    <garbageIconDesc>垃圾箱</garbageIconDesc>
+    <spaceStatus>存储空间使用情况</spaceStatus>
+    <spaceConfig>存储空间参数配置</spaceConfig>
+	</node>
+</nodes>

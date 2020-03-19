@@ -1,0 +1,25 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：黑卡交易规则设置<br>
+		Create Time：2011-9-6<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "blackCardTransactionForm">
+		<addBlackCardTransactionForm>Şüpheli Kart İşlem Ekle</addBlackCardTransactionForm>
+		<updateBlackCardTransactionForm>Şüpheli Kart İşlem Değiştir</updateBlackCardTransactionForm>
+		<showBlackCardTransactionDetailForm>Şüpheli Kart İşlem Göster</showBlackCardTransactionDetailForm>
+		<cardTypeItem>Kart Tipi: </cardTypeItem>
+		<cardNumOrBINItem>Kart No/ Kart BIN:</cardNumOrBINItem>
+		<alarmWayItem>Bilgi:</alarmWayItem>
+		<alarmMobilePhoneItem>Telefon Numarası:</alarmMobilePhoneItem>
+		<alarmEmailItem>E-posta:</alarmEmailItem>
+		<beginDateItem>Başlangıç Zamanı:</beginDateItem>
+		<endDateItem>Bitiş Tarihi:</endDateItem>
+		<beginTimeItem>Başlangıç S​saati:</beginTimeItem>
+		<endTimeItem>Bitiş Saati:</endTimeItem>
+		<remarkItem>Açıklama:</remarkItem>
+		<cardBINStartItem>Kart Bin Başlangıcı:</cardBINStartItem>
+		<prompt>Değil 100 den fazla uzunluğu Not</prompt>
+		<at>@</at>
+	</node>
+</nodes>

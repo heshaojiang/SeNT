@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="viewBatchSeqForm">
+		
+		<title>批次信息</title>
+		
+		<batchInfo>批次信息</batchInfo>
+		
+		<bankNameColon>机构名：</bankNameColon>
+		<branchColon>网点：</branchColon>
+		<termIdColon>终端编号：</termIdColon>
+		<fileNameColon>文件名：</fileNameColon>
+		<totalCountColon>总张数：</totalCountColon>
+		<totalAmountColon>总金额：</totalAmountColon>
+		<beginTimeColon>上传开始时间：</beginTimeColon>
+		<endTimeColon>上传结束时间：</endTimeColon>
+		
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		
+		<serialNoInfo>冠字号信息</serialNoInfo>
+		
+		<seriaNo>冠字号码</seriaNo>
+		<urlName>冠字号码图片</urlName>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		
+	</node>
+</nodes>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "msg">
+		<existedMsgAnnouncement>This MsgAnnouncement has already exists！</existedMsgAnnouncement>
+		<TitleNotNull>this Title can not be empty！</TitleNotNull>
+	</node>
+</nodes>

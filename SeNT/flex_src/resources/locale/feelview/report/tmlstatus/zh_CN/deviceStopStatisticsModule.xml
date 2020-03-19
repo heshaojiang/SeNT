@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  
+ * Description：停机事件统计<br>
+ * Create Time：2011-9-25<br>   
+ * Author：Ming.Zhang  <br>
+ * Email : zyming1@grgbanking.com <br>
+ -->
+<nodes>
+	<node locale = "deviceStopStatisticsModule">
+		<listTitle>停机事件统计列表</listTitle>
+		<StopTitle>停机事件统计</StopTitle>
+		<searchItem>搜索：</searchItem>
+		<termIdItem>终端编号</termIdItem>
+		<termType>终端类型</termType>
+		<brand>终端品牌</brand>
+		<orgIdItem>机构ID</orgIdItem>
+		<orgNameItem>机构名称</orgNameItem>
+		<statisticsDateItem>停机统计日期：</statisticsDateItem>
+		<toItem>至</toItem>
+		<beginTimeItem>停机开始时间</beginTimeItem>
+		<endTimeItem>停机结束时间</endTimeItem>
+		<stopEventTotalItem>停机事件总数（次）</stopEventTotalItem>
+<!--		<stoptime>停机总时间单位:分钟</stoptime>-->
+	</node>
+</nodes>

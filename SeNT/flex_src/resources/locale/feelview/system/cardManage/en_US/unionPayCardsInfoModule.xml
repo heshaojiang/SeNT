@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：UnionPayCardsInfo Manage<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "unionPayCardsInfoModule">
+		<listTitle>UnionPayCardsInfo Manage List</listTitle>
+		<cardIdItem>cardId</cardIdItem>
+		<cardNameItem>cardName</cardNameItem>
+		<publishBankNameItem>publishBankName</publishBankNameItem>
+		<cardIdSizeItem>cardIdBeginLocation</cardIdSizeItem>
+		<cardTypeItem>cardType</cardTypeItem>
+		<status>status</status>
+	</node>
+</nodes>

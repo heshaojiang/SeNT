@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="viewRepeatRegulationInfo">
+	    <ruleInfo>规则详情</ruleInfo>
+	    <ruleDeliverInfo>规则下发详情</ruleDeliverInfo>
+	    <applyId>申请编号：</applyId>
+	    <repeatnum>最多重号冠字号码数：</repeatnum>
+	    <dealwithMode>处理方式：</dealwithMode>
+	    <creenMode>屏幕提示：</creenMode>
+	    <enterAccountMode>入帐方式：</enterAccountMode>
+	    <logMode>是否记录流水：</logMode>
+	    <createName>业务人员：</createName>
+	    <termNum>升级终端数量：</termNum>
+	    <createDate>创建时间：</createDate>
+	    <reversionDate>最后批复时间：</reversionDate>
+	    <termid>终端编号</termid>
+	    <status>规则状态</status>
+	     <close>关闭</close>
+	</node>
+</nodes>

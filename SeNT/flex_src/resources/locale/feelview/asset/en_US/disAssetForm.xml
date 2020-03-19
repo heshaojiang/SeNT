@@ -1,0 +1,44 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：assetInputForm
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "disAssetForm">
+		<disAssetForm>disAssetForm</disAssetForm>
+		<termSignForm>termSignForm</termSignForm>
+		<assetTitle>assetTitle</assetTitle>
+		<disAssetTitle>disAssetTitle</disAssetTitle>
+		<signTitle>signTitle</signTitle>
+		<termtype>termType</termtype>
+		<brand>brand</brand>
+		<model>model</model>
+		<insttype>instType</insttype>
+		<batch>batchNo</batch>
+		<sum>sum</sum>
+		<remain>remain</remain>
+		<operations>operations</operations>
+		<Distribution>Distribution</Distribution>
+		<ReDistribution>ReDistribution</ReDistribution>
+		<dissum>alreadyDistributeSum</dissum>
+		<disremain>notSignedNumber</disremain>
+		<org>org</org>
+		<orgname>orgname</orgname>
+		<sign>sign</sign>
+		<disnumItem>disnum</disnumItem>
+		<an>an</an>
+		<operations>operations</operations>
+		<orgname>orgname</orgname>
+		<sign>sign</sign>
+		<seqno>seqno</seqno>
+		<notice>Hint: multiple serial numbers with "," separated!</notice>
+		<signDate>signDate</signDate>
+		<disButton>distribution</disButton>
+		<saveButton>save</saveButton>
+		<signButton>sign</signButton>
+		<statu>statue</statu>
+		<disassetTitle>disassetTitle</disassetTitle>
+		<singedTitle>singedTitle</singedTitle>
+		<ReSign>ReSign</ReSign>
+	</node>
+</nodes>

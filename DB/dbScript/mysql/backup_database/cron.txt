@@ -1,0 +1,13 @@
+'root' user
+>crontab -l
+>crontab -e
+
+
+0 0 4 * * /home/oracle/database_backup/backup_mysql.sh >> /home/oracle/database_backup/backup_mysql.log
+
+or:
+
+0 0 4 * * /home/oracle/database_backup/backup_mysql.sh >> /dev/null 2>&1
+
+
+>service crond restart

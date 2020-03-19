@@ -1,0 +1,245 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/"
+	locale="menuModule"
+	layout="vertical"
+	width="100%" height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.component.complex.datasort.CustomSortWin;
+			import platform.constants.LocaleConsts;
+			import platform.menu.config.MenuModuleConfig;
+			import platform.menu.constants.MenuConsts;
+			import platform.menu.constants.MenuLocalKeyConsts;
+			import platform.menu.pm.MenuModulePM;
+			import platform.menu.renderer.BtnRenderer;
+			import platform.vo.menu.MenuVo;
+			
+			[Inject]
+			[Bindable]
+			public var pm:MenuModulePM;
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.loadMenuTree();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				menuPageGrid.checkedItems = [];
+				pm.page = new Page();
+			}
+			
+			
+			//button bar function
+			/**
+			 * add menu item
+			 * */
+			public function add():void
+			{
+				if (null == pm.menuVO.id){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_NODE);
+					return;
+				}
+				//set vo
+				var vo:MenuVo = new MenuVo();
+				vo.level = pm.menuVO.level + 1;
+				vo.parentId = pm.menuVO.id;
+				openWin(MenuLocalKeyConsts.ADD_MENU_FORM, vo);
+			}
+			
+			public function del():void
+			{
+				pm.delMenu(menuPageGrid.checkedItems);
+			}
+			
+			/**
+			 * edit menu item
+			 * */
+			public function edit():void
+			{
+				if (menuPageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				openWin(MenuLocalKeyConsts.UPDATE_MENU_FORM, MenuVo(menuPageGrid.checkedItems[0]));
+			}
+			
+			public function sort():void
+			{
+				var win:CustomSortWin = new CustomSortWin();
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				win.labelField = MenuConsts.I18N_NAME;
+				win.orderField = MenuConsts.ORDER;
+				win.dataProvider = menuPageGrid.dataProvider as ArrayCollection;
+				win.callback = updateOrders;
+			}
+			//button bar function
+			
+			public function updateOrders(p_arr:ArrayCollection):void
+			{
+				pm.batchUpdateMenu(p_arr);
+			}
+			
+			/**
+			 * dispatch event
+			 * */
+			private function openWin(p_winName:String, p_vo:MenuVo):void
+			{
+				//dispatch event
+				var win:MenuForm = new MenuForm();
+				win.titleKey = p_winName;
+				win.parentName = pm.menuVO.i18nName;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.vo = p_vo;
+				win.pm.menuId = menu.id;
+				win.init();
+			}
+			
+			public function testCustomBtn():void
+			{
+				AlertHandler.alert("This is a example of using Custom Button!");
+			}
+			
+			public function setButtons():void
+			{
+				var win:SetButtonForm = new SetButtonForm();
+				win.titleKey = MenuLocalKeyConsts.SET_BUTTONS;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.pm.vo = menuPageGrid.selectedItem as MenuVo;
+			}
+			
+			/**
+			 * 合并多产品整合时的总菜单
+			 * */
+			private function mergeMenu():void
+			{
+				var win:MergeMenu = new MergeMenu();
+				win.titleKey = "listTitle";
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.pm.menuInfoArray = pm.treeXml;
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="MenuModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="MenuModule"/>
+			<parsley:FlexConfig type="{MenuModuleConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<s:BorderContainer 
+		width="100%" height="30"
+		styleName="BorderContainer">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+		</s:layout>
+		<grg:TitleBar/>
+	</s:BorderContainer>
+	
+	<mx:HDividedBox 
+		width="100%" height="100%" minHeight="450" paddingLeft="10" paddingRight="10">
+		
+		<grg:LeftTree id="subMenuTree" labelField="@label"
+					  width="250" maxWidth="500" height="100%" dataProvider="{pm.treeXml}"
+					  itemClick="pm.setCurrentSelectedItem(subMenuTree.selectedItem)">
+		</grg:LeftTree>
+		
+		<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+			
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			
+			<mx:HBox width="100%" height="27" verticalAlign="top">
+				<s:BorderContainer height="25" borderVisible="false" cornerRadius="5" backgroundColor="#e4e4e4">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2" />
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" width="100%" barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			
+			<grg:DataGrid id="menuPageGrid" dataProvider="{pm.page.result}"
+						  width="100%" height="100%"
+						  paddingLeft="20"
+						  styleName="DataGrid">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										textAlign="center"
+										sortable="false"
+										draggable="false"
+										editable="false"
+										resizable="false" />
+					<!--菜单排序-->
+					<grg:DataGridColumn width="100"
+										locale="menuOrder"
+										dataField="order" 
+										textAlign="center"
+										/>
+					<!--菜单名称-->
+					<grg:DataGridColumn width="200"
+										locale="menuColumnName"
+										dataField="i18nName" 
+										textAlign="left"
+										/>
+					<!--FLEX根路径-->
+					<grg:DataGridColumn locale="rootURL"
+										dataField="rootURL" 
+										textAlign="left"
+										/>
+					<!--模块路径-->
+					<grg:DataGridColumn locale="menuLinkURL"
+										dataField="menuURL" 
+										textAlign="left"
+										/>
+					<!--操作-->
+					<grg:DataGridColumn width="100" 
+										headerStyleName="centerDataGridHeader"
+										locale="operations" 
+										itemRenderer="platform.menu.renderer.BtnRenderer"
+										textAlign="left"
+										/>
+				</grg:columns>
+			</grg:DataGrid>
+			
+			<grg:PageNavigatorBar id="menuPagingBar"
+								  x="0" pageVo="{pm.page}"
+								  pagingFunction="{pm.loadMenuPage}"
+								  bottom="0" />
+			
+		</s:BorderContainer>
+		
+	</mx:HDividedBox>
+	
+</grg:TabModule>

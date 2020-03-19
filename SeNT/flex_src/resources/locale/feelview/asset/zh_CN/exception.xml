@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "asset">
+		<existedBatch>该采购批次号已经存在！</existedBatch>
+		<existedNetaddr>该IP已经存在！</existedNetaddr>
+		<batchNotNull>采购批次号不能为空！</batchNotNull>
+	</node>
+</nodes>

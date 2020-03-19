@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtClearModule">
+		<listTitle>list</listTitle>
+		<termId>termId</termId>
+		<termType>termType</termType>
+		<brand>brand</brand>
+		<orgId>orgId</orgId>
+		<orgName>orgName</orgName>
+		<settleMentDate>settleMentDate</settleMentDate>
+		<preAddCashMount>preAddCashMount</preAddCashMount>
+		<totalMount>totalMount</totalMount>
+		<wincornum>wincorNum</wincornum>
+		<to>to</to>
+	</node>
+</nodes>

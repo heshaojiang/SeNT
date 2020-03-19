@@ -1,0 +1,26 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "security">
+		<existGroup>已经存在这个组名！</existGroup>
+		<userNameNotNull>用户名不能为空！</userNameNotNull>
+		<roleNameNotNull>角色名不能为空！</roleNameNotNull>
+		<groupNameNotNull>用户组名不能为空！</groupNameNotNull>
+		<menuNameNotNull>菜单名称不能为空！</menuNameNotNull>
+		<buttonNameNotNull>按钮名称不能为空！</buttonNameNotNull>
+		<existRole>角色已存在！</existRole>
+		<roleLevelNotNull>角色级别不能为空！</roleLevelNotNull>
+		<statusNotNull>状态不能为空！</statusNotNull>>
+		<userCodeNotNull>用户代码不能为空！</userCodeNotNull>
+		<existUser>用户账号已存在！</existUser>
+		<oldPwdNotNull>旧密码不能为空！</oldPwdNotNull>
+		<newPwdNotNull>新密码不能为空！</newPwdNotNull>
+		<twoNewPwdInconsistent>两次输入的新密码不一致！</twoNewPwdInconsistent>
+		<pwdTooSimple>密码过于简单！密码必须包含a-Z 0-9，并且长度必须在6-20个字符之间！</pwdTooSimple>
+		<userNotFound>用户不存在！</userNotFound>
+		<invalidUserCode>无效用户代码！用户代码必须由a-Z、0-9和_组成，并且长度必须在3-32位字符之间！</invalidUserCode>
+		<incorrectOldPwd>输入的旧密码错误！</incorrectOldPwd>
+		<orgNotNull>机构不能为空！</orgNotNull>
+		<areaNotNull>区域不能为空！</areaNotNull>
+		<userIsLogin>不能删除当前登陆用户!</userIsLogin>
+	</node>
+</nodes>

@@ -1,0 +1,24 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：吞卡情况监控<br>
+		Create Time：2011-9-13<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "retainCardMonitorModule">
+		<listTitle>Alıkonulan Kart Listesi</listTitle>
+		<searchItem>Ara (Terminal No / Kart No)</searchItem>
+		<orgIdItem>Organizasyon</orgIdItem>
+		<termIdItem>Terminal Id</termIdItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<layTypeItem>Kurulum Şekli</layTypeItem>
+		<cardNoItem>Kart No</cardNoItem>
+		<cardTypeItem>Kart Tipi</cardTypeItem>
+		<cardNameItem>Kart Adı</cardNameItem>
+		<publishBankNameItem>Kart Sahibi Banka</publishBankNameItem>
+		<reasonItem>Alıkoyma Sebebi</reasonItem>
+		<reasonCodeItem>Sebep Kodu</reasonCodeItem>
+		<mergeDateItem>Alıkoyma Zamanı</mergeDateItem>
+		<toItem>Bitiş Zamanı</toItem>
+	</node>
+</nodes>

@@ -1,0 +1,237 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="main">
+		<!-- Main Start-->
+		<language>语 言:</language>
+<!--		<version>清机加钞管理系统（FEELCash） 1.0</version>-->
+		<copyright>Copyright © 2012 广州广电运通金融电子股份有限公司</copyright>
+		<loginTimeLabel>登陆时间：</loginTimeLabel>
+		<loginUserLabel>登陆用户：</loginUserLabel>
+	</node>
+	<node locale="login">
+		<loginusername>用 户 名:</loginusername>
+		<loginpassword>密 码:</loginpassword>
+		<loginlanguage>语 言:</loginlanguage>
+		<login-error>用户名或密码有错误！</login-error>
+		<userLocked>用户已被禁用或已在其他地方登陆！</userLocked>
+		<wrongPwd>密码输入错误(?1)次！输错(?2)次，用户将被锁定！</wrongPwd>
+		<userNotFound>用户名不存在！</userNotFound>
+	</node>
+	<node locale="language">
+		<zh_CN>Chinese</zh_CN>
+		<en_US>英文</en_US>
+	</node>
+	<!-- Main End-->
+	<!-- Button Start-->
+	<node locale="button">
+	<filterButton>过滤</filterButton>
+		<resetpass>修改密码</resetpass>
+		<logout>退出系统</logout>
+		<help>帮助</help>
+		<expanded>展开</expanded>
+		<collapse>收缩</collapse>
+		<query>查询</query>
+		<saveButton>保存</saveButton>
+		<addButton>新增</addButton>
+		<editButton>编辑</editButton>
+		<delButton>删除</delButton>
+		<lockButton>锁定</lockButton>
+		<unlockButton>解锁</unlockButton>
+		<delSelectedButton>删除所选</delSelectedButton>
+		<closeButton>关闭</closeButton>
+		<resetButton>重置</resetButton>
+		<submitButton>提交</submitButton>
+		<cancelButton>取消</cancelButton>
+		<agreeButton>同意</agreeButton>
+		<searchButton>查 询</searchButton>
+		<setButtons>设置按钮</setButtons>
+		<loginButton>登 陆</loginButton>
+		<moveAllButton>移除全部</moveAllButton>
+		<moveSlectedButton>移 除</moveSlectedButton>
+		<addAllButton>添加全部</addAllButton>
+		<addSlectedButton>添 加</addSlectedButton>
+		<sortButton>排序</sortButton>
+		<upButton>向上</upButton>
+		<downButton>向下</downButton>
+		<todayBtn>今天</todayBtn>
+		<okBtn>确定</okBtn>
+		<submitAuditButton>提交</submitAuditButton>
+		<importButton>导入</importButton>
+		<exportButton>导出</exportButton>
+		<re-exceuteButton>重新计算</re-exceuteButton>
+		<batchPlansButton>多日计划</batchPlansButton>
+		<tempPlanButton>临时计划</tempPlanButton>
+		<adjustmentButton>调整</adjustmentButton>
+		<auditButton>审核</auditButton>
+		<rejectButton>驳回</rejectButton>
+		<confirmCashButton>预约现金</confirmCashButton>
+		<browserButton>选择文件</browserButton>
+		<modifyCassetteInfoButton>终止故障</modifyCassetteInfoButton>
+		<printButton>打印</printButton>
+		<printPreviewButton>打印预览</printPreviewButton>
+	</node>
+	<!-- Button End-->
+	<!-- Components Start-->
+	<node locale="components">
+		<all>全部</all>
+		<!-- page bar -->
+		<components.unselected>未选择</components.unselected>
+		<components.selected>已选择</components.selected>
+		<components.pagenum>页码</components.pagenum>
+		<components.perpage>每页显示</components.perpage>
+		<components.allrecorditem>总计</components.allrecorditem>
+		<components.allpage>条数据, 总页码</components.allpage>
+		<components.currentpage>页, 当前页是第</components.currentpage>
+		
+		<!-- sort components -->
+		<sortWin>排序窗口</sortWin>
+
+		<!-- DateSelect -->
+		<!-- week data -->
+		<sunday>日</sunday>
+		<monday>一</monday>
+		<tuesday>二</tuesday>
+		<wednesday>三</wednesday>
+		<thursday>四</thursday>
+		<friday>五</friday>
+		<saturday>六</saturday>
+		<!-- week data -->
+		<!-- time -->
+		<hour>时:</hour>
+		<minute>分:</minute>
+		<!-- time -->
+		<todayBtn>今天</todayBtn>
+		<okBtn>确定</okBtn>
+		<checked>选择</checked>
+		<unChecked>取消</unChecked>
+		<selectAll>全部选中</selectAll>
+		<deSelectAll>全部取消</deSelectAll>
+		
+		<!-- DateSelect -->
+		<dateChooser.monthNames>一|二|三|四|五|六|七|八|九|十|十一|十二</dateChooser.monthNames>
+		<dateChooser.dayNames>日|一|二|三|四|五|六</dateChooser.dayNames>
+		<dateChooser.yearSymbol>年</dateChooser.yearSymbol>
+		<dateChooser.monthSymbol>月</dateChooser.monthSymbol>
+	</node>
+	<!-- Components End-->
+	<node locale="image">
+		<settingButton>设置按钮</settingButton>
+		<settingRole>设置角色</settingRole>
+		<settingGroup>设置组</settingGroup>
+		<settingUser>设置用户</settingUser>
+		<settingPrivilege>设置权限</settingPrivilege>
+		<resetPassword>重置密码</resetPassword>
+		<firstNavBtn>首页</firstNavBtn>
+		<preNavBtn>上页</preNavBtn>
+		<nextNavBtn>下页</nextNavBtn>
+		<lastNavBtn>末页</lastNavBtn>
+		<fullscreen>全屏</fullscreen>
+		<resumescreen>还原</resumescreen>
+		<searchImage>查询</searchImage>
+		<expandImage>展开</expandImage>
+		<collapseImage>收缩</collapseImage>
+		<editImage>编辑</editImage>
+		<sendMailImage>重新发送邮件</sendMailImage>
+		<sendSMSImage>重新发送短信</sendSMSImage>
+	</node>
+	<node locale="Msg">
+		<javaError>未知后台错误，请联系管理员。</javaError>
+		<systemInfo>系统提示</systemInfo>
+		<success>成功</success>
+		<delSuccess>删除成功</delSuccess>
+		<saveSuccess>保存成功</saveSuccess>
+		<resetSuccess>重置成功</resetSuccess>
+		<!-- <error>错误</error> -->
+		<confirm>确定</confirm>
+		<cancel>取消</cancel>
+		<unDelExpiredInterestrateDate>已过期利率不能删除！</unDelExpiredInterestrateDate>
+		<unEditExpiredInterestrateDate>已过期利率不能修改！</unEditExpiredInterestrateDate>
+		<unEditcurrentInterestrateDate>当前正使用利率不能修改！</unEditcurrentInterestrateDate>
+		<unDelCurrentInterestrateDate>当前正使用利率不能删除！</unDelCurrentInterestrateDate>
+		<confirmDelete>确定删除选中的数据吗？</confirmDelete>
+		<confirmUnlock>确定解锁选中的数据吗？</confirmUnlock>
+		<confirmLogout>您确定注销吗?</confirmLogout>
+		<timeOut>操作超时</timeOut>
+		<defaultPassword>请修改默认的密码!</defaultPassword>
+		<pwdNotNull>密码不能为空！</pwdNotNull>
+		<newPwdInconsistent>两次输入的密码不一致</newPwdInconsistent>
+		<pwdLenError>密码长度有误！（6-20个字符）</pwdLenError>
+		<confirmResetPwd>您确定重置密码吗？</confirmResetPwd>
+		<noSelectedRecord>请选择一条记录！</noSelectedRecord>
+		<noCashPlanSelected>没有选择计划！</noCashPlanSelected>
+		<!-- <wrongPassword>错误！\n密码错误！</wrongPassword> -->
+		<noSelectedNode>没有选中树节点！</noSelectedNode>
+		<nameAlreadyExisted>名称已存在！</nameAlreadyExisted>
+		<searchKeyNotNull>查询条件不能为空！</searchKeyNotNull>
+		<!-- <alreadyAssign>已经被分配！</alreadyAssign> -->
+		<noChange>没有改变！</noChange>
+		<inputNotNull>输入不能为空！</inputNotNull>
+		<moduleIsSoMuch>你打开的窗口数量过多，请关闭一些后再尝试！</moduleIsSoMuch>
+		<noPrivilege>你尚未分配任何权限，请联系管理员！</noPrivilege>
+		<!-- <existKey>已经存在这个健！</existKey> -->
+		<noPrivilege>用户还末分配权限</noPrivilege>
+		<submitCashPlan>您确定将已选择的计划提交审核 ?</submitCashPlan>
+		<onlySlecteOneRecod>选定列表只能存在一条记录，请先清除然后重新选择。</onlySlecteOneRecod>
+		<rejectCashPlan>驳回选定计划！</rejectCashPlan>
+		<confirmCashPlan>确认选中计划现金！</confirmCashPlan>
+		<auditCashPlan>审核选中计划！</auditCashPlan>
+		<executeCashPlan>重新计算选中计划！</executeCashPlan>
+		<excuteCashInfo>重新计算选中加钞信息！</excuteCashInfo>
+		<importFileSuccess>导入成功!</importFileSuccess>
+		<confirmFinishedPlan>您确定将已选择的计划办结 ?</confirmFinishedPlan>
+		<exportCashPlan>导出选中计划</exportCashPlan>
+		<dateNotLessThenNow>选择日期不能小于当前日期！</dateNotLessThenNow>
+		<mailSendSuccess>邮件发送成功！</mailSendSuccess>
+		<mailSendUnSuccess>邮件发送失败！</mailSendUnSuccess>
+		<executeCashInfo>计算选中加钞信息！</executeCashInfo>
+		<dataImportSuccess>数据导入成功！</dataImportSuccess>
+		<confirmModify>确定终止选中的数据吗？?</confirmModify>
+		<modifyCassetteInfosSuccess>所选钞箱故障终止成功！</modifyCassetteInfosSuccess>
+		<jumpToCashPlanModule>系统已经生成计划,是否调整计划?</jumpToCashPlanModule>
+	</node>
+	<node locale="validator">
+		<vtype-required>该字段是必填字段!</vtype-required>
+		<vtype-email>电子邮箱格式不正确!</vtype-email>
+		<vtype-password>密码格式不正确!</vtype-password>
+		<vtype-bankcard>银行卡格式不正确!</vtype-bankcard>
+		<vtype-ip>网络地址格式不正确!</vtype-ip>
+		<vtype-englishchar>只能输入英文及字符!</vtype-englishchar>
+		<vtype-english>只能输入英文字母!</vtype-english>
+		<vtype-chinese>只能输入中文!</vtype-chinese>
+		<vtype-url>URL格式不正确!</vtype-url>
+		<vtype-idcard>身份证格式不正确!</vtype-idcard>
+		<vtype-date>日期格式不正确!</vtype-date>
+		<vtype-datetime>日期时间格式不正确!</vtype-datetime>
+		<vtype-unsafe>只能输入安全字符!</vtype-unsafe>
+		<vtype-engdigit>只能输入英文数字!</vtype-engdigit>
+		<vtype-number>只能输入数字!</vtype-number>
+		<vtype-int>只能输入整数!</vtype-int>
+		<vtype-unchinese>不能输入中文!</vtype-unchinese>
+		<vtype-maxchars> 最大字符数不能大于 </vtype-maxchars>
+		<vtype-minchars> 最小字符数不能小于 </vtype-minchars>
+		<vtype-minchars-zh_CN> ( 中文字符是双字节 ) </vtype-minchars-zh_CN>
+	</node>
+	<!-- Dynamic Skin -->
+	<node locale="loginSkin">
+		<zh_CN>loginPanel_zh_CN</zh_CN>
+		<en_US>loginPanel_en_US</en_US>
+	</node>
+	<node locale="logoSkin">
+		<zh_CN>banner_logo_zh_CN</zh_CN>
+		<en_US>banner_logo_en_US</en_US>
+	</node>
+	<node locale="mainSkin">
+		<zh_CN>mainContainer_zh_CN</zh_CN>
+		<en_US>mainContainer_en_US</en_US>
+	</node>
+	<node locale="security">
+		<pwdTooSimple>密码过于简单！密码必须包含a-Z 0-9，并且长度必须在6-20个字符之间！</pwdTooSimple>
+		<incorrectOldPwd>输入的旧密码错误！</incorrectOldPwd>
+	</node>
+	<node locale="selectorTerm">
+		<termCode>终端编号</termCode>
+		<termAddr>终端安装地址</termAddr>
+		<selectedTerminalsTitle>选定终端设备列表</selectedTerminalsTitle>
+		<selectionTerminalsTitle>待选终端设备列表</selectionTerminalsTitle>
+	</node>
+</nodes>

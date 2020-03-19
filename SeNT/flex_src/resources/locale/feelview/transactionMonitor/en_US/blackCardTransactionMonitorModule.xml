@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：blackCardTransactionMonitorModule<br>
+		Create Time：2011-9-7<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "blackCardTransactionMonitorModule">
+		<listTitle>BlackCard Transaction Monitor List</listTitle>
+		<orgIdItem>organization</orgIdItem>
+		<searchItem>searchKeyword</searchItem>
+		<termIdItem>termId</termIdItem>
+		<termTypeItem>termType</termTypeItem>
+		<brandItem>brand</brandItem>
+		<dateItem>transactiondate</dateItem>
+		<toItem>to</toItem>
+		<txnIdItem>transactionType</txnIdItem>
+		<txnamountItem>transactionAmount</txnamountItem>
+		<panItem>transactionAccount</panItem>
+		<panInItem>panIn</panInItem>
+		<txnResultItem>transactionResult </txnResultItem>
+		<tracenoItem>traceno</tracenoItem>
+	</node>
+</nodes>

@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "siteMsg">
+		<recipientNotNull>收信人不能为空！</recipientNotNull>
+	</node>
+</nodes>

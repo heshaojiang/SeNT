@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+    <node locale="selectGroupUserWin">
+        <selectGroupUserWin>选择下一步处理人</selectGroupUserWin>
+    </node>
+</nodes>

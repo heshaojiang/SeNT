@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "tranInfo">
+	</node>
+	<node locale = "cassetteInfo">
+		<noSelectedTerm>No terminal has been selected</noSelectedTerm>
+		<exsitedModifiedRecord>Some Records have been changed</exsitedModifiedRecord>
+		<slotLocatExist>Slot location have existed</slotLocatExist>
+	</node>
+</nodes>

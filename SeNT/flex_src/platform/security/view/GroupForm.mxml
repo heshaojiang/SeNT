@@ -1,0 +1,139 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+					   width="400" height="260"
+					   cornerRadius = "10"
+					   textAlign = "left"
+					   layout = "vertical"
+					   showIcon = "false"
+					   locale = "groupForm"
+					   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					   xmlns:s = "library://ns.adobe.com/flex/spark"
+					   xmlns:mx = "library://ns.adobe.com/flex/mx"
+					   xmlns:parsley="http://www.spicefactory.org/parsley" 
+					   xmlns:grg="http://grg.grgbanking.com/platform/"
+					   helpTips="helpTip">
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import platform.common.validator.VControl;
+			import platform.security.message.GroupMsg;
+			import platform.security.pm.GroupFormPM;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:GroupFormPM;
+
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+
+			// Cancel the request and close the window
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+
+			// Submit to form for save
+			private function submit():void
+			{
+				if (VControl.validateAll(form, validators).length > 0)
+					return;
+				pm.save();
+				
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+			[MessageHandler(selector="saveResult")]
+			public function saveResult(p_msg:GroupMsg):void
+			{
+				//TODO How to get the Exception Message throw from java back end
+				if (p_msg.result)
+					close();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:GroupMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+		]]>
+	</fx:Script>
+	
+	<grg:Form id="form"
+					width="100%"
+					textAlign = "left"
+					borderVisible = "false">
+		<grg:FormItem 
+							width="100%"
+							textAlign = "left"
+							locale = "grpName"
+							required = "true">
+			<grg:TextInput id="grpName" name = "grpName" text="@{pm._group.grpName}"
+							   width="113" maxnum="40" vtype="maxchars" maxChars="40"
+							   required = "true" />
+		</grg:FormItem>
+		<grg:FormItem 
+							width="100%"
+							textAlign = "left"
+							locale = "grpNote">
+			<grg:TextArea id="grpNote" name = "grpNote" width="100%" maxnum="100"
+							  vtype="maxchars" maxChars="100"
+							  text="@{pm._group.grpNote}"/>
+		</grg:FormItem>
+		<grg:FormItem 
+							width="100%"
+							textAlign = "left"
+							locale = "status">
+			<mx:HBox>
+				<grg:RadioButtonGroup id="group_status" value="@{pm._group.status}"/>
+				<grg:RadioButton id="statusEnable" groupName="group_status"
+									 value = "Y"
+									 locale = "statusEnable" />
+				<grg:RadioButton id="statusDisable" groupName = "group_status"
+									 value = "N"
+									 locale = "statusDisable" />
+			</mx:HBox>
+		</grg:FormItem>
+	</grg:Form> 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn"
+				click = "submit()"
+				locale = "saveButton"
+				iconVisible="false"
+				 />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton"
+				iconVisible="false"
+				 />
+		</s:BorderContainer>
+	</s:HGroup> 
+</grg:TitleWindow>

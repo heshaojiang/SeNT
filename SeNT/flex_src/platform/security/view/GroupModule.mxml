@@ -1,0 +1,271 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	width="100%" height="100%"
+	layout = "vertical" dataDictionaryPaths = "{[ENABLE_OR_DISABLE]}"
+	locale = "groupModule"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	implements = "platform.module.IModule"
+	xmlns:parsley="http://www.spicefactory.org/parsley"
+	xmlns:grg="http://grg.grgbanking.com/platform/">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			import platform.security.config.GroupConfig;
+			import platform.security.message.GroupMsg;
+			import platform.security.pm.GroupModulePM;
+			import platform.vo.security.GroupVo;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:GroupModulePM;
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			private const ENABLE_OR_DISABLE:String = "SysDatadirMgr.javapt.common.enableOrDisable";
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				(groupPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				loadGroupPage();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				groupPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			public function setRoles():void
+			{
+				if (groupPageGrid.selectedItem != null)
+				{
+					var confGrpRoleForm:ConfGrpRoleForm = new ConfGrpRoleForm();
+					var confGroup:GroupVo = groupPageGrid.selectedItem as GroupVo;
+					confGrpRoleForm.titleKey = "setGrpRole";
+					confGrpRoleForm.titleVar = confGroup.grpName;
+					_context.viewManager.addViewRoot(confGrpRoleForm);
+					PopUpManager.showForm(confGrpRoleForm, this);
+					confGrpRoleForm.pm.group = confGroup;
+				}
+			}
+			
+			public function setUsers():void
+			{
+				if (groupPageGrid.selectedItem != null)
+				{
+					var confGrpUserForm:ConfGrpUserForm = new ConfGrpUserForm();
+					var confUser:GroupVo = groupPageGrid.selectedItem as GroupVo;
+					confGrpUserForm.titleKey = "setGrpUser";
+					confGrpUserForm.titleVar = confUser.grpName;
+					_context.viewManager.addViewRoot(confGrpUserForm);
+					PopUpManager.showForm(confGrpUserForm, this);
+					confGrpUserForm.pm.group = confUser;
+				}
+			}
+			
+			// Add a new Group
+			public function add():void
+			{
+				var group:GroupVo = new GroupVo();
+				var groupForm:GroupForm = new GroupForm();
+				groupForm.titleKey = "addGroupForm";
+				_context.viewManager.addViewRoot(groupForm);
+				PopUpManager.showForm(groupForm, this);
+				groupForm.pm.vo = group;
+				groupForm.pm.menuId = menu.id;
+			}
+			
+			// Edit the group info
+			public function edit():void
+			{
+				if (groupPageGrid.checkedItems.length != 1){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				
+				var groupForm:GroupForm = new GroupForm();
+				var editGrp:GroupVo = groupPageGrid.checkedItems[0] as GroupVo
+				groupForm.titleKey = "updateGroupForm";
+				groupForm.titleVar = editGrp.grpName;
+				_context.viewManager.addViewRoot(groupForm);
+				PopUpManager.showForm(groupForm, this);
+				groupForm.pm.vo = editGrp;
+				groupForm.pm.menuId = menu.id;
+			}
+			
+			// Delete the selected group(s)
+			public function del():void
+			{
+				if(groupPageGrid.checkedItems.length <= 0){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				
+				AlertHandler.confirm(closeHandler, this, "confirmDelete");
+				
+			}
+			private function closeHandler(p_evt:CloseEvent):void
+			{
+				if (p_evt.detail == Alert.YES)
+					pm.batchDelete(DataGridUtil.getPropertys("id", groupPageGrid.checkedItems));
+			}
+			[MessageHandler(selector="deleteSelectedResult")]
+			public function deleteSelectedResult(p_msg:GroupMsg):void
+			{
+				loadGroupPage();
+			}
+			
+			// Enquiry the group list by search criteria
+			private function loadGroupPage():void
+			{
+				pm.loadGroupPage(keyword.text);
+			}
+			[MessageHandler(selector="searchGroupResult")]
+			public function searchGroupResult(p_msg:GroupMsg):void
+			{
+				groupPageGrid.checkedItems = [];
+			}
+			
+			[MessageHandler(selector="saveResult")]
+			public function saveResult(p_msg:GroupMsg):void
+			{
+				loadGroupPage();
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="GroupModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="GroupModule"/>
+			<parsley:FlexConfig type="{GroupConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<mx:VDividedBox 
+		width="100%" height="100%">
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			
+			<!--<grg:TitleBar/>-->
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle">
+				<grg:TitleBar locale="titlemsg" width="50%"/> 
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30">
+					<mx:HBox verticalAlign="middle" paddingBottom="3" paddingTop="2">
+						<s:BorderContainer styleName="searchStyle" width = "100%" height = "25">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "left" 
+									gap="5"
+									verticalAlign = "middle" />
+							</s:layout>
+							<grg:Label locale = "keyword" />
+							<grg:TextInput id="keyword" textAlign="left"
+										   width="150" height="20"
+										   styleName = "TextInput" />
+							<grg:SearchButton id="btn_search" menuId="{menu.id}"
+											  locale = "searchButton"
+											  iconType = "query" click="pm.page = new Page();loadGroupPage()"/>
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[keyword]}"/>
+							
+						</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			<mx:HBox width="100%" paddingLeft="10">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				<grg:DataGrid id="groupPageGrid" dataProvider="{pm.page.result}"
+							  width="100%" height="100%"
+							  styleName = "DataGrid"
+							  borderVisible = "true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											sortable = "false"
+											draggable = "false"
+											editable = "false"
+											resizable = "false" 
+											textAlign = "center"
+											/>
+						<grg:DataGridColumn locale = "grpName"
+											dataField = "grpName" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "grpNote"
+											dataField = "grpNote" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "status" 
+											labelFunction="{transferDataDict}"
+											dataField = "status" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale="operations" 
+											headerStyleName="centerDataGridHeader"
+											>
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXDataGridItemRenderer>
+										<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+									</s:MXDataGridItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="buttonPagingBar" pageVo="{pm.page}" pagingFunction="{loadGroupPage}"
+								  bottom = "0" />
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

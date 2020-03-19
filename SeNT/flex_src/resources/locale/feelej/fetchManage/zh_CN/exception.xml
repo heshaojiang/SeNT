@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "fetchManage">
+		<termIdNotFound>终端ID输入有误，请重新输入！</termIdNotFound>
+		<termNotRun>终端未开通或者已报废！</termNotRun>
+		<fetchException>提取异常，请联系管理员！</fetchException>
+		<noFilePath>没有定义设备型号流水文件路径！</noFilePath>
+	</node>
+</nodes>

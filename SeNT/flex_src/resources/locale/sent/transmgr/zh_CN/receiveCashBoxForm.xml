@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="receiveCashBoxForm">
+		<title>接收入库</title>
+		
+		<branchKXCashboxReceive>网点款箱接收扫描</branchKXCashboxReceive>
+		<cashboxReturnReceive>ATM钞箱回笼接收扫描</cashboxReturnReceive>
+		<ccKXCashboxReceive>网点款箱回笼接收扫描</ccKXCashboxReceive>
+		<ccCashbagReceive>人行下发钞袋接收扫描</ccCashbagReceive>
+		
+		<hangNeiCashboxReceive>行内入库接收</hangNeiCashboxReceive>
+		<tongYeCashboxReceive>同业入库接收</tongYeCashboxReceive>
+		<renHangCashboxReceive>人行入库接收</renHangCashboxReceive>
+		
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		<kxcashboxNumColon>款箱号：</kxcashboxNumColon>
+		<cashbagNumColon>钞袋号：</cashbagNumColon>
+		<CashboxReceiveLabel>钞箱号：</CashboxReceiveLabel>
+		
+		<followTypeColon>配钞渠道：</followTypeColon>
+		<flowNumColon>流转条码：</flowNumColon>
+		
+		<crkdkc>出（入）库的捆钞 </crkdkc>
+		<delete>删除</delete>
+		<addCashBunch>增加捆钞</addCashBunch>
+		
+		<save>保存</save>
+		<cancel>取消</cancel>
+		
+		<finishFlowKey>钞箱是否终止流转：</finishFlowKey>
+		<finishFlowDisable>是</finishFlowDisable>
+		<finishFlowEnable>否</finishFlowEnable>
+	
+	</node>
+</nodes>

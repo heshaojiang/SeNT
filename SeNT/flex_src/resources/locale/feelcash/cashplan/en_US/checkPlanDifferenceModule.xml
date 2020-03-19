@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="checkPlanDifferenceModule">
+		<submitCashPlan>Are you sure to submit this plan to be audited?
+		</submitCashPlan>
+		<noCashPlanSelected>No plan selected，Please select one plan,and add terminal plan。</noCashPlanSelected>
+		<planCode>Plan Code</planCode>
+		<planCodeLabel>Plan Code :</planCodeLabel>
+		<planStatus>Plan Status</planStatus>
+		<planStatusLabel>Plan Status :</planStatusLabel>
+		<planDate>Date planed</planDate>
+		<planDateLabel>Date:</planDateLabel>
+		<createDate>Date created</createDate>
+		<createDateLabel>Date created:</createDateLabel>
+		<modifiedDate>Date modified</modifiedDate>
+		<modifiedDateLabel>Date modified:</modifiedDateLabel>
+		<submitAuditDateLabel>Date submitted:</submitAuditDateLabel>
+		<submitAuditDate>Date submitted</submitAuditDate>
+		<orderDateLabel>Date ordered:</orderDateLabel>
+		<orderDate>Date ordered</orderDate>
+		<finishedDateLabel>Date finished:</finishedDateLabel>
+		<finishedDate>Date finished</finishedDate>
+		<auditDateLabel>Date audited:</auditDateLabel>
+		<confirmDate>Date confirmed</confirmDate>
+		<confirmDateLabel>Date confirmed:</confirmDateLabel>
+		<remarkLabel>Remark:</remarkLabel>
+		<totalAmountLabel>Total amount:</totalAmountLabel>
+		<actualTotalAmountLabel>Actual total amount:</actualTotalAmountLabel>
+		<differenceTermsLabel>Number of difference :</differenceTermsLabel>
+		<totalAmount>Total amount</totalAmount>
+		<totalTermsLabel>Number of all terminals :</totalTermsLabel>
+		<totalTerms>Number of all terminals</totalTerms>
+		<remark>Remark</remark>
+		<auditDate>Date audited</auditDate>
+		<planTypeLabel>Type of plan:</planTypeLabel>
+		<planType>Type of plan</planType>
+		<cashPlanDetail-p>Plan Detail:plan code [</cashPlanDetail-p>
+		<cashInfoDetail-p>Information:terminal code[</cashInfoDetail-p>
+		<cashPlanDetail-l>]</cashPlanDetail-l>
+		<cashInfoDetail-l>]</cashInfoDetail-l>
+		<terminalId>Terminal code</terminalId>
+		<blance>Balance(forecasted)</blance>
+		<originalLabel>Organization:</originalLabel>
+		<terminalIdLabel>Terminal code :</terminalIdLabel>
+		<termSEQLabel>Terminal SEQ :</termSEQLabel>
+		<termTypeLabel>Terminal type:</termTypeLabel>
+		<brandNameLabel>Brand of terminal:</brandNameLabel>
+		<modelNameLabel>Model of terminal:</modelNameLabel>
+		<companyNameLabel>Company of terminal :</companyNameLabel>
+		<orgNameLabel>Organization :</orgNameLabel>
+		<areaNameLabel>Area:</areaNameLabel>
+		<termAddrLabel>Terminal address:</termAddrLabel>
+		<instDateLabel>Date terminal installed:</instDateLabel>
+		<activeDateLabel>Date terminal activated :</activeDateLabel>
+		<servYearsLabel>Fixed number of years:</servYearsLabel>
+		<balanceLabel>Balance(forecasted):</balanceLabel>
+		<lastBalanceLabel>Last Balance:</lastBalanceLabel>
+		<sysGenerateAmountLabel>Amount system generated:</sysGenerateAmountLabel>
+		<sysSuggestAmountLabel>Amount system suggested:</sysSuggestAmountLabel>
+		<planAmountLabel>Amount planed:</planAmountLabel>
+		<lastPlanAmountLabel>Amount of last plan:</lastPlanAmountLabel>
+		<actualAmountLabel>Actual total amount:</actualAmountLabel>
+		<lastActualAmountLabel>Last actual total amount :</lastActualAmountLabel>
+		<keepDaysLabel>Days of upkeep:</keepDaysLabel>
+		<lastKeepDaysLabel>Last days of upkeep:</lastKeepDaysLabel>
+		<actualKeepDaysLabel>Actual days of upkeep:</actualKeepDaysLabel>
+		<lastActualKeepDaysLabel>Last actual days of upkeep :</lastActualKeepDaysLabel>
+		<actualTotalAmount>Actual total amount(10,000)</actualTotalAmount>
+		<backCashAmount>回笼金额(元)</backCashAmount>
+		<differenceRateLabel>Rate of difference:</differenceRateLabel>
+		<differenceType>Type of difference</differenceType>
+		<operation>Operation</operation>
+		<todoPlans>Plan list(to do)</todoPlans>
+		<finishedPlans>Plan list(finished)</finishedPlans>
+		<planTerms>]'s terminal plan list-</planTerms>
+		<planTermInfo>Detail of terminal plan</planTermInfo>
+		<sysGenerateAmount>Amount system generated</sysGenerateAmount>
+		<sysSuggestAmount>Amount system suggested</sysSuggestAmount>
+		<planAmount>Amount planed</planAmount>
+		<keepDays>Days of upkeep</keepDays>
+		<term-quantity-unit>set(s)</term-quantity-unit>
+		<monetary-wy-unit>(10,000)</monetary-wy-unit>
+		<monetary-unit></monetary-unit>
+		<date-unit>day</date-unit>
+		<termModel>Model of terminal</termModel>
+		<orgName>Organization</orgName>
+		<termAddress>Terminal address</termAddress>
+		<actualAddCashDate>Date actual done</actualAddCashDate>
+		<normalDayAmount>Amount in normal day</normalDayAmount>
+		<weekendAmount>Amount in weekend</weekendAmount>
+		<holidayAmount>Amount in holiday</holidayAmount>
+		<avgAmount>Average of Amount</avgAmount>
+		<auditRejectDateLabel>Date rejected in auditing:</auditRejectDateLabel>
+		<cashConfirmRejectDateLabel>Date rejected in confirming:</cashConfirmRejectDateLabel>
+		<submitSuggestionLabel>Submit suggestion:</submitSuggestionLabel>
+		<auditSuggestionLabel>Audit suggestion:</auditSuggestionLabel>
+		<auditRejectSuggestionLabel>Suggestion for rejected in auditing:</auditRejectSuggestionLabel>
+		<cashConfirmSuggestionLabel>Suggestion for confirmed:</cashConfirmSuggestionLabel>
+		<cashConfirmRejectSuggestionLabel>Suggestion for rejected in confirming: :</cashConfirmRejectSuggestionLabel>
+		<normalDayAmountLabel>Amount in normal day:</normalDayAmountLabel>
+		<weekendAmountLabel>Amount in weekend:</weekendAmountLabel>
+		<holidayAmountLabel>Amount in holiday:</holidayAmountLabel>
+		<avgAmountLabel>Average of Amount:</avgAmountLabel>
+		
+		<actualAmount>Actual amount(10,00)</actualAmount>
+		<backCashAmountLabel>回笼金额:</backCashAmountLabel>
+		<environmentStatusLabel>Environment Status:</environmentStatusLabel>
+		<differenceTypeLabel>Type of difference:</differenceTypeLabel>
+		<actualAddCashDateLabel>Date actually added:</actualAddCashDateLabel>
+		<currentInfo>Current information</currentInfo>
+		<unDifferenceTerms>Amount of undifferentiated Terms</unDifferenceTerms>
+	</node>
+</nodes>

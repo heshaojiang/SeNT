@@ -1,0 +1,37 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 分发服务器设置 
+	 Create Time：2011-9-06   
+	 Author：Zhangjinpeng 
+	 -->
+<nodes>
+	<node locale = "interceptScreenATMForm">
+		<addInterceptScreenATMForm>Ekran İzleme Planı Ekle</addInterceptScreenATMForm>
+		<updateInterceptScreenATMForm>Ekran İzleme Planı Değiştir</updateInterceptScreenATMForm>
+		<planidItem>Plan Id:</planidItem>
+		<createtimeItem>Oluşturma Zamanı:</createtimeItem>
+		<repeattypeItem>Tekrar Tipi:</repeattypeItem>
+		<everydayexetimeItem>Tekrar Çalışma (Saat):</everydayexetimeItem>
+		<repeatintervalItem>Tekrar Çalışma (Dakika):</repeatintervalItem>
+		<plannameItem>Plan Adı:</plannameItem>
+		<nextexecutetimeItem>Çalışma Zamanı:</nextexecutetimeItem>
+		<termidlistItem>Terminal Id:</termidlistItem>
+		<taskparaItem>Görev Talimatları:</taskparaItem>
+		<taskparaversionItem>Görev Talimat Sürümü:</taskparaversionItem>
+		<maxretrytimesItem>Maksimum Deneme Sayısı:</maxretrytimesItem>
+		<retryintervalItem>Yeniden Deneme (Saniye):</retryintervalItem>
+		<enabledItem>Aktif mi?:</enabledItem>
+		<termtypeItem>Terminal Tipi:</termtypeItem>
+		<modelItem>Model:</modelItem>
+		<orgidItem>Şube:</orgidItem>
+		<areaidItem>İl:</areaidItem>
+		<brandItem>Marka:</brandItem>
+		<timeoutintervalItem>Süre Aşımı (saat):</timeoutintervalItem>
+		<addInterceptScreenATMForm>Ekran Görüntüsü Bilgileri</addInterceptScreenATMForm>
+		<addProcessForm>Çalışan Uygulamalar Bilgileri</addProcessForm>
+		<addHardwareForm>Donanım Durum Planı Ekle</addHardwareForm>
+		<hintOfInputTermid>Max. 100 ATM (;)(,) </hintOfInputTermid>
+		<speratedWithCommaSemicolonSpace>yada boşluk ile ayrılarak girilebilir.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>veya seçmek için tıklayın</hintOfClickButton>
+		
+	</node>
+</nodes>

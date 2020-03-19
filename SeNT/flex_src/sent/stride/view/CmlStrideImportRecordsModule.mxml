@@ -1,0 +1,462 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	width="100%" height="100%"
+	layout = "horizontal" dataDictionaryPaths = "{[CmlStrideImportRecordsConsts.ENABLE_OR_DISABLE]}"
+	locale = "cmlStrideImportRecordsModule"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/" xmlns:ns="http://code.google.com/p/flexlib/" >
+	<fx:Declarations> 
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{CmlStrideImportRecordsModuleConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Binding source="startTime.selectedDate" destination="pm.condi.startTime"/>
+	<fx:Binding source="endTime.selectedDate" destination="pm.condi.endTime"/>
+	<fx:Binding source="orgId.selectedValue" destination="pm.condi.orgId"/>
+	<fx:Script> 
+		<![CDATA[
+			import flash.net.navigateToURL;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			import mx.formatters.DateFormatter;
+			
+			import org.idmedia.as3commons.util.HashSet;
+			import org.idmedia.as3commons.util.Set;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.component.containers.TitleWindow;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DateUtils;
+			import sent.stride.config.CmlStrideImportRecordsModuleConfig;
+			import sent.stride.constants.CmlStrideImportRecordsConsts;
+			import sent.stride.constants.CmlStrideImportRecordsLocalKeyConsts;
+			import sent.stride.message.CmlStrideImportRecordsMsg;
+			import sent.stride.pm.CmlStrideImportRecordsModulePM;
+			import sent.stride.vo.CmlStrideImportRecordsVO;
+			
+			
+			
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:CmlStrideImportRecordsModulePM;
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/add.png")] 
+			private var addIcon:Class; 
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/view_note.png")] 
+			private var viewNoteIcon:Class; 
+			[Bindable]
+			public var checkItem:ArrayCollection = new ArrayCollection();
+			
+			public var window:TitleWindow;
+			
+			public var downFileReference:FileReference = new FileReference();
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			
+			/**
+			 *  初始化 
+			 */
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * 获取数字字典回调处理方法 
+			 */
+			override protected function getDataDictCallback():void
+			{
+				(cmlStrideImportRecordsPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 显示数据字典转换出来的值
+			 * 在dataGrid中列调用转换：	labelFunction="{transferDataDict}"
+			 **/
+			/**
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = CmlStrideImportRecordsConsts.ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}  */
+			
+			/**
+			 * 页面加载完成 
+			 */
+			override protected function viewUpdateComplete():void
+			{
+				//pm.init();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			/**
+			 * 销毁
+			 */ 
+			override public function dispose():void
+			{
+				//cmlStrideImportRecordsPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			/**
+			 * 新增
+			 */ 
+			public function add():void
+			{				
+				//set vo
+				var vo:CmlStrideImportRecordsVO = new CmlStrideImportRecordsVO();
+				vo.formType = CmlStrideImportRecordsLocalKeyConsts.ADD_FORM;
+				openWin(CmlStrideImportRecordsLocalKeyConsts.ADD_FORM, vo);
+				
+			}
+			
+			/**
+			 * 编辑
+			 * */
+			/**
+			public function edit():void
+			{
+				if (cmlStrideImportRecordsPageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var temp:CmlStrideImportRecordsVO = CmlStrideImportRecordsVO(cmlStrideImportRecordsPageGrid.checkedItems[0]);
+				var vo:CmlStrideImportRecordsVO = temp as CmlStrideImportRecordsVO;
+				vo.formType = CmlStrideImportRecordsLocalKeyConsts.UPDATE_FORM;
+				openWin(CmlStrideImportRecordsLocalKeyConsts.UPDATE_FORM, vo);
+				
+			}  */
+			
+			/**
+			 * 删除
+			 * */
+			/**
+			public function del():void
+			{				
+				pm.delCmlStrideImportRecords(cmlStrideImportRecordsPageGrid.checkedItems);
+			}
+			*/
+			
+			/**
+			 * 打开窗口
+			 * */
+			public function openWin(p_winName:String, p_vo:CmlStrideImportRecordsVO):void
+			{
+				//dispatch event
+				//var win:CmlStrideImportRecordsForm = new CmlStrideImportRecordsForm();
+				
+				//win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				//_context.viewManager.addViewRoot(win);
+				//PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				//win.pm.vo = p_vo;
+				//win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getCmlStrideImportRecordsPageResult")]
+			public function getPageHandler(p_msg:CmlStrideImportRecordsMsg):void
+			{
+				//if(p_msg.result)
+					//cmlStrideImportRecordsPageGrid.checkedItems = [];
+			}	
+			
+			public function delShow():void
+			{
+				AlertHandler.alert("Show delShow()");
+			}
+			
+			public function strideExport():void{
+				var win:CmlStrideImportRecordsForm = new CmlStrideImportRecordsForm();
+				window = win;
+				win.titleKey = "跨行导出";
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				window.addEventListener(CloseEvent.CLOSE, onFormWindowClosed);
+				//win.pm.vo = p_vo;
+				//win.pm.menuId = this.menu.id;
+			}
+			
+			public function strideImport():void{
+				var win:StrideImportForm = new StrideImportForm();
+				window = win;
+				win.titleKey = "跨行导入";
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				window.addEventListener(CloseEvent.CLOSE, onFormWindowClosed);
+			}
+			
+			public function strideDownload():void{
+				var arr:Array = cmlStrideImportRecordsPageGrid.selectedItems;
+				var files:String = "";
+				var bankCodeSet:Set = new HashSet();
+				var fileName:String = "";
+				var bankCode:String = "";
+				if(arr.length<=0)
+				{
+					AlertHandler.alert("请选择待下载记录信息");
+					return;
+				}
+				
+				for(var i:int=0;i<arr.length;i++){
+					var vo:CmlStrideImportRecordsVO = arr[i] as CmlStrideImportRecordsVO;
+//					if(vo.operateStatus!="导出"){
+//						Alert.show(vo.fileName+" 只有跨行方式为'导出'状态才能压缩下载.");
+//						return;
+//					}
+					if(vo.fileName==null||vo.fileName=="")
+						continue;
+					var tempFile:Array = vo.fileName.split("_");
+					bankCodeSet.add(tempFile[0]);
+					files+=vo.id+";"+vo.fileName+",";
+				}
+				var dateFormatter:DateFormatter = new DateFormatter();
+				dateFormatter.formatString = "YYYYMMDDJJNNSS";
+				var nowDate:String= dateFormatter.format(new Date());
+				
+				if(arr.length>1){
+					bankCode = (arr[0] as CmlStrideImportRecordsVO).fileName.split("_")[0];
+					fileName = bankCode+"_"+arr.length+"_"+nowDate+".zip";
+				}else if(arr.length<1){
+					AlertHandler.alert("请选择导出的信息");
+					return;
+				}else{
+					fileName = (arr[0] as CmlStrideImportRecordsVO).fileName;
+				}
+				
+				downFileReference.addEventListener(Event.COMPLETE,loadPageFDownLoad);
+				downFileReference.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
+				
+				if(bankCodeSet.size()>1){
+					Alert.show("zip包存在多家报送银行编号,是否继续?","注意",Alert.YES|Alert.NO,this,function(event:CloseEvent):void{
+						if (event.detail == Alert.YES){
+//							navigateToURL(new URLRequest("SeNT/fsn.fsnFilesExport?files="+files),"_self"); 
+							downFileReference.download(new URLRequest("SeNT/fsn.fsnFilesExport?files="+files+"&date="+nowDate),fileName);
+						}
+					},null,Alert.NO,null);
+				}else{
+//					navigateToURL(new URLRequest("SeNT/fsn.fsnFilesExport?files="+files),"_self"); 
+					downFileReference.download(new URLRequest("SeNT/fsn.fsnFilesExport?files="+files+"&date="+nowDate),fileName);
+				
+				}
+				//urlrequest: URLRequest = new URLRequest("http://localhost:8080/SeNT/fsn.fsnFilesImport");
+				//pm.savedStrideDownload(arr);
+				//for(var i:int=0;i<arr.length;i++){
+				//	var vo:CmlStrideImportRecordsVO = arr[i] as CmlStrideImportRecordsVO;
+				//}
+				
+			}
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+			
+			protected function loadPageFDownLoad(event: Event):void
+			{
+				AlertHandler.alert("下载完成");
+				pm.condi.startTime=startTime.selectedDate;
+				pm.condi.endTime=endTime.selectedDate;
+				pm.loadCmlStrideImportRecordsPage();
+				downFileReference.removeEventListener(Event.COMPLETE,loadPageFDownLoad);
+				downFileReference.removeEventListener(IOErrorEvent.IO_ERROR, onIOError);
+			}
+			
+			protected function onFormWindowClosed(event:CloseEvent):void
+			{
+				pm.condi.startTime=startTime.selectedDate;
+				pm.condi.endTime=endTime.selectedDate;
+				pm.loadCmlStrideImportRecordsPage();
+				if(window!=null)
+				{
+					window.removeEventListener(CloseEvent.CLOSE,onFormWindowClosed);
+				}
+			}
+			
+			protected function onIOError(event:IOErrorEvent):void
+			{
+				AlertHandler.alert("下载失败");
+				pm.condi.startTime=startTime.selectedDate;
+				pm.condi.endTime=endTime.selectedDate;
+				pm.loadCmlStrideImportRecordsPage();
+				downFileReference.removeEventListener(IOErrorEvent.IO_ERROR, onIOError);
+				downFileReference.removeEventListener(Event.COMPLETE,loadPageFDownLoad);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer 
+		width="100%" height="100%"
+		styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		
+		<!-- 搜索栏 -->
+		<!--<grg:TitleBar/>-->
+		<mx:HBox width="100%" styleName="firHBoxStyle" borderVisible="false" height="30">
+			<grg:TitleBar locale="titlemsg" width="50%"/>
+			<mx:HBox  width="100%" styleName="senHBoxStyle" height="30">  
+				<s:BorderContainer  
+					textAlign = "center"
+					styleName = "searchStyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout 
+							horizontalAlign = "right"
+							gap="2"
+							verticalAlign = "middle" />
+					</s:layout>  
+					
+					<grg:Label locale="startTime"/>
+					<grg:SuperDateField id="startTime"  myEnabled="false" isShowTime="true"
+										selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+										selectableRange="{{rangeEnd:endTime.selectedDate}}"/>
+					<s:Spacer width="5" />
+					<grg:Label locale="to"/>
+					<s:Spacer width="5" />
+					<grg:SuperDateField id="endTime"  myEnabled="false" isShowTime="true"
+										selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}" 
+										selectableRange="{{rangeStart:startTime.selectedDate}}"/>
+					<s:Spacer width="10" />
+					<grg:Label locale="orgName"/>
+					<grg:GRGComboBoxOrgTree id="orgId"
+											defaultField="true"
+											width="80"
+											textAlign="left"
+											treeHeight="300"/>
+					<grg:SearchButton id="btn_search"
+									  locale = "searchButton" menuId="{menu.id}" 
+									  iconType = "query" click="pm.condi.startTime=startTime.selectedDate;pm.condi.endTime=endTime.selectedDate;pm.page = new Page();pm.loadCmlStrideImportRecordsPage()"/>
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+									 resetControls="{[this.account,this.studentName,this.orgId]}" click="initSelectDate()"/>
+					
+				</s:BorderContainer>   
+			</mx:HBox>
+		</mx:HBox>
+		
+		<!-- 表格标题 -->
+		<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<!-- 
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				-->
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				
+				<!--导出-->
+				<grg:Button locale="strideExport" iconType="export" click="strideExport();"  />
+				<grg:Button locale="strideDownload" iconType="export" click="strideDownload();" />
+				<!--导入-->
+				<grg:Button locale="strideImport" iconType="import" click="strideImport();" />
+				<!--
+				<grg:GRGModuleButtonBar2 id="privilegeBar2"  menuId="{menu.id}">
+					<grg:Button id="addBtn" privilegeCode="add" click="add()" 
+								locale="addBtn"  height="21"  icon="{addIcon}"   />
+					<s:Spacer width="20" />
+					<grg:Button id="delBtn" privilegeCode="del" click="delShow()" 
+								locale="delBtn"  height="21" />
+					<s:Spacer width="20" />
+					<grg:Image id="viewRowDetailInfoImage" privilegeCode="viewRowDetailInfo"  source="{viewNoteIcon}"
+							     height="21" />					
+					<grg:Image id="showDetailInfo" privilegeCode="showDetailInfo"  source="{viewNoteIcon}"
+							   height="21" />
+					
+				</grg:GRGModuleButtonBar2>  -->
+			</s:BorderContainer>
+		</mx:HBox>
+		
+		<!-- 表格内容 -->
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<ns:TreeGrid showRoot="true" id="cmlStrideImportRecordsPageGrid" editable="false" sortableColumns="false" 
+						 dataProvider="{pm.page.result}" width="100%" height="100%" paddingLeft="20" 
+						 styleName = "DataGrid" allowMultipleSelection="true" selectable="true" 
+						 doubleClickEnabled="false">
+				<ns:columns>
+					<ns:TreeGridColumn locale = "cBagCodeItem" headerText="包（袋、箱）号" width="50"
+									   dataField = "bagCode" 
+									   textAlign = "left"
+									   />
+					<ns:TreeGridColumn locale = "cFileNameItem" headerText="文件名" width="80"
+									   dataField = "fileName" 
+									   textAlign = "left"
+									   />
+					<ns:TreeGridColumn locale = "iFsnCountItem" headerText="FSN文件数量" width="20"
+									   dataField = "fsnCount" 
+									   textAlign = "left"
+									   />
+					<ns:TreeGridColumn locale = "iBagCountItem" headerText="包数量" width="20"
+									   dataField = "bagCount" 
+									   textAlign = "left"
+									   />
+					<ns:TreeGridColumn locale = "bankCodeItem" headerText="报送银行" width="20"
+									   dataField = "bankCode" 
+									   textAlign = "left"
+									   />
+					<!--<ns:TreeGridColumn locale = "fromCodeItem" headerText="生成网点" width="20"
+									   dataField = "fromCode" 
+									   textAlign = "left"
+									   />-->
+					<ns:TreeGridColumn locale = "fromCodeItem" headerText="生成网点" width="20"
+									   dataField = "orgName" 
+									   textAlign = "left"
+									   />
+					<ns:TreeGridColumn locale = "cOperateStatusItem" headerText="跨行方式" width="20"
+									   dataField = "operateStatus" 
+									   textAlign = "left"
+									   />
+					<ns:TreeGridColumn locale = "cOperaterIdItem" headerText="导入/导出人" width="20"
+									   dataField = "operaterId" 
+									   textAlign = "left"
+									   />
+					<ns:TreeGridColumn locale = "cUploadTimeItem" headerText="导入/导出时间" width="30"
+									   dataField = "uploadTime" 
+									   textAlign = "left"
+									   />
+				</ns:columns>
+			</ns:TreeGrid>
+		</mx:HBox> 
+		<grg:PageNavigatorBar id="cmlStrideImportRecordsPagingBar"
+							  x = "0" pageVo="{pm.page}"
+							  pagingFunction="{pm.loadCmlStrideImportRecordsPage}"
+							  bottom = "0" />
+		
+	</s:BorderContainer>
+</grg:TabModule>

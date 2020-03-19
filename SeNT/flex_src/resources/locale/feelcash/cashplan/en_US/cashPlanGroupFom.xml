@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashPlanGroupFom">
+		<addCashPlangGroupForm>New Plans Group</addCashPlangGroupForm>
+		<selectPlanDate>Select a Date add to the Plans Group List</selectPlanDate>
+		<planDateLabel>Plan Date:</planDateLabel>
+		<planGroup>Plans Group List</planGroup>
+		<planDate>Plan Date</planDate>
+		<delOperation>Delete</delOperation>
+	</node>
+</nodes>

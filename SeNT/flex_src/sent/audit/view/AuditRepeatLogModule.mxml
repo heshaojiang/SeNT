@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule  dataDictionaryPaths="{[AuditLogConstants.APPLY_STATUS,AuditLogConstants.APPLY_TYPE]}"
+				xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark"  
+				xmlns:grg="http://grg.grgbanking.com/platform/" 
+				xmlns:parsley="http://www.spicefactory.org/parsley"
+				xmlns:userDefined="platform.date.*"
+				xmlns:mx="library://ns.adobe.com/flex/mx" layout="vertical" width="100%" height="100%">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:FlexConfig type="{AuditRepeatLogModuleConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.audit.config.AuditRepeatLogModuleConfig;
+			import sent.audit.constants.AuditLogConstants;
+			import sent.audit.message.AuditRepeatLogMsg;
+			import sent.audit.pm.AuditRepeatLogModulePM;
+			import sent.audit.vo.AuditLogDetailVO;
+			
+			
+			
+			
+			[Inject]
+			[Bindable]
+			public var pm:AuditRepeatLogModulePM;
+			
+			
+			/**
+			 * 申请类型
+			 */
+			[Bindable]
+			private var applype:ArrayCollection;
+			
+			/**
+			 *审核状态 
+			 */
+			[Bindable]
+			private var auditStatus:ArrayCollection;
+			/**
+			 * 初始化数据
+			 */		
+			
+			override protected function viewUpdateComplete():void
+			{  
+				loadPage();
+			}
+			
+			/**
+			 * 获取数据字典后更新信息
+			 */
+			override protected function getDataDictCallback():void
+			{
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem:Object = {key:"", text:str};
+				var arrCol:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[AuditLogConstants.APPLY_STATUS]) as ArrayCollection;
+				arrCol.addItemAt(allItem, 0);
+				auditStatus= arrCol;
+				var arrCol1:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[AuditLogConstants.APPLY_TYPE]) as ArrayCollection;
+				arrCol1.addItemAt(allItem, 0);
+				applype= arrCol1;
+				
+				(auditLogDetail.dataProvider as ListCollectionView).refresh();
+			} 
+			
+			/**
+			 * 显示数据字典转换出来的值
+			 */
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{  
+				if(p_column.dataField == "applyType")
+				{
+					currentDataDictPath = AuditLogConstants.APPLY_TYPE;
+				}
+				if(p_column.dataField == "applyStatus")
+				{
+					currentDataDictPath = AuditLogConstants.APPLY_STATUS;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+	
+			/**
+			 * 根据条件查询
+			 * 
+			 */
+			private function loadPage():void
+			{
+				pm.loadRepeatAuditLogPage();
+			}
+			
+			/**
+			 * 根据申请编号查找规则下发明细
+			 * 
+			 */
+			public function showTransDetailInfo():void
+			{
+				var obj:AuditLogDetailVO =auditLogDetail.selectedItem as AuditLogDetailVO;
+				var win:ShowAuditRepeatLog= new ShowAuditRepeatLog();
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.applyId=obj.id;
+				win.applayType=obj.applyType;
+				
+				//申请信息
+				var auditMsg:AuditRepeatLogMsg=new AuditRepeatLogMsg();
+				auditMsg.type="getRepeatAuditInfo";
+				auditMsg.args["applyId"]=obj.id;
+				sendMessage(auditMsg);
+				
+				//申请类型
+				var applayType:String=obj.applyType;
+				
+				//查找重号规则类型审核详情
+				var msg:AuditRepeatLogMsg= new AuditRepeatLogMsg();
+				msg.type = "getRepeatRegulationByApplyId";
+				msg.args["applyId"] = obj.id;
+				sendMessage(msg); 
+				
+				//规则下发详情
+				var auiMsg:AuditRepeatLogMsg=new AuditRepeatLogMsg();
+				auiMsg.type="getRepeatRegulationDeliverByApplyId";
+				auiMsg.args["page"]=pm.logPage;
+				auiMsg.args["applyId"]=obj.id;
+				sendMessage(auiMsg);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Binding source="applayDate.selectedDate" destination="pm.condi.startTime"/>
+	<fx:Binding source="endTime.selectedDate" destination="pm.condi.endTime"/>
+	<fx:Binding source="applyStatus.selectedValue" destination="pm.audit.applyStatus"/>
+	<!--
+	<fx:Binding source="applyId.text" destination="pm.audit.id"/>
+	-->
+	
+	<s:BorderContainer width="100%"  height="100%" styleName="BorderContainer">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0"  paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign="center"
+			styleName="SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">
+						<!--申请编号-->
+						<!--
+						<grg:Label locale="applyId" />
+						<grg:TextInput id="applyId" textAlign="left" restrict="^'"
+									   styleName="TextInput" width="130" />
+						-->
+						<!--审核状态：-->
+						<grg:Label locale="applyStatus" />
+						<grg:ComboBox id="applyStatus"  dataProvider="{auditStatus}" hasAllItem="true" width="50"
+									  labelField="text" valueField="key" />
+						<!--查询-->
+						<grg:SearchButton id="btn_search" menuId="{menu.id}"
+										  locale="searchButton" 
+										  iconType = "query" click="pm.page=new Page();loadPage()"/>
+						<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 
+						<!--重置-->
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+										 resetControls="{[applayDate, endTime]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					<mx:HBox width="100%" styleName="expHBoxStyle">  
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="right"
+									gap="2"
+									verticalAlign="middle" />
+							</s:layout>
+							<!--申请时间：-->
+							<grg:Label locale="applayDate" />
+							<userDefined:SuperDateField width="190" id="applayDate" myEnabled="false" selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<userDefined:SuperDateField width="190" id="endTime"  myEnabled="false" selectableRange="{{rangeStart:applayDate.selectedDate}}" isShowTime="true" />
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+		</grg:AdvancedSearchBar>
+		
+		<grg:DataGrid dataProvider="{pm.page.result}" id="auditLogDetail" 
+					  width="100%" height="100%"
+					  textAlign="center"
+					  styleName="DataGrid">
+			<grg:columns>
+				<!--审批人-->
+				<grg:DataGridColumn locale="username" 
+									dataField="username" textAlign="left"/>
+				<!--将日期类型转换成String-->
+				<grg:DataGridColumn locale="applayDate" 
+									dataField="applayDate" labelFunction="{DataGridUtil.formatTime}" textAlign="center"/>
+				<!--申请类型：-->
+				<grg:DataGridColumn locale="applyType" 
+									dataField="applyType"  labelFunction="{transferDataDict}" textAlign="left"/>
+				<!--审核状态：-->
+				<grg:DataGridColumn locale="applyStatus" 
+									dataField="applyStatus"  labelFunction="{transferDataDict}" textAlign="left"/>
+				<!--最多重号冠字号码数-->
+				<grg:DataGridColumn locale="repeatnum" 
+									dataField="repeatnum"/>
+				<!--操作-->
+				<grg:DataGridColumn locale="operators" 
+									width="100"  headerStyleName="centerDataGridHeader">
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXDataGridItemRenderer>
+								<fx:Script>
+									<![CDATA[
+										import org.doc.Document;
+										/**
+										 * 查看详情的图片
+										 */
+										[Bindable]
+										[Embed(source="resources/theme/newui/view.png")] 
+										private var serchIcon:Class; 
+									]]>
+								</fx:Script>
+								<grg:Image source="{serchIcon}" click="outerDocument.showTransDetailInfo()" width="100"  horizontalAlign="center" verticalAlign="middle"/>
+							</s:MXDataGridItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+			</grg:columns>
+		</grg:DataGrid>
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" 
+							  pageVo="{pm.page}"
+							  pagingFunction="{loadPage}"/>
+	</s:BorderContainer>
+	
+</grg:TabModule>

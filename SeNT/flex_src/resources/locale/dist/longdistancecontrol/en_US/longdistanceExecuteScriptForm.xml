@@ -1,0 +1,80 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  receTerminalFile：接收终端文件
+	 Create Time：2011-9-19   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com  -->
+<nodes>
+	<node locale = "longdistanceExecuteScriptForm">
+		<addReceTerminalFileForm>Add Receive Terminal File Plan Information</addReceTerminalFileForm>
+		<viewReceTerminalFileForm>View Receive Terminal File Plan Information</viewReceTerminalFileForm>
+		<updateReceTerminalFileForm>Update ReceTerminalFile</updateReceTerminalFileForm>
+		<planidItem>plan id</planidItem>
+		<createtimeItem>create time</createtimeItem>
+		<repeattypeItem>repeat type</repeattypeItem>
+		<everydayexetimeItem>set everyday time</everydayexetimeItem>
+		<repeatintervalItem>set everyminute time</repeatintervalItem>
+		<plannameItem>Plan Name</plannameItem>
+		<nextexecutetimeItem>Executing Time</nextexecutetimeItem>
+		<termidlistItem>Term ID</termidlistItem>
+		<taskparaItem>task para</taskparaItem>
+		<taskparaversionItem>task para version</taskparaversionItem>
+		<maxretrytimesItem>max retry times</maxretrytimesItem>
+		<retryintervalItem>retry interval</retryintervalItem>
+		<enabledItem>enabled</enabledItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM Model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<brandItem>Brand</brandItem>
+		<timeoutintervalItem>Timeout (hours)</timeoutintervalItem>
+		<predefgroupItem>Path-Wildcard Group</predefgroupItem>
+		<filepathItem>(On ATM)Upload Path</filepathItem>
+		<filepathItem1>(On ATM)Execute Script Path</filepathItem1>
+		<filepathItem2>(On ATM)File Path</filepathItem2>
+		<wildcardItem>Wildcard</wildcardItem>
+		<fileedittimestartItem>File Edit Time From</fileedittimestartItem>
+		<fileedittimeendItem>File Edit Time To</fileedittimeendItem>
+		<fileSizeFromItem>File Size Start(byte)</fileSizeFromItem>
+		<fileSizeEndItem>File Size End(byte)</fileSizeEndItem>
+		<searchtypeItem>Search Type</searchtypeItem>
+		<cmpTypeItem>Compare Type</cmpTypeItem>
+		<includeSubDirItem>Include SubDir</includeSubDirItem>
+		<BaseInfo>Base Information</BaseInfo>
+		<receTerminalFileInfo>Receive Terminal File Information</receTerminalFileInfo>
+		<serverFileNameItem>Server File Name</serverFileNameItem>
+		<userCodeItem>User</userCodeItem>
+		<hintOfInputTermid>enter terminal id, 900 characters maximum.</hintOfInputTermid>		
+		<speratedWithCommaSemicolonSpace>separated with comma, semicolon or space.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>or click button to choose</hintOfClickButton>
+		<processPathItem>Process Path</processPathItem>
+		<processPathItem1>Process Path</processPathItem1>
+		<processPathItem2>Process Name</processPathItem2>
+		<disposeTypeItem>Dispose Type</disposeTypeItem>
+		<uploadFileItem>Upload File</uploadFileItem>
+		<filePathItem>Send File Path</filePathItem>
+		<startrunfileItem>Start or Run File</startrunfileItem>	
+		<needRestartItem>Restart After Transaction</needRestartItem>
+				
+		<addLongdistanceExecuteScriptForm>Add Longdistance Execute Script Plan Information</addLongdistanceExecuteScriptForm>
+		<addLongdistanceDisposeProcessForm>Add Longdistance Dispose Process Plan Information</addLongdistanceDisposeProcessForm>
+		<addLongdistanceDelFileForm>Add Longdistance Delete File Plan Information</addLongdistanceDelFileForm>
+		<addReceMachineLogForm>Add Receive Machine Log Plan Information</addReceMachineLogForm>
+		<addSendFileToTerminalForm>Add Send File To Terminal Plan Information</addSendFileToTerminalForm>
+		
+		<viewLongdistanceExecuteScriptForm>View Longdistance Execute Script Plan Information</viewLongdistanceExecuteScriptForm>
+		<viewLongdistanceDisposeProcessForm>View Longdistance Dispose Process Plan Information</viewLongdistanceDisposeProcessForm>
+		<viewLongdistanceDelFileForm>View Longdistance Delete File Plan Information</viewLongdistanceDelFileForm>
+		<viewReceMachineLogForm>View Receive Machine Log Plan Information</viewReceMachineLogForm>
+		<viewSendFileToTerminalForm>View Send File To Terminal Plan Information</viewSendFileToTerminalForm>
+		<viewExecutSrciptForm>View Longdistance Execute Script Plan Information</viewExecutSrciptForm>
+		<viewDisposeProcessForm>>View Longdistance Dispose Process Plan Information</viewDisposeProcessForm>
+		<viewTestForm>View Ping Plan Information</viewTestForm>
+		<viewRestartForm>View Restart Plan Information</viewRestartForm>
+		<viewRestoreForm>View Pause/Restore Plan Information</viewRestoreForm>
+		<viewResetForm>View Reset Hardware Plan Information</viewResetForm>
+		<viewReceiveForm>View Rece Machine Log Plan Information</viewReceiveForm>
+		
+		<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+	</node>
+</nodes>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassModule">
+		<classConfigItem>Yapılandırma Listesi</classConfigItem>
+		<classIdItem>Parça Id</classIdItem>
+		<classNameItem>Parça Adı</classNameItem>
+		<classNameEnItem>İngilizce Adı</classNameEnItem>
+		<levelsItem>Hata Seviyesi</levelsItem>
+		<colorCodeItem>Renk</colorCodeItem>
+		<operateItem>Tamam</operateItem>
+		<editItem>Düzenle</editItem>
+		<editDetail>Yapılandırma Ayrıntıları</editDetail>
+		<wtOpenDetail>Yapılandırma Çalışma Oranı</wtOpenDetail>
+		<classIdEditItem>Kategori Kimlik: </classIdEditItem>
+		<classNameEditItem>Kategori Adı: </classNameEditItem>
+		<classNameEnEditItem>İngilizce Adı: </classNameEnEditItem>
+		<levelsEditItem>Hata Seviyesi: </levelsEditItem>
+		<colorCodeEditItem>Renk: </colorCodeEditItem>
+		<classListTitleItem>Kategori Detayları</classListTitleItem>
+		<partIdItem>Donanım</partIdItem>
+		<partCodeItem>Donanım Kodu</partCodeItem>
+		<memoItem>Açıklama</memoItem>
+		
+		<classListTitleItem>Sorun Giderme Detayları</classListTitleItem>
+		<partIdItem>Parça Id</partIdItem>
+		<partCodeItem>Parça Kodu</partCodeItem>
+		<memoItem>Açıklama</memoItem>
+		<operateItem>Tamam</operateItem>
+		<editItem>Düzenle</editItem>
+		<deleteItem>Sil</deleteItem>
+		<addWtClassList>Ekle</addWtClassList>
+	</node>
+</nodes>

@@ -1,0 +1,59 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 软件包管理
+	 Create Time：2012-7-16   
+	 Author： 叶小伟 
+	 Email : yxwei1@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "softwarePackageModule">
+		<titleSoftwarePackage>软件包管理</titleSoftwarePackage>
+		<titleUseage>用途：</titleUseage>
+		<titleName>名称：</titleName>
+		<titleBrand>厂商：</titleBrand>
+		<titleModel>机型：</titleModel>
+		<titleVendorVersion>厂商版本：</titleVendorVersion>
+		<titleBankVersion>银行版本：</titleBankVersion>
+		<titleStatus>状态：</titleStatus>
+		<titleAudit>审核通过：</titleAudit>
+		<titleNote>备注：</titleNote>
+		
+		<labelUseage>用途</labelUseage>
+		<labelName>名称</labelName>
+		<labelBrand>厂商</labelBrand>
+		<labelModel>机型</labelModel>
+		<labelVendorVersion>厂商版本</labelVendorVersion>
+		<labelBankVersion>银行版本</labelBankVersion>
+		<labelStatus>状态</labelStatus>
+		<labelNote>备注</labelNote>
+		
+		<operCommit>提交审核</operCommit>
+		<operAudit>审核</operAudit>
+		<operateButton>操作</operateButton>
+		
+		<titleFile>软件包文件：</titleFile>
+		<uploadSoftwarePakcage>必须选择上传软件包！</uploadSoftwarePakcage>
+		
+		<addSoftwarePackage>新增</addSoftwarePackage>
+		<editSoftwarePackage>编辑</editSoftwarePackage>
+		<auditSoftwarePackage>审核</auditSoftwarePackage>
+		
+		<SoftwarePackageModuleTitleMsg>软件包管理</SoftwarePackageModuleTitleMsg>
+		
+		
+		<btnAdd>新增</btnAdd>
+		<btnEdit>编辑</btnEdit>
+		<btnDel>删除</btnDel>
+		<btnCommitAudit>提交审批</btnCommitAudit>
+		<imgCommitAudit>提交审批</imgCommitAudit>
+		<btnAudit>审批</btnAudit>
+		<imgAudit>审批</imgAudit>
+		<btnInvalid>失效</btnInvalid>
+		<imgInvalid>失效</imgInvalid>
+		<btnDownload>下载</btnDownload>
+		<imgDownload>下载</imgDownload>
+		<softwareHelp>1.打“*”项内容不能为空
+2.厂商版本输入文件的厂商定义版本号，厂商版本号会与客户端进行比较，不能填错，版本号可以通过右键查看安装包文件属性查询
+3.银行版本输入此文件的银行定义版本号
+		</softwareHelp>
+	</node>
+</nodes>

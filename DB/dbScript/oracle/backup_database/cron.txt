@@ -1,0 +1,12 @@
+'root' user
+>crontab -u oracle -l  //look cron for user oracle
+>crontab -u oracle -e  //edit cron for user oracle and input
+
+0 0 4 * * /home/oracle/database_backup/backup_oracle.sh >> /home/oracle/database_backup/backup_oracle.log
+
+or:
+
+0 0 4 * * /home/oracle/database_backup/backup_oracle.sh >> /dev/null 2>&1
+
+
+>service crond restart

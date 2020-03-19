@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="addCashPlanModule">
+		<addCashPlanForm>AddCashPlan</addCashPlanForm>
+		<updateCashPlanForm>Update Code is [|] CashPlan</updateCashPlanForm>
+		<terminalCode>TerminalCode : </terminalCode>
+		<cashPlanDate>CashPlanDate : </cashPlanDate>
+		<cashPlanType>CashPlanType : </cashPlanType>
+		<description>Description : </description>
+		<organization>Organization:</organization>
+		<selectionTerminals>Selection Terminal List</selectionTerminals>
+		<selectedTerminals>Selected Terminal List</selectedTerminals>
+		<filterConditionType>Filter Type:</filterConditionType>
+		<filterCondition>Filter Condition:</filterCondition>
+		<terminalId>Terminal ID</terminalId>
+		<terminalAddress>Terminal Address</terminalAddress>
+		<dateNotLessThenNow>选择日期不能小于当前日期！</dateNotLessThenNow>
+		
+		<addCashPlangGroupForm>Add plan group</addCashPlangGroupForm>
+		<selectPlanDate>Select date into plan list</selectPlanDate>
+		<planDateLabel>Date planed:</planDateLabel>
+		<planGroup>Plan group</planGroup>
+		<planDate>Date planed</planDate>
+		<delOperation>delete</delOperation>
+		
+		<title1>Temporary Plan</title1>
+		<title2>Group Plans</title2>
+	</node>
+</nodes>

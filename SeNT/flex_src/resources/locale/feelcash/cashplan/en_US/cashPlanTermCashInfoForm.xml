@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashPlanTermCashInfoForm">
+		<addCashInfoForm>Add Terminal Cash Info</addCashInfoForm>
+		<updateCashPlanForm>Update Terminal ID is [|] Cash Info</updateCashPlanForm>
+		<selectionTerminals>Selection Terminal List</selectionTerminals>
+		<selectedTerminals>Selected Terminal List</selectedTerminals>
+		<filterConditionType>Filter Type:</filterConditionType>
+		<filterCondition>Filter Condition:</filterCondition>
+		<terminalId>Terminal ID</terminalId>
+		<terminalAddress>Terminal Address</terminalAddress>
+		<monetary-wy-unit>万元</monetary-wy-unit>
+		<monetary-rmb-yuan>RMB</monetary-rmb-yuan>
+		<day>Day</day>
+		<lastBalance>LastBalance:</lastBalance>
+		<lastPlanAmount>LastPlanAmount:</lastPlanAmount>
+		<lastActualAmount>LastActualAmount:</lastActualAmount>
+		<lastKeepDays>LastKeepDays:</lastKeepDays>
+		<lastActualKeepDays>LastActualKeepDays:</lastActualKeepDays>
+		<balance>Balance:</balance>
+		<planAmount>PlanAmount:</planAmount>
+		<keepDays>KeepDays:</keepDays>
+	</node>
+</nodes>

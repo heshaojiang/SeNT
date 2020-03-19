@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 layout="vertical" 
+				 width="400" height="200" 
+				 locale="blackRegulationForm"> 
+				
+	<fx:Script>
+		<![CDATA[
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.util.FormUtils;
+			import platform.common.validator.VControl;
+			import platform.constants.OperationConsts;
+			
+			import sent.rule.constants.BlackRegulationConsts;
+			import sent.rule.message.BlackRegulationMsg;
+			import sent.rule.pm.BlackRegulationFormPM;
+			import sent.rule.vo.BlackRegulationVO;
+			
+			[Inject]
+			[Bindable]
+			public var pm:BlackRegulationFormPM;
+		
+			//新增后是否关闭窗口
+			[Bindable]
+			private var uncloseAfterSubmit:Boolean;
+			
+			override protected function parsleyInit():void
+			{
+				trace("BlackRegulationForm.parsleyInit");
+				pm.blackRegulation = new BlackRegulationVO();
+			}
+			
+			override protected function cancel():void
+			{
+				pm.formerVO.dgSelected = false;
+				close();
+			}
+			
+			private function submit():void
+			{
+				trace("BlackRegulationForm.submit");
+				if( VControl.validateAll(form, validators).length > 0 )
+				{
+					return;
+				}
+				if(titleKey == BlackRegulationConsts.ADD_RULE){// 新增
+					pm.submit(OperationConsts.ADD);
+				} else {// 编辑
+					if(pm.formerVO.regulation == regulation.text){// 规则名没有修改
+						cancel();
+						return;
+					}
+					pm.submit(OperationConsts.EDIT);
+				}
+			}
+			
+			/**
+			 * 新增/编辑 提交后结果处理函数
+			 */
+			[MessageHandler(selector="addBlackRegulationResult")]
+			public function addBlackRegulationResultHandler(p_msg:BlackRegulationMsg):void
+			{
+				trace("BlackRegulationForm.addBlackRegulationResult");
+				if(p_msg.result) {
+					if(!uncloseAfterSubmit)
+					{
+						AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("blackRegulationForm.regulationSaveSuccess"));
+						cancel();
+					}
+					else
+					{
+						FormUtils.resetForm(form);
+					}
+				} else {// 规则已存在
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("blackRegulationForm.regulatinoIsExisted"));
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<!--创建/编辑 黑名单规则-->
+	<grg:RoundCornerContainer locale="ruleInfo" width="100%" height="50">
+		<grg:Form id="form" width="100%" height="100%"> 
+			<!--规则：-->
+			<grg:FormItem width="100%" locale="regulation" required="true" >
+				<grg:TextInput id="regulation" width="130" name="regulation" restrict="0-9a-zA-Z*" 
+							   maxnum="10" minnum="10" vtype="maxchars|minchars" maxChars="10"
+							   required="true" text="@{pm.blackRegulation.regulation}" />
+			</grg:FormItem>
+		</grg:Form>
+	</grg:RoundCornerContainer>
+	
+	<!--说明-->
+	<grg:RoundCornerContainer locale="memo" width="100%" height="60">
+		<s:VGroup width="100%" paddingTop="15" paddingLeft="15" gap="5">
+			<!--● 打“*”项目内容不能为空-->
+			<grg:Label locale="attention1"/>
+			<!--● 黑名单规则只能为十位，如“HD90074520”-->
+			<grg:Label locale="attention2"/>
+		</s:VGroup>
+	</grg:RoundCornerContainer>
+	
+	<s:HGroup width="100%" gap="10"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "submit()"
+						locale = "saveButton"
+						/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "cancel()"
+						locale = "cancelButton"
+						/>
+		</s:BorderContainer>
+		<!--提交后继续新增-->
+		<grg:CheckBox id="uncloseChecek" selected="@{uncloseAfterSubmit}" locale="uncloseAfterSubmit"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

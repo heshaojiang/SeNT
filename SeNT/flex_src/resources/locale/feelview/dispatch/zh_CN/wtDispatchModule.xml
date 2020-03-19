@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 工单表 
+	 Create Time：2011-8-27
+	 Author：whui
+	 -->
+<nodes>
+	<node locale = "wtDispatchModule">
+		<listTitle>工单信息列表</listTitle>
+		<hisTitle>历史工单查询</hisTitle>
+		<timerangeItem>时间范围：</timerangeItem>
+		<toItem>至</toItem>
+		<dispFlagItem>派工类型</dispFlagItem>
+		<flagItem>工单类型：</flagItem>
+		<dispsourceItem>工单来源</dispsourceItem>
+		<orgItem>所属机构：</orgItem>
+		<dispidItem>工单编号</dispidItem>
+		<termidItem>终端编号：</termidItem>
+		<waitingItem>待处理</waitingItem>
+		<overtimeItem>超时未响应</overtimeItem>
+		<dispItem>已响应</dispItem>
+		<intimeItem>超时未到场</intimeItem>
+		<handlingItem>处理中</handlingItem>
+		<overtimerenewItem>超时未修复</overtimerenewItem>
+		<unfinishedItem>未完成</unfinishedItem>
+		<finishedItem>已完成</finishedItem>
+		<createtimeItem>创建时间</createtimeItem>
+		<finishtimeItem>完成时间</finishtimeItem>
+		<disptimeItem>派工时间</disptimeItem>
+		<handlingtimeItem>处理时间</handlingtimeItem>
+		<dispstatusItem>工单状态</dispstatusItem>
+		<timesItem>耗时</timesItem>
+		<noteItem>故障描述</noteItem>
+		<adminidItem>维护人员</adminidItem>
+		<operationItem>操作</operationItem>
+		<dispTotalItem>工单总数</dispTotalItem>
+		<resolvedRateItem>故障解决率</resolvedRateItem>
+		<redispItem>重新派工</redispItem>
+		<titlemsg>工单管理</titlemsg>
+		<day>天</day>
+		<hour>小时</hour>
+		<minute>分</minute>
+	</node>
+</nodes>

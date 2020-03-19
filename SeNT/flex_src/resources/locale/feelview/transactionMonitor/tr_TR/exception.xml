@@ -1,0 +1,15 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：黑卡交易信息设置<br>
+		Create Time：2011-9-6<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "transactionMonitor">
+		<existedBlackCardTransaction>Şüpheli Kart Mevcut!</existedBlackCardTransaction>
+		<existedNetAddr>Ip Adresi Mevcut!</existedNetAddr>
+		<cardNumOrBINNotNull>Şüpheli Kart Numarası / Kart Bin Boş Olamaz!</cardNumOrBINNotNull>
+		<companyAddressNotNull>Adres Boş Olamaz!</companyAddressNotNull>
+		<terminalModelNameNotNull>Model Boş Olamaz!</terminalModelNameNotNull>
+		<termIdNotNull>Terminal Id Boş Olamaz!</termIdNotNull>
+	</node>
+</nodes>

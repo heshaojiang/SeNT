@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="penaltyInfoPrintForm">
+	
+		<penaltyInfoTitle>电子版假钞罚没单</penaltyInfoTitle>
+		<penaltyInfoNO>罚没单号：</penaltyInfoNO>
+		<penaltyGrp>罚没终端：</penaltyGrp>
+		<penaltySeriaNO>假币冠字号：</penaltySeriaNO>
+		<penaltyPic>假币冠图片：</penaltyPic>
+		<penaltyResponGrp>责任单位：</penaltyResponGrp>
+		<printPenalty>打印</printPenalty>
+		<cancelPenalty>取消</cancelPenalty>
+		<helpTip>打“*”项内容不能为空</helpTip>
+		
+	</node>
+</nodes>

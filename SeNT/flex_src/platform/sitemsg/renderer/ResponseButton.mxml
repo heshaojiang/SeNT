@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:Image xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				creationComplete="init()" type="msgReply"
+				locale="reply" xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.getQualifiedClassName;
+			
+			import platform.assets.Asset;
+			private function init():void
+			{
+				addEventListener(MouseEvent.CLICK, mouseClickHandler);
+			}
+			private function mouseClickHandler(evt:MouseEvent):void
+			{
+				parentDocument.parentDocument.parentDocument["openWin"](getQualifiedClassName(this).replace("::","."));
+			}
+		]]>
+	</fx:Script>
+</grg:Image>
+

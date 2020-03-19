@@ -1,0 +1,58 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="viewAbnoBanknote">
+	
+		<showTranAbSeqWin>查看冠字号码图片</showTranAbSeqWin>
+		
+		
+		
+		<transCode>交易类型：</transCode>
+		<accountNo>帐号/卡号：</accountNo>
+		<transTime>交易时间：</transTime>
+		<transAmt>交易金额：</transAmt>
+		<noteNum>交易张数：</noteNum>
+		<repeatNum>重号冠字号码数：</repeatNum>
+		<transOrgid>交易机构：</transOrgid>
+		<termid>ATM终端号：</termid>
+		<journalNo>流水号：</journalNo>
+		<transResultColon>交易结果：</transResultColon>
+		<blNum>黑名单张数：</blNum>
+		<callBackNum>回收张数：</callBackNum>
+		
+		
+		
+		<green>真钞</green>
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+
+		<ABSEQInfo>异常冠字号码列表</ABSEQInfo>
+
+		<seriaNo>冠字号码</seriaNo>
+		<seriaNoImage>冠字号图片</seriaNoImage>
+		<noteType>钞票类别</noteType>
+		<currency>币种</currency>
+		<denomination>面额</denomination>
+		<transDate>交易时间</transDate>
+		
+		<showSEQImg>查看图片</showSEQImg>
+		<cancelButton>取消</cancelButton>
+		
+		<!--
+		<transResult>交易结果</transResult>
+		<blackNotenum>黑名单张数</blackNotenum>
+		<repeatNotenum>重号冠字号码数</repeatNotenum>
+		<callbackNotenum>回收张数</callbackNotenum>
+		<sendTime>交易时间</sendTime>
+		<accountTitle>根据卡号/帐号查询异常交易列表</accountTitle>
+		<termTitle>根据终端编号查询异常交易列表</termTitle>
+		<blackTitle>根据黑名单查询异常交易列表</blackTitle>
+		<ABSEQInfo>异常冠字号码列表</ABSEQInfo>
+		<operators>操作</operators>
+		
+		
+		<SEQInfo>交易冠字号码列表</SEQInfo>
+		-->
+		
+	</node>
+</nodes>

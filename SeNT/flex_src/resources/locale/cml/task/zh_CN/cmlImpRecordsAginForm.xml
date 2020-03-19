@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+ <nodes>
+     <node locale="cmlImpRecordsAginForm">
+  
+     <tmlNum>终端编号：</tmlNum>
+     <operator>清分员：</operator>
+      <moneySource>钞票来源机构：</moneySource>
+      <tmlType>清分设备类型：</tmlType>  
+      <impFile> 导入文件：</impFile>
+      <fileName>文件名称</fileName> 
+      <deleteFile>删除文件</deleteFile>  
+      <fileAddr>文件地址</fileAddr>  
+      <fileSize>文件大小</fileSize> 
+      <progress>进度</progress>
+      <action>操作</action>
+      <filePath>文件</filePath>
+      <chooseButton>选择</chooseButton>
+      <imprecords>重新导入</imprecords>
+  </node>
+</nodes>

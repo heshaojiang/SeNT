@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termBrandModule">
+		<listTitle>Term Brand List</listTitle>
+		<brandNameItem>Brand Name:</brandNameItem>
+		<companyNameItem>Company Name</companyNameItem>
+		<companyAddressItem>Company Address</companyAddressItem>
+		<status>Status</status>
+		<code>Code</code>
+	</node>
+</nodes>

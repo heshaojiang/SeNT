@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cmlInfoByHandForm">
+		   <currency>币种：</currency>
+			<hundredCount>100元张数：</hundredCount>
+			<fiftyCount>50元张数：</fiftyCount>
+			<twentyCount>20元张数：</twentyCount>
+			<tenCount>10元张数：</tenCount>
+			<fiveCount>5元张数：</fiveCount>
+			<oneCount>1元张数：</oneCount>
+			<tdOperator>操作人：</tdOperator>
+			<pathcode>数据权限控制</pathcode>
+			<tranTime>操作时间</tranTime>
+			<tranType>交易类型：</tranType>
+			<saveBtn>保存</saveBtn>
+			<closeBtn>关闭</closeBtn>
+			<titleKeyAdd>新增手工清分信息</titleKeyAdd> 
+  		<titleKeyEdit>编辑手工清分信息</titleKeyEdit> 
+  		<orgName>所属机构：</orgName>
+	</node>
+
+</nodes>

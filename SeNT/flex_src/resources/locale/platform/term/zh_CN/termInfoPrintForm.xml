@@ -1,0 +1,32 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termInfoPrintForm">
+		<addBoxInfoForm>新增</addBoxInfoForm>
+		<updateBoxInfoForm>编辑</updateBoxInfoForm>
+		<orgName>所属机构</orgName>
+		<termCode>设备编号</termCode>
+		<netAddr>终端IP</netAddr>
+		<model>设备型号</model>
+		<brand>终端品牌</brand>
+		<termtype>终端类型</termtype>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<saveButton>保存</saveButton>
+		<cancelButton>取消</cancelButton>
+		<barCodePrintBoxInfoForm>条码打印</barCodePrintBoxInfoForm>
+		<qrCodePrintBoxInfoForm>二维码打印</qrCodePrintBoxInfoForm>
+		<uploadFileItem>文件上传</uploadFileItem>
+		<chooseButton>浏览</chooseButton>
+		<uploadButton>上传</uploadButton>
+		<fileexport>文件导出</fileexport>
+		<filedown>文件下载</filedown>
+		<upload>上传</upload>
+		<importBoxInfo>钞箱导入</importBoxInfo>
+		<orgidLabel>所属机构：</orgidLabel>
+		<boxNumLabel>钞箱编码：</boxNumLabel>
+		<boxTypeLabel>钞箱类别：</boxTypeLabel>
+		<print_label_terminfo_title>终端信息</print_label_terminfo_title>
+		<label_ImageCode128>条码</label_ImageCode128>
+		<label_ImageQR>二维码</label_ImageQR>
+	</node>
+</nodes>

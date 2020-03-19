@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassList">
+		
+		<!-- 类别明细 -->
+		<classListTitleItem>Malfunction Part Detail</classListTitleItem>
+		<partIdItem>Run State</partIdItem>
+		<partCode>Part</partCode>
+		<partCodeItem>Part State</partCodeItem>
+		<memoItem>Description</memoItem>
+		<operateItem>Operate</operateItem>
+		<editItem>Edit</editItem>
+		<deleteItem>Delete</deleteItem>
+		
+		<addWtClassList>Add</addWtClassList>
+	</node>
+</nodes>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   dataDictionaryPaths="{[CmlInfoByHandConsts.TRAN_TYPE]}"
+			   locale="cmlInfoByHandModule"
+			   xmlns:userDefined="platform.date.*"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   layout="vertical"  width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false" />
+			<parsley:Scope name="CmlInfoByHandModule" /> 
+			<parsley:MessageSettings defaultReceiverScope="CmlInfoByHandModule" />
+			<parsley:FlexConfig type="{DataDictConfig}" />
+			<parsley:FlexConfig type="{CmlInfoByHandConfig}" />
+			
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Binding source="orgId.selectedValue" destination="pm.conditions.pathCode"/>
+	
+	<!-- 界面逻辑组件 -->
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.core.IFlexDisplayObject;
+			import mx.collections.ArrayCollection;
+			import mx.controls.AdvancedDataGrid;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			import mx.controls.DataGrid;
+			import mx.controls.TextInput;
+			import mx.events.AdvancedDataGridEvent;
+			import mx.events.DataGridEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ValidationResultEvent;
+			import mx.formatters.NumberFormatter;
+			import mx.olap.aggregators.MinAggregator;
+			import mx.validators.NumberValidator;
+			import mx.validators.StringValidator;
+			
+			import org.spicefactory.parsley.core.context.Context;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			
+			import sent.transmgr.config.CmlInfoByHandConfig;
+			import sent.transmgr.message.CmlInfoByHandMsg;
+			import sent.transmgr.constants.CmlInfoByHandConsts;
+			import sent.transmgr.pm.CmlInfoByHandFormPM;
+			import sent.transmgr.pm.CmlInfoByHandModulePM;
+			import sent.transmgr.vo.CmlInfoByHandVO;
+			
+			import sent.common.utils.DateUtils;
+			import platform.common.manager.LanguageManager;
+			
+			[Inject]
+			[Bindable]
+			public var pm:CmlInfoByHandModulePM;
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;				
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				this.init();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				cmlInfoByHandList.checkedItems = [];
+				pm.page = new Page();
+			}
+			/**
+			 * 初始化 
+			 */
+			[Init]
+			public function init():void
+			{
+				initSelectDate();
+			}
+			
+			public function transformType(item:Object, column:DataGridColumn):String
+			{
+				super.currentDataDictPath = CmlInfoByHandConsts.TRAN_TYPE;
+				return super.transferDataDict(item, column);
+			}
+			/**
+			 * 查询数据
+			 */
+			public function search():void
+			{
+				if( this.startTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeNull"));
+					return;
+				}
+				if( this.endTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.endTimeCannotBeNull"));
+					return;
+				}
+				if( this.startTime.selectedDate.time > this.endTime.selectedDate.time )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeGreaterThanEndTime"));
+					return;
+				}
+				pm.conditions["startTime"] = this.startTime.text;
+				pm.conditions["endTime"] = this.endTime.text;
+				pm.conditions["pathCode"] = this.orgId.selectedValue;
+				pm.conditions["flag"] = this.isLoopOrg.selected.toString();
+				pm.queryData();
+				
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getListCmlInfoByHandResult")]
+			public function getPageHandler(p_msg:CmlInfoByHandMsg):void
+			{
+				orgIdItem.getDataList();
+				
+			}
+			
+			/**
+			 * 编辑记录
+			 */
+			public function edit():void
+			{
+				//明细数据bankInfoPageGrid是否有选择
+				if (this.cmlInfoByHandList.checkedItems.length != 1){
+					AlertHandler.alert(CmlInfoByHandConsts.ALERT_SELECT_RECORD);
+					return;
+				}
+				//取出第一条被选中的项
+				var tmpVo:CmlInfoByHandVO = CmlInfoByHandVO(cmlInfoByHandList.checkedItems[0]);
+				var vo:CmlInfoByHandVO = tmpVo as CmlInfoByHandVO;
+				//设定子窗体为编辑模式
+				vo.formType = CmlInfoByHandConsts.FORM_TYPE_EDIT;
+				//打开子窗体
+				openWin(CmlInfoByHandConsts.TITLE_KEY_EDIT, vo);
+			}
+			
+			/**
+			 * 删除记录
+			 */
+			
+			public function del():void
+			{
+				
+				var checkedItems:Array = this.cmlInfoByHandList.checkedItems;
+				if (checkedItems.length == 0){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				AlertHandler.confirm(closeHandler, this, "confirmDelete");
+			}
+			
+			private function closeHandler(p_evt:CloseEvent):void
+			{
+				var msg:CmlInfoByHandMsg = new CmlInfoByHandMsg();
+				if (p_evt.detail == Alert.YES){
+					msg.args["selectedObj"] = DataGridUtil.getPropertys("id",cmlInfoByHandList.checkedItems);
+					pm.deleteCmlInfoByHand(msg);
+				}else
+					return;
+					
+			}
+			
+			/**
+			 * 新增一条记录
+			 */
+			public function add():void
+			{
+				var vo:CmlInfoByHandVO = new CmlInfoByHandVO();
+				
+				//指定子窗体的打开模式为新增模式
+				vo.formType = CmlInfoByHandConsts.FORM_TYPE_ADD;
+				vo.hundredCount="0";
+				vo.fiftyCount="0";
+				vo.twentyCount="0";
+				vo.tenCount="0";
+				vo.fiveCount="0";
+				vo.oneCount="0";
+				//打开子窗体，将VO传递过去
+				openWin(CmlInfoByHandConsts.TITLE_KEY_ADD,vo);
+			}
+			
+			/**
+			 * 打开窗口
+			 */
+			public function openWin(p_titleKey:String, p_vo:CmlInfoByHandVO):void
+			{
+				var win:CmlInfoByHandForm = new CmlInfoByHandForm();
+				win.titleKey = p_titleKey;
+				//加入到parsley上下文，_context是父类TabModule的属性，可直接使用
+				_context.viewManager.addViewRoot(win);				
+				//显示子窗体的代码
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				//通过子窗体的set vo方法将父窗体的p_vo给子窗体
+				win.pm.vo = p_vo;
+			}
+			
+			/**
+			 * 重置
+			 */
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'YYYY-MM-DD JJ:NN:SS');
+				endTime.selectedDate = DateUtils.createDate(1, 'YYYY-MM-DD JJ:NN:SS');
+			}
+		]]>
+	</fx:Script>
+	
+	<!-- 可视化界面组件 -->
+	<mx:VDividedBox width="100%" height="100%">
+		<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<grg:TitleBar id="titleMgr" locale="pageTitle" height="100%" width="50%" />
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="left"
+									paddingLeft="0"
+									gap="2"
+									verticalAlign="middle"/>
+							</s:layout>	
+							
+							<!--是否循环遍历子机构：-->
+							<grg:CheckBox id="isLoopOrg" selected="true">
+							</grg:CheckBox>
+
+							
+							<grg:Label locale="orgName"/>
+							<grg:GRGComboBoxOrgTree id="orgId"
+													defaultField="true"
+													width="100"
+													textAlign="left"
+													treeHeight="300"	
+													/>
+							<s:Spacer width="5" />
+							<grg:Label locale="startTime"/>
+							<userDefined:SuperDateField width="165" id="startTime" myEnabled="false"
+												selectedDate="{DateUtils.createDate(-6, 'YYYY-MM-DD JJ:NN:SS')}"
+												selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<userDefined:SuperDateField width="165" id="endTime" myEnabled="false" 
+												selectedDate="{DateUtils.createDate(1, 'YYYY-MM-DD JJ:NN:SS')}"
+												selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+							<!--查询-->
+							<grg:SearchButton id="searchBtn" locale="searchBtn" iconType="query" 
+											  click="pm.page = new Page();search()" />
+							<!--重置-->
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetBtn" 
+											 resetControls="{[orgId,startTime,endTime]}" click="initSelectDate()" />
+						</s:BorderContainer>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox>
+			
+			<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				<!-- 将page.result绑定到 DataGrid-->
+				<grg:DataGrid id="cmlInfoByHandList" dataProvider="{pm.page.result}"
+							  width="100%" height="100%"
+							  styleName = "DataGrid">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol" />
+						<!-- dataField的值对应VO里面的属性 -->
+						<grg:DataGridColumn locale="id" visible="false" dataField = "id" textAlign = "left" />
+						<grg:RODataGridColumn locale = "orgName"
+											  dataField = "orgid" 
+											  id = "orgIdItem"
+											  labelField = "orgName"
+											  valueField = "id"
+											  service = "orgInfoService"
+											  method = "getAllOrg"/>
+						<grg:DataGridColumn locale="currency" dataField = "currency" textAlign = "left" />
+						<grg:DataGridColumn locale="tranType" dataField = "tranType" textAlign = "left" labelFunction="{transformType}"/>
+						<grg:DataGridColumn locale="tranTime" dataField = "tranTime" textAlign = "left"/>
+						<grg:DataGridColumn locale="hundredCount" dataField = "hundredCount" textAlign = "left" />
+						<grg:DataGridColumn locale="fiftyCount" dataField = "fiftyCount" textAlign = "left" />
+						<grg:DataGridColumn locale="twentyCount" dataField = "twentyCount" textAlign = "left" />
+						<grg:DataGridColumn locale="tenCount" dataField = "tenCount" textAlign = "left" />
+						<grg:DataGridColumn locale="fiveCount" dataField = "fiveCount" textAlign = "left" />
+						<grg:DataGridColumn locale="oneCount" dataField = "oneCount" textAlign = "left" />
+						<grg:DataGridColumn locale="tdOperator" dataField = "tdOperator"/>
+						
+						
+						
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			<!-- 翻页， pagingFunction表示翻页时调用的函数，一般为点击查询按钮的函数方法
+			pageVo指定PM中的PAGE对象
+			-->
+			<grg:PageNavigatorBar id="inventoryPagingBar" pagingFunction="{search}"
+								  x = "0" pageVo="{pm.page}"
+								  bottom = "0" />
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

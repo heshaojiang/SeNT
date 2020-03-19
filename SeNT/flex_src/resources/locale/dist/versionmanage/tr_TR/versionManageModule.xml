@@ -1,0 +1,50 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： agent配置
+	  Create Time：2011-9-15   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "versionManageModule">
+		<listTitle>Yönetim planı listesinin Sürüm</listTitle>
+		<planidItem>Plan Id</planidItem>
+		<versionnameItem>Sürüm Adı</versionnameItem>
+		<versionnoItem>Sürüm Numarası</versionnoItem>
+		<versiontypeItem>Sürüm Tipi</versiontypeItem>
+		<auditrequestItem>Denetleme Talebi</auditrequestItem>
+		<auditpassedItem>Denetim Sonuçları</auditpassedItem>
+		<termidlistItem>Terminal Id</termidlistItem>
+		<termipItem>Terminal IP</termipItem>
+		<termtypeItem>Terminal Tipi</termtypeItem>
+		<modelItem>Model</modelItem>
+		<orgidItem>Şube</orgidItem>
+		<areaidItem>İl</areaidItem>
+		<brandItem>Marka</brandItem>
+		<fileidItem>Dosya Numarası</fileidItem>
+		<nextexecutetimeItem>Çalışma Zamanı</nextexecutetimeItem>
+		<nextexecutetimefromItem>Çalışma Zamanı (Başlangıç)</nextexecutetimefromItem>
+		<nextexecutetimeendItem>Çalışma Zamanı (Bitiş)</nextexecutetimeendItem>
+		<createtimeItem>Oluşturma Zamanı</createtimeItem>
+		<createtimefromItem>Oluşturma Zamanı (Başlangıç)</createtimefromItem>
+		<createtimeendItem>Oluşturma Zamanı (Bitiş)</createtimeendItem>
+		<invalidtimeItem>Geçersiz Zaman</invalidtimeItem>
+		<invoketimesItem>Program Başlatma Adedi</invoketimesItem>
+		<noteItem>Açıklama</noteItem>
+		<enabledItem>Aktif mi?</enabledItem>
+		<operateButton>Tamam</operateButton>
+		<termidItem>Terminal Id</termidItem>
+		<taskidItem>Görev Tipi</taskidItem>
+		<planexetimeItem>Zaman Planla</planexetimeItem>
+		<exebegintimeItem>Başlangıç ​​Zamanı</exebegintimeItem>
+		<exeendtimeItem>Bitiş Zamanı</exeendtimeItem>
+		<taskstatusItem>Görev Durumu</taskstatusItem>
+		<extradescriptionItem>Görev Notu</extradescriptionItem>
+		<exepercentItem>Tamamlanma Yüzdesi</exepercentItem>
+		<resultfileidItem>Dosya Numarası</resultfileidItem>
+		<retriedtimesItem>Yeniden Deneme Sayısı</retriedtimesItem>
+		<timeoutedItem>Mesai Dışı veriler Olsun</timeoutedItem>
+		<svrnameItem>Sunucu Adı</svrnameItem>
+		<picturelinkItem>Link</picturelinkItem>
+		<picturelink>Dosyaları Görüntüle</picturelink>
+	</node>
+</nodes>

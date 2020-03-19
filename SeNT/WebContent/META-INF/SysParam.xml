@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node key="param" value="Parameter Manage" note="" status="Y" encryptStatus="N">
+	<node key="sent" value="sent" note="" status="Y" encryptStatus="N">
+		<node key="ImagePath" value="ImagePath" note="冠字号的图片路径" status="Y" encryptStatus="N">
+			<node key="ImageRootPath" value="/home/feel/ImageUpload/" note="" status="Y" encryptStatus="N">
+			</node>
+		</node>
+		<node key="TransManager" value="TransManager" note="交易检索" status="Y" encryptStatus="N">
+			<node key="CmlQueryMaxRows" value="1000" note="冠字号查询的最大条数" status="Y" encryptStatus="N">
+			</node>
+			<node key="CmlSeqExportMaxRows" value="1000" note="冠字号导出的最大条数" status="Y" encryptStatus="N">
+			</node>
+		</node>
+		<node key="fsnPath" value="fsnPath" note="" status="Y" encryptStatus="N">
+			<node key="fsnRootPath" value="/home/feel/ImageUpload/" note="fsn文件路径" status="Y" encryptStatus="N">
+				<node key="fsnPath" value="/home/feel/ImageUpload/" note="" status="Y" encryptStatus="N">
+				</node>
+				<node key="fsnFilePath" value="/home/feel/FSN/" note="" status="Y" encryptStatus="N">
+				</node>
+			</node>
+			<node key="cmlSentRecords" value="200" note="自动上传的1个FSN文件包含的冠字号码条数" status="Y" encryptStatus="N">
+			</node>
+		</node>
+	</node>
+</node>

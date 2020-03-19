@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 locale="cmlConnectInfosForm"
+				 xmlns:grg="http://grg.grgbanking.com/platform/" layout="vertical" width="450" height="370">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.cmlConnectInfos.message.CmlConnectInfosMsg;
+			import cml.cmlConnectInfos.pm.CmlConnectInfosFormPM;
+			import cml.cmlConnectInfos.vo.CmlConnectInfosVO;
+			import cml.common.PersonSelectForm;
+			
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.FormUtils;
+			import platform.common.validator.VControl;
+			import platform.vo.security.UserVo;
+			
+			import sent.transmgr.message.CmlImprecordMsg;
+			[Inject]
+			[Bindable]
+			public var pm:CmlConnectInfosFormPM;
+			
+			
+			//新增后是否关闭窗口
+			[Bindable]
+			private var uncloseAfterSubmit:Boolean;
+			override protected function parsleyInit():void
+			{
+				pm.cmlConnectInfos = new CmlConnectInfosVO();
+			}
+			/**
+			 * 提交前验证
+			 */
+			
+			private function submit():void
+			{
+				
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				} 
+				
+				pm.save();
+			}
+			
+			/**
+			 * 添加清分交接信息成功关闭当前窗口
+			 */  
+			
+			[MessageHandler(selector="addCmlConnectInfosObjectSuccess")]
+			public function addCmlConnectInfosHandler(p_msg:CmlConnectInfosMsg):void
+			{
+				if(p_msg.result){
+					if(!uncloseAfterSubmit)
+						close();
+						
+					else
+						FormUtils.resetForm(form);
+				}
+				//新增完成后刷新界面
+				var msg:CmlImprecordMsg=new CmlImprecordMsg();
+				msg.type="refreshOperatorPageResult";
+				sendMessage(msg);
+			}
+			
+			/**
+			 *修改清分交接信息成功后关闭当前窗口 
+			 */
+			
+			[MessageHandler(selector="updateCmlConnectInfosObjectSuccess")]
+			public function updateCmlConnectInfosHandler(p_msg:CmlConnectInfosMsg):void
+			{
+				if(p_msg.result){
+					if(!uncloseAfterSubmit)
+						close();
+						
+					else
+						FormUtils.resetForm(form);
+				}
+				//修改完成后刷新界面
+				var msg:CmlImprecordMsg=new CmlImprecordMsg();
+				msg.type="refreshOperatorPageResult";
+				sendMessage(msg);
+			}
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+				
+			}
+			//选择交接员
+			private function selectPersonHandle():void
+			{  
+				
+				var win:PersonSelectForm = new PersonSelectForm();
+				
+				context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				win.callback = setSelectedPerson;
+				
+			}
+			private function setSelectedPerson(puser:UserVo):void
+			{
+				
+				pm.user = puser;
+				selectPerson.text=puser.userName;
+				// pm.cmlConnectInfos.inPerson=p_perStr;
+			}   
+		]]>
+	</fx:Script>
+	<!--<grg:roundcornercontainer locale="cmlconnectinfosinfo" width="100%" height="110">-->
+	<grg:Form width="100%" height="100%" id="form">
+		<grg:FormItem width="100%" locale="inPerson">
+			<mx:HBox width="100%">
+				<!--	<grg:TextInput id="selectedTerms" width="130" editable="false" text="{pm.tmpstr}" required="true"/>-->	
+				<grg:TextInput text="@{pm.cmlConnectInfos.inPerson}" required="true" editable="false" id="selectPerson"
+							   width="165"/>
+				<!--<grg:Image type="view" />-->
+				<grg:Image type="view" click="selectPersonHandle()"/>
+			</mx:HBox>
+		</grg:FormItem>
+		<grg:FormItem width="100%" locale="comeOrg">
+			<grg:GRGComboBoxOrgTree id = "sourceOrg" defaultField="true"
+									valueField = "@id"
+									width = "150"
+									textAlign = "left"
+									treeHeight = "150"
+									selectedValue="@{pm.cmlConnectInfos.comeOrg}"
+									/>
+			<!--	<grg:TextInput width="165" text="@{pm.cmlConnectInfos.comeOrg}" required="true"/>-->
+		</grg:FormItem>
+		<grg:FormItem width="100%" locale="connDate">
+			<grg:SuperDateField id="connDate" name="bindStart" selectedDate="@{pm.cmlConnectInfos.connDate}" isShowTime="true" myEnabled = "false" 
+								required="true"	width="100%" />
+		</grg:FormItem>
+		
+		
+		<grg:FormItem width="100%" locale="outPerson">
+			<grg:TextInput text="@{pm.cmlConnectInfos.outPerson}" 
+						   width="165" required="true"/>
+		</grg:FormItem>
+		<grg:FormItem width="100%" locale="connMoney">
+			<grg:TextInput  width="165" required="true" id="connMon" numberValue="@{pm.cmlConnectInfos.connMoney}"/>
+		</grg:FormItem>
+		<grg:FormItem width="100%" locale="moneyboxCount">
+			<grg:TextInput width="165" required="true"  numberValue="@{pm.cmlConnectInfos.moneyboxCount}"/>
+		</grg:FormItem>
+		
+		<grg:FormItem width="100%" locale="connAppeal">
+			<grg:TextArea width="100%" text="@{pm.cmlConnectInfos.connAppeal}"/>
+		</grg:FormItem>
+		<grg:FormItem width="100%" locale="connMemo">
+			<grg:TextArea width="100%" text="@{pm.cmlConnectInfos.connMemo}"/>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup width="100%" gap="6"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			
+			<grg:Button iconVisible="false"
+						click = "submit()"
+						locale = "saveButton"/>
+			
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "cancel()"
+						locale = "cancelButton"
+						/>
+			
+		</s:BorderContainer>
+	</s:HGroup>
+	
+</grg:TitleWindow>
+
+

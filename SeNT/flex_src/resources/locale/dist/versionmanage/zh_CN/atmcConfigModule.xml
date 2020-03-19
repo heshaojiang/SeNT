@@ -1,0 +1,42 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 软件包管理
+	 Create Time：2012-7-16   
+	 Author： 叶小伟 
+	 Email : yxwei1@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "atmcConfigModule">
+		<titleAtmcConfig>ATMC配置管理</titleAtmcConfig>
+		<titleName>名称：</titleName>
+		<titleSavePath>保存路径：</titleSavePath>
+		<titleProcessNames>运行中进程：</titleProcessNames>
+		<titleStopProcessName>终止进程：</titleStopProcessName>
+		<titleStartProcessName>启动进程：</titleStartProcessName>
+		<titleRestartFlag>是否重启：</titleRestartFlag>
+		<titleExtractFlag>是否解压：</titleExtractFlag>
+		<titleNote>备注：</titleNote>
+		<titleJournalPath>流水路径：</titleJournalPath>
+		<titleJournalFile>流水文件：</titleJournalFile>
+		
+		<labelName>名称</labelName>
+		<labelSavePath>保存路径</labelSavePath>
+		<labelProcessNames>运行中进程</labelProcessNames>
+		<labelStopProcessName>终止进程</labelStopProcessName>
+		<labelStartProcessName>启动进程</labelStartProcessName>
+		<labelRestartFlag>是否重启</labelRestartFlag>
+		<labelExtractFlag>是否解压</labelExtractFlag>
+		<labelNote>备注</labelNote>
+		<labelJournalPath>流水路径</labelJournalPath>
+		<labelJournalFile>流水文件</labelJournalFile>
+		
+		<addAtmcConfig>新增</addAtmcConfig>
+		<editAtmcConfig>编辑</editAtmcConfig>
+		
+		<AtmcConfigModuleTitleMsg>ATMC参数信息管理</AtmcConfigModuleTitleMsg>
+		<atmcConfigHelp>1.打“*”项内容不能为空
+2.名称一般按厂商或机型命名
+3.保存路径指升级包要下发的路径
+4.运行中进程指升级、重启关机、暂停恢复时，agent要检测的ATMC进程，若没有检测到agent将不会采取下一步动作
+		</atmcConfigHelp>
+	</node>
+</nodes>

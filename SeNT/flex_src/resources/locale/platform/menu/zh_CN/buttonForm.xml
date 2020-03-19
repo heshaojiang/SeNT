@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "buttonForm">
+		<addButtonForm>新增</addButtonForm>
+		<updateButtonForm>编辑</updateButtonForm>
+		<buttonName>按钮名称：</buttonName>
+		<buttonCode>按钮代码：</buttonCode>
+		<buttonType>按钮类型：</buttonType>
+		<buttonOrder>按钮排序：</buttonOrder>
+		<subSystem>子系统：</subSystem>
+		<iconURL>图标路径：</iconURL>
+	</node>
+</nodes>

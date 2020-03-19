@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="mainModule">
+		<listTitle>EJ List</listTitle>
+		<date>Date</date>
+		<to>To</to>
+		<keyword>Keyword</keyword>
+		<teminalID>Term Id</teminalID>
+		<organization>Org Name</organization>
+		<fileName>File Name</fileName>
+		<journalDate>Date</journalDate>
+		<operation>Operation</operation>
+		<status>Disk Status</status>
+		<fileSum>File Sum</fileSum>
+		<limitDays>Available Days</limitDays>
+		<day>Day</day>
+		<viewButton>View</viewButton>
+	</node>
+</nodes>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init()"
+						layout="vertical" width="540" height="430" addedToStage="init()" locale="mergeMenu"
+						xmlns:s="library://ns.adobe.com/flex/spark"
+						xmlns:mx="library://ns.adobe.com/flex/mx"
+						xmlns:parsley="http://www.spicefactory.org/parsley" 
+						xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.core.DragSource;
+			import mx.core.UIComponent;
+			import mx.events.DragEvent;
+			import mx.managers.DragManager;
+			
+			import platform.menu.message.MenuMsg;
+			import platform.menu.pm.MergeMenuPM;
+			
+			[Inject]
+			[Bindable]
+			public var pm:MergeMenuPM;
+			
+			private function init():void
+			{
+				if(pm)pm.init();
+			}
+
+			private function onDragEnter():void
+			{
+				DragManager.acceptDragDrop(sourceTree);
+			}
+			
+			private function onDragOver(p_evt:DragEvent):void
+			{
+				var r:int = sourceTree.calculateDropIndex(p_evt);
+				sourceTree.selectedIndex = r;
+			}
+			
+			private function onDragComplete():void
+			{
+				sourceTree.selectedIndex = -1;
+			}
+			
+			private function onDragDrop(p_evt:DragEvent):void
+			{
+				var ds:DragSource = p_evt.dragSource;
+				var items:Array = ds.dataForFormat("treeItems") as Array;
+				var r:int = sourceTree.calculateDropIndex(p_evt);
+				sourceTree.selectedIndex = r;
+				var node:XML = sourceTree.selectedItem as XML;
+				var p:*;
+//				if( sourceTree.dataDescriptor.hasChildren(node) ) {
+					p = node;
+					r = 0;
+//				} else {
+//					p = node.parent();
+//				}
+				for(var i:Number = 0; i < items.length; i++) {
+					var xml:XML = XML(items[i]);
+					targetTree.dataDescriptor.removeChildAt(xml.parent(), xml, xml.childIndex());
+					sourceTree.dataDescriptor.addChildAt(p, xml, r + i);
+				}
+				sourceTree.expandItem(sourceTree.selectedItem, true);
+				pm.recordDropItems(items);
+			}
+			
+			[MessageHandler(selector="mergeMenuResult")]
+			public function mergeMenuResult(p_msg:MenuMsg):void
+			{
+				if(p_msg.result)
+					close();
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup width="100%" gap="50" height="100%">
+			<s:VGroup width="48%">
+				<grg:Label locale="internalMenu"/>
+				<mx:Tree id="sourceTree" dataProvider="{pm.menuInfo}" dropEnabled="false"
+					 openItems = "{pm.menuInfo}" dragDrop="onDragDrop(event)"
+					 labelField="@label" rowHeight="19"
+					 itemRenderer = "platform.component.renderer.TreeItemDotLinesRenderer"
+					 styleName = "Tree" dragEnter="onDragEnter()"
+					 dragOver="onDragOver(event)"
+					 allowMultipleSelection="true"
+					 height="320" width="100%"/>
+			</s:VGroup>
+			<s:VGroup width="48%">
+				<grg:Label locale="extendMenu"/>
+				<mx:Tree id="targetTree" dataProvider="{pm.extendMenuInfo}"
+					 openItems = "{pm.extendMenuInfo}" dragEnabled="true" dragComplete="onDragComplete()"
+					 labelField="@label" rowHeight="19"
+					 itemRenderer = "platform.component.renderer.TreeItemDotLinesRenderer"
+					 styleName = "Tree"
+					 allowMultipleSelection="true"
+					 height="320" width="100%"/>
+			</s:VGroup>
+			
+		</s:HGroup>
+		<s:HGroup 
+			width="100%"
+			horizontalAlign = "center"
+			verticalAlign = "middle"
+			gap="6">
+			<grg:Button click="pm.submit()"
+				locale = "saveButton"
+				 />
+			<grg:Button click="pm.reset()"
+				locale = "resetButton"
+				iconType = "reset" />
+			<grg:Button click="cancel()"
+				locale = "cancelButton"
+				 />
+		</s:HGroup>
+	</s:VGroup>
+</grg:TitleWindow>

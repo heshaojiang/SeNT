@@ -1,0 +1,46 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 分发服务器设置 
+	 Create Time：2011-9-06   
+	 Author：Zhangjinpeng 
+	 -->
+<nodes>
+	<node locale = "interceptScreenATMForm">
+		<addInterceptScreenATMForm>新增</addInterceptScreenATMForm>
+		<updateInterceptScreenATMForm>修改分发服务器配置信息</updateInterceptScreenATMForm>
+		<planidItem>计划id：</planidItem>
+		<createtimeItem>创建时间：</createtimeItem>
+		<repeattypeItem>计划类型：</repeattypeItem>
+		<everydayexetimeItem>每天执行时间：</everydayexetimeItem>
+		<repeatintervalItem>每次间隔时间：</repeatintervalItem>
+		<plannameItem>计划名称：</plannameItem>
+		<nextexecutetimeItem>执行时间：</nextexecutetimeItem>
+		<termidlistItem>终端编号：</termidlistItem>
+		<taskparaItem>任务指令：</taskparaItem>
+		<taskparaversionItem>任务指令版本：</taskparaversionItem>
+		<maxretrytimesItem>最大重试次数：</maxretrytimesItem>
+		<retryintervalItem>重试秒数：</retryintervalItem>
+		<enabledItem>是否可用：</enabledItem>
+		<termtypeItem>终端类型：</termtypeItem>
+		<modelItem>ATM型号：</modelItem>
+		<orgidItem>机构：</orgidItem>
+		<areaidItem>区域：</areaidItem>
+		<brandItem>终端品牌：</brandItem>
+		<timeoutintervalItem>任务超时时间(小时)：</timeoutintervalItem>
+		<addInterceptScreenATMForm>新增截屏计划：</addInterceptScreenATMForm>
+		<addProcessForm>新增</addProcessForm>
+		<addHardwareForm>新增</addHardwareForm>
+		<hintOfInputTermid>直接输入终端编号，最多可输入900个字符</hintOfInputTermid>
+		<speratedWithCommaSemicolonSpace>请以空格、英文分号、英文逗号分隔</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>或点击按钮进行选择</hintOfClickButton>
+		
+		<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+		<createdOrgItem>机构：</createdOrgItem>
+		<interceptHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+		</interceptHelp>
+		<searchProcessInfoHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+		</searchProcessInfoHelp>
+	</node>
+</nodes>

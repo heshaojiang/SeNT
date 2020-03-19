@@ -1,0 +1,386 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 dataDictionaryPaths="{[DataDirConsts.YES_OR_NO, DataDirConsts.TERM_STATUS,NoderConsts.RUNNING_STATUS,NoderConsts.NODER_TYPE]}"
+				 paramPaths="{[NoderConsts.FEEL_DIST_PORT_DEFAULT, NoderConsts.CASH_LACK_NUM, NoderConsts.CASH_FULL_NUM]}"
+				 locale="noderInfoForm"
+				 helpTips="termInfoHelp"
+				 layout="vertical"
+				 xmlns:userDefined="platform.date.*"
+				 width="650" height="300"  
+				 >
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<fx:Binding source="uploadStarttime.selectedTime" destination="pm.uploadStarttime"/>
+	<fx:Binding source="uploadEndtime.selectedTime" destination="pm.uploadEndtime"/>
+	<fx:Binding source="bandWidth.text" destination="pm.bandwidth"/>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.core.UIComponent;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.term.constants.NoderConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.NoderInfoMsg;
+			import platform.term.pm.NoderInfoFormPM;
+			import platform.term.view.TermSelectForm;
+			import platform.vo.term.TermBrandVo;
+			import platform.vo.term.TermModelVo;
+			import platform.vo.term.TermTypeVo;
+			
+			import spark.events.IndexChangeEvent;
+
+			
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:NoderInfoFormPM;
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+			[Bindable]
+			private var yesOrNo:ArrayCollection;
+			
+			[Bindable]
+			private var termStatus:ArrayCollection;
+			
+			[Bindable]
+			private var runningStatus:ArrayCollection;
+			
+			//节点类型。0=地市server；1=标准版节点机；2=柜面节点机  3-节点机管理端
+			[Bindable]
+			private var noderTypes:IList;
+			
+			private var uploadBeginTimeValue:String ;
+			private var uploadEndTimeValue:String ;
+			private var bandWidthValue:String ;
+			
+			public function init():void
+			{ 
+				var parameterStr:String = pm.noderInfo.parameter ;
+				if(parameterStr != null && parameterStr != ""){
+					var parameters:Array = parameterStr.split(",");
+					for(var i:int=0;i<parameters.length;i++){
+						var param:Array = parameters[i].split(":");
+						if(param.length<2){
+							return;
+						}
+					}
+				}
+				
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				yesOrNo = dataDictionaryCache[DataDirConsts.YES_OR_NO];
+				termStatus = dataDictionaryCache[DataDirConsts.TERM_STATUS];
+				runningStatus = dataDictionaryCache[NoderConsts.RUNNING_STATUS];
+				noderTypes = dataDictionaryCache[NoderConsts.NODER_TYPE];
+			}
+			
+			override protected function getParamCallback():void
+			{
+				if(titleKey != TermLocalKeyConsts.ADD_TERMINFO_FORM)
+					return;
+			}
+			
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:NoderInfoMsg):void
+			{
+				var result:Object = p_msg.result;
+				//已存在
+				if(result == "-1"){
+					AlertHandler.alert(LocaleConsts.NAME_ALREADY_EXISTED);
+					//将提交按钮置为有效
+					submitBtn.enabled = true;
+					submitBtn.mouseEnabled = true;
+				}
+				close();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:NoderInfoMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			
+			public function set dataProvider(p_obj:Object):void
+			{
+				pm.noderInfoFormInitDatas = p_obj;
+			}
+			
+			
+			private function showError(arr:Array):void
+			{
+				for(var i:int = arr.length; 0 < i; i--)
+				{
+					var ui:UIComponent = arr[i-1];
+					ui.setFocus();
+				}
+				if(arr.length>0)
+				{
+					this.setFocus();
+					arr[i].setFocus();		
+				}
+			}
+			
+			private function save():void
+			{
+				/* termCode.text = StringUtil.trim(termCode.text); */
+				noderIP.text = StringUtil.trim(noderIP.text);
+				var arr:Array = VControl.validateAll(form, this.validators);
+				var arr1:Array = VControl.validateAll(form1, this.validators);
+				try
+				{
+					if(StringUtil.trim(noderIP.text)=="")
+					{
+						AlertHandler.alert("节点机IP不允许为空，请确认");
+						noderIP.setFocus();
+						return;
+					}
+					
+				//var parameterStr:String = null ; 
+				//if((uploadBeginTime.text != null && uploadBeginTime.text != "") || (uploadEndTime.text != null && uploadEndTime.text != "")) {
+				//	parameterStr = "uploadtime:"+uploadBeginTime.text+"-"+uploadEndTime.text ;
+				//}
+				if(uploadStarttime.selectedTime>uploadEndtime.selectedTime){
+					AlertHandler.alert("上传开始时间不允许大于上传结束时间");
+					return;
+				}
+					
+				var parameterStr:String = "uploadtime:"+uploadStarttime.selectedTime+"-"+uploadEndtime.selectedTime;
+				
+				if(bandWidth.text != null && bandWidth.text != "") {
+					var ma:RegExp = new RegExp("^[0-9]+$");
+					if(!ma.test(bandWidth.text)){
+						AlertHandler.alert("输入的参数信息中bandwidth非法，请检查并重新输入.");
+						return;
+					}
+					
+					if(parameterStr != null) {
+					parameterStr = parameterStr + ",bandwidth:"+bandWidth.text ;
+					}
+					else {
+						parameterStr = "bandwidth:"+bandWidth.text ;
+					}
+				}
+				pm.noderInfo.parameter = parameterStr ;
+				
+				}
+				catch(e:Error)
+				{
+					trace(e);
+					AlertHandler.alert("输入的参数信息非法，请检查并重新输入.");
+					return;
+				
+				}
+				
+				pm.save(titleKey == TermLocalKeyConsts.ADD_TERMINFO_FORM ? OperationConsts.ADD : OperationConsts.EDIT);
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+
+
+
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+			 
+			private function showExPropHandler(i:int):void
+			{
+				if(formContainer.x == 0 && i == 1)
+				{
+					showExPropEffect([formContainer], 0, -width);
+					/* showExPropEffect([grgTileList], width, 0); */
+				}
+				else if(formContainer.x == -width && i==2)
+				{
+					showExPropEffect([formContainer], -width, 0);
+					/* showExPropEffect([grgTileList], 0, width); */
+				}
+			} 
+			
+			private function drawCircle():UIComponent
+			{
+				var t:UIComponent= new UIComponent();
+				var circle:Sprite = new Sprite();
+				circle.graphics.lineStyle(2,0xffffff);
+				circle.graphics.drawCircle(16, 0, 11);
+				t.addChild(circle);
+				return t;  
+			} 
+		 
+
+			/* protected function orgId_changeHandler(event:IndexChangeEvent):void
+			{
+				
+			} */
+			
+		
+			//选择终端start
+			public function termBrowseHandler():void
+			{  
+				trace("BlackRegulationModule.termBrowseHandler");
+				var win:TermSelectForm = new TermSelectForm();
+				win.initTermStr = device.text;
+				/* win.initOrgStr = termCode.text; */
+				win.callback = setSelectedTerm;
+				
+				context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.showTermHandler("");
+			}
+			private function setSelectedTerm(p_termStr:String):void
+			{
+				trace("BlackRegulationModule.setSelectedTerm");
+				var termStr:String = p_termStr;
+		
+				device.text = termStr;
+				
+			}
+			//选择终端end
+			
+		]]>
+	</fx:Script>
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		
+		<grg:GRGMultiFormTabContainer id="formContainer" width="50%" forms="{[form, form1]}">
+			<grg:Form id="form"
+					  width="50%" height="100%"
+					  paddingTop="20"
+					  textAlign="left"
+					  borderVisible="false">
+				
+				<!-- 节点机类型 -->
+				<grg:FormItem id="noderTypeItem" locale="noderType" required="true" >
+					<grg:ComboBox id="noderType" labelField="text" dataProvider="{noderTypes}"
+								  valueField="key" selectedValue="@{pm.noderInfo.noderType}" width="150"/>
+				</grg:FormItem>
+					
+				<!--终端IP：-->
+				<grg:FormItem id="netAddrItem" locale="netAddrItem" required="true" >
+					<grg:TextInput id="noderIP" name="noderIP" text="@{pm.noderInfo.noderIP}"
+								   width="150" maxnum="32" vtype="ip" required="true"
+								   maxChars="32" />
+				</grg:FormItem>
+				
+				<!--状态更新时间：-->
+				<grg:FormItem id="updateStatusTimeItem" locale="updateStatusTime" >
+					<userDefined:SuperDateField id="updateStatusTime" isShowTime="true" name="updateStatusTime" selectedDate="@{pm.noderInfo.statusTime}"
+										width="150" myEnabled="false" 
+										enabled="false"/>
+				</grg:FormItem>
+				
+				<!-- 上传开始时间  -->
+				<grg:FormItem id="uploadBeginTimeItem" locale="uploadBeginTime">
+					<grg:TimeField id="uploadStarttime"  
+								   selectedTime="{(pm.noderInfo.parameter==null || pm.noderInfo.parameter.split(',')[0].split(':')[0]!='uploadtime')?'00:00:00'
+								   :pm.noderInfo.parameter.substr(pm.noderInfo.parameter.split(',')[0].split(':')[0].length+1,pm.noderInfo.parameter.split(',')[0].length-pm.noderInfo.parameter.split(',')[0].split(':')[0].length).split('-')[0]}" width="80"/>
+					
+				</grg:FormItem>				
+				
+				<!-- 上传结束时间  -->
+				<grg:FormItem id="uploadEndTimeItem" locale="uploadEndTime">
+					<grg:TimeField id="uploadEndtime" 
+								   selectedTime="{(pm.noderInfo.parameter==null || pm.noderInfo.parameter.split(',')[0].split(':')[0]!='uploadtime')?'23:59:59'
+								   :pm.noderInfo.parameter.substr(pm.noderInfo.parameter.split(',')[0].split(':')[0].length,pm.noderInfo.parameter.split(',')[0].length-pm.noderInfo.parameter.split(',')[0].split(':')[0].length).split('-')[1]}" width="80"/>
+					
+				</grg:FormItem>		
+				<!--   带宽    -->
+				<grg:FormItem id="bandWithItem" locale="bandWidth">
+					<grg:TextInput id="bandWidth" name="bandWidth" text="{this.bandWidthValue}"
+								   width="150" maxnum="6" restrict="0-9"
+								   maxChars="32" />
+				</grg:FormItem>	
+				<!-- 中间层IP -->
+				<grg:FormItem id="midLevelIPItem" locale="midLevelIPItem" >
+					<grg:TextInput id="midLevelIP" name="midLevelIP" text="@{pm.noderInfo.midLevelIP}"
+								   width="150" maxnum="32" vtype="ip"
+								   maxChars="32" />
+				</grg:FormItem>
+				
+			</grg:Form>
+			<grg:Form id="form1"
+					  width="50%" height="100%"
+					  paddingTop="20"
+					  textAlign="left"
+					  borderVisible="false">
+				<!--所属机构：-->
+				<grg:FormItem id="orgIdItem" locale="orgIdItem" required="true" >
+					<grg:GRGComboBoxOrgTree id="orgCode" selectedValue="@{pm.noderInfo.orgCode}" 
+											valueField="@orgCode" width="150"
+											textAlign="left" treeHeight="150" 
+											change="/* orgId_changeHandler(event) */" enabled="false"/>
+				</grg:FormItem>
+				
+				<!--设备信息：-->
+				<grg:FormItem id="deviceItem" locale="deviceItem" >
+					<grg:TextArea id="device" name="device" text="@{pm.noderInfo.device}"
+								   width="150"  vtype="maxchars"  enabled="false" height="100"/>
+				</grg:FormItem>
+				
+			</grg:Form>
+		</grg:GRGMultiFormTabContainer>
+		
+	</s:Group>	 
+		
+	<s:HGroup  width="100%" gap="10" horizontalAlign="center" verticalAlign="middle">
+		<s:BorderContainer id="saveButton" height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn" click="save()" locale="saveButton" iconVisible="false"/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button  click="cancel()" locale="cancelButton" iconVisible="false" />
+		</s:BorderContainer>
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button  click="termBrowseHandler()" locale="termBrowse" iconVisible="false" />
+		</s:BorderContainer>
+	</s:HGroup> 
+	
+</grg:TitleWindow>
+

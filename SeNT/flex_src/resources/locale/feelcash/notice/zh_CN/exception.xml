@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+<node locale = "notic">
+<sendMailException>邮件发送失败！</sendMailException>
+<!--		<NameExisted>名称已经经存在!</NameExisted>-->
+</node>
+</nodes>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule locale="dataReportInfoModule" xmlns:fx="http://ns.adobe.com/mxml/2009"
+			  xmlns:s="library://ns.adobe.com/flex/spark"
+			  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:grg="http://grg.grgbanking.com/platform/" 
+			  layout="horizontal" width="100%" height="100%" xmlns:parsley="http://www.spicefactory.org/parsley" >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.controls.ComboBox;
+			import mx.controls.DataGrid;
+			import mx.core.IFlexDisplayObject;
+			import mx.utils.ObjectUtil;
+			import mx.core.Application
+			import mx.core.FlexGlobals;
+			//import spark.components.Application;
+			
+			import sent.common.utils.DateUtils;
+			import platform.component.controls.DataGridColumn;
+			import platform.datareport.config.DataReportInfoConfig;
+			import platform.datareport.message.DataReportInfoMsg;
+			import platform.datareport.pm.DataReportInfoModulePM;
+			
+			[Inject]
+			[Bindable]
+			public var pm:DataReportInfoModulePM;
+			
+			[Bindable]  
+			public var myName:String;  
+			
+			
+			//录入控件下拉列表项
+			
+			override protected function parsleyInit():void
+			{
+
+				titleMgr.text = getUrlParam(this.path,"title");
+				loadPage();
+				
+			}
+			
+					
+			private function loadPage():void
+			{
+				var condition:Object = {};
+				condition.startTime  = this.startTime.text;
+				condition.endTime    = this.endTime.text;
+				condition.orgId      = this.orgId.selectedValue;
+				condition.module     = getUrlParam(this.path,"module");
+				pm.loadPage(condition);
+			}
+			
+			[MessageHandler(selector="getDataReportResult")]
+			public function loadPageResult(p_msg:DataReportInfoMsg):void{
+				var colunmsNamesArr:ArrayCollection = p_msg.result.colunmsNames as ArrayCollection;  
+				var dataList:ArrayCollection = p_msg.result.dataList as ArrayCollection;
+				
+				/**动态构造列**/  
+				var dgc:DataGridColumn=new DataGridColumn();  
+				var dgcolumns:Array = new Array();  
+				if(colunmsNamesArr != null && colunmsNamesArr.length > 0){  
+					for (var i:int=0;i<colunmsNamesArr.length;i++){  
+						dgc = new DataGridColumn();  
+						dgc.dataField = colunmsNamesArr[i];  
+						dgcolumns.push(dgc);  
+					}  
+				}
+				
+				dataGrid.columns = dgcolumns;  
+				dataGrid.editable = false;  
+				dataGrid.dataProvider = dataList;  
+				dataGrid.validateNow();   
+			}
+			
+			
+			/**
+			 * 获得一个url中的参数 
+			 * @param urlStr paramName
+			 * @return 如果没有参数则返回null 有参数则返回值
+			 * 
+			 */
+			public  static function getUrlParam(urlStr:String,paramName:String):String{
+				//var pattern:RegExp= /.*\?/;
+				urlStr=urlStr.substr(urlStr.indexOf("?")+1);
+				if(urlStr.indexOf("=")==-1)
+				{	return null;
+				}
+				// 通过&拆分成数组name=value，保存为String类型数据
+				var params:Array=urlStr.split("&");
+				if(params==null||params.length==0){
+					return null;
+				}
+				var paramObj:Object={};
+				for(var i:int=0;i<params.length;i++){
+					var keyValue:Array=params[i].split("=");
+					if(paramName==keyValue[0]){
+						return keyValue[1];
+					}
+				}
+				return null;
+			}
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+			
+			public function exportFile():void
+			{
+				var condition:Object = {};
+				condition.startTime  = this.startTime.text;
+				condition.endTime    = this.endTime.text;
+				condition.orgId      = this.orgId.selectedValue;
+				condition.module     = getUrlParam(this.path,"module");
+				pm.exportFile(condition);
+			}
+	
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{DataReportInfoConfig}"/>
+
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<s:BorderContainer width="100%" height="100%" borderVisible="false">
+		<s:layout>
+			<s:VerticalLayout gap="0" paddingTop="0"/>
+		</s:layout>
+		
+		<grg:AdvancedSearchBar textAlign="center" styleName="SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" paddingBottom="0" gap="0" />
+			</grg:layout>
+
+			<!-- 搜索的第一行 -->
+			<mx:HBox width="100%" height="30"
+					 paddingLeft="10" paddingTop="4" paddingBottom="0" paddingRight="10" 
+					 verticalAlign="top">
+				
+				<mx:Label id="titleMgr" styleName="titleBarLabel" width="50%"  textAlign="left"/>
+				
+				
+				<mx:HBox paddingLeft="5" paddingRight="2" paddingTop="2" paddingBottom="2" 
+						 horizontalGap="0" verticalAlign="middle" 
+						 backgroundColor="#E4E4E4" cornerRadius="4">
+					<!-- 所属机构 -->
+					<grg:Label locale="organizationColon"/>
+					<grg:GRGComboBoxOrgTree id="orgId" defaultField="true" width="100" textAlign="left" treeHeight="300" />
+					<s:Spacer width="10" />
+					
+					<!-- 操作日期 -->
+					<grg:Label locale="operDateColon" />
+					<grg:SuperDateField id="startTime" required="true"
+										selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+										selectableRange="{{rangeEnd:endTime.selectedDate}}"/>
+					<s:Spacer width="5" />
+					<grg:Label locale="to" />
+					<s:Spacer width="5" />
+					<grg:SuperDateField id="endTime" required="true" 
+										selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"
+										selectableRange="{{rangeStart:startTime.selectedDate}}"/>
+					<s:Spacer width="10" />					
+					
+					<!-- 查询、重置等按钮 -->
+					<grg:SearchButton id="btn_search" menuId="{menu.id}" locale="searchButton" iconType="query" click="loadPage()" />
+					<s:Spacer width="2" />
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" click="initSelectDate()"
+									 resetControls="{[this.orgId]}"/>
+					
+				</mx:HBox>
+				
+			</mx:HBox>
+		
+		</grg:AdvancedSearchBar>
+		
+		<mx:HBox  width="100%" styleName="moduleButtonBarHBoxstyle" >
+			<!--权限按钮的动态生成-->
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>	
+				<grg:Button locale="modeldown" iconType="down" click="exportFile()"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		
+		<grg:DataGrid  width="100%" height="100%" paddingLeft="20" 
+					  textAlign = "center"
+					  styleName = "DataGrid" id="dataGrid">
+
+		</grg:DataGrid>
+		
+		
+	</s:BorderContainer>
+</grg:TabModule>

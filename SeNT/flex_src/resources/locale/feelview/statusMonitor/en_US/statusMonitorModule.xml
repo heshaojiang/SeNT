@@ -1,0 +1,201 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="statusMonitorModule">
+		<listTitle>StatusMonitor</listTitle>
+		<fieldsTitle>Self-Fields</fieldsTitle>
+		<termId>TermId</termId>
+		<orgName>OrgName</orgName>
+		<refresh>RefreshTime</refresh>
+		<atmStatus>TermStatus</atmStatus>
+		<connStatus>ConnStatus</connStatus>
+		<allDeviceStatus>AllDeviceStatus</allDeviceStatus>
+		<cassettesstatus>Cassettesstatus</cassettesstatus>
+		<orgId>OrgId</orgId>
+		<termName>TermName</termName>
+		<idc>IdenCard</idc>
+		<idcErrorCode>idcErrorCode</idcErrorCode>
+		<cdm>CashDispenser</cdm>
+		<cdmErrorCode>cdmErrorCode</cdmErrorCode>
+		<cim>CashInModules</cim>
+		<cimErrorCode>cimErrorCode</cimErrorCode>
+		<envDepository>ENVDepository</envDepository>
+		<envDepostitoryErrorCode>envDepostitoryErrorCode
+		</envDepostitoryErrorCode>
+		<sprPrinter>SprPrinter</sprPrinter>
+		<sprPrinterErrorCode>sprPrinterErrorCode</sprPrinterErrorCode>
+		<chk>CheckRS</chk>
+		<chkErrorCode>chkErrorCode</chkErrorCode>
+		<receiptPrinter>ReceiptPrinter</receiptPrinter>
+		<receiptPrinterErrorCode>receiptPrinterErrorCode
+		</receiptPrinterErrorCode>
+		<journalPrinter>JournalPrinter</journalPrinter>
+		<journalPrinterErrorcode>journalPrinterErrorcode
+		</journalPrinterErrorcode>
+		<ttu>TextTerminal</ttu>
+		<ttuErrorCode>ttuErrorCode</ttuErrorCode>
+		<pbk>PBK</pbk>
+		<pbkErrorCode>pbkErrorCode</pbkErrorCode>
+		<pin>Pin pad</pin>
+		<pinErrorCode>pinErrorCode</pinErrorCode>
+		<siu>SensorsIndicators</siu>
+		<siuErrorCode>siuErrorCode</siuErrorCode>
+		<cashBoxStatus>CashBoxStatus</cashBoxStatus>
+		<cashBoxType>CashBoxType</cashBoxType>
+		<cashBoxDenomination>CashBoxDenomination</cashBoxDenomination>
+		<cashBoxCurrency>CashBoxCurrency</cashBoxCurrency>
+		<cashBoxCurrentNumber>CashBoxCurrentNumber</cashBoxCurrentNumber>
+		<xfsORP>xfsORP</xfsORP>
+		<cassetteNum>CassetteNum</cassetteNum>
+		<cassetteAmount>CassetteAmount</cassetteAmount>
+		<recycleNum>RecycleNum</recycleNum>
+		<recycleAmount>RecycleAmount</recycleAmount>
+		<mergeCard>MergeCard</mergeCard>
+		<machineGate>MachineGate</machineGate>
+		<machineErrorCode>machineErrorCode</machineErrorCode>
+		<safetyGate>SafetyGate</safetyGate>
+		<safeErrorCode>safeErrorCode</safeErrorCode>
+		<cashClique>CashClique</cashClique>
+		<barCode>BarCode</barCode>
+		<barCodeErrorCode>barCodeErrorCode</barCodeErrorCode>
+		
+		<searchItem>Search</searchItem>
+		<matrixItem>Matrix</matrixItem>
+		<listModule>List</listModule>
+		<selfDefine>SelfDefine</selfDefine>
+		
+		<!-- 查询条件窗口 -->
+		<searchWinTitle>Filter</searchWinTitle>
+		<searchWinSearch>Search</searchWinSearch>
+		<searchWinTerminalId>Terminal : </searchWinTerminalId>
+		<searchWinTerminalbrand>Brand : </searchWinTerminalbrand>
+		<searchWinTerminalType>Type : </searchWinTerminalType>
+		<searchWinTerminalModule>Module : </searchWinTerminalModule>
+		<searchWinTerminalAdd>Address : </searchWinTerminalAdd>
+		
+		<!-- 终端详细信息 -->
+		<TmlBaseInfo>TermBaseInfo</TmlBaseInfo>
+		<TmlAllDeviceStatus>DeviceStatus</TmlAllDeviceStatus>
+		<TmlAllConfigInfo>TermConfigInfo</TmlAllConfigInfo>
+		<TmlLastTransaction>LastTransaction</TmlLastTransaction>
+		<TmlCassetteDetail>CassetteDetail</TmlCassetteDetail>
+		<TmlLastAgreement>LastAgreement</TmlLastAgreement>
+		<TmlResponser>TermResponser</TmlResponser>
+		
+		<!-- 终端详细信息 -->
+		<tmlDetailInfo>TermDetail</tmlDetailInfo>
+		<addTermInfoForm>AddTermInfo</addTermInfoForm>
+		<updateTermInfoForm>UpdateTermInfo</updateTermInfoForm>
+		<termInfoFormDetail>TermInfo</termInfoFormDetail>
+		<BaseInfo>BaseInfo</BaseInfo>
+		<ExtendInfo>ExtendInfo</ExtendInfo>
+		<termIdItem>TermId : </termIdItem>
+		<termNameItem>TermName : </termNameItem> 
+		<termSEQItem>TermSEQ : </termSEQItem>
+		<counterIdItem>CounterId : </counterIdItem>
+		<termTypeItem>Type : </termTypeItem>
+		<brandItem>Brand : </brandItem>
+		<modelItem>Model : </modelItem>
+		<orgIdItem>OrgName : </orgIdItem>
+		<areaIdItem>Area : </areaIdItem>
+		<netAddrItem>IP : </netAddrItem>
+		<netPortItem>Port : </netPortItem>
+		<netConnType>ConnType : </netConnType>
+		<netConnProtocol>ConnProtocol : </netConnProtocol>
+		<instDateItem>InstDate : </instDateItem>
+		<activeDateItem>ActiveDate : </activeDateItem>
+		<termAddrItem>Addr : </termAddrItem>
+		<serviceTypeItem>ServiceType : </serviceTypeItem>
+		<instTypeItem>InstType : </instTypeItem>
+		<layTypeItem>LayType : </layTypeItem>
+		<isVideoWatchItem>IsVideoWatch : </isVideoWatchItem>
+		<isUPSItem>IsUPS : </isUPSItem>
+		<busiBeginTimeItem>BusiBginTime : </busiBeginTimeItem>
+		<busiEndTimeItem>BusiEndTime : </busiEndTimeItem>
+		<softVersionItem>ATMCVersion : </softVersionItem>
+		<spVersionItem>SPVersion : </spVersionItem>
+		<isVIPItem>VIP:</isVIPItem>
+		
+		<!-- 终端配置信息 -->
+		<agentVersion>AgentVersion : </agentVersion>
+		<EMVVersion>EMVVersion : </EMVVersion>
+		<OS>OS : </OS>
+		<backScreen>BackScreen : </backScreen>
+		<diskSize>DiskSize : </diskSize>
+		<memorySize>MemorySize : </memorySize>
+		<softDisk>SoftDisk : </softDisk>
+		<netCard>NetCard : </netCard>
+		<CDRoom>CDRoom : </CDRoom>
+		<systemDate>SystemDate : </systemDate>
+		<systemSound>Volume(%) : </systemSound>
+		<lastConfigTime>LastConfigTime : </lastConfigTime>
+		<netGate>NetGate : </netGate>
+		<subNetMask>SubNetMask : </subNetMask>
+		<dns>DNS : </dns>
+		<altDNS>ALT DNS : </altDNS>
+		
+		<!-- 最后一次交易 -->
+		<txnType>TxnType : </txnType>
+		<txnDate>TxnDate : </txnDate>
+		<txnAmount>TxnAmount : </txnAmount>
+		<txnAccount>TxnAccount : </txnAccount>
+		<cardType>CardType : </cardType>
+		<txnResult>TxnResult : </txnResult>
+		
+		<!-- 钱箱信息 -->
+		<cashBoxNameItem>CashBoxName</cashBoxNameItem>
+		<cashBoxStatusItem>Status</cashBoxStatusItem>
+		<cashBoxTypeItem>Type</cashBoxTypeItem>
+		<cashBoxCurrencyItem>Currency</cashBoxCurrencyItem>
+		<cashBoxDenominationItem>Denomination</cashBoxDenominationItem>
+		<cashBoxAmountItem>Amount</cashBoxAmountItem>
+		<cashBoxBalanceItem>Balance</cashBoxBalanceItem>
+		<cashBoxAddCashTimeItem>AddCashTime</cashBoxAddCashTimeItem>
+		<cashBoxAddCashNumItem>LastAddCashAmount</cashBoxAddCashNumItem>
+		<cashBoxPhysicalLocation>PhysicalPlace</cashBoxPhysicalLocation>
+		
+		<!-- 最后一次帐实核对情况 -->
+		
+		<!-- 终端责任人 -->
+		<responserGroup>Group</responserGroup>
+		<responserName>Name</responserName>
+		<responserPhone>Phone</responserPhone>
+		<responserRole>Role</responserRole>
+		<responserDuty>Duty</responserDuty>
+		<responserNo>No.</responserNo>
+		<responserEmail>Email</responserEmail>
+		
+		<!-- 终端状态 -->
+		<termNameD>TermName : </termNameD>
+		<atmStatusD>Terminal Status : </atmStatusD>
+		<connStatusD>Conn Status : </connStatusD>
+		<allDeviceStatusD>Device Status : </allDeviceStatusD>
+		<cassettesstatusD>Cassette Status : </cassettesstatusD>
+		<atmStatusRefreshTime>GetMessageTime : </atmStatusRefreshTime>
+		<atmStatusChangeTime>StatusChangeTime : </atmStatusChangeTime>
+		<idcD>CardReader :  </idcD>
+		<cdmD>Dispenser :  </cdmD>
+		<cimD>Deposit :  </cimD>
+		<envDepositoryD>ENV Depository :  </envDepositoryD>
+		<sprPrinterD>SprPrinter :  </sprPrinterD>
+		<chkD>CheckRS :  </chkD>
+		<receiptPrinterD>ReceiptPrinter :  </receiptPrinterD>
+		<journalPrinterD>JournalPrinter :  </journalPrinterD>
+		<ttuD>TextTerminal :  </ttuD>
+		<pbkD>PBK :  </pbkD>
+		<pinD>PinPad:  </pinD>
+		<siuD>SensorsIndicators :  </siuD>
+		<machineGateD>MachineGate :  </machineGateD>
+		<safetyGateD>SafetyGate :  </safetyGateD>
+		<barCodeD>Barcode :  </barCodeD>
+		<palm>PalmReader : </palm>
+		<radioCard>Contactless : </radioCard>
+		<coinCassetteTotalStatus>Coin Cassette : </coinCassetteTotalStatus>
+		
+		<reflash>Refresh</reflash>
+		<notReflash>StopRefresh</notReflash>
+		<refreshInterval>RefreshInterval</refreshInterval>
+		
+		<Y>yes</Y>
+		<N>no</N>
+	</node>
+</nodes>

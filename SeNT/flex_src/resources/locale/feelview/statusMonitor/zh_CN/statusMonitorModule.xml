@@ -1,0 +1,230 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="statusMonitorModule">
+		<listTitle>实时监控</listTitle>
+		<monitorFilter>监控选择</monitorFilter>
+		<statusFilter>状态筛选</statusFilter>
+		<fieldsTitle>自定义列表</fieldsTitle>
+		<termId>终端编号</termId>
+		<orgName>机构名称</orgName>
+		<refresh>刷新时间</refresh>
+		<atmStatus>运行状态</atmStatus>
+		<connStatus>连接状态</connStatus>
+		<allDeviceStatus>模块状态</allDeviceStatus>
+		<cassettesstatus>钞箱状态</cassettesstatus>
+		<orgId>机构ID</orgId>
+		<termName>终端名称</termName>
+		<idc>读卡器状态</idc>
+		<idcErrorCode>idcErrorCode</idcErrorCode>
+		<cdm>出钞机芯</cdm>
+		<cdmErrorCode>cdmErrorCode</cdmErrorCode>
+		<cim>存钞机芯</cim>
+		<cimErrorCode>cimErrorCode</cimErrorCode>
+		<envDepository>信封存款模块</envDepository>
+		<envDepostitoryErrorCode>envDepostitoryErrorCode
+		</envDepostitoryErrorCode>
+		<sprPrinter>结单打印机</sprPrinter>
+		<sprPrinterErrorCode>sprPrinterErrorCode</sprPrinterErrorCode>
+		<chk>支票阅读与扫描单元</chk>
+		<chkErrorCode>chkErrorCode</chkErrorCode>
+		<receiptPrinter>凭条打印机</receiptPrinter>
+		<receiptPrinterErrorCode>receiptPrinterErrorCode
+		</receiptPrinterErrorCode>
+		<journalPrinter>日志打印机</journalPrinter>
+		<journalPrinterErrorcode>journalPrinterErrorcode
+		</journalPrinterErrorcode>
+		<ttu>文本终端单元</ttu>
+		<ttuErrorCode>ttuErrorCode</ttuErrorCode>
+		<pbk>存折模块</pbk>
+		<pbkErrorCode>pbkErrorCode</pbkErrorCode>
+		<pin>密码输入器</pin>
+		<pinErrorCode>pinErrorCode</pinErrorCode>
+		<siu>传感器指示器单元</siu>
+		<siuErrorCode>siuErrorCode</siuErrorCode>
+		<cashBoxStatus>cashBoxStatus</cashBoxStatus>
+		<cashBoxType>cashBoxType</cashBoxType>
+		<cashBoxDenomination>cashBoxDenomination</cashBoxDenomination>
+		<cashBoxCurrency>cashBoxCurrency</cashBoxCurrency>
+		<cashBoxCurrentNumber>cashBoxCurrentNumber</cashBoxCurrentNumber>
+		<xfsORP>xfsORP</xfsORP>
+		<cassetteNum>cassetteNum</cassetteNum>
+		<cassetteAmount>cassetteAmount</cassetteAmount>
+		<recycleNum>recycleNum</recycleNum>
+		<recycleAmount>recycleAmount</recycleAmount>
+		<mergeCard>吞卡</mergeCard>
+		<machineGate>机箱门</machineGate>
+		<machineErrorCode>machineErrorCode</machineErrorCode>
+		<safetyGate>保险门</safetyGate>
+		
+		<safeErrorCode>safeErrorCode</safeErrorCode>
+		<cashClique>cashClique</cashClique>
+		<barCode>条形码</barCode>
+		<barCodeErrorCode>barCodeErrorCode</barCodeErrorCode>
+		
+		<searchItem>条件查询</searchItem>
+		<matrixItem>矩阵</matrixItem>
+		<listModule>列表</listModule>
+		<selfDefine>自定义列表</selfDefine>
+		
+		<!-- 查询条件窗口 -->
+		<searchWinTitle>条件过滤</searchWinTitle>
+		<searchWinSearch>查询</searchWinSearch>
+		<searchWinTerminalId>终端编号：</searchWinTerminalId>
+		<searchWinTerminalbrand>全部终端品牌</searchWinTerminalbrand>
+		<searchWinTerminalType>全部终端类型</searchWinTerminalType>
+		<searchWinTerminalModule>全部终端型号</searchWinTerminalModule>
+		<searchWinTerminalAdd>地址：</searchWinTerminalAdd>
+		
+		<!-- 终端详细信息 -->
+		<TmlBaseInfo>终端详细信息</TmlBaseInfo>
+		<TmlAllDeviceStatus>终端设备状态</TmlAllDeviceStatus>
+		<TmlAllConfigInfo>终端配置信息</TmlAllConfigInfo>
+		<TmlLastTransaction>最后一次交易</TmlLastTransaction>
+		<TmlCassetteDetail>钞箱详细信息</TmlCassetteDetail>
+		<TmlLastAgreement>最后一次帐实核对</TmlLastAgreement>
+		<TmlResponser>终端责任人</TmlResponser>
+		
+		<!-- 终端详细信息 -->
+		<tmlDetailInfo>终端详细信息</tmlDetailInfo>
+		<tmlModuleInfo>终端详细信息</tmlModuleInfo>
+		<addTermInfoForm>添加终端基础信息</addTermInfoForm>
+		<updateTermInfoForm>修改终端基础信息</updateTermInfoForm>
+		<termInfoFormDetail>终端基础信息明细</termInfoFormDetail>
+		<BaseInfo>基本信息</BaseInfo>
+		<ExtendInfo>扩展信息</ExtendInfo>
+		<termIdItem>终端编号： </termIdItem>
+		<termNameItem>终端名称： </termNameItem>
+		<termSEQItem>序列号： </termSEQItem>
+		<counterIdItem>柜员号： </counterIdItem>
+		<termTypeItem>终端类型： </termTypeItem>
+		<brandItem>终端品牌：</brandItem>
+		<modelItem>设备型号：</modelItem>
+		<orgIdItem>所属机构：</orgIdItem>
+		<areaIdItem>所属区域：</areaIdItem>
+		<netAddrItem>终端IP：</netAddrItem>
+		<netPortItem>终端PORT：</netPortItem>
+		<netConnType>连接类型：</netConnType>
+		<netConnProtocol>连接协议：</netConnProtocol>
+		<instDateItem>安装日期：</instDateItem>
+		<activeDateItem>开通日期：</activeDateItem>
+		<termAddrItem>安装地址：</termAddrItem>
+		<serviceTypeItem>布放模式：</serviceTypeItem>
+		<instTypeItem>安装方式：</instTypeItem>
+		<layTypeItem>设立形式：</layTypeItem>
+		<isVideoWatchItem>视频监控：</isVideoWatchItem>
+		<isUPSItem>安装UPS：</isUPSItem>
+		<busiBeginTimeItem>开始营业：</busiBeginTimeItem>
+		<busiEndTimeItem>结束营业：</busiEndTimeItem>
+		<softVersionItem>ATMC版本号：</softVersionItem>
+		<spVersionItem>SP版本号：</spVersionItem>
+		<isVIPItem>是否VIP：</isVIPItem>
+		
+		<!-- 终端配置信息 -->
+		<agentVersion>Agent版本 ： </agentVersion>
+		<EMVVersion>EMV内核版本 ： </EMVVersion>
+		<OS>操作系统 ： </OS>
+		<backScreen>后台维护屏幕 ： </backScreen>
+		<diskSize>磁盘空间 ： </diskSize>
+		<memorySize>内存大小 ： </memorySize>
+		<softDisk>软盘驱动器 ： </softDisk>
+		<netCard>网卡 ： </netCard>
+		<CDRoom>光盘驱动器 ： </CDRoom>
+		<systemDate>系统日期 ： </systemDate>
+		<systemSound>系统音量(%) ： </systemSound>
+		<lastConfigTime>更新时间 ： </lastConfigTime>
+		<netGate>系统网关 ： </netGate>
+		<subNetMask>子网掩码 ： </subNetMask>
+		<dns>DNS ： </dns>
+		<altDNS>ALT DNS ： </altDNS>
+		
+		<!-- 最后一次交易 -->
+		<txnType>交易类型 ： </txnType>
+		<txnDate>交易时间 ： </txnDate>
+		<txnAmount>交易金额 ： </txnAmount>
+		<txnAccount>交易帐号 ： </txnAccount>
+		<cardType>卡类型 ： </cardType>
+		<txnResult>交易结果 ： </txnResult>
+		
+		<!-- 钞箱信息 -->
+		<cashBoxNameItem>钞箱名</cashBoxNameItem>
+		<cashBoxStatusItem>钞箱状态</cashBoxStatusItem>
+		<cashBoxTypeItem>钞箱类型</cashBoxTypeItem>
+		<cashBoxCurrencyItem>钞箱币种</cashBoxCurrencyItem>
+		<cashBoxDenominationItem>钞箱面值(元)</cashBoxDenominationItem>
+		<cashBoxAmountItem>张数</cashBoxAmountItem>
+		<cashBoxBalanceItem>钞箱余额(元)</cashBoxBalanceItem>
+		<cashBoxAddCashTimeItem>上次加钞时间</cashBoxAddCashTimeItem>
+		<cashBoxAddCashNumItem>上次加钞张数</cashBoxAddCashNumItem>
+		<cashBoxPhysicalLocation>钞箱物理位置</cashBoxPhysicalLocation>
+		
+		<!-- 最后一次帐实核对情况 -->
+		
+		<!-- 终端责任人 -->
+		<responserGroup>所属组</responserGroup>
+		<responserName>责任人姓名</responserName>
+		<responserPhone>联系人电话</responserPhone>
+		<responserRole>责任人角色</responserRole>
+		<responserDuty>责任人职责</responserDuty>
+		<responserNo>序号</responserNo>
+		<responserEmail>邮件</responserEmail>
+		
+		<!-- 终端状态 -->
+		<termNameD>终端名称 ： </termNameD>
+		<atmStatusD>运行状态 ： </atmStatusD>
+		<connStatusD>连接状态 ： </connStatusD>
+		<allDeviceStatusD>模块状态 ： </allDeviceStatusD>
+		<cassettesstatusD>钞箱总状态 ： </cassettesstatusD>
+		<atmStatusRefreshTime>报文接收 ： </atmStatusRefreshTime>
+		<atmStatusChangeTime>状态变换 ： </atmStatusChangeTime>
+		<idcD>读卡器 ：  </idcD>
+		<cdmD>出钞机芯 ：  </cdmD>
+		<cimD>存钞机芯 ：  </cimD>
+		<envDepositoryD>信封存款 ：  </envDepositoryD>
+		<sprPrinterD>结单打印 ：  </sprPrinterD>
+		<chkD>支票扫描 ：  </chkD>
+		<receiptPrinterD>凭条打印机：  </receiptPrinterD>
+		<journalPrinterD>流水打印机：  </journalPrinterD>
+		<invoicePrinter>发票打印机：</invoicePrinter>
+		<ttuD>文本终端 ：  </ttuD>
+		<pbkD>存折模块 ：  </pbkD>
+		<pinD>密码键盘 ：  </pinD>
+		<siuD>传感器 ：  </siuD>
+		<machineGateD>机箱门 ：  </machineGateD>
+		<safetyGateD>保险门 ：  </safetyGateD>
+		<ICGateD>IC读写器 ： </ICGateD>
+		<barCodeD>条形码 ：  </barCodeD>
+		<palm>掌纹 ： </palm>
+		<radioCard>非接触卡 ： </radioCard>
+		<coinCassetteTotalStatus>硬币钞箱 ： </coinCassetteTotalStatus>
+		
+		<reflash>刷新</reflash>
+		<notReflash>停止刷新</notReflash>
+		<refreshInterval>刷新时间：</refreshInterval>
+		
+		<myFocus>关注的设备</myFocus>
+		
+		<Y>是</Y>
+		<N>否</N>
+		
+		<deviceHealth>设备健康</deviceHealth>
+		<fatalError>严重故障</fatalError>
+		<resourceWarning>警告</resourceWarning>
+		<generalError>一般故障</generalError>
+		<normalDevice>正常</normalDevice>
+		
+		<netStatus>网络状态</netStatus>
+		<vCommError>V-C 异常</vCommError>
+		<pCommError>P-C 异常</pCommError>
+		
+		<cassetteStatus>钞箱状态</cassetteStatus>
+		<normal>正常</normal>
+		<lack>缺钞</lack>
+		<small>少钞</small>
+		<urgently>将满</urgently>
+		<full>已满</full>
+		
+		<selectedDevice>已选择设备</selectedDevice>
+		<advanceSearch>高级</advanceSearch>
+		<msgYstr>连接超时，操作失败</msgYstr>
+	</node>
+</nodes>

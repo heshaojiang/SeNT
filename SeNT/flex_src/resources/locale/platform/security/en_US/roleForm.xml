@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "roleForm">
+		<addRoleForm>Add</addRoleForm>
+		<updateRoleForm>Edit</updateRoleForm>
+		<roleName>Role Name:</roleName>
+		<roleLevel>Role Level:</roleLevel>
+		<roleStatus>Role Status:</roleStatus>
+		<statusEnable>Enable</statusEnable>
+		<statusDisable>Disable</statusDisable>
+	</node>
+</nodes>

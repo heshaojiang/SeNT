@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns="http://www.spicefactory.org/parsley" 
+		   xmlns:delegate="sent.transmgr.delegate.*" 
+		   xmlns:pm="sent.transmgr.pm.*" 
+		   xmlns:view="sent.transmgr.view.*"
+		   xmlns:message="sent.transmgr.message.*"
+		   xmlns:services="platform.services.*" 
+		   xmlns:service="sent.transmgr.service.*">
+	<fx:Declarations>
+		<message:CmlInfoByHandMsg />
+		<pm:CmlInfoByHandModulePM />
+		<pm:CmlInfoByHandFormPM />
+		<delegate:CmlInfoByHandDelegate />
+		
+		<!-- remote object可以多个pm对应一个delegate,一个delegate对应一个 Service-->
+		<services:GRGRemoteObject id="cmlInfoByHandService" destination="cmlInfoByHandService"/>
+	</fx:Declarations>
+</fx:Object>

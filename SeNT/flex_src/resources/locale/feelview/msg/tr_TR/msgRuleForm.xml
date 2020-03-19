@@ -1,0 +1,67 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： msgRuleForm<br>
+	 Create Time：2012-3-21<br>   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "msgRuleForm">
+		<addMsgRuleForm>Msg Kural ekle</addMsgRuleForm>
+		<updateMsgRuleForm>Güncelleme Msg Kural</updateMsgRuleForm>
+		<RulesDefine>Kural Tanımlama</RulesDefine>
+		<SMSNotificationLevel1>1.Seviye</SMSNotificationLevel1>
+		<SMSNotificationLevel2>2.Seviye</SMSNotificationLevel2>
+		<SMSNotificationLevel3>3.Seviye</SMSNotificationLevel3>
+		<createTicketEnable>Evet</createTicketEnable>
+		<createTicketDisable>Hayır</createTicketDisable>
+		<statusEnable>Evet</statusEnable>
+		<statusDisable>Hayır</statusDisable>
+		<sendTotalLevelEnable>Evet</sendTotalLevelEnable>
+		<sendTotalLevelDisable>Hayır</sendTotalLevelDisable>
+		<selectMalfunctionCategoryItem>Arıza/Uyarı Seçim</selectMalfunctionCategoryItem>
+		<addTerminalItem>Terminal ekle</addTerminalItem>
+		<!-- 第一时期 -->
+		<WorkingTimeOne1>1.1.Period</WorkingTimeOne1>
+		<WorkingTimeTwo1>1.2.Period</WorkingTimeTwo1>
+		<NonworkingTimeOne1>1.3.Period</NonworkingTimeOne1>
+		<NonworkingTimeTwo1>1.4.Period</NonworkingTimeTwo1>
+		<!-- 第二时期 -->
+		<WorkingTimeOne2>2.1.Period</WorkingTimeOne2>
+		<WorkingTimeTwo2>2.2.Period</WorkingTimeTwo2>
+		<NonworkingTimeOne2>2.3.Period</NonworkingTimeOne2>
+		<NonworkingTimeTwo2>2.4.Period</NonworkingTimeTwo2>
+		<!-- 第三时期 -->
+		<WorkingTimeOne3>3.1.Period</WorkingTimeOne3>
+		<WorkingTimeTwo3>3.2.Period</WorkingTimeTwo3>
+		<NonworkingTimeOne3>3.3.Period</NonworkingTimeOne3>
+		<NonworkingTimeTwo3>3.4.Period</NonworkingTimeTwo3>
+		
+		<monToFriItem1>Haftaiçi Yoğun Saatler</monToFriItem1>
+		<monToFriItem2>Haftaiçi Diğer Saatler</monToFriItem2>
+		<satToSunItem1>Haftasonu Yoğun Saatler</satToSunItem1>
+		<satToSunItem2>Haftasonu Diğer Saatler</satToSunItem2>
+		
+		<satToSunItem>Güneşe Sat</satToSunItem>
+		<workingTimeItem>Çalışma Süresi</workingTimeItem>
+		<toItem></toItem>
+		<minute>dakika</minute>
+		<createDispatchItem>Sevk oluştur</createDispatchItem>
+		<sendTimeAfterMalfunctionItem>Aktivite Bekleme Süresi</sendTimeAfterMalfunctionItem>
+		<sendPersonsItem>Sorumlular</sendPersonsItem>
+		<one>1.</one>
+		<two>2.</two>
+		<three>3.</three>
+		<sms>SMS</sms>
+		<email>EMAIL</email>
+		<chooseTerminalForm>Terminal seçin</chooseTerminalForm>
+		
+		
+		<nameItem>Kural Adı</nameItem>
+		<createDateItem>Yaratılış zamanı</createDateItem>
+		<statusItem>Aktif</statusItem>
+		<sendTotalLevelItem>Önceki Seviye SMS Gönderimi</sendTotalLevelItem>
+		<createTicketItem>SM Kaydı Oluştur</createTicketItem>
+		<messageContentItem>Uyarı Mesaj İçeriği</messageContentItem>
+		<finishMessageItem>Arıza Giderildi Mesaj İçeriği</finishMessageItem>
+		<chooseTerminalForm>Terminal sorgu bilgileri seçin</chooseTerminalForm>
+	</node>
+</nodes>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   dataDictionaryPaths="{[DataDictPathConsts.CML_LOAD_NOTES_RECORD_ADD_CASH_OPER_TYPE,
+			   						  DataDictPathConsts.CML_LOAD_NOTES_RECORD_ADD_CASH_ATM_TYPE]}"
+			   locale="cmlLoadNotesRecordModule"
+			   xmlns:userDefined="platform.date.*"
+			   layout="vertical" width="100%" height="100%"
+			   >
+	
+	<fx:Script>
+		<![CDATA[
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.CmlBatchRecordConfig;
+			import sent.transmgr.config.CmlLoadNotesRecordConfig;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			import sent.transmgr.constants.DataDictPathConsts;
+			import sent.transmgr.message.CmlLoadNotesRecordMsg;
+			import sent.transmgr.pm.CmlLoadNotesRecordPM;
+			import platform.common.manager.AlertHandler;
+			import mx.managers.CursorManager;
+			
+			
+			
+			[Inject]
+			[Bindable]
+			public var cmlLoadNotesRecordPM:CmlLoadNotesRecordPM;
+			
+			
+			[Bindable]
+			public var cmlLoadNotesRecordPage:Page = new Page();
+			
+			
+			
+			/**
+			 * 根据条件查询 
+			 */
+			protected function loadPage():void
+			{
+				trace("CmlLoadNotesRecordModule.loadPage");
+				try
+				{
+					var parameter:Object = {};
+					
+					parameter.page = cmlLoadNotesRecordPage;
+					
+					var condition:Object   = {};
+					condition.startTime    = this.startTime.text;
+					condition.endTime      = this.endTime.text;
+					condition.atmCode      = this.atmCode.text;
+					condition.operatorCode = this.operatorCode.text;
+					condition.pathCode     = String(this.orgId.selectedItem.@pathCode);
+					condition.flag=isLoopOrg.selected.toString();
+					
+					parameter.condition = condition;
+					
+					var msg:CmlLoadNotesRecordMsg = new CmlLoadNotesRecordMsg();
+					msg.args["remoteMethod"]   = "queryCmlLoadNotesRecordPage";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "CmlLoadNotesRecordModule.queryCmlLoadNotesRecordPageResult";
+					msg.args["errorHandler"]   = "CmlLoadNotesRecordModule.queryCmlLoadNotesRecordPageError";
+					
+					cmlLoadNotesRecordPM.sendCmlLoadNotesRecordMsg(msg);
+				}
+				catch(e:Error)
+				{
+					trace(e);
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="CmlLoadNotesRecordModule.queryCmlLoadNotesRecordPageResult")]
+			public function queryCmlLoadNotesRecordPageResult(msg:CmlLoadNotesRecordMsg):void
+			{
+				trace("CmlLoadNotesRecordModule.queryCmlLoadNotesRecordPageResult");
+				cmlLoadNotesRecordPage = msg.result as Page;
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="CmlLoadNotesRecordModule.queryCmlLoadNotesRecordPageError")]
+			public function queryCmlLoadNotesRecordPageError(msg:CmlLoadNotesRecordMsg):void
+			{
+				trace("CmlLoadNotesRecordModule.queryCmlLoadNotesRecordPageError");
+				trace(msg.result);
+			}
+			
+			
+			public function transferAtmType(item:Object, column:DataGridColumn):String
+			{
+				super.currentDataDictPath = DataDictPathConsts.CML_LOAD_NOTES_RECORD_ADD_CASH_ATM_TYPE;
+				return super.transferDataDict(item, column);
+			}
+			
+			public function transferOperType(item:Object, column:DataGridColumn):String
+			{
+				super.currentDataDictPath = DataDictPathConsts.CML_LOAD_NOTES_RECORD_ADD_CASH_OPER_TYPE;
+				return super.transferDataDict(item, column);
+			}
+			
+			
+			/**
+			 * 
+			 */
+			public function viewRowDetailInfo():void
+			{
+				trace("CmlLoadNotesRecordModule.viewRowDetailInfo");
+				CursorManager.setBusyCursor();
+				var cmlLoadNotesRecord:Object = dataGrid.selectedItem;
+				
+				//打开子窗口
+				var win:ShowCmlLoadNotesRecordForm = new ShowCmlLoadNotesRecordForm();
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.initData(cmlLoadNotesRecord.id);
+			}
+			
+			private function createRowNo(oItem:Object,iCol:int):String{
+				var iIndex:int = ((cmlLoadNotesRecordPage.pageNo - 1) * cmlLoadNotesRecordPage.pageSize) + cmlLoadNotesRecordPage.result.getItemIndex(oItem) + 1;
+				return String(iIndex);
+			}
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="true"/>
+			<parsley:Scope name="CmlLoadNotesRecordModule"/>
+			<parsley:MessageSettings defaultReceiverScope="CmlLoadNotesRecordModule"/>
+			<parsley:FlexConfig type="{CmlLoadNotesRecordConfig}"/>
+			<parsley:FlexConfig type="{CmlBatchRecordConfig}"/>
+			<parsley:FlexConfig type="{CmlSentInfoConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<s:BorderContainer width="100%" height="100%" borderVisible="false">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0" paddingTop="0"/>
+		</s:layout>
+		
+		<grg:AdvancedSearchBar textAlign="center" width="100%" styleName="SearchBar" borderVisible="false">
+			
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" paddingBottom="0" gap="0" />
+			</grg:layout>
+			
+			<!-- 搜索的第一行 -->
+			<mx:HBox width="100%" height="30"
+					 paddingLeft="10" paddingTop="4" paddingBottom="0" paddingRight="10" 
+					 verticalAlign="top">
+				
+				<grg:TitleBar id="titleMgr" locale="titlemsg" width="50%" />
+				
+				<mx:HBox paddingLeft="5" paddingRight="2" paddingTop="2" paddingBottom="2" 
+						 horizontalGap="0" verticalAlign="middle" 
+						 backgroundColor="#E4E4E4" cornerRadius="4">
+					
+					
+					<!--是否循环遍历子机构：-->
+					<grg:CheckBox id="isLoopOrg" selected="true">
+					</grg:CheckBox>
+					
+					<!-- 所属机构 -->
+					<grg:Label locale="organizationColon"/>
+					<grg:GRGComboBoxOrgTree id="orgId" defaultField="true" textAlign="left" 
+											width="100" treeHeight="300" />
+					<s:Spacer width="10" />
+					
+					<!-- 关联时间： -->
+					<grg:Label locale="relateTimeColon" />
+					<userDefined:SuperDateField id="startTime" required="true" isShowTime="true" 
+										selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+										selectableRange="{{rangeEnd:endTime.selectedDate}}" />
+					<s:Spacer width="5" />
+					<grg:Label locale="to" />
+					<s:Spacer width="5" />
+					<userDefined:SuperDateField id="endTime" required="true" isShowTime="true" 
+										selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"
+										selectableRange="{{rangeStart:startTime.selectedDate}}" />
+					<s:Spacer width="10" />
+					
+					<!-- 查询、高级、重置等按钮 -->
+					<grg:SearchButton id="btn_search" menuId="{menu.id}" locale="searchButton" iconType="query" click="cmlLoadNotesRecordPage.pageNo=1;loadPage()" />
+					<s:Spacer width="2" />
+					<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/>
+					<s:Spacer width="2" />
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" click="initSelectDate()"
+									 resetControls="{[ orgId, atmCode, operatorCode /* startTime, endTime, */]}"/>
+					
+				</mx:HBox>
+				
+			</mx:HBox>
+			
+			<!-- 高级搜索 -->
+			<s:BorderContainer width="100%" borderVisible="false" borderWeight="0">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingTop="0" paddingBottom="0" />
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="4" borderVisible="false" borderWeight="0"
+								   backgroundImage="@Embed(source='resources/theme/newui/more_search.png')">
+				</s:BorderContainer>
+				
+				<s:BorderContainer width="100%" backgroundColor="#FAFCFF" borderWeight="0" borderVisible="false">
+					
+					<s:layout>
+						<s:HorizontalLayout gap="0" paddingLeft="10" paddingRight="10" horizontalAlign="right" verticalAlign="middle" />
+					</s:layout>
+					
+					<!-- ATM编号： -->
+					<grg:Label locale="atmCodeColon" />
+					<grg:TextInput id="atmCode" restrict="0-9a-zA-Z\-" width="140" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />
+					<s:Spacer width="10" />
+					
+					<!-- 操作员 -->
+					<grg:Label locale="operatorCodeColon" />
+					<grg:TextInput id="operatorCode" restrict="0-9a-zA-Z*-_" width="100" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />
+					
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+			
+		</grg:AdvancedSearchBar>
+		
+		
+		<!-- 表格部份  -->
+		<grg:DataGrid id="dataGrid" dataProvider="{cmlLoadNotesRecordPage.result}"
+					  width="100%" height="100%" textAlign="center" styleName="DataGrid">
+			<grg:columns>
+				<grg:DataGridColumn locale="columnNo"  textAlign="center" labelFunction="createRowNo" sortable="false" width="50"/>
+				<!--ATM编号-->
+				<grg:DataGridColumn locale="atmCode"      dataField="atmCode"      width="55" />
+				<!--钞箱编号-->
+				<grg:DataGridColumn locale="cashboxCode"  dataField="cashboxCode"  width="55" />			
+				<!--交易时间-->
+				<grg:DataGridColumn locale="relateTime"   dataField="tranTime"     width="55" labelFunction="{DataGridColumnUtils.formatYYYYMMDDHHMISS}" fontSize="14" />
+				<!--业务类型-->
+				<grg:DataGridColumn locale="operType"     dataField="operType"     width="55" labelFunction="{transferOperType}" />
+				<!--终端编号-->
+				<grg:DataGridColumn locale="termCode" dataField="termCode" width="55"  />
+				<!--金额-->
+				<grg:DataGridColumn locale="tranAmount"   dataField="tranAmount"   width="55" />
+				<!--张数-->
+				<grg:DataGridColumn locale="tranCount"   dataField="tranCount"   width="55" />
+				<!--操作员-->
+				<grg:DataGridColumn locale="operatorCode"   dataField="operatorCode"   width="55" />
+				<!--配钞ID-->
+				<grg:DataGridColumn locale="tdLoadNotesId"   dataField="tdLoadNotesId"   width="55" />
+				
+				<!--操作-->
+				<grg:DataGridColumn locale="operations" width="55" fontWeight="normal" textAlign="center">
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXDataGridItemRenderer>
+								<grg:GRGModuleButtonBar2 width="100%" height="20" align="center" menuId="{parentDocument.menu.id}">
+									<!--查看详情-->
+									<grg:Image id="viewRowDetailInfoIcon" privilegeCode="viewRowDetailInfo" 
+											   source="@Embed('/resources/theme/images/icons/detail.png')"
+											   locale="viewRowDetailInfo" click="parentDocument.viewRowDetailInfo();" />
+								</grg:GRGModuleButtonBar2>
+							</s:MXDataGridItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+			</grg:columns>
+		</grg:DataGrid>
+		
+		<!-- 分页栏 -->
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{cmlLoadNotesRecordPage}" pagingFunction="{loadPage}" />
+		
+	</s:BorderContainer>
+	
+</grg:TabModule>

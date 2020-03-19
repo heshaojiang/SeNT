@@ -1,0 +1,55 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cmlStrideTransferRecordModule">
+		<listTitle>cmlStrideTransferRecord列表</listTitle>
+		
+				
+		<cPartMonthdayItem>cPartMonthday：</cPartMonthdayItem>
+		
+				
+		<iIdItem>iId：</iIdItem>
+		
+				
+		<cBagCodeItem>cBagCode：</cBagCodeItem>
+		
+				
+		<cFromCodeItem>cFromCode：</cFromCodeItem>
+		
+				
+		<cCashTypeItem>cCashType：</cCashTypeItem>
+		
+				
+		<cPathcodeItem>cPathcode：</cPathcodeItem>
+		
+				
+		<cTranTimeItem>cTranTime：</cTranTimeItem>
+		
+				
+		<cCurrencyItem>cCurrency：</cCurrencyItem>
+		
+				
+		<iTdTranAmtItem>iTdTranAmt：</iTdTranAmtItem>
+		
+				
+		<cTranDateItem>cTranDate：</cTranDateItem>
+		
+				
+		<cBusinessTypeItem>cBusinessType：</cBusinessTypeItem>
+		
+				
+		<iCountItem>iCount：</iCountItem>
+		
+				
+		<cBankCodeItem>cBankCode：</cBankCodeItem>
+		
+				
+		<iVersionItem>iVersion：</iVersionItem>
+		
+				
+		<cReserveItem>cReserve：</cReserveItem>
+		
+		
+		<addBtn>新增</addBtn>
+		<delBtn>删除啦</delBtn>
+	</node>
+</nodes>

@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "stopManagerForm">
+		<formTitle>Term RepStop Manager</formTitle>
+		<stopFormTitle>stopFormTitle</stopFormTitle>
+		<termid>termid</termid>
+		<beginTime>beginTime</beginTime>
+		<endTime>endTime</endTime>
+		<stop>stop</stop>
+		<stopExamine>stopExamine</stopExamine>
+		<stopManager>stopManager</stopManager>
+		<repStopTitle>repStopTitle</repStopTitle>
+		<reason>reason</reason>
+		<stopStatue>stopStatue</stopStatue>
+		<cancelStop>cancelStop</cancelStop>
+		<breakStop>breakStop</breakStop>
+		<seqno>seqno</seqno>
+		<note>note</note>
+	</node>
+</nodes>

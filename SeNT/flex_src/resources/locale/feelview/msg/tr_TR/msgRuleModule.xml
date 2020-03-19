@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：msgRuleModule<br>
+	Create Time：2012-3-21<br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgRuleModule">
+		<listTitle>Msg Kural Listesi</listTitle>
+		<viewList>Msg Kural Detay Mesaj</viewList>
+		<nameItem>Kural Adı</nameItem>
+		<createDateItem>Başlangıç Zamanı</createDateItem>
+		<toItem>Bitiş Zamanı</toItem>
+		<statusItem>Aktif</statusItem>
+		<sendTotalLevelItem>Önceki Seviye SMS Gönderimi</sendTotalLevelItem>
+		<createTicketItem>SM Kaydı Oluştur</createTicketItem>
+		<messageContentItem>Uyarı Mesaj İçeriği</messageContentItem>
+		<finishMessageItem>Arıza Giderildi Mesaj İçeriği</finishMessageItem>
+	</node>
+</nodes>

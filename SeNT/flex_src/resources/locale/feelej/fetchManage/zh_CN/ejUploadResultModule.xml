@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="ejUploadResultModule">
+		<date>日期：</date>
+		<integritys>完整性：</integritys>
+		<teminalID>终端号</teminalID>
+		<fileName>文件名</fileName>
+		<journalDate>日期</journalDate>
+		<countNum>上传总数</countNum>
+		<successNum>成功数</successNum>
+		<errorNum>失败数</errorNum>
+		<integrity>完整性</integrity>
+		<titlemsg>增量上传结果查询</titlemsg>
+		<uploading>上传中</uploading>
+		<success>上传成功</success>
+		<repeat>上传重复包</repeat>
+		<uncomplete>上传不完整</uncomplete>
+		<uncheck>未做完整性检查</uncheck>
+		<unupdate>文件无更新</unupdate>
+		<allItem>全部</allItem>
+	</node>
+</nodes>

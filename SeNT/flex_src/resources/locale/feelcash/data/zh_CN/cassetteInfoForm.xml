@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cassetteInfoForm">
+	    <newCassetteInfo>新增钞箱故障信息</newCassetteInfo>
+	    <editCassetteInfo>编辑钞箱故障信息</editCassetteInfo>
+	    
+		<termCode>终端编号:</termCode>
+		<termAddr>终端安装地址:</termAddr>
+		<amount>当前金额:</amount>
+		<slotLocat>插槽位置:</slotLocat>
+		<creator>录入人:</creator>
+		<createDate>录入时间:</createDate>
+	</node>
+</nodes>

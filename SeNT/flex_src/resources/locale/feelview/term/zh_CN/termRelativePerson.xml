@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 银行管机员管理 
+	 Create Time：2011-8-19   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termRelativePerson">
+		<listTitle>终端关系人列表</listTitle>
+		<role>角色</role>
+		<managerIdItem>工号</managerIdItem>
+		<tlmanagerIdItem>工号：</tlmanagerIdItem>
+		<personNameItem>姓名</personNameItem>
+		<tlpersonNameItem>姓名：</tlpersonNameItem>
+		<traderNameItem>厂商名称</traderNameItem>
+		<tltraderNameItem>厂商名称：</tltraderNameItem>
+		<corporatorOrgItem>机构</corporatorOrgItem>
+		<tlcorporatorOrgItem>机构：</tlcorporatorOrgItem>
+		<contactManItem>所属维护商</contactManItem>
+		<!--<tmlModelItem>终端型号</tmlModelItem>-->
+		<!--tltmlModelItem>终端型号：</tltmlModelItem-->
+		<tmlBrandItem>终端品牌</tmlBrandItem>
+		<tltmlBrandItem>全部终端品牌</tltmlBrandItem>
+		<contactTelItem>固定电话</contactTelItem>
+		<contactMobileItem>移动电话</contactMobileItem>
+		<email>邮箱地址</email>
+		<address>厂商地址</address>
+		<status>状态</status>
+		<tlstatus>全部状态</tlstatus>
+		<tlrole>全部角色</tlrole>
+		<personTitlemsg>终端相关人员管理查询</personTitlemsg>
+		<traderTitlemsg>终端相关厂商管理查询</traderTitlemsg>
+	</node>
+</nodes>

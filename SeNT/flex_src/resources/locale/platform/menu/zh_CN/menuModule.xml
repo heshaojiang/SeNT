@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="menuModule">
+		<listTitle>菜单管理</listTitle>
+		<menuColumnName>菜单名称</menuColumnName>
+		<menuLinkURL>模块路径</menuLinkURL>
+		<rootURL>FLEX根路径</rootURL>
+		<menuOrder>菜单排序</menuOrder>
+		<operations>操作</operations>
+		<visible>是</visible>
+		<novisible>否</novisible>
+	</node>
+</nodes>

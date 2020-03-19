@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cashDefaultSettingModule">
+		<titleKey>Arithmetic default parameter setting</titleKey>
+	
+		<addcashAmount>Amount for the first and default:</addcashAmount>
+		<notPermittedAddCash>The day not permitted to add:</notPermittedAddCash>
+		<mostAmount>Max amount:</mostAmount>
+		<jqxs>Coefficient of weighing:</jqxs>
+		<leastAmount>Minimal amount:</leastAmount>
+		<bdje>Floor of amount:</bdje>
+		<arithmeticID>Default arithmetic:</arithmeticID>
+		<addcashMode>Mode of round-off for Arithmetic :</addcashMode>
+		<notPermittedClean>The day not permitted to clean:</notPermittedClean>
+		<jczq>Add cash cycle:</jczq>
+	</node>
+</nodes>

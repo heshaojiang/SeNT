@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：MsgAnnouncementModule <br>
+	Create Time：2011-9-21 <br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgAnnouncementModule">
+		<listTitle>Message Announcement List</listTitle>
+		<orgIdItem>orgId</orgIdItem>
+		<sendTimeItem>sendTime</sendTimeItem>
+		<toItem>to</toItem>
+		<titleItem>title</titleItem>
+		<creatorItem>creator</creatorItem>
+		<contentItem>content</contentItem>
+		<createTimeItem>createTime</createTimeItem>
+		<status>status</status>
+		<sendTypeItem>sendType</sendTypeItem>
+	</node>
+</nodes>

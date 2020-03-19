@@ -1,0 +1,22 @@
+1在数据库中添加函数DISPATEMIMITUEDATA.fnc
+2在数据库中添加存储过程SP_TRANSFER_BUSIDATE.prc
+
+转移有两种方式:
+(1)如果是使用oracle定时任务进行转移,在数据库中添加AddTransferJob.sql
+   使用select job from user_jobs;找到它的job号，如43
+   使用
+begin
+dbms_job.run(43);
+end;
+/
+  拉起该job.
+ 如果无法执行,可能需要ALTER SYSTEM SET job_queue_processes = 40;
+ 
+(2)如果是使用脚本进行转移,将tranfer_data_new.sh加入crontab
+crontab 配置如下：
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /home/feel/yak/nsnew/SeNTServer/bin/tranfer_data_new.sh 5 & 
+
+转移不成功的原因:
+一般是权限不足引起的，要求：
+提供的数据库用户（例如feelview）要有执行存储过程权限，debug connect session权限。创建临时表权限,数据库用户 create table权限需显式授权，用如下的语法
+grant create table to feelview

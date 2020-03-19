@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow 
+	width="1000" height="350"
+	layout = "vertical"
+	locale = "chooseConnForm"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley"
+	xmlns:grg="http://grg.grgbanking.com/platform/">
+
+	<fx:Script>
+		<![CDATA[
+			import platform.common.util.DataGridUtil;
+			import platform.common.util.DateUtils;
+			protected function cid_selectAllHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+			}
+		]]>
+	</fx:Script>
+
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		
+		
+		<mx:DateFormatter id="df" formatString="YYYY-MM-DD JJ:NN:SS"/>
+		
+	</fx:Declarations>
+	<fx:Binding destination="pm.conn.inPerson" source="inPerson.text" />
+	<fx:Binding destination="pm.conn.commOrg" source="cid.selectedValue"/>
+	<fx:Binding destination="pm.conn.startTime" source="df.format(startTime.selectedDate)" />
+	<fx:Binding destination="pm.conn.endTime" source="df.format(endTime.selectedDate)" />
+	
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import cml.cmlConnectInfos.vo.CmlConnectInfosVO;
+			import cml.task.pm.CmlTaskInfosPM;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.constants.LocaleConsts;
+			import platform.vo.security.UserVo;
+			import platform.vo.term.TermInfoVo;
+			[Inject]
+			[Bindable]
+			public var pm:CmlTaskInfosPM ;
+			
+			
+
+			protected function over():void
+			{
+		
+				if(connPageGrid.checkedItems.length != 1){
+					
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return ;
+				}
+				
+				var temp :CmlConnectInfosVO = CmlConnectInfosVO(connPageGrid.checkedItems[0]);	
+				if(null != callback) {
+				
+					callback(temp);	
+				}
+				close();
+				
+			}
+			
+			public var callback:Function ;
+			
+		]]>
+	</fx:Script>
+	
+	<mx:VDividedBox 
+		width="100%" height="100%">
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "left"
+									paddingLeft = "0"
+									gap="2"
+									verticalAlign = "middle"/>
+							</s:layout>
+							<grg:Label locale = "comeOrg" />
+							<grg:GRGComboBoxOrgTree id="cid"
+													defaultField="true"
+													textAlign="left"
+													treeHeight="300" width="110"
+													/>
+							
+							<grg:Label locale = "inPerson" />
+							<grg:TextInput id="inPerson" textAlign="left" restrict="^'"
+										   width="85" height="20"
+										   styleName = "TextInput" />
+							
+							<grg:Label locale="sendTime" />
+							<grg:SuperDateField id="startTime" width="190" myEnabled="false"
+												selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<grg:SuperDateField id="endTime" width="190" myEnabled="false" 
+												selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+							<grg:SearchButton id="btn_search" 
+											  click = "pm.tml_page = new Page();pm.chooseConn()"
+											  locale = "searchButton"
+											  iconType = "query" />
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[inPerson,cid,startTime,endTime]}"/>
+	
+						</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:Button id="query" 
+								click = "over()"
+								locale = "query"
+								iconType = "query" />
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" paddingBottom="5" paddingLeft="10" paddingRight="10" borderVisible="false">
+				<mx:HBox width="100%" height="100%" paddingBottom="5" paddingLeft="10" paddingRight="10" borderVisible="false">
+					<grg:DataGrid id="connPageGrid" dataProvider="{pm.conn_page.result}"
+											   width="100%" height="100%"
+											   styleName = "DataGrid"
+											   borderVisible = "true">
+						
+						<grg:columns>
+							
+							
+							<grg:CheckBoxColumn id="checkBoxCol"
+												sortable = "false"
+												draggable = "false"
+												editable = "false"
+												resizable = "false" 
+												textAlign = "center"
+												/>
+							<grg:DataGridColumn locale = "connNum"
+												dataField = "connNum" textAlign="left"/>
+							<grg:RODataGridColumn locale = "comeOrg"
+												  dataField = "comeOrg"
+												  labelField = "orgName"
+												  valueField = "id"
+												  service = "orgInfoService"
+												  method = "getAllOrg" 
+												  textAlign = "left"
+												  />
+						
+							<grg:DataGridColumn locale = "inPerson" 
+												dataField = "inPerson" textAlign="left"/>
+							<grg:DataGridColumn locale = "connMoney"
+												dataField = "connMoney"  textAlign="left"/>
+							<grg:DataGridColumn locale="noAllotMoney" 
+												dataField="noAllotMoney" textAlign="left"/>
+							<grg:DataGridColumn locale = "connDate"
+												dataField = "connDate" textAlign="left" labelFunction="{DataGridUtil.formatTime}"/>
+							
+						</grg:columns>
+					</grg:DataGrid>
+			</mx:HBox>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="connPagingBar" pageVo="{pm.conn_page}" pagingFunction="{pm.chooseConn}" bottom = "0" />
+		
+	
+		</s:BorderContainer>
+	</mx:VDividedBox>
+
+</grg:TitleWindow>

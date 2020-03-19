@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- /**Description：客户端升级包管理
+ * Create Time：2011-11-29   
+ * Author：zhangjinpeng 
+ * Email : zjpeng@grgbanking.com 
+ */
+	 -->
+<nodes>
+	<node locale = "agentConfigViewForm">
+		<termidItem>终端编号：</termidItem>
+		<agentportItem>agent端口：</agentportItem>
+		<fdgatesvripItem>远程分发服务器IP：</fdgatesvripItem>
+		<fdgatesvrportItem>远程分发服务器端口：</fdgatesvrportItem>
+		<fvsvripItem>监控服务器IP：</fvsvripItem>
+		<fvsvrportItem>监控服务器端口：</fvsvrportItem>
+		<xfscamItem>照相机：</xfscamItem>
+		<xfscdmItem>出钞模块：</xfscdmItem>
+		<xfschkItem>支票扫描仪：</xfschkItem>
+		<xfscimItem>存款模块：</xfscimItem>
+		<xfsdepItem>信封存款：</xfsdepItem>
+		<xfsidcItem>读卡器：</xfsidcItem>
+		<xfsjprItem>流水打印机：</xfsjprItem>
+		<xfspbkItem>存折打印机：</xfspbkItem>
+		<xfspinItem>加密键盘：</xfspinItem>
+		<xfsrprItem>凭条打印机：</xfsrprItem>
+		<xfssiuItem>传感指示单元：</xfssiuItem>
+		<xfssprItem>账单打印机：</xfssprItem>
+		<xfsttuItem>后台维护终端：</xfsttuItem>
+		<spdelayItem>启动调用SP延时(秒)：</spdelayItem>
+		<sendintervalItem>状态发送间隔(秒)：</sendintervalItem>
+		<lastmodifytimeItem>上次配置时间：</lastmodifytimeItem>
+		<viewTitle>详情</viewTitle>
+		<xfsvdmItem>厂商依赖模式：</xfsvdmItem>
+		<xfscoincdmItem>硬币模块：</xfscoincdmItem>
+		<StartXFSMonitorItem>开启XFS状态监控：</StartXFSMonitorItem>
+		<xfsbcrItem>条码模块：</xfsbcrItem>
+		<xfsrfidcItem>射频卡模块：</xfsrfidcItem>
+		<monitorPalmVeinItem>掌静脉模块：</monitorPalmVeinItem>
+	</node>
+</nodes>

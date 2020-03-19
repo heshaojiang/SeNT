@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*" 
+				 layout="vertical" width="780" height="590"
+				 locale="showCashboxFlowInfoForm" 
+				 titleKey="title"
+				 dataDictionaryPaths="{[CmlMgrConsts.FLOW_STAGE, CmlMgrConsts.FLOW_STATUS, DataDictPathConsts.BOX_TYPE]}"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			import platform.cashbox.message.BoxInfoMsg;
+			import platform.cashbox.vo.BoxInfoVO;
+			import platform.common.manager.LanguageManager;
+			import platform.common.vo.Page;
+			
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.constants.CmlMgrConsts;
+			import sent.transmgr.constants.CmlNoteflowDetailInfoConsts;
+			import sent.transmgr.constants.DataDictPathConsts;
+			import sent.transmgr.message.CmlNoteflowDetailInfoMsg;
+			import sent.transmgr.pm.BoxInfoPM;
+			import sent.transmgr.pm.CmlNoteflowDetailInfoPM;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			
+			
+			[Bindable] public var boxId:String;
+			[Bindable] public var boxNum:String;
+			[Bindable] public var orgId:String;
+			[Bindable] public var orgName:String;
+			[Bindable] public var boxType:String;
+			[Bindable] public var boxTypeText:String;
+			[Bindable] public var usageStatus:String;
+			[Bindable] public var usageStatusText:String;
+			
+			[Bindable] 
+			public var formData:Object = {};
+			
+			[Bindable]
+			public var noteflowDetailPage:Page = new Page();
+			
+			[Inject]
+			[Bindable]
+			public var boxInfoPM:BoxInfoPM;
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowDetailInfoPM:CmlNoteflowDetailInfoPM;
+			
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;
+			
+			/**
+			 * 
+			 */
+			public function init():void
+			{
+				trace("ShowCashboxFlowInfoForm.init");
+				initBoxBasicInfo();
+				initBoxFlowInfo();
+			}
+			
+			/**
+			 * 
+			 */
+			protected function initBoxBasicInfo():void
+			{
+				trace("ShowCashboxFlowInfoForm.initBoxBasicInfo");
+				var parameter:Object = {};
+				parameter.boxNum = this.boxNum;
+				
+				var msg:BoxInfoMsg = new BoxInfoMsg();
+				msg.args["remoteMethod"]   = "getBoxDetailInfoByBoxNum";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "ShowCashboxFlowInfoForm.getBoxDetailInfoByBoxNumResult";
+				msg.args["errorHandler"]   = "ShowCashboxFlowInfoForm.getBoxDetailInfoByBoxNumError";
+				boxInfoPM.sendBoxInfoMsg(msg);
+			}
+			
+			/**
+			 * 
+			 */
+			protected function initBoxFlowInfo():void
+			{
+				trace("ShowCashboxFlowInfoForm.initBoxFlowInfo");
+				reloadNoteflowDetailPage();
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ShowCashboxFlowInfoForm.getBoxDetailInfoByBoxNumResult")]
+			public function getBoxDetailInfoByBoxNumResult(msg:BoxInfoMsg):void
+			{
+				trace("ShowCashboxFlowInfoForm.getBoxDetailInfoByBoxNumResult");
+				
+				var boxInfo:BoxInfoVO = msg.result as BoxInfoVO;
+				if( boxInfo==null )
+				{
+					//Alert.show("找不到钞箱信息.");
+					return ;
+				}
+				
+				this.orgName     = boxInfo.orgName;
+				this.boxType     = boxInfo.boxType;
+				this.boxNum      = boxInfo.boxNum;
+				this.usageStatus = boxInfo.usageStatus;
+				
+				this.transformDataFromDataDict();
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ShowCashboxFlowInfoForm.getBoxDetailInfoByBoxNumError")]
+			public function getBoxDetailInfoByBoxNumError(msg:BoxInfoMsg):void
+			{
+				trace("ShowCashboxFlowInfoForm.getBoxDetailInfoByBoxNumError");
+			}
+			
+			/**
+			 * 
+			 */
+			public function getFlowStatusLabelByKey(status:String):String
+			{
+				trace("ShowCashboxFlowInfoForm.getFlowStatusLabelByKey");
+				return this.getTextByKeyOnDataDictPath(status, CmlMgrConsts.FLOW_STATUS);
+			}
+			
+			/**
+			 * 
+			 */
+			public function getBoxTypeTextByKey(boxType:String):String
+			{
+				trace("ShowCashboxFlowInfoForm.getBoxTypeTextByKey");
+				return this.getTextByKeyOnDataDictPath(boxType, DataDictPathConsts.BOX_TYPE);
+			}
+			
+			/**
+			 * 
+			 */
+			public function getUsageStageTextByKey(usageStatus:String):String
+			{
+				trace("ShowCashboxFlowInfoForm.getBoxTypeTextByKey");
+				if( usageStatus=="0" )
+				{
+					return LanguageManager.getInstance().getCommonLanguageMap("components")["free"];
+				}
+				else
+				{
+					return this.getTextByKeyOnDataDictPath(usageStatus, CmlNoteflowDetailInfoConsts.FLOW_STAGE);
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			override protected function getDataDictCallback():void
+			{
+				trace("ShowCashboxFlowInfoForm.getDataDictCallback");
+				
+				this.transformDataFromDataDict();
+				
+				noteflowDetailPage.result.refresh();
+				
+//				try
+//				{
+//					var obj:Object = {};
+//					obj.barcodeFlowNum = this.barcodeFlowNum;
+//					obj.journalNo      = this.journalNo;
+//					obj.flowStage      = getFlowStageLabelByKey(this.flowStage);
+//					obj.termId         = this.termId;
+//					obj.clearingDate   = DateUtils.formatYYYYMMDD(this.clearingDate);
+//					obj.totalNotes     = this.totalNotes;
+//					this.formData = obj;
+//					
+//					noteflowDetailPage = new Page();
+//					noteflowDetailPage.pageNo = 1;
+//					noteflowDetailPage.pageSize = 10;
+//					cmlNoteflowDetailInfoPM.getCmlNoteflowDetailInfosPageByFlowNum(noteflowDetailPage, barcodeFlowNum);
+//					
+//					flowNotesPage = new Page();
+//					flowNotesPage.pageNo = 1;
+//					flowNotesPage.pageSize = 10;
+//					cmlSentInfoPM.getCmlSentInfosPageByFlowNum(barcodeFlowNum, flowNotesPage);
+//				}
+//				catch(e:Error)
+//				{
+//					trace(e);
+//				}
+			}
+			
+			private function transformDataFromDataDict():void
+			{
+				trace("ShowCashboxFlowInfoForm.transformDataFromDataDict");
+				this.boxTypeText = getBoxTypeTextByKey(this.boxType);
+				this.usageStatusText = getUsageStageTextByKey(this.usageStatus);
+			}
+			
+			
+			public function reloadNoteflowDetailPage():void
+			{
+				trace("ShowCashboxFlowInfoForm.reloadNoteflowDetailPage");
+				var parameter:Object = {};
+				parameter.page = this.noteflowDetailPage;
+				parameter.boxNum = this.boxNum;
+				
+				var msg:CmlNoteflowDetailInfoMsg = new CmlNoteflowDetailInfoMsg();
+				msg.args["remoteMethod"]   = "getCashboxFlowInfoByBoxNum";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "ShowCashboxFlowInfoForm.getCashboxFlowInfoByBoxNumResult";
+				msg.args["errorHandler"]   = "ShowCashboxFlowInfoForm.getCashboxFlowInfoByBoxNumError";
+				
+				cmlNoteflowDetailInfoPM.sendCmlNoteflowDetailInfoMsg(msg);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ShowCashboxFlowInfoForm.getCashboxFlowInfoByBoxNumResult")]
+			public function getCashboxFlowInfoByBoxNumResult(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("ShowCashboxFlowInfoForm.getCashboxFlowInfoByBoxNumResult");
+				noteflowDetailPage = msg.result as Page;
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ShowCashboxFlowInfoForm.getCashboxFlowInfoByBoxNumError")]
+			public function getCashboxFlowInfoByBoxNumError(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("ShowCashboxFlowInfoForm.getCashboxFlowInfoByBoxNumError");
+			}
+			
+			public function transformFlowStage(p_item:Object, column:DataGridColumn):String
+			{
+				trace("ShowCashboxFlowInfoForm.transformFlowStage");
+				currentDataDictPath = CmlMgrConsts.FLOW_STAGE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			
+			public function showCashATMCardNum(p_item:Object, column:DataGridColumn):String
+			{
+				trace("ShowCashboxFlowInfoForm.showCashATMCardNum");
+				if( p_item.barcode2!=null && p_item.barcode2!="")
+				{
+					return p_item.barcode2
+				}
+				else
+				{
+					return p_item.barcode1;
+				}
+			}
+			
+			
+			public function formatOperDate(p_item:Object, column:DataGridColumn):String
+			{
+				trace("ShowCashboxFlowInfoForm.formatOperDate");
+				return DateUtils.formatYYYYMMDDHHMISS(p_item.date);
+			}
+			
+			
+			public function transformFlowStatus(item:Object, column:DataGridColumn):String
+			{
+				trace("ShowCashboxFlowInfoForm.transformFlowStatus");
+				return getFlowStatusLabelByKey(item.status);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<!-- 流转基本信息 -->
+	<grg:RoundCornerContainer locale="basicBoxInfo" width="100%" id="noteflowBasicInfo">
+		<s:HGroup width="100%" paddingLeft="50">
+			<grg:Form>
+				<grg:FormItem width="100%" locale="orgNameColon">
+					<grg:TextInput text="{orgName}" width="200" editable="false" />
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="boxTypeColon">
+					<grg:TextInput text="{boxTypeText}" width="200" editable="false" />
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form>
+				<grg:FormItem width="100%" locale="boxNumColon">
+					<grg:TextInput text="{boxNum}" width="200" editable="false" />
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="usageStatusColon">
+					<grg:TextInput text="{usageStatusText}" width="200" editable="false" />
+				</grg:FormItem>
+			</grg:Form>
+		</s:HGroup>
+	</grg:RoundCornerContainer>
+	
+	<mx:Spacer height="5" />
+	
+	<!-- 流转详细信息 -->
+	<grg:RoundCornerContainer locale="boxFlowDetail" width="100%" height="100%" id="noteflowDetailInfo">
+		<s:VGroup width="100%" height="100%" gap="0" paddingTop="0">
+			<grg:DataGrid id="noteflowDetailDataGrid" dataProvider="{noteflowDetailPage.result}" 
+						  width="100%" height="100%" textAlign="center" styleName="DataGrid"
+						  verticalScrollPolicy="auto">
+				<grg:columns>
+					<grg:DataGridColumn locale="barcodeFlowNum"           dataField="barcodeFlowNum" width="55" />
+					<grg:DataGridColumn locale="flowStage"                dataField="flowStage"      width="55" labelFunction="{transformFlowStage}" />
+					<grg:DataGridColumn locale="boxNumOrAtmNum"                                      width="55" labelFunction="{showCashATMCardNum}" />
+					<grg:DataGridColumn locale="operator"                 dataField="operator"       width="55" />
+					<grg:DataGridColumn locale="operDate"                 dataField="date"           width="55" labelFunction="{formatOperDate}" />
+					<grg:DataGridColumn locale="flowStatus"               dataField="status"         width="55" labelFunction="{transformFlowStatus}" />
+				</grg:columns>
+			</grg:DataGrid>
+			<grg:PageNavigatorBar id="pagebar1" bottom="0" pageVo="{noteflowDetailPage}" pagingFunction="{reloadNoteflowDetailPage}"/>
+		</s:VGroup>
+	</grg:RoundCornerContainer>
+	
+	<mx:Spacer height="10" />
+	
+</grg:TitleWindow>

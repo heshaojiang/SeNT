@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<display-name>platform</display-name>
+    
+	<!-- Spring ApplicationContext配置文件的路径,可使用通配符,多个路径用,号分隔
+		此参数用于后面的Spring Context Loader -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:/conf/applicationContext*.xml</param-value>
+	</context-param>
+			
+	<!-- Filter 定义  -->
+	<!-- Character Encoding filter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<!-- Hibernate Open Session In View filter-->
+	<filter>
+		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+	</filter>
+
+	<!-- SpringSecurity filter-->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<!-- Struts2 filter -->
+	<filter>
+		<filter-name>struts2CleanupFilter</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ActionContextCleanUp</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>struts2Filter</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+
+	<!-- Filter 映射 -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
+		<url-pattern>/j_spring_security_check</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>struts2CleanupFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>struts2Filter</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+	<!-- 单个用户只能登录到你的程序一次 -->
+	<listener> 
+  		<listener-class>org.springframework.security.ui.session.HttpSessionEventPublisher</listener-class> 
+	</listener>
+
+	<!--Spring的ApplicationContext 载入 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+	<!-- Http Flex Session attribute and binding listener support -->
+    <listener>
+        <listener-class>flex.messaging.HttpFlexSession</listener-class>
+    </listener>
+    
+    <listener>
+        <listener-class>com.grgbanking.sent.listener.SysParamRoaderListener</listener-class>
+    </listener>
+
+	<!-- 增加机构树初始化 -->
+	<listener>
+		<listener-class>com.grgbanking.platform.module.org.listener.OrgInfoInitListen</listener-class>
+	</listener>
+
+    <!-- MessageBroker Servlet -->
+    <servlet>
+        <servlet-name>MessageBrokerServlet</servlet-name>
+        <servlet-class>flex.messaging.MessageBrokerServlet</servlet-class>
+        <init-param>
+            <param-name>services.configuration.file</param-name>
+            <param-value>/WEB-INF/flex/services-config.xml</param-value>
+       </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MessageBrokerServlet</servlet-name>
+        <url-pattern>/messagebroker/*</url-pattern>
+    </servlet-mapping>
+
+     <!-- Spring Dispatcher Servlet    -->
+<!--     <servlet> -->
+<!--         <servlet-name>flex</servlet-name> -->
+<!--         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+<!--         <init-param>   -->
+<!--            <param-name>contextConfigLocation</param-name>   -->
+<!--            <param-value>/WEB-INF/flex/springFlex.xml</param-value>   -->
+<!--        </init-param>  -->
+<!--         <load-on-startup>1</load-on-startup> -->
+<!--     </servlet> -->
+<!--     <servlet-mapping> -->
+<!--         <servlet-name>flex</servlet-name> -->
+<!--         <url-pattern>/messagebroker/*</url-pattern> -->
+<!--     </servlet-mapping> -->
+
+	
+	<!-- download file servlet -->
+	  <!-- Spring Dispatcher Servlet    -->
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>com.grgbanking.sent.common.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>*.DownloadServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>exportFileServlet</servlet-name>
+        <servlet-class>com.grgbanking.sent.common.ExportFileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>exportFileServlet</servlet-name>
+        <url-pattern>/servlet/exportFileServlet</url-pattern>
+    </servlet-mapping>
+    
+    
+    <!-- Distribution Report File Download 2012-03-29 -->
+    <servlet>
+        <servlet-name>FileDownloadServlet</servlet-name>
+        <servlet-class>com.grgbanking.sent.common.FileDownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileDownloadServlet</servlet-name>
+        <url-pattern>/FileDownloadServlet.let</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileDownloadServlet</servlet-name>
+        <url-pattern>*.ImportExcelServlet</url-pattern>
+    </servlet-mapping>
+	
+	 <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>com.grgbanking.sent.transmgr.service.ImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>*.ImageServlet</url-pattern>
+    </servlet-mapping>
+ <servlet>
+        <servlet-name>imageServlet</servlet-name>
+        <servlet-class>com.grgbanking.sent.transmgr.service.ImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>imageServlet</servlet-name>
+        <url-pattern>*.imageServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>fsnFilesImport</servlet-name>
+        <servlet-class>com.grgbanking.sent.stride.servlet.FSNFilesImport</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fsnFilesImport</servlet-name>
+        <url-pattern>*.fsnFilesImport</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>fsnFilesExport</servlet-name>
+        <servlet-class>com.grgbanking.sent.stride.servlet.FSNFilesExport</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fsnFilesExport</servlet-name>
+        <url-pattern>*.fsnFilesExport</url-pattern>
+    </servlet-mapping>
+
+ 
+	<servlet>
+        <servlet-name>DownloadLibrary</servlet-name>
+        <servlet-class>com.grgbanking.feelview.module.knowledgeLibrary.servlet.LibraryDownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadLibrary</servlet-name>
+        <url-pattern>*.LibraryDownload</url-pattern>
+    </servlet-mapping>
+	 <servlet>
+	    <description>This is the description of my J2EE component</description>
+	    <display-name>This is the display name of my J2EE component</display-name>
+	    <servlet-name>LibraryUploadServlet</servlet-name>
+	    <servlet-class>com.grgbanking.feelview.module.knowledgeLibrary.servlet.LibraryUploadServlet</servlet-class>
+	 </servlet>
+	<servlet-mapping>
+	    <servlet-name>LibraryUploadServlet</servlet-name>
+	    <url-pattern>*.libraryUpload</url-pattern>
+	</servlet-mapping>
+	<servlet>
+        <servlet-name>ExportNoderFileServlet</servlet-name>
+        <servlet-class>com.grgbanking.sent.common.ExportNoderFileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ExportNoderFileServlet</servlet-name>
+        <url-pattern>*.ExportNoderFileServlet</url-pattern>
+    </servlet-mapping>
+	
+	<!-- session超时定义,单位为分钟 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>NothingButJump.html</welcome-file>
+	</welcome-file-list>
+	
+		<!-- Web Service配置 -->
+	<servlet>
+        <description>Apache CXF Endpoint</description>
+        <display-name>cxf</display-name>
+        <servlet-name>cxf</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>cxf</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+    <!-- 导入冠字号码图片-->
+	<servlet>
+        <servlet-name>ImpCmlSentServlet</servlet-name>
+        <servlet-class>com.grgbanking.sent.transmgr.service.ImpCmlSentServlet
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ImpCmlSentServlet</servlet-name>
+        <url-pattern>*.ImpCmlSentServlet</url-pattern>
+    </servlet-mapping>
+   
+      <!-- 获取字符串加密后的密文-->
+	<servlet>
+        <servlet-name>EncryptServlet</servlet-name>
+        <servlet-class>com.grgbanking.platform.core.security.service.EncryptServlet
+        </servlet-class>
+    </servlet> 
+        <servlet-mapping>
+        <servlet-name>EncryptServlet</servlet-name>
+        <url-pattern>/getCiphertextServlet/*</url-pattern>
+    </servlet-mapping>
+</web-app>

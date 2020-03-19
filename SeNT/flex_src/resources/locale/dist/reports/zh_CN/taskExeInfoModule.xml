@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "taskExeInfoModule">
+		<listTitle>查询结果列表</listTitle>
+		<termidNew>终端编号：</termidNew>
+		<planNameNew>计划名称：</planNameNew>
+		<termid>终端编号</termid>
+		<termtype>全部终端类型</termtype>
+		<brand>全部终端品牌</brand>
+		<orgid>所属机构：</orgid>
+		<orgname>机构名称</orgname>
+		<begintime>从</begintime>
+		<endtime>到</endtime>				
+		<timeRangeFrom>执行时间：</timeRangeFrom>
+		<choosetime>日期</choosetime>
+		<orgrange>所属机构：</orgrange>
+		<timeRangeTo>至</timeRangeTo>
+		<export>导  出</export>
+		<areaid>所属区域：</areaid>
+		<total>总计</total>
+		<year>年</year>
+		<month>月</month>
+		<planName>计划名称</planName>
+		<taskType>任务类型</taskType>
+		<userCode>操作用户</userCode>
+		<planExeTime>计划执行时间</planExeTime>
+	    <exeBeginTime>执行开始时间</exeBeginTime>
+	    <exeEndTime>执行结束时间</exeEndTime>
+	    <taskStatus>任务状态</taskStatus>
+	    <extraDescription>描述</extraDescription>
+		<svrName>分发服务器</svrName>
+		<fileSvrName>文件服务器</fileSvrName>
+		<fileURL>文件路径</fileURL>	
+		
+		<TaskExeInfoModuleTitleMsg>任务执行情况统计</TaskExeInfoModuleTitleMsg>
+	</node>
+</nodes>

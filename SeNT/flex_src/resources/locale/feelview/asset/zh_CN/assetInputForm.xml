@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 资产管理 资产录入
+	 Create Time：2011-8-8  上午09:32:35 
+	 Author：lzyang 
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "assetInputForm">
+		<addAssetInputForm>添加资产录入信息</addAssetInputForm>
+		<updateAssetInputForm>修改资产录入信息</updateAssetInputForm>
+		<termTypeItem>终端类型</termTypeItem>
+		<brandItem>终端品牌</brandItem>
+		<modelItem>设备型号</modelItem>
+		<instTypeItem>安装方式</instTypeItem>
+		<batchItem>采购批次号</batchItem>
+		<sumItem>采购数量</sumItem>
+		<prompt>(不存在该品牌类型的型号！)</prompt>
+	</node>
+</nodes>

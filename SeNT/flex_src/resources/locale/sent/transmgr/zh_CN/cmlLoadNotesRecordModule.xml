@@ -1,0 +1,32 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlLoadNotesRecordModule">
+		
+		<titlemsg>ATM加钞检索</titlemsg>
+		
+		<tranTimeColon>交易时间：</tranTimeColon>
+		<relateTimeColon>交易时间：</relateTimeColon>
+		<to>至</to>
+		<atmCodeColon>ATM编号：</atmCodeColon>
+		<operatorCodeColon>操作员：</operatorCodeColon>
+		
+		<atmCode>ATM编号</atmCode>
+		<tranTime>交易时间</tranTime>
+		<relateTime>交易时间</relateTime>
+		<tranAmount>统计金额</tranAmount>
+		<cashboxCode>钞箱编号</cashboxCode>
+		<operType>业务类型</operType>
+		<businessType>设备类别</businessType>
+		<operatorCode>操作员</operatorCode>
+		<operations>操作</operations>
+		<termCode>终端编号</termCode>
+		<tranCount>张数</tranCount>
+		<columnNo>序号</columnNo>
+		<tdLoadNotesId>配钞ID</tdLoadNotesId>
+		<organizationColon>所属机构：</organizationColon>
+		
+		<viewRowDetailInfo>查看详情</viewRowDetailInfo>
+		
+		
+	</node>
+</nodes>

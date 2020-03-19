@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*"
+				 dataDictionaryPaths="{[NOTE_TYPE,QUERY_RESULT]}"
+				 locale="serialSearchInfoForm"
+				 titleKey="titleMsg" helpTips=""
+				 layout="vertical" width="570" height="310">
+	
+	<fx:Script>
+		<![CDATA[
+			private const QUERY_RESULT:String = "SysDatadirMgr.sent.ruleMgr.cmlQueryResult";
+			private const NOTE_TYPE:String = "SysDatadirMgr.sent.transMgr.noteType";
+			import mx.collections.ArrayCollection;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectProxy;
+			import mx.validators.Validator;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.common.vo.Page;
+			
+			import sent.checkin.message.SerialSearchInfoMsg;
+			import sent.checkin.pm.SerialSearchInfoPM;
+			import sent.common.utils.DateUtils;
+			import sent.common.utils.StringUtils;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			
+			import spark.components.RadioButton;
+			import spark.components.RadioButtonGroup;
+			import spark.events.TextOperationEvent;
+			
+			//****************变量*******************/
+			//***************************************/
+			
+			[Inject]
+			[Bindable]
+			public var infopm:SerialSearchInfoPM;
+			
+			[Bindable]
+			private var _formData:ObjectProxy = new ObjectProxy();
+			
+			[Bindable]
+			private var _mode:String = "add";	// add, edit, view
+			
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;	
+			[Bindable]
+			public var serialPage:Page = new Page();
+			//***************function*******************/
+			//******************************************/
+			override protected function getDataDictCallback():void
+			{
+				//加载后
+				initFormData();
+			}
+			/**
+			 * 
+			 * 设置"add", "edit", "view"操作
+			 * */
+			public function setMode(mode:String):void
+			{
+				var modes:ArrayCollection = new ArrayCollection(["add", "edit", "view"])
+				if( modes.contains(mode)==false )
+				{
+					throw new Error("mode must be one of ["+modes+"], cannot be '"+mode+"'");
+				}
+				this._mode = mode;
+			}
+			
+			public function setFormData(data:Object):void
+			{
+				if( data is ObjectProxy )
+				{
+					_formData = data as ObjectProxy;
+				}
+				else
+				{
+					_formData = new ObjectProxy(data);
+				}
+			}
+			
+			
+			protected function queryBtn_clickHandler(event:MouseEvent):void
+			{
+				//querySeriaNo
+				querySentInfoBySerialNO();
+			}
+			//根据冠字号码，查询冠字号记录
+			public function querySentInfoBySerialNO():void
+			{
+				var queryCon_serialNO:String = StringUtil.trim(querySerialNo.text);
+				if(queryCon_serialNO.length != 10){
+					AlertHandler.alert("请输入完整冠字号码：(10位)");
+					noteType.text = "";
+					serialCount.text = "";
+					return;
+				}
+				var parameter:Object = {};
+				var EndDate:Date = new Date();
+				serialPage.result.removeAll();
+				parameter.serialNo = queryCon_serialNO;
+				parameter.endTime = EndDate;
+				var msg:CmlSentInfoMsg = new CmlSentInfoMsg();
+				msg.args["remoteMethod"]   = "getCmlSentSearchInfoForVO";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "SerialSearchInfoForm.querySentInfoBySerialResult";
+				msg.args["errorHandler"]   = "SerialSearchInfoForm.querySentInfoBySerialError";
+				
+				cmlSentInfoPM.sendCmlSentInfoMsg(msg);
+			}
+			[MessageHandler(selector="SerialSearchInfoForm.querySentInfoBySerialResult")]
+			public function querySentInfoBySerialResult(p_msg:CmlSentInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					var item:Object = p_msg.result;
+					this._formData['serialResult'] = item.queryResult;
+					this._formData['noteType'] = item.noteType;
+					var serialRet:String = this.getTextByKeyOnDataDictPath(item.queryResult,QUERY_RESULT);
+					if(item.queryResult == "1"){
+					var tt:String = this.getTextByKeyOnDataDictPath(item.noteType,NOTE_TYPE);
+					serialRet += ", "+tt;
+					}
+					noteType.text = (serialRet==null?"":serialRet);			
+					serialCount.text = item.queryCount;
+					recordDate.text = item.recordDate;
+//					var ir:Boolean = item.registerOrNot as Boolean;
+//					if(ir){
+//						lbl_isRegisterTips.text = "该冠字号已经检索登记！";
+//					}else{
+//						lbl_isRegisterTips.text = "";
+//					}
+				}
+			}
+			
+			/**
+			 * 新增
+			 * 
+			 * */
+			public function save():void
+			{
+				trace("SerialSearchInfoForm.save");
+				if( VControl.validateAll(wholeForm, validators).length > 0 )
+				{
+					return;
+				}
+				
+				var parameter:Object = new Object();
+				parameter.noteType = this._formData['noteType'];
+				parameter.serialResult = this._formData['serialResult'];
+				parameter.searchDate       = searchDate.text;
+				parameter.operatorName       = operatorName.text;
+				parameter.serialKeeper   = serialKeeper.text;
+				parameter.noteRecordType  = noteTypeRadio.selectedValue;
+				parameter.serialNo  = querySerialNo.text;
+				parameter.recordDate   = recordDate.text;
+				parameter.serialCount  = serialCount.text;
+				var msg:SerialSearchInfoMsg = new SerialSearchInfoMsg();
+				
+				if( this._mode=="add" )
+				{
+					msg.args["remoteMethod"]   = "addSerialSearchInfo";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "SerialSearchInfoForm.addSerialSearchInfoResult";
+					msg.args["errorHandler"]   = "SerialSearchInfoForm.addSerialSearchInfoError";
+					infopm.sendSerialSearchInfoMsg(msg);
+				}
+				else if( this._mode=="edit" )
+				{
+					parameter.id = this.checkInId.text;
+					
+					msg.args["remoteMethod"]   = "updateSerialSearchInfo";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "SerialSearchInfoForm.updateSerialSearchInfoResult";
+					msg.args["errorHandler"]   = "SerialSearchInfoForm.updateSerialSearchInfoError";
+					infopm.sendSerialSearchInfoMsg(msg);
+				}
+				
+			}
+			
+			/**
+			 * 保存成功返回结果
+			 */
+			[MessageHandler(selector="SerialSearchInfoForm.addSerialSearchInfoResult")]
+			public function addSerialSearchInfoResult(msg:SerialSearchInfoMsg):void
+			{
+				trace("SerialSearchInfoForm.addSerialSearchInfoResult");
+				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+			}
+			
+			/**
+			 * 保存失败
+			 */
+			[MessageHandler(selector="SerialSearchInfoForm.addSerialSearchInfoError")]
+			public function addSerialSearchInfoError(msg:SerialSearchInfoMsg):void
+			{
+				trace("SerialSearchInfoForm.addSerialSearchInfoError");
+				//将提交按钮置为有效
+				submit.enabled = true;
+				submit.mouseEnabled = true;
+			}
+			
+			/**
+			 * 更新返回结果
+			 */
+			[MessageHandler(selector="SerialSearchInfoForm.updateSerialSearchInfoResult")]
+			public function updateSerialSearchInfoResult(msg:SerialSearchInfoMsg):void
+			{
+				trace("SerialSearchInfoForm.updateSerialSearchInfoResult");
+				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+			}
+			
+			/**
+			 * 更新失败
+			 */
+			[MessageHandler(selector="SerialSearchInfoForm.updateSerialSearchInfoError")]
+			public function updateSerialSearchInfoError(msg:SerialSearchInfoMsg):void
+			{
+				trace("SerialSearchInfoForm.updateSerialSearchInfoError");
+				//将提交按钮置为有效
+				submit.enabled = true;
+				submit.mouseEnabled = true;
+			}
+			//编辑、查看详情数据初始化
+			private function initFormData():void
+			{
+				if( _mode=="edit" || _mode=="view" )
+				{
+					this.checkInId.text               = this._formData['id'];
+					this.searchDate.text               = DateUtils.formatDate(this._formData['searchDate']);
+					this.operatorName.text                = this._formData['operatorName'];
+					this.serialKeeper.text             = this._formData['serialKeeper'];
+					this.noteTypeRadio.selectedValue    = this._formData['noteRecordType'];
+					this.querySerialNo.text            = this._formData['serialNo'];
+					this.recordDate.text               = DateUtils.formatDate(this._formData['recordDate']);
+					this.serialCount.text            = this._formData['serialCount'];
+					var tmpStr1:String            = this.getTextByKeyOnDataDictPath(this._formData['serialResult'],QUERY_RESULT);
+					var tmpStr2:String					  = this.getTextByKeyOnDataDictPath(this._formData['noteType'],NOTE_TYPE);
+					if(this._formData['serialResult'] == "1"){
+						this.noteType.text		  = tmpStr1 +','+tmpStr2;
+					}else{
+						this.noteType.text		  = tmpStr1;
+					}
+				}
+				
+				this.focusManager.setFocus(querySerialNo);
+				if( _mode=="edit" )
+				{
+					this.querySerialBtn.visible = false;
+					this.querySerialNo.editable = false;
+				}
+				if( _mode=="view" )
+				{
+					this.querySerialBtn.visible = false;
+					
+					this.operatorName.editable = false;
+					this.serialKeeper.editable = false;
+					this.querySerialNo.editable = false;
+					this.recordDate.editable = false;//TextInput
+					this.serialCount.editable = false;
+					this.noteType.editable = false;
+					disableRadioGroupExceptSelected(this.noteTypeRadio);
+					this.searchDate.enabled = false;
+					this.buttonBar.visible = false;
+				}
+			}
+			private function disableRadioGroupExceptSelected(group:spark.components.RadioButtonGroup):void
+			{
+				for( var i:int=0; i<group.numRadioButtons; i++ )
+				{
+					var radioButton:spark.components.RadioButton = group.getRadioButtonAt(i) as spark.components.RadioButton;
+					radioButton.enabled = radioButton.selected;
+				}
+			}
+			/**
+			 * 修改时，若冠字号修改则对应信息清空
+			 * */
+			protected function querySeriaNo_changeHandler(event:TextOperationEvent):void
+			{
+				var serialNO:String = StringUtils.trim(querySerialNo.text);
+				recordDate.text = "";
+				serialCount.text = "";
+				noteType.text = "";
+				//lbl_isRegisterTips.text = "";
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		<!-- 支付渠道：取款机/存取款一体机/柜面 -->
+		<grg:RadioButtonGroup id="noteTypeRadio" />
+		
+		<grg:Label id="checkInId" text="" />
+	</fx:Declarations>
+	
+	<fx:Declarations>
+		<mx:StringValidator id="validateQuerySeriaNo" source="{querySerialNo}" property="text" required="true" /> 
+	</fx:Declarations>
+	
+	<grg:Form id="wholeForm" width="100%" 
+			  paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
+		
+		<!-- 基本信息 -->
+		<grg:RoundCornerContainer locale="searchInfo" width="100%">
+			<s:VGroup paddingLeft="50" paddingTop="15" paddingBottom="10" width="100%">
+				<!-- 检索日期 -->
+				<grg:FormItem width="100%" locale="SearchDateColon" required="true">
+					<grg:SuperDateField id="searchDate" required="true" selectedDate="{new Date()}"
+										selectableRange="{{rangeEnd:DateUtils.createDate(0)}}"/>
+				</grg:FormItem>
+				<!-- 检索人-->
+				<grg:FormItem width="100%" locale="SearchMan" required="true">
+					<grg:TextInput id="operatorName" width="150" required="true" 
+								   maxChars="20"/>
+				</grg:FormItem>
+				<!-- 冠字号码保管人-->
+				<grg:FormItem width="100%" locale="SeriaNoSaver" required="true">
+					<grg:TextInput id="serialKeeper" width="150" required="true" 
+								   maxChars="20"/>
+				</grg:FormItem>
+				<s:HGroup gap="0">
+					<!-- 纸币支付类型：-->
+					<grg:FormItem width="100%" locale="noteRecordType" required="true">
+						<s:HGroup>
+							<!--自助设备渠道-->
+							<grg:RadioButton id="getByATM" value="0" locale="getByATM" group="{noteTypeRadio}" selected="true"/> 
+							<!-- 柜面渠道 -->
+							<grg:RadioButton id="getByCounter" value="2" locale="getByCounter" group="{noteTypeRadio}"/>
+						</s:HGroup>
+					</grg:FormItem>
+				</s:HGroup>
+				<s:HGroup gap="0">
+					
+					<!-- 查询冠字号码 -->
+					<grg:FormItem width="100%" locale="SerialNo" required="true">
+						<grg:TextInput id="querySerialNo" restrict="0-9A-Za-z" styleName="TextInput"
+									   textAlign="left" width="150" height="20" maxChars="10" maxnum="10"
+									   change="querySeriaNo_changeHandler(event)"/>
+					</grg:FormItem>
+					<s:Spacer width="20" />
+					<s:Button id="querySerialBtn" label="查询" click="queryBtn_clickHandler(event)"/>
+					<s:Spacer width="10" />
+					<!-- <grg:Label id="lbl_isRegisterTips" verticalAlign="middle" color="#FF0000"/>-->
+				</s:HGroup>
+				<!-- 记录时间：-->
+				<s:HGroup gap="0">
+					<grg:FormItem width="100%" locale="RecordTime">
+						<grg:TextInput id="recordDate" styleName="TextInput" textAlign="left"
+									   width="150" height="20" editable="false" enabled="false"/>
+					</grg:FormItem>
+					<grg:Label locale="autoGenTips" />
+				</s:HGroup>
+				<!-- 相同号码数量：-->
+				<s:HGroup gap="0">
+					<grg:FormItem width="100%" locale="SameNoCount" required="true">
+						<grg:TextInput id="serialCount" styleName="TextInput" textAlign="left" 
+									   width="150" height="20" editable="false" required="true"
+									   enabled="false"/>
+					</grg:FormItem>
+					<grg:Label locale="autoGenTips" />
+				</s:HGroup>
+				<s:HGroup gap="0">
+					<!-- 查询结果：-->
+					<grg:FormItem width="100%" locale="SearchResult" required="true">
+						<grg:TextInput id="noteType" styleName="TextInput" textAlign="left" 
+									   width="150" height="20" editable="false" required="true"
+									   enabled="false"/>
+					</grg:FormItem>
+					<grg:Label locale="autoGenTips" />
+				</s:HGroup>
+			</s:VGroup>
+		</grg:RoundCornerContainer>	
+	</grg:Form>
+	
+	<s:HGroup id="buttonBar" width="100%" verticalAlign="middle" horizontalAlign="center">
+		<grg:Button id="submit" locale="submit" click="save()" iconVisible="false"/>
+		<grg:Button locale="cancelButton" click="cancel()" iconVisible="false"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="blackRegulationModule" >
+	    <regulation>规则：</regulation>
+	    <moneyType>币种：</moneyType>
+	    <moneyDenomination>面额</moneyDenomination>
+	    <reguStatus>规则状态：</reguStatus>
+	    <createDate>创建时间</createDate>
+	    <reversionDate>最后批复时间</reversionDate>
+	    <operations>操作</operations>
+	   <titlemsg>黑名单规则</titlemsg>
+	   <regulationDeliver>规则下发</regulationDeliver>
+	   <deleteRegulation>撤销规则</deleteRegulation>
+	   <syncSendToSentServer>同步发送</syncSendToSentServer>
+	
+	</node>
+</nodes>

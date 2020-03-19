@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+<node locale="cmlReportModule">
+<boxCount>钞箱个数</boxCount>
+<sendTime>日期：</sendTime>
+<operators>操作</operators>
+<to>至</to>
+<atmNum>ATM终端编号：</atmNum>
+<atmMoney>ATM金额</atmMoney>
+<passMoney>流通金额</passMoney>
+<totalMoney>所加总金额</totalMoney>
+<export>导出</export>
+<titlemsg>ATM清分加钞</titlemsg>
+</node>
+</nodes>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley" 
+		   xmlns:services="platform.services.*" xmlns:pm="platform.org.pm.*" 
+		   xmlns:message="platform.org.message.*" xmlns:delegate="platform.org.delegate.*">
+	<fx:Script>
+		<![CDATA[
+			import platform.org.delegate.OrgDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<!-- cardType module -->
+		<pm:OrgFormPM/>
+		<pm:OrgModulePM/>
+		<message:OrgMsg/>
+		
+		<!-- remote object -->
+		<services:GRGRemoteObject id="orgService" destination="orgInfoService"/>
+		<Object type="{OrgDelegate}">
+			<Property name="service" idRef="orgService"/>
+		</Object>
+	</fx:Declarations>
+</fx:Object>

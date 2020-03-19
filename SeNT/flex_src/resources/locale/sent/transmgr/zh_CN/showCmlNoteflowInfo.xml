@@ -1,0 +1,69 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="showCmlNoteflowInfo">
+		
+		<noteflowBasicInfo>流转基本信息</noteflowBasicInfo>
+		
+		<barcodeFlowNumColon>流转号码：</barcodeFlowNumColon>
+		<transSeqNumColon>交易流水：</transSeqNumColon>
+		<flowStageColon>所处阶段：</flowStageColon>
+		<deviceNumColon>设备编号：</deviceNumColon>
+		<clearingDateColon>清分日期：</clearingDateColon>
+		<noteTotalColon>钞票总额：</noteTotalColon>
+		<operatorColon>操作人</operatorColon>
+		
+		<noteflowDetail>流转详细信息</noteflowDetail>
+		
+		<barcodeFlowNum>流转号码</barcodeFlowNum>
+		<flowStage>所处阶段</flowStage>
+		<cashNumOrATMNumOrCardNum>钞箱号/ATM号/卡号/柜员</cashNumOrATMNumOrCardNum>
+		<operator>操作人</operator>
+		<operDate>操作时间</operDate>
+		<flowStatus>流转状态</flowStatus>
+	    <noteflowInfo>流转基本信息</noteflowInfo>
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		<cmlsentinfo>流转冠字号详情</cmlsentinfo>
+		
+		<flowSeqList>流转冠字号码列表</flowSeqList>
+		<flowInfoShow>流转详细信息</flowInfoShow>
+		<flowInfoShowInTable>流转详细信息列表</flowInfoShowInTable>
+		<flowInfoShowInChart>流转详细信息流程图</flowInfoShowInChart>
+		<seriaNo>冠字号码：</seriaNo>
+		<seriaImage>冠字号码图片</seriaImage>
+		<noteType>钞票类别：</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		
+		<flowBaseInfoShow>冠字号详情</flowBaseInfoShow>
+		<columnNo>序号</columnNo>
+		<flowInfoShowInBoxInfo>钞箱流转信息列表</flowInfoShowInBoxInfo>
+		<expExcel>导出</expExcel>
+	
+		<!--
+		<deviceNum>设备编号</deviceNum>
+		<transSeqNum>交易流水</transSeqNum>
+		<clearingDate>清分日期</clearingDate>
+		<noteTotal>钞票总额</noteTotal>
+		
+		<journalNo>流水号：</journalNo>
+		<tmlNum>清分终端：</tmlNum>
+		<orgId>清分机构：</orgId>
+		<sourceOrg>清分钞票来源：</sourceOrg>
+		<operateDate>清分时间：</operateDate>
+		<operatorId>清分人员：</operatorId>
+		<rotoCashType>清分类别：</rotoCashType>
+		<totalMoney>清分总金额：</totalMoney>
+		<transResult>清分结果：</transResult>
+		<cmlTaskInfo>清分任务信息</cmlTaskInfo>
+		<SEQInfo>清分冠字号码列表</SEQInfo>
+		<showSEQImg>查看图片</showSEQImg>
+		<boxNum>钞箱编号：</boxNum>
+		<toatmnum>ATM编号：</toatmnum>
+		-->
+		
+	</node>
+</nodes>

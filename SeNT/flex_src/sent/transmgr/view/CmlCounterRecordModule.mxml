@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   dataDictionaryPaths="{[DataDictPathConsts.CML_COUNTER_RECORD_BUSINESS_TYPE,DataDictPathConsts.CML_COUNTER_RECORD_TRAN_TYPE]}"
+			   locale="cmlCounterRecordModule"
+			   xmlns:userDefined="platform.date.*"
+			   layout="vertical" width="100%" height="100%"
+			   >
+	
+	<fx:Script>
+		<![CDATA[
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.CmlBatchRecordConfig;
+			import sent.transmgr.config.CmlCounterRecordConfig;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			import sent.transmgr.constants.DataDictPathConsts;
+			import sent.transmgr.message.CmlCounterRecordMsg;
+			import sent.transmgr.pm.CmlCounterRecordPM;
+			import mx.managers.CursorManager;
+			
+			[Bindable]
+			public var cmlCounterRecordPage:Page = new Page();
+			
+			
+			[Inject]
+			[Bindable]
+			public var cmlCounterRecordPM:CmlCounterRecordPM;
+			
+			/**
+			 * 
+			 */
+			public function transformBusinessType(item:Object, column:DataGridColumn):String
+			{
+				super.currentDataDictPath = DataDictPathConsts.CML_COUNTER_RECORD_BUSINESS_TYPE;
+				return super.transferDataDict(item, column);
+			}
+			
+			public function transformTransType(item:Object, column:DataGridColumn):String
+			{
+				super.currentDataDictPath = DataDictPathConsts.CML_COUNTER_RECORD_TRAN_TYPE;
+				return super.transferDataDict(item, column);
+			}
+			
+			/**
+			 * 根据条件查询 
+			 */
+			protected function loadPage():void
+			{
+				trace("CmlCounterRecordModule.loadPage");
+				try
+				{
+					var parameter:Object = {};
+					
+					parameter.page = cmlCounterRecordPage;
+					
+					var condition:Object = {};
+					condition.startTime    = this.startTime.text;
+					condition.endTime      = this.endTime.text;
+					condition.accountId    = this.accountId.text;
+					condition.journalNo    = this.journalNo.text;
+					//condition.idCard       = this.idCard.text;
+					//condition.operatorCode = this.operatorCode.text;
+					condition.pathCode     = String(this.orgId.selectedItem.@pathCode);
+					condition.flag=isLoopOrg.selected.toString();
+					
+					parameter.condition = condition;
+					
+					var msg:CmlCounterRecordMsg = new CmlCounterRecordMsg();
+					msg.args["remoteMethod"]   = "queryCmlCounterRecordPage";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "CmlCounterRecordModule.queryCmlCounterRecordPageResult";
+					msg.args["errorHandler"]   = "CmlCounterRecordModule.queryCmlCounterRecordPageError";
+					
+					cmlCounterRecordPM.sendCmlCounterRecordMsg(msg);
+				}
+				catch(e:Error)
+				{
+					trace(e);
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="CmlCounterRecordModule.queryCmlCounterRecordPageResult")]
+			public function queryCmlCounterRecordPageResult(msg:CmlCounterRecordMsg):void
+			{
+				trace("CmlCounterRecordModule.queryCmlCounterRecordPageResult");
+				cmlCounterRecordPage = msg.result as Page;
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="CmlCounterRecordModule.queryCmlCounterRecordPageError")]
+			public function queryCmlCounterRecordPageError(msg:CmlCounterRecordMsg):void
+			{
+				trace("CmlCounterRecordModule.queryCmlCounterRecordPageError");
+				trace(msg.result);
+			}
+			
+			
+			/**
+			 * 
+			 */
+			public function viewRowDetailInfo():void
+			{
+				trace("CmlCounterRecordModule.viewRowDetailInfo");
+				CursorManager.setBusyCursor();
+				var cmlCounterRecord:Object = dataGrid.selectedItem;
+				
+				var win:ShowCmlCounterRecordForm = new ShowCmlCounterRecordForm();
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.initData2(cmlCounterRecord.id,cmlCounterRecord.tdReserve);
+			}
+			
+			private function createRowNo(oItem:Object,iCol:int):String{
+				var iIndex:int = ((cmlCounterRecordPage.pageNo - 1) * cmlCounterRecordPage.pageSize) + cmlCounterRecordPage.result.getItemIndex(oItem) + 1;
+				return String(iIndex);
+			}
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="true"/>
+			<parsley:Scope name="CmlCounterRecordModule"/>
+			<parsley:MessageSettings defaultReceiverScope="CmlCounterRecordModule"/>
+			<parsley:FlexConfig type="{CmlCounterRecordConfig}"/>
+			<parsley:FlexConfig type="{CmlBatchRecordConfig}"/>
+			<parsley:FlexConfig type="{CmlSentInfoConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<s:BorderContainer width="100%" height="100%" borderVisible="false">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0" paddingTop="0"/>
+		</s:layout>
+		
+		<grg:AdvancedSearchBar width="100%" textAlign="center" styleName="SearchBar" borderVisible="false">
+			
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" paddingBottom="0" gap="0" />
+			</grg:layout>
+			
+			<mx:HBox width="100%" height="30"
+					 paddingLeft="10" paddingTop="4" paddingBottom="0" paddingRight="10" 
+					 verticalAlign="top">
+				
+				<!--柜台交易检索-->
+				<grg:TitleBar id="titleMgr" locale="titlemsg" width="50%" />
+				
+				<mx:HBox paddingLeft="5" paddingRight="2" paddingTop="2" paddingBottom="2" 
+						 horizontalGap="0" verticalAlign="middle" 
+						 backgroundColor="#E4E4E4" cornerRadius="4">
+					
+					<!--是否循环遍历子机构：-->
+					<grg:CheckBox id="isLoopOrg" selected="true">
+					</grg:CheckBox>
+					
+					<!-- 所属机构 -->
+					<grg:Label locale="organizationColon"/>
+					<grg:GRGComboBoxOrgTree id="orgId" defaultField="true" textAlign="left"
+											width="100" treeHeight="400" />					
+					<s:Spacer width="10" />
+					
+					<!-- 关联时间： -->
+					<grg:Label locale="relateTimeColon" />
+					<userDefined:SuperDateField id="startTime" required="true" isShowTime="true" 
+										selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+										selectableRange="{{rangeEnd:endTime.selectedDate}}" />
+					<s:Spacer width="5" />
+					<grg:Label locale="to" />
+					<s:Spacer width="5" />
+					<userDefined:SuperDateField id="endTime" required="true" isShowTime="true" 
+										selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"
+										selectableRange="{{rangeStart:startTime.selectedDate}}" />
+					<s:Spacer width="10" />
+					
+					<!-- 查询、高级、重置等按钮 -->
+					<grg:SearchButton id="btn_search" menuId="{menu.id}" locale="searchButton" iconType="query" click="cmlCounterRecordPage.pageNo=1;loadPage()" />
+					<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" click="initSelectDate()"
+									 resetControls="{[/* startTime, endTime ,journalNo,*/ orgId, accountId/*, idCard, operatorCode*/]}"/>
+					
+				</mx:HBox>
+				
+			</mx:HBox>
+			
+			<!-- 高级搜索 -->
+			<s:BorderContainer width="100%" borderVisible="false" borderWeight="0">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingTop="0" paddingBottom="0" />
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="4" borderVisible="false" borderWeight="0"
+								   backgroundImage="@Embed(source='resources/theme/newui/more_search.png')">
+				</s:BorderContainer>
+				
+				<s:BorderContainer width="100%" backgroundColor="#FAFCFF" borderWeight="0" borderVisible="false">
+					
+					<s:layout>
+						<s:HorizontalLayout gap="0" paddingLeft="10" paddingRight="10" horizontalAlign="right" verticalAlign="middle" />
+					</s:layout>
+					
+					<!-- 流水号：-->
+					<grg:Label locale="journalNoColon" />
+					<grg:TextInput id="journalNo" restrict="0-9a-zA-Z*-_" width="180" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />
+					<s:Spacer width="10" /> 
+					
+					<!-- 帐号： -->
+					<grg:Label locale="accountIdColon" />
+					<grg:TextInput id="accountId" restrict="0-9a-zA-Z*-_" width="180" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />
+					<s:Spacer width="10" />
+					
+					<!-- 身份证：
+					<grg:Label locale="idCardColon" />
+					<grg:TextInput id="idCard" restrict="0-9a-zA-Z*-_" width="180" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />
+					<s:Spacer width="10" /> -->
+					
+					<!-- 操作员 
+					<grg:Label locale="operatorCodeColon" />
+					<grg:TextInput id="operatorCode" restrict="0-9a-zA-Z*-_" width="100" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />-->
+					
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+			
+		</grg:AdvancedSearchBar>
+		
+		
+		<!-- 表格部份  -->
+		<grg:DataGrid id="dataGrid" dataProvider="{cmlCounterRecordPage.result}"
+					  width="100%" height="100%" textAlign="center" styleName="DataGrid">
+			<grg:columns>
+				<grg:DataGridColumn locale="columnNo"  textAlign="center" labelFunction="createRowNo" sortable="false" width="50"/>
+				<!--流水号-->
+				<grg:DataGridColumn locale="journalNo"    dataField="tdJournalNo"    width="55" />
+				<!--帐号-->
+				<grg:DataGridColumn locale="accountId"    dataField="tdAccountNo"    width="55" />
+				<!--时间-->
+				<grg:DataGridColumn locale="relateTime"   dataField="tranTime"     width="55" labelFunction="{DataGridColumnUtils.formatYYYYMMDDHHMISS}" fontSize="14" />
+				<!--交易金额-->
+				<grg:DataGridColumn locale="tranAmount"   dataField="tdTranAtm"   width="55" />
+				<!--统计金额-->
+				<grg:DataGridColumn locale="statisAmount"   dataField="statisAtm"   width="55" />
+				<!--张数：-->
+				<grg:DataGridColumn locale="tranCount"   dataField="tranCount"   width="55" />
+				<!--交易名称 -->
+				<grg:DataGridColumn locale="tdTransCode" dataField="tdTransCode" width="55" labelFunction="{transformTransType}" />
+				<!--操作员-->
+				<grg:DataGridColumn locale="tdOperatorId"   dataField="tdOperatorId"   width="55" />
+				<!--业务类型-->
+				<grg:DataGridColumn locale="businessTypes"  dataField="cardId" width="55" fontWeight="normal" textAlign="center"/>
+				
+				<!--操作-->
+				<grg:DataGridColumn locale="operations" width="55" fontWeight="normal" textAlign="center">
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXDataGridItemRenderer>
+								<grg:GRGModuleButtonBar2 width="100%" height="20" align="center" menuId="{parentDocument.menu.id}">
+									<!--查看详情-->
+									<grg:Image id="viewRowDetailInfoIcon" privilegeCode="viewRowDetailInfo" 
+											   source="@Embed('/resources/theme/images/icons/detail.png')"
+											   locale="viewRowDetailInfo" click="parentDocument.viewRowDetailInfo();" />
+								</grg:GRGModuleButtonBar2>
+							</s:MXDataGridItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+			</grg:columns>
+		</grg:DataGrid>
+		
+		<!-- 分页栏 -->
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{cmlCounterRecordPage}" pagingFunction="{loadPage}" />
+		
+	</s:BorderContainer>
+	
+</grg:TabModule>

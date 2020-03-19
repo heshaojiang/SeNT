@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*" 
+				 xmlns:component="sent.transmgr.view.component.*"
+				 layout="vertical" width="400" height="200"
+				 locale="receiveCashBoxForm"
+				 horizontalAlign="center"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectUtil;
+			import mx.utils.StringUtil;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.AlertHandler;
+			
+			import sent.transmgr.constants.CmlMgrConsts;
+			import sent.transmgr.constants.CmlNoteflowDetailInfoConsts;
+			import sent.transmgr.message.CmlNoteflowDetailInfoMsg;
+			import sent.transmgr.pm.CmlNoteflowDetailInfoPM;
+			import sent.transmgr.view.component.CmlFlowNumTextInputComponent;
+			import sent.transmgr.vo.CmlNoteflowInfoVO;
+			
+			private var _self:ReceiveCashBoxForm = this as ReceiveCashBoxForm;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			
+			[Bindable]
+			public var flowStage:String ;
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowDetailInfoPM:CmlNoteflowDetailInfoPM;
+			
+			
+			// { 在这里放上VO只是为了解决flex的bug，虽然这些VO没有用到, 请不要删除
+			[Bindable]
+			private var _cmlNoteflowInfoVO:CmlNoteflowInfoVO = new CmlNoteflowInfoVO();
+			// }
+			
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				// 行内入库
+				if( flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_HANG_NEI )
+				{
+					this.titleKey = "hangNeiCashboxReceive";
+					this.moneyBoxLabel.locale = "CashboxReceiveLabel";
+				}
+				// 同业入库
+				else if( flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_TONG_YE )
+				{
+					this.titleKey = "tongYeCashboxReceive";
+					this.moneyBoxLabel.locale = "CashboxReceiveLabel";
+				}
+				// 人行入库
+				else if( flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_REN_HANG )
+				{
+					this.titleKey = "renHangCashboxReceive";
+					this.moneyBoxLabel.locale = "CashboxReceiveLabel";
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			override protected function getDataDictCallback():void
+			{
+//				var str:String  = langMgr.getCommonLanguageMap("components")["pleaseSelect"] as String ;
+//				
+//				var arrCol:ArrayCollection = new ArrayCollection();
+//				arrCol.addItem({
+//					key : "", 
+//					text : str
+//				});
+//				
+//				var cmlMgrTypeFlag:Object = dataDictionaryCache[CmlMgrConsts.TYPE_FLAG_IN_OUT_LIB];
+//				arrCol.addAll(ObjectUtil.copy(cmlMgrTypeFlag) as ArrayCollection);
+//				
+//				 followTypeAC = arrCol;
+			}
+			
+			
+			
+			/**
+			 * 
+			 */
+			private function save():void
+			{
+				var alertMsg:String;
+				
+				var sCashboxNum:String = StringUtil.trim(this.cashboxNum.text);
+				if( sCashboxNum=="" )
+				{
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.pleaseInputCashboxNum");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				
+				var submitData:Object = {};
+				submitData.cashboxNum = sCashboxNum;
+				submitData.flowStage = flowStage;
+				submitData.finishFlowFlag = finish_flow.selectedValue.toString();
+				
+				var msg:CmlNoteflowDetailInfoMsg = new CmlNoteflowDetailInfoMsg();
+				msg.args["remoteMethod"]   = "addMiltiCashBox_financeIn";
+				msg.args["methodPrameter"] = submitData;
+				msg.args["resultHandler"]  = "ReceiveCashBoxForm.addMiltiCashBoxReceptionResult";
+				msg.args["errorHandler"]   = "ReceiveCashBoxForm.addMiltiCashBoxReceptionError";
+				cmlNoteflowDetailInfoPM.sendCmlNoteflowDetailInfoMsg(msg);
+				
+				this.enabled = false;
+			}
+			
+			[MessageHandler(selector="ReceiveCashBoxForm.addMiltiCashBoxReceptionResult")]
+			public function addMiltiCashBoxReceptionResult(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				this.enabled = true;
+				
+				var alertMsg:String = "";
+				if( msg.result>0 )
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.operateSuccess");
+				}
+				else
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.operateFail");
+				}
+				Alert.show(alertMsg, "系统提示", 4, null, function():void{
+					_self.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				});
+			}
+			
+			[MessageHandler(selector="ReceiveCashBoxForm.addMiltiCashBoxReceptionError")]
+			public function addMiltiCashBoxReceptionError(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				this.enabled = true;
+			}
+			
+			
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	
+	<!-- 钞箱号、配钞渠道 -->
+	<grg:Form>
+		<!-- 钱箱号 -->
+		<grg:FormItem id="moneyBoxLabel" locale="cashboxNumColon">
+			<grg:TextInput id="cashboxNum" width="200" maxChars="32" restrict="0-9a-zA-Z*-_"/>
+		</grg:FormItem>
+		
+		<!--是否结束流转-->
+		<grg:FormItem width="100%" locale="finishFlowKey">
+			<mx:HBox>
+				<grg:RadioButtonGroup id="finish_flow" />
+				<!--是-->
+				<grg:RadioButton id="finishFlowDisable" groupName="finish_flow"
+								 locale="finishFlowDisable" value="0"/>
+				<!--否-->
+				<grg:RadioButton id="finishFlowEnable" groupName="finish_flow"
+								 locale="finishFlowEnable" value="1" selected="true"/>
+			</mx:HBox>	
+		</grg:FormItem>
+	</grg:Form>
+	
+	<!-- 保存、取消 -->
+	<s:HGroup width="100%" gap="6" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="save" iconVisible="false" click="save()" />
+		<grg:Button locale="cancel" iconVisible="false" click="cancel()" />
+	</s:HGroup>
+	
+</grg:TitleWindow>

@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgEventDefModule">
+		<listTitle>MsgEventDef List</listTitle>
+		<eventType>eventType</eventType>
+		<flag>flag</flag>
+		<auto>auto</auto>
+		<informManner>informManner</informManner>
+		<msgTemplate>Msg Template</msgTemplate>
+		<role>Role</role>
+		<sourceId>ID</sourceId>
+	</node>
+</nodes>

@@ -1,0 +1,17 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+
+<nodes>
+	<node locale = "deviceErrorCodeModule">
+		<title>Ekipman Arızası Kayıtları</title>
+		<searchButton>Ara</searchButton>
+		<termIdItem>Terminal Id</termIdItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<termBrandItem>Marka</termBrandItem>
+		<orgNameItem>Şube</orgNameItem>
+		<devCodeItem>Donanım Bileşenleri</devCodeItem>
+		<errCodeItem>Hata Kodu</errCodeItem>
+		<beginTimeItem>Başlangıç Zamanı</beginTimeItem>
+		<endTimeItem>Bitiş Zamanı</endTimeItem>
+		<errorTimeItem>ToplamKesintiSüresi(dk)</errorTimeItem>
+	</node>
+</nodes>

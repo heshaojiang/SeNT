@@ -1,0 +1,603 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 dataDictionaryPaths="{[DataDirConsts.YES_OR_NO, DataDirConsts.TERM_STATUS]}"
+				 paramPaths="{[TermConsts.FEEL_DIST_PORT_DEFAULT, TermConsts.CASH_LACK_NUM, TermConsts.CASH_FULL_NUM]}"
+				 locale="termInfoForm"
+				 helpTips="termInfoHelp"
+				 xmlns:userDefined="platform.date.*"
+				 layout="vertical"
+				 width="700" height="530"
+				 >
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.UIComponent;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.term.constants.TermConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermInfoFormPM;
+			import platform.vo.term.TermBrandVo;
+			import platform.vo.term.TermModelVo;
+			import platform.vo.term.TermTypeVo;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:TermInfoFormPM;
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+			[Bindable]
+			private var yesOrNo:ArrayCollection;
+			
+			[Bindable]
+			private var termStatus:ArrayCollection;
+			
+			public function init():void
+			{ 
+				this.basic.addChildAt(this.drawCircle(),0);
+				this.expend.addChildAt(this.drawCircle(),0);
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				yesOrNo = dataDictionaryCache[DataDirConsts.YES_OR_NO];
+				termStatus = dataDictionaryCache[DataDirConsts.TERM_STATUS];
+			}
+			
+			override protected function getParamCallback():void
+			{
+				if(titleKey != TermLocalKeyConsts.ADD_TERMINFO_FORM)return;
+				pm.termInfo.netPort = sysParams[TermConsts.FEEL_DIST_PORT_DEFAULT].value;
+				pm.termInfo.cashLackNum = sysParams[TermConsts.CASH_LACK_NUM].value;
+				pm.termInfo.cashFullNum = sysParams[TermConsts.CASH_FULL_NUM].value;
+			}
+			
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:TermInfoMsg):void
+			{
+				var result:Object = p_msg.result;
+				//已存在
+				if(result == "-1"){
+					AlertHandler.alert(LocaleConsts.NAME_ALREADY_EXISTED);
+					//将提交按钮置为有效
+					submitBtn.enabled = true;
+					submitBtn.mouseEnabled = true;
+				}
+				close();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:TermInfoMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			
+			public function set dataProvider(p_obj:Object):void
+			{
+				pm.termInfoFormInitDatas = p_obj;
+				model_changeHandler();
+			}
+			
+			
+			private function showError(arr:Array):void
+			{
+				for(var i:int = arr.length; 0 < i; i--)
+				{
+					var ui:UIComponent = arr[i-1];
+					ui.setFocus();
+				}
+				if(arr.length>0)
+				{
+					this.setFocus();
+					arr[i].setFocus();		
+				}
+			}
+			
+			private function save():void
+			{
+				termCode.text = StringUtil.trim(termCode.text);
+				termSEQ.text = StringUtil.trim(termSEQ.text);
+				counterCode.text = StringUtil.trim(counterCode.text);
+				netAddr.text = StringUtil.trim(netAddr.text);
+				termAddr.text = StringUtil.trim(termAddr.text);
+				softVersion.text = StringUtil.trim(softVersion.text);
+				spVersion.text = StringUtil.trim(spVersion.text);
+				
+				//钞少张数必须小于钞满张数
+				var cashLack:String = StringUtil.trim(cashlacknum.text);
+				var cashFull:String = StringUtil.trim(cashfullnum.text);				
+				var c1:int = int(cashLack);
+				var c2:int = int(cashFull);
+				if( c2<c1 )
+				{
+					AlertHandler.exception("term.lackBgFull");
+					return ;
+				}
+				//硬币最少个数必须小于硬币最大个数
+				var coincashLack:String = StringUtil.trim(coinCashLackNum.text);
+				var coincashFull:String = StringUtil.trim(coinCashFullNum.text);				
+				var coin1:int = int(coincashLack);
+				var coin2:int = int(coincashFull);
+				if( coin2<coin1 )
+				{
+					AlertHandler.exception("term.coinlackBgFull");
+					return ;
+				}
+				var arr:Array = VControl.validateAll(form, this.validators);
+				var arr1:Array = VControl.validateAll(form1, this.validators);
+				if (arr.length > 0 || arr1.length > 0)
+				{ 
+					if (formContainer.x == -width)
+					{
+						showExPropEffect([formContainer], -width, 0);
+						showExPropEffect([grgTileList], 0, width);
+					}
+					showError(arr);
+					return;
+				}
+				arr = VControl.validateAll(form2, this.validators);
+				arr1 = VControl.validateAll(form3, this.validators);
+				if (arr.length > 0 || arr1.length > 0)
+				{ 
+					if(formContainer.x == 0)
+					{
+						showExPropEffect([formContainer], 0, -width);
+						showExPropEffect([grgTileList], width, 0);
+					}
+					showError(arr);
+					return;
+				}
+				
+				pm.save(titleKey == TermLocalKeyConsts.ADD_TERMINFO_FORM ? OperationConsts.ADD : OperationConsts.EDIT);
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+
+			protected function model_changeHandler():void
+			{
+				var modelVo:TermModelVo = this.model.selectedItem as TermModelVo;
+			
+				if(!modelVo)return;
+				pm.getTermInfoFormInitDatas();
+				for(var i:int = 0; i < pm.termInfoFormInitDatas.brandList.length; i++)
+				{
+					var termBrandVo:TermBrandVo = pm.termInfoFormInitDatas.brandList.getItemAt(i) as TermBrandVo;
+					if( termBrandVo && modelVo.brandId == termBrandVo.id )
+					{
+						this.brand.selectedIndex = i;
+					}
+				}
+				
+				for(var j:int = 0; j < pm.termInfoFormInitDatas.typeList.length; j++)
+				{
+					var termTypeVo:TermTypeVo = pm.termInfoFormInitDatas.typeList.getItemAt(j) as TermTypeVo;
+					if(termTypeVo && modelVo.typeId == termTypeVo.id)
+					{
+						this.termType.selectedIndex = j;
+					}
+				}
+			}
+
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+			 
+			private function showExPropHandler(i:int):void
+			{
+				if(formContainer.x == 0 && i == 1)
+				{
+					showExPropEffect([formContainer], 0, -width);
+					showExPropEffect([grgTileList], width, 0);
+				}
+				else if(formContainer.x == -width && i==2)
+				{
+					showExPropEffect([formContainer], -width, 0);
+					showExPropEffect([grgTileList], 0, width);
+				}
+			} 
+			
+			private function drawCircle():UIComponent
+			{
+				var t:UIComponent= new UIComponent();
+				var circle:Sprite = new Sprite();
+				circle.graphics.lineStyle(2,0xffffff);
+				circle.graphics.drawCircle(16, 0, 11);
+				t.addChild(circle);
+				return t;  
+			} 
+		 
+		]]>
+	</fx:Script>
+
+	<s:BorderContainer borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout gap="0" paddingTop="20" paddingLeft="15"> 
+			</s:HorizontalLayout> 
+		</s:layout>
+		
+		<mx:Canvas borderVisible="false" left="20"> 
+			<s:BorderContainer x="0" click="showExPropHandler(2)" buttonMode="true"  backgroundImage="@Embed(source='/resources/theme/newui/nav1.png')" borderVisible="false" width="120" height="27">
+				<s:layout>
+					<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+					</s:HorizontalLayout> 
+				</s:layout>
+				<mx:HBox id="basic" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" paddingLeft="15" backgroundAlpha="0">
+					<!--1  基本属性-->
+					<grg:Label backgroundAlpha="0" paddingLeft="3" locale="baseProperty" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(2)"> 
+					</grg:Label>
+				</mx:HBox> 
+			</s:BorderContainer>
+			<s:BorderContainer x="107" click="showExPropHandler(1)" buttonMode="true" backgroundImage="@Embed(source='/resources/theme/newui/nav2.png')" borderVisible="false" width="120" height="27">
+				<s:layout>
+					<s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="center"> 
+					</s:HorizontalLayout> 
+				</s:layout>
+				<mx:HBox  id="expend" width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" backgroundAlpha="0" paddingLeft="15">
+					<!--2  扩展属性-->
+					<grg:Label backgroundAlpha="0" paddingLeft="3" locale="extendProperty" color="#ffffff" fontSize="14" fontFamily="宋体" click="showExPropHandler(1)"> 
+					</grg:Label>
+				</mx:HBox>
+			</s:BorderContainer>
+		</mx:Canvas> 
+		
+	</s:BorderContainer>
+	
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		
+		<grg:GRGMultiFormTabContainer id="formContainer" width="50%" forms="{[form, form1]}">
+			<grg:Form id="form"
+					  width="50%" height="100%"
+					  paddingTop="20"
+					  textAlign="left"
+					  borderVisible="false">
+				<!--终端编号：-->
+				<grg:FormItem id="termCodeItem"
+							  locale="termCodeItem"
+							  required="true">
+					<grg:TextInput id="termCode" name="termCode" text="@{pm.termInfo.termCode}"
+								   width="150" maxnum="24" vtype="maxchars" required="true" restrict="0-9a-zA-Z\-"
+								   maxChars="24" />
+				</grg:FormItem>
+				<!--设备型号：-->
+				<grg:FormItem id="modelItem" locale="modelItem" required="true">
+					<grg:ROComboBox id="model" name="model"  change="model_changeHandler()" loadRemoteDataComplete="model_changeHandler()"
+									service="termInfoService" method="getTermModelList" args="{['Y','N']}"
+									labelField="modelName" valueField="id" selectedValue="@{pm.termInfo.model}"
+									width="150"/>
+				</grg:FormItem>
+				<!--终端品牌：-->
+				<grg:FormItem id="brandItem" locale="brandItem" required="true" >
+					<grg:ComboBox id="brand" name="brand"  enabled="false"
+								  dataProvider="{pm.termInfoFormInitDatas.brandList}" 
+								  labelField="brandName" valueField="id" selectedValue="@{pm.termInfo.brand}"
+								  width="150"/>
+				</grg:FormItem>
+				<!--终端类型：-->
+				<grg:FormItem id="termTypeItem" locale="termTypeItem" required="true" >
+					<grg:ComboBox id="termType" name="termType" enabled="false" 
+								  dataProvider="{pm.termInfoFormInitDatas.typeList}" 
+								  labelField="typeName" valueField="id" selectedValue="@{pm.termInfo.termType}"
+								  width="150"/>
+				</grg:FormItem>
+				<!--终端IP：-->
+				<grg:FormItem id="netAddrItem" locale="netAddrItem" required="true" >
+					<grg:TextInput id="netAddr" name="netAddr" text="@{pm.termInfo.netAddr}"
+								   width="150" maxnum="32" vtype="ip" required="true"
+								   maxChars="32" />
+				</grg:FormItem>
+				<!--所属柜台IP：-->
+				<grg:FormItem id="tellerIpItem" locale="tellerIpItem" >
+					<grg:TextInput id="tellerIp" name="tellerIp" text="@{pm.termInfo.tellerIp}"
+								   width="150" maxnum="15" vtype="ip" 
+								   maxChars="15" />
+				</grg:FormItem>
+				<!--柜员号：-->
+				<grg:FormItem id="counterIdItem" locale="counterIdItem" >
+					<grg:TextInput id="counterCode" text="@{pm.termInfo.counterCode}"
+								   width="150" maxnum="50" vtype="maxchars"
+								   maxChars="50" />
+				</grg:FormItem>
+				<!--安装日期：-->
+				<grg:FormItem id="instDateItem" locale="instDateItem">
+					<userDefined:SuperDateField id="instDate" name="instDate" selectedDate="@{pm.termInfo.instDate}"
+										width="150" myEnabled="false" selectableRange="{{rangeEnd:activeDate.selectedDate}}"/>
+				</grg:FormItem>
+				
+				<!--是否视频监控：-->
+				<grg:FormItem locale="isVideoWatchItem">
+					<mx:HBox>
+						<grg:RadioButtonGroup id="isVideoWatch" value="@{pm.termInfo.isVideoWatch}" />		
+						<grg:RadioButton groupName="isVideoWatch" dataProvider="{yesOrNo}" value="Y" />
+						<grg:RadioButton groupName="isVideoWatch" dataProvider="{yesOrNo}" value="N"/>
+					</mx:HBox>
+				</grg:FormItem>
+				<!--是否安装UPS：-->
+				<grg:FormItem	locale="isUPSItem">
+					<mx:HBox>
+						<grg:RadioButtonGroup id="isUPS" value="@{pm.termInfo.isUPS}" />		
+						<grg:RadioButton groupName="isUPS" dataProvider="{yesOrNo}" value="Y" />
+						<grg:RadioButton groupName="isUPS" dataProvider="{yesOrNo}" value="N"/>
+					</mx:HBox>
+				</grg:FormItem>
+				<!--安装地址：-->
+				<grg:FormItem id="termAddrItem" locale="termAddrItem" >
+					<grg:TextInput id="termAddr" name="termAddr" text="@{pm.termInfo.termAddr}"
+								   width="150" maxnum="100" vtype="maxchars" maxChars="100" />
+				</grg:FormItem>
+				<!--是否自助银行：-->
+				<grg:FormItem locale="serviceTypeItem">
+					<mx:HBox>
+						<grg:RadioButtonGroup id="serviceType" value="@{pm.termInfo.serviceType}" />		
+						<grg:RadioButton groupName="serviceType" dataProvider="{yesOrNo}" value="Y" />
+						<grg:RadioButton groupName="serviceType" dataProvider="{yesOrNo}" value="N"/>
+					</mx:HBox>
+				</grg:FormItem>
+				<!--开通状态：-->
+				<grg:FormItem locale="status">
+					<grg:ComboBox id="status1" labelField="text" dataProvider="{termStatus}"
+								  valueField="key" selectedValue="@{pm.termInfo.status}" width="100"/>
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form id="form1"
+					  width="50%" height="100%"
+					  paddingTop="20"
+					  textAlign="left"
+					  borderVisible="false">
+				<!--所属机构：-->
+				<grg:FormItem id="orgIdItem" locale="orgIdItem" required="true" >
+					<grg:GRGComboBoxOrgTree id="orgId" selectedValue="@{pm.termInfo.orgId}" 
+											valueField="@id" width="150"
+											textAlign="left" treeHeight="150"/>
+				</grg:FormItem>
+				<!--所属区域：-->
+				<grg:FormItem id="areaIdItem" locale="areaIdItem" required="true" >
+					<grg:GRGComboxBoxAreaTree  id="areaId" selectedValue="@{pm.termInfo.areaId}"
+											   width="150"
+											   textAlign="left"
+											   treeHeight="150"
+											   valueField="@id" />
+				</grg:FormItem>
+				<!--营业开始时间：-->
+				<grg:FormItem id="busiBeginTimeItem" locale="busiBeginTimeItem" required="true" >
+					<grg:TimeField id="busiBeginTime" selectedTime="@{pm.termInfo.busiBeginTime}" width="80" />
+				</grg:FormItem>
+				<!--营业结束时间：-->
+				<grg:FormItem id="busiEndTimeItem" locale="busiEndTimeItem" required="true" >
+					<grg:TimeField id="busiEndTime" selectedTime="@{pm.termInfo.busiEndTime}" width="80"/>
+				</grg:FormItem>
+				<!--设备序列号：-->
+				<grg:FormItem id="termSEQItem" locale="termSEQItem" >
+					<grg:TextInput id="termSEQ" name="termSEQ" text="@{pm.termInfo.termSEQ}"
+								   width="150" maxnum="50" vtype="maxchars" maxChars="50" />
+				</grg:FormItem>
+				<!--终端名称：-->
+				<grg:FormItem 
+					locale="termname">
+					<grg:TextInput id="termname" text="@{pm.termInfo.termName}"
+								   width="150" maxnum="50" vtype="maxchars" maxChars="50" />
+				</grg:FormItem>
+				<!--开通时间：-->
+				<grg:FormItem id="activeDateItem" locale="activeDateItem" required="true">
+					<userDefined:SuperDateField id="activeDate" name="activeDate" selectedDate="@{pm.termInfo.activeDate}"
+										width="150" myEnabled="false" selectableRange="{{rangeStart:instDate.selectedDate}}"
+										required="true"/>
+				</grg:FormItem>
+				<!--是否国际卡ATM：-->
+				<grg:FormItem	locale="isInterATMItem">
+					<mx:HBox>
+						<grg:RadioButtonGroup id="isInterATM" value="@{pm.termInfo.isInterATM}" />		
+						<grg:RadioButton groupName="isInterATM" dataProvider="{yesOrNo}"
+										 value="Y" />
+						<grg:RadioButton groupName="isInterATM" dataProvider="{yesOrNo}"
+										 value="N"/>
+					</mx:HBox>
+				</grg:FormItem>
+				<!--是否VIP：-->
+				<grg:FormItem  locale="vip" >
+					<mx:HBox>
+						<grg:RadioButtonGroup id="vip"
+											  value="@{pm.termInfo.vip}" />		
+						<grg:RadioButton groupName="vip" dataProvider="{yesOrNo}"
+										 value="Y" />
+						<grg:RadioButton groupName="vip" dataProvider="{yesOrNo}"
+										 value="N"/>
+					</mx:HBox>
+				</grg:FormItem>
+				<!--安装方式：-->
+				<grg:FormItem id="instTypeItem" locale="instTypeItem" >
+					<grg:ComboBox id="instType" name="instType"  dataProvider="{pm.termInfoFormInitDatas.instTypeList}" 
+								  labelField="value" valueField="key" selectedValue="@{pm.termInfo.instType}"
+								  width="100" />
+				</grg:FormItem>
+				<!--设立形式：-->
+				<grg:FormItem id="layTypeItem" locale="layTypeItem" >
+					<grg:ComboBox id="layType" name="layType" dataProvider="{pm.termInfoFormInitDatas.layTypeList}" labelField="value" 
+								  valueField="key" selectedValue="@{pm.termInfo.layType}" width="100"/>
+				</grg:FormItem>
+				<!--机具类型：-->
+				<grg:FormItem id="machineTypeItem" locale="machineTypeItem" >
+					<grg:ComboBox id="machineType" name="machineType" dataProvider="{pm.termInfoFormInitDatas.machineTypeList}" labelField="value" 
+								  valueField="key" selectedValue="@{pm.termInfo.machineType}" width="100"/>
+				</grg:FormItem>
+			</grg:Form>
+		</grg:GRGMultiFormTabContainer>
+		
+		<s:Group id="grgTileList"  x="{width}" width="{width - 100}">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			<grg:GRGMultiFormTabContainer width="100%" forms="{[form2, form3]}">
+				<grg:Form id="form2" width="50%"  borderVisible="true" paddingBottom="6">
+					<!--存款箱数量：-->
+					<grg:FormItem id="saveBoxItem" locale="saveBoxItem" >
+						<grg:TextInput id="saveBox" name="saveBox" numberValue="@{pm.termInfo.saveBox}"
+									   width="150" maxChars="4" restrict="0-9" />
+					</grg:FormItem>
+					<!--取款箱数量：-->
+					<grg:FormItem id="cwdBoxItem"
+								  locale="cwdBoxItem" >
+						<grg:TextInput id="cwdBox" name="cwdBox" numberValue="@{pm.termInfo.cwdBox}"
+									   width="150" maxChars="4" restrict="0-9" />
+					</grg:FormItem>
+					<!--维护开始日期：-->
+					<grg:FormItem id="servStartDateItem"
+								  locale="servStartDateItem" >
+						<userDefined:SuperDateField id="servStartDate" name="servStartDate" selectedDate="@{pm.termInfo.servStartDate}"
+											width="150" myEnabled="false" selectableRange="{{rangeEnd:servEndDate.selectedDate}}" />
+					</grg:FormItem>
+					<!--维护到期日期：-->
+					<grg:FormItem id="servEndDateItem"
+								  locale="servEndDateItem" >
+						<userDefined:SuperDateField id="servEndDate" name="servEndDate" selectedDate="@{pm.termInfo.servEndDate}"
+											width="150" myEnabled="false" selectableRange="{{rangeStart:servStartDate.selectedDate}}" />
+					</grg:FormItem>
+					<!--维护年限：-->
+					<grg:FormItem id="servYearsItem"
+								  locale="servYearsItem" >
+						<grg:TextInput id="servYears" name="servYears" numberValue="@{pm.termInfo.servYears}"
+									   width="150" maxChars="4" restrict="0-9" />
+					</grg:FormItem>
+					<!--钞少总张数：-->
+					<grg:FormItem 
+						locale="cashlacknum" >
+						<grg:TextInput id="cashlacknum" numberValue="@{pm.termInfo.cashLackNum}"
+									   width="150" maxnum="5" vtype="int" maxChars="5" />
+					</grg:FormItem>
+					<!--硬币钞少总数：-->
+					<grg:FormItem locale="coinCashLackNum">
+						<grg:TextInput id="coinCashLackNum" numberValue="@{pm.termInfo.coinCashLackNum}"
+									   width="150" maxnum="5" vtype="int" maxChars="5"/>
+					</grg:FormItem>
+					<!--ATMC版本号：-->
+					<grg:FormItem id="softVersionItem"
+								  locale="softVersionItem" >
+						<grg:TextInput id="softVersion" name="softVersion" text="@{pm.termInfo.softVersion}"
+									   width="150" maxnum="50" vtype="maxchars" maxChars="50" />
+					</grg:FormItem>
+					<!--SECOne端口：-->
+					<grg:FormItem  locale="seconePort" >
+						<grg:TextInput id="seconePort" text="@{pm.termInfo.seconePort}"
+									   width="150" maxnum="4" vtype="int" maxChars="4" />
+					</grg:FormItem>
+					<!--ATM经度：-->
+					<grg:FormItem 
+						locale="xCoordinate" >
+						<grg:TextInput id="xCoordinate" numberValue="@{pm.termInfo.x}"
+									   width="150" maxnum="10" vtype="number" maxChars="10" />
+					</grg:FormItem>
+				</grg:Form>
+				<grg:Form id="form3" width="50%"  borderVisible="true" paddingBottom="6">
+					<!--服务器名称：-->
+					<grg:FormItem 
+						locale="connserver">
+						<grg:TextInput id="connserver" text="@{pm.termInfo.connserver}"
+									   width="150" maxnum="50" vtype="maxchars" maxChars="50" />
+					</grg:FormItem>
+					<!--连接协议：-->
+					<grg:FormItem  locale="connprotocol" >
+						<grg:TextInput id="connprotocol" text="@{pm.termInfo.connprotocol}"
+									   width="150" maxnum="10" vtype="engdigit" maxChars="10" />
+					</grg:FormItem>
+					<!--连接专线：-->
+					<grg:FormItem  locale="connline" >
+						<grg:TextInput id="connline" text="@{pm.termInfo.connline}"
+									   width="150" maxnum="50" vtype="maxchars" maxChars="50" />
+					</grg:FormItem>
+					<!--干预级别：-->
+					<grg:FormItem  locale="interventionlevel" >
+						<grg:TextInput id="interventionlevel" text="@{pm.termInfo.interventionlevel}"
+									   width="150" maxnum="2" vtype="int" maxChars="2" />
+					</grg:FormItem>
+					<!--地址邮编：-->
+					<grg:FormItem  locale="post" >
+						<grg:TextInput id="post" text="@{pm.termInfo.post}"
+									   width="150" maxnum="50" vtype="engdigit" maxChars="50" />
+					</grg:FormItem>
+					<!--钞满总张数：-->
+					<grg:FormItem  locale="cashfullnum" >
+						<grg:TextInput id="cashfullnum" numberValue="@{pm.termInfo.cashFullNum}"
+									   width="150" maxnum="5" vtype="int" maxChars="5" />
+					</grg:FormItem>
+					<!--硬币钞满总张数：-->
+					<grg:FormItem locale="coinCashFullNum">
+						<grg:TextInput id="coinCashFullNum" numberValue="@{pm.termInfo.coinCashFullNum}"
+									   width="150" maxnum="5" vtype="int" maxChars="5"/>
+					</grg:FormItem>
+					<!--SP版本号：-->
+					<grg:FormItem id="spVersionItem" locale="spVersionItem" >
+						<grg:TextInput id="spVersion" name="spVersion" text="@{pm.termInfo.spVersion}"
+									   width="150" maxnum="50" vtype="maxchars" maxChars="50" />
+					</grg:FormItem>
+					<!--远程端口：-->
+					<grg:FormItem id="netPortItem" locale="netPortItem" >
+						<grg:TextInput id="netPort" name="netPort" numberValue="@{pm.termInfo.netPort}"
+									   width="150" maxChars="6" restrict="0-9" />
+					</grg:FormItem>
+					<!--ATM纬度：-->
+					<grg:FormItem  locale="yCoordinate" >
+						<grg:TextInput id="yCoordinate" numberValue="@{pm.termInfo.y}"
+									   width="150" maxnum="10" vtype="number" maxChars="10" />
+					</grg:FormItem>
+				</grg:Form>
+			</grg:GRGMultiFormTabContainer>
+			
+			<grg:GRGAutoTileList id="grgTile" width="100%" dataProvider="{pm.extendProperties}" 
+									 itemWidth="{form2.width}" relativeObject="@{pm.termInfo}"/>
+		</s:Group>
+	</s:Group>	 
+	
+	<s:HGroup  width="100%" gap="10" horizontalAlign="center" verticalAlign="middle">
+		<s:BorderContainer id="saveButton" height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn" click="save()" locale="saveButton" iconVisible="false"/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button  click="cancel()" locale="cancelButton" iconVisible="false" />
+		</s:BorderContainer>
+	</s:HGroup> 
+	
+</grg:TitleWindow>
+

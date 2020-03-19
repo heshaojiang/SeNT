@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="templateModule">
+		<recipientsId>Recipients:</recipientsId>
+		<nextRecipients>Next Recipients:</nextRecipients>
+		<templateTitle>Title:</templateTitle>
+		<templateContent>Content:</templateContent>
+		<sendor>Sendor:</sendor>
+		<title1>MSN Notice Template Setting</title1>
+		<title2>Email Notice Template Setting</title2>
+	</node>
+</nodes>

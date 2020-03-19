@@ -1,0 +1,79 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "noderInfoForm">
+		<addTermInfoForm>新增</addTermInfoForm>
+		<updateTermInfoForm>编辑</updateTermInfoForm>
+		<importTermInfoForm>导入</importTermInfoForm>
+		<termInfoFormDetail>详情</termInfoFormDetail>
+		<termCodeItem>所属机构号：</termCodeItem>
+		<termSEQItem>设备序列号：</termSEQItem>
+		<counterIdItem>柜员号：</counterIdItem>
+		<termTypeItem>终端类型：</termTypeItem>
+		<brandItem>终端品牌：</brandItem>
+		<modelItem>设备型号：</modelItem>
+		<orgIdItem>所属机构：</orgIdItem>
+		<areaIdItem>所属区域：</areaIdItem>
+		<netAddrItem>节点机IP：</netAddrItem>
+		<netPortItem>远程端口：</netPortItem>
+		<saveBoxItem>存款箱数量：</saveBoxItem>
+		<cwdBoxItem>取款箱数量：</cwdBoxItem>
+		<instDateItem>安装日期：</instDateItem>
+		<activeDateItem>开通时间：</activeDateItem>
+		<servStartDateItem>维护开始日期：</servStartDateItem>
+		<servEndDateItem>维护到期日期：</servEndDateItem>
+		<servYearsItem>维护年限：</servYearsItem>
+		<termAddrItem>安装地址：</termAddrItem>
+		<serviceTypeItem>是否自助银行：</serviceTypeItem>
+		<instTypeItem>安装方式：</instTypeItem>
+		<layTypeItem>设立形式：</layTypeItem>
+		<machineTypeItem>机具类型：</machineTypeItem>
+		<isVideoWatchItem>是否视频监控：</isVideoWatchItem>
+		<isUPSItem>是否安装UPS：</isUPSItem>
+		<isInterATMItem>是否国际卡ATM：</isInterATMItem>
+		<busiBeginTimeItem>营业开始时间：</busiBeginTimeItem>
+		<busiEndTimeItem>营业结束时间：</busiEndTimeItem>
+		<softVersionItem>ATMC版本号：</softVersionItem>
+		<spVersionItem>SP版本号：</spVersionItem>
+		
+		<termname>终端名称：</termname>
+		<connserver>服务器名称：</connserver>
+		<connprotocol>连接协议：</connprotocol>
+		<connline>连接专线：</connline>
+		<vip>是否VIP：</vip>
+		<interventionlevel>干预级别：</interventionlevel>
+		<post>地址邮编：</post>
+		<xCoordinate>ATM经度：</xCoordinate>
+		<yCoordinate>ATM纬度：</yCoordinate>
+		<status>开通状态：</status>
+		<cashlacknum>钞少总张数：</cashlacknum>
+		<cashfullnum>钞满总张数：</cashfullnum>
+		<coinCashLackNum>硬币钞少总数：</coinCashLackNum>
+		<coinCashFullNum>硬币钞满总张数：</coinCashFullNum>
+		<seconePort>SECOne端口：</seconePort>
+		<termInfoHelp>
+1.打"*"项目内容不能为空
+2.终端编号只能包含英文字母,数字或下划线
+3.远程端口必须为合法数字，长度不大于6位数
+4.采用动态IP地址时IP值为DEFAULT
+		</termInfoHelp>
+		<helpImportTip>
+1.选择本地excel文件(.xls格式)上传
+2.点击"下载"用于下载导入模板
+		</helpImportTip>		
+		
+		<uploadFileItem>文件上传：</uploadFileItem>
+		<fileexport>模板文件</fileexport>
+		<filedown>下载</filedown>
+		<chooseButton>选择文件</chooseButton>
+		<runningStatus>运行状态</runningStatus>
+		<updateStatusTime>状态更新时间:</updateStatusTime>
+		<parameterItem>参数信息</parameterItem>
+		<deviceItem>设备信息</deviceItem>
+		<termBrowse>选择设备</termBrowse>
+		<uploadBeginTime>上传开始时间：</uploadBeginTime>
+		<uploadEndTime>上传结束时间：</uploadEndTime>
+		<bandWidth>带宽(KB/S)：</bandWidth>
+		<midLevelIPItem>中间层IP：</midLevelIPItem>
+		<noderType>节点机类型</noderType>
+	</node>
+</nodes>

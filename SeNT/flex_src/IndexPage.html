@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">	
+    <head>
+        <title>广电运通 --综合管理运营平台</title>
+        <meta name="google" value="notranslate">         
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css"> 
+			html, body	{ 
+				height:100%; 
+			}
+			body { 
+				margin:0; 
+				padding:0; 
+				overflow:auto; 
+				text-align:center; 
+			    background-color: #ffffff; 
+			}   
+			object:focus { 
+				outline:none; 
+			}
+			#flashContent { 
+				display:none;
+			}
+			div.d1 { 
+				z-index:10; 
+				position:absolute;
+				left:0;
+				top:100; 
+				font-size:30px;
+				color:blue;
+				text-align:left;
+				margin:0 auto;
+			}
+        </style>
+		
+        <link rel="stylesheet" type="text/css" href="history/history.css" />
+        <script type="text/javascript" src="history/history.js"></script>
+        <script type="text/javascript" src="md5.js"></script>
+        <script type="text/javascript" src="des.js"></script>
+        <script type="text/javascript" src="swfobject.js"></script>
+        <script type="text/javascript" src="AC_OETags.js"></script>
+    </head>
+    <body>
+		<div class="d1" id="tipDiv">
+			正在加载Flash，请稍等.<br />
+			Loading Flash, please wait.
+		</div>
+		
+		<div style="border:0px solid black; width:100%; height:100%; overflow:hidden; text-align:center;">
+			<div id="flashContent">
+        	</div>
+		</div>
+		
+		<div style="display:none;">
+	    	<a id="link" target="tempFrame"/>
+			<input type="file" id="fileInput" onchange="OnFileChange" />
+			<OBJECT ID="BarcodeCtl" width="1px" height="1px" CLASSID="CLSID:5CB909B9-6740-4092-8099-1A3067992D73" CODEBASE="/SeNT/flex/dll/FileDataSenderCtrl.cab#Version=1,1,1,0">
+				 <PARAM NAME="_Version" VALUE="65536">
+					<PARAM NAME="_ExtentX" VALUE="4657">
+					<PARAM NAME="_ExtentY" VALUE="4075">
+					<PARAM NAME="_StockProps" VALUE="0">
+			</OBJECT>
+	    </div>
+	    <iframe name="tempFrame" style="display: none;"></iframe>
+	    
+	    <div style="display:none;">
+			<OBJECT ID="QRcodeCtl" width="1px" height="1px" CLASSID="clsid:A3505A58-E1C6-49D7-B813-DEABA744979B" >
+			</OBJECT>
+	    </div>
+	</body>
+  
+	<script type="text/javascript">
+	function loadSWF()
+	{
+		//<!-- For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. --> 
+        var swfVersionStr = "11.0.0";
+       // <!-- To use express install, set to playerProductInstall.swf, otherwise the empty string. -->
+        var xiSwfUrlStr = "playerProductInstall.swf";
+        var flashvars = {};
+        var params = {};
+        params.quality = "high";
+        params.bgcolor = "#ffffff";
+        params.allowscriptaccess = "sameDomain";
+        params.allowfullscreen = "true";
+        var attributes = {};
+        attributes.id = "Index";
+        attributes.name = "Index";
+        attributes.align = "middle";
+        swfobject.embedSWF(
+            "Index.swf", "flashContent", 
+            "100%", "100%", 
+            swfVersionStr, xiSwfUrlStr, 
+            flashvars, params, attributes);
+		//<!-- JavaScript enabled so display the flashContent div in case it is not replaced with a swf object. -->
+		swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+	}
+
+	function getOs()
+	{	//判断浏览器类型
+		if(navigator.userAgent.indexOf("MSIE")>0) {
+			return "MSIE";
+		}
+		if(isFirefox=navigator.userAgent.indexOf("Firefox")>0){
+		 	return "Firefox";
+		}
+		if(isSafari=navigator.userAgent.indexOf("Safari")>0) {
+		 	return "Safari";
+		}
+		if(isCamino=navigator.userAgent.indexOf("Camino")>0){
+		 	return "Camino";
+		}
+		if(isMozilla=navigator.userAgent.indexOf("Gecko/")>0){
+		 	return "Gecko";
+		}
+	};	
+
+   	function printPage(htmlPage)
+	{
+		var w = window.open("about:blank");					
+		var os = getOs();
+		
+		if ("MSIE" == os)
+		{
+			w.document.write("<OBJECT id=wb height=0 width=0 classid=CLSID:8856F961-340A-11D0-A96B-00C04FD705A2 name=wb></OBJECT>");
+		}
+
+		var content = 
+		"<html>"
+		+ "<head>"
+		+ "<style type=\"text/css\">"
+		+ "pre {"
+		+ "white-space: pre-wrap;       /* css-3 */"
+		+ "white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */"
+		+ "white-space: -pre-wrap;      /* Opera 4-6 */"
+		+ "white-space: -o-pre-wrap;    /* Opera 7 */"
+		+ "word-wrap: break-word;       /* Internet Explorer 5.5+ */"
+		+ "}"
+		+ "</style>"
+		+ "</head>"
+		+ "<body>"
+		+ "<pre>"
+		+ htmlPage
+		+ "</pre>"
+		+ "</body>"
+		+ "</html>";
+
+		w.document.title = "Electronic Journal Print Page";
+		w.document.write(content);												
+
+		if ("MSIE" == os)
+		{	//IE需要用Active控件控制打印，会被禁止，因此不调Active控件
+			w.print();
+		}
+		else
+		{
+			w.print();
+			w.close();
+		}					
+		
+		return true;
+	} 
+
+   	function downloadFile(value)
+	{
+	    document.getElementById("link").href = value;
+	    document.getElementById("link").click();
+	}
+	
+	function setFocus()
+	{
+		var tipDivObj = document.getElementById('tipDiv');
+		if(tipDivObj){
+			tipDivObj.style["display"] = "none";
+		}
+		if( document.getElementById('Index') )
+		{
+			document.getElementById('Index').focus();
+		}
+	}
+	
+	//filePath:上传路径，serverIp：上传ip,serverPort:上传端口，uploadId：上传人id
+	function count(serverIp,serverPort,uploadId)
+	{
+		//m_sFilePath   上传文件路径
+		//m_sServerIp   服务器IP
+		//m_sUploadId   上传人ID
+		//m_iStatus     返回状态 -1初始化失败 -2联结失败 -3文件不存在 -4上传失败 -5返回失败
+		var filePath = OnFileChange();
+		BarcodeCtl.m_sFilePath = filePath; 
+
+		BarcodeCtl.m_sUploadId = uploadId;
+		
+		BarcodeCtl.m_sServerIp = serverIp;
+		
+		BarcodeCtl.m_iServerPort = serverPort;
+		
+		BarcodeCtl.UploadFile();
+
+		var uploadStatus = BarcodeCtl.m_iStatus;
+		return uploadStatus;
+	}
+	
+	function getTimeDevId(path){
+		var a = BarcodeCtl.GetFileTrans(path);
+		return a;
+	}
+
+	function printQRCode(str,boxNum){
+		var a = QRcodeCtl.Print(str,boxNum);
+		return a;
+	}
+	
+	//获取客户端的IP地址
+	function getClientIp()
+	{
+		var WshShellIp = new ActiveXObject("rcbdyctl.Setting");
+		var ip = WshShellIp.GetIPAddress;
+		return ip;
+	}
+	
+	//获取客户端的IP地址
+	function GetLocalIPAddr(){ 
+		var oSetting = null; 
+		var ip = null; 
+		try{ 
+			oSetting = new ActiveXObject("rcbdyctl.Setting"); 
+			ip = oSetting.GetIPAddress; 
+			if (ip.length == 0){ 
+				return "没有连接到Internet"; 
+				} 
+			oSetting = null; 
+		}catch(e){ 
+			return ip; 
+		} 
+	return ip; 
+	} 
+	
+	//获取客户端的主机名
+	function getClientPcName(){
+	  	var WshShellPcName = new ActiveXObject("WScript.Network");
+	  	var ComputerName = WshShellPcName.ComputerName ;
+	    return ComputerName;
+	 }
+	
+	//向客户端写文件
+	function writeFileToClient(orgcodeStr){
+		var fso = new ActiveXObject("Scripting.FileSystemObject");
+	    var a = fso.CreateTextFile("D:\\config.xml", true);
+	    a.WriteLine(" <?xml version=\"1.0\" encoding=\"utf-8\"?>") ;
+	    a.WriteLine("<Noders>");
+	    a.WriteLine("<ORGCODE>"+orgcodeStr+"</ORGCODE>");
+	    a.WriteLine("</Noders>");
+	    a.Close();
+	}
+	
+	
+	function uploadFsn(serverIp, serverPort, uploadId,filePath,fsnName){
+		//alert("serverIp:"+serverIp+" serverPort:"+serverPort+" uploadId:"+uploadId+" filePath:"+filePath+" fsnName:"+fsnName);
+		//BarcodeCtl.AboutBox();
+		var a = BarcodeCtl.UploadFileEx(serverIp,serverPort,uploadId,filePath,fsnName);
+		//BarcodeCtl.AboutBox();
+		return a;
+	}
+	
+	function uploadFsnOld(serverip, serverport, userid,fsnfilepath){
+		var a = BarcodeCtl.UploadFile(serverip,serverport,userid,fsnfilepath);
+	}
+
+	//查看文件上传的状态
+	function trans()
+	{
+		var uploadStatus = BarcodeCtl.m_iStatus;
+		return uploadStatus;
+	}
+
+	//关键代码
+	function Browser()
+	{
+		document.getElementById("fileInput").click();
+	}
+
+	function OnFileChange()
+	{
+		var filePath = document.getElementById("fileInput").value;
+		return filePath;
+	}
+
+	window.onload = function()
+	{
+		window.setTimeout(function(){
+			loadSWF();
+			var hasRequestedVersion = DetectFlashVer(11, 0, 0);	    // 所安装版本是否符合要求
+			if ( hasRequestedVersion==false )
+			{
+				alert("您的Flash player版本过旧或者没有安装，请下载并升级新版本flash player！");
+				top.location.href = "../flash/install_flash_player_ax_32bit.exe";
+			}
+			
+			setFocus();
+		}, 0);
+	}
+	</script>
+
+</html>

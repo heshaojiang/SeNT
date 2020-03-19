@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   dataDictionaryPaths="{[DataDirConsts.SMS_SEND_TYPE,
+									   DataDirConsts.ENCODING, 
+									   DataDirConsts.DBTYPE, 
+									   DataDirConsts.MODEM_MANUFACTURER,
+									   DataDirConsts.MODEM_MODEL]}"
+			   layout="vertical" width="100%" height="100%" verticalAlign="middle"
+			   locale="smsSetting" horizontalAlign="center" 
+			   backgroundColor="0xffffff" >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.IList;
+			
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.notice.config.SmsSettingConfig;
+			import platform.notice.pm.SmsSettingPM;
+			
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:SmsSettingPM;
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.loadSmsSetting();
+			}
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			
+			public function save():void{
+				if(sendMethod.selectedValue != 'none'){
+					if (VControl.validateAll(form, []).length > 0){
+						return;
+					}
+				}
+				
+				pm.save();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{SmsSettingConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<s:VGroup width="100%" height="100%" paddingLeft="10" paddingRight="10"> 
+		<grg:TitleBar locale="titlemsg" width="100%"/>
+		<s:VGroup width="100%" height="100%" verticalAlign="top" horizontalAlign="center"> 
+	<grg:Form id="form"
+			  width="600" height="310"
+			  paddingTop = "16"
+			  textAlign = "left"
+			  borderVisible = "false">
+		
+		<grg:FormItem locale = "sendMethod" width="100%" required="true">
+			<grg:ComboBox id="sendMethod" dataProvider="{bindableDataDirCache.getItemAt(0) as IList}" labelField="text"
+						  width="150" valueField="key" selectedValue="@{pm.vo.sendMethod}"/>
+		</grg:FormItem>
+		
+		<grg:FormItem visible="{sendMethod.selectedValue!='none'}" locale = "encoding" width="100%" required="true">
+			<grg:ComboBox id="encoding" dataProvider="{bindableDataDirCache.getItemAt(1) as IList}" labelField="text"
+						  width="150" valueField="text" selectedValue="@{pm.vo.encoding}"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue!='db' &amp;&amp; sendMethod.selectedValue!='none'}" includeInLayout="{sendMethod.selectedValue!='db'}"
+					  width="100%"
+					  locale = "contentTemplate"
+					  required = "true">
+			<mx:HBox>
+			<grg:TextInput id="contentTemplate" text="@{pm.vo.contentTemplate}"
+						   width="375" maxnum="500" vtype="maxchars" maxChars="500"
+						   required="true"/><grg:MsgTip locale="helpSMSTemplate"/>
+			</mx:HBox>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='gsm'}" includeInLayout="{sendMethod.selectedValue=='gsm'}"
+					  width="100%"
+					  locale = "comPort">
+			<mx:HBox>
+				<grg:TextInput id="comPort" text="@{pm.vo.comPort}"
+							   width="375" maxnum="50" vtype="maxchars|unchinese"/>
+				<grg:MsgTip locale="comPortTemplate"/>
+			</mx:HBox>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='gsm'}" includeInLayout="{sendMethod.selectedValue=='gsm'}"
+			width="100%"
+			locale = "comBaud" required = "true">
+			<mx:HBox>
+			<grg:TextInput id="comBaud" text="@{pm.vo.comBaud}" required="true"
+						   width="375" vtype="maxchars" maxChars="100"/>
+			<grg:MsgTip locale="comBaudTemplate"/>
+			</mx:HBox>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='gsm'}" includeInLayout="{sendMethod.selectedValue=='gsm'}"
+					  width="100%"
+					  locale = "manufacturer">
+			<grg:ComboBox id="manufacturer" dataProvider="{bindableDataDirCache.getItemAt(3) as IList}" labelField="text"
+						  width="150" valueField="key" selectedValue="@{pm.vo.manufacturer}"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='gsm'}" includeInLayout="{sendMethod.selectedValue=='gsm'}"
+					  width="100%"
+					  locale = "model">
+			<grg:ComboBox id="model" dataProvider="{bindableDataDirCache.getItemAt(4) as IList}" labelField="text"
+						  width="150" valueField="key" selectedValue="@{pm.vo.model}"/>
+		</grg:FormItem>
+		
+		<grg:FormItem visible="{sendMethod.selectedValue!='gsm' &amp;&amp; sendMethod.selectedValue!='none'}" includeInLayout="{sendMethod.selectedValue!='gsm'}"
+			width="100%"
+			locale = "serverIP"
+			required = "true">
+			<grg:TextInput id="serverIP" text="@{pm.vo.serverIP}"
+						   width="375" vtype="ip" maxChars="15"
+						   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue!='gsm' &amp;&amp; sendMethod.selectedValue!='none'}" includeInLayout="{sendMethod.selectedValue!='gsm'}"
+			width="100%"
+			locale = "serverPort"
+			required = "true">
+			<grg:TextInput id="serverPort" text="@{pm.vo.serverPort}"
+						   width="375" maxChars="5" vtype="5"
+						   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='ftp' || sendMethod.selectedValue=='db'}" includeInLayout="{sendMethod.selectedValue=='ftp' || sendMethod.selectedValue=='db'}"
+			width="100%"
+			locale = "user"
+			required = "true">
+			<grg:TextInput id="user" text="@{pm.vo.user}" 
+						   width="375" maxnum="50" vtype="maxchars|unchinese" maxChars="50"
+						   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='ftp' || sendMethod.selectedValue=='db'}" includeInLayout="{sendMethod.selectedValue=='ftp' || sendMethod.selectedValue=='db'}"
+			width="100%"
+			locale = "password"
+			required = "true">
+			<grg:TextInput id="password" text="@{pm.vo.password}"
+						   width="375" maxnum="50" vtype="maxchars|unchinese" maxChars="50"
+						   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='ftp'}" includeInLayout="{sendMethod.selectedValue=='ftp'}"
+			width="100%"
+			locale = "ftpDir"
+			required = "true">
+			<grg:TextInput id="ftpDir" text="@{pm.vo.ftpDir}"
+						   width="375" maxnum="100" vtype="maxchars" maxChars="100"
+						   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='ftp'}" includeInLayout="{sendMethod.selectedValue=='ftp'}"
+					  width="100%"
+					  locale = "ftpFileName"
+					  required = "true">
+			<grg:TextInput id="ftpFileName" text="@{pm.vo.ftpFileName}"
+						   width="375" maxnum="100" vtype="maxchars" maxChars="100"
+						   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem required="true" locale="dbType" visible="{sendMethod.selectedValue=='db'}" includeInLayout="{sendMethod.selectedValue=='db'}" width="100%">
+			<grg:ComboBox id="dbType" dataProvider="{bindableDataDirCache.getItemAt(2) as IList}" labelField="text"
+						  width="150" valueField="key" selectedValue="@{pm.vo.dbType}"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='db'}" includeInLayout="{sendMethod.selectedValue=='db'}"
+					  width="100%"
+					  locale = "dbSid"
+					  required = "true">
+			<grg:TextInput id="dbSid" text="@{pm.vo.dbSid}"
+						   width="375" maxnum="50" vtype="maxchars" maxChars="50"
+						   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem visible="{sendMethod.selectedValue=='db'}" includeInLayout="{sendMethod.selectedValue=='db'}"
+					  width="100%"
+					  locale = "sql"
+					  required = "true">
+			<grg:TextInput id="sql" text="@{pm.vo.sql}"
+						   width="375" maxnum="100" vtype="maxchars" maxChars="100"
+						   required="true"/>
+		</grg:FormItem>
+	</grg:Form>
+			<s:HGroup 
+				width="100%" gap="6"
+				horizontalAlign = "center"
+				verticalAlign = "middle">
+				<s:BorderContainer height="27" styleName="buttonShadow">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+					</s:layout>
+					<grg:Button iconVisible="false"
+								click = "save()"
+								locale = "saveButton"
+								 />
+				</s:BorderContainer> 
+			</s:HGroup>
+		</s:VGroup>
+	</s:VGroup>
+</grg:TabModule>

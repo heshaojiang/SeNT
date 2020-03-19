@@ -1,0 +1,286 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="main">
+		<!-- Main Start-->
+		<language>Language:</language>
+		<version>JavaPlatform 1.0</version>
+		<copyright>Copyright © 2011 GRGBanking Equipment Co., Ltd.</copyright>
+		<loginTimeLabel>Login Time:</loginTimeLabel>
+		<loginUserLabel>Login User:</loginUserLabel>
+	</node>
+	<node locale="login">
+		<loginusername>Username:</loginusername>
+		<loginpassword>Password:</loginpassword>
+		<loginlanguage>Language:</loginlanguage>
+		<login-error>Username or Password is Error!</login-error>
+		<userLocked>User is disabled or password has expired!</userLocked>
+		<wrongPwd>Wrong Password Input For (?1) Times! The User Will Be Locked When Wrong Password Input For (?2) Times!</wrongPwd>
+		<userNotFound>Username Is Not Existed!</userNotFound>
+	</node>
+	<node locale="language">
+		<zh_CN>简体中文</zh_CN>
+		<en_US>English</en_US>
+		<tr_TR>Türkçe</tr_TR>
+	</node>
+	<!-- Main End-->
+	<!-- Button Start-->
+	<node locale="button">
+		<mergeMenu>Merge Menu</mergeMenu>
+		<setFavoriteModule>Set Default Menu</setFavoriteModule>
+		<resetpass>ChangePIN</resetpass>
+		<logout>Exit</logout>
+		<help>Help</help>
+		<expanded>Expand</expanded>
+		<collapse>Collapse</collapse>
+		<query>Find</query>
+		<saveButton>Save</saveButton>
+		<addButton>Add</addButton>
+		<editButton>Edit</editButton>
+		<delButton>Delete</delButton>
+		<delSelectedButton>DeleteSelected</delSelectedButton>
+		<closeButton>Close</closeButton>
+		<resetButton>Reset</resetButton>
+		<submitButton>Submit</submitButton>
+		<cancelButton>Cancel</cancelButton>
+		<searchButton>Search</searchButton>
+		<setButtons>setButtons</setButtons>
+		<loginButton>Login</loginButton>
+		<moveAllButton>Remove All</moveAllButton>
+		<moveSlectedButton>Remove</moveSlectedButton>
+		<addAllButton>Add All</addAllButton>
+		<addSlectedButton>Add</addSlectedButton>
+		<sortButton>Sort</sortButton>
+		<upButton>Up</upButton>
+		<downButton>Down</downButton>
+		<todayBtn>today</todayBtn>
+		<okBtn>submit</okBtn>
+		<checked>checked</checked>
+		<unChecked>unChecked</unChecked>
+		<selectAll>selectAll</selectAll>
+		<deSelectAll>deSelectAll</deSelectAll>
+		
+		<leftButton>Left</leftButton>
+		<rightButton>Right</rightButton>
+		<upButton>Up</upButton>
+		<downButton>Down</downButton>
+		<setParamButton>setParam</setParamButton>
+		
+		<exportButton>export</exportButton>
+		<tmlSettingButton>Terminal Setting</tmlSettingButton>
+		<importButton>import</importButton>
+		<announceButton>announce</announceButton>
+		<chooseButton>choose</chooseButton>
+		<downloadButton>download</downloadButton>
+		<searchLinkButton>search link</searchLinkButton>
+		<updateButton>Update</updateButton>
+		<searchAgentConfigButton>AGENT Config</searchAgentConfigButton>
+		<uploadButton>Upload File</uploadButton>
+		<invalidButton>Invalid</invalidButton>
+		<commitAuditButton>Commit Audit</commitAuditButton>
+		<auditButton>Audit</auditButton>
+		<resetTaskButton>Reset Task</resetTaskButton>
+		<selectTerminalButton>Select Terminal</selectTerminalButton>
+		<selectATMIDDispenseButton>send task by selected list</selectATMIDDispenseButton>
+		<selectSearchCondDispenseButton>send task by query condition</selectSearchCondDispenseButton>
+		<addSelectATMIDDispenseButton>add selected to list</addSelectATMIDDispenseButton>
+		<viewSelectSearchCondDispenseButton>view selected list</viewSelectSearchCondDispenseButton>
+		<deleteSelectedATMButton>delete</deleteSelectedATMButton>
+	</node>
+	<!-- Button End-->
+	<!-- Components Start-->
+	<node locale="components">
+		<all>all</all>
+	
+		<components.unselected>UnSelected</components.unselected>
+		<components.selected>Selected</components.selected>
+		<components.pagenum>Current Page</components.pagenum>
+		<components.perpage>Records/Per Page</components.perpage>
+		<components.allrecorditem>Records</components.allrecorditem>
+		<components.allpage>Pages</components.allpage>
+		<components.currentpage>Current Page</components.currentpage>
+
+		<!-- sort components -->
+		<sortWin>Sort Window</sortWin>
+
+		<!-- DateSelect -->
+		<!-- week data -->
+		<sunday>Su</sunday>
+		<monday>Mo</monday>
+		<tuesday>Tu</tuesday>
+		<wednesday>We</wednesday>
+		<thursday>Th</thursday>
+		<friday>Fr</friday>
+		<saturday>Sa</saturday>
+		<!-- week data -->
+		<!-- time -->
+		<hour>hour:</hour>
+		<minute>minute:</minute>
+		<!-- time -->
+		<!-- DateSelect -->
+		<checked>Select</checked>
+		<unChecked>DeSelect</unChecked>
+		<selectAll>Select All</selectAll>
+		<deSelectAll>DeSelect All</deSelectAll>
+	</node>
+	<!-- Components End-->
+	<node locale="image">
+		<closeAllButton>Close All Window</closeAllButton>
+		<settingButton>Setting Button</settingButton>
+		<settingRole>Setting Role</settingRole>
+		<settingGroup>Setting Group</settingGroup>
+		<settingUser>Setting User</settingUser>
+		<settingPrivilege>Setting Privilege</settingPrivilege>
+		<resetPassword>Reset PassWord</resetPassword>
+		<firstNavBtn>First Page</firstNavBtn>
+		<preNavBtn>Previous Page</preNavBtn>
+		<nextNavBtn>Next Page</nextNavBtn>
+		<lastNavBtn>Last Page</lastNavBtn>
+		<fullscreen>Full Screen</fullscreen>
+		<resumescreen>Normal Screen</resumescreen>
+		<searchImage>Search</searchImage>
+		<expandImage>Expand</expandImage>
+		<collapseImage>Collapse</collapseImage>
+	</node>
+	<node locale="Msg">
+		<passwordExpired>Your password is expired at few days in the furture.please change it as soon as possible!</passwordExpired>
+		<systemInfo>System Info</systemInfo>
+		<success>Success</success>
+		<fail>fail</fail>
+		<delSuccess>Delete Success</delSuccess>
+		<saveSuccess>Save Success</saveSuccess>
+		<resetSuccess>Reset Success</resetSuccess>
+		<!-- <error>Error</error> -->
+		<confirm>OK</confirm>
+		<cancel>Cancel</cancel>
+		<confirmDelete>Confirm Delete The Selected Records?</confirmDelete>
+		<confirmLogout>Confirm Logout?</confirmLogout>
+		<timeOut>Session Time Out!</timeOut>
+		<defaultPassword>please change the default password!</defaultPassword>
+		<pwdNotNull>Password can not null!</pwdNotNull>
+		<newPwdInconsistent>The Two New Password Inconsistent!</newPwdInconsistent>
+		<pwdLenError>Password length Error!(6-20 Characters)</pwdLenError>
+		<confirmResetPwd>Are You Sure To Reset The Password?</confirmResetPwd>
+		<noSelectedRecord>Please Selected One Record!</noSelectedRecord>
+		<!-- <wrongPassword>Error!\nWrong Password!</wrongPassword> -->
+		<noSelectedNode>Not Selected Node!</noSelectedNode>
+		<nameAlreadyExisted>Name Already Existed!</nameAlreadyExisted>
+		<searchKeyNotNull>Search Key Is NULL!</searchKeyNotNull>
+		<!-- <alreadyAssign>Already Be Assign</alreadyAssign> -->
+		<noChange>No Change!</noChange>
+		<inputNotNull>The Input can not be null!</inputNotNull>
+		<moduleIsSoMuch>The opened windows are so much, please close any and try again!</moduleIsSoMuch>
+		<!-- <existKey>This Key has already exists!</existKey> -->
+		<noPrivilege>User do not have any privilege!</noPrivilege>
+		<overDis>overDisAsset</overDis>
+		<overSign>overSign</overSign>
+		<notZeroDis>distribution number can not be zero !</notZeroDis>
+		<failEdit>signed!do not edit</failEdit>
+		<redisConfirm>redisConfirm</redisConfirm>
+		<reSignConfirm>reSignConfirm</reSignConfirm>
+		<signed>signed</signed>
+		<signFailReason>owen same seqno,sign failed!</signFailReason>
+		<noFileId>file id is null</noFileId>
+		<nullFileId>file is not exist</nullFileId>
+		<notStateLink>list state is wrong</notStateLink>
+		<signSucc>sign success!</signSucc>
+		<signSuccBut>sign success!But exist same seqNo</signSuccBut>
+		<noReamin>no remain!could not sign</noReamin>
+		<openConfirm>openConfirm</openConfirm>
+		<examineSuccess>examineSuccess</examineSuccess>
+		<failCancel>Stopping or stoped!do not cancel</failCancel>
+		<failBreak>not Stopping!do not break</failBreak>
+		<cancelConfirm>Are You Sure To cancel The termStop?</cancelConfirm>
+		<breakConfirm>Are You Sure To break The termStop?</breakConfirm>
+		<failStop>CAN NOT FIND MATCH TERMINFO!</failStop>
+		<failStopIntime>EXIST SAME BETHWEEN TIME REPSTOP!</failStopIntime>
+		<failStopInstat>The current state of equipment does not allow the newspaper to stop</failStopInstat>
+		<confirmInvalid>Confirm Invalid The Selected Records?</confirmInvalid>
+		<invalidSuccess>Invalid Success</invalidSuccess>
+		<confirmCommitAudit>Confirm Commit The Selected Records? </confirmCommitAudit>
+		<commitAuditSuccess>Commit Audit Success</commitAuditSuccess>
+		<confirmAudit>Confirm Audit The Selected Records? </confirmAudit>
+		<listIsInvalid>Record Has Been Invalided</listIsInvalid>
+		<listIsCommit>Record Has Been Commited</listIsCommit>
+		<listIsUpload>Record Has Been uploaded FILE</listIsUpload>
+		<auditSuccess>Audit Success</auditSuccess>
+		<chooseExeFile>Please Choose Exe's File！</chooseExeFile>
+		<onlyCanDelOnePlanOnce>Only Can Delete a TimeTask Plan once.</onlyCanDelOnePlanOnce>
+		<hasUnfinishTask>The selected plan has unfinished task, can not delete.</hasUnfinishTask>
+		<onlyCanSelectOnePlan>Only can select a plan record.</onlyCanSelectOnePlan>
+		<resetFailTask>Confirm to reset fail tasks(execute failed, (no more retry);task timeout;cannot connect to agent, wait for agent to get its own tasks)?</resetFailTask>
+		<confirmEnablePlan>Are you confirm to enable this plan?</confirmEnablePlan>
+		<confirmDisablePlan>Are you confirm to disable this plan?</confirmDisablePlan>
+		<failToOperation>Can not to do this operation,please check!</failToOperation>
+		<hasbeensent>This message has been sent, can not be edite or delete !</hasbeensent>
+		<hasbeenannounced>This message has been announced !</hasbeenannounced>
+		<selectATMMustSelectOne>Please select a terminal at least.</selectATMMustSelectOne>
+		<selectATMCannotMorethanTen>Select termnials cannot more then ten.</selectATMCannotMorethanTen>
+		<hasalreadyexisted>this record has already existed!</hasalreadyexisted>
+		<hasBeenEffective>This cardNumber/cardBIN has been effective,can not be delete !</hasBeenEffective>
+		<refreshSuccess>Refresh All IDataInfo Success !</refreshSuccess>
+		<refreshEventDef>Refresh EventDef Success !</refreshEventDef>
+		<refreshOrgEventDef>Refresh OrgEventDef Success !</refreshOrgEventDef>
+		<refreshBankCardInfo>Refresh BankCardInfo Success !</refreshBankCardInfo>
+		<refreshBlackCardInfo>Refresh BlackCardInfo Success !</refreshBlackCardInfo>
+		<refreshTmlInfo>Refresh TmlInfo Success !</refreshTmlInfo>
+		<refreshUnionPayCardInfo>Refresh UnionPayCardInfo Success !</refreshUnionPayCardInfo>
+		<refreshDataDir>Refresh DataDir Success !</refreshDataDir>
+		<refreshWtClasslist>Refresh WtClasslist Success !</refreshWtClasslist>
+		<modelcannotnull>this model can not null !</modelcannotnull>
+		<cashLackNumAboveFull>cashLackNum must less than cashFullNum!</cashLackNumAboveFull>
+		<chooseFileTooBig>Your Choose File Is Bigger Than 30M !</chooseFileTooBig>
+		<dateInputNotNull>The input of date can not be null!</dateInputNotNull>
+		<addressSameValictor>address more than three character are same is wrong !</addressSameValictor>
+		<MobilephoneSameValictor>Mobile phone number all the same is wrong !</MobilephoneSameValictor>
+		<telephoneSameValictor>telephone number all the same is wrong !</telephoneSameValictor>
+		<userHasLogin>The user has login elsewhere, you have been forced to exit!</userHasLogin>
+		<selectATMMustSelectOne>Please select a terminal at least!</selectATMMustSelectOne>
+		<selectNullTerminfoByMsgRuleId>Didn't select any terminal!</selectNullTerminfoByMsgRuleId>
+		<selectNullTerminfo>Can Not Find Any Terminal By SQL</selectNullTerminfo>
+		<chooseTerminfoNum>From The SQL, The Terminfo's Numbers Is:</chooseTerminfoNum>
+		<selectedTerminfoByMsgRuleIdNum>The Terminfo Number Your Choose Is：</selectedTerminfoByMsgRuleIdNum>
+		<selectTerminalTips>Select the terminal must save the rule at first, do you have filled out the SMS rules and want to save it</selectTerminalTips>
+		<roleCannotBeNullBeforeSelectedSMS>Role cannot be empty before selected the SMS!</roleCannotBeNullBeforeSelectedSMS>
+		<roleCannotBeNullBeforeSelectedEMAIL>Role cannot be empty before selected the EMAIL!</roleCannotBeNullBeforeSelectedEMAIL>
+		<specialPersonCannotBeNullBeforeSelectedSMS>Special Person cannot be empty before selected the SMS!</specialPersonCannotBeNullBeforeSelectedSMS>
+		<specialPersonCannotBeNullBeforeSelectedEMAIL>Special Person cannot be empty before selected the EMAIL!</specialPersonCannotBeNullBeforeSelectedEMAIL>
+	</node>
+	<node locale="validator">
+		<vtype-required>This field is required!</vtype-required>
+		<vtype-email>E-mail format error!</vtype-email>
+		<vtype-password>Password format is not correct!</vtype-password>
+		<vtype-bankcard>Bank card format is not correct!</vtype-bankcard>
+		<vtype-ip>IP format is not correct!</vtype-ip>
+		<vtype-englishchar>Enter English and characters only!</vtype-englishchar>
+		<vtype-english>Enter Letters only!</vtype-english>
+		<vtype-chinese>Enter the Chinese only!</vtype-chinese>
+		<vtype-url>URL format is not correct!</vtype-url>
+		<vtype-idcard>ID card format is not correct!</vtype-idcard>
+		<vtype-date>Date format is not correct!</vtype-date>
+		<vtype-datetime>DateTime format is not correct!</vtype-datetime>
+		<vtype-unsafe>Enter the security characters only!</vtype-unsafe>
+		<vtype-engdigit>Enter numbers in English only!</vtype-engdigit>
+		<vtype-number>Enter numbers only!</vtype-number>
+		<vtype-int>Enter Integer only!</vtype-int>
+		<vtype-unchinese>Can not enter Chinese!</vtype-unchinese>
+		<vtype-maxchars> Maximum number of characters can not exceed</vtype-maxchars>
+		<vtype-minchars> Minimum number of characters not less than</vtype-minchars>
+		<vtype-minchars-zh_CN> (Chinese characters are double-byte)</vtype-minchars-zh_CN>
+	</node>
+	<!-- Dynamic Skin -->
+	<node locale="loginSkin">
+		<zh_CN>loginPanel_zh_CN</zh_CN>
+		<en_US>loginPanel_en_US</en_US>
+		<tr_TR>loginPanel_tr_TR</tr_TR>
+	</node>
+	<node locale="logoSkin">
+		<zh_CN>banner_logo_zh_CN</zh_CN>
+		<en_US>banner_logo_en_US</en_US>
+		<tr_TR>banner_logo_tr_TR</tr_TR>
+	</node>
+	<node locale="mainSkin">
+		<zh_CN>mainContainer_zh_CN</zh_CN>
+		<en_US>mainContainer_en_US</en_US>
+		<tr_TR>mainContainer_tr_TR</tr_TR>
+	</node>
+</nodes>

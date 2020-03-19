@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   dataDictionaryPaths="{[TransInfoConsts.TRANS_RESULT, TransInfoConsts.TRANS_CODE,TransInfoConsts.TRANS_DAY]}" 
+			   locale="transHourInfoModule"
+			   layout="vertical" 
+			   width="100%" height="100%">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="true"/>
+			<parsley:Scope name="transHourInfoModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="transHourInfoModule"/>
+			<parsley:FlexConfig type="{TransInfoConfig}"/>
+			<parsley:FlexConfig type="{AtmTranInfoConfig}"/>
+			<parsley:FlexConfig type="{CmlSentInfoConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.formatter.DateFormatter;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.AtmTranInfoConfig;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			import sent.transmgr.config.TransInfoConfig;
+			import sent.transmgr.constants.TransInfoConsts;
+			import sent.transmgr.message.TransInfoMsg;
+			import sent.transmgr.pm.TransInfoPM;
+			import sent.transmgr.view.ShowAtmTranInfoForm;
+			import sent.transmgr.vo.TransInfoVO;
+			
+			
+			/**
+			 * 交易结果 
+			 */
+			[Bindable]
+			public var transResultArr:ArrayCollection;
+			
+			/**
+			 * 自动刷新的定时器
+			 */
+			private var interval:int;
+			
+			/**
+			 * 刷新间隔
+			 */
+			[Bindable]
+			protected var refreshInterval:ArrayCollection = new ArrayCollection([
+				{label:3,  data:3}, 
+				{label:15, data:15}, 
+				{label:30, data:30}, 
+				{label:45, data:45}, 
+				{label:60, data:60}, 
+				{label:75, data:75}, 
+				{label:90, data:90}
+			]);
+			
+			/**
+			 *初始化pm
+			 */
+			[Inject]
+			[Bindable]
+			public var pm:TransInfoPM;
+			
+			[Bindable]
+			private var transInfoPage:Page = new Page();
+			
+			
+			override protected function getDataDictCallback():void
+			{
+				trace("TransHourInfoModule.getDataDictCallback");
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem:Object = {key:"", text:str};
+				var arrCol:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[TransInfoConsts.TRANS_RESULT]) as ArrayCollection;
+				arrCol.addItemAt(allItem, 0);
+				transResultArr= arrCol;
+				(operationDataGrid.dataProvider as ListCollectionView).refresh();
+			} 
+			
+			/**
+			 * 显示数据字典转换出来的
+			 */
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "transResult")
+				{
+					currentDataDictPath = TransInfoConsts.TRANS_RESULT;
+				}
+				else if(column.dataField == "transCode")
+				{
+					currentDataDictPath = TransInfoConsts.TRANS_CODE;
+				}
+				return super.transferDataDict(p_item, column);
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			override protected function viewUpdateComplete():void
+			{
+				//pm.transInfo = new TransInfoVO();
+			}
+			
+			override public function dispose():void
+			{
+				trace("TransHourInfoModule.dispose");
+				operationDataGrid.checkedItems = [];
+			}
+			
+			protected function checkQueryCondition():Boolean
+			{
+				trace("TransHourInfoModule.checkQueryCondition");
+				return true;
+			}
+			
+			/**
+			 * 自动刷新选项发生变化
+			 */
+			protected function autoRefreshChange():void
+			{
+				trace("TransHourInfoModule.autoRefreshChange");
+				clearInterval(interval);
+				if( autoRefreshCheckBox.selected )
+				{
+					interval = setInterval(loadPage, int(refresh.selectedValue) * 1000);
+				}
+			}
+			
+			/**
+			 * 根据条件查询 
+			 */
+			protected function loadPage():void
+			{
+				trace("TransHourInfoModule.loadPage");
+				if( checkQueryCondition()==false )
+				{
+					return ;
+				}
+				
+				var parameter:Object = {};
+				parameter.page = transInfoPage;
+				
+				var df:DateFormatter = new DateFormatter();
+				df.formatString = "YYYY-MM-DD JJ:NN:SS";
+				
+				var endDate:Date = new Date();
+				var startDate:Date = new Date(endDate.time - 1000*60*60*2);
+				
+				var condition:Object = {};
+				condition.startTime   = df.format(startDate);
+				condition.endTime     = df.format(endDate);
+				condition.transResult = transResult.selectedValue;
+				condition.accountNo   = accountNo.text;
+				condition.journalNo   = journalNo.text;
+				condition.termId      = termid.text;
+				condition.pathCode    = String(orgId.selectedItem.@pathCode);
+				parameter.condition = condition;
+				
+				var transInfoMsg:TransInfoMsg = new TransInfoMsg();
+				transInfoMsg.args["remoteMethod"]   = "getTranInfoPage";
+				transInfoMsg.args["methodPrameter"] = parameter;
+				transInfoMsg.args["resultHandler"]  = "TransMgrModule.getTranInfoPageResult";
+				transInfoMsg.args["errorHandler"]   = "TransMgrModule.getTranInfoPageError";
+				
+				pm.sendTransInfoMsg(transInfoMsg);
+				
+				//pm.getTransInfoPage();
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="TransMgrModule.getTranInfoPageResult")]
+			public function getTranInfoPageResult(msg:TransInfoMsg):void
+			{
+				trace("TransHourInfoModule.getTranInfoPageResult");
+				transInfoPage = msg.result as Page;
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="TransMgrModule.getTranInfoPageError")]
+			public function getTranInfoPageError(msg:TransInfoMsg):void
+			{
+				trace("TransHourInfoModule.getTranInfoPageError");
+			}
+			
+			
+			/**
+			 * 显示详细的交易信息
+			 */
+			public function showTransDetailInfo():void
+			{
+				trace("TransHourInfoModule.showTransDetailInfo");
+				var obj:TransInfoVO = operationDataGrid.selectedItem as TransInfoVO;
+				
+				//打开子窗口
+				var win:ShowAtmTranInfoForm = new ShowAtmTranInfoForm();
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.initData(obj.id);
+			}
+			
+//			/**
+//			 * 获取该交易的所有冠字号码信息
+//			 */
+//			[MessageHandler(selector="getTransSEQListResult")]
+//			public function getTransSEQListResult(p_msg:TransInfoMsg):void
+//			{
+//				trace("TransHourInfoModule.getTransSEQListResult - getTransSEQListResult");
+//				if( p_msg.result )
+//				{
+//					pm.tranPage = p_msg.result as Page;
+//				}
+//			}
+			
+		]]>
+	</fx:Script>
+	
+	<!--
+	<fx:Binding source="transResult.selectedValue" destination="pm.transInfo.transResult"/>
+	<fx:Binding source="accountNo.text"            destination="pm.transInfo.accountNo"/>
+	<fx:Binding source="journalNo.text"            destination="pm.transInfo.journalNo"/>
+	<fx:Binding source="termid.text"               destination="pm.transInfo.termid"/>
+	<fx:Binding source="orgId.selectedValue"       destination="pm.transInfo.pathcode" /> 
+	-->
+	
+	<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0" paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar textAlign="center" styleName="SearchBar" borderVisible="false">
+			
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				
+				<!--ATM交易检索-->
+				<grg:TitleBar id="titleMgr" locale="titlemsg" width="50%"/>
+				
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					
+					<mx:HBox styleName="searchStyle" height="25">  
+						
+						<!--卡号/帐号：-->
+						<grg:Label locale="accountNoColon" />
+						<grg:TextInput id="accountNo" textAlign="left" restrict="0-9a-zA-Z*"  vtype="bankcard|maxchars"  maxnum="32"
+									   width="190" height="20"
+									   styleName="TextInput" />
+						<s:Spacer width="5" />
+						
+						<!--所属机构：-->
+						<grg:Label locale="orgIdColon"/>
+						<grg:GRGComboBoxOrgTree id="orgId"
+												defaultField="true"
+												width="120"
+												textAlign="left"
+												treeHeight="300" />
+						<s:Spacer width="5" />
+						
+						<!--流水号：-->
+						<grg:Label locale="journalNoColon" />
+						<grg:TextInput id="journalNo" textAlign="left" restrict="^'"
+									   width="70" height="20"
+									   styleName="TextInput" />
+						<s:Spacer width="5" />
+						
+						<grg:SearchButton id="btn_search" menuId="{menu.id}"
+										  locale="searchButton" 
+										  iconType="query" click="loadPage()"/>
+						
+						<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 			
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+										 resetControls="{[orgId,termid, transResult, accountNo, journalNo]}"/>
+						
+					</mx:HBox>
+					
+				</mx:HBox>
+				
+			</mx:HBox> 
+			
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					
+					<mx:HBox width="100%" styleName="expHBoxStyle" id="hbMgr">  
+						
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="right" id="layoutMgr"
+									gap="2" verticalAlign="middle" />
+							</s:layout>
+							
+							<!--终端编号：-->
+							<grg:Label locale="termIdColon" />
+							<grg:TextInput id="termid" textAlign="left" restrict="0-9a-zA-Z\-"
+										   width="90" height="20"
+										   styleName="TextInput" />
+							<s:Spacer width="5" />
+							
+							<!--交易结果：-->
+							<grg:Label locale="transResultColon" />
+							<grg:ComboBox id="transResult"  dataProvider="{transResultArr}" hasAllItem="true" width="90"
+										  labelField="text" valueField="key"/>
+							<s:Spacer width="5" />
+							
+							<mx:HBox verticalAlign="middle">
+								<!--自动刷新：-->
+								<grg:CheckBox id="autoRefreshCheckBox" selected="false" change="autoRefreshChange()" locale="autoRefreshColon"/>
+								<grg:ComboBox id="refresh" dataProvider="{refreshInterval}" labelField="label" valueField="data"
+											  change="autoRefreshChange()"/>
+								<grg:Label locale="second"/>
+							</mx:HBox>
+							
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+		</grg:AdvancedSearchBar>
+		
+		<grg:DataGrid dataProvider="{transInfoPage.result}" id="operationDataGrid" 
+					  width="100%" height="100%" textAlign="center" styleName="DataGrid">
+			<grg:columns>
+				<!--交易类型-->
+				<grg:DataGridColumn locale="transCode" labelFunction="{transferDataDict}"
+									dataField="transCode" width="55"/>
+				<!--卡号/帐号：-->
+				<grg:DataGridColumn locale="accountNo"
+									dataField="accountNo" width="130"/>
+				<!--交易结果：-->
+				<grg:DataGridColumn locale="transResult" labelFunction="{transferDataDict}"
+									dataField="transResult" width="55"/>
+				<!--交易张数-->
+				<grg:DataGridColumn locale="noteNum"
+									dataField="transNotenum" width="55"/>
+				<!--黑名单张数-->
+				<grg:DataGridColumn locale="blNum" 
+									dataField="blackNotenum" width="60"/>
+				<!--重号冠字号码数-->
+				<grg:DataGridColumn locale="repeatNum" 
+									dataField="repeatNotenum" width="80"/>
+				<!--回收张数-->
+				<grg:DataGridColumn locale="callBackNum"
+									dataField="callbackNotenum" width="55"/>
+				<!--ATM终端号-->
+				<grg:DataGridColumn locale="atmtermid" 
+									dataField="termid" width="57"/>
+				<!--交易时间：-->
+				<grg:DataGridColumn locale="sendTime" width="170" >
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXItemRenderer>      
+								<fx:Script>
+									<![CDATA[
+										import org.alivepdf.layout.Size;
+										
+										import sent.common.utils.DateUtils;
+										
+										[Bindable]
+										private var dateString:String;
+										
+										override public function set data(value:Object):void
+										{
+											super.data = value;
+											dateString = DateUtils.formatYYYYMMDDHHMISS(value.tranDate);
+										}
+									]]>
+								</fx:Script>
+								<grg:Label text="{dateString}" toolTip="{dateString}" fontSize="14" width="170"/>
+							</s:MXItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+				<!--操作-->
+				<grg:DataGridColumn headerStyleName="centerDataGridHeader" locale="operations"  width="50">
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXItemRenderer>
+								<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+							</s:MXItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+			</grg:columns>
+		</grg:DataGrid>
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" 
+							  pageVo="{transInfoPage}" pagingFunction="{loadPage}"/>
+	</s:BorderContainer>
+	
+</grg:TabModule>

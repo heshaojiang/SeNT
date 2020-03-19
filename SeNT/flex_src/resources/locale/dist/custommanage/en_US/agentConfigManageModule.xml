@@ -1,0 +1,49 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：agentConfigManageForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "agentConfigManageModule">
+		<listTitle>intercept screen List</listTitle>
+		<planidItem>plan id</planidItem>
+		<createtimeItem>Create Time</createtimeItem>
+		<createtimefromItem>Create Time From</createtimefromItem>
+		<createtimeendItem>create time To</createtimeendItem>
+		<repeattypeItem>repeat type</repeattypeItem>
+		<everydayexetimeItem>set everyday time</everydayexetimeItem>
+		<repeatintervalItem>set everyminute time</repeatintervalItem>
+		<plannameItem>Plan Name</plannameItem>
+		<nextexecutetimeItem>Execute Time</nextexecutetimeItem>
+		<nextexecutetimefromItem>Execute Time from</nextexecutetimefromItem>
+		<nextexecutetimeendItem>Execute Time To</nextexecutetimeendItem>
+		<termidlistItem>Term ID </termidlistItem>
+		<taskparaItem>task para</taskparaItem>
+		<taskparaversionItem>task para version</taskparaversionItem>
+		<maxretrytimesItem>max retry times</maxretrytimesItem>
+		<retryintervalItem>retry interval</retryintervalItem>
+		<enabledItem>enabled</enabledItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<brandItem>Brand</brandItem>
+		<timeoutintervalItem>timeout interval</timeoutintervalItem>
+		<!-- plan表 -->
+		<termidItem>Term ID</termidItem>
+		<taskidItem>task id</taskidItem>
+		<planexetimeItem>plan time</planexetimeItem>
+		<exebegintimeItem>Actual Execution Starting Time</exebegintimeItem>
+		<exeendtimeItem>Actual Execution Terminating Time </exeendtimeItem>
+		<taskstatusItem>Task Status</taskstatusItem>
+		<extradescriptionItem>Task Remarks</extradescriptionItem>
+		<exepercentItem>Completion Percentage</exepercentItem>
+		<resultfileidItem>result fileid</resultfileidItem>
+		<retriedtimesItem>retried times</retriedtimesItem>
+		<timeoutedItem>overtime</timeoutedItem>
+		<svrnameItem>Server Name</svrnameItem>
+		<picturelinkItem>Linkage</picturelinkItem>
+		<picturelink>See File</picturelink>
+		<agentListTitle>Agent Config Title</agentListTitle>
+	</node>
+</nodes>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 layout="vertical" width="400" height="383"
+				 locale="termInfoPrintForm"
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			
+			import platform.constants.LocaleConsts;
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.OperationConsts;
+			import platform.term.constants.TermConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermInfoFormPM;
+			import platform.vo.term.TermBrandVo;
+			import platform.vo.term.TermModelVo;
+			import platform.vo.term.TermTypeVo;
+			import platform.vo.term.TermInfoVo;
+			import platform.common.manager.LanguageManager;
+			import platform.dataDict.DataDictConfig;
+
+
+			
+			import sent.transmgr.constants.DataDictPathConsts;
+			
+			
+			import barcode.BarcodeUtil;
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+
+			
+			[Bindable]
+			public var boxTypes:ArrayList;
+			
+			[Bindable]
+			public var termInfoVo:TermInfoVo;
+			
+			[Bindable]
+			public var usageStatus:String;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			override protected function parsleyInit():void
+			{
+			
+				
+				if(titleKey == "barCodePrintTermInfoForm"){
+					qrCodeGroup.visible = false;
+					qrCodeGroup.includeInLayout = false;
+				}else{
+					barCodeGroup.visible = false;
+					barCodeGroup.includeInLayout = false;
+				}
+				
+				GenerateCODE128(termInfoVo.termCode);
+				GenerateQRCODE(termInfoVo.termCode);
+			}
+			
+			public function set dataProvider(p_obj:Object):void
+			{
+				//pmModule.getBoxInfoFormInitDatas();
+				//pm.boxInfoFormInitDatas = p_obj;
+				//model_changeHandler();
+			}
+			
+			
+			
+			override protected function cancel():void
+			{
+				//pm.cancel();
+				close();
+			}
+			
+			private function GenerateCODE128(text:String):void
+			{
+				var w:int = 100;
+				var h:int = 40;
+				var bmpd:BitmapData = barcode.BarcodeUtil.Generate(BarcodeUtil.TYPE_CODE_128, text, w, h);
+				ImageCode128_boxNum.source = bmpd;
+			}
+			
+			private function GenerateQRCODE(text:String):void
+			{
+				var w:int = 120;
+				var h:int = 120;
+				try
+				{
+					var bmpd:BitmapData = barcode.BarcodeUtil.Generate(BarcodeUtil.TYPE_QR_CODE, text, w, h);
+				}
+				catch(e:Error)
+				{
+					AlertHandler.alert("错误");
+				}
+				
+				ImageQR_boxNum.source = bmpd;
+			}
+			
+			//打印
+			protected function grgbtn_print_clickHandler(event:MouseEvent):void
+			{
+				var pj:PrintJob = new PrintJob();
+				if( pj.start()!=true )
+				{
+					return;
+				}else{
+					
+					pj.addPage(termInfoPrintGrp);
+					pj.send();
+					close();
+				}
+			}
+			
+			//取消
+			protected function grgbtn_cancel_clickHandler(event:MouseEvent):void
+			{
+				close();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+	</fx:Declarations>
+	
+	
+	<s:BorderContainer width="100%" height="100%" borderVisible="false">
+		<s:layout>
+			<s:VerticalLayout gap="10" horizontalAlign="center" verticalAlign="middle"/>
+		</s:layout>
+		<s:VGroup id="termInfoPrintGrp" width="97%" height="90%" horizontalAlign="center">
+			<!--钞箱信息打印-->
+			<grg:Label locale="print_label_terminfo_title"/>
+			
+			<s:BorderContainer width="100%" height="100%" id="containerId">
+				<s:layout>
+					<s:VerticalLayout gap="0"/>
+				</s:layout>
+				
+				<s:HGroup  id="barCodeGroup" width="100%" height="100" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--一维码-->
+						<grg:Label id="label_ImageCode128" locale="label_ImageCode128"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Image id="ImageCode128_boxNum"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup id="qrCodeGroup" width="100%" height="140" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--二维码-->
+						<grg:Label id="label_ImageQR" locale="label_ImageQR"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Image id="ImageQR_boxNum"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				
+				<s:HGroup width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--设备编号-->
+						<grg:Label id="label_termCode" locale="termCode"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_termCode" text="{termInfoVo.termCode}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--所属机构-->
+						<grg:Label id="label_orgName" locale="orgName"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_orgId" text="{termInfoVo.orgId}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--终端IP-->
+						<grg:Label id="label_netAddr" locale="netAddr"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_netAddr" text="{termInfoVo.netAddr}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				
+				<s:HGroup id="model" width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--设备型 号-->
+						<grg:Label id="label_model" locale="model"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_model" text="{termInfoVo.model}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup id="brand" width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--终端品牌-->
+						<grg:Label id="label_brand" locale="brand"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_brand" text="{termInfoVo.brand}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup id="termtype" width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--终端类型-->
+						<grg:Label id="label_termtype" locale="termtype"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_termType" text="{termInfoVo.termType}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				
+			</s:BorderContainer>
+		</s:VGroup>
+		<s:HGroup width="100%" gap="10" horizontalAlign = "center" verticalAlign = "middle">
+			<s:Button id="grgbtn_print" label="打印" click="grgbtn_print_clickHandler(event)"/>
+			<s:Button id="grgbtn_cancel" label="取消" click="grgbtn_cancel_clickHandler(event)"/>
+		</s:HGroup>		
+	</s:BorderContainer>
+	
+	
+</grg:TitleWindow>

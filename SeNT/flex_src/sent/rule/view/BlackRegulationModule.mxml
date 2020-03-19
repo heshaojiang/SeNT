@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   dataDictionaryPaths="{[BlackRegulationConsts.RULE_STATUS]}"
+			   layout="vertical" width="100%" height="100%" >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.view.TermSelectForm;
+			
+			import sent.audit.message.AuditBlackLogMsg;
+			import sent.rule.config.BlackRegulationConfig;
+			import sent.rule.config.RegulationDeliverConfig;
+			import sent.rule.constants.BlackRegulationConsts;
+			import sent.rule.message.BlackRegulationMsg;
+			import sent.rule.pm.BlackRegulationPM;
+			import sent.rule.vo.BlackRegulationVO;
+			
+			[Inject]
+			[Bindable]
+			public var pm:BlackRegulationPM;
+			
+			/**
+			 * 查看详情的图片
+			 */
+			[Bindable]
+			[Embed(source="resources/theme/newui/view.png")] 
+			private var serchIcon:Class;
+			
+			/**
+			 * 新增按钮的图标
+			 */
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/add.png")] 
+			private var addIcon:Class; 
+			
+			/**
+			 * 编辑按钮的图标
+			 */
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/edit.png")] 
+			private var editIcon:Class; 
+			
+			/**
+			 * 删除按钮的图标
+			 */
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/delete.png")] 
+			private var deleteIcon:Class; 
+			
+			/**
+			 * 规则状态
+			 */
+			[Bindable]
+			private var regulationStatus:ArrayCollection=new ArrayCollection();
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("BlackRegulationModule.viewUpdateComplete");
+				//pm.init();
+			} 
+			
+			override public function dispose():void
+			{
+				trace("BlackRegulationModule.dispose");
+				blackRegulationDataGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			/**
+			 * 获取数据字典后更新信息
+			 */
+			override protected function getDataDictCallback():void
+			{
+				trace("BlackRegulationModule.getDataDictCallback");
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem1:Object = {key:"",text:str};
+				var arrCol1:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[BlackRegulationConsts.RULE_STATUS]) as ArrayCollection;
+			    arrCol1.addItemAt(allItem1,0);
+				regulationStatus = arrCol1;
+				//刷新列表
+				(blackRegulationDataGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 用数据字典转换列表数据
+			 */
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				switch(p_column.dataField)
+				{
+					case "ruleStatus":
+						currentDataDictPath = BlackRegulationConsts.RULE_STATUS;
+						break;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+			
+			/**
+			 * 新增规则
+			 */
+			public function add():void
+			{
+				trace("BlackRegulationModule.add");
+				var win:BlackRegulationForm = new BlackRegulationForm();
+				win.titleKey = BlackRegulationConsts.ADD_RULE;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.pm.menuId = pm.menuId;
+				win.pm.vo = new BlackRegulationVO();
+				win.uncloseChecek.selected = false;
+				win.uncloseChecek.visible = true;
+			}
+			
+			/**
+			 * 编辑规则
+			 */
+			public function editBlackRule():void
+			{
+				trace("BlackRegulationModule.editBlackRule");
+				if (!blackRegulationDataGrid.checkedItems || blackRegulationDataGrid.checkedItems.length < 1 || blackRegulationDataGrid.checkedItems.length > 1){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				var blackRegulation:BlackRegulationVO = blackRegulationDataGrid.checkedItems[0];
+				//上次修改未审核，不能修改
+				if(blackRegulation.ruleStatus == BlackRegulationConsts.RULESTATUS_DELETE){
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("blackRegulationForm.reguCannotEdit"));
+					return;
+				}
+				
+				var win:BlackRegulationForm = new BlackRegulationForm();
+				win.titleKey = BlackRegulationConsts.EDIT_RULE;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.pm.menuId = pm.menuId;
+				win.pm.vo = blackRegulation;
+				win.uncloseChecek.selected = false;
+				win.uncloseChecek.visible = false;
+			}
+			
+			/**
+			 * 删除规则
+			 */
+			public function deleteBlackRule():void
+			{
+				trace("BlackRegulationModule.deleteBlackRule");
+				if (!blackRegulationDataGrid.checkedItems || blackRegulationDataGrid.checkedItems.length < 1){
+					AlertHandler.alert("selectOneRecordAtLeast");
+					return;
+				}
+				var arr:Array = blackRegulationDataGrid.checkedItems;
+				for(var i:int=0;i<arr.length;i++)
+				{
+					var blackRegulation:BlackRegulationVO = arr[i];
+					//上次修改未审核，不能删除
+					if(blackRegulation.ruleStatus == BlackRegulationConsts.RULESTATUS_DELETE){
+						AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("blackRegulationForm.reguCannotDelete"));
+						return;
+					}
+				}
+				pm.deleteBlackRegulation(blackRegulationDataGrid.checkedItems);
+			}
+			
+			//选择终端start
+			private function termBrowseHandler():void
+			{  
+				trace("BlackRegulationModule.termBrowseHandler");
+				var win:TermSelectForm = new TermSelectForm();
+				win.callback = setSelectedTerm;
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.showTermHandler("");
+			}
+			private function setSelectedTerm(p_termStr:String):void
+			{
+				trace("BlackRegulationModule.setSelectedTerm");
+				var termStr:String = p_termStr;
+				if(termStr == "")
+				{
+					AlertHandler.alert("没有选择终端下发");
+					return;
+				}
+				pm.addBlackRegulationDeliver(termStr);
+			}
+			//选择终端end
+			
+			/**
+			 * 下发终端(添加终端下发记录后)
+			 * */
+			[MessageHandler(selector="addBlackRegulationDeliverResult")]
+			public function syncSendToSentServer(resultMsg:BlackRegulationMsg):void
+			{
+				if(resultMsg.result){
+					var msg:BlackRegulationMsg = new BlackRegulationMsg();
+					msg.args["remoteMethod"]   = "syncSendToSentServer";
+					msg.args["methodPrameter"] = 3;// 黑名单
+					msg.args["resultHandler"]  = "BlackRegulationModule.syncSendToSentServerResult";
+					msg.args["errorHandler"]   = "BlackRegulationModule.syncSendToSentServerError";
+					
+					pm.syncSendToSentServer(msg);
+				}
+			}
+			
+			/**
+			 * 下发终端结果处理函数
+			 */
+			[MessageHandler(selector="BlackRegulationModule.syncSendToSentServerResult")]
+			public function syncSendToSentServerResult(msg:BlackRegulationMsg):void
+			{
+				trace("BlackRegulationModule.syncSendToSentServerResult");
+				var result:Object = msg.result;
+				var returnResult:int=1;
+				if(result != null){
+					returnResult = ObjectUtil.copy(msg.result) as int;
+					//刷新规则下发界面
+					var msg1:AuditBlackLogMsg=new AuditBlackLogMsg();
+					msg1.type="refreshBlackRegulationDeliver";
+					sendMessage(msg1);
+					
+					if(returnResult == 0){
+						AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("blackRegulationForm.downSuccess"));
+					}else{
+						AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("blackRegulationForm.downFailure"));
+					}
+				}
+			}
+			
+			/**
+			 * 下发终端异常处理函数
+			 */
+			[MessageHandler(selector="BlackRegulationModule.syncSendToSentServerError")]
+			public function syncSendToSentServerError(msg:BlackRegulationMsg):void
+			{
+				trace("BlackRegulationModule.syncSendToSentServerError");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:FlexConfig type="{BlackRegulationConfig}"/>
+			<parsley:FlexConfig type="{RegulationDeliverConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Binding source="int(ruleStatus.selectedValue)" destination="pm.blackRegulationVO.ruleStatus"/>
+	<fx:Binding source="regulation.text" destination="pm.blackRegulationVO.regulation"/>
+	
+	<mx:VDividedBox width="100%" height="100%">
+		 
+		<s:BorderContainer  width="100%" height="100%"
+			styleName="BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width="100%" height="25" backgroundAlpha="0" borderVisible="false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="left"
+									paddingLeft="0"
+									gap="2"
+									verticalAlign="middle"/>
+							</s:layout>		
+							<!--规则：-->
+							<grg:Label locale="regulationLabel" />
+							<grg:TextInput id="regulation" textAlign="left" restrict="^'"
+							   width="120" height="20"
+							   styleName="TextInput" />
+							<!--规则状态：-->
+							<grg:Label locale="ruleStatusLabel"/>
+							<grg:ComboBox id="ruleStatus" dataProvider="{regulationStatus}" labelField="text" valueField="key" width="120" />
+							<grg:SearchButton id="btn_search"
+							  locale="searchButton" menuId="{menu.id}" 
+							  iconType="query" click="pm.page=new Page();pm.loadPage()"/>
+							<grg:ResetButton id="resetBtn" locale="resetButton" iconType="reset"
+						 		resetControls="{[regulation,ruleStatus]}"/>
+	     				</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			
+			<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+				
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25" id="addRule">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<!--新增-->
+					<grg:Button  icon="{addIcon}" locale="addRegulation" click="add()"/>
+					<!--编辑-->
+					<grg:Button  icon="{editIcon}" locale="editRegulation" click="editBlackRule()"/>
+					<!--删除-->
+					<grg:Button  icon="{deleteIcon}" locale="delRegulation" click="deleteBlackRule()"/>
+					<!--下发终端-->
+					<grg:Button id="syncSendToSentServerBtn" locale="syncSendToSentServer" privilegeCode="syncSendToSentServer" 
+								icon="@Embed('resources/theme/images/icons/output.png')" click="termBrowseHandler()" />
+				</s:BorderContainer>
+				
+			</mx:HBox>
+			
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				<grg:DataGrid id="blackRegulationDataGrid" dataProvider="{pm.page.result}"
+							  width="100%" height="100%" paddingLeft="20" 
+							  styleName="DataGrid"
+							  borderVisible="true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											textAlign="center"
+											sortable="false"
+											draggable="false"
+											editable="false"
+											resizable="false" />
+						<!--规则-->
+						<grg:DataGridColumn locale="regulation"
+											dataField="regulation" textAlign="center" width="200"/>
+						
+						<!--规则状态-->
+						<grg:DataGridColumn locale="ruleStatus" labelFunction="{transferDataDict}" width="100"
+											dataField="ruleStatus" textAlign="center"/>
+						
+						<!--申请人-->
+						<grg:DataGridColumn locale="applyName" width="200"
+											dataField="applyId" textAlign="center"/>
+						
+						<!--申请机构-->
+						<grg:RODataGridColumn locale="applyOrg"
+											  dataField="applyOrgId"
+											  labelField="orgName"
+											  valueField="id"
+											  service="orgInfoService"
+											  method="getAllOrg" 
+											  textAlign="center"
+											  width="100"
+											  />
+						
+						<!--申请时间-->
+						<grg:DataGridColumn locale="applyDate" labelFunction="{dateFormatter}" textAlign="center" width="220"
+											dataField="applyDate"/>
+						
+						<!--审核人-->
+						<grg:DataGridColumn locale="auditName" width="200"
+											dataField="auditId" textAlign="center"/>
+						
+						<!--审核时间-->
+						<grg:DataGridColumn locale="auditDate" labelFunction="{dateFormatter}" width="220"
+											dataField="auditDate" textAlign="center"/>
+						
+						<!--审核意见-->
+						<grg:DataGridColumn locale="auditNote" dataField="rejectReason" textAlign="left" width="200"/>
+						
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom="0"   pageVo="{pm.page}"  pagingFunction="{pm.loadPage}" />
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

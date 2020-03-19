@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="siteMsgModule">
+		<receivedMsgListTitle>Received Message</receivedMsgListTitle>
+		<sendMsgListTitle>Sent Message</sendMsgListTitle>
+		
+		<content>Content:</content>
+		<sender>Sender</sender>
+		<publishTime>Publish Time:</publishTime>
+		<to>to</to>
+		<readTime>Read Time</readTime>
+		<status>Status</status>
+		<recipient>Recipient</recipient>
+		
+		<operations>Operation</operations>
+		<readDetail>Read Detail</readDetail>
+		<markReaded>Mark as Readed</markReaded>
+		<response>Response</response>
+	</node>
+</nodes>

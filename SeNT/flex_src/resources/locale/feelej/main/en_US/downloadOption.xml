@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="downloadOption">
+		<downloadOption>Download</downloadOption>
+		<decrypt>Decrypt</decrypt>
+		<undecrypt>Don't Decrypt</undecrypt>
+        <downloadStatus>Status:</downloadStatus>
+        <ready>Ready</ready>
+		<decrypting>Decrypting, please hold on...</decrypting>
+		<decryptSuccess>Decrypt Success</decryptSuccess>
+		<download>Download</download>
+		<progressStatus>Downloading</progressStatus>
+	</node>
+</nodes>

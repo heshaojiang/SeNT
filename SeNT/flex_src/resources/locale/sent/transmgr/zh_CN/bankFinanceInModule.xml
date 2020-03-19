@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="bankFinanceInModule">
+	
+		<titlemsg>入库管理</titlemsg>
+		
+		<operDateColon>操作日期：</operDateColon>
+		<moneyBoxNumColon>钞箱号：</moneyBoxNumColon>
+		<operatorColon>操作人：</operatorColon>
+		<organizationColon>所属机构：</organizationColon>
+		<packingMoney>统计金额</packingMoney>
+		<receiveOrgName>接收机构</receiveOrgName>
+		
+		<atmCashBoxReturn>ATM钞箱回笼接收扫描</atmCashBoxReturn>
+		<branchKXCashBoxReturn>网点款箱回笼接收扫描</branchKXCashBoxReturn>
+		<pbocCashBagReturn>人行钞袋下发接收扫描</pbocCashBagReturn>
+		<cashIn_hangNei_Btn>行内入库</cashIn_hangNei_Btn>
+		<cashIn_renHang_Btn>人行入库</cashIn_renHang_Btn>
+		<cashIn_tongYe_Btn>同业入库</cashIn_tongYe_Btn>
+		
+		<fundInType>资金调入类型</fundInType>
+		<cashboxNum>钞箱号</cashboxNum>
+		<barcodeFlowNum>流转条码</barcodeFlowNum>
+		<currFlowStage>所处阶段</currFlowStage>
+		<status>状态</status>
+		<operator>操作人</operator>
+		<operDate>操作时间</operDate>
+		<operations>操作</operations>
+		
+		<viewRowDetailInfo>查看详情</viewRowDetailInfo>
+		<viewMoneyBoxFlowInfo>查看钞箱流转详情</viewMoneyBoxFlowInfo>
+		
+		<!--
+		<atmNunColon>ATM编号：</atmNunColon>
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		
+		
+		<indate>回笼日期：</indate>
+		<to>至</to>
+		<boxNum>钞箱号：</boxNum>
+		<searchButton>查询</searchButton>
+		<resetButton>重置</resetButton>
+		<atmback>ATM钞箱回笼扫描</atmback>
+		<netback>网点款箱回笼扫描</netback>
+		<bankback>人行下发钞袋扫描</bankback>
+		<cashInType>资金调入类型</cashInType>
+		<backDate>回笼日期</backDate>
+		<ATMcheckin>ATM钞箱回笼</ATMcheckin>
+		<Bankin>人行下发钞袋</Bankin>
+		<Netcheckin>网点款箱回笼</Netcheckin>
+		<boxType>钞箱类别：</boxType>
+		<atmBoxTypes>atm钞箱类型：</atmBoxTypes>>
+		<atmModel>ATM型号：</atmModel>
+		<orgid>所属机构：</orgid>
+		<boxStatus>状态：</boxStatus>
+		<usageStatus>流转状态：</usageStatus>
+		<type>流转类型：</type>>
+		<cashInDetailInfoForm>资金调入详情</cashInDetailInfoForm>>
+		
+		<atmNum>ATM号</atmNum>
+		-->
+	
+	</node>
+</nodes>

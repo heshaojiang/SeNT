@@ -1,0 +1,103 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="txnModule">
+		<listTitle>列表</listTitle>
+		<termid>终端编号：</termid>
+		<tltermid>终端编号：</tltermid>
+		<termtype>终端类型</termtype>
+		
+		<cardtName>卡种名称</cardtName>
+		<tltermtype>全部终端类型</tltermtype>
+		<brand>终端品牌</brand>
+		<tlbrand>全部终端品牌</tlbrand>
+		<orgid>机构ID</orgid>
+		<orgname>机构名称</orgname>
+		<begintime>开始时间</begintime>
+		<endtime>结束时间</endtime>
+		<txnid>交易类型</txnid>
+		<tltxnid>全部交易类型</tltxnid>
+		<tltxnids>交易类型：</tltxnids>
+		<txndate>交易时间</txndate>
+		<txnamount>交易金额</txnamount>
+		<pan>交易帐号：</pan>
+		<cardtype>卡种类型</cardtype>
+		<panin>转入帐号</panin>
+		<cardtypein>转入帐号卡类型</cardtypein>
+		<cardkind>银行卡品种</cardkind>
+		<cardid>卡标识</cardid>
+		<fundtype>币种</fundtype>
+		<abisrespcode>主机应答码</abisrespcode>
+		<apisrespcode>返回码</apisrespcode>
+		<abissn>主机流水号：</abissn>
+		<apissn>前置流水号：</apissn>
+		<termsn>终端流水号：</termsn>
+		<income>手续费</income>
+		<txntype>交易分类</txntype>
+		<acqcode>受理机构号</acqcode>
+		<isscode>发卡机构号</isscode>
+		<txnresult>交易结果</txnresult>
+		<tltxnresult>全部返回结果</tltxnresult>
+		<alltxncardflag>全部卡标识</alltxncardflag>
+		<search>搜索关键字</search>
+		<termId>终端编号：</termId>
+		<timerange>时间范围：</timerange>
+		<tltimerange>时间范围：</tltimerange>
+		<choosetime>日期</choosetime>
+		<tlchoosetime>日期：</tlchoosetime>
+		<orgrange>机构范围：</orgrange>
+		<tlorgrange>机构选择范围：</tlorgrange>
+		<to>至</to>
+		<maxamount>最大金额</maxamount>
+		<tlmaxamount>最大金额：</tlmaxamount>
+		<minamount>最小金额</minamount>
+		<tlminamount>最小金额：</tlminamount>
+		<export>导  出</export>
+		<succnum>成功交易笔数</succnum>
+		<succamount>成功交易金额(元)</succamount>
+		<failnum>失败交易笔数</failnum>
+		<failamount>失败交易金额(元)</failamount>
+		<areaid>所属区域</areaid>
+		<txncardflag>卡标识</txncardflag>
+		<fee>手续费</fee>
+		<total>合计</total>
+		<istotal>合计：</istotal>
+		<year>年</year>
+		<month>月</month>
+		<tlcardtype2>全部卡种</tlcardtype2>
+		<cardType>卡种</cardType>
+		<txnTotalNum>交易总笔数</txnTotalNum>
+		<txnSuccessRate>交易成功率(%)</txnSuccessRate>
+		
+		<tlorg>机构：</tlorg>
+		<tlTermNum>终端台数</tlTermNum>
+		<tlTxnDate>统计日期：</tlTxnDate>
+		<tlOccurNum>发生台数</tlOccurNum>
+		<tlTradeNum>交易笔数：</tlTradeNum>
+		<tlTradeAmount>交易金额（元）：</tlTradeAmount>
+		
+		<termIdN>终端编号</termIdN>
+		<termTypeN>终端类型</termTypeN>
+		<tlTxnDateN>统计日期</tlTxnDateN>
+		
+		<analysisWay>分析方式：</analysisWay>
+		
+		<analysisTerm>终端：</analysisTerm>
+		
+		<termType>全部终端类型</termType>
+		
+		<instType>全部安装方式</instType>
+		
+		<tlNum>笔数</tlNum>
+		<tlAmount>金额（元）</tlAmount>
+		<titlemsg>交易明细查询</titlemsg>
+		<txnFayStatTitle>日交易统计-机构</txnFayStatTitle>
+		<txnDayStatTitle>日交易统计-终端</txnDayStatTitle>
+		<txnCardTypeOrgTitle>卡种交易统计-机构</txnCardTypeOrgTitle>
+		<txnCardTypeTermTitle>卡种交易统计-终端</txnCardTypeTermTitle>
+		<txnMonthStatByOrgTitle>月交易统计-机构</txnMonthStatByOrgTitle>
+		<txnMonthStatTitle>月交易统计-终端</txnMonthStatTitle>
+		<txnSuccessRateByOrgTitle>交易成功率统计-机构</txnSuccessRateByOrgTitle>
+		<txnSuccessRateByTermTitle>交易成功率统计-终端</txnSuccessRateByTermTitle>
+		<mustData>必须选择日期范围！</mustData>
+	</node>
+</nodes>

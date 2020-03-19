@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="loginLogModule">
+		<listTitle>login logs list</listTitle>
+		<userId>user code:</userId>
+		<userName>user name</userName>
+		<hostIp>host ip</hostIp>
+		<loginTime>login time</loginTime>
+		<logoutTime>logout name</logoutTime>
+		<result>login result</result>
+		<note>remark</note>
+		<beginTime>time range:</beginTime>
+		<to>to</to>
+	</node>
+</nodes>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassListAdd">
+		<classAddTitle>Parça Listesi</classAddTitle>
+		<partIdItem>Parça Adı: </partIdItem>
+		<partCodeItem>Parça Kodu: </partCodeItem>
+		<descriptionItem>Açıklama: </descriptionItem>
+		<classEditTitle>Düzenle</classEditTitle>
+	</node>
+</nodes>

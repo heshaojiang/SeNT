@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule 
+	width="100%" height="100%"
+	layout = "vertical"
+	locale = "cardTypeModule" verticalGap="3"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:FlexConfig type="{CardTypeModuleConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>	
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			
+			import platform.card.config.CardTypeModuleConfig;
+			import platform.card.local.CardConsts;
+			import platform.card.message.CardTypeMsg;
+			import platform.card.pm.CardTypeModulePM;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.constants.LocaleConsts;
+			import platform.vo.card.CardTypeVo;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:CardTypeModulePM;
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.loadOrgTree();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				cardTypePageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			public function sync():void{
+				pm.synchronizeSubOrg("sync");
+			}
+			
+			/**
+			 * dispatch event
+			 * */
+			public function openWin(p_winName:String, p_vo:CardTypeVo):void
+			{
+				//dispatch event
+				var win:CardTypeForm = new CardTypeForm();
+				
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win));	
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * Add a new card type
+			 */
+			public function add():void
+			{
+				openWin(CardConsts.NEW_CARD_TYPE, new CardTypeVo());
+			}
+			/**
+			 * Del the selected card type
+			 */
+			public function del():void
+			{
+				if (!cardTypePageGrid.checkedItems || cardTypePageGrid.checkedItems.length < 1){
+					AlertHandler.alert("noSelectedRecord");
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				AlertHandler.confirm(closeHandler, null, "confirmDelete");
+				//close handler
+				function closeHandler(evt:CloseEvent):void
+				{
+					if (evt.detail == Alert.YES){
+						pm.delCardType(cardTypePageGrid.checkedItems);
+					}
+				}
+			}
+			/**
+			 * Update a card type
+			 */
+			public function edit():void
+			{
+				if(!cardTypePageGrid.checkedItems || cardTypePageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var vo:CardTypeVo = cardTypePageGrid.checkedItems[0] as CardTypeVo;
+				vo.actionType = CardConsts.ACTION_TYPE_EDIT;
+				openWin(CardConsts.EDIT_CARD_TYPE, vo);
+			}			
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="searchCardTypeResult")]
+			public function getCardTypeHandler(p_msg:CardTypeMsg):void
+			{
+				//清空已选中行
+				if(p_msg.result)
+					cardTypePageGrid.checkedItems = [];
+			}
+			
+			/**
+			 * 同步成功后提示用户
+			 * */
+			[MessageHandler(selector="sychronizeSubOrgResult")]
+			public function sychronizeSubOrgResult(p_msg:CardTypeMsg):void
+			{
+				AlertHandler.alert("saveSuccess");
+			}
+		]]>
+	</fx:Script>
+	<fx:Binding source="cardId.text" destination="pm.cond.cardId"/>
+	<!--<fx:Binding source="orgid.selectedValue" destination="pm.cond.orgid"/>-->
+	<s:BorderContainer width = "100%" height = "30" borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle" gap="0"/>
+		</s:layout>
+		<grg:TitleBar/>
+		<s:BorderContainer 
+			width="100%" height="30"
+			textAlign = "center" borderVisible="false">
+			<s:layout>
+				<s:HorizontalLayout
+					horizontalAlign = "right"
+					gap="2" verticalAlign = "middle" paddingTop="2" paddingBottom="3"/>
+			</s:layout>
+			<mx:HBox height="25" styleName="searchStyle">
+				<grg:Label locale = "cardId" />
+				<grg:TextInput id="cardId" textAlign="left" restrict="^'"
+							   width="150" styleName = "TextInput"/>
+				
+				<grg:SearchButton id="btn_search" menuId="{menu.id}"
+								  locale = "searchButton" 
+								  iconType = "query" click="pm.page = new Page();pm.loadCardTypePage()"/>
+				<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[cardId]}"/>
+			</mx:HBox>
+			
+		</s:BorderContainer>
+	</s:BorderContainer>
+	<mx:HDividedBox width="100%" height="100%" minHeight="450" paddingLeft="10" paddingRight="10">
+		<grg:LeftTree id="orgTree" dataProvider="{pm.treeXml}"
+					  width="194" height="100%"
+					  itemClick = "pm.page = new Page(); pm.orgTreeItemClickHandler(orgTree.selectedItem as XML)"/>
+		
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			
+			<mx:HBox width="100%" verticalAlign="top" paddingBottom="2">
+				<s:BorderContainer height="25" borderVisible="false" cornerRadius="5" backgroundColor="#e4e4e4">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2" />
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			
+			<grg:DataGrid id="cardTypePageGrid" dataProvider="{pm.page.result}"
+						  width="100%" height="100%"
+						  textAlign = "center"
+						  styleName = "DataGrid"
+						  borderVisible = "true">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										sortable = "false"
+										draggable = "false"
+										editable = "false"
+										resizable = "false" />
+					<grg:DataGridColumn locale = "cardId"
+										textAlign = "left"
+										dataField = "cardId" />
+					<grg:RODataGridColumn locale = "org" 
+										  textAlign = "left"
+										  dataField = "orgId"
+										  labelField = "orgName" 
+										  valueField = "id" 
+										  service = "orgInfoService"
+										  method = "getAllOrg" />
+					<grg:DataGridColumn locale = "self"  
+										textAlign = "left"
+										dataTipField="self" showDataTips="true"
+										dataField = "self" />
+					<grg:DataGridColumn locale = "local"  dataTipField="local" showDataTips="true"
+										dataField = "local" 
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn locale = "province"  dataTipField="province" showDataTips="true"
+										dataField = "province" 
+										textAlign = "left"
+										/>
+				</grg:columns>
+			</grg:DataGrid>
+			
+		</s:BorderContainer>
+	</mx:HDividedBox>
+	<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+						  pageVo="{pm.page}"
+						  pagingFunction="{pm.loadCardTypePage}"/>
+</grg:TabModule>

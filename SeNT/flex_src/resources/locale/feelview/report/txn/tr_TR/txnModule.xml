@@ -1,0 +1,55 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "txnModule">
+		<listTitle>Liste</listTitle>
+		<termid>Terminal Id</termid>
+		<termtype>Terminal Tipi</termtype>
+		<brand>Marka</brand>
+		<orgid>Şube</orgid>
+		<orgname>Şube Adı</orgname>
+		<begintime>Başlangıç Zamanı</begintime>
+		<endtime>Bitiş Zamanı</endtime>
+		<txnid>İşlem Tipi</txnid>
+		<txndate>İşlem Tarihi</txndate>
+		<txnamount>İşlem Miktarı</txnamount>
+		<pan>İşlem Hesabı</pan>
+		<cardtype>Kart Türü</cardtype>
+		<panin>Dikkate</panin>
+		<cardtypein>Dikkat Kart Tipi</cardtypein>
+		<cardkind>Kartları Tipi</cardkind>
+		<cardid>Kart Id</cardid>
+		<fundtype>Para Birimi</fundtype>
+		<abisrespcode>Cevap Kodu</abisrespcode>
+		<apisrespcode>Ön Yanıt Kodu</apisrespcode>
+		<abissn>Seri Numarası</abissn>
+		<apissn>Eski Seri Numarası</apissn>
+		<termsn>Terminal Seri Numarası</termsn>
+		<income>Ücret</income>
+		<txntype>İşlemlerin Sınıflandırılması</txntype>
+		<acqcode>acqcode</acqcode>
+		<isscode>Kart Sahip Sayısı</isscode>		
+		<txnresult>İşlem Sonucu Kodu</txnresult>
+		<txncardflag>Ticari Kart</txncardflag>
+		<sreach>Anahtar Kelime</sreach>
+		<timerange>Zaman Aralığı</timerange>
+		<choosetime>Zaman Aralığı</choosetime>
+		<orgrange>Şube</orgrange>
+		<to>Bitiş Zamanı</to>
+		<maxamount>Maksimum Tutar</maxamount>
+		<minamount>Minimum Tutar</minamount>
+		<export>Aktar</export>
+		<succnum>Başarılı İşlem Sayısı</succnum>
+		<succamount>Başarılı İşlem Tutarı</succamount>
+		<failnum>Başarısız İşlem Sayısı</failnum>
+		<failamount>Başarısız İşlem Tutarı</failamount>
+		<areaid>İl</areaid>
+		<txncardflag>Kimlik Kartı</txncardflag>
+		<fee>Ücret</fee>
+		<total>Toplam</total>
+		<year>Yıl</year>
+		<month>Ay</month>
+		<cardType>Kart Tipi</cardType>
+		<txnTotalNum>Toplam İşlem Tutarı</txnTotalNum>
+		<txnSuccessRate>İşlem Başarı Oranı (%)</txnSuccessRate>
+	</node>
+</nodes>

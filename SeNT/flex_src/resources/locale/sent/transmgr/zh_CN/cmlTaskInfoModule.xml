@@ -1,0 +1,65 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlTaskInfoModule">
+
+		<tmlNum>终端编号：</tmlNum>
+		<operatorName>清分员：</operatorName>
+		<sendTime>日期：</sendTime>
+		<to>至</to>
+		<tmlId>终端编号</tmlId>
+		<bindStart>交易时间</bindStart>
+		<userName>清分员</userName>
+		<beforeCount>预清分金额</beforeCount>
+		<passMoney>流通币金额</passMoney>
+		<atmMoney>ATM金额</atmMoney>
+		<stubbedMoney>残损币金额</stubbedMoney>
+		<trailMoney>伪钞金额</trailMoney>
+		<shadinessMoney>可疑钞金额</shadinessMoney>
+		<falseCoinMoney>假币金额</falseCoinMoney>
+		<operations>操作</operations>
+		<operators>操作</operators>
+		<titlemsg>清分交易检索</titlemsg>
+		<rotoCashType>清分类别</rotoCashType>
+		<export>导出</export>
+		<operatorName>操作员：</operatorName>
+		<orgid>所属机构：</orgid>
+
+
+		<export>导出</export>
+
+
+		<tmlNum>终端编号：</tmlNum>
+		<operatorName>清分员：</operatorName>
+		<sendTime>日期：</sendTime>
+		<to>至</to>
+		<tmlId>终端编号</tmlId>
+		
+		<userName>清分员</userName>
+		<beforeCount>预清分金额</beforeCount>
+		<passMoney>流通币金额</passMoney>
+		<atmMoney>ATM金额</atmMoney>
+		<stubbedMoney>残损币金额</stubbedMoney>
+		<trailMoney>伪钞金额</trailMoney>
+		<shadinessMoney>可疑钞金额</shadinessMoney>
+		<falseCoinMoney>假币金额</falseCoinMoney>
+		<operations>操作</operations>
+		<operators>操作</operators>
+		<titlemsg>清分交易检索</titlemsg>
+
+		<operatorName>操作员：</operatorName>
+		<orgid>来源机构：</orgid>
+
+
+		<showTransDetailInfo>查看交易信息</showTransDetailInfo>
+
+		<columnNo>序号</columnNo>
+		<tranCount>张数</tranCount>
+		
+		<!--===============-->
+		<businessType>业务类别</businessType>
+		<journalNo>流水号</journalNo>
+		<totalMoney>统计金额</totalMoney>
+		<tdOperatorId>操作员</tdOperatorId>
+		
+	</node>
+</nodes>

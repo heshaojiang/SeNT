@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:MXDataGridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" verticalCenter="0"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%"
+		 xmlns:component="platform.component.*" xmlns:parsley="http://www.spicefactory.org/parsley"
+		 xmlns:modulebuttonbar="platform.component.complex.modulebuttonbar.*">
+	<fx:Script>
+		<![CDATA[
+			import org.spicefactory.parsley.core.context.Context;
+			
+			import platform.common.manager.PopUpManager;
+			import platform.component.controls.DataGrid;
+			import platform.menu.constants.MenuLocalKeyConsts;
+			import platform.menu.view.SetButtonForm;
+			import platform.vo.menu.MenuVo;
+			/**parsley上下文**/
+			[Inject]
+			public var context:Context;
+			
+			[Bindable]
+			private var _height:Number;
+			override public function set height(p_value:Number):void{
+				_height = Number(p_value);
+			}
+			override public function get height():Number{
+				return Number(_height);
+			}
+			
+			public function setButtons():void
+			{
+				var win:SetButtonForm = new SetButtonForm();
+				win.name = MenuLocalKeyConsts.SET_BUTTONS;
+				//加入到parsley上下文
+				context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.pm.vo = data as MenuVo;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure/>
+	</fx:Declarations>
+	<modulebuttonbar:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}" />
+</s:MXDataGridItemRenderer>

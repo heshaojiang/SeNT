@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object  xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			xmlns:s="library://ns.adobe.com/flex/spark" 
+			xmlns:mx="library://ns.adobe.com/flex/mx"
+			xmlns="http://www.spicefactory.org/parsley" xmlns:pm="cml.task.pm.*" xmlns:message="cml.task.message.*" xmlns:grg="http://grg.grgbanking.com/platform/" xmlns:delegate="cml.task.delegate.*" >
+	<fx:Script>
+		<![CDATA[
+			import cml.task.delegate.CmlRecruitInfosDelegate;
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<pm:CmlRecruitInfosPM/>
+		<message:CmlRecruitInfosMsg/>
+		<grg:GRGRemoteObject id="cmlRecruitInfosService" destination="cmlRecruitInfosService"/>
+		<Object type="{CmlRecruitInfosDelegate}">
+			<Property name="service" idRef="cmlRecruitInfosService"/>
+		</Object>
+	</fx:Declarations>
+</fx:Object>

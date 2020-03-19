@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns="http://www.spicefactory.org/parsley" xmlns:pm="sent.rule.pm.*" 
+	xmlns:message="sent.rule.message.*" xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Script>
+		<![CDATA[
+			import sent.rule.delegate.NewRepeatRegulationDelegate;
+		
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<pm:NewRepeatRegulationPM/>
+		<message:NewRepeatRegulationMsg/>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<grg:GRGRemoteObject id="newRepeatRegulationService" destination="newRepeatRegulationService"/>
+		<Object type="{NewRepeatRegulationDelegate}">
+			<Property name="service" idRef="newRepeatRegulationService"/>
+		</Object>
+	</fx:Declarations>
+</Objects>

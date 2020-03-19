@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+<node locale="arithmeticModule">
+<arithmeticName>算法名称</arithmeticName>
+<arithmeticExpression>算法表达式</arithmeticExpression>
+<arithmeticSettingView>算法列表</arithmeticSettingView>
+</node>
+</nodes>

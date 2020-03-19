@@ -1,0 +1,48 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="viewLoadNotesRecordSeqForm">
+		
+		<title>加钞/清机交易信息</title>
+		
+		<loadNotesRecordInfo>加钞/清机交易信息</loadNotesRecordInfo>
+		
+		<bankNameColon>机构名：</bankNameColon>
+		<branchColon>网点：</branchColon>
+		<orgCodeColon>机构号：</orgCodeColon>
+		<operatorColon>操作员：</operatorColon>
+		<tranTimeColon>交易时间：</tranTimeColon>
+		<tranCountColon>张数：</tranCountColon>
+		<tranAmountColon>金额：</tranAmountColon>
+		<atmIdColon>ATM编号：</atmIdColon>
+		<cashboxIdColon>钞箱编号：</cashboxIdColon>
+		<atmTypeColon>业务类型：</atmTypeColon>
+		<finacialCode>金融机构代码：</finacialCode>
+		 <versionNum>版别</versionNum>
+		
+		<batchInfo>批次信息</batchInfo>
+		
+		<termIdColon>终端编号：</termIdColon>
+		<fileNameColon>文件名：</fileNameColon>
+		<totalCountColon>总张数：</totalCountColon>
+		<totalAmountColon>总金额：</totalAmountColon>
+		<beginTimeColon>上传开始时间：</beginTimeColon>
+		<endTimeColon>上传结束时间：</endTimeColon>
+		
+		
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		
+		
+		<serialNoInfo>冠字号信息</serialNoInfo>
+		
+		<seriaNo>冠字号码</seriaNo>
+		<urlName>冠字号码图片</urlName>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		
+	</node>
+</nodes>

@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termResponsibleModule
+	 Create Time：2011-12-23   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termResponsibleModule">
+		<listTitle>Terminal sorumlu kişilerin listesini kontrol edin</listTitle>
+		<termIdItem>Terminal numarası</termIdItem>
+		<groupItem>Sorumlu Grup</groupItem>
+		<roleItem>Grup rol</roleItem>
+		<responsibleNameItem>Personel rolü Adı</responsibleNameItem>
+		<telePhoneItem>Sabit telefon</telePhoneItem>
+		<mobilePhoneItem>Cep telefonu</mobilePhoneItem>
+		<emailItem>E-posta Adresi</emailItem>
+		<descriptionItem>Kim tarif</descriptionItem>
+<!--		<rolepersonIdItem>Rol tablo ID</rolepersonIdItem>
+			<exportButton>ihracat</exportButton>
+-->
+	</node>
+</nodes>

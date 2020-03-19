@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：吞卡情况监控<br>
+		Create Time：2011-9-13<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "retainCardMonitorModule">
+		<listTitle>吞卡情况监控列表</listTitle>
+		<searchItem>终端编号/卡号：</searchItem>
+		<orgIdItem>机构：</orgIdItem>
+		<termIdItem>终端编号</termIdItem>
+		<termTypeItem>设备类型</termTypeItem>
+		<brandItem>设备品牌</brandItem>
+		<layTypeItem>在行标志</layTypeItem>
+		<cardNoItem>卡号</cardNoItem>
+		<cardTypeItem>卡种类</cardTypeItem>
+		<cardNameItem>卡名称</cardNameItem>
+		<publishBankNameItem>发卡行</publishBankNameItem>
+		<reasonItem>全部吞卡原因</reasonItem>
+		<reasonCodeItem>故障码</reasonCodeItem>
+		<mergeDateItem>吞卡时间：</mergeDateItem>
+		<toItem>至</toItem>
+		<titlemsg>吞卡监控信息查询</titlemsg>
+	</node>
+</nodes>

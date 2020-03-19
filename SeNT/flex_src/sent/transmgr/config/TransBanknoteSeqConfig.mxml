@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:message="sent.transmgr.message.*" 
+		 xmlns:pm="sent.transmgr.pm.*"
+		 xmlns:grg="http://grg.grgbanking.com/platform/"
+		 xmlns="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.TransBanknoteSeqDelegate;
+			import sent.transmgr.delegate.TransInfoDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<message:TransBanknoteSeqMsg/>
+		<pm:TransBanknoteSeqPM/>
+		<!--查询冠字号码service-->
+		<grg:GRGRemoteObject id="transBanknoteSeqService" destination="transBanknoteSeqFuzzyService"/>
+		<Object type="{TransBanknoteSeqDelegate}">
+			<Property name="service" idRef="transBanknoteSeqService"/>
+		</Object>
+		<!--查询交易service-->
+		<grg:GRGRemoteObject id="tranInfoService" destination="tranInfoService"/>
+		<Object type="{TransInfoDelegate}">
+			<Property name="service" idRef="tranInfoService"/>
+		</Object>
+	</fx:Declarations>
+</Objects>

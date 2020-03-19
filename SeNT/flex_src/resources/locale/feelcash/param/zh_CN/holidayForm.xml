@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "holidayForm">	
+	<addHolidayForm>新增节假日</addHolidayForm>
+	<updateHolidayForm>修改节假日</updateHolidayForm>
+	<holidayName>假日名称 :</holidayName>
+	<holidayStart>开始日期 :</holidayStart>
+	<holidayEnd>结束日期 :</holidayEnd>
+	<holidayOrder>顺序 :</holidayOrder>
+	</node>
+</nodes>

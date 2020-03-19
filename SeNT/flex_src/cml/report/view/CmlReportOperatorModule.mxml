@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   locale="cmlReportOperatorModule"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   layout="vertical" width="100%" height="100%" >
+
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:FlexConfig type="{CmlReportOperatorConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+		<mx:DateFormatter id="df" formatString="YYYY-MM-DD JJ:NN:SS" />
+		<mx:NumberFormatter id="nf" decimalSeparatorFrom="." decimalSeparatorTo=".00" precision="-1"/>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>	
+
+	<fx:Script>
+		<![CDATA[
+			import cml.report.config.CmlReportOperatorConfig;
+			import cml.report.message.CmlReportOperatorMsg;
+			import cml.report.pm.CmlReportOperatorModulePM;
+			
+			import platform.common.vo.Page;
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/export.png")] 
+			private var exportInfo:Class; 
+			[Inject]
+			[Bindable]
+			public var pm:CmlReportOperatorModulePM ;		
+			private function exportTaskInfo():void{
+			var msg:CmlReportOperatorMsg = new CmlReportOperatorMsg();
+			msg.type="exportCmlReportOperator";
+			msg.args["pro"] = pm.cond.pro;
+			msg.args["startTime"]=df.format(pm.cond.startTime);
+			msg.args["endTime"]=df.format(pm.cond.endTime);
+			sendMessage(msg);	
+		}
+			
+	
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Binding destination="pm.cond.pro" source="pro.text">
+	</fx:Binding>
+	<fx:Binding destination="pm.cond.startTime" source="df.format(startTime.selectedDate)">
+	</fx:Binding>
+	<fx:Binding destination="pm.cond.endTime" source="df.format(endTime.selectedDate)">
+	</fx:Binding>
+
+	<mx:VDividedBox width="100%" height="100%">
+		
+			<s:BorderContainer 
+				width="100%" height="100%"
+				styleName = "BorderContainer">
+				<s:layout>
+					<s:VerticalLayout gap="0" />
+				</s:layout>
+				<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+					<grg:TitleBar locale="titlemsg" width="50%" height="100%"/> 
+					<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+						<mx:HBox styleName="searchStyle">
+							<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+								<s:layout>
+									<s:HorizontalLayout 
+										horizontalAlign = "left"
+										paddingLeft = "0"
+										gap="2"
+										verticalAlign = "middle"/>
+								</s:layout>
+								<grg:Label locale = "pro" />
+								<grg:TextInput id="pro"  textAlign="left" restrict="^'"
+											   width="100" height="20"
+											   styleName = "TextInput" />
+								
+								<grg:Label locale="startTime" />
+								<grg:SuperDateField id="startTime" width="190" myEnabled="false"
+													selectableRange="{{rangeEnd:startTime.selectedDate}}" isShowTime="true" />
+								<grg:Label locale="to"/>
+								<grg:SuperDateField id="endTime" width="190" myEnabled="false" 
+													selectableRange="{{rangeStart:endTime.selectedDate}}" isShowTime="true" />	
+								<grg:SearchButton id="btn_search"
+												  locale = "searchButton" menuId="{menu.id}" 
+												  iconType = "query" click="pm.page = new Page();pm.loadPage()"/>
+								<grg:ResetButton id="resetBtn" locale="resetButton" iconType="reset"
+												 resetControls="{[pro,startTime,endTime]}"/>
+							</s:BorderContainer>
+						</mx:HBox> 
+					</mx:HBox>
+				</mx:HBox> 
+				
+				<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+					<!--<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+						</s:layout>
+						<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+					</s:BorderContainer>-->
+					<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+						</s:layout>
+
+						
+						<grg:Button icon="{exportInfo}" locale="export" click="exportTaskInfo()"/>
+					</s:BorderContainer>
+				</mx:HBox>
+				
+				<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+					
+					<grg:DataGrid id="CmlReportOperatordataGrid" styleName="DataGrid"
+								  width="100%" height="100%"
+								  textAlign="center"
+								  borderVisible="true"
+								  dataProvider="{pm.page.result}"
+								  >
+					<grg:columns>
+						<grg:DataGridColumn locale="pro" dataField="operatorId"/>
+					
+						<grg:DataGridColumn locale="beforeCount" dataField="beforeCount"/>
+						<grg:DataGridColumn locale="tatalmoney" dataField="totalMoney"/>	
+					</grg:columns>
+			</grg:DataGrid>		
+				</mx:HBox>
+				<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+									  pageVo="{pm.page}"
+									  pagingFunction="{pm.loadPage}"/>
+			</s:BorderContainer>
+
+		
+		</mx:VDividedBox>
+
+</grg:TabModule>

@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "fetchManage">
+		<termIdNotFound>Terminal ID not found!</termIdNotFound>
+		<fetchException>Fetch exception occur, Please contact administrator!</fetchException>
+	</node>
+</nodes>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/" locale="cmlConnectInfosModule"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  layout="vertical"  width="100%" height="100%" >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<!--	<parsley:Scope name="cmlConnectInfosModule"/>
+			<parsley:MessageSettings defaultReceiverScope="cmlConnectInfosModule"/>-->
+			<parsley:FlexConfig type="{CmlConnectInfosConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.cmlConnectInfos.config.CmlConnectInfosConfig;
+			import cml.cmlConnectInfos.constants.CmlConnectInfosConstants;
+			import cml.cmlConnectInfos.message.CmlConnectInfosMsg;
+			import cml.cmlConnectInfos.pm.CmlConnectInfosModulePM;
+			import cml.cmlConnectInfos.vo.CmlConnectInfosVO;
+			import cml.common.ShowCmlConnectInfosWin;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.utils.ObjectProxy;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.constants.LocaleConsts;
+			[Inject]
+			[Bindable]
+			public var pm:CmlConnectInfosModulePM;
+			
+			/**原来的VO**/
+			public var formerVO:CmlConnectInfosVO;
+			
+			
+			/**
+			 * 
+			 * 打开子窗口
+			 * @param p_winName 打开窗口类型（新增或编辑）
+			 * @param p_vo 要新增或修改的VO
+			 * @param p_isEditTopArea 是否在编辑顶级区域
+			 * 
+			 */
+			
+			public function openWin(p_winName:String, p_vo:CmlConnectInfosVO):void
+			{
+				
+				var win:CmlConnectInfosForm = new CmlConnectInfosForm ();
+				/* if( p_vo!=null){
+				/* win.typeFlag=p_vo.specialType;
+				win.regulationFlag=p_vo.regulation; 
+				} */
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				win.pm.vo = p_vo;
+				
+				win.pm.menuId = this.menu.id;	 
+			}
+			
+			/**
+			 * 新增规则
+			 */
+			
+			public function add():void
+			{
+				openWin(CmlConnectInfosConstants.ADD_CMLCONNECTINFOS, new CmlConnectInfosVO());
+			}
+			
+			/**
+			 * 修改规则
+			 */	
+			
+			public function edit():void
+			{
+				if(!cmlConnectInfosDataGrid.checkedItems || cmlConnectInfosDataGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				else if(!pm.isOfered)
+				{
+					AlertHandler.alert("NoChecked");
+					return;
+				}
+				var vo:CmlConnectInfosVO =cmlConnectInfosDataGrid.checkedItems[0] as CmlConnectInfosVO;
+				openWin(CmlConnectInfosConstants.EDIT_CMLCONNECTINFOSN,vo);
+			}
+			
+			/**
+			 * 删除规则
+			 */
+			
+			public function del():void
+			{
+				
+				pm.delCmlConnectInfos(cmlConnectInfosDataGrid.checkedItems);
+			}
+			
+			/**
+			 * 显示特殊规则详情
+			 */
+			
+			public function showTransDetailInfo():void
+			{
+				var obj:CmlConnectInfosVO= cmlConnectInfosDataGrid.selectedItem as CmlConnectInfosVO;
+				var win:ShowCmlConnectInfosWin = new ShowCmlConnectInfosWin();
+				win.cmlConnectInfos=new ObjectProxy(obj);
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				//发送消息根据特殊规则获取特殊规则详情信息
+				var msg:CmlConnectInfosMsg = new CmlConnectInfosMsg();
+				msg.type = "getCmlConnectInfosObject";
+				msg.args["id"] = obj.id;
+				sendMessage(msg);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Binding source="Number(connMoney.text)" destination="pm.cmlConnectInfos.connMoney"/>
+	<fx:Binding source="inPerson.text" destination="pm.cmlConnectInfos.inPerson"/>
+	<fx:Binding source="startTime.selectedDate" destination="pm.cond.startTime"/>
+	<fx:Binding source="endTime.selectedDate" destination="pm.cond.endTime"/>
+	<fx:Binding source="cid.selectedValue" destination="pm.cmlConnectInfos.comeOrg"/>
+	<!--搜索条件框-->
+	<s:BorderContainer width="100%" 
+					   height="100%"
+					   styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign = "center"
+			styleName = "SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+		
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<grg:TitleBar locale="titlemsg" width="50%"/>
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">  
+						<grg:Label locale = "connMoney" />
+						<grg:TextInput id="connMoney" textAlign="left" restrict="^'"
+									   width="90" height="20"
+									   styleName = "TextInput" />
+						<grg:Label locale = "comeOrg" />
+						<grg:GRGComboBoxOrgTree id="cid"
+												defaultField="true"
+												textAlign="left"
+												treeHeight="300" width="110"/>
+						
+						<grg:Label locale = "inPerson" />
+						<grg:TextInput id="inPerson" textAlign="left" restrict="^'"
+									   width="85" height="20"
+									   styleName = "TextInput" />
+						<grg:SearchButton id="btn_search"
+										  locale = "searchButton" menuId="{menu.id}" 
+										  iconType = "query" click="pm.page = new Page();pm.loadPage()"/>
+						
+						<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 					
+						<grg:ResetButton id="resetBtn" locale="resetButton"  iconType="reset"
+										 resetControls="{[connMoney,inPerson,startTime,endTime]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+			
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					<mx:HBox width="100%" styleName="expHBoxStyle">  
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "right"
+									gap="2"
+									verticalAlign = "middle" />
+							</s:layout>
+							<grg:Label locale="connDate" />
+							<grg:SuperDateField id="startTime" width="190" myEnabled="false"
+												selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<grg:SuperDateField id="endTime" width="190" myEnabled="false" 
+												selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+							
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+		</grg:AdvancedSearchBar>
+		<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid id="cmlConnectInfosDataGrid" dataProvider="{pm.page.result}"
+						  width="100%" height="100%"
+						  textAlign = "center"
+						  styleName = "DataGrid"
+						  borderVisible = "true">
+				<grg:columns>
+					<!--<grg:DataGridColumn locale="chooseItem" width="80" id="check">
+					<grg:itemRenderer>
+					<fx:Component>
+					<s:MXItemRenderer>
+					<fx:Script>
+					<![CDATA[
+					
+					]]>
+					</fx:Script>
+					<grg:CheckBox id="id" textAlign="center" enabled="{outerDocument.pm.isOfered}" width="80"/>
+					
+					</s:MXItemRenderer>
+					</fx:Component>
+					</grg:itemRenderer>
+					</grg:DataGridColumn>-->
+					
+					<grg:CheckBoxColumn id="checkBoxCol"
+										textAlign = "center"
+										sortable = "false"
+										draggable = "false"
+										editable = "false" 
+										resizable = "false"/>
+					<grg:DataGridColumn locale = "connNum"
+										dataField = "connNum" textAlign="left"/>
+					<grg:DataGridColumn locale = "comeOrg" labelFunction="transferDataDict"
+										dataField = "comeOrg" textAlign="left"/>
+					<grg:DataGridColumn locale = "inPerson" 
+										dataField = "inPerson" labelFunction="transferDataDict" textAlign="left"/>
+					<grg:DataGridColumn locale = "connMoney"
+										dataField = "connMoney" labelFunction="transferDataDict" textAlign="left"/>
+					<grg:DataGridColumn locale = "connDate"
+										dataField = "connDate" textAlign="left" labelFunction="dateFormatter"/>
+					
+					<grg:DataGridColumn headerStyleName="centerDataGridHeader" locale = "operations" >
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXItemRenderer>
+									<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+								</s:MXItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+							  pageVo="{pm.page}"
+							  pagingFunction="{pm.loadPage}"/>
+	</s:BorderContainer>
+</grg:TabModule>

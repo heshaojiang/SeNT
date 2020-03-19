@@ -1,0 +1,38 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "transactionMonitorModule">
+		<listTitle>交易监控</listTitle>
+		<searchItem>关键字：</searchItem>
+		<orgIdItem>所属网点</orgIdItem>
+		<cardtypeName>卡种名称</cardtypeName>
+		<termIdItem>终端编号</termIdItem>
+		<atmBrandItem>设备品牌</atmBrandItem>
+		<atmTypeItem>设备类型</atmTypeItem>
+		<transTimeItem>交易时间</transTimeItem>
+		<transAmonutItem>交易金额(元)</transAmonutItem>
+		<transAccountItem>交易账号</transAccountItem>
+		<panin>转入账号</panin>
+		<transResultItem>返回结果</transResultItem>
+		<transType>交易类型</transType>
+		<refreshInterval>刷新间隔时间（单位：秒）</refreshInterval>
+		<abissn>主机流水号：</abissn>
+		<apissn>前置流水号：</apissn>
+		<termsn>终端流水号：</termsn>
+		<tltermtype>全部终端类型</tltermtype>
+		<tltxnid>全部交易类型</tltxnid>
+		<tltermid>终端编号：</tltermid>
+		<pan>交易帐号：</pan>
+		<tlcardtype2>全部卡别</tlcardtype2>
+		<tltxnresult>返回结果：</tltxnresult>
+		<tlorgrange>机构范围：</tlorgrange>
+		<tlbrand>全部终端品牌</tlbrand>
+		<jyStartTime>交易时间：</jyStartTime>
+		<rand>至</rand>
+		<bwCreateTime>报文接收时间：</bwCreateTime>
+		<cardtype>全部卡种</cardtype>
+		<layType>全部安装类型</layType>
+		<txnaMount>交易金额：</txnaMount>
+		<fundType>全部交易币种</fundType>
+		<titlemsg>实时交易监控</titlemsg>
+	</node>
+</nodes>

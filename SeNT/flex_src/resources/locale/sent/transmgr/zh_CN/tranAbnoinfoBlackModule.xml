@@ -1,0 +1,26 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="tranAbnoinfoBlackModule">
+		<transTime>交易时间：</transTime>
+		<to>至</to>
+		<accountNo>卡号/帐号：</accountNo>
+		<searchButton>查询</searchButton>
+		<blackTranInfo>黑名单重号交易</blackTranInfo>
+		<transCode>交易类型</transCode>
+		<blackNotenum>黑名单张数</blackNotenum>
+		<repeatNotenum>重号冠字号码数</repeatNotenum>
+		<repeatNotenum>回收张数</repeatNotenum>
+		<regulation>违反规则</regulation>
+		<transTime>交易时间</transTime>
+		<abnoCallbackType>异常回收类型</abnoCallbackType>
+		<cometype>来源类型</cometype>
+		<inCount>回收张数</inCount>
+		<callbackNotenum>回收张数</callbackNotenum>
+		<especiseqRegulation>特殊冠字号码</especiseqRegulation>
+		<callBackTranInfo>异常回收交易</callBackTranInfo>
+		<especiseqInfo>特殊冠字号交易</especiseqInfo>
+		<note>备注</note>
+		<operators>操作</operators>
+		<titlemsg>异常交易</titlemsg>
+	</node>
+</nodes>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" locale="showAuditBlackLog"
+				 dataDictionaryPaths="{[AuditLogConstants.REGULATION_STATUS,AuditLogConstants.APPLY_STATUS,AuditLogConstants.APPLY_TYPE,BlackRegulationConsts.MONEY_DENOMINATION,BlackRegulationConsts.MONEY_TYPE,
+				 RepeatRegulationConsts.LOG_MODEL,RepeatRegulationConsts.PROCESS_MODEL,RepeatRegulationConsts.CREEN_MODEL,RepeatRegulationConsts.ACCOUNT_MODEL]}"
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx"   
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 titleKey="regulationDevi"
+				 xmlns:parsley="http://www.spicefactory.org/parsley" layout="vertical"
+				 width="570" height="400">
+	<fx:Script>
+		<![CDATA[
+			import sent.rule.constants.BlackRegulationConsts;
+			import sent.rule.constants.RepeatRegulationConsts;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!--	<parsley:ContextBuilder>
+		<parsley:ViewSettings autoremoveViewRoots="true"/>-->
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+		<!--</parsley:ContextBuilder>-->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import sent.audit.message.AuditBlackLogMsg;
+			import sent.audit.pm.AuditBlackLogModulePM;
+			import platform.common.vo.Page;
+			import mx.collections.ListCollectionView;
+			import sent.rule.message.BlackRegulationMsg;
+			import sent.rule.message.RepeatRegulationMsg;
+			
+			import sent.rule.message.RegulationDeliverMsg;
+			import mx.collections.ArrayCollection;
+			import mx.utils.ObjectProxy;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.formatter.DateFormatter;
+			import platform.common.util.DataGridUtil;
+			import platform.common.util.DateUtils;
+			import platform.dataDict.DataDictConfig;
+			
+
+			import sent.audit.constants.AuditLogConstants;
+	
+			import sent.audit.vo.AuditInfoVO;
+			import sent.rule.vo.BlackRegulationVO;
+			import sent.rule.vo.RegulationDeliverVO;
+			import sent.rule.vo.RepeatRegulationVO;
+			
+			
+			[Bindable]
+			//黑名单规则审核流程信息(1条记录)
+			public var blackAudit:BlackRegulationVO;
+			
+			[Bindable]
+			public var auditInfo:AuditInfoVO;
+			[Inject]
+			[Bindable]
+			public var pm:AuditBlackLogModulePM;
+			//终端类型
+			[Bindable]
+			public var applayType:String;
+			[Bindable]
+			public var applyId:String;
+			[Bindable]
+			//申请人
+			public var applyName:String;
+			//重号规则审核流程信息（1条记录）
+			[Bindable]
+			private var trDate:String;
+			
+			//规则下发表终端明细
+			[Bindable]
+			public var auditList:ArrayCollection;
+			
+			
+			
+			/**
+			 * 数据字典转换的值
+			 * 
+			 **/
+			
+			override protected function getDataDictCallback():void
+			{  
+				if(!blackAudit ||!auditInfo)
+					return;
+				//申请类型
+				applayType = getTextByKeyOnDataDictPath(applayType,AuditLogConstants.APPLY_TYPE);
+			
+				(regulationDetail.dataProvider as ListCollectionView).refresh();
+			}
+			/**
+			 * 显示数据字典转换出来的值
+			 */
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				
+				if(column.dataField =="status")
+					currentDataDictPath = AuditLogConstants.REGULATION_STATUS;
+				return super.transferDataDict(p_item, column);
+			}
+			/**
+			 * 黑名单规则信息
+			 */
+			[MessageHandler(selector="getBlackRegulationByApplyIdResult")]
+			public function getBlackRegulationByApplyIdResult(p_msg:AuditBlackLogMsg):void
+			{
+				if(p_msg.result){
+					
+					blackAudit= p_msg.result as BlackRegulationVO ;
+					convertStringWithDataDict();
+				}
+			}
+			
+			
+			/**
+			 * 申请信息
+			 */
+			
+			[MessageHandler(selector="getAuditBlackInfoResult")]
+			public function getAuditInfoByApplyIdResult(p_msg:AuditBlackLogMsg):void
+			{
+				if(p_msg.result){
+					
+					auditInfo= p_msg.result as AuditInfoVO;
+					//时间格式化
+					trDate=auditInfo.applayDate.substr(0,4)+"-"+auditInfo.applayDate.substr(4,2)+"-"+auditInfo.applayDate.substr(6,2)+" "+auditInfo.applayDate.substr(8,2)+":"+auditInfo.applayDate.substr(10,2)+":"+auditInfo.applayDate.substr(12,2);
+					convertStringWithDataDict();
+				}
+			}
+			
+			/**
+			 * 用数据字典来转换字符串
+			 * */
+			private function convertStringWithDataDict():void
+			{
+				getDataDictCallback();
+			}
+			private function loadLogPage():void
+			{
+				//规则下发详情
+				var auiMsg:AuditBlackLogMsg=new AuditBlackLogMsg();
+				auiMsg.type="getBlackRegulationDeliverByApplyId";
+				auiMsg.args["page"]=pm.logPage;
+				auiMsg.args["applyId"]=applyId;
+				sendMessage(auiMsg);
+			}
+			/**
+			 * 规则下发表终端明细
+			 */
+			
+			[MessageHandler(selector="getBlackRegulationDeliverByApplyIdResult")]
+			public function getRegulationDeliverByApplyIdResult(p_msg:AuditBlackLogMsg):void
+			{
+				if(p_msg.result){
+					
+					pm.logPage= p_msg.result as Page ;
+					
+				}
+			}
+		]]>
+	</fx:Script>
+	<!--申请信息-->
+	<grg:RoundCornerContainer locale="applyInfo" width="100%" height="75">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout  paddingLeft="10" paddingRight="10" />
+			</s:layout>
+			
+			<grg:Form width="50%" height="100%">
+				<!--	<grg:FormItem width="100%" locale="applyId">
+				<grg:Text text="{auditInfo.applyId}"/>
+				</grg:FormItem>-->
+				<grg:FormItem width="100%" locale="applyType">
+					<grg:Text text="{applayType}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="username">
+					<grg:Text text="{auditInfo.applyName}"/>
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="applayDate" >
+					<grg:Text text="{trDate}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="orgid">
+					<grg:Text text="{auditInfo.orgId}"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:Group>
+	</grg:RoundCornerContainer>
+	<!--黑名单规则信息-->
+	<grg:RoundCornerContainer locale="applyDetail" width="100%" height="50" id="blackDetail" >
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="10" paddingRight="10" />
+			</s:layout>
+			
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="regulation">
+					<grg:Text text="{blackAudit.regulation}"/>
+				</grg:FormItem>
+				<!--
+				<grg:FormItem width="100%" locale="moneyType">
+					<grg:Text text="{blackAudit.moneyType}"/>
+				</grg:FormItem>
+				
+				<grg:FormItem width="100%" locale="createName">
+					<grg:Text text="{blackAudit.createUser}"/>
+				</grg:FormItem>
+				-->
+			</grg:Form>
+		</s:Group>
+	</grg:RoundCornerContainer>
+	
+	<!--规则下发详情-->
+	<grg:RoundCornerContainer locale="regulationDevi" width="100%" height="100%">
+		<s:Scroller width="100%" height="100%" minHeight="0" verticalScrollPolicy="auto" horizontalScrollPolicy="off">
+			<s:Group width="100%" height="100%">
+				<!--<s:layout>
+				<s:HorizontalLayout paddingTop="5" paddingLeft="10" paddingRight="10" paddingBottom="5"/>
+				</s:layout>-->
+				<s:layout>
+					<s:VerticalLayout gap="0" 
+									  paddingTop="0"/>
+				</s:layout>
+				<grg:DataGrid dataProvider="{pm.logPage.result}" 
+							  width="100%" height="100%"
+							  textAlign = "center"
+							  styleName = "DataGrid" id="regulationDetail">
+					<grg:columns>
+						<grg:DataGridColumn locale = "termid" 
+											dataField = "termid" />
+						<grg:DataGridColumn locale = "status"
+											dataField = "status" labelFunction="transferDataDict"/>
+					</grg:columns>
+				</grg:DataGrid>
+				<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+									  pageVo="{pm.logPage}"
+									  pagingFunction="{loadLogPage}"/>
+			</s:Group>
+		</s:Scroller>
+	</grg:RoundCornerContainer>
+	<s:HGroup width="100%" gap="6" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="close" iconVisible="false" click="close()"/>
+	</s:HGroup>
+</grg:TitleWindow>

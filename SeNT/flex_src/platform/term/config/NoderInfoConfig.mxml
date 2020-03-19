@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns="http://www.spicefactory.org/parsley" 
+		 xmlns:pm="platform.term.pm.*" 
+		 xmlns:message="platform.term.message.*" 
+		 xmlns:delegate="platform.term.delegate.*" 
+		 xmlns:service="platform.term.service.*" xmlns:services="platform.services.*"
+		 >
+	<fx:Declarations>
+		<pm:NoderInfoPM/>
+		<delegate:NoderInfoDelegate/>
+		<services:GRGRemoteObject id="noderInfoService" destination="noderInfoService"/>
+	</fx:Declarations>
+</fx:Object>

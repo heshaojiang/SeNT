@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="bankSNMarkApplicationModule">
+
+
+	<lbl_bank_sn_mark_info>银行业金融机构冠字号码分类贴标申报表</lbl_bank_sn_mark_info>	
+	<titlemsg>冠字号码分类贴标申报表</titlemsg>
+	<lbl_report_bank>上报单位:</lbl_report_bank>	
+	<lbl_report_time>上报时间:</lbl_report_time>
+	<lbl_unit>单位:台,个</lbl_unit>
+	<lbl_applicant>填表人:</lbl_applicant>
+	<lbl_auditor>复核人:</lbl_auditor>
+	<lbl_note>注:表中未列出的机构,请在其他金融机构下填写,并列出机构具体名称</lbl_note>
+
+	</node>
+</nodes>

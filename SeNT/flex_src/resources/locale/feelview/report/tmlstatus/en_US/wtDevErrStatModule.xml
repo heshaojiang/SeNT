@@ -1,0 +1,26 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtDevErrStatModule">
+		<listTitle>list</listTitle>
+		<termId>termId:</termId>
+		<termType>termType:</termType>
+		<brand>brand:</brand>
+		<orgId>orgId</orgId>
+		<orgName>orgName</orgName>
+		<org>org:</org>
+		<errTotalCount>errTotalCount</errTotalCount>
+		<errCode>errCode</errCode>
+		<status>status</status>
+		<beginTime>TimeRange:</beginTime>
+		<endTime>endTime</endTime>
+		<errorTime>errorTime</errorTime>
+		<wtDevErrDevCodeCount1>Journal Printer</wtDevErrDevCodeCount1>
+		<wtDevErrDevCodeCount2>Receipt Printer</wtDevErrDevCodeCount2>
+		<wtDevErrDevCodeCount3>Card reader</wtDevErrDevCodeCount3>
+		<wtDevErrDevCodeCount4>Movement out of money</wtDevErrDevCodeCount4>
+		<wtDevErrDevCodeCount5>Movement deposits</wtDevErrDevCodeCount5>
+		<wtDevErrDevCodeCount6>Other parts</wtDevErrDevCodeCount6>
+		<wtDevErrDevCodeCount7>Communication failure</wtDevErrDevCodeCount7>
+		<to>to</to>
+	</node>
+</nodes>

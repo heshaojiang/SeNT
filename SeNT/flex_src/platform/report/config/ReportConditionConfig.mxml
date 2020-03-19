@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley" xmlns:grg="http://grg.grgbanking.com/platform/" xmlns:pm="platform.report.pm.*" xmlns:message="platform.report.message.*" >
+	<fx:Script>
+		<![CDATA[
+			import platform.report.delegate.ReportConditionDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- service -->
+		<grg:GRGRemoteObject id="reportConditionService" destination="reportConditionService"/>
+		
+		<!-- delegate -->
+		<Object type="{ReportConditionDelegate}">
+			<Property name="service" idRef="reportConditionService"/>
+		</Object>
+
+		<pm:ReportConditionModulePM/>
+		<pm:ReportConditionFormPM/>
+		<message:ReportConditionMsg/>
+	</fx:Declarations>
+</fx:Object>

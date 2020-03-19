@@ -1,0 +1,20 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- * Description：sysServerLogModule<br>
+	 * Create Time：2011-11-28<br>  
+	 * Author：Ming.Zhang  <br>
+	 * Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "sysServerLogModule">
+		<listTitle>Server Log Listesi</listTitle>
+		<judgeStatusItem>Durum Yorumu</judgeStatusItem>
+		<processNameItem>İşlem Adı</processNameItem>
+		<serviceNameItem>Servis Adı</serviceNameItem>
+		<processClassItem>İşlem Sınıfı</processClassItem>
+		<serviceClassItem>Servis Sınıfı</serviceClassItem>
+		<errorItem>Hata Mesajı</errorItem>
+		<modifyDateItem>Güncelleme Zamanı</modifyDateItem>
+		<ipItem>Sunucu IP</ipItem>
+		<normal>Normal</normal>
+		<abnormal>Hatalı</abnormal>
+	</node>
+</nodes>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow dataDictionaryPaths="{[DataDictPathConsts.ATM_BOX_TYPES,TermConsts.ENABLE_OR_DISABLE,DataDictPathConsts.BOX_TYPE]}"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 layout="vertical" width="400" height="350"
+				 locale="boxInfoPrintForm"
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			
+			import platform.cashbox.constants.BoxConsts;
+			import platform.cashbox.message.BoxInfoMsg;
+			import platform.cashbox.pm.BoxInfoFormPM;
+			import platform.cashbox.pm.BoxInfoModulePM;
+			import platform.cashbox.vo.BoxInfoVO;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.constants.TermConsts;
+			
+			import sent.transmgr.constants.DataDictPathConsts;
+			
+
+			import barcode.BarcodeUtil;
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:BoxInfoFormPM;
+			
+			[Inject]
+			[Bindable]
+			public var pmModule:BoxInfoModulePM;
+			
+			[Bindable]
+			public var boxTypes:ArrayList;
+			
+			[Bindable]
+			public var boxInfoVO:BoxInfoVO;
+			
+			[Bindable]
+			public var usageStatus:String;
+						
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			override protected function parsleyInit():void
+			{
+				if(boxInfoVO.atmModel==null || boxInfoVO.atmModel==""){
+
+					atmModelGroup.visible = false;
+					atmModelGroup.includeInLayout = false;
+					atmBoxtypeGroup.visible = false;
+					atmBoxtypeGroup.includeInLayout = false;
+					
+				}
+				
+				if(titleKey == "barCodePrintBoxInfoForm"){
+					qrCodeGroup.visible = false;
+					qrCodeGroup.includeInLayout = false;
+					}else{
+						barCodeGroup.visible = false;
+						barCodeGroup.includeInLayout = false;
+					}
+
+				GenerateCODE128(boxInfoVO.boxNum);
+				GenerateQRCODE(boxInfoVO.boxNum);
+			}
+			 
+			public function set dataProvider(p_obj:Object):void
+			{
+				//pmModule.getBoxInfoFormInitDatas();
+				pm.boxInfoFormInitDatas = p_obj;
+				//model_changeHandler();
+			}
+			
+
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+			
+			private function GenerateCODE128(text:String):void
+			{
+				var w:int = 100;
+				var h:int = 40;
+				var bmpd:BitmapData = barcode.BarcodeUtil.Generate(BarcodeUtil.TYPE_CODE_128, text, w, h);
+				ImageCode128_boxNum.source = bmpd;
+			}
+			
+			private function GenerateQRCODE(text:String):void
+			{
+				var w:int = 120;
+				var h:int = 120;
+				try
+				{
+					var bmpd:BitmapData = barcode.BarcodeUtil.Generate(BarcodeUtil.TYPE_QR_CODE, text, w, h);
+				}
+				catch(e:Error)
+				{
+					AlertHandler.alert("错误");
+				}
+				
+				ImageQR_boxNum.source = bmpd;
+			}
+			
+			//打印
+			protected function grgbtn_print_clickHandler(event:MouseEvent):void
+			{
+				var pj:PrintJob = new PrintJob();
+				if( pj.start()!=true )
+				{
+					return;
+				}else{
+					
+					pj.addPage(boxInfoPrintGrp);
+					pj.send();
+					close();
+				}
+			}
+			
+			//取消
+			protected function grgbtn_cancel_clickHandler(event:MouseEvent):void
+			{
+				close();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+	</fx:Declarations>
+	
+	
+	<s:BorderContainer width="100%" height="100%" borderVisible="false">
+		<s:layout>
+			<s:VerticalLayout gap="10" horizontalAlign="center" verticalAlign="middle"/>
+		</s:layout>
+		<s:VGroup id="boxInfoPrintGrp" width="97%" height="90%" horizontalAlign="center">
+			<!--钞箱信息打印-->
+			<grg:Label locale="print_label_boxinfo_title"/>
+
+			<s:BorderContainer width="100%" height="100%" id="containerId">
+				<s:layout>
+					<s:VerticalLayout gap="0"/>
+				</s:layout>
+				
+				<s:HGroup  id="barCodeGroup" width="100%" height="100" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--一维码-->
+						<grg:Label id="label_ImageCode128" locale="label_ImageCode128"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Image id="ImageCode128_boxNum"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup id="qrCodeGroup" width="100%" height="140" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--二维码-->
+						<grg:Label id="label_ImageQR" locale="label_ImageQR"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Image id="ImageQR_boxNum"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				
+				<s:HGroup width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--钞箱编号-->
+						<grg:Label id="label_boxNum" locale="boxNum"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_boxNum" text="{boxInfoVO.boxNum}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--钞箱类型-->
+						<grg:Label id="label_boxType" locale="boxType"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_boxType" text="{boxInfoVO.boxType}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--所属机构-->
+						<grg:Label id="label_orgName" locale="orgid"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_orgName" text="{boxInfoVO.orgName}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup id="atmModelGroup" width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--atm钞箱类型-->
+						<grg:Label id="label_atmModel" locale="atmModel"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_atmModel" text="{boxInfoVO.atmModel}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+				<s:HGroup id="atmBoxtypeGroup" width="100%" height="24" gap="0">
+					<s:BorderContainer width="25%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<!--钞箱所属ATM型号-->
+						<grg:Label id="label_atmBoxtype" locale="atmBoxtype"/>
+					</s:BorderContainer>
+					<s:BorderContainer width="75%" height="100%">
+						<s:layout>
+							<s:VerticalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="value_atmBoxtype" text="{boxInfoVO.atmBoxTypes}"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				
+
+			</s:BorderContainer>
+		</s:VGroup>
+		<s:HGroup width="100%" gap="10" horizontalAlign = "center" verticalAlign = "middle">
+			<s:Button id="grgbtn_print" label="打印" click="grgbtn_print_clickHandler(event)"/>
+			<s:Button id="grgbtn_cancel" label="取消" click="grgbtn_cancel_clickHandler(event)"/>
+		</s:HGroup>		
+	</s:BorderContainer>
+	
+	
+</grg:TitleWindow>

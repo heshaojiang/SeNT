@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "viewCmlNoteDetailInfo">
+	    <cmlSEQTitle>清分冠字号码图片</cmlSEQTitle>
+	    <seriaNo>冠字号码</seriaNo>
+	    <urlName>冠字号码图片</urlName>
+	    <noteType>钞票类别</noteType>
+	    <currency>币种</currency>
+	    <denomination>面额</denomination>
+	    <printBtn>打印</printBtn>
+	    <barcodeFlowNum>流转号码</barcodeFlowNum>
+	    	<flowType>流转类别</flowType>
+		<operator>操作人</operator>
+		<operDate>操作时间</operDate>
+		<noteflowDetail>流转信息详细</noteflowDetail>
+		<barcodeFlowNum>流转号码</barcodeFlowNum>
+    </node>
+</nodes>

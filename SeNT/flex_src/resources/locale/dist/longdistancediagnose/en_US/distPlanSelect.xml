@@ -1,0 +1,66 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termInfoModule
+	 Create Time：2011-9-14   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com
+	  -->
+<nodes>
+	<node locale = "distPlanSelect">
+		<listTitle>Term Info List</listTitle>
+		<termIdItem>termId</termIdItem>
+		<termCodeItem>Terminal ID</termCodeItem>
+		<termSEQItem>Term SEQ</termSEQItem>
+		<counterIdItem>Counter Id</counterIdItem>
+		<termTypeItem>Term Type</termTypeItem>
+		<brandItem>Brand</brandItem>
+		<modelItem>Model</modelItem>
+		<org>Organization</org>
+		<areaIdItem>Area ID</areaIdItem>
+		<netAddrItem>Net Addr</netAddrItem>
+		<netPortItem> netPort</netPortItem>
+		<saveBoxItem> saveBox</saveBoxItem>
+		<cwdBoxItem> cwdBox</cwdBoxItem>
+		<instDateItem> instDate</instDateItem>
+		<activeDateItem> activeDate</activeDateItem>
+		<servStartDateItem> servStartDate</servStartDateItem>
+		<servEndDateItem> servEndDate</servEndDateItem>
+		<servYearsItem>servYears</servYearsItem>
+		<termAddrItem>termAddr</termAddrItem>
+		<serviceTypeItem>serviceType</serviceTypeItem>
+		<instTypeItem>instType</instTypeItem>
+		<layTypeItem>layType</layTypeItem>
+		<isVideoWatchItem>isVideoWatch</isVideoWatchItem>
+		<isUPSItem>isUPS</isUPSItem>
+		<isInterATMItem>isInterATM</isInterATMItem>
+		<busiBeginTimeItem>busiBeginTime</busiBeginTimeItem>
+		<busiEndTimeItem>busiEndTime</busiEndTimeItem>
+		<softVersionItem>softVersion</softVersionItem>
+		<spVersionItem>spVersion</spVersionItem>
+		
+		<planidItem>plan id</planidItem>
+		<createtimeItem>create time</createtimeItem>
+		<repeattypeItem>repeat type</repeattypeItem>
+		<everydayexetimeItem>set everyday time</everydayexetimeItem>
+		<repeatintervalItem>set everyminute time</repeatintervalItem>
+		<plannameItem>plan name</plannameItem>
+		<nextexecutetimeItem>next execute time</nextexecutetimeItem>
+		<termidlistItem>termid list</termidlistItem>
+		<taskparaItem>task para</taskparaItem>
+		<taskparaversionItem>task para version</taskparaversionItem>
+		<maxretrytimesItem>max retry times</maxretrytimesItem>
+		<retryintervalItem>retry interval</retryintervalItem>
+		<enabledItem>enabled</enabledItem>
+		<termidItem>Terminal ID</termidItem>
+		<termipItem>Terminal IP</termipItem>
+		<brandItem>Brand</brandItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM Model</modelItem>
+		<orgidItem>orgid</orgidItem>
+		<areaidItem>area id</areaidItem>
+		<timeoutintervalItem>timeout interval</timeoutintervalItem>
+		<instructionOfChooseATM>TICK to choose or UNTICK to remove ATM. </instructionOfChooseATM>
+
+		<!-- 选择ATM页面标题 -->
+		<selectATMPageTitle>Select ATM</selectATMPageTitle>
+	</node>
+</nodes>

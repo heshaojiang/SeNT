@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardManage">
+		<existedTmlSelfBank>该自助银行信息已经存在！</existedTmlSelfBank>
+		<existedUnionPayCardsInfo>该银联卡信息已经存在！</existedUnionPayCardsInfo>
+		<existedSystemInterface>该 接口已经存在！</existedSystemInterface>
+		<bankCodeNotNull>自助银行编号不能为空！</bankCodeNotNull>
+		<cardIdNotNull>卡标识不能为空！</cardIdNotNull>
+		<interfaceNameNotNull>接口名称不能为空！</interfaceNameNotNull>
+	</node>
+</nodes>

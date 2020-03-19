@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="repeatRegulationForm">
+	    <addRule>新增</addRule>
+	    <ruleInfo>创建重号规则</ruleInfo>
+	    <repeatnum>最多重号冠字号码数：</repeatnum>
+	    <dealwithMode>处理方式：</dealwithMode>
+	    <creenMode>屏幕提示：</creenMode>
+	    <enterAccountMode>入帐方式：</enterAccountMode>
+	    <logMode>是否记录流水：</logMode>
+	    <selectPeople>选择下一步处理人：</selectPeople>
+	    <selectTerms>选择要升级的终端：</selectTerms>
+	    <memo>说明</memo>
+	    <attention1>● 打“*”项目内容不能为空</attention1>
+		<uncloseAfterSubmit>提交后继续新增</uncloseAfterSubmit>
+    </node>
+</nodes>

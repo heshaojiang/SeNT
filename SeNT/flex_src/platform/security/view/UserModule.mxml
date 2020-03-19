@@ -1,0 +1,393 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	width="100%" height="100%"
+	layout = "vertical" dataDictionaryPaths = "{[ENABLE_OR_DISABLE]}"
+	locale = "userModule"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.util.StringUtil;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			import platform.security.config.UserConfig;
+			import platform.security.message.UserInfoMsg;
+			import platform.security.message.UserMsg;
+			import platform.security.pm.UserModulePM;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.view.TermInfoImportForm;
+			import platform.vo.security.UserVo;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:UserModulePM;
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			private const ENABLE_OR_DISABLE:String = "SysDatadirMgr.javapt.common.enableOrDisable";
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				(userPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				loadUserPageByCondition();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				userPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			// configure the user group
+			public function setGroups():void
+			{
+				if (userPageGrid.selectedItem != null)
+				{
+					var confUserGrpForm:ConfUserGrpForm = new ConfUserGrpForm();
+					var editUser:UserVo = userPageGrid.selectedItem as UserVo;
+					confUserGrpForm.titleKey = "setUserGrp";
+					confUserGrpForm.titleVar = editUser.userName;
+					_context.viewManager.addViewRoot(confUserGrpForm);
+					PopUpManager.showForm(confUserGrpForm, this);
+					confUserGrpForm.pm.user = editUser;
+				}
+			}
+			
+			// configure the user role
+			public function setRoles():void
+			{
+				if (userPageGrid.selectedItem != null)
+				{
+					var confUserRoleForm:ConfUserRoleForm = new ConfUserRoleForm();
+					var editUser:UserVo = userPageGrid.selectedItem as UserVo;
+					confUserRoleForm.titleKey = "setUserRole";
+					confUserRoleForm.titleVar = editUser.userName;
+					_context.viewManager.addViewRoot(confUserRoleForm);
+					PopUpManager.showForm(confUserRoleForm, this);
+					confUserRoleForm.pm.user = editUser;
+				}
+			}
+			
+			// Reset the user password
+			public function resetPassword():void
+			{
+				AlertHandler.confirm(resetCloseHandler, this, "confirmResetPwd");
+			}
+			
+			private function resetCloseHandler(p_evt:CloseEvent):void
+			{
+				if (p_evt.detail == Alert.YES)
+					pm.resetPassword(UserVo(userPageGrid.selectedItem).id);
+			}
+			
+			[MessageHandler(selector="resetPasswordResult")]
+			public function resetPasswordResult(p_msg:UserMsg):void
+			{
+				AlertHandler.alert("resetSuccess");
+			}
+			
+			//add user			
+			public function add():void
+			{
+				var userForm:UserForm = new UserForm();
+				var addUser:UserVo = new UserVo();
+				userForm.titleKey = "addUserForm";
+				_context.viewManager.addViewRoot(userForm);
+				PopUpManager.showForm(userForm, this);
+				userForm.pm.vo = addUser;
+				userForm.pm.menuId = menu.id;
+			}
+			
+			//edit user
+			public function edit():void
+			{
+				if (userPageGrid.checkedItems.length != 1){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				
+				var userForm:UserForm = new UserForm();
+				userForm.titleKey = "updateUserForm";
+				_context.viewManager.addViewRoot(userForm);
+				PopUpManager.showForm(userForm, this);
+				userForm.pm.vo = userPageGrid.checkedItems[0];
+				userForm.pm.menuId = menu.id;
+			}
+			
+			//delete
+			public function del():void
+			{
+				if (userPageGrid.checkedItems.length == 0){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				AlertHandler.confirm(closeHandler, this, "confirmDelete");
+			}
+			
+			private function closeHandler(p_evt:CloseEvent):void
+			{
+				if (p_evt.detail == Alert.YES)
+					pm.batchDelete(DataGridUtil.getPropertys("id", userPageGrid.checkedItems));
+			}
+			[MessageHandler(selector="deleteSelectedResult")]
+			public function deleteSelectedResult(p_msg:UserMsg):void
+			{
+				loadUserPageByCondition();
+			}
+			
+			// load the data by search criteria
+			private function loadUserPageByCondition():void
+			{
+				var condition:Object = {};
+				if(StringUtil.trim(userName.text) != "")
+					condition["LIKES_userName"] = StringUtil.trim(userName.text);
+				if(cid.selectedValue != null){
+					condition["EQS_orgId"] = cid.selectedValue;
+				}else{
+					condition["EQS_orgId"] = UserInfoInit.userInfo["orgId"];
+				}
+				condition["userOrgid"] = UserInfoInit.userInfo["orgId"];
+				condition["flag"] = this.isLoopOrg.selected.toString();
+				pm.getUserPage(condition);
+			}
+			[MessageHandler(selector="getUserPageResult")]
+			public function getUserPageResult(p_msg:UserMsg):void
+			{
+				userPageGrid.checkedItems = [];
+				orgId.getDataList();
+				areaId.getDataList();
+			}
+			[MessageHandler(selector="saveResult")]
+			public function saveResult(p_msg:UserMsg):void
+			{
+				loadUserPageByCondition();
+			}
+			
+			//导出excel
+			public function export():void
+			{
+				var condition:Object = {};
+				if(StringUtil.trim(userName.text) != "")
+					condition["LIKES_userName"] = StringUtil.trim(userName.text);
+				if(cid.selectedValue != null)
+					condition["EQS_orgId"] = cid.selectedValue;
+				condition["userOrgid"] = UserInfoInit.userInfo["orgid"];
+				pm.export(condition);
+				// var langMgr:LanguageManager = LanguageManager.getInstance();
+				//var msg:OrgMsg = new OrgMsg();
+				// var termInfoMsg : TermInfoMsg = new TermInfoMsg;
+				// termInfoMsg.type = "exportTermInfo";
+				// termInfoMsg.args["orgId"] = String(pm.treeXml.@id);
+				// msg.args["language"] = langMgr.currentLanguage;
+				//sendMessage(termInfoMsg);
+			}
+			
+			[MessageHandler(selector="exportUserInfoResult")]
+			public function exportUserInfoResultHandler(userMsg:UserMsg):void
+			{
+				ExternalInterface.call("downloadFile","../servlet/exportFileServlet?fileName=" + userMsg.result.toString()); 
+			}
+			
+			//Add 
+			public function importFile():void
+			{
+				//var vo:UserVo = new UserVo();
+				//vo.formType = TermLocalKeyConsts.ADD_TERMINFO_FORM;
+				//vo.createTime = new Date();
+				//dispatch event
+				var win:UserInfoImportForm = new UserInfoImportForm();
+				
+				win.titleKey = TermLocalKeyConsts.IMPORT_TERMINFO_FORM;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+			}
+			
+			[MessageHandler(selector="importUserInfoExcelResult")]
+			public function importExcelResultHandler(p_msg:UserMsg):void
+			{
+				AlertHandler.alert(p_msg.result.toString());				
+				loadUserPageByCondition();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="UserModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="UserModule"/>
+			<parsley:FlexConfig type="{UserConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<mx:VDividedBox 
+		width="100%" height="100%">
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			
+			<!--<grg:TitleBar/>-->
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<grg:TitleBar locale="titlemsg" width="50%" height="100%"/> 
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "left"
+									paddingLeft = "0"
+									gap="2"
+									verticalAlign = "middle"/>
+							</s:layout>
+							<grg:Label locale = "userNameKey" />
+							<grg:TextInput name = "userName" id="userName"
+										   width="150"
+										   textAlign = "left"
+										   styleName = "TextInput"
+										   restrict="^'"/>
+							
+							<!--是否循环遍历子机构：-->
+							<grg:CheckBox id="isLoopOrg" selected="true">
+							</grg:CheckBox>
+
+							
+							
+							<grg:Label locale = "orgNameKey" />
+							<grg:GRGComboBoxOrgTree id="cid"
+													defaultField="true"
+													width="80"
+													textAlign="left"
+													treeHeight="300"/>
+							
+							<grg:SearchButton id="btn_search" menuId="{menu.id}"
+											  click = "pm.page = new Page();loadUserPageByCondition()"
+											  locale = "searchButton"
+											  iconType = "query" />
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[userName,cid]}"/>
+							
+						</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+					<!--导出-->
+					<grg:Button locale="fileExport" iconType="export" click="export();"  />
+					<!--导入-->
+					<grg:Button locale="fileupload" iconType="import" click="importFile();" />
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" paddingBottom="5" paddingLeft="10" paddingRight="10" borderVisible="false">
+				<grg:GRGExtendPropDataGrid id="userPageGrid" dataProvider="{pm.page.result}"
+										   width="100%" height="100%"
+										   itemType="{UserVo}"
+										   styleName = "DataGrid"
+										   borderVisible = "true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											editable = "false"
+											draggable = "false"
+											resizable = "false"
+											sortable = "false" 
+											textAlign = "center"
+											/>
+						<grg:DataGridColumn locale = "userName"
+											dataField = "userName" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "userCode"
+											dataField = "userCode" 
+											textAlign = "left"
+											/>	
+						<grg:RODataGridColumn labelField = "orgName"
+											  locale = "orgName"
+											  dataField = "orgId"
+											  id="orgId"
+											  valueField = "id"
+											  service = "orgInfoService"
+											  method = "getAllOrg" 
+											  textAlign = "left"
+											  />		
+						<grg:DataGridColumn locale = "tel"
+											dataField = "tel" 
+											textAlign = "left"
+											/>					
+						<grg:DataGridColumn locale = "useremail"
+											dataField = "email" 
+											textAlign = "left"
+											/>
+						<grg:RODataGridColumn labelField = "areaName"
+											  locale = "areaName"
+											  dataField = "areaId"
+											  id="areaId"
+											  valueField = "id"
+											  service = "areaService"
+											  method = "getAllArea" 
+											  textAlign = "left"
+											  />
+						<grg:DataGridColumn locale = "status"
+											labelFunction="{transferDataDict}"
+											dataField = "status" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "operations" headerStyleName="centerDataGridHeader">
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXDataGridItemRenderer>
+										<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+									</s:MXDataGridItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>
+					</grg:columns>
+				</grg:GRGExtendPropDataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="userPagingBar" pageVo="{pm.page}" pagingFunction="{loadUserPageByCondition}"
+								  bottom = "0" />
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

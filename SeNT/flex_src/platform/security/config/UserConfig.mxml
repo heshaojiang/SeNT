@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley"
+			xmlns:services="platform.services.*" 
+			xmlns:pm="platform.security.pm.*"
+			xmlns:message="platform.security.message.*" 
+			xmlns:delegate="platform.security.delegate.*"
+			>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		
+		<!-- user module -->
+		<pm:UserModulePM/>
+		<pm:UserFormPM/>
+		<pm:ConfUserRoleFormPM/>
+		<pm:ConfUserGrpFormPM/>
+		<message:UserMsg/>
+		<delegate:UserDelegate/>
+		<!-- remote object -->
+		<services:GRGRemoteObject id="userService" destination="userService"/>
+	</fx:Declarations>
+</fx:Object>

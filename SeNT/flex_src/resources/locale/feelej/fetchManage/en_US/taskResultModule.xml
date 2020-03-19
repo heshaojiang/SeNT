@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="taskResultModule">
+		<listTitle>Exception List</listTitle>
+		<termId>Term Id</termId>
+		<org>Organization</org>
+		<info>Exception</info>
+		<actBeginTime>Act Begin Time</actBeginTime>
+		<actEndTime>Act End Time</actEndTime>
+		<actTime>Execute Time</actTime>
+		<planTime>Plan Time</planTime>
+		<to>to</to>
+		<operate>Operate</operate>
+		<reFetchButton>Fetch Again</reFetchButton>
+	</node>
+</nodes>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "ErrorCodeAdd">
+		<title>Hata Kodları</title>
+		<devItem>Donanım Bileşenleri: </devItem>
+		<codeItem>Hata Kodu:</codeItem>
+		<brandItem>Marka:</brandItem>
+		<descriptionItem>Açıklama:</descriptionItem>
+		<saveButtonItem>Kaydet</saveButtonItem>
+	</node>
+</nodes>

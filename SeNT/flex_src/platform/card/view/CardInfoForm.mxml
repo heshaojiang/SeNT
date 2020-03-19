@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow
+				width="500" height="390"
+				layout = "vertical"
+				locale = "cardInfoForm"
+				xmlns:fx = "http://ns.adobe.com/mxml/2009"
+				xmlns:s = "library://ns.adobe.com/flex/spark"
+				xmlns:mx = "library://ns.adobe.com/flex/mx"
+				xmlns:parsley="http://www.spicefactory.org/parsley"
+				xmlns:grg="http://grg.grgbanking.com/platform/" helpTips="helpTip">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.card.message.CardInfoMsg;
+			import platform.card.pm.CardInfoFormPM;
+			import platform.common.manager.AlertHandler;
+			import platform.common.validator.VControl;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:CardInfoFormPM;			
+			
+			/**卡应用信息**/
+			[Bindable]
+			public var applyTypes:ArrayCollection;
+			
+			/**卡种类**/
+			[Bindable]
+			public var cardTypes:ArrayCollection;
+			
+			/**update card type success handler**/
+			[MessageHandler(selector="cardInfoSaveSuccess")]
+			public function updateBackHandler(p_msg:CardInfoMsg):void
+			{
+				close();
+			}
+			
+			/**
+			 * 提交前验证
+			 * */
+			private function save():void
+			{
+				if (idLength.numberValue > length.numberValue){
+					AlertHandler.exception("card.cardBinTooLength");
+					return;
+				}
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				pm.save();
+			}
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+		]]>
+	</fx:Script>
+	
+	<grg:Form id="form"
+					width="100%"
+					textAlign = "left"
+					borderVisible = "false">
+		
+		<grg:FormItem id="cardIdLabel"
+							width="100%"
+							textAlign = "left"
+							locale = "cardIdLabel"
+							required = "true">
+			<grg:TextInput id="cardId" name = "cardId" text="@{pm.cardInfo.cardId}"
+						   width="245" vtype="bankcard|maxchars" maxnum="32" maxChars="32"
+							   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="cardNameLabel"
+							width="100%"
+							textAlign = "left"
+							locale = "cardNameLabel"
+							required = "true">
+			<grg:TextInput id="cardName" name = "cardName" maxChars="100"
+						   width="245" maxnum="100" vtype="maxchars" text="@{pm.cardInfo.cardName}"
+							   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="bankIdLabel"
+							width="100%"
+							locale = "bankIdLabel"
+							required = "true">
+			<grg:TextInput id="bankId" name = "bankId" restrict="0-9" maxChars="32"
+						   width="245" maxnum="32" vtype="maxchars" text="@{pm.cardInfo.bankId}"
+							   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="bankNameLabel"
+							width="100%"
+							locale = "bankNameLabel"
+							required = "true">
+			<grg:TextInput id="bankName" name = "bankName" maxChars="100"
+						   width="245" maxnum="100" vtype="maxchars" text="@{pm.cardInfo.bankName}"
+							   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="lengthLabel"
+							width="100%"
+							locale = "lengthLabel"
+							required="true">
+			<grg:TextInput id="length" name = "length" text="@{pm.cardInfo.length}" maxChars="2"
+						   width="245" maxnum="2" vtype="maxchars" restrict="0-9" required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="idLengthLabel"
+							width="100%"
+							required="true"
+							locale = "idLengthLabel">
+			<grg:TextInput id="idLength" name = "idLength" text="@{pm.cardInfo.idLength}" maxChars="2"
+						   width="245" maxnum="2" vtype="maxchars" restrict="0-9" required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="applyATMLabel"
+							width="100%"
+							required="true"
+							locale = "applyATMLabel">
+			<grg:ComboBox id="applyATM" name = "applyATM" dataProvider="{applyTypes}"
+						  width="180" selectedValue="@{pm.cardInfo.applyATM}" labelField="text"
+							   valueField="key"/>
+		</grg:FormItem>
+		<grg:FormItem id="applyPOSLabel"
+							width="100%"
+							required="true"
+							locale = "applyPOSLabel">
+			<grg:ComboBox id="applyPOS" name = "applyPOS" dataProvider="{applyTypes}"
+						  width="180" selectedValue="@{pm.cardInfo.applyPOS}" labelField="text"
+							   valueField="key"/>
+		</grg:FormItem>
+		<grg:FormItem id="cardTypeLabel"
+							width="100%"
+							required="true"
+							locale = "cardTypeLabel">
+			<grg:ComboBox id="cardType" name = "cardType" dataProvider="{cardTypes}"
+						  width="180" selectedValue="@{pm.cardInfo.cardType}" labelField="text"
+							   valueField="key"/>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "save()"
+				locale = "saveButton"
+				iconVisible="false"
+				 />
+		</s:BorderContainer>
+		<!--<grg:Button 
+			click = "pm.reset()"
+			locale = "resetButton"
+			iconType = "reset" />-->
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton"
+				iconVisible="false"
+				 />
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

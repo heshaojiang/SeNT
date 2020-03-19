@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtServiceTimeReportModule">
+		<listTitle>查询结果列表</listTitle>
+		<termId>终端编号</termId>
+		<termType>终端类型</termType>
+		<brand>终端品牌</brand>
+		<orgId>所属机构</orgId>
+		<orgName>机构名称</orgName>
+		<oosTime>停止服务时间（分）</oosTime>
+		<maintainTime>管理员模式时间（分）</maintainTime>
+		<serviceTime>服务模式时间（分）</serviceTime>
+		<fullTime>总时间（分）</fullTime>
+		<inServiceRate>开机率</inServiceRate>
+		<org>所属机构</org>
+		<beginDate>统计时间从</beginDate>
+		<endDate>至</endDate>
+		<export>导出</export>
+	</node>
+</nodes>

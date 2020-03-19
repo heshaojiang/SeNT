@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardTypeForm">
+		<editCardType>编辑</editCardType>
+		<newCardType>新增</newCardType>
+		<orgIdLabel>所属机构：</orgIdLabel>
+		<cardIdLabel>卡标识：</cardIdLabel>
+		<selfLabel>本行卡：</selfLabel>
+		<provinceLabel>本省卡：</provinceLabel>
+		<localLabel>本地卡：</localLabel>
+		<cardHelp>1.设置形式“x,y,z”表示从卡号的第x位（首位为0）取长度y与z进行比较，相等符合条件，多个条件用“;”隔开
+2.三种卡的判断条件不要重复，既本省卡只判断是否为本省卡不必加入判断本行卡的条件，本地卡也不必加入判断本省卡的条件
+3.本地卡必是本省卡，本省卡必是本行卡，不属于本省的本行卡为外省卡，非本行卡既他行卡
+		</cardHelp>
+	</node>
+</nodes>

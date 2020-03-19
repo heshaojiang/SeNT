@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="specialRegulationForm">
+		<addRegulation>新增规则</addRegulation>
+		<moneyTypeLabel>币种：</moneyTypeLabel>
+		<moneyDenominationLabel>面额：</moneyDenominationLabel>
+		<sourceLabel>来源：</sourceLabel>
+		<resultLabel>监控原因：</resultLabel>
+		<specialTypeLabel>特殊规则类型：</specialTypeLabel>
+		<regulationLabel>冠字号码：</regulationLabel>
+		<addSpecialRegulationForm>新增</addSpecialRegulationForm>
+		<editSpecialRegulation>编辑</editSpecialRegulation>
+		<doubleRegulationLabel>范围规则：</doubleRegulationLabel>
+		<singleRegulationLabel>单规则：</singleRegulationLabel>
+		<uncloseAfterSubmit>提交后继续新增</uncloseAfterSubmit>
+	</node>
+</nodes>

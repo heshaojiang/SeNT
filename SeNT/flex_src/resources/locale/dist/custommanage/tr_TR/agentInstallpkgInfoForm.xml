@@ -1,0 +1,21 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  Description： agent配置
+	  Create Time：2011-9-15   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "agentInstallpkgInfoForm">
+		<addAgentInstallpkgInfoForm>Agent Kurulumu Ekle</addAgentInstallpkgInfoForm>
+		<updateAgentInstallpkgInfoForm>Agent Kurulumu Değiştir</updateAgentInstallpkgInfoForm>
+		<fileidItem>Dosya Id:</fileidItem>
+		<versionItem>Sürüm No:</versionItem>
+		<urlItem>Dosya Adresi:</urlItem>
+		<md5Item>MD5:</md5Item>
+		<sha1Item>SHA1:</sha1Item>
+		<fileUploadDateItem>Dosya Yükleme Zamanı:</fileUploadDateItem>
+		<noteItem>Açıklama:</noteItem>
+		<uploadFileItem>Dosya Yükle</uploadFileItem>
+		<UploadFileInfo>Dosya Yükleme Bilgisi</UploadFileInfo>
+	</node>
+</nodes>

@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：可疑交易监控参数<br>
+		Create Time：2011-9-16<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "doubtfulTransactionParamModule">
+		<listTitle>可疑交易监控参数列表</listTitle>
+		<searchItem>搜索关键字</searchItem>
+		<eventTypeItem>事件类型</eventTypeItem>
+		<handlermodeItem>处理方式</handlermodeItem>
+		<alerLevelItem>预警级别</alerLevelItem>
+		<awokemodeItem>提醒方式</awokemodeItem>
+		<typeItem>生成方式</typeItem>
+		<menoItem>备注</menoItem>
+		<operateButton>操作</operateButton>
+		<editeButton>修改</editeButton>
+		<deleteButton>删除</deleteButton>
+	</node>
+</nodes>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   implements="platform.module.IModule"
+			   xmlns:parsley="http://www.spicefactory.org/parsley" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   dataDictionaryPaths="{[ENABLE_OR_DISABLE, USERROLEMANAGER_PATH]}"
+			   layout="vertical"
+			   locale="roleModule" 
+			   width="100%" height="100%">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="RoleModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="RoleModule"/>
+			<parsley:FlexConfig type="{RoleConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.security.config.RoleConfig;
+			import platform.security.message.RoleMsg;
+			import platform.security.pm.RoleModulePM;
+			import platform.vo.security.RoleVo;
+			
+			[Inject]
+			[Bindable]
+			public var pm:RoleModulePM;
+			
+			private const ENABLE_OR_DISABLE:String = "SysDatadirMgr.javapt.common.enableOrDisable";
+			private const USERROLEMANAGER_PATH:String = "SysDatadirMgr.javapt.userRoleManager.roleLevel";
+			
+			override protected function getDataDictCallback():void
+			{
+				(rolePageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = ENABLE_OR_DISABLE;
+				if(column.dataField == "roleLevel")
+					currentDataDictPath = USERROLEMANAGER_PATH;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				loadRolePage();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				rolePageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			[MessageHandler(selector="getRolePageResult")]
+			public function getRolePageResult(p_msg:RoleMsg):void
+			{
+				rolePageGrid.checkedItems = [];
+			}
+			
+			// Load the data by search criteria
+			private function loadRolePage():void
+			{
+				pm.getRolePage(roleName.text);
+			}
+			
+			//privilege button bar
+			public function add():void
+			{
+				var roleForm:RoleForm = new RoleForm();
+				roleForm.titleKey = "addRoleForm";
+				_context.viewManager.addViewRoot(roleForm);
+				PopUpManager.showForm(roleForm, this);
+				roleForm.pm.vo = new RoleVo();
+				roleForm.pm.menuId = menu.id;
+			}
+			public function edit():void
+			{
+				if (rolePageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				
+				var roleForm:RoleForm = new RoleForm();
+				roleForm.titleKey = "updateRoleForm";
+				_context.viewManager.addViewRoot(roleForm);
+				PopUpManager.showForm(roleForm, this);
+				roleForm.pm.vo = rolePageGrid.checkedItems[0];
+				roleForm.pm.menuId = menu.id;
+			}
+			public function del():void
+			{
+				if (rolePageGrid.checkedItems.length == 0){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				AlertHandler.confirm(closeHandler, this, "confirmDelete");
+			}
+			private function closeHandler(p_evt:CloseEvent):void
+			{
+				if (p_evt.detail == Alert.YES)
+					pm.batchDelete(DataGridUtil.getPropertys("id", rolePageGrid.checkedItems));
+			}
+			[MessageHandler(selector="deleteSelectedResult")]
+			public function deleteSelectedResult(p_msg:RoleMsg):void
+			{
+				loadRolePage();
+			}
+			
+			//Configure the Role User Relationship
+			public function setUsers():void
+			{
+				if (rolePageGrid.selectedItem != null){
+					var confRoleUserForm:ConfRoleUserForm = new ConfRoleUserForm();
+					
+					confRoleUserForm.titleKey="setUser";
+					confRoleUserForm.titleVar=RoleVo(rolePageGrid.selectedItem).roleName;
+					_context.viewManager.addViewRoot(confRoleUserForm);
+					PopUpManager.showForm(confRoleUserForm, this);
+					confRoleUserForm.pm.role = rolePageGrid.selectedItem as RoleVo;
+					
+				}
+			}
+			
+			//Configure the Role Privilege Relationship
+			public function setPrivileges():void
+			{
+				if (rolePageGrid.selectedItem != null)
+				{
+					var confRolePriviForm:ConfRolePriviForm = new ConfRolePriviForm();
+					
+					confRolePriviForm.titleKey = "setRolePrivi";
+					confRolePriviForm.titleVar = RoleVo(rolePageGrid.selectedItem).roleName;
+					_context.viewManager.addViewRoot(confRolePriviForm);
+					PopUpManager.showForm(confRolePriviForm, this);
+					confRolePriviForm.pm.role = rolePageGrid.selectedItem as RoleVo;
+				}
+			}
+			
+			//Configure the Role Group Relationship
+			public function setGroups():void
+			{
+				if (rolePageGrid.selectedItem != null){
+					var confRoleGrpForm:ConfRoleGrpForm = new ConfRoleGrpForm();
+					
+					confRoleGrpForm.titleKey = "setRoleGrp";
+					confRoleGrpForm.titleVar=RoleVo(rolePageGrid.selectedItem).roleName;
+					_context.viewManager.addViewRoot(confRoleGrpForm);
+					PopUpManager.showForm(confRoleGrpForm, this);
+					confRoleGrpForm.pm.role = rolePageGrid.selectedItem as RoleVo;
+				}
+			}
+			//编辑或新增成功时刷新列表
+			[MessageHandler(selector="saveRoleResult")]
+			public function saveRoleResult(p_msg:RoleMsg):void
+			{
+				if(p_msg.result == 0)
+					loadRolePage();
+			}
+		]]>
+	</fx:Script>
+	<mx:VDividedBox width="100%" height="100%">
+		<s:BorderContainer width="100%" height="100%"
+						   styleName="BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			
+			<!--<grg:TitleBar/>-->
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<!--角色管理-->
+				<grg:TitleBar locale="titlemsg" width="50%"/> 
+				<mx:HBox width="100%" styleName="senHBoxStyle">
+					<mx:HBox verticalAlign="middle" paddingBottom="3" paddingTop="2">
+						<s:BorderContainer styleName="searchStyle" width="100%" height="25">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="left"  
+									verticalAlign="middle"
+									gap="2"
+									/>
+							</s:layout>
+							<!--角色名: -->
+							<grg:Label locale="roleNameKey"/>
+							<grg:TextInput id="roleName" name="roleName"
+										   styleName="TextInput" width="113" textAlign="left"
+										   />
+							<grg:SearchButton menuId="{menu.id}"
+											  id="btn_search"
+											  click="pm.page.pageNo=1;loadRolePage()"
+											  locale="searchButton"
+											  iconType="query" />
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[roleName]}"/>
+							
+						</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			<mx:HBox width="100%" verticalAlign="top" paddingLeft="10" paddingBottom="2" paddingTop="3">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">	
+				<grg:DataGrid id="rolePageGrid" dataProvider="{pm.page.result}"
+							  width="100%" height="100%"
+							  styleName="DataGrid"
+							  borderVisible="true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											textAlign="center"
+											/>
+						<!--角色名称-->
+						<grg:DataGridColumn locale="roleName" 
+											dataField="roleName"
+											textAlign="left"
+											/>
+						<grg:RODataGridColumn labelField = "orgName"
+											  locale = "orgName"
+											  dataField = "orgId"
+											  id="orgId"
+											  valueField = "id"
+											  service = "orgInfoService"
+											  method = "getAllOrg" 
+											  textAlign = "left"
+											  />	
+						<!--角色级别-->
+						<grg:DataGridColumn locale="roleLevel"  
+											labelFunction="{transferDataDict}" 
+											dataField="roleLevel"
+											textAlign="left"
+											/>
+						<!--状态-->
+						<grg:DataGridColumn locale="status" 
+											labelFunction="{transferDataDict}"
+											dataField="status" 
+											textAlign="left"
+											/>
+						<!--操作-->
+						<grg:DataGridColumn locale="operater" 
+											headerStyleName="centerDataGridHeader">
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXDataGridItemRenderer>
+										<!--<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>-->
+										<grg:GRGModuleButtonBar2 width="100%" height="16" align="center" menuId="{parentDocument.menu.id}">
+											<!--设置权限-->
+											<grg:Image id="setPrivilegesBtn" privilegeCode="setPrivileges" type="setPrivileges"
+													   locale="setPrivileges" width="16" height="16"
+													   click="parentDocument.setPrivileges()" />
+											<!--设置用户-->
+											<grg:Image id="setUsersBtn" privilegeCode="setUsers" type="setUsers"
+													   locale="setUsers" width="16" height="16"
+													   click="parentDocument.setUsers()" />
+											<!--设置组-->
+											<grg:Image id="setGroupsBtn" privilegeCode="setGroups" type="setGroups"
+													   locale="setGroups" width="16" height="16"
+													   click="parentDocument.setGroups()" />
+										</grg:GRGModuleButtonBar2>
+									</s:MXDataGridItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="rolePagingBar" pageVo="{pm.page}" pagingFunction="{loadRolePage}"
+								  bottom="0" />
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

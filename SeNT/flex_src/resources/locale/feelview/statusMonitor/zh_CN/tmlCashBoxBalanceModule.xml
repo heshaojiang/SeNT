@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：钱箱余额查询<br>
+        Create Time：2011-12-24 <br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlCashBoxBalanceModule">
+		<listTitle>钞箱余额查询列表</listTitle>
+		<termIdItem>终端编号</termIdItem>
+		<orgIdItem>所属机构</orgIdItem>
+		<cashBoxOneItem>钞箱一</cashBoxOneItem>
+		<cashBoxTwoItem>钞箱二</cashBoxTwoItem>
+		<cashBoxThreeItem>钞箱三</cashBoxThreeItem>
+		<cashBoxFourItem>钞箱四</cashBoxFourItem>
+		<cashBoxFiveItem>钞箱五</cashBoxFiveItem>
+		<cashBoxSixItem>钞箱六</cashBoxSixItem>
+		<cashBoxSevenItem>钞箱七</cashBoxSevenItem>
+		<cashBoxEightItem>钞箱八</cashBoxEightItem>
+		<cashBoxNineItem>钞箱九</cashBoxNineItem>
+	</node>
+</nodes>

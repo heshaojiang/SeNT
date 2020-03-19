@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="faultInfoCheckInModule">
+		<titlemsg>涉假信息登记</titlemsg>
+		
+		<orgIdColon>所属机构：</orgIdColon>
+		<checkInTimeColon>申请日期：</checkInTimeColon>
+		<to>至</to>
+		
+		<addInfo>涉假信息登记</addInfo>
+		<addAgainInfo>涉假信息再登记</addAgainInfo>
+		
+		<rowNo>序号</rowNo>
+		<applyDate>申请日期</applyDate>
+		<querySeriaNo>冠字号码</querySeriaNo>
+		<querySeriaNoColon>冠字号码：</querySeriaNoColon>
+		<clientName>申请人</clientName>
+		<agentName>代理申请人</agentName>
+		<withdrawalDate>取款日期</withdrawalDate>
+		<withdrawalBank>取款银行</withdrawalBank>
+		<queryResult>查询结果</queryResult>
+		<operations>操作</operations>
+		<registionType>登记类型</registionType>
+		
+		<viewRowDetailInfo>查看详情</viewRowDetailInfo>
+		<expExcel>Excel文件导出</expExcel>
+		
+	</node>
+
+</nodes>

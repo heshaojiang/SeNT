@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   xmlns:modulebuttonbar="platform.component.complex.modulebuttonbar.*"
+			   dataDictionaryPaths="{[CmlSentInfoConsts.CML_TYPE, 
+										CmlSentInfoConsts.NOTE_TYPE,
+										CmlSentInfoConsts.CURRENCY,
+										CmlSentInfoConsts.MONEYDENOMINATION,CmlSentInfoConsts.VERSION_NUM]}" 
+			   xmlns:userDefined="platform.date.*"
+			   locale="cmlTaskInfoModule"
+			   layout="vertical" 
+			   width="100%" height="100%" 
+			   >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.formatter.DateFormatter;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.CmlNoteflowDetailInfoConfig;
+			import sent.transmgr.config.CmlNoteflowInfoConfig;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			import sent.transmgr.config.CmlTaskInfoConfig;
+			import sent.transmgr.config.CmlTaskInfoModuleConfig;
+			import sent.transmgr.constants.CmlSentInfoConsts;
+			import sent.transmgr.constants.DataDictPathConsts;
+			import sent.transmgr.message.CmlTaskInfoMsg;
+			import sent.transmgr.pm.CmlTaskInfoPM;
+			import sent.transmgr.vo.CmlTaskInfoVO;
+			
+			import spark.events.IndexChangeEvent;
+			
+			//================================================
+			/** 清分交易检索 **/
+			//================================================
+			
+			[Inject]
+			[Bindable]
+			public var pm:CmlTaskInfoPM;
+			
+			[Bindable]
+			public var cmlTaskInfoPage:Page = new Page();
+			
+			/**
+			 * 操作员列表
+			 */
+			[Bindable]
+			public var operatorList:ArrayCollection;
+			
+            /**
+			 * 终端编号列表
+			 */
+			[Bindable]
+			public var termList:ArrayCollection;
+			
+			[Bindable]
+			public var operatroById:ArrayCollection;
+			
+			[Bindable]
+			public var tmlById:ArrayCollection;
+			
+			
+			/* public var visibleVar:Boolean; */
+			override protected function getDataDictCallback():void
+			{
+				(taskInfoDataGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "rotoCashType")
+					currentDataDictPath = CmlSentInfoConsts.CML_TYPE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			/**
+			 * 查询出操作员和终端信息
+			 */
+			public function findOperatorTermList():void
+			{
+				var msg:CmlTaskInfoMsg = new CmlTaskInfoMsg();
+				
+				msg.type="findOperatorAllList";
+				sendMessage(msg);
+				
+				msg.type="findAllTermList"; 
+				sendMessage(msg);
+			}
+			
+			/**
+			 * 
+			 * 打开子窗口
+			 * @param p_winName 打开窗口类型（新增或编辑）
+			 * @param p_vo 要新增或修改的VO
+			 * @param p_isEditTopArea 是否在编辑顶级区域
+			 * 
+			 */
+			public function openWin(p_winName:String, p_vo:CmlTaskInfoVO):void
+			{
+				
+				var win:CmlTaskInfoForm= new CmlTaskInfoForm();
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				win.titleKey = p_winName;
+				win._cmlTaskInfos = p_vo;
+				win.pm.menuId = this.menu.id;	
+				
+				
+			}
+			
+			/**
+			 * 修改清分任务信息
+			 */
+			public function edit():void
+			{
+				//判断是否选择一项
+				if(!taskInfoDataGrid.checkedItems || taskInfoDataGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				} 
+				//打开对应选择的编辑窗口
+				var temp:CmlTaskInfoVO =taskInfoDataGrid.checkedItems[0] as CmlTaskInfoVO;
+				var str:String = CmlSentInfoConsts.EDIT_CMLTASKINFO;
+				openWin(str,temp);
+			}
+	
+			/**
+			 * 获得用户信息
+			 */
+			[MessageHandler(selector="loadUsersInfoResult")]
+			public function loadRecipientHandler(p_msg:CmlTaskInfoMsg):void
+			{
+				var win:CmlTaskInfoForm= new CmlTaskInfoForm();
+			}
+			
+			/**
+			 * 查找操作员列表
+			 */
+			[MessageHandler(selector="findOperatorAllListResult")]
+			public function findAllOperatorListResultHandler(p_msg:CmlTaskInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					operatorList=p_msg.result as ArrayCollection;
+					var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+					var allItem:Object = {key:str};
+					operatorList.addItemAt(allItem,0);  
+			   }
+			}
+			
+			/**
+			 * 查找终端列表
+			 */
+			[MessageHandler(selector="findAllTermListResult")]
+			public function findAllTermListResultHandler(p_msg:CmlTaskInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					 termList=p_msg.result as ArrayCollection;
+					 var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+					  var allItem:Object = {key:str};
+					 termList.addItemAt(allItem,0);  
+				}
+			}
+			
+			/**
+			 * 查找机构查找终端信息
+			 */
+			[MessageHandler(selector="findTmlNumByOrgListResult")]
+			public function findTmlNumByOrgListResultHandler(p_msg:CmlTaskInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					termList=p_msg.result as ArrayCollection;
+					var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+					var allItem:Object = {key:str};
+					termList.addItemAt(allItem,0);  
+				}
+			}
+			
+			/**
+			 * 根据机构查找对应操作员信息 
+			 */
+			[MessageHandler(selector="findOperatorByOrgListResult")]
+			public function findOperatorByOrgListResultResultHandler(p_msg:CmlTaskInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					operatorList=p_msg.result as ArrayCollection;
+					var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+					var allItem:Object = {key:str};
+					operatorList.addItemAt(allItem,0);  
+				}
+			}
+			
+			/**
+			 * 导出excel
+			 */
+			public function exportTaskInfo():void
+			{
+				var msg:CmlTaskInfoMsg = new CmlTaskInfoMsg();
+				msg.type = "exportTaskInfo";	// java: "report", result: "exportTaskInfoResult"
+				msg.args["vo"] = pm.cmlTaskInfo;
+				msg.args["startTime"] = DateFormatter.format(pm.cond.startTime, "YYYY-MM-DD JJ:NN:SS");
+				msg.args["endTime"] = DateFormatter.format(pm.cond.endTime, "YYYY-MM-DD JJ:NN:SS");
+				sendMessage(msg);
+			}
+			
+			/**
+			 * 显示清分任务详情
+			 */
+			public function showTransDetailInfo():void
+			{
+				var obj:CmlTaskInfoVO = taskInfoDataGrid.selectedItem as CmlTaskInfoVO;
+				
+				//打开子窗口
+				var win:ShowCmlTaskInfo = new ShowCmlTaskInfo();
+				
+				//win.cmlTaskInfo = ObjectUtil.copy(obj) as CmlTaskInfoVO;
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.initData(obj.id);
+			}
+			
+//			[MessageHandler(selector="getCmlSentInfosPageByTranIdResult")]
+//			public function getCmlSentInfosPageByTranIdResult(p_msg:CmlTaskInfoMsg):void
+//			{
+//				if( p_msg )
+//				{
+//					pm.tranPage = p_msg.result as Page;
+//				}
+//			}
+			
+			protected function cid_changeHandler(event:IndexChangeEvent):void
+			{
+				
+			}
+			
+			
+			protected function checkQueryCondition():Boolean
+			{
+				if( this.startTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeNull"));
+					return false;
+				}
+				if( this.endTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.endTimeCannotBeNull"));
+					return false;
+				}
+				if( this.startTime.selectedDate.time > this.endTime.selectedDate.time )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeGreaterThanEndTime"));
+					return false;
+				}
+				return true;
+			}
+			
+			protected function loadPage():void
+			{
+				if( checkQueryCondition()==false )
+				{
+					return ;
+				}
+				
+				var parameter:Object = {};
+				parameter.page = cmlTaskInfoPage;
+				
+				var condition:Object = {};
+				condition.startTime  = startTime.text;
+				condition.endTime    = endTime.text;
+				condition.termId     = tmlNum.text;
+				condition.pathCode   = String(orgId.selectedItem.@pathCode);
+				condition.flag=isLoopOrg.selected.toString();
+				//condition.operatorId = operator.text;
+				parameter.condition = condition;
+				
+				var msg:CmlTaskInfoMsg = new CmlTaskInfoMsg();
+				msg.args["remoteMethod"]   = "getCmlTaskInfoPage";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "CmlTaskInfoModule.getCmlTaskInfoPageResult";
+				msg.args["errorHandler"]   = "CmlTaskInfoModule.getCmlTaskInfoPageError";
+				pm.sendCmlTaskInfoMsg(msg);
+				
+				//pm.loadPage();
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="CmlTaskInfoModule.getCmlTaskInfoPageResult")]
+			public function getCmlTaskInfoPageResult(msg:CmlTaskInfoMsg):void
+			{
+				trace("CmlTaskInfoModule.getCmlTaskInfoPageResult");
+				cmlTaskInfoPage = msg.result as Page;
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="CmlTaskInfoModule.getCmlTaskInfoPageError")]
+			public function getCmlTaskInfoPageError(msg:CmlTaskInfoMsg):void
+			{
+				trace("CmlTaskInfoModule.getCmlTaskInfoPageError");
+			}
+			
+			private function createRowNo(oItem:Object,iCol:int):String{
+				var iIndex:int = ((cmlTaskInfoPage.pageNo - 1) * cmlTaskInfoPage.pageSize) + cmlTaskInfoPage.result.getItemIndex(oItem) + 1;
+				return String(iIndex);
+			}
+			
+			public function transformBusinessType(item:Object, column:DataGridColumn):String
+			{
+				super.currentDataDictPath = DataDictPathConsts.CML_TASK_BUSINESS_TYPE;
+				return super.transferDataDict(item, column);
+			}
+
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'YYYY-MM-DD JJ:NN:SS');
+				endTime.selectedDate = DateUtils.createDate(1, 'YYYY-MM-DD JJ:NN:SS');
+			}
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false" />
+			<parsley:Scope name="cmlTaskInfoModule" /> 
+			<parsley:MessageSettings defaultReceiverScope="cmlTaskInfoModule" />
+			<parsley:FlexConfig type="{DataDictConfig}" />
+			<parsley:FlexConfig type="{CmlTaskInfoModuleConfig}" />
+			<parsley:FlexConfig type="{CmlTaskInfoConfig}" />
+			<parsley:FlexConfig type="{CmlSentInfoConfig}" />
+			<parsley:FlexConfig type="{CmlNoteflowInfoConfig}" />
+			<parsley:FlexConfig type="{CmlNoteflowDetailInfoConfig}" />
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Binding source="startTime.selectedDate" destination="pm.cond.startTime"/>
+	<fx:Binding source="endTime.selectedDate" destination="pm.cond.endTime"/>
+	<fx:Binding source="tmlNum.text" destination="pm.cmlTaskInfo.termId"/>
+	<fx:Binding source="orgId.selectedValue" destination="pm.cmlTaskInfo.pathcode" />
+	<!--<fx:Binding source="operator.text" destination="pm.cmlTaskInfo.operatorId"/>-->
+	
+	<!--搜索条件框-->
+	<mx:VDividedBox width="100%" height="100%">
+		<s:BorderContainer  width="100%" height="100%" styleName="BorderContainer">
+			
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			
+			<grg:AdvancedSearchBar textAlign="center" styleName="SearchBar" borderVisible="false">
+				<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+					<!--清分交易检索-->
+					<grg:TitleBar locale="titlemsg" width="50%" height="100%"/> 
+					<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+						<mx:HBox styleName="searchStyle">
+							<s:BorderContainer width="100%" height="25" backgroundAlpha="0" borderVisible="false">
+								<s:layout>
+									<s:HorizontalLayout 
+										horizontalAlign="left"
+										paddingLeft="0"
+										gap="2"
+										verticalAlign="middle"/>
+								</s:layout>
+								<!--清分员：
+								<grg:Label locale="operatorName" />
+								<grg:TextInput id="operator"  textAlign="left" restrict="^'"
+											   width="100" height="20"
+											   styleName="TextInput" />-->
+								
+								
+								<!--是否循环遍历子机构：-->
+								<grg:CheckBox id="isLoopOrg" selected="true">
+								</grg:CheckBox>
+								
+								<!--所属机构：-->
+								<grg:Label locale="orgid"/>
+								<grg:GRGComboBoxOrgTree id="orgId"
+														defaultField="true"
+														textAlign="left"
+														width="100"
+														treeHeight="400" 
+														/>
+								<!--日期：-->
+								<grg:Label locale="sendTime" />
+								<userDefined:SuperDateField id="startTime" myEnabled="false" 
+													selectedDate="{DateUtils.createDate(-6, 'YYYY-MM-DD JJ:NN:SS')}"
+													selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+								<grg:Label locale="to"/>
+								<userDefined:SuperDateField id="endTime" myEnabled="false" selectedDate="{DateUtils.createDate(1, 'YYYY-MM-DD JJ:NN:SS')}"
+													selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+							
+								<grg:SearchButton id="btn_search"
+												  locale="searchButton" menuId="{menu.id}" 
+												  iconType="query" click="cmlTaskInfoPage.pageNo=1;loadPage()"/>
+								<grg:ExpansionButton locale="moreSearch" iconType="pulldown"/> 				
+								<grg:ResetButton id="resetBtn" locale="resetButton" iconType="reset" click="initSelectDate()"
+												 resetControls="{[/*operator,startTime,endTime*/orgId,tmlNum]}"/>
+							</s:BorderContainer>
+						</mx:HBox> 
+					</mx:HBox>
+				</mx:HBox> 
+				
+				<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+					
+					<s:layout>
+						<s:VerticalLayout gap="0" paddingBottom="0" />
+					</s:layout>
+					
+					<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+					</s:BorderContainer>
+					
+					<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+						
+						<s:layout>
+							<s:VerticalLayout   gap="0" />
+						</s:layout>
+						
+						<mx:HBox width="100%" styleName="expHBoxStyle">  
+							<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+								<s:layout>
+									<s:HorizontalLayout horizontalAlign="right" gap="2" verticalAlign="middle" />
+								</s:layout>
+								<!--终端编号：-->
+								<grg:Label locale="tmlNum" />
+								<grg:TextInput id="tmlNum"  textAlign="left" restrict="0-9a-zA-Z\-"
+											   width="100" height="20"
+											   styleName="TextInput" />
+								
+							</s:BorderContainer>
+						</mx:HBox>
+					</s:BorderContainer>
+					
+				</s:BorderContainer>
+			</grg:AdvancedSearchBar>
+			
+			<!--导出-->
+			<!--
+			<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingTop="2"/>
+					</s:layout>
+			
+					<grg:GRGModuleButtonBar2 width="100%" height="20" align="center" menuId="{menu.id}">
+						<grg:Button locale="export" id="export" privilegeCode="export" click="exportTaskInfo()"
+									icon="@Embed('resources/theme/images/icons/export.png')"/>
+					</grg:GRGModuleButtonBar2>
+				</s:BorderContainer>
+			</mx:HBox>-->
+			
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				<grg:DataGrid id="taskInfoDataGrid" dataProvider="{cmlTaskInfoPage.result}"
+							  width="100%" height="100%" textAlign="center" styleName="DataGrid" borderVisible="true">
+					<grg:columns>
+						<grg:DataGridColumn locale="columnNo"  textAlign="center" labelFunction="createRowNo" sortable="false" width="50"/>
+						<!--终端编号-->
+						<grg:DataGridColumn locale="tmlId" width="100" dataField="termId" textAlign="center"/>
+						<!--流水号-->
+						<grg:DataGridColumn locale="journalNo" dataField="journalNo" width="55" textAlign="center"/>
+						<!--张数-->
+						<grg:DataGridColumn locale="tranCount" width="100" dataField="tranCount" textAlign="center"/>
+						<!--预清分金额-->
+						<grg:DataGridColumn locale="beforeCount" width="100" dataField="beforeAmt" textAlign="center"/>
+						<!--统计金额-->
+						<grg:DataGridColumn locale="totalMoney" width="100" dataField="statisAmt" textAlign="center"/>
+						<!--清分业务类别-->
+						<grg:DataGridColumn locale="businessType" dataField="rotoCashType" width="55" labelFunction="{transformBusinessType}" />
+						<!--清分日期-->
+						<grg:DataGridColumn locale="bindStart" width="170" dataField="bindStart" textAlign="center" labelFunction="{DataGridColumnUtils.formatDate}" fontSize="14">
+							
+						</grg:DataGridColumn>
+						<!--操作员-->
+						<grg:DataGridColumn locale="tdOperatorId"   dataField="tdOperatorId"   width="55" />
+						<!--操作-->
+						<grg:DataGridColumn locale="operators" width="100" headerStyleName="centerDataGridHeader" textAlign="center">
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXDataGridItemRenderer>
+										<!--<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>-->
+										<grg:GRGModuleButtonBar2 width="100%" height="16" align="center" menuId="{parentDocument.menu.id}">
+											<!--查看交易信息-->
+											<grg:Image id="showTransDetailBtn" privilegeCode="showTransDetailInfo"
+													   source="@Embed('/resources/theme/images/icons/detail.png')" 
+													   locale="showTransDetailInfo" width="16" height="16"
+													   click="parentDocument.showTransDetailInfo()" />
+										</grg:GRGModuleButtonBar2>
+									</s:MXDataGridItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{cmlTaskInfoPage}" pagingFunction="{loadPage}"/>
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

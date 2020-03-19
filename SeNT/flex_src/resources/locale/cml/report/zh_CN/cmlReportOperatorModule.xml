@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+ <nodes>
+     <node locale="cmlReportOperatorModule">
+		<titlemsg>清分员报表管理</titlemsg>
+		<pro>清分员：</pro>
+		<startTime>开始时间：</startTime>
+		<endTime>结束时间：</endTime>
+	
+		<beforeCount>预清分金额</beforeCount>
+		<tatalmoney>清分总金额</tatalmoney>
+		<export>导出</export>
+  </node>
+</nodes>

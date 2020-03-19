@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:parsley="http://www.spicefactory.org/parsley"
+		 xmlns:s="library://ns.adobe.com/flex/spark"  xmlns:grg="http://grg.grgbanking.com/platform/"
+		 locale="winImpCmlSent" titleKey="impCmlSentInfos"  dataDictionaryPaths="{[CmlImpRecordConsts.UPLOAD_STATUS]}"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="660" height="400" creationComplete="doInit()">
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.task.vo.CmlTaskInfosVO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.utils.StringUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.transmgr.constants.CmlImpRecordConsts;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			
+			[Bindable]
+			public var tmlType:String;
+			
+			[Bindable]
+			public var cmlTaskInfos:CmlTaskInfosVO ;
+			
+			[Bindable]
+			public var pendingFiles:ArrayCollection =new ArrayCollection();
+			
+			[Bindable]
+			public var obj:Object = new Object;
+			
+			//计数器
+			public var coin :Number  = 0;
+			
+			[Inject]
+			[Bindable]
+			public var pm:CmlSentInfoPM;
+			
+			//此处上传结果
+			[Bindable]
+			public var resultImp:ArrayCollection = new ArrayCollection;
+			
+			[Bindable]
+			public  var termTypeList:ArrayCollection=new ArrayCollection();
+			
+			//用来显示的 
+			[Bindable]
+			public var viewFile:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			public var arrayfile:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			public var taskFile:FileReference;
+			
+			public var fileRec:FileReferenceList;
+			
+			public function doInit():void
+			{
+				trace("WinImpCmlSent.doInit");
+	          	var allitem0:Object = {key:"0",text:"CM2000"};
+				var allitem1:Object = {key:"1",text:"CM400"};
+				var allitem2:Object = {key:"2",text:"UW500"};
+				if(termTypeList.length==0)
+				{
+					termTypeList.addItemAt(allitem0,0);
+					termTypeList.addItemAt(allitem1,1);
+					termTypeList.addItemAt(allitem2,2);
+					pm.loadImpPage();
+				}
+			}
+			
+			protected function cancle_clickHandler(event:MouseEvent):void
+			{
+				trace("WinImpCmlSent.cancle_clickHandler");
+				filePath.text="";
+			}	
+		
+			
+			public function getFileFilter():Array
+			{
+				trace("WinImpCmlSent.getFileFilter");
+				var arr:Array = new Array();
+				var fileFilte:FileFilter = new FileFilter("File(*.csv,*.xls)","*.csv;*.xls");
+				arr.push(fileFilte);
+				return arr;
+			}
+			
+			/**选择任务文件*/
+			public function chooseFile_clickHandler(event:MouseEvent):void
+			{
+				trace("WinImpCmlSent.chooseFile_clickHandler");
+				taskFile = new FileReference();
+				taskFile.browse(getFileFilter());
+				taskFile.addEventListener(Event.SELECT, dispathTask);
+			}
+			
+			/**选择之后填入*/
+			public function dispathTask(event:Event):void
+			{
+				trace("WinImpCmlSent.dispathTask");
+				taskFile = FileReference(taskFile);
+				taskFile.load();
+				filePath.text = taskFile.name;
+			}
+			
+			
+			
+		
+			private function save():void
+			{
+				trace("WinImpCmlSent.save");
+				//if(null!=taskFile)
+				if(StringUtil.trim(filePath.text)=="")
+				{
+					var alertMsg:String = LanguageManager.getInstance().getExceptionMessage("exceptionMessage.pleaseSelectFileFirst");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				pm.checkFile(filePath.text);
+			}
+			
+			/**
+			 *对导入的文件进行解析
+			 */
+			[MessageHandler(selector="checkFileisExistsResult")]
+			public function checkUploadFileResult(r_result:CmlSentInfoMsg):void
+			{
+				trace("WinImpCmlSent.checkUploadFileResult-checkFileisExistsResult");
+				if(r_result)
+				{
+					var flag:Boolean=false;
+					flag = r_result.result as Boolean;
+				}
+				
+				if(flag)
+				{
+					pm.importExcelToCmlImpRecords(taskFile.data,filePath.text,termType.text,cid.selectedValue);
+				}	
+				else
+				{
+					AlertHandler.alert("此文件已经上传，请重新选择！");
+					return;
+				}
+			}
+			
+			//返回解析任务文件的数据
+			[MessageHandler(selector="importExcelForCMLResult")]
+			public function importExcelForCMLResult(r_result:CmlSentInfoMsg):void
+			{
+				trace("WinImpCmlSent.importExcelForCMLResult-importExcelForCMLResult");
+				if(r_result)
+				{
+					filePath.text="";
+					pm.loadImpPage();
+				}
+			}
+			
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				trace("WinImpCmlSent.transferDataDict");
+				switch(p_column.dataField)
+				{
+					case "operateStatus":
+						currentDataDictPath = CmlImpRecordConsts.UPLOAD_STATUS;
+						break;
+				}
+				return super.transferDataDict(p_item, p_column);
+			} 
+			
+			/**
+			 * 回调
+			 */
+			[MessageHandler(selector="loadCmlImpResult")]
+			public function loadCmlImpResult(r_result:CmlSentInfoMsg):void
+			{
+				trace("WinImpCmlSent.loadCmlImpResult-loadCmlImpResult");
+				if(r_result)
+				{
+					pm.cmlImpSentPage=r_result.result as Page;
+				}
+			}
+							
+		]]>
+	</fx:Script>
+	<mx:VDividedBox width="100%" height="100%">
+		
+		<s:BorderContainer width="100%" height="100%"  styleName = "BorderContainer">
+			
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			
+			<grg:RoundCornerContainer locale="taskInfo" width="100%" height="70">
+				
+				<s:Group width="100%" height="100%">
+					
+					<s:layout>
+						<s:HorizontalLayout paddingBottom="6"  paddingLeft="10" paddingRight="10" />
+					</s:layout>
+					
+					<grg:Form width="100%" height="100%">
+						
+						<!-- 终端类型 -->
+						<grg:FormItem width="100%" locale="termType" >
+							
+							<s:HGroup textAlign="center">
+								<grg:ComboBox dataProvider="{termTypeList}"  textAlign="left"
+											 valueField="key" labelField="text" id="termType"   
+											 requireSelection="true" width="100"/>
+								<!-- 机构  -->
+								<grg:Label locale="orgid" textAlign="center"/>
+								<grg:GRGComboBoxOrgTree id="cid" defaultField="true" width="120" textAlign="left" treeHeight="300" />	
+							</s:HGroup>
+							
+						</grg:FormItem>
+					
+						<!-- 文件名称 -->
+						<grg:FormItem width="100%" locale="oldName" >
+							<s:HGroup textAlign="center">
+								<grg:TextInput id="filePath" name="filePath" width="150" editable="false" enabled="false" textAlign="left"/>
+								<!--选择文件-->
+								<grg:Button id="selectFileBtn" iconVisible="false" locale="selectFileBtn" click="chooseFile_clickHandler(event)" />
+							</s:HGroup>
+						</grg:FormItem>
+					
+					</grg:Form>
+					
+				</s:Group>
+				
+			</grg:RoundCornerContainer>
+			
+			<!-- 导入的文件列表 -->
+			<grg:RoundCornerContainer  width="100%" height="100%" locale="impSeq">
+				
+				<s:Group width="100%" height="100%">
+					
+					<s:layout>
+						<s:VerticalLayout gap="0" paddingTop="0"/>
+					</s:layout>
+					
+					<grg:DataGrid  id="fileDataGrid" dataProvider="{pm.cmlImpSentPage.result}"  width="100%" height="100%" styleName = "DataGrid">
+						<grg:columns>
+							<grg:CheckBoxColumn id="checkBoxCol" />
+							<!-- 文件名称 -->
+							<grg:DataGridColumn  locale="fileName" dataField="fileName" />
+							<!-- 上传状态 -->
+							<grg:DataGridColumn  locale="operaterStatus" dataField="operateStatus" labelFunction="transferDataDict" />
+							<!-- 上传时间 -->
+							<grg:DataGridColumn  locale="impDate" dataField="operaterDate"/>	
+						</grg:columns>
+					</grg:DataGrid>
+					
+					<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{pm.cmlImpSentPage}" pagingFunction="{pm.loadImpPage}" />
+					
+				</s:Group>
+				
+			</grg:RoundCornerContainer>
+	
+			<s:HGroup width="100%" gap="10" horizontalAlign="center" verticalAlign="middle">
+				
+				<s:BorderContainer height="27" styleName="buttonShadow">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+					</s:layout>
+					<!-- 保存 -->
+					<grg:Button  click="save()" id="savebtn"  locale="saveButton" iconVisible="false" />
+				</s:BorderContainer>
+				
+				<s:BorderContainer height="27" styleName="buttonShadow">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+					</s:layout>
+					<!-- 取消 -->
+					<grg:Button click="cancel()" locale="cancelButton" iconVisible="false" />
+				</s:BorderContainer>
+				
+			</s:HGroup>
+			
+		</s:BorderContainer>
+		
+	</mx:VDividedBox>
+	
+</grg:TitleWindow>

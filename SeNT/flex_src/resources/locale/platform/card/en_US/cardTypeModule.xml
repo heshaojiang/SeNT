@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardTypeModule">
+		<listTitle>Card Type List</listTitle>
+		<cardId>Card ID:</cardId>
+		<org>Organization</org>
+		<self>Self Bank Card</self>
+		<local>Local Card</local>
+		<province>Province Card</province>
+	</node>
+</nodes>

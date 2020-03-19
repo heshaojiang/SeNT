@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="holiday">
+		<NameNotNull>名称不能为空！</NameNotNull>
+		<NameExisted>名称已经经存在!</NameExisted>
+	</node>
+	<node locale="parameters">
+		<saveArithmeticParamException>保存算法参数出错！</saveArithmeticParamException>
+		<deleteArithmeticParamException>删除算法参数出错！
+		</deleteArithmeticParamException>
+		<arithmeticParamExisted>算法参数已经存在！</arithmeticParamExisted>
+		<arithmeticExisted>算法已经存在，请修改名称后再保存！</arithmeticExisted>
+		<deleteArithmeticException>删除算法出错！</deleteArithmeticException>
+		<saveArithmeticException>保存算法出错！</saveArithmeticException>
+		<jczqNotExist></jczqNotExist>
+		<eventSettingSaveException>事件设置保存出错！</eventSettingSaveException>
+		<arithmeticListException>获得算法列表出错！</arithmeticListException>
+	</node>
+</nodes>

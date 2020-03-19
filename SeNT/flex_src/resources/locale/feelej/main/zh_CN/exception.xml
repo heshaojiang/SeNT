@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "main">
+		<termIdNotFound>终端ID输入有误，请重新输入！</termIdNotFound>
+	</node>
+</nodes>

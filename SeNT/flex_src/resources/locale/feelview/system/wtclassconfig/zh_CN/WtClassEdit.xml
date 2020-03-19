@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassEdit">
+		
+		
+		<!-- 编辑页面 -->
+		<classIdEditTitle>编辑</classIdEditTitle>
+		<classIdEditItem>类别标识：</classIdEditItem>
+		<classNameEditItem>类别名称：</classNameEditItem>
+		<classNameEnEditItem>英文名：</classNameEnEditItem>
+		<levelsEditItem>故障等级：</levelsEditItem>
+		<colorCodeEditItem>颜色：</colorCodeEditItem>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>		
+	</node>
+</nodes>

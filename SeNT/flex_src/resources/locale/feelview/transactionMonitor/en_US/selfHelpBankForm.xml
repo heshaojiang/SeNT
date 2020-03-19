@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：self-help Bank Manage<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com  -->
+<nodes>
+	<node locale = "selfHelpBankForm">
+		<addSelfHelpBankForm>Add SelfHelpBank</addSelfHelpBankForm>
+		<updateSelfHelpBankForm>Update SelfHelpBank</updateSelfHelpBankForm>
+		<selfHelpBankIdItem>SelfHelpBankId:</selfHelpBankIdItem>
+		<selfHelpBankNameItem>SelfHelpBankName:</selfHelpBankNameItem>
+		<adjunctBankOutletsItem>AdjunctBankOutlets:</adjunctBankOutletsItem>
+		<layTypeItem>LayType:</layTypeItem>
+		<selfHelpBankAddressItem>SelfHelpBankAddress:</selfHelpBankAddressItem>
+		<status>Status:</status>
+	</node>
+</nodes>

@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termResponsibleForm
+	 Create Time：2011-9-19 
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termResponsibleForm">
+		<updateTermResponsibleForm>Update TermResponsible</updateTermResponsibleForm>
+		<groupItem>group</groupItem>
+		<roleItem>role</roleItem>
+		<responsibleNameItem>responsibleName</responsibleNameItem>
+		<telePhoneItem>telePhone</telePhoneItem>
+		<mobilePhoneItem>mobilePhone</mobilePhoneItem>
+	</node>
+</nodes>

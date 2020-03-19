@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="logViewer">
+		<viewLog>查看流水</viewLog>
+		<listTitle>流水详细信息</listTitle>
+		<termId>终端编号</termId>
+		<keyword>关键字</keyword>
+		<previousMatch>上一个</previousMatch>
+		<nextMatch>下一个</nextMatch>
+		<ejList>流水列表</ejList>
+		<date>时间：</date>
+		<to>至：</to>
+		<searchTips>提示：时间段搜索前后扩展5行</searchTips>
+	</node>
+</nodes>

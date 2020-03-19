@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "deptStat">
+		<export>导出</export>
+		<listTitle>统计列表</listTitle>
+		<number>序号</number>
+		<name>员工名称</name>
+		<job>岗位</job>
+		<orgName>单位名称</orgName>
+	</node>
+</nodes>

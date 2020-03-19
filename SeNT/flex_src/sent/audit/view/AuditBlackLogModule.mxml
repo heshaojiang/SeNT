@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule  xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark"  
+				xmlns:grg="http://grg.grgbanking.com/platform/" 
+				xmlns:parsley="http://www.spicefactory.org/parsley"
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:userDefined="platform.date.*"
+				dataDictionaryPaths="{[AuditLogConstants.DELIVER_STATUS]}"
+				layout="vertical" width="100%" height="100%">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:FlexConfig type="{AuditBlackLogModuleConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.audit.config.AuditBlackLogModuleConfig;
+			import sent.audit.constants.AuditLogConstants;
+			import sent.audit.message.AuditBlackLogMsg;
+			import sent.audit.pm.AuditBlackLogModulePM;
+			import sent.audit.vo.AuditLogDetailVO;
+			
+			[Inject]
+			[Bindable]
+			public var pm:AuditBlackLogModulePM;
+			
+			/**
+			 * 申请类型
+			 */
+			[Bindable]
+			private var applype:ArrayCollection;
+			
+			/**
+			 * 下发状态 
+			 */
+			[Bindable]
+			private var deliverStatus:ArrayCollection;
+			
+			/**
+			 * 初始化数据
+			 */		
+			override protected function viewUpdateComplete():void
+			{  
+				trace("AuditBlackLogModule.viewUpdateComplete");
+				loadPage();
+			}
+			
+			/**
+			 *获取数据字典后更新信息
+			 */
+			override protected function getDataDictCallback():void
+			{
+				trace("AuditBlackLogModule.getDataDictCallback");
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem:Object = {key:"", text:str};
+				var arrCol:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[AuditLogConstants.DELIVER_STATUS]) as ArrayCollection;
+				arrCol.addItemAt(allItem, 0);
+				deliverStatus= arrCol;
+				(auditLogDetail.dataProvider as ListCollectionView).refresh();
+			} 
+			
+			/**
+			 * 显示数据字典转换出来的值
+			 */
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				if(p_column.dataField == "status"){
+					currentDataDictPath = AuditLogConstants.DELIVER_STATUS;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+	
+			/**
+			 * 根据条件查询
+			 */
+			private function loadPage():void
+			{
+				trace("AuditBlackLogModule.loadPage");
+				pm.loadAuditBlackLogPage();
+			}
+			
+			/**
+			 * 刷新规则下发详情界面
+			 */
+			[MessageHandler(selector="refreshBlackRegulationDeliver")]
+			public function refreshBlackRegulationDeliverResult(p_msg:AuditBlackLogMsg):void
+			{
+				loadPage();
+			}
+			
+			/**
+			 * 根据申请编号查找规则下发明细
+			 * 
+			 */
+			public function showTransDetailInfo():void
+			{
+				trace("AuditBlackLogModule.showTransDetailInfo");
+				var obj:AuditLogDetailVO =auditLogDetail.selectedItem as AuditLogDetailVO;
+				var win:ShowAuditBlackLog= new ShowAuditBlackLog();
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.applyId=obj.id;
+				win.applayType=obj.applyType;
+				
+				//申请信息
+				var auditMsg:AuditBlackLogMsg=new AuditBlackLogMsg();
+				auditMsg.type="getAuditBlackInfo";
+				auditMsg.args["applyId"]=obj.id;
+				sendMessage(auditMsg);
+				
+				//申请类型
+				var applayType:String=obj.applyType;
+				
+				//查找黑名单规则类型审核详情
+				var msg:AuditBlackLogMsg= new AuditBlackLogMsg();
+				msg.type = "getBlackRegulationByApplyId";
+				msg.args["applyId"] = obj.id;
+				sendMessage(msg); 
+				
+				//规则下发详情
+				var auiMsg:AuditBlackLogMsg=new AuditBlackLogMsg();
+				auiMsg.type="getBlackRegulationDeliverByApplyId";
+				auiMsg.args["page"]=pm.logPage;
+				auiMsg.args["applyId"]=obj.id;
+				sendMessage(auiMsg);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Binding source="applayDate.selectedDate" destination="pm.condi.startTime"/>
+	<fx:Binding source="endTime.selectedDate" destination="pm.condi.endTime"/>
+	<fx:Binding source="int(deliverStatusBox.selectedValue)" destination="pm.condi.deliverStatus"/>
+	
+	<s:BorderContainer width="100%" 
+					   height="100%"
+					   styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign="center"
+			styleName="SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">  
+						<!--下发状态：-->
+						<grg:Label locale="deliverStatus" />
+						<grg:ComboBox id="deliverStatusBox"  dataProvider="{deliverStatus}" hasAllItem="true" width="70"
+									  labelField="text" valueField="key" />
+						<!--查询-->
+						<grg:SearchButton id="btn_search" menuId="{menu.id}"
+										  locale="searchButton" 
+										  iconType="query" click="pm.page=new Page();loadPage()"/>
+						<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 
+						<!--重置-->
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+										 resetControls="{[deliverStatusBox,applayDate, endTime]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					<s:layout>
+						<s:VerticalLayout gap="0" />
+					</s:layout>
+					<mx:HBox width="100%" styleName="expHBoxStyle">  
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="right"
+									gap="2"
+									verticalAlign="middle" />
+							</s:layout>
+							<!--创建时间：-->
+							<grg:Label locale="createDateColon" />
+							<userDefined:SuperDateField width="170" id="applayDate" myEnabled="false" selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<userDefined:SuperDateField width="170" id="endTime"  myEnabled="false" selectableRange="{{rangeStart:applayDate.selectedDate}}" isShowTime="true" />
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+		</grg:AdvancedSearchBar>
+		
+		<grg:DataGrid dataProvider="{pm.page.result}" id="auditLogDetail" 
+					  width="100%" height="100%"
+					  textAlign="center"
+					  styleName="DataGrid">
+			<grg:columns>
+				<!--终端编号-->
+				<grg:DataGridColumn locale="termId" 
+									dataField="termId" textAlign="center" width="200"/>
+				<!--业务人员-->
+				<grg:DataGridColumn locale="operatorId" 
+									dataField="operatorId" textAlign="center" width="200"/>
+				<!--创建时间-->
+				<grg:DataGridColumn locale="createDate" labelFunction="{dateFormatter}" textAlign="center" width="220"
+									dataField="createDate"/>
+				<!--下发状态-->
+				<grg:DataGridColumn locale="status" labelFunction="{transferDataDict}" width="100"
+									dataField="status" textAlign="center"/>
+				<!--下发时间-->
+				<grg:DataGridColumn locale="deliverDate" labelFunction="{dateFormatter}" textAlign="center" width="220"
+									dataField="deliverDate"/>
+			</grg:columns>
+		</grg:DataGrid>
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" 
+							  pageVo="{pm.page}"
+							  pagingFunction="{loadPage}"/>
+	</s:BorderContainer>
+	
+</grg:TabModule>

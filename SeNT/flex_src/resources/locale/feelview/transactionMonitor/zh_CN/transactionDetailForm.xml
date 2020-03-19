@@ -1,0 +1,38 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：自助银行信息管理<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "transactionDetailForm">
+	    <showDetail>交易详细信息</showDetail>
+		<orgName>机构名称：</orgName>
+		<termId>终端编号：</termId>
+		<termType>终端类型：</termType>
+		<brand>终端品牌：</brand>
+		<txnId>交易类型：</txnId>
+		<txnDate>交易日期：</txnDate>
+		<txnAmount>交易金额（元）：</txnAmount>
+		<pan>交易帐号：</pan>
+		<panIn>转入帐号：</panIn>
+		<apissn>APIS流水号：</apissn>
+		<termSn>终端流水号：</termSn>
+		<txnResult>交易结果：</txnResult>
+		<cardType>卡种类型：</cardType>
+		<operationId>操作：</operationId>
+		<cardTypeIn>转入帐号卡类型：</cardTypeIn>
+		<cardKind>银行卡品种：</cardKind>
+		<cardId>卡标识：</cardId>
+		<fundType>货币代码：</fundType>
+		<abisrespCode>ABIS返回应答码：</abisrespCode>
+		<apisrespCode>APIS返回应答码：</apisrespCode>
+		<abissn>ABIS流水号：</abissn>
+		<inCome>手续费（元）：</inCome>
+		<txnType>交易分类：</txnType>
+		<acqCode>受理机构号：</acqCode>
+		<issCode>发卡机构号：</issCode>
+		<statFlag>是否已统计：</statFlag>
+		<txnCardFlag>IC卡/磁卡：</txnCardFlag>
+		<helpTip>交易详细信息</helpTip>
+	</node>
+</nodes>

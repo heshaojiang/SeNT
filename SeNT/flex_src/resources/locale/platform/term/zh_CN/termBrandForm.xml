@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termBrandForm">
+		<addTermBrandForm>新增</addTermBrandForm>
+		<updateTermBrandForm>编辑</updateTermBrandForm>
+		<brandNameItem>品牌名称：</brandNameItem>
+		<companyNameItem>厂商名称：</companyNameItem>
+		<companyAddressItem>厂商地址：</companyAddressItem>
+		<status>状态：</status>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<code>代码：</code>
+		<helpTip>
+1.打“*”项内容不能为空
+2.品牌名称不能重复复
+		</helpTip>		
+	</node>
+</nodes>

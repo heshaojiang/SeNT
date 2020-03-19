@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "ErrorCodeAdd">
+		<title>Error Add</title>
+		<devItem>Device : </devItem>
+		<codeItem>ErrCode : </codeItem>
+		<brandItem>Brand : </brandItem>
+		<descriptionItem>Desc : </descriptionItem>
+		<saveButtonItem>Save</saveButtonItem>
+	</node>
+</nodes>

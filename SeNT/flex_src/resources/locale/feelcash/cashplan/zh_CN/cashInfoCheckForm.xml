@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashInfoCheckForm">
+	<checkCashInfoForm>核查编号为[|]的终端加加钞差异信息</checkCashInfoForm>
+	<termIdLabel>终端编号 :</termIdLabel>
+	<planDateLabel>计划日期 :</planDateLabel>
+	<actualDateLabel>实际日期:</actualDateLabel>
+	<planAmountLabel>计划金额 :</planAmountLabel>
+	<actualAmountLabel>实际金额 :</actualAmountLabel>
+	<backCashAmountLabel>回笼金额 :</backCashAmountLabel>
+	<environmentStatusLable>周边环境 :</environmentStatusLable>
+	<differenceReasonLabel>差异原因 :</differenceReasonLabel>
+	<environmentStatus>选择周边环境</environmentStatus>
+	</node>
+</nodes>

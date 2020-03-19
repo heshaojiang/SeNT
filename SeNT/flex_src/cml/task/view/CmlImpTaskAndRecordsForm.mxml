@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow 	width="500" height="410"
+					layout = "vertical"
+					locale="cmlImpTaskAndRecords"					xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					xmlns:s = "library://ns.adobe.com/flex/spark"
+					xmlns:mx = "library://ns.adobe.com/flex/mx"
+					xmlns:parsley="http://www.spicefactory.org/parsley"
+					xmlns:grg="http://grg.grgbanking.com/platform/" xmlns:view="platform.report.view.*" >
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		<mx:DateFormatter id="df" formatString="YYYY-MM-DD JJ:NN:SS"/>
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import cml.task.constants.CmlTaskInfosConsts;
+			import cml.task.message.CmlTaskInfosMsg;
+			import cml.task.pm.CmlTaskInfosPM;
+			import cml.task.vo.CmlImpRecordsVO;
+			import cml.task.vo.CmlTaskInfosVO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.UIComponent;		
+			import org.spicefactory.parsley.core.messaging.receiver.impl.MessageHandler;	
+			import platform.common.manager.AlertHandler;
+			import platform.constants.LocaleConsts;	
+			[Bindable]
+			public var cmlTaskInfos:CmlTaskInfosVO ;	
+			[Bindable]
+			public var pendingFiles:ArrayCollection =new ArrayCollection();
+			[Bindable]
+			public var obj:Object = new Object;	
+			[Inject]
+			[Bindable]
+			public var pm:CmlTaskInfosPM ;
+
+	
+			
+			//此处上传结果
+			[Bindable]
+			public var resultImp:Array = new Array();
+			
+			[Bindable]
+			
+			public var cmlImpRecordsArray :ArrayCollection = new ArrayCollection();
+			
+			//用来显示的 
+			[Bindable]
+			public var viewFile:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var fileRec:FileReferenceList;
+		
+			 [Bindable]
+			public var taskFile:FileReference;
+			
+			public function getFileFilter():Array{
+			  var arr:Array = new Array();
+			  var fileFilte:FileFilter = new FileFilter("File(*.csv,*.xls)","*.csv;*.xls");
+			  arr.push(fileFilte);
+			  return arr;
+			}
+			/**选择任务文件*/
+			public function browseTaskFile(event:MouseEvent):void{
+				taskFile =new FileReference();
+			       taskFile.browse(getFileFilter());
+				   taskFile.addEventListener(Event.SELECT,dispathTask);
+			}
+			/**选择之后填入*/
+			public function dispathTask(event:Event):void{
+			    
+				taskFile = FileReference(taskFile);
+				taskFile.load();
+				 taskfilePath.text =  taskFile.name;
+			}
+
+			protected function cancle_clickHandler(event:MouseEvent):void
+			{
+				pendingFiles.removeAll();
+				viewFile.removeAll();
+				fileDataGrid.dataProvider = viewFile;
+			}	
+			public function deleteSignFile(event:Event):void{
+
+				pendingFiles.removeItemAt(fileDataGrid.selectedIndex);
+				viewFile.removeItemAt(fileDataGrid.selectedIndex);
+			
+				fileDataGrid.dataProvider= viewFile;		
+			}
+			protected function chooseFile_clickHandler(event:MouseEvent):void
+			{
+			 fileRec = new FileReferenceList();
+
+			 fileRec.browse(getFileFilter());
+			 fileRec.addEventListener(Event.SELECT,dispath);
+				
+				
+			}
+
+			private function dispath(event:Event):void{
+
+		     	for( var i:int = 0 ; i<fileRec.fileList.length;i++){
+			   var file:FileReference =FileReference(fileRec.fileList[i]);
+				   file.load();
+			   var temp :Object = new Object();
+			   temp.name = file.name;
+			   temp.size =(file.size/1024).toFixed(2)+"KB";
+			   temp.type= file.type.substr(1);
+			   viewFile.addItem(temp);
+			}
+			}
+			
+			private function save():void{
+				
+				if( null != taskFile){
+				pm.importTask(taskFile.data,UserInfoInit.userInfo["userCode"], UserInfoInit.userInfo["orgId"]);
+				
+				}
+				}
+			
+			
+			private function cleardoubleFile():void{
+				for(var k :int   = 0 ; k< pendingFiles.length -1 ; k++){
+					for(var j :int = pendingFiles.length -1 ; j > k ; j--){
+						if(viewFile.getItemAt(k).name == viewFile.getItemAt(j).name){
+							viewFile.removeItemAt(j);
+							fileRec.fileList.removeItemAt(j);
+							fileDataGrid.dataProvider= viewFile;
+						}  
+						
+					}
+					
+				}
+			}
+			
+			//返回解析任务文件的数据
+			[MessageHandler(selector="importTaskResult")]
+			public function importTaskResult(r_result :CmlTaskInfosMsg):void{
+			
+			if(r_result){
+				if(r_result.result){
+			      var cmlTaskInfos:CmlTaskInfosVO = r_result.result as CmlTaskInfosVO;
+				  if(viewFile.length == 0){ 
+					
+					//  AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					  close();
+					  pm.loadPage();
+					
+				  }else  if(viewFile.length < 6){
+					  cleardoubleFile();
+					  var dataArr:ArrayCollection = new ArrayCollection();
+					  for(var i:int = 0 ; i < fileRec.fileList.length ; i ++){ 
+						  var fr:FileReference =FileReference(fileRec.fileList[i]);
+						  var tempAr:Array  = new Array();
+						  tempAr.push(fr.data,fr.name,i);
+							  dataArr.addItem(tempAr);
+						 						
+					  }
+					  pm.importExcelToCmlImpRecords(dataArr,cmlTaskInfos,"CM400");
+				
+					  pm.loadPage();
+					  close();
+				  }else{
+					  AlertHandler.ShowQuestion(yesDo,this,CmlTaskInfosConsts.FIVECOUNT_ERROR,noDo);
+					  function yesDo():void{
+						  cleardoubleFile();
+						  if( fileRec.fileList.length > 5){
+						  for(var i :int  = 4; i< fileRec.fileList.length ; i++){
+							  fileRec.fileList.pop();
+							  viewFile.removeItemAt(i);
+							  fileDataGrid.dataProvider= viewFile;
+						  }
+						  }
+					  }
+					  function noDo():void{
+						  fileRec.fileList.length = 0;
+						  pendingFiles.removeAll();
+						  viewFile.removeAll();
+						  
+					  }};
+				  
+				  
+				   
+			}else{
+				AlertHandler.alert("errorImportTask");
+			}
+		}
+	     	close();
+		    pm.loadPage();
+			}
+			
+			
+	
+//			[MessageHandler(selector="importExcelForCmlImpRecordsResult")]
+//			public function importExcelForCmlImpRecordsResult(r_result:CmlTaskInfosMsg):void{
+//				if(r_result){
+//					var cmlImptemp :CmlImpRecordsVO =	r_result.result as CmlImpRecordsVO;
+//					cmlImpRecordsArray.addItem(cmlImptemp);
+//					if(cmlImpRecordsArray.length == fileRec.fileList.length){
+//						pm.loadPage();
+//						close();		
+//					 	}
+//					
+//				}
+			//}
+		
+		]]>
+		</fx:Script>
+	<mx:VDividedBox width="100%" height="100%">
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+	<grg:RoundCornerContainer locale="exportTask" width="100%" height="120">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout paddingTop="5" paddingLeft="10" paddingRight="10" paddingBottom="5"/>
+			</s:layout>
+			<grg:Form width="100%" height="100%">
+				<grg:FormItem width="100%" locale="tmlType">
+				<grg:ComboBox	id="model" 
+					name="model" 
+					textAlign="left" allItemKey="allModel"
+					hasAllItem="true" 
+					labelField="modelName" 				
+					valueField="id" width="100"/>
+				
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="taskFile" >
+					<grg:TextInput id="taskfilePath" width="200" required="true" editable="false" enabled="false" />
+					<grg:Button id="CheckUploadDataFrm_browseBtn" locale="chooseButton" click="browseTaskFile(event)" iconVisible="false"/>
+					<grg:Button id="CheckUploadDataFrm_uploadBtn" locale="uploadButton"  visible="false" iconVisible="false"/>
+				</grg:FormItem>
+			</grg:Form>
+			
+		</s:Group>
+	</grg:RoundCornerContainer>
+			
+	<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+				<s:layout>
+					<s:HorizontalLayout 
+						horizontalAlign = "left"
+						paddingLeft = "0"
+						gap="2"
+						verticalAlign = "middle"/>
+				</s:layout>
+				<grg:SearchButton id="btn_search"
+								  locale = "searchButton"  
+								  iconType = "query" click="chooseFile_clickHandler(event)"/>
+				
+				<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+								 click="cancle_clickHandler(event)" />
+		     <grg:Button id="deleteBtn" iconVisible="false"  locale="deleteFile" click="deleteSignFile(event)"/>
+			</s:BorderContainer>
+	<grg:RoundCornerContainer  width="100%" height="100%" locale="exportSeq">
+	<grg:DataGrid  id="fileDataGrid" dataProvider="{viewFile}"  width="100%" height="100%" styleName = "DataGrid">
+			<grg:columns>
+			<grg:DataGridColumn dataField="name" locale="name"/>
+							<grg:DataGridColumn dataField="size" locale="size" />	
+							<grg:DataGridColumn locale="progress"   paddingLeft="25" >
+								<grg:itemRenderer>
+									<fx:Component>
+										<mx:HBox>
+											<mx:ProgressBar  minimum="0" maximum="100"  source="{data.fr}"/>
+										</mx:HBox>
+									</fx:Component>
+								</grg:itemRenderer>
+							</grg:DataGridColumn>
+							<!--<grg:DataGridColumn locale="action"   paddingLeft="25" >
+								<grg:itemRenderer>
+									<fx:Component>
+										<mx:HBox>
+										<mx:Button locale="deleteFile" click="parentDocument.deleteSignFile(event)"/>	
+										</mx:HBox>
+									</fx:Component>
+								</grg:itemRenderer>
+							</grg:DataGridColumn>-->
+						</grg:columns>
+					</grg:DataGrid>
+	</grg:RoundCornerContainer>	
+				<s:HGroup 
+					width="100%" gap="10"
+					horizontalAlign = "center"
+					verticalAlign = "middle">
+					<s:BorderContainer height="27" styleName="buttonShadow">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+						</s:layout>
+						<grg:Button 
+							click = " save()" id="savebtn"
+							locale = "saveButton" 
+							iconVisible="false"
+							/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer height="27" styleName="buttonShadow">
+						<s:layout>
+							<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+						</s:layout>
+						
+						<grg:Button 
+							click = "cancel()"
+							locale = "cancelButton"
+							iconVisible="false"
+							/>
+					</s:BorderContainer>
+				</s:HGroup>
+	</s:BorderContainer>
+		</mx:VDividedBox>
+
+</grg:TitleWindow>

@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<nodes>
+	<node locale = "deviceErrorCodeModule">
+		<title>Device Malfunction</title>
+		<searchItem>Search Key Word</searchItem>
+		<termIdItem>Term</termIdItem>
+		<termTypeItem>Type</termTypeItem>
+		<termBrandItem>Brand</termBrandItem>
+		<orgNameItem>Org</orgNameItem>
+		<devCodeItem>Device</devCodeItem>
+		<errCodeItem>ErrorCode</errCodeItem>
+		<beginTimeItem>StartTime</beginTimeItem>
+		<endTimeItem>EndTime</endTimeItem>
+		<errorTimeItem>errorTime</errorTimeItem>
+	</node>
+</nodes>

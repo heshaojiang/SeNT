@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashPlanForm">
+		<addCashPlanForm>AddCashPlan</addCashPlanForm>
+		<updateCashPlanForm>Update Code is [|] CashPlan</updateCashPlanForm>
+		<terminalCode>TerminalCode : </terminalCode>
+		<cashPlanDate>CashPlanDate : </cashPlanDate>
+		<cashPlanType>CashPlanType : </cashPlanType>
+		<description>Description : </description>
+		<organization>Organization:</organization>
+		<selectionTerminals>Selection Terminal List</selectionTerminals>
+		<selectedTerminals>Selected Terminal List</selectedTerminals>
+		<filterConditionType>Filter Type:</filterConditionType>
+		<filterCondition>Filter Condition:</filterCondition>
+		<terminalId>Terminal ID</terminalId>
+		<terminalAddress>Terminal Address</terminalAddress>
+	</node>
+</nodes>

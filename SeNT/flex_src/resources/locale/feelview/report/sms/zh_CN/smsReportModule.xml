@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--
+		Description：短信发送报表<br>
+		Create Time：2012-02-23<br>     
+		Author：Ming.Zhang <br>
+		Email : zyming1@grgbanking.com <br>
+		-->
+<nodes>
+	<node locale="smsReportModule">
+		<listTitle>短信发送信息列表</listTitle>
+		<termId>终端编号</termId>
+		<dispatchId>规则名称</dispatchId>
+		<dispatchCreate>创建时间</dispatchCreate>
+		<endTime>故障结束时间</endTime>
+		<msgSendNum>短信发送次数</msgSendNum>
+		<emailSendNum>邮件发送次数</emailSendNum>
+		<name>姓名</name>
+		<mobilePhone>电话号码</mobilePhone>
+		<emailAddress>邮件地址</emailAddress>
+		<description>描述</description>
+		<to>至</to>
+		<orgId>所属机构</orgId>
+		<areaId>所属区域</areaId>
+		<finishLevel>到那个等级</finishLevel>
+		<troubleIdItem>工单编号</troubleIdItem>
+		<devCode>故障部件</devCode>
+		<finishOrNotItem>是否完成</finishOrNotItem>
+		<smSystemId>第三方系统ID</smSystemId>
+	</node>
+</nodes>

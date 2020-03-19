@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="bankSNMarkReportModule">
+
+
+	<lbl_bank_sn_mark_info>银行业金融机构冠字号码分类贴标进展情况表</lbl_bank_sn_mark_info>	
+	<lbl_report_bank>上报单位:人民银行________分行(中心支行)</lbl_report_bank>	
+	<lbl_unit>单位:台,个,%</lbl_unit>
+	<lbl_applicant>填表人:</lbl_applicant>
+	<lbl_auditor>复核人:</lbl_auditor>
+	<organizationColon>所属机构：</organizationColon>
+	<titlemsg>冠字号码分类贴标进展情况表</titlemsg>
+	<searchBtn>查询</searchBtn>
+	<resetBtn>重置</resetBtn>
+
+	</node>
+</nodes>

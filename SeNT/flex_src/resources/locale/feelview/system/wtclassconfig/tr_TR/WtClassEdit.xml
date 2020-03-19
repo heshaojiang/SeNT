@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassEdit">
+		<classIdEditTitle>Düzenleme</classIdEditTitle>
+		<classIdEditItem>Kategori Kimliği: </classIdEditItem>
+		<classNameEditItem>Kategori Adı:</classNameEditItem>
+		<classNameEnEditItem>İngilizce Adı:</classNameEnEditItem>
+		<levelsEditItem>Hata seviyesi:</levelsEditItem>
+		<colorCodeEditItem>Renk:</colorCodeEditItem>
+	</node>
+</nodes>

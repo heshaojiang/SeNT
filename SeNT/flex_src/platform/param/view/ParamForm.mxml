@@ -1,0 +1,164 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow dataDictionaryPaths="{[DataDirConsts.YES_OR_NO]}"
+					   width="400" height="260"
+					   layout = "vertical"
+					   locale = "paramForm"
+					   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					   xmlns:s = "library://ns.adobe.com/flex/spark"
+					   xmlns:mx = "library://ns.adobe.com/flex/mx"
+					   xmlns:parsley="http://www.spicefactory.org/parsley"
+					   xmlns:grg="http://grg.grgbanking.com/platform/" helpTips="helpTip">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.utils.StringUtil;
+			
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.OperationConsts;
+			import platform.param.local.ParamFormConsts;
+			import platform.param.message.ParamMsg;
+			import platform.param.pm.ParamFromPM;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:ParamFromPM;
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:ParamMsg):void
+			{
+				close();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:ParamMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			public function save():void
+			{
+				value.text = StringUtil.trim(value.text);
+				if (VControl.validateAll(form, validators).length > 0)
+				{
+					return;
+				}
+//				pm.param.status=itmeStatusRadio.value.toString();
+				pm.save(titleKey == ParamFormConsts.ADD_PARAM_FORM ? OperationConsts.ADD : OperationConsts.EDIT);
+				
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+		]]>
+	</fx:Script>
+
+	<!--data binding start-->
+	<fx:Binding source="key.text" destination="pm.param.key" twoWay="true"/>
+	<fx:Binding source="value.text" destination="pm.param.value" twoWay="true"/>
+	<fx:Binding source="note.text" destination="pm.param.note" twoWay="true"/>
+	<!--data binding end-->
+	
+	<grg:Form id="form"
+					width="100%"
+					textAlign = "left"
+					borderVisible = "false">
+		<grg:FormItem id="keypathItem"
+							locale = "keypathItem">
+			<grg:TextInput id="keypath" toolTip="{pm.param.keypath}" borderVisible="false"
+						  text = "{pm.param.keypath}" width="245" editable="false" contentBackgroundAlpha="0"/>
+		</grg:FormItem>
+
+		<grg:FormItem id="itemKey"
+							width="100%"
+							textAlign = "left"
+							locale = "itemKey"
+							required = "true">
+			<grg:TextInput id="key" name = "key" restrict="0-9a-zA-Z"
+							   width="245" maxnum="64" vtype="maxchars" maxChars="64"
+							   required="true"/>
+		</grg:FormItem>
+		<grg:FormItem id="itemValue"
+							width="100%"
+							locale = "itemValue"
+							required = "true">
+			<grg:TextInput id="value" name = "value" maxChars="256"
+							   width="245" maxnum="256" vtype="maxchars"
+							   required="true"/>
+		</grg:FormItem>		
+		<grg:FormItem id="itemNote"
+							width="100%"
+							textAlign = "left"
+							locale = "note">
+			<grg:TextInput id="note" name = "noteEn" maxChars="100"
+							   width="245" vtype="maxchars" maxnum="100"/>
+		</grg:FormItem>
+		<grg:FormItem
+			width="100%"
+			textAlign = "left"
+			locale = "encryptStatus">
+			<mx:HBox>
+				<grg:RadioButtonGroup id="status1"
+										  value="@{pm.param.encryptStatus}" />		
+				<grg:RadioButton groupName="status1" dataProvider="{bindableDataDirCache.getItemAt(0)}"
+								 value="Y" />
+				<grg:RadioButton groupName = "status1" dataProvider="{bindableDataDirCache.getItemAt(0)}"
+								 value="N"/>
+			</mx:HBox>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup 
+			  width="100%" gap="6"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn"
+				click = "save()"
+				locale = "saveButton"
+				iconVisible="false"
+				 />
+		</s:BorderContainer>
+		<!--<grg:Button 
+						click = "pm.reset()"
+						locale = "resetButton"
+						iconType = "reset" />-->
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton"
+				iconVisible="false"
+				 />
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>
+

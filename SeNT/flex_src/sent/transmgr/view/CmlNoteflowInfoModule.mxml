@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   locale="cmlNoteflowInfoModule"
+			   xmlns:userDefined="platform.date.*"
+			   layout="vertical" width="100%" height="100%"
+			   dataDictionaryPaths="{[CmlMgrConsts.FLOW_STAGE]}" 
+			   creationComplete="creationCompleteHandler(event)"
+			   >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ValidationResultEvent;
+			import mx.utils.ObjectUtil;
+			import mx.validators.Validator;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.CmlNoteflowDetailInfoConfig;
+			import sent.transmgr.config.CmlNoteflowInfoConfig;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			import sent.transmgr.constants.CmlMgrConsts;
+			import sent.transmgr.constants.CmlNoteflowDetailInfoConsts;
+			import sent.transmgr.pm.CmlNoteflowInfoPM;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			import sent.transmgr.vo.CmlNoteflowInfoVO;
+			
+			import mx.managers.CursorManager;
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowInfoPM:CmlNoteflowInfoPM;
+			
+			
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;
+			
+			
+			[Bindable]
+			public var flowStageAC:IList;
+			
+			
+			/**
+			 * 
+			 */
+			override protected function getDataDictCallback():void
+			{
+				flowStageAC = bindableDataDirCache.getItemAt(0) as IList;
+			}
+			
+			
+			public function transformFlowStage(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = CmlMgrConsts.FLOW_STAGE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			public function formatClearingDate(p_item:Object, column:DataGridColumn):String
+			{
+				var clearingDate:String = p_item.clearingDate;
+				return DateUtils.formatYYYYMMDD(clearingDate);
+			}
+			
+			/**
+			 * 
+			 */
+			override public function dispose():void
+			{
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			override protected function viewUpdateComplete():void
+			{
+				//cmlNoteflowInfoPM.cmlNoteflowInfo = new CmlNoteflowInfoVO();
+			}
+
+			/**
+			 * 
+			 */
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				trace("CmlNoteflowInfoModule.creationCompleteHandler");
+				/* 
+				var df:DateFormatter = new DateFormatter();
+				df.formatString = "YYYY-MM-DD";
+				
+				var date:Date = new Date();
+				endTime.text = df.format(date);
+				
+				date.time = date.time - 1000*60*60*24*30;
+				startTime.text = df.format(date); */
+			}
+
+			protected function checkQueryCondition():Boolean
+			{
+				if( this.startTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeNull"));
+					return false;
+				}
+				if( this.endTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.endTimeCannotBeNull"));
+					return false;
+				}
+				if( this.startTime.selectedDate.time > this.endTime.selectedDate.time )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeGreaterThanEndTime"));
+					return false;
+				}
+				return true;
+			}
+
+			protected function searchButtonClickHandler(event:MouseEvent):void
+			{
+				trace("CmlNoteflowInfoModule.searchButtonClickHandler");
+				if( checkQueryCondition()==false )
+				{
+					return ;
+				}
+				//cmlNoteflowInfoPM.page = new Page();
+				loadPage();
+			}
+			
+			/**
+			 * 
+			 */
+			private function validateQueryCondition():Boolean
+			{
+				trace("CmlNoteflowInfoModule.validateQueryCondition");
+				var errors:Array = Validator.validateAll([validateStartTime, validateEndTime]);
+				if( errors.length>0 )
+				{
+					var error:ValidationResultEvent = errors[0] as ValidationResultEvent;
+					var validator:Validator = error.target as Validator;
+					var ui:UIComponent = validator.source as UIComponent;
+					ui.setFocus();
+					return false;
+				}
+				
+				return true;
+			}
+			
+			/**
+			 * 根据条件查询 
+			 */
+			protected function loadPage():void
+			{
+				trace("CmlNoteflowInfoModule.loadPage");
+				if( validateQueryCondition() )
+				{
+					cmlNoteflowInfoPM.condition = {};
+					cmlNoteflowInfoPM.condition.barcodeFlowNum = this.barcodeFlowNum.text;
+					cmlNoteflowInfoPM.condition.startTime      = this.startTime.text;
+					cmlNoteflowInfoPM.condition.endTime        = this.endTime.text;
+					//cmlNoteflowInfoPM.condition.journalNo      = this.journalNo.text;
+					cmlNoteflowInfoPM.condition.orgId          = this.orgId.selectedValue;
+					
+					cmlNoteflowInfoPM.condition.flag=isLoopOrg.selected.toString();
+					cmlNoteflowInfoPM.condition.flowStage      = this.flowStage.selectedValue;
+					
+					cmlNoteflowInfoPM.getCmlNoteflowInfoPage();
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			public function viewRowDetailInfo():void
+			{
+				trace("CmlNoteflowInfoModule.viewRowDetailInfo");
+				CursorManager.setBusyCursor();
+				var cmlNoteflowInfoVO:CmlNoteflowInfoVO = dataGrid.selectedItem as CmlNoteflowInfoVO;
+				
+				//打开子窗口
+				var win:CmlNoteflowInfoForm = new CmlNoteflowInfoForm();
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.initData(cmlNoteflowInfoVO.tdBarcodeFlownum,cmlNoteflowInfoVO.clearingDate);
+			}
+			
+			/**
+			 * 
+			 */
+			public function distributeCashIcon():void
+			{
+				trace("CmlNoteflowInfoModule.distributeCashIcon");
+				var win:CmlDistributeCashForm = new CmlDistributeCashForm();
+				win.flowStage = CmlNoteflowDetailInfoConsts.FLOW_STAGE_DIST_BY_WHOLE_BOX;
+				win.addEventListener(CloseEvent.CLOSE, onCmlDistributeCashFormClosed);
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				var cmlNoteflowInfoVO:CmlNoteflowInfoVO = dataGrid.selectedItem as CmlNoteflowInfoVO;
+				win.fillFirstFlowNum(cmlNoteflowInfoVO.tdBarcodeFlownum);
+			}
+			
+			/**
+			 * 
+			 */
+			protected function onCmlDistributeCashFormClosed(event:CloseEvent):void
+			{
+				loadPage();
+			}
+
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="cmlNoteflowInfoModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="cmlNoteflowInfoModule"/>
+			<parsley:FlexConfig type="{CmlNoteflowInfoConfig}"/>
+			<parsley:FlexConfig type="{CmlNoteflowDetailInfoConfig}"/>
+			<parsley:FlexConfig type="{CmlSentInfoConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Declarations>
+		<mx:StringValidator id="validateStartTime" source="{startTime}" property="text" required="true" /> 
+		<mx:StringValidator id="validateEndTime"   source="{endTime}"   property="text" required="true" />
+	</fx:Declarations>
+	
+	<s:BorderContainer width="100%" height="100%" borderVisible="false">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0" paddingTop="0"/>
+		</s:layout>
+		
+		<grg:AdvancedSearchBar textAlign="center" styleName="SearchBar" borderVisible="false">
+			
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" paddingBottom="0" gap="0" />
+			</grg:layout>
+			
+			<!-- 搜索的第一行 -->
+			<mx:HBox width="100%" height="30"
+					 paddingLeft="10" paddingTop="4" paddingBottom="0" paddingRight="10" 
+					 verticalAlign="top">
+				
+				<grg:TitleBar id="titleMgr" locale="titlemsg" width="50%" />
+				
+				<mx:HBox paddingLeft="5" paddingRight="2" paddingTop="2" paddingBottom="2" 
+						 horizontalGap="0" verticalAlign="middle" 
+						 backgroundColor="#E4E4E4" cornerRadius="4">
+					
+					<!--是否循环遍历子机构：-->
+					<grg:CheckBox id="isLoopOrg" selected="true">
+					</grg:CheckBox>
+
+					
+					<!-- 所属机构 -->
+					<grg:Label locale="organizationColon"/>
+					<grg:GRGComboBoxOrgTree id="orgId" defaultField="true" width="120" textAlign="left" treeHeight="300" />
+					<s:Spacer width="10" />
+					
+					<!-- 流转条码 -->
+					<grg:Label locale="barcodeFlowNumColon" />
+					<grg:TextInput id="barcodeFlowNum" restrict="0-9a-zA-Z*-_" width="100" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />
+					<s:Spacer width="10" />
+					
+					<!-- 清分日期 -->
+					<grg:Label locale="clearingDateColon" />
+					<userDefined:SuperDateField id="startTime" required="true"
+										selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+										selectableRange="{{rangeEnd:endTime.selectedDate}}"/>
+					<s:Spacer width="5" />
+					<grg:Label locale="to" />
+					<s:Spacer width="5" />
+					<userDefined:SuperDateField id="endTime" required="true"
+										selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"
+										selectableRange="{{rangeStart:startTime.selectedDate}}"/>
+					<s:Spacer width="10" />
+					
+					<!-- 查询、高级、重置等按钮 -->
+					<grg:SearchButton id="btn_search" menuId="{menu.id}" locale="searchButton" iconType="query" click="cmlNoteflowInfoPM.page.pageNo=1;searchButtonClickHandler(event)" />
+					<s:Spacer width="2" />
+					<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/>
+					<s:Spacer width="2" />
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+									 resetControls="{[barcodeFlowNum,orgId,flowStage]}" click="initSelectDate()"/>
+					
+				</mx:HBox>
+				
+			</mx:HBox>
+			
+			<!-- 高级搜索 -->
+			<s:BorderContainer width="100%" borderVisible="false" borderWeight="0">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingTop="0" paddingBottom="0" />
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="4" borderVisible="false" borderWeight="0"
+								   backgroundImage="@Embed(source='resources/theme/newui/more_search.png')">
+				</s:BorderContainer>
+				
+				<s:BorderContainer width="100%" backgroundAlpha="0" borderWeight="0" borderVisible="false">
+					
+					<s:layout>
+						<s:HorizontalLayout gap="0" paddingLeft="10" paddingRight="10" horizontalAlign="right" verticalAlign="middle" />
+					</s:layout>
+					
+					<!-- 交易流水号 -->
+					<!-- <grg:Label locale="journalNoColon"/>
+					<grg:TextInput id="journalNo" textAlign="left" width="100" height="20" styleName="TextInput" />
+					<s:Spacer width="10" />-->
+					
+
+					
+					<!-- 所处阶段 -->
+					<grg:Label locale="flowStageColon" />
+					<grg:ComboBox id="flowStage" textAlign="left" dataProvider="{flowStageAC}" width="150" hasAllItem="true" 
+								  allItemKey="flowStageItem" labelField="text" valueField="key" />
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+			
+		</grg:AdvancedSearchBar>
+		
+		
+		
+		<!-- 表格部份  -->
+		<grg:DataGrid id="dataGrid" dataProvider="{cmlNoteflowInfoPM.page.result}"
+					  width="100%" height="100%" textAlign="center" styleName="DataGrid">
+			<grg:columns>
+				<grg:DataGridColumn locale="termId"         dataField="termId"         width="55" />
+				<!-- <grg:DataGridColumn locale="journalNo"      dataField="journalNo"      width="55" /> -->
+				<grg:DataGridColumn locale="barcodeFlowNum" dataField="tdBarcodeFlownum" width="55" />
+				<grg:DataGridColumn locale="clearingDate"   dataField="clearingDate"   width="55" labelFunction="{formatClearingDate}" />
+				<grg:DataGridColumn locale="totalNotes"     dataField="statisAmt"     width="55" />
+				<grg:DataGridColumn locale="flowStage"      dataField="flowStage"      width="55" labelFunction="{transformFlowStage}" />
+				<!--操作员-->
+				<grg:DataGridColumn locale="tdOperatorId"   dataField="tdOperatorId"   width="55" />
+				<grg:DataGridColumn locale="operations" width="55" fontWeight="normal" textAlign="center">
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXDataGridItemRenderer>
+								<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+							</s:MXDataGridItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+			</grg:columns>
+		</grg:DataGrid>
+		
+		<!-- 分页栏 -->
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{cmlNoteflowInfoPM.page}" pagingFunction="{loadPage}" />
+		
+	</s:BorderContainer>
+	
+</grg:TabModule>

@@ -1,0 +1,18 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termMaintainerEmpModule
+	 Create Time：2011-8-18   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termMaintainerEmpModule">
+		<listTitle>Terminal Bakımcı Listesi</listTitle>
+		<contactManItem>Sorumlu</contactManItem>
+		<operatorNameItem>Operatör Adı</operatorNameItem>
+		<corporatorOrgItem>Bakımcı Organizasyon</corporatorOrgItem>
+		<contactTelItem>Telefon</contactTelItem>
+		<contactMobileItem>Cep Telefonu</contactMobileItem>
+		<operatorAddressItem>E-posta Adresi</operatorAddressItem>
+		<status>Durum</status>
+		<tmlSettingButton>Ayarlar</tmlSettingButton>
+	</node>
+</nodes>

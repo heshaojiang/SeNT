@@ -1,0 +1,11 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardManage">
+		<existedTmlSelfBank>Self-Servis Bankacılık Mevcut!</existedTmlSelfBank>
+		<existedUnionPayCardsInfo>Union Pay Card Mevcut!</existedUnionPayCardsInfo>
+		<existedSystemInterface>Arabirim Mevcut!</existedSystemInterface>
+		<bankCodeNotNull>Banka Kodu Boş Olamaz!</bankCodeNotNull>
+		<cardIdNotNull>Kimlik Kartı Boş Olamaz!</cardIdNotNull>
+		<interfaceNameNotNull>Arabirim Adı Boş Olamaz!</interfaceNameNotNull>
+	</node>
+</nodes>

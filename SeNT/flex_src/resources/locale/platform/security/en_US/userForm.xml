@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "userForm">
+		<addUserForm>Add</addUserForm>
+		<updateUserForm>Edit</updateUserForm>
+		<userName>UserName:</userName>
+		<loginPwd>LoginPwd:</loginPwd>
+		<loginPwdAgain>LoginPwdAgain:</loginPwdAgain>
+		<userCode>UserCode:</userCode>
+		<workId>WorkCode:</workId>
+		<telephone>Telephone:</telephone>
+		<telTips>(For Example: 13612345678)</telTips>
+		<mobile>mobile:</mobile>
+		<email>Email:</email>
+		<areaName>AreaName:</areaName>
+		<orgName>OrgName:</orgName>	
+		<cardId>CardId:</cardId>
+		<invalidDate>Account Invalid Date:</invalidDate>
+		<pwInvalidDate>Password Invalid Date:</pwInvalidDate>
+		
+		<ip>Binding IP:</ip>
+		<posLevel>position Level:</posLevel>
+		<posType>position Type:</posType>
+		<adminOrgId>admin OrgId:</adminOrgId>
+		<tellerGroup>Teller Group:</tellerGroup>
+		<tailBoxNo>Tailbox No:</tailBoxNo>
+		
+		<multiOnline>multi Online:</multiOnline>
+		<userNameTip>The length of UserName can not be less than 3 or more than 32!</userNameTip>
+		<userCodeTip>The length of UserCode can not be less than 3 or more than 32!</userCodeTip>
+		<status>Status:</status>
+		<statusEnable>Enable</statusEnable>
+		<statusDisable>Disable</statusDisable>
+	</node>
+</nodes>

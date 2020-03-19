@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="contactorModule">
+		<listTitle>联系人信息列表</listTitle>
+		<contactorName>联系人名称</contactorName>
+		<contactorEmail>邮件</contactorEmail>
+		<contcatorMobile>手机</contcatorMobile>
+		<company>公司</company>
+		<job>职位</job>
+		<note>备注</note>
+
+	</node>
+</nodes>

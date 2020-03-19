@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgTemplateForm">
+		<editMsgTemplate>编辑</editMsgTemplate>
+		<newMsgTemplate>新增</newMsgTemplate>
+		<name>名称:</name>
+		<content>内容:</content>
+		<memo>备注:</memo>
+	</node>
+</nodes>

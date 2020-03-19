@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*"
+				 dataDictionaryPaths="{[NOTE_TYPE,QUERY_RESULT]}"
+				 locale="faultInfoCheckInForm"
+				 titleKey="titleMsg" helpTips=""
+				 xmlns:userDefined="platform.date.*"
+				 layout="vertical" width="720" height="480">
+	
+	<fx:Script>
+		<![CDATA[
+			import platform.common.manager.LanguageManager;
+			
+			private const NOTE_TYPE:String = "SysDatadirMgr.sent.transMgr.noteType";
+			private const QUERY_RESULT:String = "SysDatadirMgr.sent.ruleMgr.cmlQueryResult";
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectProxy;
+			import mx.validators.Validator;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.common.vo.Page;
+			
+			import sent.checkin.message.FaultInfoCheckInMsg;
+			import sent.checkin.pm.FaultInfoCheckInPM;
+			import sent.common.utils.DateUtils;
+			import sent.common.utils.StringUtils;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			
+			import spark.components.RadioButton;
+			import spark.components.RadioButtonGroup;
+			import spark.events.TextOperationEvent;
+			
+			[Inject]
+			[Bindable]
+			public var infopm:FaultInfoCheckInPM;
+			
+			[Bindable]
+			private var _formData:ObjectProxy = new ObjectProxy();
+			
+			[Bindable]
+			private var _mode:String = "add";	// add, edit, view
+			
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;	
+			[Bindable]
+			public var serialPage:Page = new Page();
+			[Bindable]
+			public var serial_node_type:String = "";
+			
+			
+			private var downFileName:String = "FaultInfoCheckInForm.xls";
+			
+			
+			private function downFile():void
+			{
+				ExternalInterface.call("downloadFile","../FileDownloadServlet.let?del=false&fileName="+downFileName); 
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				//加载后
+				initFormData();
+			}
+			
+			public function setFormData(data:Object):void
+			{
+				if( data is ObjectProxy )
+				{
+					_formData = data as ObjectProxy;
+				}
+				else
+				{
+					_formData = new ObjectProxy(data);
+				}
+			}
+			
+			public function setMode(mode:String):void
+			{
+				var modes:ArrayCollection = new ArrayCollection(["add", "edit", "view"])
+				if( modes.contains(mode)==false )
+				{
+					throw new Error("mode must be one of ["+modes+"], cannot be '"+mode+"'");
+				}
+				this._mode = mode;
+			}
+			
+			private function initFormData():void
+			{
+				if( _mode=="add" )
+				{
+					this.orgCode.text     = UserInfoInit.userInfo['orgCode'];
+					this.orgName.text     = UserInfoInit.userInfo['orgName'];
+					this.orgPathCode.text = UserInfoInit.userInfo['orgPathCode'];
+					this.userCode.text    = UserInfoInit.userInfo['userCode'];
+					
+					//this.atmTypeRadio.enabled = false;
+					setWithdrawalType("1");
+				}
+				else if( _mode=="edit" || _mode=="view" )
+				{
+					this.checkInId.text               = this._formData['id'];
+					this.orgCode.text                 = this._formData['orgCode'];
+					this.orgName.text                 = this._formData['orgName'];
+					this.orgPathCode.text             = this._formData['orgPathCode'];
+					this.userCode.text                = this._formData['operatorId'];
+					this.applyDate.text               = DateUtils.formatDate(this._formData['applyDate']);
+					this.querySeriaNo.text            = this._formData['seriaNO'];
+					this.querySeriaNo.editable = false;
+					if(_mode=="view"){
+						this.querySerialBtn.visible = false;
+					}
+					
+					this.queryResult.text             = this.getTextByKeyOnDataDictPath(this._formData['serialResult'],QUERY_RESULT);
+					var tmpStr:String					  = this.getTextByKeyOnDataDictPath(this._formData['noteType'],NOTE_TYPE);
+					if(this._formData['serialResult'] == "1"){
+						this.serialNoteType.text		  = tmpStr;
+					}else{
+						this.serialNoteType.text		  = "";//((tmpStr==null)||(tmpStr=="null"))?"":tmpStr;
+					}
+					this.queryResultCount.text        = this._formData['serialCount'];
+					
+					if(this._formData['applyType']=="0"){
+						this.clientName.text              = this._formData['applyName'];
+						this.clientPhone.text             = this._formData['applyPhone'];
+						this.clientCardType.text		  = this._formData['applyCardType'];
+						this.clientCardNo.text			  = this._formData['applyCardNo'];
+					}else if(this._formData['applyType']=="1"){
+						this.agentName.text               = this._formData['applyName'];
+						this.agentPhone.text              = this._formData['applyPhone'];
+						this.agentCardType.text		 	  = this._formData['applyCardType']
+						this.agentCardNo.text			  = this._formData['applyCardNo']
+					}
+					
+					//this.certificateTypeOthers.text   = this._formData['certificateTypeOthers'];
+					this.certificateNo.text           = this._formData['identNO'];
+					this.withdrawalDate.text          = DateUtils.formatDate(this._formData['depositDate']);
+					this.withdrawalBank.text          = this._formData['depositBank'];
+					this.counterPosition.text         = this._formData['counterPosition'];		
+					this.address.text   	  	   	  = this._formData['address'];
+					setCertificateType(this._formData['identType']);
+					setWithdrawalType(this._formData['withdrawalType']);
+					setNotePayType(this._formData['notePayType']);
+					setApplicantType(this._formData['applyType']);
+					
+					this.modelItem.visible = false;
+					this.modelItem.includeInLayout = false;
+				}
+				
+				//this.applyDate.enabled = false;
+				this.focusManager.setFocus(querySeriaNo);
+				if( _mode=="view" )
+				{
+					this.querySerialBtn.visible = false;
+					this.applicantType.visible = false;
+					this.applicantType.includeInLayout = false;
+					
+					this.querySeriaNo.editable = false;
+					this.queryResult.editable = false;
+					this.clientName.editable = false;
+					this.clientPhone.editable = false;
+					this.clientCardType.editable = false;
+					this.clientCardNo.editable = false;
+					this.agentName.editable = false;
+					this.agentPhone.editable = false;
+					this.agentCardType.editable	= false;
+					this.agentCardNo.editable = false;
+					//this.certificateTypeOthers.editable = false;
+					this.certificateNo.editable = false;
+					this.withdrawalDate.enabled = false;
+					this.withdrawalBank.editable = false;
+					//this.withdrawalBranchName.editable = false;
+					//this.withdrawalWindow.editable = false;
+					//this.atmAddress.editable = false;
+					this.counterPosition.editable = false;
+					this.address.editable = false;
+					
+					disableRadioGroupExceptSelected(this.cerTypeRadio);
+					disableRadioGroupExceptSelected(this.withdrawalTypeRadio);
+					disableRadioGroupExceptSelected(this.notePayTypeRadio);
+					disableRadioGroupExceptSelected(this.applicantTypeRadio);
+					this.buttonBar.visible = false;
+					
+					
+					if( this._formData['identType']=="0" || this._formData['identType']=="1" )
+					{
+						if(this.certificateNo.text.length>3){
+							this.certificateNo.text = this.certificateNo.text.substr(0,this.certificateNo.text.length-4)+"***"+this.certificateNo.text.substr(this.certificateNo.text.length-1);
+						}
+						
+					}
+				}
+			}
+			
+			private function disableRadioGroupExceptSelected(group:spark.components.RadioButtonGroup):void
+			{
+				for( var i:int=0; i<group.numRadioButtons; i++ )
+				{
+					var radioButton:spark.components.RadioButton = group.getRadioButtonAt(i) as spark.components.RadioButton;
+					radioButton.enabled = radioButton.selected;
+				}
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("NewCheckInForm.viewUpdateComplete");
+				//initFormData();
+			}
+			
+			private function setCertificateType(cerType:String):void
+			{
+				this.cerTypeRadio.selectedValue = cerType;
+				if( cerType=="0" || cerType=="1" || cerType=="2" || cerType=="3" )
+				{
+					/* this.certificateTypeOthers.visible = false;
+					(this.certificateTypeOthers as TextInput).required = false;
+					this.certificateTypeOthers.includeInLayout = false; */
+				}
+				else
+				{
+					/* this.certificateTypeOthers.visible = true;
+					(this.certificateTypeOthers as TextInput).required = true;
+					this.certificateTypeOthers.includeInLayout = true; */
+				}
+			}
+			
+			private function setApplicantType(cerType:String):void
+			{
+				this.applicantTypeRadio.selectedValue = cerType;
+				var type:Boolean = cerType=="0";
+				this.clientCont.includeInLayout = type;
+				this.agentCont.includeInLayout = !type;
+				this.clientCont.visible=type;
+				this.agentCont.visible = !type;
+			}
+			
+			
+			private function setNotePayType(payType:String):void
+			{
+				this.notePayTypeRadio.selectedValue = payType;
+				if( payType=="0" || payType=="1" || payType=="2" || payType=="3" )
+				{
+					//this.certificateTypeOthers.visible = false;
+					//(this.certificateTypeOthers as TextInput).required = false;
+					//this.certificateTypeOthers.includeInLayout = false;
+				}
+				else
+				{
+					//this.certificateTypeOthers.visible = true;
+					//(this.certificateTypeOthers as TextInput).required = true;
+					//this.certificateTypeOthers.includeInLayout = true;
+				}
+			}
+			
+			private function setWithdrawalType(withdrawalType:String):void
+			{
+				trace("NewCheckInForm.setWithdrawalType");
+				this.withdrawalTypeRadio.selectedValue = withdrawalType;
+				if( withdrawalType=="1" )
+				{
+					//withdrawalBranchName.enabled = true;
+					//withdrawalWindow.enabled = true;
+					
+					//atmTypeRadio.enabled = false;
+					//atmAddress.enabled = false;
+					
+					/* withdrawalBranchNameItem.required = true;
+					withdrawalBranchName.required = true;
+					withdrawalWindowItem.required = true;
+					withdrawalWindow.required = true;
+					
+					atmAddressItem.required = false;
+					atmAddress.required = false; */
+					
+				}
+				else
+				{
+					//withdrawalBranchName.enabled = false;
+					//withdrawalWindow.enabled = false;
+					
+					//atmTypeRadio.enabled = true;
+					//atmAddress.enabled = true;
+					
+					/* withdrawalBranchNameItem.required = false;
+					withdrawalBranchName.required = false;
+					withdrawalWindowItem.required = false;
+					withdrawalWindow.required = false;
+					
+					atmAddressItem.required = true;
+					atmAddress.required = true; */
+				}
+			}
+			
+			public function save():void
+			{
+				trace("NewCheckInForm.save");
+				
+				if(lbl_isRegisterTips.text.length>0){
+					AlertHandler.alert("该冠字号已经涉假登记！如需再登记该冠字号信息，请在涉假信息再登记页面填写再登记信息！");
+					return;
+				}
+				
+				var valiCount:int = 0;
+				valiCount = VControl.validateAll(wholeForm,validators ).length+VControl.validateAll(certiTypeForm,validators).length;
+				if(this.applicantTypeRadio.value == "0")
+				{
+					valiCount = valiCount+VControl.validateAll(clientForm,validators ).length;
+					
+				}else if(this.applicantTypeRadio.value == "1"){
+					valiCount = valiCount+VControl.validateAll(agentForm,validators ).length;
+				}
+				
+				if(valiCount>0)
+				{
+					return;
+				}
+				
+				var parameter:Object = new Object();
+				parameter.serialResult   = this._formData['serialResult'];
+				parameter.noteType   = this._formData['noteType'];//serialNoteType.text;
+				parameter.checkId   = userCode.text;//怎么来？目前登记人就是复核人
+				
+				parameter.orgCode       = orgCode.text;
+				parameter.orgName       = orgName.text;
+				parameter.orgPathCode   = orgPathCode.text;
+				//parameter.recorderCode  = userCode.text;
+				parameter.operatorId  = userCode.text;
+				parameter.applyDate     = applyDate.text;
+				//parameter.querySeriaNo  = querySeriaNo.text;
+				parameter.seriaNO  = querySeriaNo.text;
+				//parameter.queryResult   = queryResult.text;
+				parameter.serialCount   = queryResultCount.text;
+				
+				
+				parameter.applyType = applicantTypeRadio.selectedValue;
+				parameter.counterPosition = counterPosition.text;
+				parameter.address = address.text;
+				//parameter.certificateType       = cerTypeRadio.selectedValue;
+				//parameter.certificateTypeOthers = certificateTypeOthers.text;
+				//parameter.certificateNo         = certificateNo.text;
+				parameter.identType       = cerTypeRadio.selectedValue;
+				//parameter.certificateTypeOthers = certificateTypeOthers.text;
+				parameter.identNO         = certificateNo.text;
+				//parameter.withdrawalDate = withdrawalDate.text;
+				//parameter.withdrawalBank = withdrawalBank.text;
+				parameter.depositDate = withdrawalDate.text;
+				parameter.depositBank = withdrawalBank.text;
+				parameter.notePayType   = notePayTypeRadio.selectedValue;
+				parameter.withdrawalType = withdrawalTypeRadio.selectedValue;
+				parameter.registionType = "0";
+				//parameter.withdrawalBranchName = withdrawalBranchName.text;		//departed
+				//parameter.withdrawalWindow     = withdrawalWindow.text;			//departed
+				//parameter.atmType              = atmTypeRadio.selectedValue;	//departed
+				//parameter.atmAddress           = atmAddress.text;				//departed
+				
+				if(parameter.applyType=="0"){
+					//parameter.clientName  = clientName.text;
+					parameter.applyName  = clientName.text;
+					//parameter.clientPhone = clientPhone.text;
+					parameter.applyPhone = clientPhone.text;
+					parameter.applyCardNo = clientCardNo.text;
+					parameter.applycardType = clientCardType.text;
+				}else if(parameter.applyType=="1"){
+					//					parameter.agentName   = agentName.text;		//departed
+					//					parameter.agentPhone  = agentPhone.text;	//departed
+					//					parameter.agentCardNo = agentCardNo.text;
+					//					parameter.agentCardType = agentCardType.text;
+					parameter.applyName  = agentName.text;
+					parameter.applyPhone = agentPhone.text;
+					parameter.applyCardNo = agentCardNo.text;
+					parameter.applycardType = agentCardType.text;
+				}
+				
+				var msg:FaultInfoCheckInMsg = new FaultInfoCheckInMsg();
+				
+				if( this._mode=="add" )
+				{
+					msg.args["remoteMethod"]   = "addSerialInfo";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "NewCheckInForm.addCheckInInfoResult";
+					msg.args["errorHandler"]   = "NewCheckInForm.addCheckInInfoError";
+					infopm.sendFaultInfoCheckInMsg(msg);
+				}
+				else if( this._mode=="edit" )
+				{
+					parameter.id = this.checkInId.text;
+					
+					msg.args["remoteMethod"]   = "updateSerialInfo";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "NewCheckInForm.updateCheckInInfoResult";
+					msg.args["errorHandler"]   = "NewCheckInForm.updateCheckInInfoError";
+					infopm.sendFaultInfoCheckInMsg(msg);
+				}
+				
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="NewCheckInForm.addCheckInInfoResult")]
+			public function addCheckInInfoResult(msg:FaultInfoCheckInMsg):void
+			{
+				trace("NewCheckInForm.addCheckInInfoResult");
+				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+			}
+			
+			/**
+			 * 保存失败
+			 */
+			[MessageHandler(selector="NewCheckInForm.addCheckInInfoError")]
+			public function addCheckInInfoError(msg:FaultInfoCheckInMsg):void
+			{
+				trace("NewCheckInForm.addCheckInInfoError");
+				//将提交按钮置为有效
+				submit.enabled = true;
+				submit.mouseEnabled = true;
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="NewCheckInForm.updateCheckInInfoResult")]
+			public function updateCheckInInfoResult(msg:FaultInfoCheckInMsg):void
+			{
+				trace("NewCheckInForm.updateCheckInInfoResult");
+				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+			}
+			
+			/**
+			 * 更新失败
+			 */
+			[MessageHandler(selector="NewCheckInForm.updateCheckInInfoError")]
+			public function updateCheckInInfoError(msg:FaultInfoCheckInMsg):void
+			{
+				trace("NewCheckInForm.updateCheckInInfoError");
+				//将提交按钮置为有效
+				submit.enabled = true;
+				submit.mouseEnabled = true;
+			}
+			
+			protected function queryBtn_clickHandler(event:MouseEvent):void
+			{
+				//querySeriaNo
+				querySentInfoBySerialNO();
+			}
+			
+			///////////////////////////
+			
+			//根据冠字号码，查询冠字号记录
+			public function querySentInfoBySerialNO():void
+			{
+				var queryCon_serialNO:String = StringUtil.trim(querySeriaNo.text);
+				if(queryCon_serialNO.length != 10){
+					AlertHandler.alert("请输入完整冠字号码：(10位)");
+					queryResult.text = "";
+					queryResultCount.text = "";
+					return;
+				}
+				
+				var parameter:Object = {};
+				
+				serialPage.result.removeAll();
+				//parameter["page"] = serialPage;
+				
+				//var condition:Object = {};
+				//condition.pathCode = UserInfoInit.userInfo['orgPathCode'];
+				//condition.startTime = withdrawalDate.text;
+				//condition.endTime = withdrawalDate.text;
+				parameter.serialNo = queryCon_serialNO;
+				parameter.tranDate = withdrawalDate.text;
+				//parameter["condition"] = condition;
+				
+				var msg:CmlSentInfoMsg = new CmlSentInfoMsg();
+				//msg.args["remoteMethod"]   = "getCmlSentInfoPage";
+				msg.args["remoteMethod"]   = "getCmlSentInfoStatisVOByNOAndTableName";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "SerialInfoPrintForm.querySentInfoBySerialResult";
+				msg.args["errorHandler"]   = "SerialInfoPrintForm.querySentInfoBySerialError";
+				
+				cmlSentInfoPM.sendCmlSentInfoMsg(msg);
+			}		
+			[MessageHandler(selector="SerialInfoPrintForm.querySentInfoBySerialResult")]
+			public function querySentInfoBySerialResult(p_msg:CmlSentInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					/* serialPage = p_msg.result as Page;
+					var len:int = serialPage.result.length;
+					queryResultCount.text = String(len);
+					if(len>0){
+					
+					var item:Object = serialPage.result.getItemAt(0);
+					var tt:String = this.getTextByKeyOnDataDictPath(item.noteType,NOTE_TYPE)
+					serialNoteType.text = (tt==null?"":tt);
+					this._formData['noteType'] = item.noteType;
+					this._formData['serialResult'] = "1";
+					queryResult.text = this.getTextByKeyOnDataDictPath("1",QUERY_RESULT);
+					}else{
+					
+					serialNoteType.text = "";
+					this._formData['noteType'] = "";
+					this._formData['serialResult'] = "0";
+					queryResult.text = this.getTextByKeyOnDataDictPath("0",QUERY_RESULT);
+					} */
+					var item:Object = p_msg.result;
+					if(item.noteType != "111"){
+						var tt:String = this.getTextByKeyOnDataDictPath(item.noteType,NOTE_TYPE);
+						serialNoteType.text = (tt==null?"":tt);
+						this._formData['noteType'] = item.noteType;
+					}else{
+						serialNoteType.text = "";
+						this._formData['noteType'] = "";
+					}
+					this._formData['serialResult'] = item.queryResult;
+					queryResult.text = this.getTextByKeyOnDataDictPath(item.queryResult,QUERY_RESULT);
+					queryResultCount.text = item.queryCount;
+					var ir:Boolean = item.registerOrNot as Boolean;
+					
+					if(this._mode=="edit"&&this._formData['seriaNO']==StringUtil.trim(querySeriaNo.text)){
+						lbl_isRegisterTips.text = "";
+					}else if(ir){
+						lbl_isRegisterTips.text = "该冠字号已经涉假登记！";
+						AlertHandler.alert("该冠字号已经涉假登记！如需再登记该冠字号信息，请在涉假信息再登记页面填写再登记信息！");
+					}else{
+						lbl_isRegisterTips.text = "";
+					}
+				}
+			}
+			
+			///////////////////////////
+			
+			
+			protected function querySeriaNo_changeHandler(event:TextOperationEvent):void
+			{
+				var serialNO:String = StringUtils.trim(querySeriaNo.text);
+				queryResult.text = "";
+				queryResultCount.text = "";
+				serialNoteType.text = "";
+				lbl_isRegisterTips.text = "";
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		<!-- 证明资料类型单选框 -->
+		<grg:RadioButtonGroup id="cerTypeRadio" change="setCertificateType(String(cerTypeRadio.selectedValue));" />
+		<!-- 取款类型：柜面取款/自助取款选择 -->
+		<grg:RadioButtonGroup id="withdrawalTypeRadio" change="this.setWithdrawalType(String(withdrawalTypeRadio.selectedValue))" />
+		<!-- 支付渠道：取款机/存取款一体机/柜面 -->
+		<grg:RadioButtonGroup id="notePayTypeRadio" />
+		
+		<!-- 申请人类型单选框 -->
+		<grg:RadioButtonGroup id="applicantTypeRadio" change="setApplicantType(String(applicantTypeRadio.selectedValue));" />
+		
+		<grg:Label id="checkInId" text="" />
+	</fx:Declarations>
+	
+	<fx:Declarations>
+		<mx:StringValidator id="validateQuerySeriaNo" source="{querySeriaNo}" property="text" required="true" /> 
+	</fx:Declarations>
+	
+	<grg:Form id="wholeForm" width="100%" 
+			  paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
+		
+		<!-- 基本信息 -->
+		<grg:RoundCornerContainer locale="searchInfo" width="100%">
+			<s:VGroup paddingLeft="50" paddingTop="15"  paddingBottom="10" width="100%">
+				<s:HGroup gap="0" verticalAlign="middle" height="20">
+					<!-- 登记机构号 -->
+					<grg:Label locale="orgCodeColon" />
+					<grg:Label id="orgCode" />
+					<grg:Label id="orgPathCode" visible="false" includeInLayout="false" />
+					<s:Spacer width="50"/>
+					<!-- 登记机构名 -->
+					<grg:Label locale="orgNameColon" />
+					<grg:Label id="orgName" />
+					<s:Spacer width="50"/>
+					<!-- 登记人 -->
+					<grg:Label locale="recorderColon" />
+					<grg:Label id="userCode" />
+					<s:Spacer width="50"/>
+				</s:HGroup>
+				
+				<!-- 申请日期 -->
+				<grg:FormItem width="100%" locale="applyDateColon" required="true">
+					<userDefined:SuperDateField id="applyDate" required="true" selectedDate="{new Date()}"
+										selectableRange="{{rangeEnd:DateUtils.createDate(0)}}"/>
+				</grg:FormItem>
+				<!-- 网点名称-->
+				<grg:FormItem width="100%" locale="branchNameColon" required="true">
+					<grg:TextInput id="withdrawalBank" width="200" required="true" 
+								   maxChars="20"/>
+				</grg:FormItem>
+				<s:HGroup gap="0">
+					<!-- 支付渠道：-->
+					<grg:FormItem width="100%" locale="notePayType" required="true">
+						<s:HGroup>
+							<!-- 取款机 -->
+							<grg:RadioButton id="payType_identi1" value="0" locale="payType_identi1" group="{notePayTypeRadio}" selected="true" /> 
+							<!-- 存取款一体机 -->
+							<grg:RadioButton id="payType_identi2" value="1" locale="payType_identi2" group="{notePayTypeRadio}"/>
+							<!-- 柜面 -->
+							<grg:RadioButton id="payType_identi3" value="2" locale="payType_identi3" group="{notePayTypeRadio}"/>
+							<!-- 其他  -->
+							<grg:RadioButton id="payType_identi4" value="3" locale="payType_identi4" group="{notePayTypeRadio}"/>
+						</s:HGroup>
+					</grg:FormItem>
+					<!--<grg:Label locale="notePayType" width="85" />
+					<grg:Label text="*" color="red" />					
+					<grg:Label locale="autoGenTips" />-->
+				</s:HGroup>
+				
+				
+				<!-- 柜台位置 -->
+				<grg:FormItem width="100%"  locale="counterPositionColon">
+					<grg:TextInput id="counterPosition" width="200" maxChars="20"/>
+				</grg:FormItem>
+				<!-- 地址 -->
+				<grg:FormItem width="100%"  locale="addressColon" >
+					<grg:TextInput id="address" width="200" maxChars="20"/>
+				</grg:FormItem>
+				<!-- 取款日期 -->
+				<grg:FormItem width="100%" locale="withdrawalDateColon" required="true">
+					<userDefined:SuperDateField id="withdrawalDate" required="true" selectedDate="{(withdrawalDate.selectedDate==null||withdrawalDate.selectedDate>applyDate.selectedDate)?applyDate.selectedDate:withdrawalDate.selectedDate}"
+										selectableRange="{{rangeEnd:applyDate.selectedDate}}"/>
+				</grg:FormItem>
+				<s:HGroup gap="0">
+					
+					<!-- 查询冠字号码 -->
+					<grg:FormItem width="100%" locale="querySeriaNoColon" required="true">
+						<grg:TextInput id="querySeriaNo" restrict="0-9A-Za-z" styleName="TextInput"
+									   textAlign="left" width="150" height="20" maxChars="10" maxnum="10"
+									   change="querySeriaNo_changeHandler(event)" required="true"/>
+					</grg:FormItem>
+					<!-- 
+					<grg:Label locale="querySeriaNoColon" width="85" />
+					<grg:Label text="*" color="red" />
+					<grg:TextInput id="querySeriaNo" restrict="0-9A-Za-z" styleName="TextInput"
+					textAlign="left" width="150" height="20" maxChars="10" maxnum="10"
+					change="querySeriaNo_changeHandler(event)"/> -->
+					<s:Spacer width="20" />
+					<s:Button id="querySerialBtn" label="查询" click="queryBtn_clickHandler(event)"/>
+					<s:Spacer width="10" />
+					<grg:Label id="lbl_isRegisterTips" verticalAlign="middle" color="#FF0000"/>
+					<!--<s:Label id="lbl_isRegisterTips"/>-->
+				</s:HGroup>
+				<s:HGroup gap="0">
+					<!-- 钞票类型：-->
+					<grg:FormItem width="100%" locale="serialNoteType" required="false">
+						<grg:TextInput id="serialNoteType" styleName="TextInput" textAlign="left" 
+									   width="150" height="20" editable="false" enabled="false"/>
+					</grg:FormItem>
+					<!--<grg:Label locale="serialNoteType" width="85" />
+					<grg:Label text="*" color="red" visible="false"/>
+					<grg:TextInput id="serialNoteType" styleName="TextInput" textAlign="left" 
+					width="150" height="20" editable="false" enabled="false"/>-->
+					<grg:Label locale="autoGenTips" />
+				</s:HGroup>
+				<s:HGroup gap="0">
+					<!-- 查询结果：-->
+					<grg:FormItem width="100%" locale="queryResultColon" required="true">
+						<grg:TextInput id="queryResult" styleName="TextInput" textAlign="left" 
+									   width="150" height="20" editable="false" required="true"
+									   enabled="false"/>
+					</grg:FormItem>
+					<!--<grg:Label locale="queryResultColon" width="85" />
+					<grg:Label text="*" color="red" />
+					<grg:TextInput id="queryResult" styleName="TextInput" textAlign="left" 
+					width="150" height="20" editable="false" required="true"
+					enabled="false"/>-->
+					<grg:Label locale="autoGenTips" />
+				</s:HGroup>
+				<s:HGroup gap="0">
+					<grg:FormItem width="100%" locale="queryResultCountColon" required="true">
+						<grg:TextInput id="queryResultCount" styleName="TextInput" textAlign="left" 
+									   width="150" height="20" editable="false" required="true"
+									   enabled="false"/>
+					</grg:FormItem>
+					<!--<grg:Label locale="queryResultCountColon" width="85" />
+					<grg:Label text="*" color="red" />
+					<grg:TextInput id="queryResultCount" styleName="TextInput" textAlign="left" 
+					width="150" height="20" editable="false" required="true"
+					enabled="false"/>-->
+					<grg:Label locale="autoGenTips" />
+				</s:HGroup>
+			</s:VGroup>
+		</grg:RoundCornerContainer>
+		<!-- 下载附件 -->
+		<grg:FormItem id="modelItem" locale="filedown" required="false">
+			<grg:Button  iconType="down" locale="fileName2" click="downFile();"/>
+		</grg:FormItem>
+		
+		<grg:FormItem width="100%" locale="applicantTypeColon" id="applicantType" required="true">
+			<s:HGroup>
+				<!-- 本人申请信息-->
+				<grg:RadioButton id="applicant1" value="0" locale="clientSelf" group="{applicantTypeRadio}" selected="true" /> 
+				<!-- 代理申请人信息-->
+				<grg:RadioButton id="applicant2" value="1" locale="agent" group="{applicantTypeRadio}"/>
+			</s:HGroup>
+		</grg:FormItem>
+	</grg:Form>	
+	<!-- 申请人信息 -->
+	<grg:RoundCornerContainer locale="searcherInfo" id="clientCont" width="100%" >
+		<s:HGroup width="100%">
+			<grg:Form paddingLeft="30" id="clientForm" >
+				<!-- 申请人姓名 -->
+				<grg:FormItem locale="clientNameColon" required="true">
+					<grg:TextInput id="clientName" width="200"  required="true" text="" 
+								   maxChars="10"/>
+				</grg:FormItem>
+				<!-- 申请人联系电话 -->
+				<grg:FormItem locale="clientPhoneColon" required="true">
+					<grg:TextInput id="clientPhone" width="200" restrict="0-9" required="true" text="" maxChars="18"/>
+				</grg:FormItem>
+				<!-- 有效证件类型 -->
+				<grg:FormItem locale="clientCardTypeColon" required="true">
+					<grg:TextInput id="clientCardType" width="200"  required="true" text="" maxChars="20"/>
+				</grg:FormItem>
+				<!-- 有效证件号码 -->
+				<grg:FormItem locale="clientCardNoColon" required="true">
+					<grg:TextInput id="clientCardNo" width="200"  required="true" text="" maxChars="20"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:HGroup>
+	</grg:RoundCornerContainer>
+	
+	<!-- 代理申请人信息 -->
+	<grg:RoundCornerContainer locale="agentSearcherInfo"  id="agentCont" width="100%" visible="false"  includeInLayout="false">
+		<s:HGroup width="100%">
+			<grg:Form paddingLeft="30" id="agentForm" >
+				<!-- 代理申请人姓名 -->
+				<grg:FormItem locale="agentNameColon" required="true">
+					<grg:TextInput id="agentName" width="200" text="" maxChars="18" required="true"/>
+				</grg:FormItem>
+				<!-- 代理申请人联系电话 -->
+				<grg:FormItem locale="agentPhoneColon" required="true">
+					<grg:TextInput id="agentPhone" width="200" text="" restrict="0-9" maxChars="18" required="true"/>
+				</grg:FormItem>
+				<!-- 有效证件类型 -->
+				<grg:FormItem locale="agentCardTypeColon" required="true">
+					<grg:TextInput id="agentCardType" width="200" required="true" text="" maxChars="20"/>
+				</grg:FormItem>
+				<!-- 有效证件号码 -->
+				<grg:FormItem locale="agentCardNoColon" required="true">
+					<grg:TextInput id="agentCardNo" width="200"  required="true" text="" maxChars="20"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:HGroup>
+	</grg:RoundCornerContainer>
+	
+	
+	
+	<!-- 证明资料信息 -->
+	<grg:RoundCornerContainer locale="validateInfo" width="100%">
+		<grg:Form width="100%" id="certiTypeForm">
+			<!-- 证明资料类型 -->
+			<grg:FormItem width="100%" locale="certificateTypeColon" required="true">
+				<s:HGroup>
+					<!-- 银行卡 -->
+					<grg:RadioButton id="identi1" value="0" locale="identified" group="{cerTypeRadio}" selected="true" /> 
+					<!-- 存折 -->
+					<grg:RadioButton id="identi2" value="1" locale="cunzhe" group="{cerTypeRadio}"/>
+					<!-- 取款凭证 -->
+					<grg:RadioButton id="identi3" value="2" locale="qukuan" group="{cerTypeRadio}"/>
+					<!-- 假币没收凭证 -->
+					<grg:RadioButton id="identi4" value="3" locale="jiabimoshou" group="{cerTypeRadio}"/>
+					<!-- 其他 
+					<grg:RadioButton id="identi4" value="4" locale="others" group="{cerTypeRadio}"/>
+					<grg:TextInput id="certificateTypeOthers" width="180" visible="false" required="false" maxChars="100"/>-->
+				</s:HGroup>
+			</grg:FormItem>
+			<!-- 证明资料号码 -->
+			<grg:FormItem width="100%" locale="certificateNoColon" required="true">
+				<grg:TextInput id="certificateNo" width="200"  restrict="0-9a-zA-Z*" required="true" text="" 
+							   maxChars="32"/>
+			</grg:FormItem>
+		</grg:Form>
+	</grg:RoundCornerContainer>
+	
+	
+	<s:HGroup id="buttonBar" width="100%" verticalAlign="middle" horizontalAlign="center">
+		<grg:Button id="submit" locale="submit" click="save()" iconVisible="false"/>
+		<grg:Button locale="cancelButton" click="cancel()" iconVisible="false"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

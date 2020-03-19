@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "emailSettingModule">
+		<titleKey>Email parameter setting</titleKey>
+		<userName>User name:</userName>
+		<password>Password:</password>
+		<smtpHost>SMTP host:</smtpHost>
+		<sendFrom>SendFrom:</sendFrom>
+		<timeout>Time out:</timeout>
+	</node>
+</nodes>

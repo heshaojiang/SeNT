@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "statusMonitorModule">
+	<existedTmlStatusGroup>该设备状态组已经存在！</existedTmlStatusGroup>
+	<existedTmlStatusPhysical>该钞箱物理标识已经存在！</existedTmlStatusPhysical>
+	<nameNotNull>分组名称不能为空！</nameNotNull>
+	<brandIdNotNull>品牌编号不能为空！</brandIdNotNull>
+	</node>
+</nodes>

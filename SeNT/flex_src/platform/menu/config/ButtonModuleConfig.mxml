@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns="http://www.spicefactory.org/parsley" 
+		 xmlns:pm="platform.menu.pm.*" 
+		 xmlns:message="platform.menu.message.*"
+		 xmlns:manager="platform.common.manager.*" 
+		 xmlns:renderer="platform.menu.renderer.*" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:services="platform.services.*">
+	<fx:Script>
+		<![CDATA[
+			import platform.menu.delegate.ButtonDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<!-- menu module -->
+		<pm:ButtonFormPM/>
+		<pm:ButtonModulePM/>
+		
+		<message:ButtonMsg/>
+		<!-- service -->
+		<services:GRGRemoteObject id="buttonService" destination="buttonService"/>
+		
+		<Object type="{ButtonDelegate}">
+			<Property name="service" idRef="buttonService"/>
+		</Object>
+	</fx:Declarations>
+</Objects>

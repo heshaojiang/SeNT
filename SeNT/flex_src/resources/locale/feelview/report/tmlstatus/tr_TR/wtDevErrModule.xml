@@ -1,0 +1,19 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtDevErrModule">
+		<listTitle>Hata Listesi</listTitle>
+		<termId>Terminal Id</termId>
+		<termType>Terminal Tipi</termType>
+		<brand>Marka</brand>
+		<orgId>Şube</orgId>
+		<orgName>Şube Adı</orgName>
+		<org>Organizasyon</org>
+		<devCode>Arızalı Donanım</devCode>
+		<errCode>Donanım Hata Kodu</errCode>
+		<status>Durum</status>
+		<beginTime>Başlangıç Zamanı</beginTime>
+		<to>Bitiş Zamanı</to>
+		<endTime>Bitiş Zamanı</endTime>
+		<errorTime>ToplamKesintiSüresi(dk)</errorTime>
+	</node>
+</nodes>

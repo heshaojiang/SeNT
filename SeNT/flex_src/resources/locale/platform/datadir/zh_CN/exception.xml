@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "datadir">
+		<existedKey>已经存在这个健！</existedKey>
+		<fullPathNotNull>完全路径不能为空！</fullPathNotNull>
+	</node>
+</nodes>

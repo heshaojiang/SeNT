@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： bankManagerModule 
+	 Create Time：2011-8-19   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termRelativePerson">
+		<listTitle>Bank Manager List</listTitle>
+		<role>role</role>
+		<managerIdItem>id</managerIdItem>
+		<personNameItem>name</personNameItem>
+		<traderNameItem>name</traderNameItem>
+		<contactManItem>contact man</contactManItem>
+		<tmlModelItem>terminal brand</tmlModelItem>
+		<corporatorOrgItem>organization</corporatorOrgItem>
+		<contactTelItem>telePhone</contactTelItem>
+		<contactMobileItem>mobilePhone</contactMobileItem>
+		<email>Email</email>
+		<address>Address</address>
+		<status>status</status>
+	</node>
+</nodes>

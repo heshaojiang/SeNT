@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassListAdd">
+		
+		
+		<!-- 编辑页面 -->
+		<classAddTitle>新增</classAddTitle>
+		<partIdItem>部件名称：</partIdItem>
+		<partCodeItem>部件状态：</partCodeItem>
+		<descriptionItem>说明：</descriptionItem>
+		
+		<classEditTitle>编辑</classEditTitle>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>		
+	</node>
+</nodes>

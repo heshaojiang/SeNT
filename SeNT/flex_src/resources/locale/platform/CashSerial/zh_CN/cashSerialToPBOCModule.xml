@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashSerialToPBOCModule">
+		<listTitle>用户列表</listTitle>
+		<userNameKey>用户名：</userNameKey>
+		<orgNameKey>机构：</orgNameKey>
+		<operations>操作</operations>
+		<userName>用户名</userName>
+		<useremail>邮箱</useremail>
+		<areaName>所属区域</areaName>
+		<orgName>所属机构</orgName>
+		<tel>联系电话</tel>
+		<userCode>用户帐号</userCode>
+		<status>状态</status>
+		<titlemsg>冠字号上传到人行</titlemsg>
+			<noConfig>无</noConfig>
+		<navConfig>导航仓</navConfig>
+		<waitConfig>待办事宜</waitConfig>
+		<monitorStatus>状态监控</monitorStatus>
+		<fileupload>导入</fileupload>
+		<fileExport>导出</fileExport>
+		
+		<serverIp>服务器IP</serverIp>
+		<serverPort>服务器端口</serverPort>
+		<uploadHz>周期类别</uploadHz>
+		<uploadTime>开始时间</uploadTime>
+		<taskStatus>任务状态</taskStatus>
+		<handlePerson>设置人员</handlePerson>
+		
+		<serverNameKey>服务器名称：</serverNameKey>
+		<serverIpKey>服务器IP：</serverIpKey>
+		<serverPortKey>服务器端口：</serverPortKey>
+		<handlePersonKey>设置人员：</handlePersonKey>
+		<to>至</to>
+		<uploadValue>上传日期</uploadValue>
+		<serverType>服务器类型</serverType>
+	</node>
+</nodes>

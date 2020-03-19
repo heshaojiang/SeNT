@@ -1,0 +1,1106 @@
+use feelview;
+-- CML_SENT_INFOS_HIS_0101
+drop table if exists CML_SENT_INFOS_HIS_0101;
+-- CML_SENT_INFOS_HIS_0102
+drop table if exists CML_SENT_INFOS_HIS_0102;
+-- CML_SENT_INFOS_HIS_0103
+drop table if exists CML_SENT_INFOS_HIS_0103;
+-- CML_SENT_INFOS_HIS_0104
+drop table if exists CML_SENT_INFOS_HIS_0104;
+-- CML_SENT_INFOS_HIS_0105
+drop table if exists CML_SENT_INFOS_HIS_0105;
+-- CML_SENT_INFOS_HIS_0106
+drop table if exists CML_SENT_INFOS_HIS_0106;
+-- CML_SENT_INFOS_HIS_0107
+drop table if exists CML_SENT_INFOS_HIS_0107;
+-- CML_SENT_INFOS_HIS_0108
+drop table if exists CML_SENT_INFOS_HIS_0108;
+-- CML_SENT_INFOS_HIS_0109
+drop table if exists CML_SENT_INFOS_HIS_0109;
+-- CML_SENT_INFOS_HIS_0110
+drop table if exists CML_SENT_INFOS_HIS_0110;
+-- CML_SENT_INFOS_HIS_0111
+drop table if exists CML_SENT_INFOS_HIS_0111;
+-- CML_SENT_INFOS_HIS_0112
+drop table if exists CML_SENT_INFOS_HIS_0112
+;
+-- CML_SENT_INFOS_HIS_0113
+drop table if exists CML_SENT_INFOS_HIS_0113
+;
+-- CML_SENT_INFOS_HIS_0114
+drop table if exists CML_SENT_INFOS_HIS_0114
+;
+-- CML_SENT_INFOS_HIS_0115
+drop table if exists CML_SENT_INFOS_HIS_0115
+;
+-- CML_SENT_INFOS_HIS_0116
+drop table if exists CML_SENT_INFOS_HIS_0116
+;
+-- CML_SENT_INFOS_HIS_0117
+drop table if exists CML_SENT_INFOS_HIS_0117
+;
+-- CML_SENT_INFOS_HIS_0118
+drop table if exists CML_SENT_INFOS_HIS_0118
+;
+-- CML_SENT_INFOS_HIS_0119
+drop table if exists CML_SENT_INFOS_HIS_0119
+;
+-- CML_SENT_INFOS_HIS_0120
+drop table if exists CML_SENT_INFOS_HIS_0120
+;
+-- CML_SENT_INFOS_HIS_0121
+drop table if exists CML_SENT_INFOS_HIS_0121
+;
+-- CML_SENT_INFOS_HIS_0122
+drop table if exists CML_SENT_INFOS_HIS_0122
+;
+-- CML_SENT_INFOS_HIS_0123
+drop table if exists CML_SENT_INFOS_HIS_0123
+;
+-- CML_SENT_INFOS_HIS_0124
+drop table if exists CML_SENT_INFOS_HIS_0124
+;
+-- CML_SENT_INFOS_HIS_0125
+drop table if exists CML_SENT_INFOS_HIS_0125
+;
+-- CML_SENT_INFOS_HIS_0126
+drop table if exists CML_SENT_INFOS_HIS_0126
+;
+-- CML_SENT_INFOS_HIS_0127
+drop table if exists CML_SENT_INFOS_HIS_0127
+;
+-- CML_SENT_INFOS_HIS_0128
+drop table if exists CML_SENT_INFOS_HIS_0128
+;
+-- CML_SENT_INFOS_HIS_0129
+drop table if exists CML_SENT_INFOS_HIS_0129
+;
+-- CML_SENT_INFOS_HIS_0130
+drop table if exists CML_SENT_INFOS_HIS_0130
+;
+-- CML_SENT_INFOS_HIS_0131
+drop table if exists CML_SENT_INFOS_HIS_0131
+;
+-- CML_SENT_INFOS_HIS_0201
+drop table if exists CML_SENT_INFOS_HIS_0201
+;
+-- CML_SENT_INFOS_HIS_0202
+drop table if exists CML_SENT_INFOS_HIS_0202
+;
+-- CML_SENT_INFOS_HIS_0203
+drop table if exists CML_SENT_INFOS_HIS_0203
+;
+-- CML_SENT_INFOS_HIS_0204
+drop table if exists CML_SENT_INFOS_HIS_0204
+;
+-- CML_SENT_INFOS_HIS_0205
+drop table if exists CML_SENT_INFOS_HIS_0205
+;
+-- CML_SENT_INFOS_HIS_0206
+drop table if exists CML_SENT_INFOS_HIS_0206
+;
+-- CML_SENT_INFOS_HIS_0207
+drop table if exists CML_SENT_INFOS_HIS_0207
+;
+-- CML_SENT_INFOS_HIS_0208
+drop table if exists CML_SENT_INFOS_HIS_0208
+;
+-- CML_SENT_INFOS_HIS_0209
+drop table if exists CML_SENT_INFOS_HIS_0209
+;
+-- CML_SENT_INFOS_HIS_0210
+drop table if exists CML_SENT_INFOS_HIS_0210
+;
+-- CML_SENT_INFOS_HIS_0211
+drop table if exists CML_SENT_INFOS_HIS_0211
+;
+-- CML_SENT_INFOS_HIS_0212
+drop table if exists CML_SENT_INFOS_HIS_0212
+;
+-- CML_SENT_INFOS_HIS_0213
+drop table if exists CML_SENT_INFOS_HIS_0213
+;
+-- CML_SENT_INFOS_HIS_0214
+drop table if exists CML_SENT_INFOS_HIS_0214
+;
+-- CML_SENT_INFOS_HIS_0215
+drop table if exists CML_SENT_INFOS_HIS_0215
+;
+-- CML_SENT_INFOS_HIS_0216
+drop table if exists CML_SENT_INFOS_HIS_0216
+;
+-- CML_SENT_INFOS_HIS_0217
+drop table if exists CML_SENT_INFOS_HIS_0217
+;
+-- CML_SENT_INFOS_HIS_0218
+drop table if exists CML_SENT_INFOS_HIS_0218
+;
+-- CML_SENT_INFOS_HIS_0219
+drop table if exists CML_SENT_INFOS_HIS_0219
+;
+-- CML_SENT_INFOS_HIS_0220
+drop table if exists CML_SENT_INFOS_HIS_0220
+;
+-- CML_SENT_INFOS_HIS_0221
+drop table if exists CML_SENT_INFOS_HIS_0221
+;
+-- CML_SENT_INFOS_HIS_0222
+drop table if exists CML_SENT_INFOS_HIS_0222
+;
+-- CML_SENT_INFOS_HIS_0223
+drop table if exists CML_SENT_INFOS_HIS_0223
+;
+-- CML_SENT_INFOS_HIS_0224
+drop table if exists CML_SENT_INFOS_HIS_0224
+;
+-- CML_SENT_INFOS_HIS_0225
+drop table if exists CML_SENT_INFOS_HIS_0225
+;
+-- CML_SENT_INFOS_HIS_0226
+drop table if exists CML_SENT_INFOS_HIS_0226
+;
+-- CML_SENT_INFOS_HIS_0227
+drop table if exists CML_SENT_INFOS_HIS_0227
+;
+-- CML_SENT_INFOS_HIS_0228
+drop table if exists CML_SENT_INFOS_HIS_0228
+;
+-- CML_SENT_INFOS_HIS_0229
+drop table if exists CML_SENT_INFOS_HIS_0229
+;
+-- CML_SENT_INFOS_HIS_0230
+drop table if exists CML_SENT_INFOS_HIS_0230
+;
+-- CML_SENT_INFOS_HIS_0231
+drop table if exists CML_SENT_INFOS_HIS_0231
+;
+-- CML_SENT_INFOS_HIS_0301
+drop table if exists CML_SENT_INFOS_HIS_0301
+;
+-- CML_SENT_INFOS_HIS_0302
+drop table if exists CML_SENT_INFOS_HIS_0302
+;
+-- CML_SENT_INFOS_HIS_0303
+drop table if exists CML_SENT_INFOS_HIS_0303
+;
+-- CML_SENT_INFOS_HIS_0304
+drop table if exists CML_SENT_INFOS_HIS_0304
+;
+-- CML_SENT_INFOS_HIS_0305
+drop table if exists CML_SENT_INFOS_HIS_0305
+;
+-- CML_SENT_INFOS_HIS_0306
+drop table if exists CML_SENT_INFOS_HIS_0306
+;
+-- CML_SENT_INFOS_HIS_0307
+drop table if exists CML_SENT_INFOS_HIS_0307
+;
+-- CML_SENT_INFOS_HIS_0308
+drop table if exists CML_SENT_INFOS_HIS_0308
+;
+-- CML_SENT_INFOS_HIS_0309
+drop table if exists CML_SENT_INFOS_HIS_0309
+;
+-- CML_SENT_INFOS_HIS_0310
+drop table if exists CML_SENT_INFOS_HIS_0310
+;
+-- CML_SENT_INFOS_HIS_0311
+drop table if exists CML_SENT_INFOS_HIS_0311
+;
+-- CML_SENT_INFOS_HIS_0312
+drop table if exists CML_SENT_INFOS_HIS_0312
+;
+-- CML_SENT_INFOS_HIS_0313
+drop table if exists CML_SENT_INFOS_HIS_0313
+;
+-- CML_SENT_INFOS_HIS_0314
+drop table if exists CML_SENT_INFOS_HIS_0314
+;
+-- CML_SENT_INFOS_HIS_0315
+drop table if exists CML_SENT_INFOS_HIS_0315
+;
+-- CML_SENT_INFOS_HIS_0316
+drop table if exists CML_SENT_INFOS_HIS_0316
+;
+-- CML_SENT_INFOS_HIS_0317
+drop table if exists CML_SENT_INFOS_HIS_0317
+;
+-- CML_SENT_INFOS_HIS_0318
+drop table if exists CML_SENT_INFOS_HIS_0318
+;
+-- CML_SENT_INFOS_HIS_0319
+drop table if exists CML_SENT_INFOS_HIS_0319
+;
+-- CML_SENT_INFOS_HIS_0320
+drop table if exists CML_SENT_INFOS_HIS_0320
+;
+-- CML_SENT_INFOS_HIS_0321
+drop table if exists CML_SENT_INFOS_HIS_0321
+;
+-- CML_SENT_INFOS_HIS_0322
+drop table if exists CML_SENT_INFOS_HIS_0322
+;
+-- CML_SENT_INFOS_HIS_0323
+drop table if exists CML_SENT_INFOS_HIS_0323
+;
+-- CML_SENT_INFOS_HIS_0324
+drop table if exists CML_SENT_INFOS_HIS_0324
+;
+-- CML_SENT_INFOS_HIS_0325
+drop table if exists CML_SENT_INFOS_HIS_0325
+;
+-- CML_SENT_INFOS_HIS_0326
+drop table if exists CML_SENT_INFOS_HIS_0326
+;
+-- CML_SENT_INFOS_HIS_0327
+drop table if exists CML_SENT_INFOS_HIS_0327
+;
+-- CML_SENT_INFOS_HIS_0328
+drop table if exists CML_SENT_INFOS_HIS_0328
+;
+-- CML_SENT_INFOS_HIS_0329
+drop table if exists CML_SENT_INFOS_HIS_0329
+;
+-- CML_SENT_INFOS_HIS_0330
+drop table if exists CML_SENT_INFOS_HIS_0330
+;
+-- CML_SENT_INFOS_HIS_0331
+drop table if exists CML_SENT_INFOS_HIS_0331
+;
+-- CML_SENT_INFOS_HIS_0401
+drop table if exists CML_SENT_INFOS_HIS_0401
+;
+-- CML_SENT_INFOS_HIS_0402
+drop table if exists CML_SENT_INFOS_HIS_0402
+;
+-- CML_SENT_INFOS_HIS_0403
+drop table if exists CML_SENT_INFOS_HIS_0403
+;
+-- CML_SENT_INFOS_HIS_0404
+drop table if exists CML_SENT_INFOS_HIS_0404
+;
+-- CML_SENT_INFOS_HIS_0405
+drop table if exists CML_SENT_INFOS_HIS_0405
+;
+-- CML_SENT_INFOS_HIS_0406
+drop table if exists CML_SENT_INFOS_HIS_0406
+;
+-- CML_SENT_INFOS_HIS_0407
+drop table if exists CML_SENT_INFOS_HIS_0407
+;
+-- CML_SENT_INFOS_HIS_0408
+drop table if exists CML_SENT_INFOS_HIS_0408
+;
+-- CML_SENT_INFOS_HIS_0409
+drop table if exists CML_SENT_INFOS_HIS_0409
+;
+-- CML_SENT_INFOS_HIS_0410
+drop table if exists CML_SENT_INFOS_HIS_0410
+;
+-- CML_SENT_INFOS_HIS_0411
+drop table if exists CML_SENT_INFOS_HIS_0411
+;
+-- CML_SENT_INFOS_HIS_0412
+drop table if exists CML_SENT_INFOS_HIS_0412
+;
+-- CML_SENT_INFOS_HIS_0413
+drop table if exists CML_SENT_INFOS_HIS_0413
+;
+-- CML_SENT_INFOS_HIS_0414
+drop table if exists CML_SENT_INFOS_HIS_0414
+;
+-- CML_SENT_INFOS_HIS_0415
+drop table if exists CML_SENT_INFOS_HIS_0415
+;
+-- CML_SENT_INFOS_HIS_0416
+drop table if exists CML_SENT_INFOS_HIS_0416
+;
+-- CML_SENT_INFOS_HIS_0417
+drop table if exists CML_SENT_INFOS_HIS_0417
+;
+-- CML_SENT_INFOS_HIS_0418
+drop table if exists CML_SENT_INFOS_HIS_0418
+;
+-- CML_SENT_INFOS_HIS_0419
+drop table if exists CML_SENT_INFOS_HIS_0419
+;
+-- CML_SENT_INFOS_HIS_0420
+drop table if exists CML_SENT_INFOS_HIS_0420
+;
+-- CML_SENT_INFOS_HIS_0421
+drop table if exists CML_SENT_INFOS_HIS_0421
+;
+-- CML_SENT_INFOS_HIS_0422
+drop table if exists CML_SENT_INFOS_HIS_0422
+;
+-- CML_SENT_INFOS_HIS_0423
+drop table if exists CML_SENT_INFOS_HIS_0423
+;
+-- CML_SENT_INFOS_HIS_0424
+drop table if exists CML_SENT_INFOS_HIS_0424
+;
+-- CML_SENT_INFOS_HIS_0425
+drop table if exists CML_SENT_INFOS_HIS_0425
+;
+-- CML_SENT_INFOS_HIS_0426
+drop table if exists CML_SENT_INFOS_HIS_0426
+;
+-- CML_SENT_INFOS_HIS_0427
+drop table if exists CML_SENT_INFOS_HIS_0427
+;
+-- CML_SENT_INFOS_HIS_0428
+drop table if exists CML_SENT_INFOS_HIS_0428
+;
+-- CML_SENT_INFOS_HIS_0429
+drop table if exists CML_SENT_INFOS_HIS_0429
+;
+-- CML_SENT_INFOS_HIS_0430
+drop table if exists CML_SENT_INFOS_HIS_0430
+;
+-- CML_SENT_INFOS_HIS_0431
+drop table if exists CML_SENT_INFOS_HIS_0431
+;
+-- CML_SENT_INFOS_HIS_0501
+drop table if exists CML_SENT_INFOS_HIS_0501
+;
+-- CML_SENT_INFOS_HIS_0502
+drop table if exists CML_SENT_INFOS_HIS_0502
+;
+-- CML_SENT_INFOS_HIS_0503
+drop table if exists CML_SENT_INFOS_HIS_0503
+;
+-- CML_SENT_INFOS_HIS_0504
+drop table if exists CML_SENT_INFOS_HIS_0504
+;
+-- CML_SENT_INFOS_HIS_0505
+drop table if exists CML_SENT_INFOS_HIS_0505
+;
+-- CML_SENT_INFOS_HIS_0506
+drop table if exists CML_SENT_INFOS_HIS_0506
+;
+-- CML_SENT_INFOS_HIS_0507
+drop table if exists CML_SENT_INFOS_HIS_0507
+;
+-- CML_SENT_INFOS_HIS_0508
+drop table if exists CML_SENT_INFOS_HIS_0508
+;
+-- CML_SENT_INFOS_HIS_0509
+drop table if exists CML_SENT_INFOS_HIS_0509
+;
+-- CML_SENT_INFOS_HIS_0510
+drop table if exists CML_SENT_INFOS_HIS_0510
+;
+-- CML_SENT_INFOS_HIS_0511
+drop table if exists CML_SENT_INFOS_HIS_0511
+;
+-- CML_SENT_INFOS_HIS_0512
+drop table if exists CML_SENT_INFOS_HIS_0512
+;
+-- CML_SENT_INFOS_HIS_0513
+drop table if exists CML_SENT_INFOS_HIS_0513
+;
+-- CML_SENT_INFOS_HIS_0514
+drop table if exists CML_SENT_INFOS_HIS_0514
+;
+-- CML_SENT_INFOS_HIS_0515
+drop table if exists CML_SENT_INFOS_HIS_0515
+;
+-- CML_SENT_INFOS_HIS_0516
+drop table if exists CML_SENT_INFOS_HIS_0516
+;
+-- CML_SENT_INFOS_HIS_0517
+drop table if exists CML_SENT_INFOS_HIS_0517
+;
+-- CML_SENT_INFOS_HIS_0518
+drop table if exists CML_SENT_INFOS_HIS_0518
+;
+-- CML_SENT_INFOS_HIS_0519
+drop table if exists CML_SENT_INFOS_HIS_0519
+;
+-- CML_SENT_INFOS_HIS_0520
+drop table if exists CML_SENT_INFOS_HIS_0520
+;
+-- CML_SENT_INFOS_HIS_0521
+drop table if exists CML_SENT_INFOS_HIS_0521
+;
+-- CML_SENT_INFOS_HIS_0522
+drop table if exists CML_SENT_INFOS_HIS_0522
+;
+-- CML_SENT_INFOS_HIS_0523
+drop table if exists CML_SENT_INFOS_HIS_0523
+;
+-- CML_SENT_INFOS_HIS_0524
+drop table if exists CML_SENT_INFOS_HIS_0524
+;
+-- CML_SENT_INFOS_HIS_0525
+drop table if exists CML_SENT_INFOS_HIS_0525
+;
+-- CML_SENT_INFOS_HIS_0526
+drop table if exists CML_SENT_INFOS_HIS_0526
+;
+-- CML_SENT_INFOS_HIS_0527
+drop table if exists CML_SENT_INFOS_HIS_0527
+;
+-- CML_SENT_INFOS_HIS_0528
+drop table if exists CML_SENT_INFOS_HIS_0528
+;
+-- CML_SENT_INFOS_HIS_0529
+drop table if exists CML_SENT_INFOS_HIS_0529
+;
+-- CML_SENT_INFOS_HIS_0530
+drop table if exists CML_SENT_INFOS_HIS_0530
+;
+-- CML_SENT_INFOS_HIS_0531
+drop table if exists CML_SENT_INFOS_HIS_0531
+;
+-- CML_SENT_INFOS_HIS_0601
+drop table if exists CML_SENT_INFOS_HIS_0601
+;
+-- CML_SENT_INFOS_HIS_0602
+drop table if exists CML_SENT_INFOS_HIS_0602
+;
+-- CML_SENT_INFOS_HIS_0603
+drop table if exists CML_SENT_INFOS_HIS_0603
+;
+-- CML_SENT_INFOS_HIS_0604
+drop table if exists CML_SENT_INFOS_HIS_0604
+;
+-- CML_SENT_INFOS_HIS_0605
+drop table if exists CML_SENT_INFOS_HIS_0605
+;
+-- CML_SENT_INFOS_HIS_0606
+drop table if exists CML_SENT_INFOS_HIS_0606
+;
+-- CML_SENT_INFOS_HIS_0607
+drop table if exists CML_SENT_INFOS_HIS_0607
+;
+-- CML_SENT_INFOS_HIS_0608
+drop table if exists CML_SENT_INFOS_HIS_0608
+;
+-- CML_SENT_INFOS_HIS_0609
+drop table if exists CML_SENT_INFOS_HIS_0609
+;
+-- CML_SENT_INFOS_HIS_0610
+drop table if exists CML_SENT_INFOS_HIS_0610
+;
+-- CML_SENT_INFOS_HIS_0611
+drop table if exists CML_SENT_INFOS_HIS_0611
+;
+-- CML_SENT_INFOS_HIS_0612
+drop table if exists CML_SENT_INFOS_HIS_0612
+;
+-- CML_SENT_INFOS_HIS_0613
+drop table if exists CML_SENT_INFOS_HIS_0613
+;
+-- CML_SENT_INFOS_HIS_0614
+drop table if exists CML_SENT_INFOS_HIS_0614
+;
+-- CML_SENT_INFOS_HIS_0615
+drop table if exists CML_SENT_INFOS_HIS_0615
+;
+-- CML_SENT_INFOS_HIS_0616
+drop table if exists CML_SENT_INFOS_HIS_0616
+;
+-- CML_SENT_INFOS_HIS_0617
+drop table if exists CML_SENT_INFOS_HIS_0617
+;
+-- CML_SENT_INFOS_HIS_0618
+drop table if exists CML_SENT_INFOS_HIS_0618
+;
+-- CML_SENT_INFOS_HIS_0619
+drop table if exists CML_SENT_INFOS_HIS_0619
+;
+-- CML_SENT_INFOS_HIS_0620
+drop table if exists CML_SENT_INFOS_HIS_0620
+;
+-- CML_SENT_INFOS_HIS_0621
+drop table if exists CML_SENT_INFOS_HIS_0621
+;
+-- CML_SENT_INFOS_HIS_0622
+drop table if exists CML_SENT_INFOS_HIS_0622
+;
+-- CML_SENT_INFOS_HIS_0623
+drop table if exists CML_SENT_INFOS_HIS_0623
+;
+-- CML_SENT_INFOS_HIS_0624
+drop table if exists CML_SENT_INFOS_HIS_0624
+;
+-- CML_SENT_INFOS_HIS_0625
+drop table if exists CML_SENT_INFOS_HIS_0625
+;
+-- CML_SENT_INFOS_HIS_0626
+drop table if exists CML_SENT_INFOS_HIS_0626
+;
+-- CML_SENT_INFOS_HIS_0627
+drop table if exists CML_SENT_INFOS_HIS_0627
+;
+-- CML_SENT_INFOS_HIS_0628
+drop table if exists CML_SENT_INFOS_HIS_0628
+;
+-- CML_SENT_INFOS_HIS_0629
+drop table if exists CML_SENT_INFOS_HIS_0629
+;
+-- CML_SENT_INFOS_HIS_0630
+drop table if exists CML_SENT_INFOS_HIS_0630
+;
+-- CML_SENT_INFOS_HIS_0631
+drop table if exists CML_SENT_INFOS_HIS_0631
+;
+-- CML_SENT_INFOS_HIS_0701
+drop table if exists CML_SENT_INFOS_HIS_0701
+;
+-- CML_SENT_INFOS_HIS_0702
+drop table if exists CML_SENT_INFOS_HIS_0702
+;
+-- CML_SENT_INFOS_HIS_0703
+drop table if exists CML_SENT_INFOS_HIS_0703
+;
+-- CML_SENT_INFOS_HIS_0704
+drop table if exists CML_SENT_INFOS_HIS_0704
+;
+-- CML_SENT_INFOS_HIS_0705
+drop table if exists CML_SENT_INFOS_HIS_0705
+;
+-- CML_SENT_INFOS_HIS_0706
+drop table if exists CML_SENT_INFOS_HIS_0706
+;
+-- CML_SENT_INFOS_HIS_0707
+drop table if exists CML_SENT_INFOS_HIS_0707
+;
+-- CML_SENT_INFOS_HIS_0708
+drop table if exists CML_SENT_INFOS_HIS_0708
+;
+-- CML_SENT_INFOS_HIS_0709
+drop table if exists CML_SENT_INFOS_HIS_0709
+;
+-- CML_SENT_INFOS_HIS_0710
+drop table if exists CML_SENT_INFOS_HIS_0710
+;
+-- CML_SENT_INFOS_HIS_0711
+drop table if exists CML_SENT_INFOS_HIS_0711
+;
+-- CML_SENT_INFOS_HIS_0712
+drop table if exists CML_SENT_INFOS_HIS_0712
+;
+-- CML_SENT_INFOS_HIS_0713
+drop table if exists CML_SENT_INFOS_HIS_0713
+;
+-- CML_SENT_INFOS_HIS_0714
+drop table if exists CML_SENT_INFOS_HIS_0714
+;
+-- CML_SENT_INFOS_HIS_0715
+drop table if exists CML_SENT_INFOS_HIS_0715
+;
+-- CML_SENT_INFOS_HIS_0716
+drop table if exists CML_SENT_INFOS_HIS_0716
+;
+-- CML_SENT_INFOS_HIS_0717
+drop table if exists CML_SENT_INFOS_HIS_0717
+;
+-- CML_SENT_INFOS_HIS_0718
+drop table if exists CML_SENT_INFOS_HIS_0718
+;
+-- CML_SENT_INFOS_HIS_0719
+drop table if exists CML_SENT_INFOS_HIS_0719
+;
+-- CML_SENT_INFOS_HIS_0720
+drop table if exists CML_SENT_INFOS_HIS_0720
+;
+-- CML_SENT_INFOS_HIS_0721
+drop table if exists CML_SENT_INFOS_HIS_0721
+;
+-- CML_SENT_INFOS_HIS_0722
+drop table if exists CML_SENT_INFOS_HIS_0722
+;
+-- CML_SENT_INFOS_HIS_0723
+drop table if exists CML_SENT_INFOS_HIS_0723
+;
+-- CML_SENT_INFOS_HIS_0724
+drop table if exists CML_SENT_INFOS_HIS_0724
+;
+-- CML_SENT_INFOS_HIS_0725
+drop table if exists CML_SENT_INFOS_HIS_0725
+;
+-- CML_SENT_INFOS_HIS_0726
+drop table if exists CML_SENT_INFOS_HIS_0726
+;
+-- CML_SENT_INFOS_HIS_0727
+drop table if exists CML_SENT_INFOS_HIS_0727
+;
+-- CML_SENT_INFOS_HIS_0728
+drop table if exists CML_SENT_INFOS_HIS_0728
+;
+-- CML_SENT_INFOS_HIS_0729
+drop table if exists CML_SENT_INFOS_HIS_0729
+;
+-- CML_SENT_INFOS_HIS_0730
+drop table if exists CML_SENT_INFOS_HIS_0730
+;
+-- CML_SENT_INFOS_HIS_0731
+drop table if exists CML_SENT_INFOS_HIS_0731
+;
+-- CML_SENT_INFOS_HIS_0801
+drop table if exists CML_SENT_INFOS_HIS_0801
+;
+-- CML_SENT_INFOS_HIS_0802
+drop table if exists CML_SENT_INFOS_HIS_0802
+;
+-- CML_SENT_INFOS_HIS_0803
+drop table if exists CML_SENT_INFOS_HIS_0803
+;
+-- CML_SENT_INFOS_HIS_0804
+drop table if exists CML_SENT_INFOS_HIS_0804
+;
+-- CML_SENT_INFOS_HIS_0805
+drop table if exists CML_SENT_INFOS_HIS_0805
+;
+-- CML_SENT_INFOS_HIS_0806
+drop table if exists CML_SENT_INFOS_HIS_0806
+;
+-- CML_SENT_INFOS_HIS_0807
+drop table if exists CML_SENT_INFOS_HIS_0807
+;
+-- CML_SENT_INFOS_HIS_0808
+drop table if exists CML_SENT_INFOS_HIS_0808
+;
+-- CML_SENT_INFOS_HIS_0809
+drop table if exists CML_SENT_INFOS_HIS_0809
+;
+-- CML_SENT_INFOS_HIS_0810
+drop table if exists CML_SENT_INFOS_HIS_0810
+;
+-- CML_SENT_INFOS_HIS_0811
+drop table if exists CML_SENT_INFOS_HIS_0811
+;
+-- CML_SENT_INFOS_HIS_0812
+drop table if exists CML_SENT_INFOS_HIS_0812
+;
+-- CML_SENT_INFOS_HIS_0813
+drop table if exists CML_SENT_INFOS_HIS_0813
+;
+-- CML_SENT_INFOS_HIS_0814
+drop table if exists CML_SENT_INFOS_HIS_0814
+;
+-- CML_SENT_INFOS_HIS_0815
+drop table if exists CML_SENT_INFOS_HIS_0815
+;
+-- CML_SENT_INFOS_HIS_0816
+drop table if exists CML_SENT_INFOS_HIS_0816
+;
+-- CML_SENT_INFOS_HIS_0817
+drop table if exists CML_SENT_INFOS_HIS_0817
+;
+-- CML_SENT_INFOS_HIS_0818
+drop table if exists CML_SENT_INFOS_HIS_0818
+;
+-- CML_SENT_INFOS_HIS_0819
+drop table if exists CML_SENT_INFOS_HIS_0819
+;
+-- CML_SENT_INFOS_HIS_0820
+drop table if exists CML_SENT_INFOS_HIS_0820
+;
+-- CML_SENT_INFOS_HIS_0821
+drop table if exists CML_SENT_INFOS_HIS_0821
+;
+-- CML_SENT_INFOS_HIS_0822
+drop table if exists CML_SENT_INFOS_HIS_0822
+;
+-- CML_SENT_INFOS_HIS_0823
+drop table if exists CML_SENT_INFOS_HIS_0823
+;
+-- CML_SENT_INFOS_HIS_0824
+drop table if exists CML_SENT_INFOS_HIS_0824
+;
+-- CML_SENT_INFOS_HIS_0825
+drop table if exists CML_SENT_INFOS_HIS_0825
+;
+-- CML_SENT_INFOS_HIS_0826
+drop table if exists CML_SENT_INFOS_HIS_0826
+;
+-- CML_SENT_INFOS_HIS_0827
+drop table if exists CML_SENT_INFOS_HIS_0827
+;
+-- CML_SENT_INFOS_HIS_0828
+drop table if exists CML_SENT_INFOS_HIS_0828
+;
+-- CML_SENT_INFOS_HIS_0829
+drop table if exists CML_SENT_INFOS_HIS_0829
+;
+-- CML_SENT_INFOS_HIS_0830
+drop table if exists CML_SENT_INFOS_HIS_0830
+;
+-- CML_SENT_INFOS_HIS_0831
+drop table if exists CML_SENT_INFOS_HIS_0831
+;
+-- CML_SENT_INFOS_HIS_0901
+drop table if exists CML_SENT_INFOS_HIS_0901
+;
+-- CML_SENT_INFOS_HIS_0902
+drop table if exists CML_SENT_INFOS_HIS_0902
+;
+-- CML_SENT_INFOS_HIS_0903
+drop table if exists CML_SENT_INFOS_HIS_0903
+;
+-- CML_SENT_INFOS_HIS_0904
+drop table if exists CML_SENT_INFOS_HIS_0904
+;
+-- CML_SENT_INFOS_HIS_0905
+drop table if exists CML_SENT_INFOS_HIS_0905
+;
+-- CML_SENT_INFOS_HIS_0906
+drop table if exists CML_SENT_INFOS_HIS_0906
+;
+-- CML_SENT_INFOS_HIS_0907
+drop table if exists CML_SENT_INFOS_HIS_0907
+;
+-- CML_SENT_INFOS_HIS_0908
+drop table if exists CML_SENT_INFOS_HIS_0908
+;
+-- CML_SENT_INFOS_HIS_0909
+drop table if exists CML_SENT_INFOS_HIS_0909
+;
+-- CML_SENT_INFOS_HIS_0910
+drop table if exists CML_SENT_INFOS_HIS_0910
+;
+-- CML_SENT_INFOS_HIS_0911
+drop table if exists CML_SENT_INFOS_HIS_0911
+;
+-- CML_SENT_INFOS_HIS_0912
+drop table if exists CML_SENT_INFOS_HIS_0912
+;
+-- CML_SENT_INFOS_HIS_0913
+drop table if exists CML_SENT_INFOS_HIS_0913
+;
+-- CML_SENT_INFOS_HIS_0914
+drop table if exists CML_SENT_INFOS_HIS_0914
+;
+-- CML_SENT_INFOS_HIS_0915
+drop table if exists CML_SENT_INFOS_HIS_0915
+;
+-- CML_SENT_INFOS_HIS_0916
+drop table if exists CML_SENT_INFOS_HIS_0916
+;
+-- CML_SENT_INFOS_HIS_0917
+drop table if exists CML_SENT_INFOS_HIS_0917
+;
+-- CML_SENT_INFOS_HIS_0918
+drop table if exists CML_SENT_INFOS_HIS_0918
+;
+-- CML_SENT_INFOS_HIS_0919
+drop table if exists CML_SENT_INFOS_HIS_0919
+;
+-- CML_SENT_INFOS_HIS_0920
+drop table if exists CML_SENT_INFOS_HIS_0920
+;
+-- CML_SENT_INFOS_HIS_0921
+drop table if exists CML_SENT_INFOS_HIS_0921
+;
+-- CML_SENT_INFOS_HIS_0922
+drop table if exists CML_SENT_INFOS_HIS_0922
+;
+-- CML_SENT_INFOS_HIS_0923
+drop table if exists CML_SENT_INFOS_HIS_0923
+;
+-- CML_SENT_INFOS_HIS_0924
+drop table if exists CML_SENT_INFOS_HIS_0924
+;
+-- CML_SENT_INFOS_HIS_0925
+drop table if exists CML_SENT_INFOS_HIS_0925
+;
+-- CML_SENT_INFOS_HIS_0926
+drop table if exists CML_SENT_INFOS_HIS_0926
+;
+-- CML_SENT_INFOS_HIS_0927
+drop table if exists CML_SENT_INFOS_HIS_0927
+;
+-- CML_SENT_INFOS_HIS_0928
+drop table if exists CML_SENT_INFOS_HIS_0928
+;
+-- CML_SENT_INFOS_HIS_0929
+drop table if exists CML_SENT_INFOS_HIS_0929
+;
+-- CML_SENT_INFOS_HIS_0930
+drop table if exists CML_SENT_INFOS_HIS_0930
+;
+-- CML_SENT_INFOS_HIS_0931
+drop table if exists CML_SENT_INFOS_HIS_0931
+;
+-- CML_SENT_INFOS_HIS_1001
+drop table if exists CML_SENT_INFOS_HIS_1001
+;
+-- CML_SENT_INFOS_HIS_1002
+drop table if exists CML_SENT_INFOS_HIS_1002
+;
+-- CML_SENT_INFOS_HIS_1003
+drop table if exists CML_SENT_INFOS_HIS_1003
+;
+-- CML_SENT_INFOS_HIS_1004
+drop table if exists CML_SENT_INFOS_HIS_1004
+;
+-- CML_SENT_INFOS_HIS_1005
+drop table if exists CML_SENT_INFOS_HIS_1005
+;
+-- CML_SENT_INFOS_HIS_1006
+drop table if exists CML_SENT_INFOS_HIS_1006
+;
+-- CML_SENT_INFOS_HIS_1007
+drop table if exists CML_SENT_INFOS_HIS_1007
+;
+-- CML_SENT_INFOS_HIS_1008
+drop table if exists CML_SENT_INFOS_HIS_1008
+;
+-- CML_SENT_INFOS_HIS_1009
+drop table if exists CML_SENT_INFOS_HIS_1009
+;
+-- CML_SENT_INFOS_HIS_1010
+drop table if exists CML_SENT_INFOS_HIS_1010
+;
+-- CML_SENT_INFOS_HIS_1011
+drop table if exists CML_SENT_INFOS_HIS_1011
+;
+-- CML_SENT_INFOS_HIS_1012
+drop table if exists CML_SENT_INFOS_HIS_1012
+;
+-- CML_SENT_INFOS_HIS_1013
+drop table if exists CML_SENT_INFOS_HIS_1013
+;
+-- CML_SENT_INFOS_HIS_1014
+drop table if exists CML_SENT_INFOS_HIS_1014
+;
+-- CML_SENT_INFOS_HIS_1015
+drop table if exists CML_SENT_INFOS_HIS_1015
+;
+-- CML_SENT_INFOS_HIS_1016
+drop table if exists CML_SENT_INFOS_HIS_1016
+;
+-- CML_SENT_INFOS_HIS_1017
+drop table if exists CML_SENT_INFOS_HIS_1017
+;
+-- CML_SENT_INFOS_HIS_1018
+drop table if exists CML_SENT_INFOS_HIS_1018
+;
+-- CML_SENT_INFOS_HIS_1019
+drop table if exists CML_SENT_INFOS_HIS_1019
+;
+-- CML_SENT_INFOS_HIS_1020
+drop table if exists CML_SENT_INFOS_HIS_1020
+;
+-- CML_SENT_INFOS_HIS_1021
+drop table if exists CML_SENT_INFOS_HIS_1021
+;
+-- CML_SENT_INFOS_HIS_1022
+drop table if exists CML_SENT_INFOS_HIS_1022
+;
+-- CML_SENT_INFOS_HIS_1023
+drop table if exists CML_SENT_INFOS_HIS_1023
+;
+-- CML_SENT_INFOS_HIS_1024
+drop table if exists CML_SENT_INFOS_HIS_1024
+;
+-- CML_SENT_INFOS_HIS_1025
+drop table if exists CML_SENT_INFOS_HIS_1025
+;
+-- CML_SENT_INFOS_HIS_1026
+drop table if exists CML_SENT_INFOS_HIS_1026
+;
+-- CML_SENT_INFOS_HIS_1027
+drop table if exists CML_SENT_INFOS_HIS_1027
+;
+-- CML_SENT_INFOS_HIS_1028
+drop table if exists CML_SENT_INFOS_HIS_1028
+;
+-- CML_SENT_INFOS_HIS_1029
+drop table if exists CML_SENT_INFOS_HIS_1029
+;
+-- CML_SENT_INFOS_HIS_1030
+drop table if exists CML_SENT_INFOS_HIS_1030
+;
+-- CML_SENT_INFOS_HIS_1031
+drop table if exists CML_SENT_INFOS_HIS_1031
+;
+-- CML_SENT_INFOS_HIS_1101
+drop table if exists CML_SENT_INFOS_HIS_1101
+;
+-- CML_SENT_INFOS_HIS_1102
+drop table if exists CML_SENT_INFOS_HIS_1102
+;
+-- CML_SENT_INFOS_HIS_1103
+drop table if exists CML_SENT_INFOS_HIS_1103
+;
+-- CML_SENT_INFOS_HIS_1104
+drop table if exists CML_SENT_INFOS_HIS_1104
+;
+-- CML_SENT_INFOS_HIS_1105
+drop table if exists CML_SENT_INFOS_HIS_1105
+;
+-- CML_SENT_INFOS_HIS_1106
+drop table if exists CML_SENT_INFOS_HIS_1106
+;
+-- CML_SENT_INFOS_HIS_1107
+drop table if exists CML_SENT_INFOS_HIS_1107
+;
+-- CML_SENT_INFOS_HIS_1108
+drop table if exists CML_SENT_INFOS_HIS_1108
+;
+-- CML_SENT_INFOS_HIS_1109
+drop table if exists CML_SENT_INFOS_HIS_1109
+;
+-- CML_SENT_INFOS_HIS_1110
+drop table if exists CML_SENT_INFOS_HIS_1110
+;
+-- CML_SENT_INFOS_HIS_1111
+drop table if exists CML_SENT_INFOS_HIS_1111
+;
+-- CML_SENT_INFOS_HIS_1112
+drop table if exists CML_SENT_INFOS_HIS_1112
+;
+-- CML_SENT_INFOS_HIS_1113
+drop table if exists CML_SENT_INFOS_HIS_1113
+;
+-- CML_SENT_INFOS_HIS_1114
+drop table if exists CML_SENT_INFOS_HIS_1114
+;
+-- CML_SENT_INFOS_HIS_1115
+drop table if exists CML_SENT_INFOS_HIS_1115
+;
+-- CML_SENT_INFOS_HIS_1116
+drop table if exists CML_SENT_INFOS_HIS_1116
+;
+-- CML_SENT_INFOS_HIS_1117
+drop table if exists CML_SENT_INFOS_HIS_1117
+;
+-- CML_SENT_INFOS_HIS_1118
+drop table if exists CML_SENT_INFOS_HIS_1118
+;
+-- CML_SENT_INFOS_HIS_1119
+drop table if exists CML_SENT_INFOS_HIS_1119
+;
+-- CML_SENT_INFOS_HIS_1120
+drop table if exists CML_SENT_INFOS_HIS_1120
+;
+-- CML_SENT_INFOS_HIS_1121
+drop table if exists CML_SENT_INFOS_HIS_1121
+;
+-- CML_SENT_INFOS_HIS_1122
+drop table if exists CML_SENT_INFOS_HIS_1122
+;
+-- CML_SENT_INFOS_HIS_1123
+drop table if exists CML_SENT_INFOS_HIS_1123
+;
+-- CML_SENT_INFOS_HIS_1124
+drop table if exists CML_SENT_INFOS_HIS_1124
+;
+-- CML_SENT_INFOS_HIS_1125
+drop table if exists CML_SENT_INFOS_HIS_1125
+;
+-- CML_SENT_INFOS_HIS_1126
+drop table if exists CML_SENT_INFOS_HIS_1126
+;
+-- CML_SENT_INFOS_HIS_1127
+drop table if exists CML_SENT_INFOS_HIS_1127
+;
+-- CML_SENT_INFOS_HIS_1128
+drop table if exists CML_SENT_INFOS_HIS_1128
+;
+-- CML_SENT_INFOS_HIS_1129
+drop table if exists CML_SENT_INFOS_HIS_1129
+;
+-- CML_SENT_INFOS_HIS_1130
+drop table if exists CML_SENT_INFOS_HIS_1130
+;
+-- CML_SENT_INFOS_HIS_1131
+drop table if exists CML_SENT_INFOS_HIS_1131
+;
+-- CML_SENT_INFOS_HIS_1201
+drop table if exists CML_SENT_INFOS_HIS_1201
+;
+-- CML_SENT_INFOS_HIS_1202
+drop table if exists CML_SENT_INFOS_HIS_1202
+;
+-- CML_SENT_INFOS_HIS_1203
+drop table if exists CML_SENT_INFOS_HIS_1203
+;
+-- CML_SENT_INFOS_HIS_1204
+drop table if exists CML_SENT_INFOS_HIS_1204
+;
+-- CML_SENT_INFOS_HIS_1205
+drop table if exists CML_SENT_INFOS_HIS_1205
+;
+-- CML_SENT_INFOS_HIS_1206
+drop table if exists CML_SENT_INFOS_HIS_1206
+;
+-- CML_SENT_INFOS_HIS_1207
+drop table if exists CML_SENT_INFOS_HIS_1207
+;
+-- CML_SENT_INFOS_HIS_1208
+drop table if exists CML_SENT_INFOS_HIS_1208
+;
+-- CML_SENT_INFOS_HIS_1209
+drop table if exists CML_SENT_INFOS_HIS_1209
+;
+-- CML_SENT_INFOS_HIS_1210
+drop table if exists CML_SENT_INFOS_HIS_1210
+;
+-- CML_SENT_INFOS_HIS_1211
+drop table if exists CML_SENT_INFOS_HIS_1211
+;
+-- CML_SENT_INFOS_HIS_1212
+drop table if exists CML_SENT_INFOS_HIS_1212
+;
+-- CML_SENT_INFOS_HIS_1213
+drop table if exists CML_SENT_INFOS_HIS_1213
+;
+-- CML_SENT_INFOS_HIS_1214
+drop table if exists CML_SENT_INFOS_HIS_1214
+;
+-- CML_SENT_INFOS_HIS_1215
+drop table if exists CML_SENT_INFOS_HIS_1215
+;
+-- CML_SENT_INFOS_HIS_1216
+drop table if exists CML_SENT_INFOS_HIS_1216
+;
+-- CML_SENT_INFOS_HIS_1217
+drop table if exists CML_SENT_INFOS_HIS_1217
+;
+-- CML_SENT_INFOS_HIS_1218
+drop table if exists CML_SENT_INFOS_HIS_1218
+;
+-- CML_SENT_INFOS_HIS_1219
+drop table if exists CML_SENT_INFOS_HIS_1219
+;
+-- CML_SENT_INFOS_HIS_1220
+drop table if exists CML_SENT_INFOS_HIS_1220
+;
+-- CML_SENT_INFOS_HIS_1221
+drop table if exists CML_SENT_INFOS_HIS_1221
+;
+-- CML_SENT_INFOS_HIS_1222
+drop table if exists CML_SENT_INFOS_HIS_1222
+;
+-- CML_SENT_INFOS_HIS_1223
+drop table if exists CML_SENT_INFOS_HIS_1223
+;
+-- CML_SENT_INFOS_HIS_1224
+drop table if exists CML_SENT_INFOS_HIS_1224
+;
+-- CML_SENT_INFOS_HIS_1225
+drop table if exists CML_SENT_INFOS_HIS_1225
+;
+-- CML_SENT_INFOS_HIS_1226
+drop table if exists CML_SENT_INFOS_HIS_1226
+;
+-- CML_SENT_INFOS_HIS_1227
+drop table if exists CML_SENT_INFOS_HIS_1227
+;
+-- CML_SENT_INFOS_HIS_1228
+drop table if exists CML_SENT_INFOS_HIS_1228
+;
+-- CML_SENT_INFOS_HIS_1229
+drop table if exists CML_SENT_INFOS_HIS_1229
+;
+-- CML_SENT_INFOS_HIS_1230
+drop table if exists CML_SENT_INFOS_HIS_1230
+;
+-- CML_SENT_INFOS_HIS_1231
+drop table if exists CML_SENT_INFOS_HIS_1231
+;

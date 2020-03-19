@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "longdistancediagnose">
+		<termIdNotNull>this terminal id can not be empty！</termIdNotNull>
+		<existedDistServerConfigId>this serverName has already existed ！</existedDistServerConfigId>
+		<existedAssignPolicyId>this assignPolicy's id has already existed ！</existedAssignPolicyId>
+	</node>
+</nodes>

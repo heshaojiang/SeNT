@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：自助银行信息管理<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlSelfBankModule">
+		<listTitle>自助银行信息管理列表</listTitle>
+		<searchKeywordItem>关键字</searchKeywordItem>
+		<orgIdItem>挂靠范围</orgIdItem>
+		<bankCodeItem>银行编号</bankCodeItem>
+		<bankNameItem>银行名称</bankNameItem>
+		<addressItem>银行地址</addressItem>
+		<installTypeItem>安装类型</installTypeItem>
+		<status>状态</status>
+	</node>
+</nodes>

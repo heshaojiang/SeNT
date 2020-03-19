@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="backupForm">
+       <backupForm>备份流水</backupForm>
+	   <remark>备注：</remark>
+	</node>
+</nodes>

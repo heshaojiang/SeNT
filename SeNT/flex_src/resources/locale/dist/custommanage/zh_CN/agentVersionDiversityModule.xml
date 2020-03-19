@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	  Description： 操作系统配置
+	  Create Time：2011-9-16   
+	  Author：zhangjinpeng 
+	  Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "agentVersionDiversityModule">
+	   <termidItemNew>终端编号：</termidItemNew>
+		<termidItem>终端编号</termidItem>
+		<fileidItem>文件ID</fileidItem>
+		<operateButton>操作</operateButton>
+		<statusItem>状态</statusItem>
+		<termTypeItem>终端类型：</termTypeItem>
+		<brandItem>终端品牌：</brandItem>
+		<modelItem>设备型号：</modelItem>
+		<orgItem>所属机构：</orgItem>
+		<areaIdItem>所属区域：</areaIdItem>
+	</node>
+</nodes>

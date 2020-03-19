@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:local="*"
+			   pageTitle = "广电运通 --综合管理运营平台"
+			   minWidth="1000" minHeight="560" 
+			   preinitialize="preinit()"
+			   creationComplete="creationCompleteHandler()"
+			   >
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.LineChart;
+			import mx.controls.AdvancedDataGrid;
+			import mx.controls.advancedDataGridClasses.AdvancedDataGridBase;
+			import mx.controls.advancedDataGridClasses.AdvancedDataGridItemRenderer;
+			import mx.core.FlexGlobals;
+			import mx.modules.ModuleManager;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.component.interfaces.ILocale;
+			import platform.event.LanguageEvent;
+			import platform.global.AppGlobal;
+			
+			public var modle:ModuleManager;
+			
+			public var adg:AdvancedDataGrid;
+			
+			public var adgb:AdvancedDataGridBase;
+			
+			public var adgbdr:AdvancedDataGridItemRenderer;
+			
+			public static const CHANGE_STATE:String = "changeState";
+			
+			private function preinit():void
+			{
+				trace("Index.preinit");
+				//new LineChart;
+				var langMgr:LanguageManager = LanguageManager.getInstance();
+				langMgr.resourceManager = resourceManager;
+				AppGlobal.contextRoot = String(FlexGlobals.topLevelApplication.url.split("/flex/")[0]);
+				langMgr.url = AppGlobal.contextRoot + "/flex/";
+			}
+			
+			private function creationCompleteHandler():void
+			{	
+				trace("Index.creationCompleteHandler");
+				systemManager.addEventListener(LanguageEvent.LOAD_LANGUAGE, loadLanguageHandler);
+			}
+			
+			private function loadLanguageHandler(p_evt:LanguageEvent):void
+			{
+				trace("Index.loadLanguageHandler");
+				p_evt.stopPropagation();
+				var _target:ILocale = p_evt.target as ILocale;
+				if(_target && _target.fullPaths)
+				{
+					_target.fullPaths = _target.fullPaths.concat(["common.components"]);
+				}
+			} 
+			
+			private function changeStateHandler(p_evt:Event):void
+			{
+				trace("Index.changeStateHandler");
+				var target:Object = p_evt.target;
+				if(target is Login)
+					currentState = "mainState";
+				else if(target is Main)
+					currentState = "loginState";
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Style source = "/resources/theme/nstyle.css" />
+	
+	<!-- 状态机，标示登陆以及显示主界面两种状态 -->
+	<s:states>
+		<s:State name="loginState" />
+		<s:State name="mainState" />
+	</s:states>
+	
+	<!--登陆界面-->
+	<local:Login id="login" includeIn="loginState" changeState="changeStateHandler(event)"/>
+	
+	<!--主界面-->
+	<local:Main id="main" includeIn="mainState" changeState="changeStateHandler(event)"/>
+	
+</s:Application>

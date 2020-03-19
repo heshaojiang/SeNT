@@ -1,0 +1,48 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  receTerminalFile：接收终端文件
+	 Create Time：2011-9-19   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com  -->
+<nodes>
+	<node locale = "receTerminalFileModule">
+		<listTitle>Ekran Listesi</listTitle>
+		<planidItem>Plan Id</planidItem>
+		<createtimeItem>Oluşturma Zamanı</createtimeItem>
+		<createtimefromItem>Oluşturma Zamanı (Başlangıç)</createtimefromItem>
+		<createtimeendItem>Oluşturma Zamanı (Bitiş)</createtimeendItem>
+		<repeattypeItem>Tekrar Tipi</repeattypeItem>
+		<everydayexetimeItem>Tekrar Çalışma (Saat)</everydayexetimeItem>
+		<repeatintervalItem>Tekrar Çalışma (Dakika)</repeatintervalItem>
+		<plannameItem>Plan Adı</plannameItem>
+		<nextexecutetimeItem>Çalışma Zamanı</nextexecutetimeItem>
+		<nextexecutetimefromItem>Çalışma Zamanı (Başlangıç)</nextexecutetimefromItem>
+		<nextexecutetimeendItem>Çalışma Zamanı (Bitiş)</nextexecutetimeendItem>
+		<termidlistItem>Terminal Id</termidlistItem>
+		<taskparaItem>Görev Talimatları</taskparaItem>
+		<taskparaversionItem>Görev Talimat Sürümü</taskparaversionItem>
+		<maxretrytimesItem>Maksimum Deneme Sayısı</maxretrytimesItem>
+		<retryintervalItem>Yeniden Deneme (Saniye)</retryintervalItem>
+		<enabledItem>Aktif mi?</enabledItem>
+		<termtypeItem>Terminal Tipi</termtypeItem>
+		<modelItem>Model</modelItem>
+		<orgidItem>Şube</orgidItem>
+		<areaidItem>İl</areaidItem>
+		<brandItem>Marka</brandItem>
+		<timeoutintervalItem>Süre Aşımı (saat)</timeoutintervalItem>
+		<termidItem>Terminal Id</termidItem>
+		<taskidItem>Görev Id</taskidItem>
+		<planexetimeItem>Görev Çalışma Zamanı</planexetimeItem>
+		<exebegintimeItem>Çalışma Başlangıç ​​Zamanı</exebegintimeItem>
+		<exeendtimeItem>Çalışma Bitiş Zamanı</exeendtimeItem>
+		<taskstatusItem>Görev Durumu</taskstatusItem>
+		<extradescriptionItem>Görev Notu</extradescriptionItem>
+		<exepercentItem>Tamamlanma Yüzdesi</exepercentItem>
+		<resultfileidItem>Sonuç Dosya Id</resultfileidItem>
+		<retriedtimesItem>Yeniden Deneme Sayısı</retriedtimesItem>
+		<timeoutedItem>Mesai Dışı Zaman</timeoutedItem>
+		<svrnameItem>Sunucu Adı</svrnameItem>
+		<picturelinkItem>Bağlantı</picturelinkItem>
+		<picturelink>Dosyaları Görüntüle</picturelink>
+		<receTerminalFileTitleList>Dosya Alma İş Listesi</receTerminalFileTitleList>
+	</node>
+</nodes>

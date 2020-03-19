@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardInfoModule">
+		<listTitle>卡信息列表</listTitle>
+		<cardId>卡标识：</cardId>
+		<cardName>卡名称</cardName>
+		<bankId>发卡行机构代码</bankId>
+		<bankName>发卡行名称</bankName>
+		<idLength>卡标识长度</idLength>
+		<applyATM>适用ATM</applyATM>
+		<applyPOS>适用POS</applyPOS>
+		<cardType>卡种</cardType>
+		<titlemsg>银联卡信息查询</titlemsg>
+	</node>
+</nodes>

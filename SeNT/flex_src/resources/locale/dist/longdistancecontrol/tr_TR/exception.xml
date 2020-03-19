@@ -1,0 +1,8 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "longdistancecontrol">
+		<termIdNotNull>Terminal Id Boş Olamaz!</termIdNotNull>
+		<existedReceTerminalFileId>Sunucu Adı Mevcut!</existedReceTerminalFileId>
+		<existedAssignPolicyId>Bu Kural Mevcut!</existedAssignPolicyId>
+	</node>
+</nodes>

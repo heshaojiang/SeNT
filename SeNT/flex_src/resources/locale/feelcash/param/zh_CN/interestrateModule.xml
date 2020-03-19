@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "interestrateModule">
+		<listTitle>贷款年利率信息列表</listTitle>
+		<interestrate>年利率</interestrate>
+		<startdate>日开始时间</startdate>
+		<enddate>日结束时间</enddate>
+		<note>备注</note>
+		<currentRate>当前贷款年利率:</currentRate>
+		<startDate>开始执行时间:</startDate>
+
+	</node>
+</nodes>

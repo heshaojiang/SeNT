@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*" 
+				 dataDictionaryPaths="{[ TransInfoConsts.CURRENCY,
+										 CmlSentInfoConsts.CURRENCY,
+										 TransInfoConsts.NOTE_TYPE, 
+										 TransInfoConsts.TRANS_RESULT, 
+										 TransInfoConsts.TRANS_CODE]}"
+				 locale="viewAbnoBanknote"
+				 layout="vertical" 
+				 width="800" height="590" 
+				 paddingTop="10" paddingBottom="10" 
+				 creationPolicy="all" 
+				 preinitialize="preinitializeHandler()"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.utils.ObjectUtil;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.transmgr.constants.CmlSentInfoConsts;
+			import sent.transmgr.constants.TransInfoConsts;
+			import sent.transmgr.message.TransAbnoInfoMsg;
+			import sent.transmgr.pm.TranAbnoinfoBlackModulePM;
+			import sent.transmgr.pm.TransAbnoInfoPM;
+			import sent.transmgr.vo.TranAbnoinfoVO;
+			
+			[Bindable]
+			protected var _transInfo:TranAbnoinfoVO = new TranAbnoinfoVO();
+			
+			/**
+			 * 交易的冠字号码列表
+			 * */
+			[Bindable]
+			public var transId:String
+			
+			[Inject]
+			[Bindable]
+			public var pm:TranAbnoinfoBlackModulePM;
+			
+			[Inject]
+			[Bindable]
+			public var transAbnoInfoPM:TransAbnoInfoPM;
+			
+			/**
+			 * 交易结果
+			 */
+			[Bindable]
+			private var transResult:String;
+			
+			[Bindable]
+			private var arr:Array;
+			[Bindable]
+			private var middleIndex:int;
+			
+			/**
+			 * 交易时间
+			 */
+			[Bindable]
+			private var transTime:String; 
+			
+			
+			/**
+			 * 
+			 */
+			public function initData():void
+			{
+				var msg:TransAbnoInfoMsg = new TransAbnoInfoMsg();
+				msg.args["remoteMethod"]   = "getTransAbnoInfoDetailById";
+				msg.args["methodPrameter"] = _transInfo.tranId;
+				msg.args["resultHandler"]  = "ViewAbnoBanknote.getTransAbnoInfoDetailByIdResult";
+				msg.args["errorHandler"]   = "ViewAbnoBanknote.getTransAbnoInfoDetailByIdError";
+				transAbnoInfoPM.sendTransAbnoInfoMsg(msg);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ViewAbnoBanknote.getTransAbnoInfoDetailByIdResult")]
+			public function getTransAbnoInfoDetailByIdResult(msg:TransAbnoInfoMsg):void
+			{
+				trace("ViewAbnoBanknote.getTransAbnoInfoDetailByIdResult");
+				if( msg.result!=null )
+				{
+					transInfo = msg.result as TranAbnoinfoVO;
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="ViewAbnoBanknote.getTransAbnoInfoDetailByIdError")]
+			public function getTransAbnoInfoDetailByIdError(msg:TransAbnoInfoMsg):void
+			{
+				trace("ViewAbnoBanknote.getTransAbnoInfoDetailByIdError");
+			}
+			
+			//////////////////////////
+			
+			/**
+			 * 预加载处理函数，可用来设置标题
+			 */
+			protected function preinitializeHandler():void
+			{
+				trace("ViewAbnoBanknote.preinitializeHandler");
+				titleKey = "showTranAbSeqWin";		// 查看冠字号码图片
+			}
+			
+			/**
+			 * 设置交易信息接口
+			 */
+			public function set transInfo(p_value:TranAbnoinfoVO):void
+			{
+				_transInfo = ObjectUtil.copy(p_value) as TranAbnoinfoVO;
+				
+				transTime = convertTimeStr(p_value);
+				convertStringWithDataDict();
+			}
+			
+			/**
+			 * 用数据字典来转换字符串
+			 * */
+			private function convertStringWithDataDict():void
+			{
+				trace("ViewAbnoBanknote.convertStringWithDataDict");
+				_transInfo.transCode = getTextByKeyOnDataDictPath(_transInfo.transCode, TransInfoConsts.TRANS_CODE);
+				transResult = getTextByKeyOnDataDictPath(_transInfo.transResult, TransInfoConsts.TRANS_RESULT);
+			}
+			
+			
+			/**
+			 * 转换时间
+			 * */
+			[Bindable]
+			private var dateString:String;
+			private function convertTimeStr(p_obj:Object):String
+			{
+				trace("ViewAbnoBanknote.convertTimeStr");
+				
+				var  value:Object  =p_obj;
+				dateString = value.tranDate.substr(0, 4) + "-" + value.tranDate.substr(4,2)+ 
+					"-" +value.tranDate.substr(6,2)+" "+ value.tranDate.substr(8, 2)+":"+value.tranDate.substr(10,2)+":"+value.tranDate.substr(12,2);
+				return dateString;
+			}
+			
+			/**
+			 * 获取数据字典成功后刷新界面
+			 * */
+			override protected function getDataDictCallback():void
+			{
+				trace("ViewAbnoBanknote.getDataDictCallback");
+				convertStringWithDataDict();
+				
+				(seqList.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 转换数据字典
+			 * */
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				switch(p_column.dataField){
+					//钞票类型
+					case "noteType":
+						currentDataDictPath = TransInfoConsts.NOTE_TYPE;
+						break;
+					//币种
+					case "currency":
+						currentDataDictPath = CmlSentInfoConsts.CURRENCY;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+			
+			/**
+			 * 所选的交易的项
+			 * */
+			[Bindable]
+			private var tranId:String;
+			
+		
+			
+//			/**
+//			 * 显示冠字号图片
+//			 * */
+//			public function showSEQImg():void
+//			{
+//				trace("ViewAbnoBanknote.showSEQImg");
+//				//判断是否被选中
+//				if(seqList.checkedItems.length <= 0)
+//				{
+//					AlertHandler.alert("selectOneRecordAtLeast");
+//					return;
+//				} 
+//				transId=DataGridUtil.getPropertys("id",seqList.checkedItems).source.toString();
+//				
+//				var msg:TranAbnoinfoBlackModuleMsg=new TranAbnoinfoBlackModuleMsg();
+//				msg.type="getTransAbnobanknoteSeqById";		// java: getTransAbnobanknoteSeqById, result: getTransAbnobanknoteSeqByIdResult
+//				//选择交易左边显示的冠字号列表
+//				msg.args["ids"]=transId;
+//				sendMessage(msg);
+//				
+//			} 
+//			/**
+//			 * 冠字号码列表回调函数
+//			 * */
+//			[MessageHandler(selector="getTransAbnobanknoteSeqByIdResult")]
+//			public function getTransabnobanknoteseqbyidresult(p_msg:TranAbnoinfoBlackModuleMsg):void
+//			{
+//				trace("ViewAbnoBanknote.getTransabnobanknoteseqbyidresult");
+//				if(p_msg.result)
+//				{
+//					var picArr:ArrayCollection = new ArrayCollection();
+//					var win:ShowSEQWin = new ShowSEQWin();
+//					win.dataProvider= p_msg.result as ArrayCollection ;
+//					
+//					for( var i:int=0; i<win.dataProvider.length; i++ )
+//					{
+//						var picName:String = win.dataProvider[i].pictureName;
+//						win.dataProvider[i].fileName = picName;
+//						
+//						var arr:ArrayCollection = new ArrayCollection();
+//						arr.source = picName.split("/");
+//						if( arr.length==5 )
+//						{
+//							if(arr[4]==".bmp"||arr[4]=="null" ||arr[4]=="")
+//							{
+//								picArr.addItem(picName);
+//							}
+//						}
+//					} 
+//					//图片获取失败
+//					if(picArr.length>0)
+//					{
+//						AlertHandler.alert("picLoadFail");
+//					}
+//					context.viewManager.addViewRoot(win);
+//					PopUpManager.showForm4Parsley(win);
+//				}
+//				
+//			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<grg:RoundCornerContainer locale="{titleKey}" width="100%">
+		<s:HGroup width="100%" height="100%">
+			<grg:Form width="50%" height="100%">
+				<!--交易类型：-->
+				<grg:FormItem width="100%" locale="transCode">
+					<grg:TextInput text="{_transInfo.transCode}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--帐号/卡号：-->
+				<grg:FormItem width="100%" locale="accountNo">
+					<grg:TextInput text="{_transInfo.accountNo}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--交易时间：-->
+				<grg:FormItem width="100%" locale="transTime">
+					<grg:TextInput text="{transTime}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--交易金额：-->
+				<grg:FormItem width="100%" locale="transAmt">
+					<grg:TextInput text="{_transInfo.transAmt}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--交易张数-->
+				<grg:FormItem width="100%" locale="noteNum">
+					<grg:TextInput text="{_transInfo.transNotenum}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--重号冠字号码数：-->
+				<grg:FormItem width="100%" locale="repeatNum">
+					<grg:TextInput text="{_transInfo.repeatNotenum}" width="200" editable="false" />
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<!--交易机构：-->
+				<grg:FormItem width="100%" locale="transOrgid">
+					<grg:TextInput text="{_transInfo.transOrgName}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--ATM终端号：-->
+				<grg:FormItem width="100%" locale="termid">
+					<grg:TextInput text="{_transInfo.termId}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--流水号：-->
+				<grg:FormItem width="100%" locale="journalNo">
+					<grg:TextInput text="{_transInfo.journalNo}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--交易结果：-->
+				<grg:FormItem width="100%" locale="transResultColon">
+					<grg:TextInput text="{transResult}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--黑名单张数：-->
+				<grg:FormItem width="100%" locale="blNum">
+					<grg:TextInput text="{_transInfo.blackNotenum}" width="200" editable="false" />
+				</grg:FormItem>
+				<!--回收张数：-->
+				<grg:FormItem width="100%" locale="callBackNum">
+					<grg:TextInput text="{_transInfo.callbackNotenum}" width="200" editable="false" />
+				</grg:FormItem>
+			</grg:Form>
+		</s:HGroup>
+	</grg:RoundCornerContainer>
+	
+	<common:Legend/>
+	
+	<!--交易冠字号码列表-->
+	<grg:RoundCornerContainer locale="ABSEQInfo"  width="100%" minHeight="0" height="100%" id="SEQInfo"  >
+		
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:VerticalLayout gap="0" 
+								  paddingTop="0"/>
+			</s:layout>
+			<grg:DataGrid id="seqList" dataProvider="{pm.tranPage.result}" width="100%" height="100%"
+						  styleName = "DataGrid" horizontalScrollPolicy="off">
+				<grg:columns>
+					<!--冠字号码-->
+					<grg:DataGridColumn locale="seriaNo" width="90" resizable="false">
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<fx:Script>
+										<![CDATA[
+											[Bindable]
+											private var serialNo:String;
+											
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												serialNo = data.seriaNo;
+												//根据钞票类型显示冠字号的颜色
+												var noteType:String=data.noteType;
+												switch(noteType)
+												{
+													case "1":
+														//绿色代表真抄
+														serNoColor.setStyle("color","#00aa00");
+														break;
+													case "0":
+														//红色代表可疑抄
+														serNoColor.setStyle("color","#ff0000");
+														break;
+													case "201":
+														//蓝色代表黑名单
+														serNoColor.setStyle("color","#0000aa");
+														break;
+													case "3":
+														//橘黄色代表重号
+														serNoColor.setStyle("color","#ff9900");
+														break;
+												}
+											}
+										]]>
+									</fx:Script>
+									<grg:Label paddingTop="5" fontFamily="Verdana" id="serNoColor"  text="{serialNo}"/>
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn >
+					<!--冠字号码图片-->
+					<grg:DataGridColumn  locale="seriaNoImage" id="picName" textAlign="center"  width="300" resizable="false">
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<s:layout>
+										<s:HorizontalLayout horizontalAlign="center" />
+									</s:layout>
+									<fx:Script>
+										<![CDATA[																			
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												if( data.imageArr!=null )
+												{
+													myImage.source = data.imageArr;
+												}
+												else
+												{
+													myImage.source = ".ImageServlet?urlName=" + data.fullUrl;
+												}
+												if( data.width )
+												{
+													myImage.width = data.width ;
+												}
+												if( data.height )
+												{
+													myImage.height = data.height ;
+												}
+											} 
+										]]>
+									</fx:Script>
+									<grg:Image id="myImage" horizontalAlign="center" verticalAlign="middle" />									
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					<!--钞票类别-->
+					<grg:DataGridColumn locale="noteType"     dataField="noteType"     width="80" labelFunction="{transferDataDict}"/>
+					<!--币种-->
+					<grg:DataGridColumn locale="currency"     dataField="currency"     width="50" labelFunction="{transferDataDict}"/>
+					<!--面额-->
+					<grg:DataGridColumn locale="denomination" dataField="denomination" width="50"/>
+					<!--交易日期-->
+					<grg:DataGridColumn locale="transDate"    dataField="tranDate"     width="100" labelFunction="{DataGridColumnUtils.formatYYYYMMDDHHMISS}"/>
+				</grg:columns>
+			</grg:DataGrid>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+								  pageVo="{pm.tranPage}"
+								  pagingFunction="{pm.getTransAbnobankNoteSeqByTranId}"/>
+		</s:Group>
+	</grg:RoundCornerContainer>
+	<s:HGroup width="100%" gap="6" verticalAlign="middle" horizontalAlign="center">
+		<!--
+		<grg:Button locale="showSEQImg" click="showSEQImg()" iconVisible="false"/>
+		-->
+		<grg:Button locale="cancelButton" click="cancel()" iconVisible="false"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

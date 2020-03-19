@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：assetInputForm
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "disAssetForm">
+		<disAssetForm>设备分配与取消分配</disAssetForm>
+		<termSignForm>到货签收</termSignForm>
+		<assetTitle>设备分配信息</assetTitle>
+		<disAssetTitle>已分配产品</disAssetTitle>
+		<signTitle>可签收列表</signTitle>
+		<termtype>终端类型</termtype>
+		<brand>终端品牌</brand>
+		<model>设备型号</model>
+		<insttype>安装方式</insttype>
+		<batch>采购批次号</batch>
+		<sum>分配数量</sum>
+		<remain>可用数量</remain>
+		<operations>操作</operations>
+		<Distribution>分配/取消分配</Distribution>
+		<ReDistribution>取消分配</ReDistribution>
+		<dissum>已分配数量</dissum>
+		<disremain>未签收数量</disremain>
+		<org>目标机构</org>
+		<orgname>机构名称</orgname>
+		<disnumItem>分配数量</disnumItem>
+		<an>台</an>
+		<operations>操作</operations>
+		<orgname>签收机构</orgname>
+		<sign>签收</sign>
+		<seqno>设备序列号</seqno>
+		<notice>提示：多个序列号用","隔开！</notice>
+		<signDate>到货日期</signDate>
+		<disButton>分配</disButton>
+		<saveButton>保存</saveButton>
+		<signButton>录入序列号并签收</signButton>
+		<statu>当前状态</statu>
+		<disassetTitle>可签收批次列表</disassetTitle>
+		<singedTitle>已签收设备</singedTitle>
+		<ReSign>取消</ReSign>
+	</node>
+</nodes>

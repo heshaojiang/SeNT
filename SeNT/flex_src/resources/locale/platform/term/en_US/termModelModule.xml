@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termModelModule">
+		<listTitle>Term Model List</listTitle>
+		<modelNameItem>modelName:</modelNameItem>
+		<brandItem>brand:</brandItem>
+		<typeItem>type</typeItem>
+		<status>Status</status>
+		<journalPath>journal path</journalPath>
+	</node>
+</nodes>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:s="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd"
+	default-autowire="byType" default-lazy-init="false">
+
+	<description>安全配置</description>
+
+	<!-- 配置超级管理员账号 -->
+	<bean name="admin" class="java.lang.String" lazy-init="false">
+		<constructor-arg value="admin" />
+	</bean>
+
+	<!-- http安全配置 -->
+	<s:http auto-config="true" access-decision-manager-ref="accessDecisionManager"
+		session-fixation-protection="none">
+		<s:form-login login-page="/flex/IndexPage.html" 
+			default-target-url="/LoginSuccess.jsp" always-use-default-target="true"
+			authentication-failure-url="/LoginFail.jsp" login-processing-url="/j_spring_security_check.html" />
+		<s:logout logout-url="/j_spring_security_logout.html" logout-success-url="/flex/IndexPage.html"  />
+		<s:remember-me key="e37f4b31-0c45-11dd-bd0b-0800200c9a66" />
+		<!--
+			s:concurrent-session-control max-sessions="1"
+			exception-if-maximum-exceeded="true" /
+		-->
+	</s:http>
+
+	<!-- 认证配置 -->
+	<!-- 可设置hash使用sha1或md5散列密码后再存入数据库 -->
+	<!--
+		<s:authentication-provider user-service-ref="userDetailsService"
+		alias="authenticationProvider"> <s:password-encoder hash="md5" />
+		</s:authentication-provider>
+	-->
+
+	<bean id="myAuthenticationProvider"
+		class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		<s:custom-authentication-provider />
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="hideUserNotFoundExceptions" value="false" />
+		<property name="passwordEncoder" ref="passwordEncoder"></property>
+	</bean>
+	
+	<bean id="passwordEncoder"
+		class="org.springframework.security.providers.encoding.Md5PasswordEncoder" />
+
+	<!-- 项目实现的用户查询服务 -->
+	<bean id="userDetailsService"
+		class="com.grgbanking.platform.core.security.service.UserDetailsServiceImpl">
+		<property name="userService" ref="userService"></property>
+		<property name="defaultAuthority" value="A_LOGINUSER"></property>
+	</bean>
+
+	<!-- [VZ 20110526 -->
+	<bean id="userLoginListener"
+		class="com.grgbanking.platform.module.security.service.UserLoginListener">
+		<property name="servletContext" ref="servletContext" />
+		<property name="userService" ref="userService" />
+		<property name="loginLogService" ref="loginLogService" />
+	</bean>
+
+	<bean id="servletContext"
+		class="org.springframework.web.context.support.ServletContextFactoryBean" />
+	<!-- VZ 20110526] -->
+
+	<!--
+		重新定义的FilterSecurityInterceptor,使用databaseDefinitionSource提供的url-授权关系定义
+	-->
+	
+	<bean id="filterSecurityInterceptor"
+		class="org.springframework.security.intercept.web.FilterSecurityInterceptor">
+		<s:custom-filter before="FILTER_SECURITY_INTERCEPTOR" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+
+		<property name="objectDefinitionSource">
+			<s:filter-invocation-definition-source>
+				<s:intercept-url pattern="/NothingButJump.html" access="A_LOGINUSER" />
+				<s:intercept-url pattern="/messagebroker/**" access="A_LOGINUSER" />
+			</s:filter-invocation-definition-source>
+		</property>
+
+	</bean>
+
+	<!-- 授权判断配置, 将授权名称的默认前缀由ROLE_改为A_. -->
+	<bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.springframework.security.vote.RoleVoter">
+					<property name="rolePrefix" value="" />
+				</bean>
+				<bean class="org.springframework.security.vote.AuthenticatedVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 拦截方法定义在数据库中的形式 -->
+	<!--
+		<bean id="_delegatingMethodDefinitionSource"
+		class="org.springframework.security.intercept.method.DelegatingMethodDefinitionSource">
+		<property name="methodDefinitionSources"> <list> <bean
+		class="org.springframework.security.intercept.method.MapBasedMethodDefinitionSource"
+		/> <bean
+		class="org.springframework.security.annotation.SecuredMethodDefinitionSource"
+		/> <bean
+		class="org.springframework.security.annotation.Jsr250MethodDefinitionSource"
+		/> </list> </property> </bean> <bean id="methodResourceDetailsMonitor"
+		class="com.grgbanking.core.security.service.MethodResourceDetailsMonitor"
+		lazy-init="false"> <property name="delegatingMethodDefinitionSource"
+		ref="_delegatingMethodDefinitionSource"> </property> <property
+		name="resourceDetailsBuilder" ref="methodResourceDetailsBuilder">
+		</property> </bean> <bean id="_methodSecurityInterceptor"
+		class="org.springframework.security.intercept.method.aopalliance.MethodSecurityInterceptor">
+		<property name="validateConfigAttributes" value="false" /> <property
+		name="authenticationManager" ref="authenticationManager" /> <property
+		name="accessDecisionManager" ref="accessDecisionManager" /> </bean>
+
+		<aop:config proxy-target-class="true"> <aop:pointcut
+		id="securityPointcut" expression="execution(*
+		com.grgbanking..service.*.*(..))"/> <aop:advisor
+		advice-ref="_methodSecurityInterceptor"
+		pointcut-ref="securityPointcut" /> </aop:config>
+	-->
+
+	<!-- 开发时开启secured-annotations="enabled"，运行时去掉 -->
+	<!--
+		<s:global-method-security secured-annotations="enabled"
+		access-decision-manager-ref="accessDecisionManager">
+		<s:protect-pointcut expression="execution(*
+		com.grgbanking.test.flex.*.*(..))" access="A_MODIFY_USER"/>
+		</s:global-method-security>
+	-->
+</beans>

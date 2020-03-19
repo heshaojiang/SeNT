@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   dataDictionaryPaths="{[BlackRegulationConsts.RULE_STATUS]}"
+			   layout="vertical" width="100%" height="100%" >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.rule.config.RegulationDeliverConfig;
+			import sent.rule.config.RepeatRegulationConfig;
+			import sent.rule.constants.BlackRegulationConsts;
+			import sent.rule.pm.RepeatRegulationPM;
+			import sent.rule.vo.RepeatRegulationVO;
+			
+			/**
+			 * 是否已经下发
+			 */
+			[Bindable]
+			private var isDevice:Boolean=false;
+			
+			[Inject]
+			[Bindable]
+			public var pm:RepeatRegulationPM;
+			
+			/**
+			 * 查看详情的图片
+			 */
+			[Bindable]
+			[Embed(source="resources/theme/newui/view.png")] 
+			private var serchIcon:Class; 
+			
+			/**
+			 * 新增按钮的图标
+			 */
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/add.png")] 
+			private var addIcon:Class; 
+			
+			/**
+			 *下发规则按钮的图标
+			 */
+			[Bindable]
+			[Embed(source="resources/theme/images/audit.png")] 
+			private var regulationDeliverIcon:Class; 
+			
+			/**
+			 * 撤销规则按钮的图标
+			 */
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/delet.png")] 
+			private var deleteRegulationIcon:Class; 
+			
+			/**
+			 *返回数字判断提示信息 
+			 */
+			[Bindable]
+			private var num:int;
+			
+			/**
+			 * 初始化页面规则状态下拉列表
+			 */
+			[Bindable]
+			private var regulationStatus:ArrayCollection=new ArrayCollection();
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("RepeatRegulationModule.viewUpdateComplete");
+				pm.init();
+			}
+			
+			override public function dispose():void
+			{
+				trace("RepeatRegulationModule.dispose");
+				repeatRegulationDataGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			/**
+			 * 获取数据字典后更新信息
+			 */
+			override protected function getDataDictCallback():void
+			{
+				trace("RepeatRegulationModule.getDataDictCallback");
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem:Object = {key:"", text:str};
+				var arrCol1:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[BlackRegulationConsts.RULE_STATUS]) as ArrayCollection;
+				arrCol1.addItemAt(allItem, 0);
+				regulationStatus = arrCol1;
+				//刷新列表
+				(repeatRegulationDataGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 用数据字典转换列表数据
+			 */
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				trace("RepeatRegulationModule.transferDataDict");
+				switch(p_column.dataField)
+				{
+					case "reguStatus":
+						currentDataDictPath = BlackRegulationConsts.RULE_STATUS;
+						break;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+			
+			/**
+			 * 新增规则
+			 */
+			public function add():void
+			{
+				trace("RepeatRegulationModule.add");
+				var win:RepeatRegulationForm = new RepeatRegulationForm();
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+			}
+			
+			/**
+			 * 规则下发
+			 */
+			public function regulationDeliver():void
+			{
+				trace("RepeatRegulationModule.regulationDeliver");
+				if (!repeatRegulationDataGrid.checkedItems || repeatRegulationDataGrid.checkedItems.length < 1)
+				{
+					AlertHandler.alert("selectOneRecordAtLeast");
+					return;
+				}
+				var arrAddToRepeat:Array = [];
+				var arr:Array = repeatRegulationDataGrid.checkedItems;
+				//对选择的项做限制，只能选择待下发状态的
+				for( var i:int=0; i<arr.length; i++ )
+				{
+					var repeatRegulation:RepeatRegulationVO = arr[i];
+					//下发状态为待下发
+					if(repeatRegulation.reguStatus=="1")
+					{
+						arrAddToRepeat.push(repeatRegulation);
+					}
+				}
+				if( arrAddToRepeat.length==0 )
+				{
+					AlertHandler.alert("chooseDeliver");
+					return;
+				}
+				//下发规则
+				pm.deviceRepeat(arrAddToRepeat);
+			}
+			
+			
+			/**
+			 * 撤消规则
+			 */
+			public function cancelRegulation():void
+			{
+				trace("RepeatRegulationModule.cancelRegulation");
+				if(!repeatRegulationDataGrid.checkedItems || repeatRegulationDataGrid.checkedItems.length != 1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				if(repeatRegulationDataGrid.checkedItems[0].reguStatus=="2")
+				{
+					pm.cancelRegulation(repeatRegulationDataGrid.checkedItems[0] as RepeatRegulationVO);
+				}
+				else
+				{
+					AlertHandler.alert("chooseResovkDelivered");
+					return;
+				}
+			}
+			
+			
+			/**
+			 * 查看规则详情
+			 */
+			public function viewRegulationInfo():void
+			{
+				trace("RepeatRegulationModule.viewRegulationInfo");
+				var win:ViewRepeatRegulationInfo = new ViewRepeatRegulationInfo();
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.repeatRegulation = ObjectUtil.copy(repeatRegulationDataGrid.selectedItem) as RepeatRegulationVO;
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:FlexConfig type="{RepeatRegulationConfig}"/>
+			<parsley:FlexConfig type="{RegulationDeliverConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Binding source="reguStatus.selectedValue" destination="pm.repeatRegulationVO.reguStatus" />
+	
+	<mx:VDividedBox width="100%" height="100%">
+		
+		<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+			
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width="100%" height="25" backgroundAlpha="0" borderVisible="false" textAlign="center">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="left"
+									paddingLeft="0"
+									gap="2"
+									verticalAlign="middle"/>
+							</s:layout>
+							<!--规则下发状态：-->
+							<grg:Label locale="reguStatus"/>
+							<grg:ComboBox id="reguStatus" dataProvider="{regulationStatus}" labelField="text" valueField="key" width="75"/>
+							<grg:SearchButton id="btn_search"
+											  locale="searchButton" menuId="{menu.id}" 
+											  iconType="query" click="pm.page=new Page();pm.loadPage()"/>
+							<grg:ResetButton id="resetBtn" locale="resetButton"  iconType="reset" resetControls="{[reguStatus]}"/>
+						</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			
+			<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25" id="addRule" >
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<!--新增-->
+					<grg:Button  icon="{addIcon}" locale="addRegulation" click="add()"/>
+				</s:BorderContainer>
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25" id="deliver" visible="false" includeInLayout="false">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<!--规则下发-->
+					<grg:Button  icon="{regulationDeliverIcon}" locale="regulationDeliver" click="regulationDeliver()"/>
+				</s:BorderContainer>
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25" id="cancel" visible="false" includeInLayout="false">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<!--撤销规则-->
+					<grg:Button  locale="deleteRegulation" icon="{deleteRegulationIcon}" click="cancelRegulation()"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				<grg:DataGrid id="repeatRegulationDataGrid" dataProvider="{pm.page.result}"
+							  width="100%" height="100%"
+							  styleName="DataGrid"
+							  borderVisible="true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											textAlign="center"
+											sortable="false"
+											draggable="false"
+											editable="false"
+											resizable="false" />
+						<!--最多重号冠字号码数-->
+						<grg:DataGridColumn locale="repeatnum"
+											dataField="repeatnum"  textAlign="left"/>
+						<!--升级终端数量-->
+						<grg:DataGridColumn locale="termNum"
+											dataField="termNum"  textAlign="left"/>
+						<!--规则下发状态：-->
+						<grg:DataGridColumn locale="reguStatus" labelFunction="{transferDataDict}"
+											dataField="reguStatus" textAlign="left"/>
+						<!--创建时间-->
+						<grg:DataGridColumn locale="createDate" labelFunction="dateFormatter" width="220"
+											dataField="createDate"  textAlign="center"/>
+						<!--批复时间-->
+						<grg:DataGridColumn locale="reversionDate" labelFunction="dateFormatter" textAlign="center" width="220"
+											dataField="reversionDate"/>
+						<!--操作-->
+						<grg:DataGridColumn locale="operations" width="100" textAlign="center" headerStyleName="centerDataGridHeader">
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXItemRenderer>
+										<fx:Script>
+											<![CDATA[
+												import org.doc.Document;
+												/**
+												 * 查看详情的图片
+												 */
+												[Bindable]
+												[Embed(source="resources/theme/newui/view.png")] 
+												private var serchIcon:Class; 
+											]]>
+										</fx:Script>
+										<grg:Image source="{serchIcon}" click="outerDocument.viewRegulationInfo()" width="100" horizontalAlign="center"/>
+									</s:MXItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" 
+								  pageVo="{pm.page}"
+								  pagingFunction="{pm.loadPage}"/>
+			
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

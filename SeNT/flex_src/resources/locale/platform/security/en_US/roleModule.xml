@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "roleModule">
+		<listTitle>RoleList</listTitle>
+		<roleNameKey>Role Name: </roleNameKey>
+		<roleName>Role Name</roleName>
+		<roleLevel>Role Level</roleLevel>
+		<operater>Operation</operater>
+		<status>Status</status>
+	</node>
+</nodes>

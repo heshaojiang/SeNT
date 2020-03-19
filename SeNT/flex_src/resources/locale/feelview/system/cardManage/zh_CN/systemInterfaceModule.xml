@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--Description： 接口管理表(该表用于保存系统各模块的相关接口以及作用描述，以方便维护)<br>
+		Create Time：2011-9-2<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "systemInterfaceModule">
+		<listTitle>接口管理列表</listTitle>
+		<projectItem>项目名称</projectItem>
+		<fatherModuleItem>父模块</fatherModuleItem>
+		<moduleItem>模块</moduleItem>
+		<typeItem>类型</typeItem>
+		<catalogItem>目录</catalogItem>
+		<interfaceNameItem>接口名</interfaceNameItem>
+		<descriptionItem>描述</descriptionItem>
+		<creatorItem>创建人</creatorItem>
+		<createTimeItem>创建时间</createTimeItem>
+	</node>
+</nodes>

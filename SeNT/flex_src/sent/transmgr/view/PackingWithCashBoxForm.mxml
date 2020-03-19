@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*" 
+				 xmlns:component="sent.transmgr.view.component.*"
+				 layout="vertical" width="540" height="400"
+				 locale="packingWithCashBoxForm" 
+				 titleKey="title"
+				 creationComplete="creationCompleteHandler(event)"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.utils.StringUtil;
+			import platform.common.manager.AlertHandler;
+			
+			import platform.common.manager.LanguageManager;
+			
+			import sent.transmgr.constants.CmlNoteflowDetailInfoConsts;
+			import sent.transmgr.message.CmlNoteflowDetailInfoMsg;
+			import sent.transmgr.pm.CmlNoteflowDetailInfoPM;
+			import sent.transmgr.view.component.CmlFlowNumTextInputComponent;
+			import sent.transmgr.vo.CmlNoteflowInfoVO;
+			
+			private var _self:PackingWithCashBoxForm = this as PackingWithCashBoxForm;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			
+			[Bindable]
+			public var flowStage:String = CmlNoteflowDetailInfoConsts.FLOW_STAGE_DIST_BY_CASHBOX;	// 款箱钞袋配钞
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowDetailInfoPM:CmlNoteflowDetailInfoPM;
+			
+			
+			// { 在这里放上VO只是为了解决flex的bug，虽然这些VO没有用到, 请不要删除
+			[Bindable]
+			private var _cmlNoteflowInfoVO:CmlNoteflowInfoVO = new CmlNoteflowInfoVO();
+			// }
+			
+			[Bindable]
+			public var barcodeFlowNumLength:String = "";
+			
+			
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				trace("CmlDistributeCashForm.creationCompleteHandler");
+				var i:int=0;
+				// 款箱配钞
+		 	if( flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DIST_BY_CASHBOX )
+				{
+					for( i=0; i<4; i++ )
+					{
+						addOneFlowNumComponent();
+					}
+				} 
+			
+			}
+			
+			/**
+			 * 
+			 */
+			override protected function getDataDictCallback():void
+			{
+				trace("CmlDistributeCashForm.getDataDictCallback");
+				
+				//				var str:String  = langMgr.getCommonLanguageMap("components")["pleaseSelect"] as String ;
+				//				
+				//				var arrCol:ArrayCollection = new ArrayCollection();
+				//				arrCol.addItem({
+				//					key : "", 
+				//					text : str
+				//				});
+				//				
+				//				var cmlMgrTypeFlag:Object = dataDictionaryCache[CmlMgrConsts.TYPE_FLAG];
+				//				arrCol.addAll(ObjectUtil.copy(cmlMgrTypeFlag) as ArrayCollection);
+				//				
+				//				followTypeAC = arrCol;
+				
+			}
+			
+			
+			/**
+			 * 
+			 */
+			public function fillFirstFlowNum(flowNum:String):void
+			{
+				trace("CmlDistributeCashForm.fillFirstFlowNum");
+				var flowNumComp:CmlFlowNumTextInputComponent = null;
+				if( flowNumListBox.numElements==0 )
+				{
+					flowNumComp = addOneFlowNumComponent();
+				}
+				else
+				{
+					flowNumComp = flowNumListBox.getElementAt(0) as CmlFlowNumTextInputComponent;
+				}
+				flowNumComp.flowNumText.text = flowNum;
+			}
+			
+			
+			protected function addFlowNumBtnClickHandler(event:MouseEvent):void
+			{
+				trace("CmlDistributeCashForm.addFlowNumBtnClickHandler");
+				addOneFlowNumComponent();
+			}
+			
+			protected function addOneFlowNumComponent():CmlFlowNumTextInputComponent
+			{
+				trace("CmlDistributeCashForm.addOneFlowNumComponent");
+				var flowNumComp:CmlFlowNumTextInputComponent = new CmlFlowNumTextInputComponent();
+				flowNumComp.barcodeFlowNumLength = this.barcodeFlowNumLength;
+				/* if( flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DIST_BY_WHOLE_BOX )
+				{
+					flowNumComp.deleteBtn.includeInLayout = false;
+					flowNumComp.deleteBtn.visible = false;
+				} */
+				flowNumComp.addEventListener(MouseEvent.CLICK, cmlflownumtextinputcomponent1_clickHandler);
+				flowNumListBox.addElement(flowNumComp);
+				return flowNumComp;
+			}
+			
+			
+			protected function cmlflownumtextinputcomponent1_clickHandler(event:MouseEvent):void
+			{
+				trace("CmlDistributeCashForm.cmlflownumtextinputcomponent1_clickHandler");
+				if( event.currentTarget is CmlFlowNumTextInputComponent )
+				{
+					var flowNumComp:CmlFlowNumTextInputComponent = event.currentTarget as CmlFlowNumTextInputComponent;
+					// 判断点击的是不是'删除'按钮
+					if( flowNumComp.deleteBtn==event.target )
+					{
+						if( flowNumListBox.numElements>1 )
+						{
+							flowNumListBox.removeElement(flowNumComp);
+						}
+						else
+						{
+							var msg:String = langMgr.getExceptionMessage("exceptionMessage.needMoreThanOneFlowNum");
+							AlertHandler.alert(msg);
+						}
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function save():void
+			{
+				trace("CmlDistributeCashForm.save");
+				var alertMsg:String;
+				
+				var sCashboxNum:String = StringUtil.trim(this.cashboxNum.text);
+				var boxNumRegExp:RegExp=/^[A-Za-z0-9]+$/;
+				if( sCashboxNum=="" )
+				{
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.pleaseInputCashboxNum");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				
+				var checkbarcodeFlowNumDuplicatedMap:Object = {};	// 用于检测流转号是否重复
+				var submitData:Object = {};
+				submitData.cashboxNum = sCashboxNum;
+				submitData.flowStage = CmlNoteflowDetailInfoConsts.FLOW_STAGE_DIST_BY_CASHBOX;
+				submitData.barcodeFlowNumArr = [];
+				for( var i:int=0; i<flowNumListBox.numElements; i++ )
+				{
+					var ve:IVisualElement = flowNumListBox.getElementAt(i);
+					if( ve is CmlFlowNumTextInputComponent )
+					{
+						var flowNum:String = StringUtil.trim((ve as CmlFlowNumTextInputComponent).flowNumText.text);
+						if( flowNum!="" )
+						{
+							// 检测流转号是否重复
+							if( checkbarcodeFlowNumDuplicatedMap[flowNum]!=null )
+							{
+								alertMsg = StringUtil.substitute(langMgr.getExceptionMessage("exceptionMessage.flowNumDuplicatedFill"), flowNum);
+								AlertHandler.alert(alertMsg);
+								return ;
+							}
+							checkbarcodeFlowNumDuplicatedMap[flowNum] = flowNum;
+							submitData.barcodeFlowNumArr.push( flowNum );
+						}
+					}
+				}
+				
+				if( submitData.barcodeFlowNumArr.length==0 )
+				{
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.needMoreThanOneFlowNum");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				
+				var msg:CmlNoteflowDetailInfoMsg = new CmlNoteflowDetailInfoMsg();
+				msg.args["remoteMethod"]   = "addMiltiCashDistribution";
+				msg.args["methodPrameter"] = submitData;
+				msg.args["resultHandler"]  = "CmlDistributeCashForm.addMiltiCashDistributionResult";
+				msg.args["errorHandler"]   = "CmlDistributeCashForm.addMiltiCashDistributionError";
+				cmlNoteflowDetailInfoPM.sendCmlNoteflowDetailInfoMsg(msg);
+				
+				this.enabled = false;
+			}
+			
+			[MessageHandler(selector="CmlDistributeCashForm.addMiltiCashDistributionResult")]
+			public function addMiltiCashDistributionResult(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("CmlDistributeCashForm.addMiltiCashDistributionResult");
+				this.enabled = true;
+				
+				var alertMsg:String = "";
+				if( msg.result>0 )
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.distributeCashSuccess");
+				}
+				else
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.distributeCashFail");
+				}
+				Alert.show(alertMsg, "系统提示", 4, null, function():void{
+					_self.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				});
+			}
+			
+			[MessageHandler(selector="CmlDistributeCashForm.addMiltiCashDistributionError")]
+			public function addMiltiCashDistributionError(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("CmlDistributeCashForm.addMiltiCashDistributionError");
+				this.enabled = true;
+			}
+			
+			/**
+			 * 
+			 */
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				// ATM分捆配钞
+				if( flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DIST_BY_BUNCH )
+				{
+					this.titleKey = "atmDistByBunch";
+					this.flowNumRCContainer.locale = "zrcxdkc";
+					this.moneyBoxLablel.locale = "cashboxNumColon";
+				}
+				
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	
+	<!-- 钞箱号、配钞渠道 -->
+	<s:HGroup width="100%" gap="0" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<!-- 钞箱号 -->
+		<grg:Label id="moneyBoxLablel" locale="cashboxNumColon" />
+		<grg:TextInput id="cashboxNum" width="200" />
+		<mx:Spacer width="10" />
+	</s:HGroup>
+	
+	<!-- 装入钞箱的捆钞 -->
+	<grg:RoundCornerContainer id="flowNumRCContainer" locale="zrcxdkc"  width="100%"  height="100%">
+		<s:Scroller width="100%" height="100%" verticalScrollPolicy="on">
+			<s:VGroup gap="0" paddingTop="20" paddingLeft="50" paddingRight="10">
+				
+				<s:VGroup id="flowNumListBox" width="100%" gap="10">
+					<!--
+					<component:CmlFlowNumTextInputComponent click="cmlflownumtextinputcomponent1_clickHandler(event)" />
+					<component:CmlFlowNumTextInputComponent click="cmlflownumtextinputcomponent1_clickHandler(event)" />
+					<component:CmlFlowNumTextInputComponent click="cmlflownumtextinputcomponent1_clickHandler(event)" />
+					<component:CmlFlowNumTextInputComponent click="cmlflownumtextinputcomponent1_clickHandler(event)" />
+					-->
+				</s:VGroup>
+				
+				<s:VGroup horizontalAlign="left" paddingTop="10">
+					<grg:Button id="addCashBunchBtn" locale="addCashBunch" iconVisible="false" click="addFlowNumBtnClickHandler(event)" />
+				</s:VGroup>
+				
+			</s:VGroup>
+		</s:Scroller>
+	</grg:RoundCornerContainer>
+	
+	<!-- 保存、取消 -->
+	<s:HGroup width="100%" gap="6" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="save" iconVisible="false" click="save()" />
+		<grg:Button locale="cancel" iconVisible="false" click="cancel()" />
+	</s:HGroup>
+	
+</grg:TitleWindow>

@@ -1,0 +1,293 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+	width="450" height="370"
+	layout = "vertical"
+	locale = "cmlTaskInfosForm"
+	
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley"
+	xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+		<mx:DateFormatter id="df" formatString="YYYY-MM-DD JJ:NN:SS"/>
+		
+	</fx:Declarations>
+	<fx:Binding destination="cmlConnectInfos" source="pm.cmlConnectInfos" />
+	<fx:Binding destination="obj.statu" source="pm.conn.check"/>
+	<fx:Script>
+		<![CDATA[
+			import cml.cmlConnectInfos.vo.CmlConnectInfosVO;
+			import cml.task.constants.CmlTaskInfosConsts;
+			import cml.task.message.CmlTaskInfosMsg;
+			import cml.task.pm.CmlTaskInfosPM;
+			import cml.task.vo.CmlTaskInfosVO;
+			
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.validator.VControl;
+			import platform.vo.security.UserVo;
+			[Inject]
+			[Bindable]
+			public var pm:CmlTaskInfosPM;
+			
+			[Bindable]
+			public var cmlTaskInfos:CmlTaskInfosVO = new CmlTaskInfosVO();
+			[Bindable]
+			public var cmlConnectInfos:CmlConnectInfosVO =new CmlConnectInfosVO();
+			
+			[Bindable]
+			public var obj:Object =new Object();
+
+			public function openWin(p_winName:String,win:TitleWindow):void
+			{
+				win.titleKey = p_winName;
+				context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				
+			}
+			protected function chooseConn(event:MouseEvent):void
+			{
+				pm.chooseConn();
+				var win :ChooseConnForm = new ChooseConnForm();
+				openWin(CmlTaskInfosConsts.CHOOSE_CONN,win);
+				win.callback = resultConn;	
+			}
+		 
+			public function resultConn(cmlcoVo:CmlConnectInfosVO):void{
+				//如果是新增界面 就全部更新 
+				if(pm.conn.add == 0){
+					cmlConnectInfos = cmlcoVo;	
+				}
+				//修改界面不对其交接进行更新
+				cmlTaskInfos.connId =cmlcoVo.connNum;
+				obj.connMoney  =  cmlcoVo.noAllotMoney;
+			
+				beforeCount.numberValue = cmlcoVo.noAllotMoney;
+				cmlTaskInfos.beforeCount = beforeCount.numberValue;
+				cid.selectedValue = cmlcoVo.comeOrg;
+			}
+			protected function chooseTmlClick():void
+			{
+			
+				pm.chooseTml();
+				
+				var win:ChooseTmlForm = new ChooseTmlForm();		
+				openWin(CmlTaskInfosConsts.CHOOSE_TML,win);
+				win.callback = resultTml;
+			}
+			public function resultTml(value:String):void{
+				cmlTaskInfos.tmlNum =value;
+				tmlNum.text  = value;
+
+			}
+			protected function chooseOperatorClick():void
+			{
+				pm.chooseUser();  
+				var win:ChooseUserForm = new ChooseUserForm();
+				
+				pm.usr = new UserVo();
+				openWin(CmlTaskInfosConsts.CHOOSE_USER,win);
+				win.callback = resultUser;	 
+			}
+			
+			
+			public function resultUser(id:String,name:String):void{
+				if(id){
+					cmlTaskInfos.operatorId = id;
+					operatorId.text = name;
+				}
+				pm.conn.operatorName=name;	
+			}
+
+			
+			[MessageHandler(selector="checkOperatorIdAndTmlResult")]
+			public function checkOperatorIdAndTmlResult(r_result:CmlTaskInfosMsg):void{
+				if(r_result){	
+					var checkResult:int=r_result.result as int;
+					choose(checkResult);
+					
+				}
+			}
+			
+	public function choose(a:int):void{
+		savebtn.enabled = true;
+		switch(a){
+		  case 1:
+			  pm.saveCmlTaskInfos(cmlTaskInfos,cmlConnectInfos);
+			  pm.conn = new Object();
+			  cmlTaskInfos =null;
+			  cmlConnectInfos = null;
+			  pm._cmlTaskInfos = new CmlTaskInfosVO();
+			  pm.cmlConnectInfos = new CmlConnectInfosVO();
+			  close();	
+			  pm.loadPage();
+			  break;
+			  case 3:
+	     			operatorId.text ="";
+					chooseOperatorClick();
+				 break;
+			 case 4:
+					tmlNum.text= "";
+					chooseTmlClick();
+				  break;
+				 case 6:
+				//AlertHandler.alert("操作员和设备都需要重新选择");
+					 AlertHandler.alert("againChoose");
+				operatorId.text ="";
+						tmlNum.text= "";
+						  break;
+	
+		 }
+		 
+		 }	
+	
+	
+
+	public function save():void{
+				savebtn.enabled =false;		 
+				if (VControl.validateAll(from, validators).length > 0){
+					return;
+				} 
+			
+				//引入变量察觉是否是修改 后直接新增界面 后 对相应的金额进行判断	 
+				if(pm.conn.add == 0 ){
+					if(cmlConnectInfos.noAllotMoney < cmlTaskInfos.beforeCount ){
+						AlertHandler.alert(CmlTaskInfosConsts.ERROR_BEFORECOUNT,gengzheng(cmlConnectInfos.noAllotMoney));
+						return ;
+					}
+				} 
+				
+				//修改界面 
+				if(pm.conn.add ==1){
+					//如果还是相同交接任务
+					if(cmlConnectInfos.connNum == cmlTaskInfos.connId){
+						if(cmlTaskInfos.beforeCount  >  cmlConnectInfos.noAllotMoney){
+							AlertHandler.alert(CmlTaskInfosConsts.ERROR_BEFORECOUNT,gengzheng(cmlConnectInfos.noAllotMoney));
+							return;
+						}
+					}else{
+					//如果不再是相同任务的话 
+					if(cmlTaskInfos.beforeCount > obj.connMoney){
+							AlertHandler.alert(CmlTaskInfosConsts.ERROR_BEFORECOUNT,gengzheng(obj.connMoney));
+							return;
+						}	
+					}	
+				
+					}
+				function  gengzheng(beforcount:Number):void{
+					beforeCount.numberValue= beforcount;
+					cmlTaskInfos.beforeCount =beforcount;
+					savebtn.enabled = true;	
+			}	
+				pm.checkOperatorIdAndTml(cmlTaskInfos);
+	}
+		]]>
+	</fx:Script>
+	<!--	<grg:GRGMultiFormTabContainer id="formContainer" width="50%" forms="{[from, from1]}">-->
+			<grg:Form id="from"
+					  width="100%" height="100%"
+					  paddingTop = "20"
+					  textAlign = "left"
+					  borderVisible = "false">
+				<grg:FormItem locale="cmlconnect" required="true">
+
+						<mx:HBox><grg:TextInput id="connId" name = "connId"  text="@{cmlTaskInfos.connId}"
+									   width="190"
+									   textAlign = "left"
+									   required="true" editable="false"/>
+						<grg:Button locale="choose" click="chooseConn(event)" fontSize="20"  textAlignLast="start" iconVisible="false"/></mx:HBox>
+				</grg:FormItem>
+				<grg:FormItem locale="boxNum"  >
+					<grg:TextInput id="boxNum" name = "boxNum"  
+								   width="190"
+								   textAlign = "left"
+								   text ="@{cmlTaskInfos.boxNum}"
+								   required="true"/>
+				</grg:FormItem>
+		
+				<grg:FormItem locale="tmlNum"   required="true">
+					<mx:HBox><grg:TextInput id="tmlNum" name = "tmlNum"  text="@{cmlTaskInfos.tmlNum}"
+											width="190"
+											textAlign = "left"
+											required="true"
+											editable="false"/>
+						<grg:Button id="chooseTml" locale="choose" click="chooseTmlClick()" iconVisible="false"/>
+					</mx:HBox>
+				</grg:FormItem>
+				<grg:FormItem locale="bindDate" required="true">
+					<grg:SuperDateField id="startTime" width="190" myEnabled="false"
+										selectableRange="{{rangeStart:new Date}}" isShowTime="true"  selectedDate="@{cmlTaskInfos.bindStart}" />
+				</grg:FormItem>
+				<grg:FormItem  locale="to"  required="true">
+					
+					<grg:SuperDateField id="endTime" width="190" myEnabled="false" 
+										selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" selectedDate="@{cmlTaskInfos.bindEnd}" />
+				</grg:FormItem>	
+					<grg:FormItem locale="moneySource"   required="true">
+						<grg:GRGComboBoxOrgTree id="cid"
+												defaultField="true"
+												width="190"
+												textAlign="left"
+												treeHeight="300"
+												selectedValue="@{cmlTaskInfos.orgId}"/>		
+					</grg:FormItem>
+					<grg:FormItem locale="operatorName"  required="true">
+						<mx:HBox>
+							<grg:TextInput id="operatorId" name = "operatorId"  
+										   width="190" text="@{pm.usr.userName}" 
+										   required="true"  editable="false" />
+							<grg:Button  id="chooseUser" locale="choose" click="chooseOperatorClick()" iconVisible="false"/>
+						</mx:HBox>
+					</grg:FormItem>
+					
+					<grg:FormItem  locale="beforeCount"  required="true">	
+						<grg:TextInput id="beforeCount" name = "beforeCount"  
+									   width="190"  numberValue="@{cmlTaskInfos.beforeCount}"
+									   vtype="number"  required="true"  restrict="0-9*" />
+					</grg:FormItem>
+			<grg:FormItem width="100%" locale="memo" >
+				<grg:TextArea id="memo" text="@{cmlTaskInfos.memo}" width="100%"/>
+				</grg:FormItem>
+			</grg:Form>
+	<!--<grg:Form id="from2">
+		<s:HGroup width="100%"  height="20%" paddingLeft="20">
+			<grg:FormItem locale="memo" width="100%" >
+				<grg:TextArea id="memo" text="@{cmlTaskInfos.memo}" width="100%"  height="100%" minHeight="20" minWidth="600"/>
+			</grg:FormItem>
+		</s:HGroup>
+	</grg:Form>-->
+
+
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = " save()" id="savebtn"
+				locale = "saveButton" 
+				iconVisible="false"
+				/>
+		</s:BorderContainer>
+		
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton"
+				iconVisible="false"
+				/>
+		</s:BorderContainer>
+	</s:HGroup>
+
+</grg:TitleWindow>

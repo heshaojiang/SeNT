@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "navigationModule">
+	    <openWt>开机率：</openWt>
+	    <statisticsTime>统计时间：</statisticsTime>
+	    <wtOrder>开机率排名</wtOrder>
+	    <transNumOrder>存取款交易量排名（笔）</transNumOrder>
+	    <averageTransNumOrder>台均存取款交易量排名（笔/台）</averageTransNumOrder>
+	    <top10>前十名</top10>
+	    <last10>后十名</last10>
+	    
+	    <label1>监控终端台数： </label1>
+	    <label2> 全功能台数： </label2>
+	    <label3> 半功能台数： </label3>
+	    <label4>交易量 </label4>
+	    <label5> 笔/秒  今天累计  </label5>
+	    <label6> 万笔</label6>
+	    <label7>今天存取款 </label7>
+	    <label8> 万笔 </label8>
+	    <label9> 万元</label9>
+	    <label10> 停止服务台数：</label10>
+	</node>
+</nodes>

@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="configModule">
+		<listTitle>参数配置</listTitle>
+		<everydayFetchTime>每天定时抓取:</everydayFetchTime>
+		<beginTime>开始时间:</beginTime>
+		<endTime>结束时间:</endTime>
+		<retryCount>重试次数:</retryCount>
+		<interval>间隔:</interval>
+		<speed>流量控制:</speed>
+		<unit>字节/秒</unit>
+		<saveButton>保存</saveButton>
+		<cancelButton>取消</cancelButton>
+		<count>次</count>
+		<second>秒</second>
+	</node>
+</nodes>

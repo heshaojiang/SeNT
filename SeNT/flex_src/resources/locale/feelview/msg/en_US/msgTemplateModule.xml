@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgTemplateModule">
+		<listTitle>MsgTemplate List</listTitle>
+		<name>name</name>
+		<content>content</content>
+		<memo>memo</memo>
+	</node>
+</nodes>

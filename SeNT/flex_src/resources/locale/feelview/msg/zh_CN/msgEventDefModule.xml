@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgEventDefModule">
+		<listTitle>事件定义列表</listTitle>
+		<eventType>事件类型</eventType>
+		<flag>终端或机构</flag>
+		<auto>是否自动通知</auto>
+		<informManner>通知方式</informManner>
+		<msgTemplate>通知模板</msgTemplate>
+		<msgDo>操作</msgDo>
+		<role>通知角色</role>
+		<sourceId>终端或机构：</sourceId>
+	</node>
+</nodes>

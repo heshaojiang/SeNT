@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule dataDictionaryPaths="{[DataDirConsts.YES_OR_NO,TermConsts.ENABLE_OR_DISABLE,DataDictPathConsts.ATM_BOX_TYPES,DataDictPathConsts.BOX_TYPE,CmlNoteflowDetailInfoConsts.FLOW_STAGE]}"
+			   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:component = "platform.component.*"
+			   xmlns:control = "platform.component.controls.*"
+			   xmlns:parsley="http://www.spicefactory.org/parsley" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   locale="boxInfoModule"
+			   layout="horizontal" width="100%" height="100%">
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="BoxInfoModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="BoxInfoModule"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{ParamConfig}"/>
+			<parsley:FlexConfig type="{BoxInfoModuleConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Binding source="orgid.selectedValue" destination="pm.condi.orgId"/>
+	<fx:Binding source="boxNum.text" destination="pm.condi.boxNum"/>
+	<fx:Binding source="boxType.selectedValue" destination="pm.condi.boxType"/>
+	<fx:Binding source="atmModel.selectedValue" destination="pm.condi.atmModel"/>
+	<fx:Binding source="atmBoxtype.selectedValue" destination="pm.condi.atmBoxType"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.IList;
+			import mx.collections.ListCollectionView;
+			import mx.controls.Text;
+			import mx.core.IFlexDisplayObject;
+			import mx.printing.FlexPrintJob;
+			import mx.printing.FlexPrintJobScaleType;
+			
+			import platform.cashbox.config.BoxInfoModuleConfig;
+			import platform.cashbox.constants.BoxConsts;
+			import platform.cashbox.message.BoxInfoMsg;
+			import platform.cashbox.pm.BoxInfoModulePM;
+			import platform.cashbox.vo.BoxInfoVO;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.param.config.ParamConfig;
+			import platform.term.constants.TermConsts;
+			
+			import sent.transmgr.constants.CmlNoteflowDetailInfoConsts;
+			import sent.transmgr.constants.DataDictPathConsts;
+			
+			import spark.components.HGroup;
+			
+			public var text:Text = new Text();
+			
+			[Bindable]
+			public var s:Array = new Array();
+			
+			[Bindable]
+			public var sorgname:String = new String();
+			
+			[Bindable]
+			public var smodelname:String = new String();
+			
+			[Bindable]
+			public var boxQRCodePrintSwitch:String = new String();
+			
+			public var boxNumValue:String;
+			public var boxTypeValue:String;
+			public var atmModelValue:String;
+			public var atmBoxtypeValue:String;
+			
+			public var printModel:String;
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:BoxInfoModulePM;
+			
+			[Bindable]
+			private var atmBoxtypeSource:IList;
+			
+			[Bindable]
+			private var boxTypeSource:IList;
+			
+			public var types:String;
+			
+			public var group:HGroup = new HGroup(); 
+			
+			private var downFileName:String = "BoxInfoImportModel.xls";
+			
+			/**语言包**/
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function getDataDictCallback():void
+			{
+				atmBoxtypeSource = bindableDataDirCache.getItemAt(2) as IList;
+				boxTypeSource = bindableDataDirCache.getItemAt(3) as IList;
+				(boxInfoPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "boxStatus")
+					currentDataDictPath = TermConsts.ENABLE_OR_DISABLE;
+				else if(column.dataField == "atmBoxTypes")
+					currentDataDictPath = DataDictPathConsts.ATM_BOX_TYPES;
+				else if(column.dataField == "boxType")
+					currentDataDictPath = DataDictPathConsts.BOX_TYPE;
+				else if(column.dataField == "usageStatus")
+					currentDataDictPath =CmlNoteflowDetailInfoConsts.FLOW_STAGE;
+				var s:String=super.transferDataDict(p_item, column);
+				return s;
+			}
+			
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.init();
+			privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				boxInfoPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			//Add 
+			public function add():void
+			{				
+				//set vo
+				var vo:BoxInfoVO = new BoxInfoVO();
+				openWin("addBoxInfoForm", vo);
+				
+			}
+			/**
+			 * import file items
+			 * */
+			public function importFile():void
+			{
+				var vo:BoxInfoVO = new BoxInfoVO();
+				//vo.activeDate = new Date();
+				var win:BoxInfoImportForm = new BoxInfoImportForm();
+				win.titleKey = "importBoxInfo";
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win),this);
+			}
+			/**
+			 * edit datadir item
+			 * */
+			public function edit():void
+			{
+				if (boxInfoPageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				var temp:BoxInfoVO = BoxInfoVO(boxInfoPageGrid.checkedItems[0]);
+				
+				openWin("updateBoxInfoForm", temp);
+			}
+			
+			/**
+			 * delete datadir item
+			 * */
+			public function del():void
+			{
+				pm.deleteBoxInfo(boxInfoPageGrid.checkedItems);
+			}
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			/**
+			 * 下载导入文件的模板
+			 * */
+			public function exportFile():void
+			{
+				 //pm.exportFile();
+				trace("BoxInfoModule.downFile");
+				var language:String = langMgr.currentLanguage;
+				ExternalInterface.call("downloadFile","../FileDownloadServlet.let?del=false&fileName="+downFileName+"&language="+language); 
+			} 
+			 
+			public function printInfo(pml:String):void
+			{
+				this.printModel = pml;
+				var boxinfo:BoxInfoVO = boxInfoPageGrid.selectedItem as BoxInfoVO; 
+				//获取钞箱类型数据字典转换值
+				boxNumValue= DataGridUtil.getItemValue(boxInfoPageGrid.selectedItem,"boxNum").toString();
+				boxTypeValue = getTextByKeyOnDataDictPath(DataGridUtil.getItemValue(boxInfoPageGrid.selectedItem,"boxType").toString(),DataDictPathConsts.BOX_TYPE);
+				/* var orgNameV:String = DataGridUtil.getItemValue(boxInfoPageGrid.selectedItem,"orgid").toString();
+				var atmModelV:String = DataGridUtil.getItemValue(boxInfoPageGrid.selectedItem,"atmModel").toString();
+				 */
+				if(boxinfo.atmBoxTypes != null){
+					types = getTextByKeyOnDataDictPath(DataGridUtil.getItemValue(boxInfoPageGrid.selectedItem,"atmBoxTypes").toString(),DataDictPathConsts.ATM_BOX_TYPES);
+				}else{
+					types = null;
+				}
+				pm.getOrgNameAndModelNameByBoxNum(boxNumValue);
+			}
+			
+			
+			
+			[MessageHandler(selector="getOrgNameAndModelNameByBoxNumResult")]
+			public function getOrgNameAndModelNameByBoxNumResultHandler(p_msg:BoxInfoMsg):void
+			{
+				//var adb:BoxInfoVO = p_msg.result as BoxInfoVO;
+				//box = adb;
+				var sresult:Array = p_msg.result as Array;
+				s = sresult;
+				sorgname = s[0];
+				smodelname = s[1];
+				boxQRCodePrintSwitch = s[2];
+				
+			
+				
+				var win:BoxInfoPrintForm = new BoxInfoPrintForm();
+				var boxInfoVo:BoxInfoVO = new BoxInfoVO();
+				
+				
+				if(smodelname == null){
+				boxInfoVo.boxNum = boxNumValue;
+				boxInfoVo.orgName = sorgname;
+				boxInfoVo.boxType = boxTypeValue;
+				}else{
+					boxInfoVo.boxNum = boxNumValue;
+					boxInfoVo.orgName = sorgname;
+					boxInfoVo.boxType = boxTypeValue;
+					boxInfoVo.atmModel = smodelname;
+					boxInfoVo.atmBoxTypes = types;
+					
+				}
+				
+				
+				if(boxQRCodePrintSwitch=="1" && printModel=="1"){
+					var printInfo:String = "钞箱编码："+boxNumValue + "\n钞箱类别："+ boxTypeValue
+						+"\n所属机构："+sorgname;
+					
+					ExternalInterface.call("printQRCode", printInfo,boxNumValue); 
+					
+				}else{
+				
+				if(printModel=="0"){
+				win.titleKey = "barCodePrintBoxInfoForm";
+				}else{
+					win.titleKey = "qrCodePrintBoxInfoForm";
+				}
+				win.boxInfoVO = boxInfoVo;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				
+				win.pm.menuId = this.menu.id;
+				win.pm.vo = boxInfoVo;
+				
+				
+				}
+				
+//				var pj:FlexPrintJob = new FlexPrintJob;
+//				if( pj.start()!=true )
+//				{
+//					return;
+//				}
+//				
+//				group.height = pj.pageHeight;  
+//				group.width = pj.pageWidth;
+//				if(smodelname == null)
+//				{
+//					text.text = "钱箱类型："+boxTypeValue+"\n"+
+//								"钱箱号："+boxNumValue+"\n"+
+//								"所属机构："+sorgname+"\n";
+//				}
+//				else
+//				{
+//					text.text = "钱箱类型："+boxTypeValue+"\n"+
+//								"钱箱号："+boxNumValue+"\n"+
+//								"所属机构："+sorgname+"\n"+
+//								"ATM型号："+smodelname+"\n"+
+//								"钞箱类型："+types+"\n";
+//				}
+//				text.setStyle("fontFamily","Arial");
+//				text.setStyle("fontSize",12);
+//				group.addElement(text);
+//				
+//				addElement(group);
+//				
+//				pj.addObject(group, FlexPrintJobScaleType.NONE);
+//				pj.send();
+//				
+//				removeElement(group);
+			
+			}
+			/**
+			 * dispatch event
+			 **/
+			public function openWin(p_winName:String, p_vo:BoxInfoVO):void
+			{
+				//dispatch event
+				var win:BoxInfoForm = new BoxInfoForm();
+				win.titleKey = p_winName;
+				win.boxInfoVO = p_vo;
+				
+				
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				
+				win.pm.menuId = this.menu.id;
+				win.pm.vo = p_vo;
+				
+		
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getBoxInfoPageResult")]
+			public function getPageHandler(p_msg:BoxInfoMsg):void
+			{
+				atmModelItem.getDataList();
+				if(p_msg.result)
+					boxInfoPageGrid.checkedItems = [];
+			}
+			
+			private function statusLabel(item : Object,column : DataGridColumn):String{
+				return "";	
+			}
+			
+			
+			public function loadPage():void
+			{
+				pm.condi.flag = isLoopOrg.selected.toString();
+				pm.loadBoxInfoPage()
+			}
+			
+			public function restoreBoxFlowStage():void
+			{
+				if (boxInfoPageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var usageStatus:String = DataGridUtil.getItemValue(boxInfoPageGrid.selectedItem,"usageStatus").toString();
+				if(usageStatus=="0000"){
+					AlertHandler.alert("该钞箱的流转状态已经是初始状态,不需恢复");
+					return;
+				}
+				pm.restoreBoxFlowStage(boxInfoPageGrid.selectedItem as Object);
+			}
+				
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0" />
+		</s:layout>
+		
+		<!-- 查询条件 --> 
+		<s:BorderContainer textAlign="center" styleName="SearchBar" borderVisible="false" width="100%">
+			
+			<s:layout>
+				<s:VerticalLayout paddingTop="0" gap="0" verticalAlign="middle" horizontalAlign="right"/>
+			</s:layout>
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle" borderVisible="false" height="30">
+				
+				<grg:TitleBar   locale="titlemsg" width="50%" />
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" >
+					<s:BorderContainer  height="25"  borderVisible="false" styleName = "searchStyle">
+						<s:layout>
+							<s:HorizontalLayout 
+								horizontalAlign="right"
+								gap="2"
+								verticalAlign="middle"/>
+						</s:layout>
+						
+						<!--是否循环遍历子机构：-->
+						<grg:CheckBox id="isLoopOrg" selected="true">
+						</grg:CheckBox>
+
+						
+						<!--所属机构：-->
+							<grg:Label locale = "orgidLabel" />
+							<grg:GRGComboBoxOrgTree id="orgid" defaultField="false"
+													width="150" textAlign="left"
+													treeHeight="150"/>
+							<grg:Label locale = "boxNumLabel" />
+							<grg:TextInput id="boxNum" textAlign="left"
+										   width="100" height="20"
+										   styleName="TextInput" />
+							<grg:Label locale="boxTypeLabel"/>
+							<grg:ComboBox id="boxType" hasAllItem="true" selectedIndex="-1" allItemKey="boxTypeItem"
+										  dataProvider="{boxTypeSource}"
+										  labelField="text" valueField="key" width="100"/>
+						<grg:Label locale="atmModel"/>
+						<grg:ComboBox id="atmModel" name="atmModel" textAlign="left" hasAllItem="true"
+									  
+									  dataProvider="{pm.searchBarInitDatas.modelList}"
+									  labelField="modelName" valueField="id" allItemKey="allmodelItem"
+									  width="110"/>
+						<grg:Label locale="atmBoxtype"/>
+						<grg:ComboBox id="atmBoxtype" name="atmBoxtype" textAlign="left" hasAllItem="true"
+									  dataProvider="{atmBoxtypeSource}"
+									  labelField="text" valueField="key" allItemKey="atmboxTypeItem"
+									  selectedIndex="-1"
+									  width="100"/>
+							<grg:SearchButton id="btn_search"
+											  locale = "searchButton" menuId="{menu.id}" 
+											  iconType = "query" click="pm.page.pageNo=1;loadPage();"/>
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[this.orgid,this.boxNum,this.atmModel,this.atmBoxtype,this.boxType]}"/>
+					</s:BorderContainer>
+				</mx:HBox>
+			</mx:HBox>		
+		</s:BorderContainer>
+			
+			
+		<mx:HBox  width="100%" styleName="moduleButtonBarHBoxstyle" >
+			<!--权限按钮的动态生成-->
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>	
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				<grg:Button locale="fileupload" iconType="import" click="importFile()" />
+				<grg:Button locale="modeldown" iconType="down" click="exportFile()"/>
+				<grg:Button locale="restoreBoxFlowStage" iconType="unlock" click="restoreBoxFlowStage()"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid id="boxInfoPageGrid" dataProvider="{pm.page.result}"
+						  width="100%" height="100%"
+						  paddingLeft="20"
+						  styleName = "DataGrid">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										textAlign = "center"
+										sortable = "false"
+										draggable = "false"
+										editable = "false"
+										resizable = "false" />
+					<grg:RODataGridColumn locale = "orgid"
+										dataField = "orgid" 
+										labelField = "orgName"
+										valueField = "id"
+										service = "orgInfoService"
+										method = "getAllOrg"/>
+					<grg:DataGridColumn locale = "boxNum"
+										dataField = "boxNum" />
+					<grg:DataGridColumn locale="boxType"
+										dataField="boxType" labelFunction="{transferDataDict}"/>
+					<grg:RODataGridColumn  locale = "atmModel"
+										   id = "atmModelItem"
+										   dataField = "atmModel"
+										   labelField = "modelName"
+										   valueField = "id"
+										   service = "termModelService"
+										   method = "getAllTermModel"/>
+					<grg:DataGridColumn locale="atmBoxtype"
+										dataField="atmBoxTypes" labelFunction="{transferDataDict}"/>
+					<grg:DataGridColumn locale = "status" labelFunction="{transferDataDict}"
+										dataField = "boxStatus"/>
+					<grg:DataGridColumn locale = "flowStage" labelFunction="{transferDataDict}"
+										dataField = "usageStatus"/>
+					<grg:DataGridColumn locale="operation" textAlign="center" width="180">
+						<grg:itemRenderer>
+							
+							<fx:Component>
+								<s:MXItemRenderer>
+									<s:layout>
+										<s:HorizontalLayout horizontalAlign="center" />
+									</s:layout>
+									<fx:Script>
+										<![CDATA[
+											import mx.events.FlexEvent;
+											
+											import sent.common.utils.StringUtils;
+											
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												barcodeprintButton.visible = true;
+												barcodeprintButton.includeInLayout = true;
+												qrcodeprintButton.visible = true;
+												qrcodeprintButton.includeInLayout = true;
+											}
+										]]>
+									</fx:Script>
+									<grg:GRGModuleButtonBar2 width="100%" height="16" align="center" menuId="{parentDocument.menu.id}">
+										<grg:Button id="barcodeprintButton" locale="barcodeprint" iconType="print" click="outerDocument.printInfo('0')"/>
+										<grg:Button id="qrcodeprintButton" locale="qrcodeprint" iconType="print" click="outerDocument.printInfo('1')"/>
+									</grg:GRGModuleButtonBar2>
+								</s:MXItemRenderer>
+							</fx:Component>	
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar id="termTypePagingBar"
+							  x="0" pageVo="{pm.page}"
+							  pagingFunction="{loadPage}"
+							  bottom="0" />
+	</s:BorderContainer>
+</grg:TabModule>

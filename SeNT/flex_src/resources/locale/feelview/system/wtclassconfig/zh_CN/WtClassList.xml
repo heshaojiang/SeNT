@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassList">
+		
+		<!-- 类别明细 -->
+		<classListTitleItem>故障种类明细</classListTitleItem>
+		<partIdItem>运行状态</partIdItem>
+		<partCode>部件</partCode>
+		<partCodeItem>部件状态</partCodeItem>
+		<memoItem>故障描述</memoItem>
+		<operateItem>操作</operateItem>
+		<editItem>编辑</editItem>
+		<deleteItem>删除</deleteItem>
+		
+		<addWtClassList>添加</addWtClassList>
+	</node>
+</nodes>

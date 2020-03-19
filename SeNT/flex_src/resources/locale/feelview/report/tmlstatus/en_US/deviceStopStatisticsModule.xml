@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  
+ * Description：deviceStopStatisticsModule<br>
+ * Create Time：2011-9-25<br>   
+ * Author：Ming.Zhang  <br>
+ * Email : zyming1@grgbanking.com <br>
+ -->
+<nodes>
+	<node locale = "deviceStopStatisticsModule">
+		<listTitle>DeviceStop Statistics List</listTitle>
+		<searchItem>Search:</searchItem>
+		<termIdItem>Terminal Id</termIdItem>
+		<orgIdItem>OrgId</orgIdItem>
+		<orgNameItem>OrgName</orgNameItem>
+		<statisticsDateItem>StatisticsDate:</statisticsDateItem>
+		<toItem>To</toItem>
+		<beginTimeItem>beginTime</beginTimeItem>
+		<endTimeItem>endtime</endTimeItem>
+		<stopEventTotalItem>Total of Halt</stopEventTotalItem>
+<!--		<stoptimeItem>stoptime(min)</stoptimeItem>-->
+	</node>
+</nodes>

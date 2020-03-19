@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule dataDictionaryPaths="{[SpecialRegulationConstants.SOURCE,SpecialRegulationConstants.MONEY_DENOMINATION,SpecialRegulationConstants.MONEY_TYPE,SpecialRegulationConstants.SPECIAL_TYPE]}"
+			   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   locale="specialRegulationModule"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   layout="vertical" width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+		<parsley:Scope name="specialRegulationModule"/>
+			<parsley:MessageSettings defaultReceiverScope="specialRegulationModule"/>
+			<parsley:FlexConfig type="{SpecialRegulationModuleConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectProxy;
+			import mx.utils.ObjectUtil;
+			
+			import org.spicefactory.parsley.core.context.Context;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.rule.config.SpecialRegulationModuleConfig;
+			import sent.rule.constants.SpecialRegulationConstants;
+			import sent.rule.message.SpecialRegulationModuleMsg;
+			import sent.rule.pm.SpecialRegulationModulePM;
+			import sent.rule.vo.SpecialRegulationVO;
+			[Inject]
+			[Bindable]
+			public var pm:SpecialRegulationModulePM;
+			//全部
+			[Bindable]
+			public var sourceAll:ArrayCollection;
+			 
+			/**面额**/
+			[Bindable]
+			public var moneyDenominationList:ArrayCollection = new ArrayCollection();
+			
+			/**币种**/
+			[Bindable]
+			public var moneyTypeList:ArrayCollection = new ArrayCollection();
+			
+			/**来源**/
+			[Bindable]
+			public var sourceList:ArrayCollection = new ArrayCollection();
+			
+			/**原来的VO**/
+			public var formerVO:SpecialRegulationVO;
+			
+			/**
+			 * 获取数据字典后更新信息
+			 */
+			
+			override protected function getDataDictCallback():void
+			{   
+				//向下拉列表框中添加一个"全部"子项
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem:Object = {key:"", text:str};
+				var arrCol:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[SpecialRegulationConstants.SOURCE]) as ArrayCollection;
+				arrCol.addItemAt(allItem, 0);
+				sourceAll = arrCol;
+		       //刷新列表
+				(specialRegulationDataGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 用数据字典转换列表数据
+			 */
+			
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				switch(p_column.dataField){
+					case "source":
+						currentDataDictPath = SpecialRegulationConstants.SOURCE;
+						break;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+			
+			
+			/**
+			 * 
+			 * 打开子窗口
+			 * @param p_winName 打开窗口类型（新增或编辑）
+			 * @param p_vo 要新增或修改的VO
+			 * @param p_isEditTopArea 是否在编辑顶级区域
+			 * 
+			 */
+			
+			public function openWin(p_winName:String, p_vo:SpecialRegulationVO):void
+			{
+				
+				var win:SpecialRegulationForm = new SpecialRegulationForm ();
+				if( p_vo!=null)
+				{
+					win.typeFlag=p_vo.specialType;
+					win.regulationFlag=p_vo.regulation;
+				}
+				
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				 PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				 
+				 
+				 if( p_winName==SpecialRegulationConstants.EDIT_SPECIALREGULATION )
+				 {
+					 win.uncloseAfterSubmitBtn.includeInLayout = false;
+					 win.uncloseAfterSubmitBtn.visible = false;
+				 }
+				 
+				 
+				 //从数据字典中取面额
+				 win.moneyDenominationList=dataDictionaryCache[SpecialRegulationConstants.MONEY_DENOMINATION] as ArrayCollection;
+				 //从数据字典中取币种
+				 win.moneyTypeList=dataDictionaryCache[SpecialRegulationConstants.MONEY_TYPE] as ArrayCollection;
+				 //从数据字典中取来源
+				 win.sourceList=dataDictionaryCache[SpecialRegulationConstants.SOURCE] as ArrayCollection;
+				 //从数据字典中取特殊规则类型
+				 win.specialTypeList=dataDictionaryCache[SpecialRegulationConstants.SPECIAL_TYPE] as ArrayCollection;
+				 win.pm.vo = p_vo;
+				
+				 win.pm.menuId = this.menu.id;	 
+			}
+			
+			/**
+			 * 新增规则
+			 */
+			
+			public function add():void
+			{
+				openWin(SpecialRegulationConstants.ADD_SPECIALREGULATION, new SpecialRegulationVO());
+			}
+			
+			/**
+			 * 修改规则
+			 */	
+			
+			public function edit():void
+			{
+				if(!specialRegulationDataGrid.checkedItems || specialRegulationDataGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var vo:SpecialRegulationVO =specialRegulationDataGrid.checkedItems[0] as SpecialRegulationVO;
+				openWin(SpecialRegulationConstants.EDIT_SPECIALREGULATION, vo);
+			}
+			
+			/**
+			 * 删除规则
+			 */
+			
+			public function del():void
+			{
+				
+				pm.delRegulation(specialRegulationDataGrid.checkedItems);
+			}
+			
+			/**
+			 * 显示特殊规则详情
+			 */
+			
+			public function showTransDetailInfo():void
+			{
+				var obj:SpecialRegulationVO= specialRegulationDataGrid.selectedItem as SpecialRegulationVO;
+				var win:ShowSpecialRegulationInfo = new ShowSpecialRegulationInfo();
+				 win.specialRegulation=new ObjectProxy(obj);
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				//发送消息根据特殊规则获取特殊规则详情信息
+				var msg:SpecialRegulationModuleMsg = new SpecialRegulationModuleMsg();
+				msg.type = "getSpecialRegulationObject";
+				msg.args["id"] = obj.id;
+				sendMessage(msg);
+				}
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Binding source="source.selectedValue" destination="pm.specialRegulationVO.source"/>
+	<fx:Binding source="regulation.text" destination="pm.specialRegulationVO.regulation"/>
+	<mx:VDividedBox width="100%" height="100%">
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<grg:TitleBar locale="titlemsg" width="50%" height="100%"/> 
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "left"
+									paddingLeft = "0"
+									gap="2"
+									verticalAlign = "middle"/>
+							</s:layout>
+		<grg:Label locale="regulation"/>
+		<grg:TextInput id="regulation" textAlign="left" restrict="0-9a-zA-Z*" maxnum="10"
+									   width="120" height="20"
+									   styleName = "TextInput" />
+		<grg:Label locale="source"/>
+		<grg:ComboBox id="source" dataProvider="{sourceAll}" labelField="text" valueField="key" width="60"/>
+		<!--查询-->
+		<grg:SearchButton id="btn_search"
+						  locale = "searchButton" menuId="{menu.id}" 
+						  iconType = "query" click="pm.page = new Page();pm.loadPage()"/>
+		<!--重置-->
+		<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+						 resetControls="{[regulation]}"/>
+						</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+	<grg:DataGrid id="specialRegulationDataGrid" dataProvider="{pm.page.result}"
+				  width="100%" height="100%"
+				  textAlign = "center" 
+				  styleName = "DataGrid"
+				  borderVisible = "true">
+		<grg:columns>
+			<grg:CheckBoxColumn id="checkBoxCol"
+								textAlign = "center"
+								sortable = "false"
+								draggable = "false"
+								editable = "false"
+								resizable = "false"  />
+			<grg:DataGridColumn  locale = "regulation"
+								dataField = "regulation" textAlign="left"/>
+			<grg:DataGridColumn locale = "source" labelFunction="transferDataDict"
+								dataField = "source" textAlign="left"/>
+			<grg:DataGridColumn locale = "result"
+								dataField = "result" textAlign="left"/>
+			<grg:DataGridColumn locale = "createDate" 
+								dataField = "createDate" textAlign="left">
+				<grg:itemRenderer>
+					<fx:Component>
+						<s:MXItemRenderer>
+							<fx:Script>
+								<![CDATA[
+									[Bindable]
+									private var dateString:String;
+									override public function set data(value:Object):void
+									{
+										//日期格式化
+										super.data = value;
+										var trDate:String=value.createDate.substr(0,4)+"-"+value.createDate.substr(4,2)+"-"+value.createDate.substr(6,2)
+										var trTime:String=value.createDate.substr(8,2)+":"+value.createDate.substr(10,2)+":"+value.createDate.substr(12,2);
+										
+										dateString=trDate+" "+trTime;
+									}
+								]]>
+							</fx:Script>
+							<grg:Label text="{dateString}" toolTip="{dateString}"  fontSize="14" />
+						</s:MXItemRenderer>
+					</fx:Component>
+				</grg:itemRenderer>
+			</grg:DataGridColumn>
+			<grg:DataGridColumn headerStyleName="centerDataGridHeader" locale = "operations" textAlign="left">
+				<grg:itemRenderer>
+					<fx:Component>
+						<s:MXItemRenderer>
+							<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+						</s:MXItemRenderer>
+					</fx:Component>
+				</grg:itemRenderer>
+			</grg:DataGridColumn>
+		</grg:columns>
+	</grg:DataGrid>
+	</mx:HBox>
+	<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+						  pageVo="{pm.page}"
+						  pagingFunction="{pm.loadPage}"/>
+	</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

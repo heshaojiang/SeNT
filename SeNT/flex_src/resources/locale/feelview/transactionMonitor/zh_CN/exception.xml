@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：黑卡交易信息设置<br>
+		Create Time：2011-9-6<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "transactionMonitor">
+		<existedBlackCardTransaction>该黑卡卡号/卡Bin已经存在！</existedBlackCardTransaction>
+		<existedNetAddr>该ip地址已经被使用！</existedNetAddr>
+		<cardNumOrBINNotNull>黑卡卡号/卡Bin不能为空！</cardNumOrBINNotNull>
+		<companyAddressNotNull>厂商地址不能为空！</companyAddressNotNull>
+		<terminalModelNameNotNull>型号名称不能为空！</terminalModelNameNotNull>
+		<termIdNotNull>该黑卡编号不能为空！</termIdNotNull>
+	</node>
+</nodes>

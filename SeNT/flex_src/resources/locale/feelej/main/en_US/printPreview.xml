@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="printPreview">
+		<printPreview>Print Preview</printPreview>
+		<allPage>All</allPage>
+		<currPage>Current page</currPage>
+		<pageRange>Pages:</pageRange>
+		<printGuide>Enter page numbers and/or page ranges separated by commas. For example 1,3,5-12</printGuide>
+		<print>Print</print>
+		<cancel>Cancel</cancel>
+		<previous>Previous Page</previous>
+		<next>Next Page</next>
+		<actualSize>Actual Page Size</actualSize>
+		<fitPage>Fit Page</fitPage>
+		<fitWidth>Fit Width</fitWidth>
+		<zoomOut>Zoom Out</zoomOut>
+		<zoomIn>Zoom In</zoomIn>
+	</node>
+</nodes>

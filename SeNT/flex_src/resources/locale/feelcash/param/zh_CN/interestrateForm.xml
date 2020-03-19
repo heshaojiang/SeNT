@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="interestrateForm">
+		<addInterestrateForm>新增年利率:</addInterestrateForm>
+		<updateInterestrateForm>修改年利率:</updateInterestrateForm>
+		<interestrate>年  利  率:</interestrate>
+		<startdate>开始日期:</startdate>
+		<enddate>结束日期:</enddate>
+		<note>备注:</note>
+
+	</node>
+</nodes>

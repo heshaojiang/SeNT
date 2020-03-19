@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgEventDefForm">
+		<createMsgEventDef>新增</createMsgEventDef>
+		<editMsgEventDef>编辑</editMsgEventDef>
+		<eventType>事件类型：</eventType>
+		<flag>终端或机构：</flag>
+		<auto>是否自动通知：</auto>
+		<informManner>通知方式：</informManner>
+		<msgTemplate>通知模板：</msgTemplate>
+		<role>通知角色</role>
+		<tdrole>通知角色：</tdrole>
+		<sourceId1>终端：</sourceId1>
+		<sourceId2>机构：</sourceId2>
+		<msgEventDefHelp>
+1.打“*”项内容不能为空
+2.当“终端”填写“ALL”时表示所有终端，否则填写具体的终端编号
+		</msgEventDefHelp>
+	</node>
+</nodes>

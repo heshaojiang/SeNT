@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		   http://cxf.apache.org/jaxws
+		   http://cxf.apache.org/schemas/jaxws.xsd" default-lazy-init="false">
+
+	<!--Basic WebService CXF ConfigFile-->
+	<import resource="classpath*:/META-INF/cxf/cxf.xml" />
+	<import resource="classpath*:/META-INF/cxf/cxf-servlet.xml" />
+
+	<!--
+		WebService示例 <bean id="ejournalServiceImpl"
+		class="com.grgbanking.feelej.module.webservice.impl.EJournalServiceImpl"
+		/> <jaxws:endpoint id="ejournalService" address="/ejournalService" >
+		<jaxws:implementor ref="ejournalServiceImpl" /> </jaxws:endpoint>
+	-->
+
+	<jaxws:endpoint address="/TestService">
+		<jaxws:implementor ref="testServiceImpl" />
+	</jaxws:endpoint>
+
+	<jaxws:client id="testServiceClient"
+		serviceClass="com.grgbanking.platform.module.testmodule.ws.ITestService"
+		address="http://localhost:8080/platform/services/TestService" />
+
+</beans>

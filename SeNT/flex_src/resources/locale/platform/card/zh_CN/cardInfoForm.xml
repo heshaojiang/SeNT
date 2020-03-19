@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardInfoForm">
+		<createCardInfo>新增</createCardInfo>
+		<editCardInfo>编辑</editCardInfo>
+		<cardIdLabel>卡标识：</cardIdLabel>
+		<cardNameLabel>卡名称：</cardNameLabel>
+		<bankIdLabel>发卡行机构代码：</bankIdLabel>
+		<bankNameLabel>发卡行名称：</bankNameLabel>
+		<lengthLabel>卡号长度：</lengthLabel>
+		<idLengthLabel>卡标识长度：</idLengthLabel>
+		<applyATMLabel>适用ATM：</applyATMLabel>
+		<applyPOSLabel>适用POS：</applyPOSLabel>
+		<cardTypeLabel>卡种：</cardTypeLabel>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>		
+	</node>
+</nodes>

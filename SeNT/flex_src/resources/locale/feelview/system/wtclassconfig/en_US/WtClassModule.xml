@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassModule">
+		<classConfigItem>Malfunction Class</classConfigItem>
+		<classIdItem>ID</classIdItem>
+		<classNameItem>Name</classNameItem>
+		<classNameEnItem>EN Name</classNameEnItem>
+		<levelsItem>Level</levelsItem>
+		<colorCodeItem>Color</colorCodeItem>
+		<operateItem>Operate</operateItem>
+		<editItem>Edit</editItem>
+		<editDetail>PartConfig</editDetail>
+		<wtOpenDetail>WtOpenConfig</wtOpenDetail>
+		<!-- 编辑页面 -->
+		<classIdEditItem>ID : </classIdEditItem>
+		<classNameEditItem>Name : </classNameEditItem>
+		<classNameEnEditItem>EN Name : </classNameEnEditItem>
+		<levelsEditItem>Level : </levelsEditItem>
+		<colorCodeEditItem>Color : </colorCodeEditItem>
+		
+		<!-- 类别明细 -->
+		<classListTitleItem>Malfunction Part Detail</classListTitleItem>
+		<partIdItem>Part</partIdItem>
+		<partCodeItem>Part State</partCodeItem>
+		<memoItem>Description</memoItem>
+		
+		<!-- 类别明细 -->
+		<classListTitleItem>Malfunction Part Detail</classListTitleItem>
+		<partIdItem>Run State</partIdItem>
+		<partCode>Part</partCode>
+		<partCodeItem>Part State</partCodeItem>
+		<memoItem>Description</memoItem>
+		<operateItem>Operate</operateItem>
+		<editItem>Edit</editItem>
+		<deleteItem>Delete</deleteItem>
+		
+		<addWtClassList>Add</addWtClassList>
+	</node>
+</nodes>

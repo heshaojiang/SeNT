@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termModelForm">
+		<addTermModelForm>新增</addTermModelForm>
+		<updateTermModelForm>编辑</updateTermModelForm>
+		<modelNameItem>型号名称：</modelNameItem>
+		<brandItem>所属品牌：</brandItem>
+		<typeItem>所属类型：</typeItem>
+		<status>状态：</status>
+		<journalPath>流水文件路径：</journalPath>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<helpTip>
+1.打“*”项内容不能为空
+2.型号名称不能重复复
+		</helpTip>			
+	</node>
+</nodes>

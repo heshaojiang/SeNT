@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="writeLetterForm">
+		<content>Content</content>
+		<recipient>Recipient</recipient>
+		<writeLetter>Write Letter</writeLetter>
+		
+		<detail>Reading Detail</detail>
+		<readTime>Read Time</readTime>
+		<readerName>Reader</readerName>
+	</node>
+</nodes>

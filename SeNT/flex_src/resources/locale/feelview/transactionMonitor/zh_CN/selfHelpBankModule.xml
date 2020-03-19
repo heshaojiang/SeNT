@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：自助银行信息管理<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "selfHelpBankModule">
+		<listTitle>自助银行信息管理列表</listTitle>
+		<selfHelpBankIdItem>自助银行编号</selfHelpBankIdItem>
+		<selfHelpBankNameItem>自助银行名称</selfHelpBankNameItem>
+		<adjunctBankOutletsItem>挂靠网点</adjunctBankOutletsItem>
+		<layTypeItem>设立形式</layTypeItem>
+		<status>状态</status>
+	</node>
+</nodes>

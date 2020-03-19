@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="costOfAddCashReportMoudule">
+		<daysPreLabel>最近 :</daysPreLabel>
+		<daysNextLabel>天</daysNextLabel>
+		<chartTitle>加钞成本分析图表</chartTitle>
+		<datagridTitle>成本分析列表</datagridTitle>
+		<culomnPlanDate>加钞日期</culomnPlanDate>
+		<culomnSumPlan>当天加钞台次数</culomnSumPlan>
+		<culomnSumTerms>终端总数</culomnSumTerms>
+		<culomnCostUtilization>加钞台次比(%)</culomnCostUtilization>
+	</node>
+</nodes>

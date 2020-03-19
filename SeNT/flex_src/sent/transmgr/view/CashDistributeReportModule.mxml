@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   locale="cashDistributeReportModule"
+			   layout="vertical" width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="CashDistributeReportModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="CashDistributeReportModule"/>
+			<parsley:FlexConfig type="{CashDistributeReportConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			
+			import flashx.textLayout.formats.Float;
+			import mx.core.FlexGlobals;
+			import mx.printing.FlexPrintJob;
+			import mx.printing.FlexPrintJobScaleType;
+			
+			import platform.common.vo.Page;
+			
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.CashDistributeReportConfig;
+			import sent.transmgr.constants.CashDistributeReportConsts;
+			import sent.transmgr.message.CashDistributeReportMsg;
+			import sent.transmgr.pm.CashDistributeReportPM;
+			import sent.transmgr.vo.CashDistributeReportVO;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.AlertHandler;
+
+			
+			import mx.controls.Image;
+
+			
+			[Inject]
+			[Bindable]
+			public var pm:CashDistributeReportPM;
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;				
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				this.init();
+			}
+			
+			override public function dispose():void
+			{
+				pm.page = new Page();
+			}
+			/**
+			 * 初始化 
+			 */
+			[Init]
+			public function init():void
+			{
+				initSelectDate();
+			}
+			
+			/**
+			 * 查询数据
+			 */
+			public function search():void
+			{
+				
+				if( this.startTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeNull"));
+					return;
+				}
+				if( this.endTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.endTimeCannotBeNull"));
+					return;
+				}
+				if( this.startTime.selectedDate.time > this.endTime.selectedDate.time )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeGreaterThanEndTime"));
+					return;
+				}
+				
+				pm.conditions["startTime"] = this.startTime.text;
+				pm.conditions["endTime"] = this.endTime.text;
+				pm.conditions["pathCode"] = String(orgId.selectedItem.@pathCode);
+				pm.conditions["flag"] = this.isLoopOrg.selected.toString();
+				pm.queryData()
+			}
+			
+			/**
+			 * 重置
+			 */
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'YYYY-MM-DD JJ:NN:SS');
+				endTime.selectedDate = DateUtils.createDate(1, 'YYYY-MM-DD JJ:NN:SS');
+			}
+			
+			
+			/**
+			 * 打印
+			 */
+			protected function print1(event:MouseEvent):void
+			{
+				var pj:FlexPrintJob  = new FlexPrintJob ();
+				if( pj.start()!=true )
+				{
+					return;
+				}else{
+					var width:Number = printPageBox.width;
+					var height:Number = printPageBox.height;
+					printPageBox.width = pj.pageWidth;
+					printPageBox.height = pj.pageHeight;
+					pj.addObject(printPageBox, FlexPrintJobScaleType.FILL_PAGE);
+					pj.send();
+					printPageBox.width = width;
+					printPageBox.height = height;
+				}
+			}
+			
+			/**
+			 * 打印
+			 */
+			protected function print(event:MouseEvent):void
+			{
+				var printer:FlexPrintJob  = new FlexPrintJob ();
+				if( printer.start()!=true )
+				{
+					return;
+				}else{
+					var width:Number = printPageBox.width;
+					var height:Number = printPageBox.height;
+					
+					var bit:BitmapData;
+					bit = copy(printPageBox,new Rectangle(0,0,width,height));
+					var bmp:Bitmap = new Bitmap(bit);
+					
+					var img:Image=new Image();
+					img.width = printer.pageWidth;
+					img.height = printer.pageHeight;
+					img.source=bmp;
+					FlexGlobals.topLevelApplication.addElement(img);
+					printer.addObject(img);
+					FlexGlobals.topLevelApplication.removeElement(img);
+					
+					printer.send();
+				}
+			}
+			
+			//截取BitmapData
+			private function copy(target:DisplayObject,rect:Rectangle):BitmapData
+			{
+				var matrix:Matrix = new Matrix(1,0,0,1,-rect.x,-rect.y);
+				rect.x = rect.y = 0;
+				var bitmapData:BitmapData = new BitmapData(rect.width,rect.height);
+				bitmapData.draw(target,matrix,null,null,rect);
+				return bitmapData;
+			}
+		]]>
+	</fx:Script>
+	<!-- 可视化界面组件 -->
+	
+	<!-- 条件搜索 -->
+	<grg:AdvancedSearchBar
+		textAlign = "center"
+		styleName = "SearchBar" borderVisible="false">
+		
+		<grg:layout>
+			<s:VerticalLayout paddingTop="0" gap="0"/>
+		</grg:layout>
+		<!-- 查询条件 -->
+		<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+			<grg:TitleBar id="titleMgr" locale="pageTitle"  width="50%" />
+			<mx:HBox width="100%" styleName="senHBoxStyle" height="25" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+				<mx:HBox styleName="searchStyle">
+					<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+						<s:layout>
+							<s:HorizontalLayout 
+								horizontalAlign="left"
+								paddingLeft="0"
+								gap="2"
+								verticalAlign="middle"/>
+						</s:layout>	
+						
+						<!--是否循环遍历子机构：-->
+						<grg:CheckBox id="isLoopOrg" selected="true">
+						</grg:CheckBox>
+						
+						<grg:Label locale="orgName"/>
+						<grg:GRGComboBoxOrgTree id="orgId"
+												defaultField="true"
+												width="100"
+												textAlign="left"
+												treeHeight="300"	
+												/>
+						<s:Spacer width="5" />
+						<grg:Label locale="startTime"/>
+						<grg:SuperDateField width="165" id="startTime" myEnabled="false"
+											selectedDate="{DateUtils.createDate(-6, 'YYYY-MM-DD JJ:NN:SS')}"
+											isShowTime="true"
+											selectableRange="{{rangeEnd:endTime.selectedDate}}"  />
+						<grg:Label locale="to"/>
+						<grg:SuperDateField width="165" id="endTime" myEnabled="false"
+											selectedDate="{DateUtils.createDate(1, 'YYYY-MM-DD JJ:NN:SS')}"
+											isShowTime="true"
+											selectableRange="{{rangeStart:startTime.selectedDate}}"  />
+						<!--查询-->
+						<grg:SearchButton id="searchBtn" locale="searchBtn" iconType="query" 
+										  click="pm.page = new Page();search()" />
+						<!--重置-->
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetBtn" 
+										 resetControls="{[orgId,startTime,endTime]}" click="initSelectDate()" />
+					</s:BorderContainer>
+				</mx:HBox>
+			</mx:HBox>
+		</mx:HBox>
+	</grg:AdvancedSearchBar>
+
+	
+	<s:VGroup id="printPageBox" height="95%" width="100%">   
+			
+			<s:Group width="100%" height="1%">
+			</s:Group>	
+			<s:Group width="100%" >
+				<grg:Label width="100%" textAlign="center" fontWeight="bold" fontSize="16" locale="pageTitle" fontFamily="宋体"/>
+			</s:Group>
+
+			<!-- 明细数据部分 -->
+				<mx:AdvancedDataGrid  id="datagridReport" width="100%" height="100%" editable="true" dataProvider="{pm.page.result}"  
+									  sortableColumns="false" sortExpertMode="true" borderColor="0xB7BABC" >
+					<mx:groupedColumns>
+						<mx:AdvancedDataGridColumn headerText="机构名称"  dataField="orgName" headerWordWrap="true" width="30" editable="false" />
+						<mx:AdvancedDataGridColumnGroup headerText="完整券" headerWordWrap="true" width="100">
+							<mx:AdvancedDataGridColumn  headerText="金额" headerWordWrap="true" 
+														width="20"  textAlign="right" dataField="sumCashAmountFull" editable="false" />
+							<mx:AdvancedDataGridColumnGroup headerText="其中：经过清分机清分" width="80">
+								<grg:AdvancedDataGridColumn dataField="sumCash100AmountFull" textAlign="right" headerText="100元/50元" width="20"/>
+								<grg:AdvancedDataGridColumn dataField="sumCash20AmountFull" textAlign="right" headerText="20元/10元" width="20"/>
+								<grg:AdvancedDataGridColumn dataField="sumCash5AmountFull" textAlign="right" headerText="5元/1元" width="20"/>
+								<grg:AdvancedDataGridColumn dataField="sumDistrCashAmountFull" textAlign="right" headerText="合计金额" width="20"/>
+							</mx:AdvancedDataGridColumnGroup>
+						</mx:AdvancedDataGridColumnGroup>
+						<mx:AdvancedDataGridColumnGroup headerText="残损券" headerWordWrap="true" width="100">
+							<mx:AdvancedDataGridColumn  headerText="金额" headerWordWrap="true" 
+														width="20"  textAlign="right" dataField="sumCashAmountOld" editable="false" />
+							<mx:AdvancedDataGridColumnGroup headerText="其中：经过清分机清分" width="80">
+								<mx:AdvancedDataGridColumn dataField="sumCash100AmountOld" textAlign="right" headerText="100元/50元" width="20"/>
+								<mx:AdvancedDataGridColumn dataField="sumCash20AmountOld" textAlign="right" headerText="20元/10元" width="20"/>
+								<mx:AdvancedDataGridColumn dataField="sumCash5AmountOld" textAlign="right" headerText="5元/1元" width="20"/>
+								<mx:AdvancedDataGridColumn dataField="sumDistrCashAmountOld" textAlign="right" headerText="合计金额" width="20"/>
+							</mx:AdvancedDataGridColumnGroup>
+						</mx:AdvancedDataGridColumnGroup>
+					</mx:groupedColumns>
+				</mx:AdvancedDataGrid>
+	</s:VGroup>
+	
+	<s:HGroup width="100%" gap="10" horizontalAlign = "center" verticalAlign = "middle">
+		<s:Button id="grgbtn_print" label="打印" click="print(event)"/>
+	</s:HGroup>	
+</grg:TabModule>

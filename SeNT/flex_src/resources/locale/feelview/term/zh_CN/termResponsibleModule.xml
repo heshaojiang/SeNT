@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：终端责任人查询
+	 Create Time：2011-12-23   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termResponsibleModule">
+		<listTitle>终端责任人查询列表</listTitle>
+		<formTitle>责任人管理</formTitle>
+		<termIdItem>终端编号</termIdItem>
+		<groupItem>责任人分组</groupItem>
+		<tlroleItem>全部分组角色</tlroleItem>
+		<tlresponsibleNameItem>角色人员姓名：</tlresponsibleNameItem>
+		<roleItem>分组角色</roleItem>
+		<responsibleNameItem>角色人员姓名</responsibleNameItem>
+		<telePhoneItem>固定电话</telePhoneItem>
+		<mobilePhoneItem>移动电话</mobilePhoneItem>
+		<emailItem>邮箱地址</emailItem>
+		<descriptionItem>人员描述</descriptionItem>
+<!--		<rolepersonIdItem>角色表ID</rolepersonIdItem>-->
+<!--		<exportButton>导出</exportButton>-->
+	</node>
+</nodes>

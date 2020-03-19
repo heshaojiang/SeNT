@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "term">
+		<existedTerminalType>该终端类型已经存在！</existedTerminalType>
+		<existedTerminalTypeName>该终端型号名称已经存在！</existedTerminalTypeName>
+		<existedBrandName>该品牌名称已经存在！</existedBrandName>
+		<existedModelName>该型号名称已经存在！</existedModelName>
+		<existedTermId>该终端编号已经存在！</existedTermId>
+		<existedResponsiblePerson>该人员已经存在于本终端相关责任人列表中，请重新选择人员！</existedResponsiblePerson>
+		<existedNetAddr>该ip地址已经被使用！</existedNetAddr>
+		<existedTermOperator>该角色/人员已经存在！</existedTermOperator>
+		<terminalTypeNotNull>终端类型不能为空！</terminalTypeNotNull>
+		<terminalTypeNameNotNull>型号名称不能为空！</terminalTypeNameNotNull>
+		<terminalBrandNameNotNull>品牌名称不能为空！</terminalBrandNameNotNull>
+		<companyNameNotNull>厂商名称不能为空！</companyNameNotNull>
+		<companyAddressNotNull>厂商地址不能为空！</companyAddressNotNull>
+		<terminalModelNameNotNull>型号名称不能为空！</terminalModelNameNotNull>
+		<termIdNotNull>该终端编号不能为空！</termIdNotNull>
+		<operatorNameNotNull>该角色名不能为空！</operatorNameNotNull>
+		<stopTimeIsValid>所选报停时间有误（请保证报停开始时间在当前时间之后，并检查报停的结束时间是否大于开始时间，确认你所选择的时间段没有其他报停事件）。</stopTimeIsValid>
+	    <existedDataBackupPath>该目录已经被使用，不能重复添加！</existedDataBackupPath>
+		<existedDataBackupPathFile>该目录无效或不存在，请重新指定！</existedDataBackupPathFile>
+	</node>
+</nodes>

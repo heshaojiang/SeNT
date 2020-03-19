@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="differenceRateReportMoudule">
+		<orgLabel>机构 :</orgLabel>
+		<termLabel>终端编号 :</termLabel>
+		<daysPreLabel>最近 :</daysPreLabel>
+		<daysNextLabel>天</daysNextLabel>
+		<chartTitle>误差率分析图表</chartTitle>
+		<datagridTitle>误差率分析列表</datagridTitle>
+		<culomnPlanDate>加钞日期</culomnPlanDate>
+		<culomnPlanAmount>计划加钞金额</culomnPlanAmount>
+		<culomnActualAmount>实际加钞金额</culomnActualAmount>
+		<culomnBackAmount>回笼金额</culomnBackAmount>
+		<culomnSysGenerateAmount>系统生成金额</culomnSysGenerateAmount>
+		<culomnSysGenerateDifferenceRate>生成值误差率</culomnSysGenerateDifferenceRate>
+		<culomnSysSuggestAmount>系统建议金额</culomnSysSuggestAmount>
+		<culomnSysSuggestDifferenceRate>建议值误差率</culomnSysSuggestDifferenceRate>
+		<culomnPlanDifferenceRate>计划值误差率</culomnPlanDifferenceRate>
+		<culomnActualDifferenceRate>实际值误差率</culomnActualDifferenceRate>
+		<DifferenceRate>误差率(%)</DifferenceRate>
+	</node>
+</nodes>

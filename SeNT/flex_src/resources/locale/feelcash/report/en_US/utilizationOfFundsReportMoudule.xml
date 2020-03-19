@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="utilizationOfFundsReportMoudule">
+		<orgLabel>Org :</orgLabel>
+		<termLabel>Term ID :</termLabel>
+		<daysPreLabel>Days Pre :</daysPreLabel>
+		<daysNextLabel>Days</daysNextLabel>
+		<chartTitle>Utilization Of Funds Report</chartTitle>
+		<datagridTitle>Term Utilization Of Funds LIst</datagridTitle>
+		<culomnPlanDate>Plan Date</culomnPlanDate>
+		<culomnSumActualAmount>Actual Amount Sum</culomnSumActualAmount>
+		<culomnSumBackAmount>Back Amount Sum</culomnSumBackAmount>
+		<culomnActualAmount>Actual Amount</culomnActualAmount>
+		<culomnBackAmount>Back Amount</culomnBackAmount>
+		<culomnSingleUtilization>Single Utilization</culomnSingleUtilization>
+		<culomnTotalUtilization>Total Utilization</culomnTotalUtilization>
+		<culomnUtilization>Utilization</culomnUtilization>
+	</node>
+</nodes>

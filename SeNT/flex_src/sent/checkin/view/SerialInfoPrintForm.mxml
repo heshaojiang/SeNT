@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 dataDictionaryPaths="{[NOTE_TYPE]}"
+				 width="600" height="600" locale="serialInfoPrintForm"
+				 cornerRadius="10" titleKey="serialInfoTitle_loc" helpTips="helpTip"
+				 horizontalScrollPolicy="off">
+	<fx:Script>
+		<![CDATA[
+			private const NOTE_TYPE:String = "SysDatadirMgr.sent.transMgr.noteType";
+			
+			import mx.events.FlexEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.vo.Page;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermInfoModulePM;
+			import platform.vo.term.TermInfoVo;
+			
+			import sent.checkin.pm.PenaltyInfoPrintFormPM;
+			import sent.common.utils.DateUtils;
+			import sent.common.utils.StringUtils;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			import sent.transmgr.vo.CmlSentInfoVO;		
+			
+			[Bindable]
+			public var termInfoModulePM:TermInfoModulePM;
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;	
+			[Bindable]
+			public var serialPage:Page = new Page();
+			
+			[Bindable]
+			private var termInfoVo:TermInfoVo ;
+			[Bindable]
+			public var page:Page = new Page();
+			[Bindable]
+			private var penaltyInfoNOGen:String;
+			
+			[Bindable]
+			private var infoVO:Object ;
+			
+			[Bindable]
+			private var applyNameValue:String;
+			[Bindable]
+			private var depositBankValue:String;
+			[Bindable]
+			private var depositDateValue:String;
+			[Bindable]
+			private var serialNOValue:String;
+			[Bindable]
+			private var serialResultValue:String;
+			[Bindable]
+			private var relateIdValue:String;
+			[Bindable]
+			private var checkIdValue:String;
+			[Bindable]
+			private var applyDateValue:String;//查询日期
+			[Bindable]
+			private var serialInfo_numberValue:String;//编号
+			[Bindable]
+			private var dataDict_nodeType:String;//钞票类型
+			
+			private var dateDetailStr:String; 
+			
+			//=============数据字典加载回调===============//
+			override protected function getDataDictCallback():void
+			{
+				//加载后
+				//querySentInfoBySerialNO();//查询冠字号记录
+				setData();
+			}
+			//==========================================//
+			
+			public function initData(vo:Object):void
+			{
+				infoVO = ObjectUtil.copy(vo);
+				/* var dateStr:String = DateUtils.formatDate(infoVO['applyDate'],"YYYY-MM-DD");
+				var dateArr:Array = dateStr.split("-");
+				dateDetailStr = dateArr[0]+"年"+dateArr[1]+"月"+dateArr[2]+"日";
+				applyDateValue = "查询日期："+dateDetailStr;
+				serialInfo_numberValue = infoVO['id'];
+				applyNameValue = infoVO['applyName'];
+				depositBankValue = infoVO['depositBank'];
+				var depositDateStr:String = DateUtils.formatDate(infoVO['depositDate'],"YYYY-MM-DD");
+				var depositDateArr:Array = depositDateStr.split("-");
+				var depositDateDetailStr:String = depositDateArr[0]+"年"+depositDateArr[1]+"月"+depositDateArr[2]+"日";
+				depositDateValue = depositDateDetailStr;
+				serialNOValue = infoVO['seriaNO'];
+				relateIdValue = infoVO['operatorId'];//当前经办人就是登记人
+				checkIdValue = infoVO['checkId'];
+				var count:int = infoVO['serialCount'];
+				 if(count>0){
+					serialResultValue = "查询方式及查询结果：" +
+						"\n    经精确查询，该现金冠字号码："+serialNOValue+"及图片，在我行的" +
+						depositDateDetailStr+"记录，" + "\n操作员："+infoVO['operatorId']+"，请根据结果做相应的处理。";
+					//并校验为"+typeStr+"币，
+				}else{
+					serialResultValue = "查询方式及查询结果：" +
+						"\n    经精确及模糊查询，该现金在我行没有冠字号记录，请根据结果做相应的处理。";
+				}	 */			
+			}
+			
+			public function setData():void
+			{
+				var dateStr:String = DateUtils.formatDate(infoVO['applyDate'],"YYYY-MM-DD");
+				var dateArr:Array = dateStr.split("-");
+				dateDetailStr = dateArr[0]+"年"+dateArr[1]+"月"+dateArr[2]+"日";
+				applyDateValue = "查询日期："+dateDetailStr;
+				serialInfo_numberValue = infoVO['id'];
+				applyNameValue = infoVO['applyName'];
+				depositBankValue = infoVO['depositBank'];
+				var depositDateStr:String = DateUtils.formatDate(infoVO['depositDate'],"YYYY-MM-DD");
+				var depositDateArr:Array = depositDateStr.split("-");
+				var depositDateDetailStr:String = depositDateArr[0]+"年"+depositDateArr[1]+"月"+depositDateArr[2]+"日";
+				depositDateValue = depositDateDetailStr;
+				serialNOValue = infoVO['seriaNO'];
+				relateIdValue = infoVO['operatorId'];//当前经办人就是登记人
+				checkIdValue = infoVO['checkId'];
+				var nodeTypeDic:String = this.getTextByKeyOnDataDictPath(infoVO['noteType'],NOTE_TYPE);
+				
+				setNotePayTypeValue(infoVO['notePayType']);
+				
+				var count:int = infoVO['serialCount'];
+				if(count>0){
+					serialResultValue = "查询方式及查询结果：" +
+						"\n    经精确查询，该现金冠字号码："+serialNOValue+"及图片，在我行的" +
+						depositDateDetailStr+"记录，" + "\n并校验为"+nodeTypeDic+"币，操作员："+infoVO['operatorId']+"，请根据结果做相应的处理。";
+				}else{
+					serialResultValue = "查询方式及查询结果：" +
+						"\n    经精确及模糊查询，该现金在我行没有冠字号记录，请根据结果做相应的处理。";
+				}
+				var payType:String = infoVO['notePayType'];
+				if(payType=="2"){
+					lbl_serialInfo_tranType_id.locale = "lbl_serialInfo_tranType_value2";
+				}else if(payType=="1"){
+					lbl_serialInfo_tranType_id.locale = "lbl_serialInfo_tranType_value1";
+				}else if(payType=="0"){
+					lbl_serialInfo_tranType_id.locale = "lbl_serialInfo_tranType_value0";
+				}else{
+					lbl_serialInfo_tranType_id.locale = "lbl_serialInfo_tranType_value3";
+				}
+			}
+			
+			public function setNotePayTypeValue(val:String):void
+			{
+				notePayTypeRadio.selectedValue = val;	
+			}			
+			
+			///////////////////////////
+			
+			//根据冠字号码，查询冠字号记录
+			public function querySentInfoBySerialNO():void
+			{
+				var parameter:Object = {};
+				
+				serialPage.result.removeAll();
+				parameter["page"] = serialPage;
+				
+				var condition:Object = {};
+				condition.pathCode = UserInfoInit.userInfo['orgPathCode'];
+				var startT:Date = infoVO['depositDate'];
+				var endT:Date = infoVO['depositDate'];
+				condition.startTime = DateUtils.formatDate(startT,"YYYY-MM-DD JJ:NN:SS");
+				condition.endTime = DateUtils.formatDate(endT,"YYYY-MM-DD JJ:NN:SS");
+				condition.seriaNo = infoVO['seriaNO'];
+				parameter["condition"] = condition;
+				
+				var msg:CmlSentInfoMsg = new CmlSentInfoMsg();
+				msg.args["remoteMethod"]   = "getCmlSentInfoPage";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "SerialInfoPrintForm.querySentInfoBySerialNumResult";
+				msg.args["errorHandler"]   = "SerialInfoPrintForm.querySentInfoBySerialNumError";
+				
+				cmlSentInfoPM.sendCmlSentInfoMsg(msg);
+			}		
+			[MessageHandler(selector="SerialInfoPrintForm.querySentInfoBySerialNumResult")]
+			public function querySentInfoBySerialResult(p_msg:CmlSentInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					serialPage = p_msg.result as Page;
+					var len:int = serialPage.result.length;
+					if(len > 0){
+						var obj:Object = serialPage.result.getItemAt(0);
+						var nodeType:String = this.getTextByKeyOnDataDictPath(obj.noteType, NOTE_TYPE);
+						//var typeStr:String = "真钞";
+						var tranDateStr:String = obj.tranDate;
+						var tranDate:String = tranDateStr.substr(0,4)+"年"+tranDateStr.substr(4,2)+"月"+
+								tranDateStr.substr(6,2)+"日 " + tranDateStr.substr(8,2)+":" + tranDateStr.substr(10,2)
+								+":"+ tranDateStr.substr(12,2);
+						/* if(type=="0"){
+							typeStr = "假钞或可疑钞";
+						} */
+						serialResultValue = "查询方式及查询结果：" +
+							"\n    经精确查询，该现金冠字号码："+serialNOValue+"及图片，在我行的" +
+							tranDate+"记录，" + "\n并校验为"+nodeType+"币，操作员："+infoVO['operatorId']+"，请根据结果做相应的处理。";
+					}else{
+						serialResultValue = "查询方式及查询结果：" +
+							"\n    经精确查询，该现金在我行没有冠字号记录，请根据结果做相应的处理。";
+					}
+				}
+			}	
+			
+			
+			///////////////////////////
+			
+			//根据冠字号记录，查询终端设备
+			public function getTermInfoById(termid:String):void
+			{
+				trace("ViewCmlTaskSeqForm.getCmlSentInfoDetail");
+				//pm.queryPenaltyTerm(sentInfoVO.termid);
+				var parameter:Object = {};
+				parameter["p_termid"] = termid;
+				var msg:TermInfoMsg = new TermInfoMsg();
+				msg.args["remoteMethod"]   = "getTermInfoById";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "PenaltyInfoPrintForm.getTermInfoByIdResult";
+				msg.args["errorHandler"]   = "PenaltyInfoPrintForm.getTermInfoByIdError";
+				termInfoModulePM.getTermInfoById(msg);
+			}		
+			[MessageHandler(selector="PenaltyInfoPrintForm.getTermInfoByIdResult")]
+			public function getTermInfoByIdResult(p_msg:TermInfoMsg):void
+			{
+				trace("PenaltyInfoPrintForm.getTermInfoByIdResult");
+				if(p_msg.result)
+				{
+					termInfoVo = p_msg.result as TermInfoVo;
+				}
+			}		 
+			
+			///////////////////////////
+			
+			//获得冠字号详细信息
+			public function getCmlSentInfoDetail(cmlSentInfoId:String,fromTableName:String):void
+			{
+				trace("ViewCmlTaskSeqForm.getCmlSentInfoDetail");
+				
+				var parameter:Object = {};
+				parameter.id = cmlSentInfoId;
+				parameter.tableName = fromTableName;
+				
+				var cmlSentInfoMsg:CmlSentInfoMsg = new CmlSentInfoMsg();
+				cmlSentInfoMsg.args["remoteMethod"]   = "getCmlSentInfosByIdFromTable";
+				cmlSentInfoMsg.args["methodPrameter"] = parameter;
+				cmlSentInfoMsg.args["resultHandler"]  = "ViewCmlTaskSeqForm.getCmlSentInfosByIdFromTableResult";
+				cmlSentInfoMsg.args["errorHandler"]   = "ViewCmlTaskSeqForm.getCmlSentInfosByIdFromTableError";
+				cmlSentInfoPM.sendCmlSentInfoMsg(cmlSentInfoMsg);
+			}			
+			[MessageHandler(selector="ViewCmlTaskSeqForm.getCmlSentInfosByIdFromTableResult")]
+			public function getCmlSentInfosByIdFromTableResult(msg:CmlSentInfoMsg):void
+			{
+				trace("ViewCmlTaskSeqForm.getCmlSentInfosByIdFromTableResult");
+				var vo:CmlSentInfoVO = msg.result as CmlSentInfoVO;
+				if( vo!=null ){
+					
+					setImageData(vo);
+				}
+			}
+			
+			///////////////////////////
+			
+			//打印
+			protected function grgbtn_print_clickHandler(event:MouseEvent):void
+			{
+				var pj:PrintJob = new PrintJob();
+				if( pj.start()!=true )
+				{
+					return;
+				}else{
+					
+					pj.addPage(serialInfoPrintGrp);
+					pj.send();
+					close();
+				}
+			}
+
+			//取消
+			protected function grgbtn_cancel_clickHandler(event:MouseEvent):void
+			{
+				close();
+			}
+			
+			private function setImageData(value:Object):void
+			{
+				/* super.data = value;
+				if( data.imageArr!=null )
+				{
+					myImage.source = data.imageArr;
+					myImage.width = 320;
+					myImage.height = 40;	
+				}
+				else if( StringUtils.isNotBlank(data.fullUrl) )
+				{
+					myImage.source = ".ImageServlet?urlName=" + data.fullUrl;
+					myImage.width = 160;
+					myImage.height = 40;	
+				} */
+			} 
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:Configure/>
+		
+		<!-- 支付渠道：取款机/存取款一体机/柜面 -->
+		<grg:RadioButtonGroup id="notePayTypeRadio"/>
+	</fx:Declarations>
+	
+	<s:BorderContainer width="100%" height="100%" borderVisible="false">
+	<s:layout>
+		<s:VerticalLayout gap="10" horizontalAlign="center" verticalAlign="middle"/>
+	</s:layout>
+	<s:VGroup id="serialInfoPrintGrp" width="97%" height="90%" horizontalAlign="center">
+		<!--人民币冠字号码查询结果通知书-->
+		<grg:Label locale="lbl_serialInfo_noticeTitle_loc"/>
+		<!--查询日期：      年  月  日-->
+		<s:Label id="lbl_serialInfo_applyDate" text="{applyDateValue}"/>
+		<s:Group width="100%">
+			<!--查询单位(盖章)：-->
+			<grg:Label id="lbl_serialInfo_queryComp" locale="lbl_serialInfo_queryComp_loc"/>
+			<!--编号：-->
+			<grg:Label id="lbl_serialInfo_number" right="200" locale="lbl_serialInfo_number_loc"/>
+			<s:Label text="{serialInfo_numberValue}" right="0"/>
+		</s:Group>
+		<s:BorderContainer width="100%" height="100%" id="containerId">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			<s:HGroup width="100%" height="24" gap="0">
+				<s:BorderContainer width="25%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<!--查询人-->
+					<grg:Label id="lbl_serialInfo_applyName" locale="lbl_serialInfo_applyName_loc"/>
+				</s:BorderContainer>
+				<s:BorderContainer width="75%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:Label id="lbl_serialInfo_applyNameValue" text="{applyNameValue}"/>
+				</s:BorderContainer>
+			</s:HGroup>
+			<s:HGroup width="100%" height="24" gap="0">
+				<s:BorderContainer width="25%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<!--取款行（地点）-->
+					<grg:Label id="lbl_serialInfo_depositBank" locale="lbl_serialInfo_depositBank_loc"/>						
+				</s:BorderContainer>
+				<s:BorderContainer width="40%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:Label id="lbl_serialInfo_depositBankValue" text="{depositBankValue}"/>
+				</s:BorderContainer>
+				<s:BorderContainer width="15%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<!--取款时间-->
+					<grg:Label id="lbl_serialInfo_depositDate" locale="lbl_serialInfo_depositDate_loc"/>						
+				</s:BorderContainer>
+				<s:BorderContainer width="20%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:Label id="lbl_serialInfo_depositDateValue" text="{depositDateValue}"/>						
+				</s:BorderContainer>
+			</s:HGroup>
+			<s:HGroup width="100%" height="24" gap="0">
+				<s:BorderContainer width="25%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<!--支付渠道-->
+					<grg:Label id="lbl_serialInfo_tranType" locale="lbl_serialInfo_tranType_loc"/>						
+				</s:BorderContainer>
+				<s:BorderContainer width="75%" height="100%">
+					<s:layout>
+						<s:HorizontalLayout verticalAlign="middle"/>
+					</s:layout>
+					<grg:Label id="lbl_serialInfo_tranType_id" locale="lbl_serialInfo_tranType_value"/>
+					<!--<s:HGroup>text="□取款机  □存取款一体机  □柜台"
+						<grg:RadioButton id="payType_identi1" value="0" locale="payType_identi1" group="{notePayTypeRadio}" /> 
+						<grg:RadioButton id="payType_identi2" value="1" locale="payType_identi2" group="{notePayTypeRadio}"/>
+						<grg:RadioButton id="payType_identi3" value="2" locale="payType_identi3" group="{notePayTypeRadio}"/>
+					</s:HGroup>-->
+				</s:BorderContainer>
+			</s:HGroup>
+			<s:HGroup width="100%" height="48" gap="0">
+				<s:BorderContainer width="25%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<!--申请查询冠字号码-->
+					<grg:Label id="lbl_serialInfo_serialNO" locale="lbl_serialInfo_serialNO_loc"/>						
+				</s:BorderContainer>
+				<s:BorderContainer width="75%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:Label id="lbl_serialInfo_serialNOValue" text="{serialNOValue}"/>						
+				</s:BorderContainer>
+			</s:HGroup>
+			<s:Group width="100%" height="264">
+				<s:BorderContainer width="100%" height="100%">
+					<s:Label id="lbl_serialInfo_serialResultValue" paddingTop="5" paddingLeft="5"
+							 text="{serialResultValue}"/>
+				</s:BorderContainer>
+			</s:Group>
+			<s:HGroup width="100%" height="24" gap="0">
+				<s:BorderContainer width="25%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<!--经办人-->
+					<grg:Label id="lbl_serialInfo_relateId" locale="lbl_serialInfo_relateId_loc"/>							
+				</s:BorderContainer>
+				<s:BorderContainer width="25%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:Label id="lbl_serialInfo_relateIdValue" text="{relateIdValue}"/>							
+				</s:BorderContainer>
+				<s:BorderContainer width="25%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<!--复核人-->
+					<grg:Label id="lbl_serialInfo_checkId" locale="lbl_serialInfo_checkId_loc"/>							
+				</s:BorderContainer>
+				<s:BorderContainer width="25%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:Label id="lbl_serialInfo_checkIdValue" text="{checkIdValue}"/>							
+				</s:BorderContainer>
+			</s:HGroup>
+			<s:Group width="100%" height="100%">
+				<s:BorderContainer width="100%" height="100%">
+					<s:layout>
+						<s:VerticalLayout verticalAlign="middle"/>
+					</s:layout>
+					<!--查询人（或代理查询人）签字：-->
+					<grg:Label paddingTop="5" paddingLeft="5" locale="sign_loc"/>
+				</s:BorderContainer>
+			</s:Group>
+		</s:BorderContainer>
+	</s:VGroup>
+	<s:HGroup width="100%" gap="10" horizontalAlign = "center" verticalAlign = "middle">
+		<s:Button id="grgbtn_print" label="打印" click="grgbtn_print_clickHandler(event)"/>
+		<s:Button id="grgbtn_cancel" label="取消" click="grgbtn_cancel_clickHandler(event)"/>
+	</s:HGroup>		
+	</s:BorderContainer>
+	
+</grg:TitleWindow>

@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtDevErrStatModule">
+		<listTitle>列表</listTitle>
+		<wtDeverrStatTitle>设备部件故障统计</wtDeverrStatTitle>
+		<termId>终端编号：</termId>
+		<termType>全部终端类型</termType>
+		<brand>全部终端品牌</brand>
+		<orgId>机构ID</orgId>
+		<orgName>机构名称</orgName>
+		<org>机构：</org>
+		<devCode>部件编号</devCode>
+		<errCode>设备错误码</errCode>
+		<status>设备部件状态码</status>
+		<beginTime>停机时间：</beginTime>
+		<endTime>停机结束时间</endTime>
+		<stopTime>停机总时间单位:分钟</stopTime>
+		<errTotalCount>故障总次数</errTotalCount>
+		<wtDevErrDevCodeCount1>流水打印机</wtDevErrDevCodeCount1>
+		<wtDevErrDevCodeCount2>凭条打印机</wtDevErrDevCodeCount2>
+		<wtDevErrDevCodeCount3>读卡器</wtDevErrDevCodeCount3>
+		<wtDevErrDevCodeCount4>出钞机芯</wtDevErrDevCodeCount4>
+		<wtDevErrDevCodeCount5>存款机芯</wtDevErrDevCodeCount5>
+		<wtDevErrDevCodeCount6>其他部件</wtDevErrDevCodeCount6>
+		<wtDevErrDevCodeCount7>通讯故障</wtDevErrDevCodeCount7>
+		<to>至</to>
+		<errCount>设备故障次数</errCount>
+		
+	</node>
+</nodes>

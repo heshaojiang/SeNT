@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtStopModule">
+		<listTitle>list</listTitle>
+		<termId>termId:</termId>
+		<termType>termType:</termType>
+		<brand>brand:</brand>
+		<orgId>orgId:</orgId>
+		<orgName>orgName</orgName>
+		<beginTime>TimeRange:</beginTime>
+		<endTime>endTime</endTime>
+		<stopTime>stopTime</stopTime>
+		<reason>reason</reason>
+		<memo>memo</memo>
+		<disposal>disposal:</disposal>
+		<to>to</to>
+	</node>
+</nodes>

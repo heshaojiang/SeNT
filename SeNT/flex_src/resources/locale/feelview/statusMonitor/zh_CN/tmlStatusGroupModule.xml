@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：设备状态组<br>
+		Create Time：2011-10-13<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlStatusGroupModule">
+		<listTitle>设备状态组信息列表</listTitle>
+		<addTmlStatusGroupForm>新增</addTmlStatusGroupForm>
+		<updateTmlStatusGroupForm>编辑</updateTmlStatusGroupForm>
+		<name>分组名称</name>
+		<status>是否有效</status>
+		<order>排序</order>
+		<level>层</level>
+		<hql>查询语句</hql>
+		<sum>结点下ATM个数</sum>
+		<icon>图标/路径</icon>
+		<expressions>计算公式</expressions>
+		<nameLocal>本地语言名称</nameLocal>
+		<tbname>分组名称：</tbname>
+		<tbstatus>是否有效：</tbstatus>
+		<tborder>排序：</tborder>
+		<tblevel>层：</tblevel>
+		<tbhql>查询语句：</tbhql>
+		<tbsum>结点下ATM个数：</tbsum>
+		<tbicon>图标/路径：</tbicon>
+		<tbexpressions>计算公式：</tbexpressions>
+		<tbnameLocal>本地语言名称：</tbnameLocal>
+	</node>
+</nodes>

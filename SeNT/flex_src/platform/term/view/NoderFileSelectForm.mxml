@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 dataDictionaryPaths="{[DataDirConsts.YES_OR_NO, DataDirConsts.TERM_STATUS,NoderConsts.NODER_FILE_STATUS,NoderConsts.NODER_FILE_TYPE]}"
+				 paramPaths="{[NoderConsts.FEEL_DIST_PORT_DEFAULT, NoderConsts.CASH_LACK_NUM, NoderConsts.CASH_FULL_NUM]}"
+				 locale="noderFileSelectForm"
+				 titleKey="titlemsg"
+				 helpTips="termInfoHelp"
+				 xmlns:userDefined="platform.date.*"
+				 layout="vertical"
+				 width="1200" height="500"  
+				 >
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<!--
+	<fx:Binding source="noderInfoVo.id" destination="pm.condi.noderId"/>
+	<fx:Binding source="orgid.selectedValue" destination="pm.condi.orgId"/>
+	<fx:Binding source="file_type.selectedValue" destination="pm.condi.fileType"/>
+	<fx:Binding source="file_status.selectedValue" destination="pm.condi.status"/>
+	<fx:Binding source="startDate.text" destination="pm.condi.startDate"/>
+	<fx:Binding source="endTime.text" destination="pm.condi.endDate"/>
+	-->
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.CashSerial.vo.SelectDayButtonVo;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.param.config.ParamConfig;
+			import platform.term.config.NoderFileConfig;
+			import platform.term.constants.NoderConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.NoderFileMsg;
+			import platform.term.pm.NoderFilePM;
+			import platform.term.view.TermSelectForm;
+			import platform.term.vo.NoderFileVo;
+			import platform.term.vo.NoderInfoVo;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			import sent.rule.config.BlackRegulationConfig;
+			import sent.rule.message.BlackRegulationMsg;
+			import sent.rule.pm.BlackRegulationPM;
+			import sent.rule.vo.BlackRegulationVO;
+			
+			import spark.skins.spark.StackedFormHeadingSkin;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:NoderFilePM;
+			
+			[Inject]
+			[Bindable]
+			public var blackRegulationPM:BlackRegulationPM;
+			
+			[Bindable]
+			private var isInterATMSource:IList;
+			
+			[Bindable]
+			private var noderInfoModule:NoderInfoModule;
+			
+			[Bindable]
+			public var page:Page = new Page();
+			
+			[Bindable]
+			public var condi:Object = new Object();
+			
+			[Bindable]
+			private var fileStatus:IList;
+			
+			[Bindable]
+			private var fileType:IList;
+			
+			[Bindable]
+			private var noderInfoVo:NoderInfoVo;
+			
+			private var noderFileForm:NoderFileForm;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			public function init():void
+			{
+				noderInfoVo = pm.vo as NoderInfoVo;
+				noderIp.text=noderInfoVo.noderIP;
+				loadNoderFilePage();
+			}
+			
+			public function set module2(module:NoderInfoModule)
+			{
+				noderInfoModule = module;
+			}
+			
+			public function set form2(form2:NoderFileForm)
+			{
+				noderFileForm = form2;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("NoderInfoModule.viewUpdateComplete");
+				pm.init();
+//				privilegeBar.menuId = menu.id;
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				isInterATMSource = bindableDataDirCache.getItemAt(0) as IList;
+				fileStatus = bindableDataDirCache.getItemAt(2) as IList;
+				fileType = bindableDataDirCache.getItemAt(3) as IList;
+			}
+			
+			override public function dispose():void
+			{
+				trace("NoderInfoModule.dispose");
+				noderInfoPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			//Add 
+			public function add():void
+			{
+				trace("NoderFileSelectForm.add");
+//				//set vo
+				var vo:NoderInfoVo = noderInfoVo;
+				vo.formType = TermLocalKeyConsts.NODER_FILE_FORM_NAME;
+//				/* vo.machineType = NoderConsts.MACHINE_TYPE_NODER; */
+//				/* vo.activeDate = new Date(); */
+				var win:NoderFileForm = new NoderFileForm();
+				noderInfoModule._context.viewManager.addViewRoot(win);
+				
+				win.titleKey = TermLocalKeyConsts.NODER_FILE_FORM_NAME;
+				
+				//加入到parsley上下文
+//				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				win.pm.vo = vo;
+				var temp:IList = ObjectUtil.copy(fileType) as IList;
+				temp.removeItemAt(0);
+				win.form2 = this;
+				win.ftype = temp;
+				win.init();
+			}
+			
+			/**
+			 * edit datadir item
+			 * */
+			public function edit():void
+			{
+//				trace("NoderInfoModule.edit");
+//				if (noderInfoPageGrid.checkedItems.length != 1)
+//				{
+//					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+//					return;
+//				}
+//				var temp:NoderInfoVo = NoderInfoVo(noderInfoPageGrid.checkedItems[0]);
+//				var vo:NoderInfoVo = temp as NoderInfoVo;
+//				vo.formType = TermLocalKeyConsts.UPDATE_TERMINFO_FORM;
+//				/* vo.machineType = NoderConsts.MACHINE_TYPE_NODER; */
+//				openWin(TermLocalKeyConsts.UPDATE_TERMINFO_FORM, vo);
+				
+			}		
+			
+			override protected function parsleyInit():void
+			{
+				trace("NoderFileSelectForm.parsleyInit");
+//				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getNoderFilePage")]
+			public function getPageHandler(p_msg:NoderFileMsg):void
+			{
+				trace("NoderInfoModule.getPageHandler - getNoderFilePage");
+				orgId.getDataList();
+			}
+			
+
+
+			public function resetComboBox():void
+			{
+				startDate.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endDate.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+			
+			public function transformStatus(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = NoderConsts.NODER_FILE_STATUS;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			public function transformFileType(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = NoderConsts.NODER_FILE_TYPE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			public function transformOperDate(p_item:Object, column:DataGridColumn):String
+			{
+				var date:Date = p_item.operDate;
+				if( date==null )
+				{
+					return null;
+				}
+				return DateUtils.formatDate(date);
+			}
+			
+			public function exportNoderFile(o:Object):void
+			{
+				var fileId:String  = (o as NoderFileVo).id;
+				var msg:NoderFileMsg = new NoderFileMsg();
+				msg.type = "exportNoderFile";
+				msg.args["fileId"] = fileId;
+				sendMessage(msg);
+			}
+			
+			[MessageHandler(selector="exportNoderFileResult")]
+			public function exportNoderFileResultHandler(termInfoMsg:NoderFileMsg):void
+			{
+				if(termInfoMsg)
+				{
+					var fileName:String = termInfoMsg.result.toString();
+					if(fileName=="noFile")
+					{
+						var alertMsg:String = langMgr.getExceptionMessage("exceptionMessage.noNoderFileExist");
+						AlertHandler.alert(alertMsg);
+						return;
+					}    
+					else
+					{
+						//调用js打开连接下载
+						ExternalInterface.call("downloadFile",".ExportNoderFileServlet?filePath=" + termInfoMsg.result.toString()); 
+					}
+				}
+			}
+			
+			/**
+			 * search DataDir Paging
+			 * */
+			public function loadNoderFilePage():void
+			{
+				//TestUtils.printObject(condi) ;
+				var msg:NoderFileMsg = new NoderFileMsg();
+				msg.type = "getNoderFilePage";
+				msg.args["page"] = page;
+				condi.noderId = noderInfoVo.id;
+				//condi.orgId = orgid.selectedValue;
+				condi.fileType = file_type.selectedValue;
+				condi.status = file_status.selectedValue;
+				condi.startDate = startDate.selectedDate;
+				condi.endDate = endDate.selectedDate;
+				msg.args["condi"] = condi;
+				sendMessage(msg);
+			}
+			
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getNoderFilePageResult")]
+			public function getNoderFilePageResult(p_msg:NoderFileMsg):void
+			{
+				page = p_msg.result as Page;
+			}
+			
+
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="100%" 
+					   height="100%"
+					   styleName="BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign="center"
+			styleName="SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<!--节点机信息-->
+				<grg:TitleBar locale="titlemsg" width="85%"/>
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">  
+						<grg:Label locale="ipLabel"/>
+						<grg:Text id="noderIp" enabled="false"/>
+						<!--所属机构：
+						<grg:Label locale="org"/>
+						<grg:GRGComboBoxOrgTree id="orgid" defaultField="true"
+												width="110" 
+												textAlign="left"
+												treeHeight="150" /> -->
+						
+						<!-- 操作日期 -->
+						<grg:Label locale="startDateLocal"/>
+						<userDefined:SuperDateField width="165" id="startDate" myEnabled="false" selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+											selectableRange="{{rangeEnd:endDate.selectedDate}}" isShowTime="true" />
+						
+						<!-- 操作日期 -->
+						<grg:Label locale="endDateLocal"/>
+						<userDefined:SuperDateField width="165" id="endDate" myEnabled="false" selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"
+											selectableRange="{{rangeStart:startDate.selectedDate}}" isShowTime="true" />
+						
+						
+						<grg:SearchButton id="btn_search"
+										  locale="searchButton"
+										  iconType="query" click="page=new Page();loadNoderFilePage()"/>
+					<!--	<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> -->
+						<grg:ExpansionButton locale="moreSearch" iconType="pulldown"/> 
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" click="resetComboBox()" resetControls="{[startDate,endDate,file_type/*,areaid,serviceType,layType,isInterATM*/]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+		
+			
+		
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					
+					<mx:HBox width="100%" styleName="expHBoxStyle">  
+						
+						<s:BorderContainer width="100%" height="14" styleName="expBorderHBoxStyle">
+							
+							<s:layout>
+								<s:HorizontalLayout horizontalAlign="right" gap="2" verticalAlign="middle" />
+							</s:layout>
+							
+							<!-- 文件类型 -->
+							<grg:Label locale="fileTypeLabel"/>
+							<grg:ComboBox id="file_type" hasAllItem="true" selectedIndex="-1" allItemKey="fileTypeItem"
+										  dataProvider="{fileType}"
+										  labelField="text" valueField="key" width="100"/>
+							
+							<!-- 状态 -->
+							<grg:Label locale="fileStatusLabel"/>
+							<grg:ComboBox id="file_status" hasAllItem="true" selectedIndex="-1" allItemKey="fileStatusItem"
+										  dataProvider="{fileStatus}"
+										  labelField="text" valueField="key" width="100"/>
+							
+							<s:Spacer width="5" />
+							
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+			
+		</grg:AdvancedSearchBar>
+		
+		<!-- 操作按钮 -->
+		<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="0" paddingTop="3"/>
+				</s:layout>
+				<grg:Button click="add();" locale="requestFileButton"/>
+			</s:BorderContainer>
+		</mx:HBox> 
+		
+		<!-- 列表 -->
+			<grg:DataGrid id="noderInfoPageGrid" dataProvider="{page.result}" 
+									   width="100%" height="100%" textAlign="left"
+									   paddingLeft="20" 
+									   styleName="DataGrid" >
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										sortable="false"
+										draggable="false"
+										editable="false"
+										resizable="false" 
+										textAlign="center"
+										/>
+					
+					<!--所属机构：-->
+					<grg:RODataGridColumn locale="org"
+										  dataField="orgCode"
+										  id="orgId"
+										  labelField="orgName"
+										  valueField="orgCode"
+										  service="orgInfoService"
+										  method="getAllOrg" 
+										  textAlign="left"
+										  />
+					
+					<!--文件类型：-->
+					<grg:DataGridColumn locale="fileType"
+										dataField="fileType" 
+										textAlign="left"
+										labelFunction="{transformFileType}"
+										/>
+					
+					<!-- 文件信息 -->
+					<grg:DataGridColumn locale="tranData"
+										dataField="tranData" 
+										textAlign="left"
+										/>
+					
+					<!--操作日期：-->
+					<grg:DataGridColumn locale="operDate"
+										dataField="operDate" 
+										textAlign="left"
+										labelFunction="{transformOperDate}"
+										/>
+					
+					<!-- 状态  -->
+					<grg:DataGridColumn locale="stauts"
+										dataField="status" 
+										textAlign="left"
+										labelFunction="{transformStatus}"
+										/>
+					
+					<!-- 操作  -->
+					<grg:DataGridColumn locale="fileFLogConfig"
+										textAlign="left"
+										>
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<grg:GRGModuleButtonBar2 width="100%" height="16" align="center" >
+										<grg:Button id="uploadButton" locale="fileFLogConfig" click="outerDocument.exportNoderFile(data);" />
+									</grg:GRGModuleButtonBar2>
+									<fx:Script>
+										<![CDATA[
+											import platform.term.constants.NoderConsts;
+											[Bindable]
+											private var status:String;
+											
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												status = data.status;
+												if(status == NoderConsts.NODER_FILE_STATUS_SUCCESS){
+													uploadButton.enabled=true;
+												} else{
+													uploadButton.enabled=false;
+												}
+											}
+										]]>
+									</fx:Script>
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					
+				</grg:columns>
+			</grg:DataGrid>
+		<grg:PageNavigatorBar id="noderInfoPagingBar"
+							  x="0" pageVo="{page}"
+							  pagingFunction="{loadNoderFilePage}"
+							  bottom="0" />
+	</s:BorderContainer>
+</grg:TitleWindow>

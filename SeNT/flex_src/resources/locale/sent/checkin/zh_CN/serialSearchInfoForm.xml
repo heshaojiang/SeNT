@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="serialSearchInfoForm">
+	
+		<titleMsg>人民币冠字号检索登记</titleMsg>
+		<searchInfo>登记基本信息</searchInfo>
+		<SearchDateColon>检索日期：</SearchDateColon>
+	    <SearchMan>检索人</SearchMan>
+		<SeriaNoSaver>冠字号码保管人</SeriaNoSaver>
+		<noteRecordType>纸币支付类型</noteRecordType>
+		<getByCounter>柜面渠道</getByCounter>
+		<getByATM>自助设备渠道</getByATM>
+		<SerialNo>检索号码</SerialNo>
+		<RecordTime>记录时间</RecordTime>
+		<SameNoCount>相同号码数量</SameNoCount>
+		<SearchResult>查询结果</SearchResult>
+		<querySeriaNoMaxChars>（最多输入100位字符）</querySeriaNoMaxChars>
+		<autoGenTips>（无法手动输入，请点击查询按钮）</autoGenTips>
+	    <helpTips> 打“*”项目内容不能为空 </helpTips>
+	    <submit>提交</submit>
+		
+	</node>
+
+</nodes>

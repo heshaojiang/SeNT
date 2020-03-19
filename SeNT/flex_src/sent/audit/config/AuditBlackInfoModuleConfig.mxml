@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:grg="http://grg.grgbanking.com/platform/"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns="http://www.spicefactory.org/parsley" xmlns:message="sent.audit.message.*" xmlns:pm="sent.audit.pm.*">
+	<fx:Script>
+		<![CDATA[
+			import sent.audit.delegate.AuditBlackInfoDelegate;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<!--申请信息-->
+		<message:AuditBlackInfoMsg/>
+		<pm:AuditBlackInfoModulePM/>
+		<grg:GRGRemoteObject id="auditInfoService" destination="auditInfoService"/>
+		<Object type="{AuditBlackInfoDelegate}">
+			<Property name="service" idRef="auditInfoService"/>
+		</Object>
+	</fx:Declarations>
+</fx:Object>

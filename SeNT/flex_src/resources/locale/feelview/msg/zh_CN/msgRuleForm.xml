@@ -1,0 +1,68 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 自定义规则<br>
+	 Create Time：2012-3-21<br>   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "msgRuleForm">
+		<addMsgRuleForm>添加自定义规则信息</addMsgRuleForm>
+		<updateMsgRuleForm>修改自定义规则信息</updateMsgRuleForm>
+		<RulesDefine>规则定义</RulesDefine>
+		<SMSNotificationLevel1>短信通知级别1</SMSNotificationLevel1>
+		<SMSNotificationLevel2>短信通知级别2</SMSNotificationLevel2>
+		<SMSNotificationLevel3>短信通知级别3</SMSNotificationLevel3>
+		<createTicketEnable>是</createTicketEnable>
+		<createTicketDisable>否</createTicketDisable>
+		<statusEnable>是</statusEnable>
+		<statusDisable>否</statusDisable>
+		<sendTotalLevelEnable>是</sendTotalLevelEnable>
+		<sendTotalLevelDisable>否</sendTotalLevelDisable>
+		<selectMalfunctionCategoryItem>选择故障类别</selectMalfunctionCategoryItem>
+		<addTerminalItem>添加终端</addTerminalItem>
+		
+		<WorkingTimeOne1>工作时间一</WorkingTimeOne1>
+		<WorkingTimeTwo1>工作时间二</WorkingTimeTwo1>
+		<NonworkingTimeOne1>非工作时间一</NonworkingTimeOne1>
+		<NonworkingTimeTwo1>非工作时间二</NonworkingTimeTwo1>
+		
+		<WorkingTimeOne2>工作时间一</WorkingTimeOne2>
+		<WorkingTimeTwo2>工作时间二</WorkingTimeTwo2>
+		<NonworkingTimeOne2>非工作时间一</NonworkingTimeOne2>
+		<NonworkingTimeTwo2>非工作时间二</NonworkingTimeTwo2>
+		
+		<WorkingTimeOne3>工作时间一</WorkingTimeOne3>
+		<WorkingTimeTwo3>工作时间二</WorkingTimeTwo3>
+		<NonworkingTimeOne3>非工作时间一</NonworkingTimeOne3>
+		<NonworkingTimeTwo3>非工作时间二</NonworkingTimeTwo3>
+		
+		<monToFriItem1>周一至周五</monToFriItem1>
+		<monToFriItem2>周一至周五</monToFriItem2>
+		<satToSunItem1>周六至周日</satToSunItem1>
+		<satToSunItem2>周六至周日</satToSunItem2>
+		
+		<monToFriItem>周一至周五</monToFriItem>
+		<satToSunItem>周六至周日</satToSunItem>
+		<workingTimeItem>工作时间</workingTimeItem>
+		<toItem>至</toItem>
+		<minute>分钟</minute>
+		<createDispatchItem>创建工单</createDispatchItem>
+		<sendTimeAfterMalfunctionItem>故障后多久发送信息</sendTimeAfterMalfunctionItem>
+		<sendPersonsItem>发送人员列表</sendPersonsItem>
+		<one>1.</one>
+		<two>2.</two>
+		<three>3.</three>
+		<sms>SMS</sms>
+		<email>EMAIL</email>
+		<chooseTerminalForm>选择终端</chooseTerminalForm>
+		
+		
+		<nameItem>规则名称</nameItem>
+		<createDateItem>创建时间</createDateItem>
+		<statusItem>是否启用</statusItem>
+		<sendTotalLevelItem>是否同时发送所有人</sendTotalLevelItem>
+		<createTicketItem>是否创建工单</createTicketItem>
+		<messageContentItem>短信内容</messageContentItem>
+		<finishMessageItem>故障结束后短信内容</finishMessageItem>
+		<chooseTerminalForm>选择终端查询信息</chooseTerminalForm>
+	</node>
+</nodes>

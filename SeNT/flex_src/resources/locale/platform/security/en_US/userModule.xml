@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "userModule">
+		<listTitle>UserList</listTitle>
+		<userNameKey>User Name: </userNameKey>
+		<orgNameKey>OrgName: </orgNameKey>
+		<operations>Operation</operations>
+		<userName>User Name</userName>
+		<useremail>Email</useremail>
+		<areaName>Area Name</areaName>
+		<orgName>Org Name</orgName>
+		<tel>Tel</tel>
+		<userCode>User Code</userCode>
+		<status>Status</status>
+	</node>
+</nodes>

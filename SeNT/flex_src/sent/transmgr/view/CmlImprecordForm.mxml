@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" titleKey="fileUpload"
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 locale="cmlImprecordForm" layout="vertical" 
+				 width="680" height="375"
+				 creationComplete="init()">
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.controls.Alert;
+			
+			import org.idmedia.as3commons.util.Map;
+			import org.spicefactory.lib.util.collection.MapEntry;
+			import org.utils.IntegerUtils;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DateUtils;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermInfoPM;
+			import platform.vo.term.TermInfoVo;
+			
+			import sent.common.utils.StringUtils;
+			import sent.transmgr.message.CmlImprecordMsg;
+			import sent.transmgr.pm.CmlImprecordModulePM;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Inject]
+			[Bindable]
+			public var termInfoPM:TermInfoPM;
+			
+			protected var errMsg:String = "";
+			
+			[Bindable]
+			public var fileName:String;//上传的文件名称
+			
+			/**
+			 * ip
+			 */
+			[Bindable]
+			public var serverIp:String;
+			
+			/**
+			 * fsn图片的路径
+			 * */
+			[Bindable]
+			public var fsnPath:String;
+			
+			/**端口号
+			 * */
+			[Bindable]
+			public var serverPort:int;
+			
+			[Bindable]
+			public var uploadId:String;
+			
+			[Bindable]
+			public var serverData:Object = new Object();
+			
+			[Bindable]
+			public var termNo:String; //终端编号
+			
+			[Bindable]
+			public var tradeDate:String;//交易时间
+			[Bindable]
+			public var isStandardFile:Boolean = true;//标识是否标准文件
+			
+			public var currencyType:String = "CNY";
+			
+			private var isUploadFSN:Boolean = false;//判断是否允许上传FSN文件
+			
+			private var oldPathString:String = "";//用于判断所选FSN文件是否有变化
+			
+			[Bindable]
+			private var orgName:String = "";//钞票来源（机构名称）
+			[Bindable]
+			private var pathCode:String = "";//来源机构编码
+			
+			//初始化
+			public function init():void
+			{
+				trace("CmlImprecordForm.init");
+				filePath.text="";
+				
+				//获得服务器相关信息
+				var msg:CmlImprecordMsg = new CmlImprecordMsg();
+				msg.type = "findServerInfo";	// findServerInfoResult
+				sendMessage(msg);
+			}
+			
+			/**
+			 * 从参数中获得查询服务器信息
+			 * */
+			[MessageHandler(selector="findServerInfoResult")]
+			public function findServerInfoResultHandler(p_msg:CmlImprecordMsg):void
+			{
+				trace("CmlImprecordForm.findServerInfoResultHandler - findServerInfoResult");
+				if(p_msg)
+				{
+					serverData = p_msg.result;
+				}
+			}
+			
+			//选择上传文件
+			private function mouseClickHandler(event:MouseEvent):void
+			{
+				trace("CmlImprecordForm.mouseClickHandler");
+				
+				ExternalInterface.call("Browser");//调用JS中Browser函数
+				
+				//返回文件路径
+				var filePathString:String = ExternalInterface.call("OnFileChange");
+				
+				if(oldPathString == filePathString){ //所选文件没有变化
+					return ;
+				} else {
+					oldPathString = filePathString;
+					
+					filePathString = filePathString.replace(/\\/g, "/");
+					filePath.text = filePathString;
+					var filePathSplitArr:Array = filePathString.split("/");
+					if( filePathSplitArr.length==0 ) {
+						errMsg = LanguageManager.getInstance().getExceptionMessage("exceptionMessage.fileNameFormatError");
+						AlertHandler.alert(errMsg);
+						return ;
+					}
+					fileName = filePathSplitArr[filePathSplitArr.length-1];//得到上传的文件名称x.x
+					
+					//判断文件名后缀是否为fsn
+					if (fileName != null && fileName.length > 4) {
+						if (".fsn" != fileName.substr(fileName.length - 4, 4).toLowerCase()) {
+							AlertHandler.alert("必须为.fsn或.FSN扩展名的文件");
+							isUploadFSN = false;
+							return;
+						}
+					} else {
+						AlertHandler.alert("必须为.fsn或.FSN扩展名的文件");
+						isUploadFSN = false;
+						return;
+					}
+					
+					var fileNameSplitArr:Array = fileName.split("_");
+					var timeDevId:String = "";
+					timeDevId = ExternalInterface.call("getTimeDevId", filePathString); 
+					trace("timeDevId:"+timeDevId);
+					if(timeDevId == null || timeDevId == ""){
+						AlertHandler.alert("FSN文件返回时间及终端编号为空");
+						isUploadFSN = false;
+						return;
+					} 
+					var timeDevIdArr:Array = timeDevId.split("^");
+					if(timeDevIdArr.length==3){
+						tradeDate = timeDevIdArr[0];
+						if(tradeDate == null || tradeDate == ""){
+							AlertHandler.alert("FSN文件返回时间为空");
+							isUploadFSN = false;
+							return;
+						}
+						if(timeDevIdArr[1]!=null && timeDevIdArr[1] != ""){
+							var a:Array = timeDevIdArr[1].toString().split("-");
+							termNo = a[a.length-1];
+						} else {
+							AlertHandler.alert("FSN文件返回终端编号为空");
+							isUploadFSN = false;
+							return;
+						}
+						currencyType = (timeDevIdArr[2]==null || timeDevIdArr[2]=="")?"CNY":timeDevIdArr[2];
+					} else {
+						AlertHandler.alert("FSN文件返回时间及终端编号有误");
+						isUploadFSN = false;
+						return;
+					}
+					isUploadFSN = true;
+					
+					//先恢复所有数据
+					businessDataLabel1.visible = false;
+					businessDataLabel1.includeInLayout = false;
+					businessDataLabel2.visible = false;
+					businessDataLabel2.includeInLayout = false;
+					jourNoLabel.visible = false;
+					jourNoLabel.includeInLayout = false;
+					exportName.visible = false;
+					exportName.includeInLayout = false;
+					businessData1_.text = "";
+					businessData2_.text = "";
+					version.selectedValue = "";
+					tradeType.selectedValue = "";
+					jourNo.text = "";
+					userId.text = "";
+					
+					//判断FSN版本，不同处理方式
+					if(fileNameSplitArr[0] == "11" && fileNameSplitArr.length==7){// 标准V1.1版FSN文件
+						version.selectedValue = "1";
+						var fileTradeType:String = fileNameSplitArr[5];// 交易类型
+						tradeType.selectedValue = fileTradeType;
+						var fileDataInfo:Array = fileNameSplitArr[6].split("#");
+						businessDataLabel1.required = true;
+						businessDataLabel1.visible = true;
+						businessDataLabel1.includeInLayout = true;
+						switch(fileTradeType){
+							case "GMSK":
+							case "GMFK":
+								if(fileDataInfo.length==5){
+									businessDataLabel2.required = true;
+									businessDataLabel2.visible = true;
+									businessDataLabel2.includeInLayout = true;
+									jourNoLabel.required = true;
+									jourNoLabel.visible = true;
+									jourNoLabel.includeInLayout = true;
+									exportName.required = true;
+									exportName.visible = true;
+									exportName.includeInLayout = true;
+									
+									businessData1_.text = fileDataInfo[0];
+									businessData2_.text = fileDataInfo[2];
+									jourNo.text = fileDataInfo[1];
+									userId.text = fileDataInfo[3];
+								}
+								break;
+							case "ATMCK":
+							case "ATMQK":
+							case "ATMXJQC":
+								if(fileDataInfo.length==4){
+									businessDataLabel2.required = true;
+									businessDataLabel2.visible = true;
+									businessDataLabel2.includeInLayout = true;
+									jourNoLabel.required = true;
+									jourNoLabel.visible = true;
+									jourNoLabel.includeInLayout = true;
+									
+									businessData1_.text = fileDataInfo[0];
+									businessData2_.text = fileDataInfo[2];
+									jourNo.text = fileDataInfo[1];
+								}
+								break;
+							case "ATMQJ":
+							case "ATMJC":
+								if(fileDataInfo.length==4){
+									businessDataLabel2.required = true;
+									businessDataLabel2.visible = true;
+									businessDataLabel2.includeInLayout = true;
+									exportName.required = true;
+									exportName.visible = true;
+									exportName.includeInLayout = true;
+									
+									businessData1_.text = fileDataInfo[0];
+									businessData2_.text = fileDataInfo[1];
+									userId.text = fileDataInfo[2];
+								}
+								break;
+							case "XJLZ":
+								if(fileDataInfo.length==3){
+									exportName.required = true;
+									exportName.visible = true;
+									exportName.includeInLayout = true;
+									
+									businessData1_.text = fileDataInfo[0];
+									userId.text = fileDataInfo[1];
+								}
+								break;
+							case "GZHM":
+								if(fileDataInfo.length==2){
+									exportName.required = true;
+									exportName.visible = true;
+									exportName.includeInLayout = true;
+									
+									userId.text = fileDataInfo[0];
+								}
+								break;
+						}
+					} else if(fileNameSplitArr[0] == "10" && fileNameSplitArr.length==8){ //标准V1.0版FSN文件
+						isStandardFile = true;
+						version.selectedValue = "0";
+						tradeType.selectedValue = fileNameSplitArr[4]; //交易类型
+						businessDataLabel1.visible = true;
+						businessDataLabel1.includeInLayout = true;
+						businessDataLabel1.required = true;
+						businessData1_.text = fileNameSplitArr[5];
+						businessDataLabel1.label = tradeTypeObj[fileNameSplitArr[4]];
+						//V1.0版只有ATM加钞、ATM清机需要填写交易数据2，其余默认为0
+						if(tradeType.selectedValue == "ATMJC" || tradeType.selectedValue == "ATMQJ"){
+							businessDataLabel2.visible = true;
+							businessDataLabel2.includeInLayout = true;
+							businessDataLabel2.required = true;
+							businessData2_.text = fileNameSplitArr[6];
+							businessDataLabel2.label = tradeTypeObj2[fileNameSplitArr[4]];
+						} else if(tradeType.selectedValue == "XJLZ"){
+							exportName.required = true;
+							exportName.visible = true;
+							exportName.includeInLayout = true;
+							userId.text = fileNameSplitArr[6];
+						} else {
+							businessData2_.text = "0";
+						}
+					}
+					
+					var termInfoMsg:TermInfoMsg = new TermInfoMsg();
+					termInfoMsg.args["remoteMethod"] = "getOrgPathAndNameByTermCode";
+					termInfoMsg.args["methodPrameter"] = termNo;
+					termInfoMsg.args["resultHandler"] = "CmlImprecordForm.getOrgPathAndNameByTermCodeResult";
+					termInfoMsg.args["errorHandler"] = "CmlImprecordForm.getOrgPathAndNameByTermCodeError";
+					termInfoPM.sendTermInfoMsg(termInfoMsg);
+					
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="CmlImprecordForm.getOrgPathAndNameByTermCodeResult")]
+			public function getOrgPathAndNameByTermCodeResult(msg:TermInfoMsg):void
+			{
+				trace("CmlImprecordForm.getOrgPathAndNameByTermCodeResult");
+				var returnStr:String = msg.result as String;
+				var orgPathAndName:Array = returnStr.split(",");
+				orgName = orgPathAndName[0];
+				pathCode = orgPathAndName[1];
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="CmlImprecordForm.getOrgPathAndNameByTermCodeError")]
+			public function getOrgPathAndNameByTermCodeError(msg:TermInfoMsg):void
+			{
+				trace("CmlImprecordForm.getOrgPathAndNameByTermCodeError");
+			}
+			
+			/**
+			 * 保存
+			 */
+			public function save():void
+			{ 
+				trace("CmlImprecordForm.save");
+				
+				if(!version.selectedValue){
+					AlertHandler.alert("请选择版本");
+					return;
+				}
+				if(!tradeType.selectedValue){
+					AlertHandler.alert("请选择交易类型");
+					return;
+				}
+				if(businessDataLabel1.visible == true && !businessData1_.text){
+					AlertHandler.alert("请填写"+businessDataLabel1.label.substr(0,businessDataLabel1.label.length-1));
+					return;
+				}
+				if(businessDataLabel2.visible == true && !businessData2_.text){
+					AlertHandler.alert("请填写"+businessDataLabel2.label.substr(0,businessDataLabel2.label.length-1));
+					return;
+				}
+				if(jourNoLabel.visible == true && jourNo.text == ""){
+					AlertHandler.alert("请填写流水号");
+					return;
+				}
+				if(exportName.visible == true && userId.text == ""){
+					AlertHandler.alert("请填写导入人员");
+					return;
+				}
+				if( filePath.text=="" || filePath.text==null ){
+					AlertHandler.alert("pleaseDownLoadFile");
+					return;
+				}
+				if( StringUtils.endsWith(fileName.toLowerCase(), ".fsn")==false ){
+					//文件名格式不正确
+					errMsg = LanguageManager.getInstance().getExceptionMessage("exceptionMessage.fileNameFormatError");
+					AlertHandler.alert(errMsg);
+					return;
+				}
+				
+				//判断是否允许上传FSN文件
+				if(!isUploadFSN) {
+					AlertHandler.alert("选择的FSN文件格式或内容不对，不允许上传");
+					return;
+				}
+				
+				this.setVisible(false);
+				
+				if(version.selectedValue == "0") {// 10版FSN
+					if(tradeType.selectedValue == "XJLZ"){ //现金流转 交易数据2 为操作员号
+						businessData2_.text = userId.text;
+					} else if(tradeType.selectedValue == "GZHM"){ //冠字号码 交易数据1、2可不填，都置为0
+						businessData1_.text = "0";
+						businessData2_.text = "0";
+					} else if(tradeType.selectedValue != "ATMJC" && tradeType.selectedValue != "ATMQJ"){ //除了ATM加钞、ATM清机 其他交易数据2 为0
+						businessData2_.text = "0";
+					}
+					fileName = "10"+"_"+tradeDate+"_"+pathCode+"_"+termNo+"_"+tradeType.selectedValue+"_"+businessData1_.text+"_"+businessData2_.text+"_"+currencyType+".FSN";
+				} else {
+					fileName = "11"+"_"+currencyType+"_"+tradeDate+"_"+pathCode+"_"+termNo+"_"+tradeType.selectedValue+"_";
+					switch(tradeType.selectedValue){
+						case "GMSK":
+						case "GMFK":
+							fileName = fileName + businessData1_.text+"#"+jourNo.text+"#"+businessData2_.text+"#"+userId.text+"#0.FSN";
+							break;
+						case "ATMCK":
+						case "ATMQK":
+						case "ATMXJQC":
+							fileName = fileName + businessData1_.text+"#"+jourNo.text+"#"+businessData2_.text+"#0.FSN";
+							break;
+						case "ATMQJ":
+						case "ATMJC":
+							fileName = fileName + businessData1_.text+"#"+businessData2_.text+"#"+userId.text+"#0.FSN";
+							break;
+						case "XJLZ":
+							fileName = fileName + businessData1_.text+"#"+userId.text+"#0.FSN";
+							break;
+						case "GZHM":
+							fileName = fileName + userId.text+"#0.FSN";
+							break;
+					}
+				}
+				
+				upload(fileName);
+			}
+			
+			/**
+			 * 调用动态库，实现文件上传 （index.html 中通过js调用dll）
+			 */
+			public	function upload(fsnName:String):void {
+				trace("CmlImprecordForm.upload:fsnName="+fsnName);
+				fsnPath = serverData.fsnPath;
+				serverIp = serverData.serverIp;
+				serverPort = IntegerUtils.parseInteger(serverData.serverPort);
+				uploadId = UserInfoInit.userInfo["userCode"];
+				
+				trace("serverIp="+serverIp+" serverPort="+serverPort+" uploadId="+uploadId+" filePath="+filePath.text+" fsnName="+fsnName);
+				ExternalInterface.call("uploadFsn", serverIp, serverPort, uploadId,filePath.text,fsnName); 
+			} 
+			
+			[Bindable]
+			public var tradeTypeArr:ArrayCollection = new ArrayCollection([
+				{id:"",tradeType:"==请选择=="},
+				{id:"GMSK",tradeType:"柜面收款"},{id:"GMFK",tradeType:"柜面付款"},{id:"ATMCK",tradeType:"ATM存款"},
+				{id:"ATMQK",tradeType:"ATM取款"},{id:"ATMXJQC",tradeType:"ATM现金圈存"},{id:"ATMJC",tradeType:"ATM加钞"},
+				{id:"ATMQJ",tradeType:"ATM清机"},{id:"XJLZ",tradeType:"现金流转"},{id:"GZHM",tradeType:"冠字号码"}
+			]);
+			
+			[Bindable]
+			public var versionArr:ArrayCollection = new ArrayCollection([
+				{id:"",version:"==请选择=="},
+				{id:"0",version:"V1.0"},{id:"1",version:"V1.1"}
+			]);
+			
+			public var tradeTypeObj:Object = {"GMSK":"卡号/账号：","GMFK":"卡号/账号：","ATMCK":"卡号/账号：","ATMQK":"卡号/账号：","ATMXJQC":"卡号/账号：","ATMJC":"ATM号：","ATMQJ":"ATM号：","XJLZ":"流转条码号：","GZHM":"交易数据1：","":"交易数据1："};
+			public var tradeTypeObj2:Object = {"GMSK":"交易金额：","GMFK":"交易金额：","ATMCK":"交易金额：","ATMQK":"交易金额：","ATMXJQC":"交易金额：","ATMJC":"钞箱号：","ATMQJ":"钞箱号：","XJLZ":"交易金额：","GZHM":"交易数据2：","":"交易数据2："};
+			
+
+			protected function tradeType_changeHandler(event:IndexChangeEvent):void{
+				var index:int = event.newIndex;
+				trace(tradeTypeObj[tradeType.selectedValue]+"  "+tradeTypeObj2[tradeType.selectedValue]);
+				businessDataLabel1.label = tradeTypeObj[tradeType.selectedValue];
+				businessDataLabel2.label = tradeTypeObj2[tradeType.selectedValue];
+				
+				//冠字号码 不需要交易数据1、2
+				if(tradeType.selectedValue != "GZHM" && tradeType.selectedValue != ""){
+					businessDataLabel1.required = true;
+					businessDataLabel1.visible = true;
+					businessDataLabel1.includeInLayout = true;
+					
+					if(version.selectedValue == "0"){
+						//V1.0版只有ATM加钞、ATM清机需要填写交易数据2
+						if(tradeType.selectedValue == "ATMJC" || tradeType.selectedValue == "ATMQJ"){
+							businessDataLabel2.visible = true;
+							businessDataLabel2.required = true;
+							businessDataLabel2.includeInLayout = true;
+						} else {
+							businessDataLabel2.visible = false;
+							businessDataLabel2.required = false;
+							businessDataLabel2.includeInLayout = false;
+							businessData2_.text = "0";
+						}
+					} else if(version.selectedValue == "1"){
+						// V1.1版现金流转 只需要输入 流转条码号
+						if(tradeType.selectedValue == "XJLZ") {
+							businessDataLabel2.required = false;
+							businessDataLabel2.visible = false;
+							businessDataLabel2.includeInLayout = false;
+						} else {
+							businessDataLabel2.required = true;
+							businessDataLabel2.visible = true;
+							businessDataLabel2.includeInLayout = true;
+						}
+					}
+				} else {
+					businessDataLabel1.required = false;
+					businessDataLabel2.required = false;
+					businessDataLabel1.visible = false;
+					businessDataLabel1.includeInLayout = false;
+					businessDataLabel2.visible = false;
+					businessDataLabel2.includeInLayout = false;
+				}
+				
+				//V1.1版本 柜面收款、柜面付款、ATM存款、ATM取款 需要填写流水号
+				if(version.selectedValue == "1" && (tradeType.selectedValue == "GMSK" || tradeType.selectedValue == "GMFK" 
+					|| tradeType.selectedValue == "ATMCK" || tradeType.selectedValue == "ATMQK"|| tradeType.selectedValue == "ATMXJQC")){
+					jourNoLabel.visible = true;
+					jourNoLabel.required = true;
+					jourNoLabel.includeInLayout = true;
+				} else {
+					jourNoLabel.visible = false;
+					jourNoLabel.required = false;
+					jourNoLabel.includeInLayout = false;
+				}
+				
+				//V1.0版本 现金流转；V1.1版本 柜面收款、柜面付款、ATM存款、ATM取款、现金流转、冠字号码 需要填写导入人员
+				if(tradeType.selectedValue == "XJLZ"){
+					exportName.visible = true;
+					exportName.required = true;
+					exportName.includeInLayout = true;
+				} else if(version.selectedValue == "1" && (tradeType.selectedValue == "GMSK" || tradeType.selectedValue == "GMFK" 
+					|| tradeType.selectedValue == "ATMJC" || tradeType.selectedValue == "ATMQJ" || tradeType.selectedValue == "GZHM")){
+					exportName.visible = true;
+					exportName.required = true;
+					exportName.includeInLayout = true;
+				} else {
+					exportName.visible = false;
+					exportName.required = false;
+					exportName.includeInLayout = false;
+				}
+			}
+
+		]]>
+	</fx:Script>
+	<grg:Form id="form" width="100%"  textAlign="left" borderVisible="false">
+		<!-- 导入冠字号码文件： -->
+		<grg:FormItem id="importFile" locale="import" required="true">
+			<s:HGroup textAlign="center">
+				<grg:TextInput id="filePath" name="filePath" 
+							   width="350"  editable="false" enabled="true" 
+							   textAlign="left"/>		
+				<!-- 选择导入文件 -->
+				<grg:Button id="selectFileBtn"  iconVisible="false" locale="selectFileBtn" click="mouseClickHandler(event)" />
+			</s:HGroup>
+		</grg:FormItem>
+		
+		<!-- 交易时间 -->
+		<grg:FormItem id="tradeDateLabel" locale="tradeDateLabel">
+			<grg:Text text="@{tradeDate}" /> 
+		</grg:FormItem>
+		<!-- 设备编号： -->
+		<grg:FormItem id="termId" locale="termNum">
+			<grg:Text text="@{termNo}" id="termCode"/> 
+		</grg:FormItem>
+		<!-- 机构： -->
+		<grg:FormItem id="comOrg" textAlign="left" locale="comeOrg">
+			<grg:Text text="@{orgName}" /> 
+		</grg:FormItem>
+		
+		<!-- 版本 -->
+		<grg:FormItem id="versionLabel" locale="versionLabel" required="true">
+			<grg:ComboBox id="version" textAlign="left" change="tradeType_changeHandler(event)"
+						  labelField="version" valueField="id" 
+						  width="100" dataProvider="{versionArr}">
+			</grg:ComboBox>
+		</grg:FormItem>
+		<!-- 交易类型 -->
+		<grg:FormItem id="tradeTypeLabel" locale="tradeTypeLabel" required="true">
+			<grg:ComboBox id="tradeType" textAlign="left" change="tradeType_changeHandler(event)"
+						  labelField="tradeType" valueField="id" 
+						  width="200" dataProvider="{tradeTypeArr}">
+			</grg:ComboBox>
+		</grg:FormItem>
+		
+		<!-- 业务数据1 -->
+		<grg:FormItem id="businessDataLabel1" locale="businessDataLabel1" >
+			<grg:TextInput id="businessData1_"  textAlign="left" restrict="0-9a-zA-Z" width="200" height="20" styleName="TextInput" maxChars="20"/>
+		</grg:FormItem>
+		<!-- 业务数据2 -->
+		<grg:FormItem id="businessDataLabel2" locale="businessDataLabel2">
+			<grg:TextInput id="businessData2_" textAlign="left" restrict="0-9a-zA-Z" width="200" height="20" styleName="TextInput" maxChars="20"/> 
+		</grg:FormItem>
+		<!-- 流水号 -->
+		<grg:FormItem id="jourNoLabel" locale="jourNoLabel">
+			<grg:TextInput id="jourNo" text="0" textAlign="left" restrict="0-9a-zA-Z" width="200" height="20" styleName="TextInput" maxChars="20"/> 
+		</grg:FormItem>
+		<!-- 导入人员： -->
+		<grg:FormItem id="exportName" textAlign="left" locale="operator">	  
+			<grg:TextInput id="userId" restrict="0-9a-zA-Z" width="200" height="20" styleName="TextInput" maxChars="20"/>
+		</grg:FormItem>
+	</grg:Form>
+	
+	<s:HGroup width="100%"  gap="6" horizontalAlign="center" verticalAlign="middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle" />
+			</s:layout>
+			<grg:Button id="saveBtn" click="save()" locale="saveButton" iconType="save" />
+		</s:BorderContainer>
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle" />
+			</s:layout>
+			<grg:Button click="this.close()" locale="cancelButton" iconType="close"/>
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "emailSetting">
+		<encoding>字符集：</encoding>
+		<serverName>SMTP服务器：</serverName>
+		<user>用户：</user>
+		<password>密码：</password>
+		<from>发件人地址：</from>
+		<titlemsg>Email参数</titlemsg>
+		<helpEmailServer>SMTP服务器的域名/IP</helpEmailServer>
+		<helpEmailUser>发送邮件的账号，一般要求带邮箱域名（如：xx@abc.com）</helpEmailUser>
+	</node>
+</nodes>

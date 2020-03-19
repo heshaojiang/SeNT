@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   locale="bankSNMarkApplicationModule"
+			   xmlns:components="components.*"
+			   layout="vertical" width="100%" height="100%"
+			   >
+	
+	<fx:Script>
+		<![CDATA[
+			
+			//========================
+			//银行业金融机构冠字号码分类贴标进展情况表
+			//========================
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.controls.AdvancedDataGrid;
+			import mx.controls.DataGrid;
+			import mx.controls.TextInput;
+			import mx.events.AdvancedDataGridEvent;
+			import mx.events.DataGridEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ValidationResultEvent;
+			import mx.formatters.NumberFormatter;
+			import mx.olap.aggregators.MinAggregator;
+			import mx.validators.NumberValidator;
+			import mx.validators.StringValidator;
+			
+
+			import mx.printing.FlexPrintJob;
+			import mx.printing.FlexPrintJobScaleType;
+			import mx.core.FlexGlobals;
+			import mx.controls.Image;
+
+
+			
+			
+
+			
+			
+			[Bindable] 
+			public var sourceData:ArrayCollection = new ArrayCollection 
+				([ 
+					{currentBank:'中国工商银行'} 
+					,{currentBank:'中国农业银行'} 
+					,{currentBank:'中国银行'} 
+					,{currentBank:'中国建设银行'} 
+					,{currentBank:'交通银行'} 
+					,{currentBank:'邮政储蓄银行'} 
+					,{currentBank:'中信银行'} 
+					,{currentBank:'中国光大银行'} 
+					,{currentBank:'中国民生银行'} 
+					,{currentBank:'招商银行'} 
+					,{currentBank:'兴业银行'} 
+					,{currentBank:'平安银行'} 
+					,{currentBank:'浦发银行'} 
+					,{currentBank:'恒丰银行'} 
+					,{currentBank:'浙商银行'} 
+					,{currentBank:'渤海银行'} 
+					,{currentBank:'其他金融机构'} 
+				]);; 
+			
+			/** 
+			 * 生成序号 
+			 */ 
+			private function formatIndexNumber(item:Object, colum:Object):String 
+			{ 
+				var dataGrid:Object = colum.mx_internal::owner; 
+				var datas:Array = dataGrid.dataProvider.source; 
+				var indexNum:int = (datas.indexOf(item) + 1); 
+				return indexNum.toString(); 
+			} 
+			
+			/** 
+			 * 格式化数字数据 
+			 */ 
+			private function foramtNumberField(item:Object, column:Object):String { 
+				var numberFormatter:NumberFormatter = new NumberFormatter(); 
+				var value:Number = item[column.dataField]; 
+				numberFormatter.precision = "2";     
+				numberFormatter.thousandsSeparatorTo = ","; 
+				return numberFormatter.format(value); 
+			} 
+			
+			
+			/**start：校验数据是否合法**/ 
+			public var nv:NumberValidator; 
+			private function onEditEnd(event:AdvancedDataGridEvent):void 
+			{ 
+				var dataField:String = event.dataField; 
+				var fCell:Array=[event.columnIndex,event.rowIndex]; 
+				var textInput:TextInput = TextInput(event.currentTarget.itemEditorInstance); 
+				var newData:String = textInput.text; 
+				
+				nv = new NumberValidator(); 
+				
+				if(dataField == 'drawTermCount' || dataField == 'drawTermCount2') 
+				{ 
+					nv.source = event.currentTarget.itemEditorInstance; 
+					nv.property = "text"; 
+					nv.required=true; 
+					nv.requiredFieldError = "内容不能为空字符串，请重新输入数据！"; 
+					nv.invalidCharError = "必须为数字，请重新输入数据"; 
+					nv.allowNegative=false; //允许为负数设置 
+					nv.negativeError="内容不能为负数，请重新输入数据" 
+					var val:ValidationResultEvent = nv.validate(); 
+					if(val.type == ValidationResultEvent.INVALID) 
+					{ 
+						callLater(maintainEdit,fCell);  
+					}                                 
+					else         
+					{      
+						//callLater(maintainFocus); 
+					} 
+				} 
+				else 
+				{ 
+					callLater(maintainFocus); 
+				} 
+			} 
+			private function maintainFocus():void 
+			{ 
+				dg.editedItemPosition = null; 
+			} 
+			
+			private function maintainEdit(colIndex:int,rowIndex:int):void 
+			{ 
+				var editCell:Object = {columnIndex:colIndex, rowIndex: rowIndex}; 
+				if(dg.editedItemPosition==null) 
+				{ 
+					dg.editedItemPosition = editCell; 
+					callLater(validateCurrentEditor); 
+				} 
+			} 
+			
+			private function validateCurrentEditor():void 
+			{ 
+				if(dg.itemEditorInstance!=null) 
+				{ 
+					nv.source = dg.itemEditorInstance;                   
+					nv.validate(); 
+				} 
+			} 
+			/**end：校验数据是否合法**/ 
+			
+			
+			
+			/**
+			 * 打印
+			 */
+			protected function grgbtn_print_clickHandler(event:MouseEvent):void
+			{
+				dg.selectedIndex = -1;
+				var printer:FlexPrintJob  = new FlexPrintJob ();
+				if( printer.start()!=true )
+				{
+					return;
+				}else{
+					var width:Number = bankSNMarkReportPrintGrp.width;
+					var height:Number = bankSNMarkReportPrintGrp.height;
+					
+					var bit:BitmapData;
+					bit = copy(bankSNMarkReportPrintGrp,new Rectangle(0,0,width,height));
+					var bmp:Bitmap = new Bitmap(bit);
+					
+					
+					var img:Image=new Image();
+					img.width = printer.pageWidth;
+					img.height = printer.pageHeight;
+					img.source=bmp;
+					FlexGlobals.topLevelApplication.addElement(img);
+					printer.addObject(img);
+					FlexGlobals.topLevelApplication.removeElement(img);
+					
+					printer.send();
+				}
+			}
+			
+			//截取BitmapData
+			private function copy(target:DisplayObject,rect:Rectangle):BitmapData
+			{
+				var matrix:Matrix = new Matrix(1,0,0,1,-rect.x,-rect.y);
+				rect.x = rect.y = 0;
+				//matrix.scale(1.4,1.4);
+				var bitmapData:BitmapData = new BitmapData(rect.width,rect.height);
+				bitmapData.draw(target,matrix,null,null,rect);
+				return bitmapData;
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Style>  
+		Application  
+		{  
+		backgroundColor: #FFFFFF;  
+		backgroundDisabledColor: #FFFFFF;  
+		backgroundSize: "100%";  
+		fontSize: 12;  
+		}  
+		AdvancedDataGrid  
+		{    
+		headerColors: #cad5db, #edf3f7;  
+		rollOverColor: #faf1d2;  
+		borderColor: #ffffff;  
+		selectionColor: #fbcfae;  
+		}   
+		.errorTip  
+		{  
+		fontSize: 11;  
+		}  
+	</fx:Style> 
+	
+	<!-- 条件搜索 -->
+	<grg:AdvancedSearchBar
+		textAlign = "center"
+		styleName = "SearchBar" borderVisible="false">
+		<grg:layout>
+			<s:VerticalLayout paddingTop="0" gap="0"/>
+		</grg:layout>
+		
+		<!--<grg:TitleBar/>-->
+		<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+			<grg:TitleBar   locale="titlemsg" width="50%" />
+		</mx:HBox>
+		
+	</grg:AdvancedSearchBar>
+	
+	<s:VGroup id="bankSNMarkReportPrintGrp" height="95%" width="100%">   
+		<s:Group width="100%" height="1%">
+		</s:Group>	
+		<s:Group width="100%" >
+		<grg:Label width="100%" textAlign="center" fontWeight="bold" fontSize="16" locale="lbl_bank_sn_mark_info" fontFamily="宋体"/>
+		</s:Group>
+		<s:Group width="100%">
+			<!--上报单位：-->
+			<grg:Label width="33%" textAlign="left" fontWeight="bold" fontSize="14" locale="lbl_report_bank"/>
+			<!--上报单位：-->
+			<grg:Label width="33%" textAlign="right" fontWeight="bold" fontSize="14" locale="lbl_report_time"/>
+			<!--单位：-->
+			<grg:Label width="33%" textAlign="right" fontWeight="bold" fontSize="14"  right="0" locale="lbl_unit"/>
+		</s:Group>
+		<mx:AdvancedDataGrid  id="dg" width="100%" height="100%" editable="true" dataProvider="{sourceData}"  
+									 sortableColumns="false" sortExpertMode="true" >  
+									 <!--需要对输入较验的时候加上这个属性 itemEditEnd="onEditEnd(event)"-->
+			<mx:groupedColumns>  
+					<mx:AdvancedDataGridColumn  headerText="贴标单位" headerWordWrap="true" dataField="currentBank" width="100" editable="false" />  
+					<mx:AdvancedDataGridColumnGroup headerText="取款机渠道" headerWordWrap="true" >  
+						<mx:AdvancedDataGridColumn  headerText="现有数量" headerWordWrap="true" dataField="drawTermCount" width="60"   editable="true"> 
+						</mx:AdvancedDataGridColumn>
+						<mx:AdvancedDataGridColumn  headerText="已实现冠字号码查询数量" headerWordWrap="true" dataField="drawTermCount2" width="60"   editable="true"/>  
+						<mx:AdvancedDataGridColumnGroup headerText="贴标数量(当月)" headerWordWrap="true">  
+							<mx:AdvancedDataGridColumn  headerText="蓝标" dataField="drawTermCountL" headerWordWrap="true"  width="60"   editable="true"/>  
+							<mx:AdvancedDataGridColumn  headerText="黄标" dataField="drawTermCountH" headerWordWrap="true"  width="60"   editable="true"/>  
+						</mx:AdvancedDataGridColumnGroup>  
+					</mx:AdvancedDataGridColumnGroup>  
+				
+				<mx:AdvancedDataGridColumnGroup headerText="存取款一体机渠道" headerWordWrap="true">  
+					<mx:AdvancedDataGridColumn  headerText="现有数量" headerWordWrap="true" dataField="drawAndDepositTermCount" width="60"   editable="true"/>  
+					<mx:AdvancedDataGridColumn  headerText="已实现冠字号码查询数量" headerWordWrap="true" dataField="drawAndDepositTermCount2" width="60"   editable="true"/>  
+					<mx:AdvancedDataGridColumnGroup headerText="贴标数量(当月)" headerWordWrap="true">  
+						<mx:AdvancedDataGridColumn  headerText="蓝标" headerWordWrap="true" dataField="drawAndDepositTermCountL"  width="60"   editable="true"/>  
+						<mx:AdvancedDataGridColumn  headerText="黄标" headerWordWrap="true" dataField="drawAndDepositTermCountH" width="60"   editable="true"/>  
+					</mx:AdvancedDataGridColumnGroup>  
+				</mx:AdvancedDataGridColumnGroup>  
+				
+				<mx:AdvancedDataGridColumnGroup headerText="网点渠道" headerWordWrap="true">  
+					<mx:AdvancedDataGridColumn  headerText="现有数量" headerWordWrap="true" dataField="counterTermCount" width="60"   editable="true"/>  
+					<mx:AdvancedDataGridColumn  headerText="已实现冠字号码查询数量" headerWordWrap="true" dataField="counterTermCount2" width="60"   editable="true"/>  
+					<mx:AdvancedDataGridColumnGroup headerText="贴标数量(当月)" headerWordWrap="true">  
+						<mx:AdvancedDataGridColumn  headerText="蓝标" headerWordWrap="true" dataField="counterTermCountL" width="60"   editable="true"/>  
+						<mx:AdvancedDataGridColumn  headerText="黄标" headerWordWrap="true" dataField="counterTermCountH" width="60"   editable="true"/>  
+					</mx:AdvancedDataGridColumnGroup>  
+				</mx:AdvancedDataGridColumnGroup>  
+				
+			</mx:groupedColumns>  
+		</mx:AdvancedDataGrid>  
+		
+		<s:Group width="100%">
+			<!--上报单位：-->
+			<grg:Label fontWeight="bold" fontSize="14" locale="lbl_applicant"/>
+			<!--单位：-->
+			<grg:Label fontWeight="bold" fontSize="14"  right="100" locale="lbl_auditor"/>
+		</s:Group>
+		
+		<s:Group width="100%">
+			<!--注：-->
+			<grg:Label fontWeight="bold" fontSize="14" locale="lbl_note"/>
+		</s:Group>
+	</s:VGroup>
+	
+	<s:HGroup width="100%" gap="10" horizontalAlign = "center" verticalAlign = "middle">
+		<s:Button id="grgbtn_print" label="打印" click="grgbtn_print_clickHandler(event)"/>
+	</s:HGroup>		
+</grg:TabModule>
+

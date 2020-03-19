@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "groupForm">
+		<addGroupForm>Add</addGroupForm>
+		<updateGroupForm>Edit</updateGroupForm>
+		<grpName>Name:</grpName>
+		<grpNote>Note:</grpNote>
+		<status>Status:</status>
+		<statusEnable>Enable</statusEnable>
+		<statusDisable>Disable</statusDisable>
+	</node>
+</nodes>

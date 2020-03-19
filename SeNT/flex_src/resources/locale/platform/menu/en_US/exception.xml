@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "menu">
+		<!-- <existKey>This Key has already exists!</existKey> -->
+		<menuNameNotNull>Menu Name Can Not Be Null!</menuNameNotNull><!-- Move to menu-->
+		<existedMenuName>The Menu Name has already existed. Please change the Menu Name and submit again. </existedMenuName>
+		<nameAlreadyExisted>The Menu Name has already existed. Please change the Menu Name and submit again. </nameAlreadyExisted>
+		<menuURLValidate> URL can not contain  single quotation marks</menuURLValidate>
+		<btnAlreadyAllocated>Can not delete，this button has been allocated.</btnAlreadyAllocated>
+	</node>
+	<node locale = "button">
+		<btnNameNotNull>Button Name Can Not Be Null!</btnNameNotNull><!-- Move to menu-->
+		<existedButtonName>The Button Name has already existed. Please change the Button Name and submit again. </existedButtonName>
+	</node>
+</nodes>

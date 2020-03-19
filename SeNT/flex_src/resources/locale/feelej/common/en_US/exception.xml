@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="common">
+		<fileNotFound>File Not Found</fileNotFound>
+		<exceedMaxFileSize>EJ File Size Exceed The MAX Supported File Size</exceedMaxFileSize>
+		<fileServerError>File Server Error</fileServerError>
+		<httpConnError>HTTP Connection Error</httpConnError>
+		<deleteEjFail>Fail To Delete EJ File</deleteEjFail>
+		<moveEjFail>Fail To Move EJ File To Recycle Bin</moveEjFail>
+		<decryptException>Decrypt EJ File Exception</decryptException>
+		<unzipException>Uncompress EJ File Exception</unzipException>
+		<readFileException>Read EJ File Exception</readFileException>
+	</node>
+</nodes>

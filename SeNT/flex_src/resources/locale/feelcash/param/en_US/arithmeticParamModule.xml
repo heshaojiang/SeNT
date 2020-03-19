@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+<node locale="arithmeticParamModule">
+<paramCode>Parameter code</paramCode>
+<paramName>Parameter name</paramName>
+<paramType>Parameter type</paramType>
+<paramValue>Parameter value</paramValue>
+<arithmeticParamView>Arithmetic parameter list</arithmeticParamView>
+<realationCode>Relation code</realationCode>
+</node>
+</nodes>

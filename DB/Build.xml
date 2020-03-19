@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DB" default="zip" basedir=".">
+	<echo message="ANT building DB..............." />
+	<property environment="env" />
+	<property name="root.dir" value="." />
+	<property name="classes.dir" value="{root.dir}/classes" />
+	<property name="jar.dir" value="c:\dist" />
+		
+
+	<target name="ChangeVersion">
+		<property name="Version" value="${buildVersion}" />
+		<replace file=".\dbScript\oracle\script\version.sql" token="BuildVersion" value="${Version}"/>	
+		<replace file=".\dbScript\mysql\script\version.sql" token="BuildVersion" value="${Version}"/>	
+	</target>	
+
+	<target name="zip" depends="ChangeVersion" description="Builds zip file.">
+	 		
+	 	<!-- 打包Oracle数据库脚本 -->
+		<zip zipfile="DB_${Version}_oracle.zip">
+	    <fileset dir="./dbScript/oracle"/>
+		</zip>
+		
+		<copy file="DB_${Version}_oracle.zip" todir="${publishDir}\artifacts" overwrite="true"/>
+		
+		<echo message="clean file" />
+		<delete file="DB_${Version}_oracle.zip"/>
+		
+	</target>	
+	
+</project>

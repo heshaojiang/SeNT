@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "flowSettingModule">
+		<titleKey>工作流程参数设置</titleKey>
+		<generated>已生成:</generated>
+		<calculated>已计算:</calculated>
+		<audit>加钞审批:</audit>
+		<reserve>现金预约:</reserve>
+		<reserved>邮件通知:</reserved>
+		<dispatched>邮件通知:</dispatched>
+		<added>差异处理:</added>
+		<finished>已结办:</finished>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+	</node>
+</nodes>

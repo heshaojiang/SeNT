@@ -1,0 +1,46 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="showCmlCounterRecordForm">
+		
+		<title>查看柜面交易信息</title>
+		
+		<counterRecordInfo>柜面交易信息</counterRecordInfo>
+		
+		<bankNameColon>机构名称：</bankNameColon>
+		<branchColon>网点名称：</branchColon>
+		<orgCodeColon>机构号：</orgCodeColon>
+		<finacialCode>金融机构代码：</finacialCode>
+		<operatorColon>操作员：</operatorColon>
+		<termIdColon>终端编号：</termIdColon>
+		<businessTypeColon>业务类别：</businessTypeColon>
+		<journalNoColon>流水号：</journalNoColon>
+		<tranTimeColon>交易时间：</tranTimeColon>
+		<accountColon>帐号：</accountColon>
+		<IDCardColon>身份证：</IDCardColon>
+		<tranAmountColon>交易金额：</tranAmountColon>
+		<tranCount>张数：</tranCount>
+		<termTypeColon>业务类型：</termTypeColon>
+		<versionNum>版别</versionNum>
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		
+		<serialNoInfo>冠字号信息</serialNoInfo>
+		
+		<seriaNo>冠字号码</seriaNo>
+		<urlName>冠字号码图片</urlName>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		<loc_statisAtm>点钞金额:</loc_statisAtm>
+		<columnNo>序号</columnNo>
+		<tdTransCode>交易名称：</tdTransCode>
+		<reserveType>收付类型：</reserveType>
+		<reserve>收付标识</reserve>
+		<expExcel>导出</expExcel>
+		<seriaNoColon>冠字号码：</seriaNoColon>
+		
+	</node>
+</nodes>

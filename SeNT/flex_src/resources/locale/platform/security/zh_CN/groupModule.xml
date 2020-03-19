@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "groupModule">
+		<listTitle>用户组列表</listTitle>
+		<keyword>用户组名称：</keyword>
+		<grpName>名称</grpName>
+		<grpNote>说明</grpNote>
+		<status>状态</status>
+		<operations>操作</operations>
+		<titlemsg>用户组管理</titlemsg>
+	</node>
+</nodes>

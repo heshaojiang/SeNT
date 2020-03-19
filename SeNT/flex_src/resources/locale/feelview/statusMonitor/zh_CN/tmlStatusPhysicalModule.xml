@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：TML_STATUS_PHYSICAL表的业务模块<br>
+		Create Time：2011-11-26<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlStatusPhysicalModule">
+		<listTitle>钞箱物理标识列表</listTitle>
+		<addTmlStatusPhysicalForm>新增设备状态组信息</addTmlStatusPhysicalForm>
+		<updateTmlStatusPhysicalForm>编辑设备状态组信息</updateTmlStatusPhysicalForm>
+		<brandItem>品牌编号</brandItem>
+		<brandNameItem>品牌名称</brandNameItem>
+		<moduleItem>型号编号</moduleItem>
+		<moduleNameItem>型号名称</moduleNameItem>
+		<locationItem>物理单元标识位</locationItem>
+	</node>
+</nodes>

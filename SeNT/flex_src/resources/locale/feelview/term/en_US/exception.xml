@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "term">
+		<existedTerminalType>This Terminal Type has already exists！</existedTerminalType>
+		<existedTerminalTypeName>This Terminal Type Name has already exists！</existedTerminalTypeName>
+		<existedBrandName>This  Terminal Brand Name has already exists！</existedBrandName>
+		<existedModelName>This  Terminal Model Name has already exists！</existedModelName>
+		<existedResponsiblePerson>The responsible person of terminal has been existed, please select again!</existedResponsiblePerson>
+		<existedTermId>This Terminal Id has already exists！</existedTermId>
+		<existedNetAddr>This Net Addresss has already exists！</existedNetAddr>
+		<existedTermOperator>This role/person has already exists！</existedTermOperator>
+		<terminalTypeNotNull>This terminal type can not be empty！</terminalTypeNotNull>
+		<terminalTypeNameNotNull>this terminal type name can not be empty！</terminalTypeNameNotNull>
+		<terminalBrandNameNotNull>this terminal brand name can not be empty！</terminalBrandNameNotNull>
+		<companyNameNotNull>this terminal company name can not be empty！</companyNameNotNull>
+		<companyAddressNotNull>this terminal company address can not be empty！</companyAddressNotNull>
+		<terminalModelNameNotNull>this terminal model name can not be empty！</terminalModelNameNotNull>
+		<termIdNotNull>this terminal id can not be empty！</termIdNotNull>
+		<operatorNameNotNull>this role name can not be empty！</operatorNameNotNull>
+	</node>
+</nodes>

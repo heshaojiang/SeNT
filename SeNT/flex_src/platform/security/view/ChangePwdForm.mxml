@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 layout="vertical" width="415" height="180"
+				 locale="changePassword"
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	
+	<fx:Script>
+		<![CDATA[
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.validator.VControl;
+			import platform.constants.LocaleConsts;
+			import platform.security.config.UserConfig;
+			import platform.security.message.UserMsg;
+			import platform.security.pm.UserModulePM;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			[Inject]
+			[Bindable]
+			public var pm:UserModulePM;
+			
+			/**save success handler**/
+			/**
+			 * 保存后回调函数
+			 */		
+			[MessageHandler(selector="changePwdResult")]
+			public function saveBackHandler(p_msg:UserMsg):void
+			{
+				var result:Object = p_msg.result;
+				//var msgAlert:String = langMgr.getExceptionMessage("changePwdMessage.simple");
+				if(result){
+					AlertHandler.alert(LocaleConsts.SAVE_SUCCESS);
+					close();
+				}
+			}
+			
+			override protected function parsleyInit():void
+			{
+			}
+
+			
+			private function save():void
+			{
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				var newPasswordText:String = newPassword.text;
+				if(newPasswordText != newPasswordConfirm.text){
+					AlertHandler.alert("修改密码，新密码与确认密码必须一致!");
+					return;
+				}
+				if(newPasswordText.length<8){
+					AlertHandler.alert("修改密码，新密码至少8位!");
+					return;
+				}
+				var complex:int = 0;
+				
+				if(/[a-zA-Z]/.test(newPasswordText)){
+					complex ++;
+				}
+				if(/[0-9]/.test(newPasswordText)){
+					complex ++;
+				}
+				if(/^.*(?=.*[!@#$%^&*?\(\)+=\[\]\{\}_<>,.;:'"-]).*$/.test(newPasswordText)){
+					complex ++;
+				}
+				
+				if(complex<2){
+					AlertHandler.alert("修改密码，新密码必须包含字母、数字、特殊字符，至少两种组合!");
+					return;
+				}
+				var userId:String = UserInfoInit.userInfo["id"];
+				var oldPwd:String = ExternalInterface.call("hex_md5",oldPassword.text);
+				var newPwd:String = ExternalInterface.call("hex_md5",newPasswordText);
+				pm.changePwd(userId,oldPwd,newPwd);
+			}
+			
+			
+			override protected function cancel():void
+			{
+				close();
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			 <parsley:FlexConfig type="{UserConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<grg:Form id="form"
+			  width="100%"
+			  textAlign = "left"
+			  borderVisible = "false">
+		<!-- 旧密码 -->
+		<grg:FormItem 
+			locale = "oldPassword"
+			required = "true">
+			<grg:TextInput id="oldPassword" name = "oldPassword"
+						   width="245" required="true"/>
+		</grg:FormItem>
+		<!-- 新密码 -->
+		<grg:FormItem 
+			locale = "newPassword"
+			required = "true">
+			<grg:TextInput id="newPassword" name = "newPassword"
+						   width="245" required="true"/>
+		</grg:FormItem>
+		<!-- 新密码确认 -->
+		<grg:FormItem 
+			locale = "newPasswordConfirm"
+			required = "true">
+			<grg:TextInput id="newPasswordConfirm" name = "newPasswordConfirm"
+						   width="245" required="true"/>
+		</grg:FormItem>
+
+	</grg:Form>
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = " save()"
+				locale = "saveButton"
+				iconVisible="false"
+				/>
+		</s:BorderContainer>
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton"
+				iconVisible="false"
+				/>
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "confUserGrpForm">
+		<setUserGrp>设置用户组  → [ | ]</setUserGrp>
+		<unselected>未选择</unselected>
+		<selected>已选择</selected>
+	</node>
+</nodes>

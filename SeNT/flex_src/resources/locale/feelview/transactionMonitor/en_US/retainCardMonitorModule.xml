@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：retainCardMonitorModule<br>
+		Create Time：2011-9-13<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "retainCardMonitorModule">
+		<listTitle>RetainCard Monitor List</listTitle>
+		<searchItem>termId/cardNumber:</searchItem>
+		<orgIdItem>orgId</orgIdItem>
+		<termIdItem>termId</termIdItem>
+		<termTypeItem>termType</termTypeItem>
+		<brandItem>brand</brandItem>
+		<layTypeItem>layType</layTypeItem>
+		<cardNoItem>cardNumber</cardNoItem>
+		<cardTypeItem>cardType</cardTypeItem>
+		<cardNameItem>cardName</cardNameItem>
+		<publishBankNameItem>publishBankName</publishBankNameItem>
+		<reasonItem>reason</reasonItem>
+		<reasonCodeItem>reasonCode</reasonCodeItem>
+		<mergeDateItem>mergeDate:</mergeDateItem>
+		<toItem>to</toItem>
+	</node>
+</nodes>

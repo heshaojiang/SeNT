@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgEventParamForm">
+		<setMsgEventParam>设置事件定义参数</setMsgEventParam>
+		<eventId>事件ID</eventId>
+		<param>参数：</param>
+		<paramId>参数代码</paramId>
+		<paramValue>参数值</paramValue>
+		<flag>使用标识</flag>
+		<unSelectedParamId>参数代码(未选择)</unSelectedParamId>
+		<selectedParamId>参数代码(已选择)</selectedParamId>
+	</node>
+</nodes>

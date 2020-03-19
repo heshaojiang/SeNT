@@ -1,0 +1,57 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termSeqModule">
+		<listTitle>listTitle</listTitle>
+		<installForm>Montaj ve Devreye Alma</installForm>
+		<openForm>Yeni Kayıt</openForm>
+		<stopManagerForm>İptal</stopManagerForm>
+		<transferForm>Kayıt Aktar</transferForm>
+		<scrapForm>Kaydı İptal Et</scrapForm>
+		<signedSeq>Uyarı Sırası</signedSeq>
+		<installedSeq>Kurulum Sırası</installedSeq>
+		<openedSeq>Açılım Sırası</openedSeq>
+		<scrapedSeq>İptal Sırası</scrapedSeq>
+		<seqno>Seri Numarası</seqno>
+		<termtype>Terminal Tipi</termtype>
+		<brand>Marka</brand>
+		<model>Model</model>
+		<insttype>Montaj Tipi</insttype>
+		<batch>Grup</batch>
+		<orgname>Şube</orgname>
+		<statu>Durum</statu>
+		<operations>Tamam</operations>
+		<install>Montaj ve Devreye Alma</install>
+		<openExam>Yeni Kontrol</openExam>
+		<scrapExam>Kontrol İptal Et</scrapExam>
+		<transferExam>Kontrol Aktar</transferExam>
+		<open>Aç</open>
+		<scrap>İptal</scrap>
+		<installOrg>Şube</installOrg>
+		<netaddr>IP Adresi</netaddr>
+		<addr>Adres</addr>
+		<instDate>Kurulum Tarihi</instDate>
+		<optStatu>Durum</optStatu>
+		<note>Açıklama</note>
+		<transfer>Aktar</transfer>
+		<termid>Terminal Id</termid>
+		<openDate>Açılış Tarihi</openDate>
+		<scrapDate>İptal Tarihi</scrapDate>
+		<signDate>Uyarı Tarihi</signDate>
+		<beginTime>Başlangıç Zamanı</beginTime>
+		<endTime>Bitiş Zamanı</endTime>
+		<stop>Durdur</stop>
+		<stopExamine>Kontrolü Durdur</stopExamine>
+		<stopManager>Durdurma Yöneticisi</stopManager>
+		<repStopTitle>Durdurma Raporu</repStopTitle>
+		<reason>Sebep</reason>
+		<stopStatue>Durdurma Raporu</stopStatue>
+		<cancelStop>Durdurmayı İptal Et</cancelStop>
+		<breakStop>Durdurmayı Duraklat</breakStop>
+		<instorgname>instorgname</instorgname>
+		<export>export</export>
+	</node>
+</nodes>

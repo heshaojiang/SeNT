@@ -1,0 +1,42 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="viewAtmTranSeqForm">
+		
+		<title>ATM交易信息</title>
+		
+		<tranInfo>交易信息</tranInfo>
+		 <versionNum>版别</versionNum>
+		<transOrgNameColon>交易机构：</transOrgNameColon>
+		<transOrgCodeColon>交易机构号：</transOrgCodeColon>
+		<transCode>交易类型：</transCode>
+		<accountNo>卡号/帐号：</accountNo>
+		<transTime>交易时间：</transTime>
+		<transAmt>交易金额：</transAmt>
+		<businessTypeColon>业务类型：</businessTypeColon>
+		<transTypeColon>业务类型：</transTypeColon>
+		<noteNum>交易张数：</noteNum>
+		<repeatNum>重号冠字号码数：</repeatNum>
+		<termid>ATM终端号：</termid>
+		<termTypeColon>设备类型：</termTypeColon>
+		<journalNo>流水号：</journalNo>
+		<transResult>交易结果：</transResult>
+		<blNum>黑名单张数：</blNum>
+		<callBackNum>回收张数：</callBackNum>
+		
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		
+		<serialNoInfo>冠字号信息</serialNoInfo>
+		
+		<seriaNo>冠字号码</seriaNo>
+		<seriaImage>冠字号码图片</seriaImage>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		<finacialCode>金融机构代码</finacialCode>
+		
+	</node>
+</nodes>

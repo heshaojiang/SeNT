@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="specialRegulationModule">
+	<source>来源：</source>
+	<searchButton>查询</searchButton>
+	<regulation>冠字号码：</regulation>
+	<result>监控原因</result>
+	<createDate>时间</createDate>
+	<operations>操作</operations>
+	 <titlemsg>特殊规则</titlemsg>
+	</node>
+</nodes>

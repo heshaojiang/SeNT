@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="orgForm">
+		<uploadFileItem>文件上传：</uploadFileItem>
+		<chooseButton>选择文件</chooseButton>
+		<fileexport>模板文件</fileexport>
+		<filedown>下载</filedown>
+		
+		
+		<addOrgForm>新增</addOrgForm>
+		<updateOrgForm>编辑</updateOrgForm>
+		<importOrgForm>导入</importOrgForm>
+		<orgLevel>机构级别：</orgLevel>
+		<areaName>所属区域：</areaName>
+		<parentName>上级机构：</parentName>
+		<orgCode>机构代码：</orgCode>
+		<orgName>机构简称：</orgName>
+		<orgFullName>机构全称：</orgFullName>
+		<finacialCode>金融机构代码：</finacialCode>
+		<contactPerson>联系人：</contactPerson>
+		<telephone>联系电话：</telephone>
+		<telTips>（电话格式：13612345678）</telTips>
+		<orgAddress>机构地址：</orgAddress>
+		<orgOrder>机构顺序：</orgOrder>
+		<status>状态：</status>
+		<note>备注：</note>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<extendProperty> 2   扩展属性</extendProperty>
+		<baseProperty> 1  基本属性</baseProperty>
+		<orgHelp>
+1.打“*”项内容不能为空
+2.机构代码、机构简称不能重复
+		</orgHelp>
+		<helpImportTip>
+1.选择本地excel文件(.xls格式)上传
+2.点击"下载"用于下载导入模板
+		</helpImportTip>			
+		
+		
+		
+		
+	</node>
+</nodes>

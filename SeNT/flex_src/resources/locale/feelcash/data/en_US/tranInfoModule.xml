@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	    <listTitle>Transaction information list</listTitle>
+	    <importData>Import</importData>
+		<termCode>Terminal code</termCode>
+		<txnDate>Date merchandised</txnDate>
+		<model>Model of terminal</model>
+		<org>Organization</org>
+		<termAddr>Terminal address</termAddr>
+		<cwdCount>Count of cwd </cwdCount>
+		<cwdAmount>Amount of cwd</cwdAmount>
+		<depCount>Count of deposit</depCount>
+		<depAmount>Amount deposited</depAmount>
+		<addAmount>Amount added</addAmount>
+		<balanceAmount>Balance</balanceAmount>
+		<originalLabel>Organization：</originalLabel>
+		<terminalIdLabel>Terminal code：</terminalIdLabel>
+		<dateRange>Date range：</dateRange>
+		<balanceReport>Balance report(B*.xls)</balanceReport>
+		<tranInfoReport>Transaction information report(T*.xls)</tranInfoReport>
+		<cleanReport>Clean report(C*.xls)</cleanReport>
+</nodes>

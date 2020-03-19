@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardInfoModule">
+		<listTitle>Card Info List</listTitle>
+		<cardId>Card ID:</cardId>
+		<cardName>Card Name</cardName>
+		<bankId>Bank ID</bankId>
+		<bankName>Bank Name</bankName>
+		<idLength>Card ID Length</idLength>
+		<applyATM>Apply ATM</applyATM>
+		<applyPOS>Apply POS</applyPOS>
+		<cardType>Card Type</cardType>
+	</node>
+</nodes>

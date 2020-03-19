@@ -1,0 +1,233 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="main">
+		<!-- Main Start-->
+		<language>Language:</language>
+		<version>FEELCash 1.0</version>
+		<copyright>Copyright © 2011 GRGBanking Equipment Co., Ltd.</copyright>
+		<loginTimeLabel>Login Time:</loginTimeLabel>
+		<loginUserLabel>Login User:</loginUserLabel>
+	</node>
+	<node locale="login">
+		<loginusername>UserName:</loginusername>
+		<loginpassword>PassWord:</loginpassword>
+		<loginlanguage>Language:</loginlanguage>
+		<login-error>UserName or PassWord is Error!</login-error>
+		<userLocked>User is disabled or has login on other where!</userLocked>
+		<wrongPwd>Wrong Password Input For (?1) Times! The User Will Be Locked When Wrong Password Input For (?2) Times!</wrongPwd>
+		<userNotFound>User Name Is Not Existed!</userNotFound>
+	</node>
+	<node locale="language">
+		<zh_CN>Chinese</zh_CN>
+		<en_US>English</en_US>
+	</node>
+	<!-- Main End-->
+	<!-- Button Start-->
+	<node locale="button">
+		<filterButton>Filter</filterButton>
+		<resetpass>ChangePIN</resetpass>
+		<logout>Exit</logout>
+		<help>Help</help>
+		<expanded>Expand</expanded>
+		<collapse>Collapse</collapse>
+		<query>Find</query>
+		<saveButton>Save</saveButton>
+		<addButton>Add</addButton>
+		<editButton>Edit</editButton>
+		<delButton>Delete</delButton>
+		<lockButton>New Lock</lockButton>
+		<unlockButton>Undo Lock</unlockButton>
+		<delSelectedButton>DeleteSelected</delSelectedButton>
+		<closeButton>Close</closeButton>
+		<resetButton>Reset</resetButton>
+		<submitButton>Submit</submitButton>
+		<cancelButton>Cancel</cancelButton>
+		<agreeButton>Agree</agreeButton>
+		<searchButton>Search</searchButton>
+		<setButtons>setButtons</setButtons>
+		<loginButton>Login</loginButton>
+		<moveAllButton>Remove All</moveAllButton>
+		<moveSlectedButton>Remove</moveSlectedButton>
+		<addAllButton>Add All</addAllButton>
+		<addSlectedButton>Add</addSlectedButton>
+		<sortButton>Sort</sortButton>
+		<upButton>Up</upButton>
+		<downButton>Down</downButton>
+		<todayBtn>today</todayBtn>
+		<okBtn>submit</okBtn>
+		<submitAuditButton>Submit Audit</submitAuditButton>
+		<importButton>Import</importButton>
+		<exportButton>Export</exportButton>
+		<re-exceuteButton>Re-execute</re-exceuteButton>
+		<batchPlansButton>Group Plans</batchPlansButton>
+		<tempPlanButton>Temporary Plan</tempPlanButton>
+		<adjustmentButton>Adjustment</adjustmentButton>
+		<auditButton>Audit</auditButton>
+		<rejectButton>Reject</rejectButton>
+		<confirmCashButton>Confirm Cash</confirmCashButton>
+		<browserButton>Browser</browserButton>
+		<modifyCassetteInfoButton>Modify CassetteInfo</modifyCassetteInfoButton>
+		<printButton>Print</printButton>
+		<printPreviewButton>Print Preview</printPreviewButton>
+	</node>
+	<!-- Button End-->
+	<!-- Components Start-->
+	<node locale="components">
+		<all>all</all>
+		<components.unselected>UnSelected</components.unselected>
+		<components.selected>Selected</components.selected>
+		<components.pagenum>Current Page</components.pagenum>
+		<components.perpage>Records/Per Page</components.perpage>
+		<components.allrecorditem>Records</components.allrecorditem>
+		<components.allpage>Pages</components.allpage>
+		<components.currentpage>Current Page</components.currentpage>
+
+		<!-- sort components -->
+		<sortWin>Sort Window</sortWin>
+
+		<!-- DateSelect -->
+		<!-- week data -->
+		<sunday>Su</sunday>
+		<monday>Mo</monday>
+		<tuesday>Tu</tuesday>
+		<wednesday>We</wednesday>
+		<thursday>Th</thursday>
+		<friday>Fr</friday>
+		<saturday>Sa</saturday>
+		<!-- week data -->
+		<!-- time -->
+		<hour>hour:</hour>
+		<minute>minute:</minute>
+		<!-- time -->
+		<!-- DateSelect -->
+		<checked>Select</checked>
+		<unChecked>DeSelect</unChecked>
+		<selectAll>Select All</selectAll>
+		<deSelectAll>DeSelect All</deSelectAll>
+		<dateChooser.monthNames>January|February|March|April|May|June|July|August|September|October|November|December</dateChooser.monthNames>
+		<dateChooser.dayNames>S|M|T|W|T|F|S</dateChooser.dayNames>
+	</node>
+	<!-- Components End-->
+	<node locale="image">
+		<settingButton>Setting Button</settingButton>
+		<settingRole>Setting Role</settingRole>
+		<settingGroup>Setting Group</settingGroup>
+		<settingUser>Setting User</settingUser>
+		<settingPrivilege>Setting Privilege</settingPrivilege>
+		<resetPassword>Reset PassWord</resetPassword>
+		<firstNavBtn>First Page</firstNavBtn>
+		<preNavBtn>Previous Page</preNavBtn>
+		<nextNavBtn>Next Page</nextNavBtn>
+		<lastNavBtn>Last Page</lastNavBtn>
+		<fullscreen>Full Screen</fullscreen>
+		<resumescreen>Normal Screen</resumescreen>
+		<searchImage>Search</searchImage>
+		<expandImage>Expand</expandImage>
+		<collapseImage>Collapse</collapseImage>
+		<sendMailImage>Re-Send Mail</sendMailImage>
+		<sendSMSImage>Re-Send SMS</sendSMSImage>
+	</node>
+	<node locale="Msg">
+		<javaError>Unknown Java Error, please contact administrator!
+		</javaError>
+		<systemInfo>System Info</systemInfo>
+		<success>Success</success>
+		<delSuccess>Delete Success</delSuccess>
+		<saveSuccess>Save Success</saveSuccess>
+		<resetSuccess>Reset Success</resetSuccess>
+		<!-- <error>Error</error> -->
+		<confirm>OK</confirm>
+		<cancel>Cancel</cancel>
+		<unDelExpiredInterestrateDate>Has expired the interest rate can not be deleted！</unDelExpiredInterestrateDate>
+		<unEditExpiredInterestrateDate>Has expired the interest rate can not be modified！</unEditExpiredInterestrateDate>
+		<unEditcurrentInterestrateDate>Currently using the interest rate can not be modified！</unEditcurrentInterestrateDate>
+		<unDelCurrentInterestrateDate>Currently using the interest rate can not be deleted！</unDelCurrentInterestrateDate>
+		<confirmDelete>Confirm Delete The Selected Records?</confirmDelete>
+		<confirmUnlock>Confirm Unlock The Selected Records?</confirmUnlock>
+		<confirmLogout>Confirm LogoOut?</confirmLogout>
+		<timeOut>Session Time Out!</timeOut>
+		<defaultPassword>please change the default password!</defaultPassword>
+		<pwdNotNull>Password can not null!</pwdNotNull>
+		<newPwdInconsistent>The Two New Password Inconsistent!
+		</newPwdInconsistent>
+		<pwdLenError>Password length Error!(6-20 Characters)</pwdLenError>
+		<confirmResetPwd>Are You Sure To Reset The Password?</confirmResetPwd>
+		<noSelectedRecord>Please Selected One Record!</noSelectedRecord>
+		<noSelectedNode>Please Selected One Plan!</noSelectedNode>
+		<!-- <wrongPassword>Error!\nWrong Password!</wrongPassword> -->
+		<noSelectedNode>Not Selected Node!</noSelectedNode>
+		<nameAlreadyExisted>Name Already Existed!</nameAlreadyExisted>
+		<searchKeyNotNull>Search Key Is NULL!</searchKeyNotNull>
+		<!-- <alreadyAssign>Already Be Assign</alreadyAssign> -->
+		<noChange>No Change!</noChange>
+		<inputNotNull>The Input can not be null!</inputNotNull>
+		<moduleIsSoMuch>The opened windows are so much, please close any and
+			try again!</moduleIsSoMuch>
+		<noPrivilege>No privileges has been assigned!</noPrivilege>
+		<!-- <existKey>This Key has already exists!</existKey> -->
+		<noPrivilege>User do not have any privilege!</noPrivilege>
+		<submitCashPlan>Do you sure submit CashPlans to audit ?
+		</submitCashPlan>
+		<onlySlecteOneRecod>Selected list only one record exists, please
+			remove and then re-select.</onlySlecteOneRecod>
+			<dateNotLessThenNow>Selected Date not less then Now , please re-select.！</dateNotLessThenNow>
+	<mailSendSuccess>Mail Send Success！</mailSendSuccess>
+		<mailSendUnSuccess>Mail Send Failure！</mailSendUnSuccess>
+		<executeCashPlan>Re-execute Selected Plan！</executeCashPlan>
+		<excuteCashInfo>Re-execute Selected Cash Information！</excuteCashInfo>
+		<confirmModify>Confirm modify The Selected Records?</confirmModify>
+		<modifyCassetteInfosSuccess>modify Success</modifyCassetteInfosSuccess>
+		<jumpToCashPlanModule>是否跳转</jumpToCashPlanModule>
+	</node>
+	<node locale="validator">
+		<vtype-required>This field is required!</vtype-required>
+		<vtype-email>E-mail format error!</vtype-email>
+		<vtype-password>Password format is not correct!</vtype-password>
+		<vtype-bankcard>Bank card format is not correct!</vtype-bankcard>
+		<vtype-ip>IP format is not correct!</vtype-ip>
+		<vtype-englishchar>Enter English and characters only!
+		</vtype-englishchar>
+		<vtype-english>Enter Letters only!</vtype-english>
+		<vtype-chinese>Enter the Chinese only!</vtype-chinese>
+		<vtype-url>URL format is not correct!</vtype-url>
+		<vtype-idcard>ID card format is not correct!</vtype-idcard>
+		<vtype-date>Date format is not correct!</vtype-date>
+		<vtype-datetime>DateTime format is not correct!</vtype-datetime>
+		<vtype-unsafe>Enter the security characters only!</vtype-unsafe>
+		<vtype-engdigit>Enter numbers in English only!</vtype-engdigit>
+		<vtype-number>Enter numbers only!</vtype-number>
+		<vtype-int>Enter Integer only!</vtype-int>
+		<vtype-unchinese>Can not enter Chinese!</vtype-unchinese>
+		<vtype-maxchars> Maximum number of characters can not exceed
+		</vtype-maxchars>
+		<vtype-minchars> Minimum number of characters not less than
+		</vtype-minchars>
+		<vtype-minchars-zh_CN> (Chinese characters are double-byte)
+		</vtype-minchars-zh_CN>
+	</node>
+	<!-- Dynamic Skin -->
+	<node locale="loginSkin">
+		<zh_CN>loginPanel_zh_CN</zh_CN>
+		<en_US>loginPanel_en_US</en_US>
+	</node>
+	<node locale="logoSkin">
+		<zh_CN>banner_logo_zh_CN</zh_CN>
+		<en_US>banner_logo_en_US</en_US>
+	</node>
+	<node locale="mainSkin">
+		<zh_CN>mainContainer_zh_CN</zh_CN>
+		<en_US>mainContainer_en_US</en_US>
+	</node>
+	<node locale="security">
+		<pwdTooSimple>The password is too simple. It must be contain with a-Z,
+			0-9 and the length can not be less that 6 or more than 20.
+		</pwdTooSimple>
+		<incorrectOldPwd>Wrong Old Password! </incorrectOldPwd>
+	</node>
+	<node locale="selectorTerm">
+		<termCode>Terminal Code</termCode>
+		<termAddr>Terminal Address</termAddr>
+		<selectedTerminalsTitle>Selected Tterminals</selectedTerminalsTitle>
+		<selectionTerminalsTitle>Selection Terminals</selectionTerminalsTitle>
+	</node>
+</nodes>

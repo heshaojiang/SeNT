@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="interestrateForm">
+		<addInterestrateForm>Add Interest Rate Form:</addInterestrateForm>
+		<updateInterestrateForm>Update Interest Rate Form:</updateInterestrateForm>
+		<interestrate>Interest Rate:</interestrate>
+		<startdate>Start Date:</startdate>
+		<enddate>End Date:</enddate>
+		<note>Note:</note>
+	</node>
+</nodes>

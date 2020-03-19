@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+ <nodes>
+     <node locale="chooseTmlForm">
+		 <termCodeItem>终端编号</termCodeItem>
+		<termSEQItem>设备序列号</termSEQItem>
+		<counterIdItem>柜员号</counterIdItem>
+		<termTypeItem>终端类型</termTypeItem>
+		<brandItem>终端品牌</brandItem>
+		<modelItem>设备型号</modelItem>
+		<org>所属机构：</org>
+		<sendTime>任务绑定时间：</sendTime>
+		<to>至：</to>
+           	
+  </node>
+</nodes>

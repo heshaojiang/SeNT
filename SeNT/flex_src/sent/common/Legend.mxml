@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:grg="http://grg.grgbanking.com/platform/"
+				   borderVisible="false"
+				   width="100%">
+	<s:layout>
+		<!--<s:HorizontalLayout verticalAlign="middle" horizontalAlign="center" gap="40"/>-->
+		<s:HorizontalLayout verticalAlign="middle" horizontalAlign="center" gap="10"/>
+	</s:layout>
+	
+	<!--
+	<s:BorderContainer borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="middle"/>
+		</s:layout>
+		<s:BorderContainer borderColor="black" width="20" height="20" backgroundColor="#00aa00"/>-->
+		<!--真钞-->
+	<!--
+		<grg:Label fontWeight="bold" locale="green"/>
+	</s:BorderContainer>
+	
+	<s:BorderContainer borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="middle"/>
+		</s:layout>
+		<s:BorderContainer borderColor="black" width="20" height="20" backgroundColor="#ff0000"/>-->
+		<!--可疑钞-->
+	<!--
+		<grg:Label fontWeight="bold" locale="red"/>
+	</s:BorderContainer>
+	
+	<s:BorderContainer borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="middle"/>
+		</s:layout>
+		<s:BorderContainer borderColor="black" width="20" height="20" backgroundColor="#0000aa"/>-->
+		<!--黑名单-->
+	<!--
+		<grg:Label fontWeight="bold" locale="blue"/>
+	</s:BorderContainer>
+	
+	<s:BorderContainer borderVisible="false">
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="middle"/>
+		</s:layout>
+		<s:BorderContainer borderColor="black" width="20" height="20" backgroundColor="#ff9900"/>-->
+		<!--重号-->
+	<!--
+		<grg:Label fontWeight="bold" locale="orange"/>
+	</s:BorderContainer>-->
+	
+</s:BorderContainer>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="serialSearchInfoModule">
+		<titlemsg>人民币冠字号码检索登记簿</titlemsg>
+		
+		<serialNo>检索号码：</serialNo>
+		<SearchTimeColon>检索日期：</SearchTimeColon>
+		<to>至</to>
+		<rowNo>序号</rowNo>
+		<SearchDate>检索时间</SearchDate>
+	    <SearchMan>检索人</SearchMan>
+		<SeriaNoSaver>冠字号码保管人</SeriaNoSaver>
+		<RecordTime>记录时间</RecordTime>
+		<SerialNo>检索号码</SerialNo>
+		<SameNoCount>相同号码数量</SameNoCount>
+		<SearchResult>查询结果</SearchResult>
+		<operations>操作</operations>
+		<viewRowDetailInfo>查看详情</viewRowDetailInfo>
+		<expExcel>Excel文件导出</expExcel>
+	</node>
+</nodes>

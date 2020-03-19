@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="templateModule">
+		<recipientsId>收件人：</recipientsId>
+		<nextRecipients>抄达：</nextRecipients>
+		<templateTitle>主题：</templateTitle>
+		<templateContent>内容：</templateContent>
+		<sendor>发送人：</sendor>
+		<title1>短信通知模板设置</title1>
+		<title2>邮件通知模板设置</title2>
+
+	</node>
+</nodes>

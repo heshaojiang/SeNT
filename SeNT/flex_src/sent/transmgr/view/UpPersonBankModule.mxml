@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   width="100%" height="100%" dataDictionaryPaths="{[CmlImpRecordConsts.UPLOAD_STATUS]}"
+			   xmlns:userDefined="platform.date.*"
+			   layout="vertical" locale="upPersonBankModule">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="ShowCmlImprecordsModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="ShowCmlImprecordsModule"/>
+			<parsley:FlexConfig type="{ShowCmlImprecordsConfig}"/>
+			<parsley:FlexConfig type="{CmlImprecordsConfig}"/>
+			<parsley:FlexConfig type="{CmlSentInfoConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.CmlImprecordsConfig;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			import sent.transmgr.config.ShowCmlImprecordsConfig;
+			import sent.transmgr.constants.CmlImpRecordConsts;
+			import sent.transmgr.message.CmlImprecordMsg;
+			import sent.transmgr.pm.CmlImpRecordsPM;
+			import sent.transmgr.pm.ShowCmlImprecordsModulePM;
+			import sent.transmgr.vo.CmlImprecordsDetailVO;
+			
+			/**
+			 *导出按钮的图标
+			 **/
+			[Bindable]
+			[Embed(source="resources/theme/newui/input.png")] 
+			private var impInfo:Class; 
+			
+			[Inject]
+			[Bindable]
+			public var pm:ShowCmlImprecordsModulePM;
+			
+			[Inject]
+			[Bindable]
+			public var cmlImpRecordsPM:CmlImpRecordsPM;
+			
+			[Bindable]
+			public var cmlImpRecordPage:Page = new Page();
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			//全部
+			[Bindable]
+			public var uploadStatusAll:ArrayCollection=new ArrayCollection();
+			
+			
+			override public function dispose():void
+			{
+				trace("ShowCmlImprecordsModule.dispose");
+				cmlSentFileUploadDataGrid.checkedItems = [];
+			}
+			
+			
+			/**
+			 * 获取数据字典后更新信息
+			 */
+			override protected function getDataDictCallback():void
+			{   
+				trace("ShowCmlImprecordsModule.getDataDictCallback");
+				//向下拉列表框中添加一个"全部"子项
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem:Object = {key:"", text:str};
+				var arrCol:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[CmlImpRecordConsts.UPLOAD_STATUS]) as ArrayCollection;
+				arrCol.addItemAt(allItem, 0);
+				if(uploadStatusAll.length==0)
+				{
+					uploadStatusAll.addItem(arrCol[0]);
+					uploadStatusAll.addItem(arrCol[1]);
+					uploadStatusAll.addItem(arrCol[2]);
+					uploadStatusAll.addItem(arrCol[3]);
+					uploadStatusAll.addItem(arrCol[4]);
+					uploadStatusAll.addItem(arrCol[5]);
+				}
+				//刷新列表
+				(cmlSentFileUploadDataGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 用数据字典转换列表数据
+			 */
+			
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				switch(p_column.dataField)
+				{
+					case "operateStatus":
+						currentDataDictPath = CmlImpRecordConsts.UPLOAD_STATUS;
+						break;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+			
+			
+			/**
+			 * 点击查看导入的冠字号码详情
+			 */
+			public function showTransDetailInfo():void
+			{
+				trace("ShowCmlImprecordsModule.showTransDetailInfo");
+				
+				var vo:CmlImprecordsDetailVO = cmlSentFileUploadDataGrid.selectedItem as CmlImprecordsDetailVO; 
+				
+				//打开子窗口    
+				var win:ShowCmlImpRecordForm = new ShowCmlImpRecordForm();
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.initData(vo.id);
+			}
+			
+			
+			protected function checkQueryCondition():Boolean
+			{
+				if( this.startTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeNull"));
+					return false;
+				}
+				if( this.endTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.endTimeCannotBeNull"));
+					return false;
+				}
+				if( this.startTime.selectedDate.time > this.endTime.selectedDate.time )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeGreaterThanEndTime"));
+					return false;
+				}
+				return true;
+			}
+			
+			protected function loadPage():void
+			{
+				if( checkQueryCondition()==false )
+				{
+					return ;
+				}
+				
+				var parameter:Object = {};
+				parameter.page = cmlImpRecordPage;
+				
+				var condition:Object = {};
+				condition.startTime = startTime.text;
+				condition.endTime = endTime.text;
+				condition.termNum = termNum.text;
+				//condition.uploadStatus = uploadStatus.selectedValue;
+				condition.uploadStatus = "2";//解析成功
+				condition.pathCode = String(orgId.selectedItem.@pathCode);
+				condition.flag=isLoopOrg.selected.toString();
+				parameter.condition = condition;
+				
+				var msg:CmlImprecordMsg = new CmlImprecordMsg();
+				msg.args["remoteMethod"]   = "getCmlImprecordsInfoPage";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "ShowCmlImprecordsModule.getCmlImprecordsInfoPageResult";
+				msg.args["errorHandler"]   = "ShowCmlImprecordsModule.getCmlImprecordsInfoPageError";
+				cmlImpRecordsPM.sendCmlImprecordMsg(msg);
+				
+				//pm.loadPage();
+			}
+			
+			[MessageHandler(selector="ShowCmlImprecordsModule.getCmlImprecordsInfoPageResult")]
+			public function getCmlImprecordsInfoPageResult(p_msg:CmlImprecordMsg):void
+			{
+				cmlImpRecordPage = p_msg.result as Page;
+			}
+			
+			[MessageHandler(selector="ShowCmlImprecordsModule.getCmlImprecordsInfoPageError")]
+			public function getCmlImprecordsInfoPageError(p_msg:CmlImprecordMsg):void
+			{
+				
+			}
+			
+			private function createRowNo(oItem:Object,iCol:int):String{
+				var iIndex:int = ((cmlImpRecordPage.pageNo - 1) * cmlImpRecordPage.pageSize) + cmlImpRecordPage.result.getItemIndex(oItem) + 1;
+				return String(iIndex);
+			}
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+			
+			public function upPersonByCondition():void
+			{
+				//在查询时间范围内的上传记录
+				//遍历上传记录，每笔交易对应CRH文件，保存到默认目录(/home/feel/SeNT/ImageUpload/UpPersonCRH/)
+				//遍历结束，将CRH文件打包ZIP文件下载
+				if( checkQueryCondition()==false )
+				{
+					return ;
+				}				
+				var parameter:Object = {};
+				parameter.page = cmlImpRecordPage;
+				
+				var condition:Object = {};
+				condition.startTime = startTime.text;
+				condition.endTime = endTime.text;
+				condition.termNum = termNum.text;
+				//condition.uploadStatus = uploadStatus.selectedValue;
+				condition.uploadStatus = "2";//解析成功
+				condition.pathCode = String(orgId.selectedItem.@pathCode);
+				parameter.condition = condition;
+				
+				var msg:CmlImprecordMsg = new CmlImprecordMsg();
+				msg.args["remoteMethod"]   = "upPersonByDayFunc";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "ShowCmlImprecordsModule.upPersonByDayFuncResult";
+				msg.args["errorHandler"]   = "ShowCmlImprecordsModule.upPersonByDayFuncError";
+				cmlImpRecordsPM.sendCmlImprecordMsg(msg);
+			}			
+			[MessageHandler(selector="ShowCmlImprecordsModule.upPersonByDayFuncResult")]
+			public function upPersonByDayFuncResult(p_msg:CmlImprecordMsg):void
+			{
+				if(p_msg)
+				{
+					var fileName:String = p_msg.result.fileName.toString();
+					if(fileName=="noData")
+					{
+						var alertMsg:String = langMgr.getExceptionMessage("exceptionMessage.FileNotExist");
+						AlertHandler.alert(alertMsg);
+						return;
+					}    
+					else
+					{
+						//调用js打开连接下载
+						var language:String = LanguageManager.getInstance().currentLanguage;
+						var filePath:String = p_msg.result.filePath.toString();
+						ExternalInterface.call("downloadFile","../FileDownloadServlet.let?del=true&filePath="+encodeURI(encodeURI(filePath))+"&fileName="+fileName+"&language="+language+"&pro=true");
+					}
+				}
+			}
+			
+			public function upPersonByTran():void
+			{
+				if( cmlSentFileUploadDataGrid.checkedItems.length == 0  )
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				
+				var msg:CmlImprecordMsg = new CmlImprecordMsg();
+				msg.args["remoteMethod"]   = "upPersonByTranFunc";
+				msg.args["methodPrameter"] = cmlSentFileUploadDataGrid.checkedItems;
+				msg.args["resultHandler"]  = "ShowCmlImprecordsModule.upPersonByTranFuncResult";
+				msg.args["errorHandler"]   = "ShowCmlImprecordsModule.upPersonByTranFuncError";
+				cmlImpRecordsPM.sendCmlImprecordMsg(msg);
+			}	
+			[MessageHandler(selector="ShowCmlImprecordsModule.upPersonByTranFuncResult")]
+			public function upPersonByTranFuncResult(p_msg:CmlImprecordMsg):void
+			{
+				if(p_msg)
+				{
+					var fileName:String = p_msg.result.fileName.toString();
+					if(fileName=="noData")
+					{
+						var alertMsg:String = langMgr.getExceptionMessage("exceptionMessage.FileNotExist");
+						AlertHandler.alert(alertMsg);
+						return;
+					}    
+					else
+					{
+						//调用js打开连接下载
+						var language:String = LanguageManager.getInstance().currentLanguage;
+						var filePath:String = p_msg.result.filePath.toString();
+						ExternalInterface.call("downloadFile","../FileDownloadServlet.let?del=true&filePath="+encodeURI(encodeURI(filePath))+"&fileName="+fileName+"&language="+language+"&pro=true");
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Binding destination="pm.newVO.termId" source="termNum.text"/>
+	<!--<fx:Binding source="uploadStatus.selectedValue" destination="pm.newVO.operateStatus"/>-->
+	<fx:Binding destination="pm.cond.startTime" source="startTime.selectedDate"/>
+	<fx:Binding destination="pm.newVO.pathcode" source="orgId.selectedValue"/>
+	<fx:Binding destination="pm.cond.endTime" source="endTime.selectedDate"/>
+	
+	<mx:VDividedBox width="100%" height="100%">
+		
+		<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+			
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			
+			<!-- 查询条件 --> 
+			<grg:AdvancedSearchBar borderVisible="false" styleName="SearchBar" textAlign="center">
+				
+				<grg:layout>
+					<s:VerticalLayout gap="0" paddingTop="0"/>
+				</grg:layout>
+				
+				<mx:HBox width="100%" height="30" styleName="firHBoxStyle">
+					
+					<!--清分冠字号码导入详情-->
+					<grg:TitleBar width="50%" height="100%" locale="titlemsg"/> 
+					
+					<mx:HBox width="100%" height="30" paddingBottom="3" paddingTop="2"
+							 styleName="senHBoxStyle" verticalAlign="middle">
+						<mx:HBox styleName="searchStyle">
+							<s:BorderContainer width="100%" height="25" backgroundAlpha="0"
+											   borderVisible="false">
+								<s:layout>
+									<s:HorizontalLayout gap="2" horizontalAlign="left"
+														paddingLeft="0" verticalAlign="middle"/>
+								</s:layout>
+								
+								<!--是否循环遍历子机构：-->
+								<grg:CheckBox id="isLoopOrg" selected="true">
+								</grg:CheckBox>
+								
+								<!--所属机构：-->
+								<grg:Label locale="uploadOrg"/>
+								<grg:GRGComboBoxOrgTree id="orgId" width="100" defaultField="true"
+														textAlign="left" treeHeight="300"/>	
+								<s:Spacer width="5"/>								
+								<!--上传时间：-->
+								<grg:Label locale="sendTime"/>
+								<userDefined:SuperDateField id="startTime" isShowTime="true"
+													myEnabled="false"
+													selectableRange="{{rangeEnd:endTime.selectedDate}}"
+													selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"/>
+								<grg:Label locale="to"/>
+								<userDefined:SuperDateField id="endTime" isShowTime="true" myEnabled="false"
+													selectableRange="{{rangeStart:startTime.selectedDate}}"
+													selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"/>
+								<s:Spacer width="5"/>
+								<!--查询-->
+								<grg:SearchButton id="btn_search"
+												  click="cmlImpRecordPage.pageNo=1;loadPage()"
+												  iconType="query" locale="searchButton"
+												  menuId="{menu.id}"/>
+								<grg:ExpansionButton iconType="pulldown" locale="moreSearch"/> 
+								<!--重置-->
+								<grg:ResetButton id="resetBtn" click="initSelectDate()"
+												 iconType="reset" locale="resetButton"
+												 resetControls="{[termNum,orgId]}"/>
+							</s:BorderContainer>
+						</mx:HBox> 
+					</mx:HBox>
+				</mx:HBox> 
+				<s:BorderContainer width="100%" backgroundAlpha="0" borderVisible="false">
+					<s:layout>
+						<s:VerticalLayout gap="0" paddingBottom="0"/>
+					</s:layout>
+					<s:BorderContainer width="100%" height="4"
+									   backgroundImage="@Embed(source='resources/theme/newui/more_search.png')"
+									   borderVisible="false">
+					</s:BorderContainer>
+					<s:BorderContainer width="100%" height="100%" backgroundColor="#FAFCFF"
+									   borderVisible="false">
+						<s:layout>
+							<s:VerticalLayout gap="0"/>
+						</s:layout>
+						<mx:HBox width="100%" styleName="expHBoxStyle">  
+							<s:BorderContainer width="100%" height="28"
+											   styleName="expBorderHBoxStyle">
+								<s:layout>
+									<s:HorizontalLayout gap="2" horizontalAlign="right"
+														verticalAlign="middle"/>
+								</s:layout>
+								
+								<!--终端号：-->
+								<grg:Label locale="termId"/>
+								<grg:TextInput id="termNum" width="120" height="20" maxnum="10"
+											   restrict="0-9a-zA-Z\-" styleName="TextInput"
+											   textAlign="left"/>
+								<s:Spacer width="5"/>
+								
+								<!--上传状态：
+								<grg:Label locale="uploadStatus"/>
+								<grg:ComboBox id="uploadStatus" dataProvider="{uploadStatusAll}" labelField="text"
+											  valueField="key" width="98" requireSelection="true" selectedItem="全部"/>
+								-->
+								<s:Spacer width="5"/>
+								
+							</s:BorderContainer>
+						</mx:HBox>
+					</s:BorderContainer>					
+				</s:BorderContainer>			
+			</grg:AdvancedSearchBar>			
+			<!-- 操作按钮 -->
+			<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+				<s:BorderContainer height="25" styleName="moduleButtonBarstyle">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<!--<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}" styleName="moduleButtonBarstyle"/>-->
+					<grg:Button click="upPersonByCondition();"
+								icon="@Embed('resources/theme/images/icons/output.png')"
+								locale="upPersonByConditionLoc"/>
+					<grg:Button click="upPersonByTran()"
+								icon="@Embed('resources/theme/images/icons/output.png')"
+								locale="upPersonByTranLoc"/>
+				</s:BorderContainer>
+			</mx:HBox> 
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				<grg:DataGrid id="cmlSentFileUploadDataGrid" width="100%" height="100%"
+							  borderVisible="true" dataProvider="{cmlImpRecordPage.result}"
+							  styleName="DataGrid" textAlign="center">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol" draggable="false" editable="false"
+											resizable="false" sortable="false" textAlign="center"/>
+						<grg:DataGridColumn width="50" labelFunction="createRowNo" locale="rowNo"
+											sortable="false" textAlign="center"/>
+						<!--上传状态：-->
+						<grg:DataGridColumn width="100" dataField="operateStatus"
+											labelFunction="transferDataDict" locale="uploadStatus"
+											resizable="false" textAlign="center">
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXItemRenderer>
+										<fx:Script>
+											<![CDATA[
+												[Bindable]
+												private var uploadStatus:String;
+												override public function set data(value:Object):void
+												{
+													super.data = value;
+													uploadStatus=data.operateStatus;
+													switch(uploadStatus){
+														case "0":
+															staColor.setStyle("color","#000000");
+															uploadStatus="上传成功";
+															break;
+														case "1":
+															staColor.setStyle("color","#ff0000");
+															uploadStatus="上传未完成";
+															break;
+														case "2":
+															staColor.setStyle("color","#000000");
+															uploadStatus="解析成功";
+															break;
+														case "3":
+															staColor.setStyle("color","#ff0000");
+															uploadStatus="解析失败";
+															break;
+														case "4":
+															staColor.setStyle("color","#ff0000");
+															uploadStatus="部分解析";
+															break;
+														default:
+															staColor.setStyle("color","#ff0000");
+															uploadStatus="异常状态";
+															break;
+													}
+												}
+											]]>
+										</fx:Script>
+										<grg:Label id="staColor" width="100" paddingLeft="5"
+												   paddingTop="5" text="{uploadStatus}"
+												   verticalCenter="-5"/>
+										
+									</s:MXItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>
+						<!--清分机编号-->
+						<grg:DataGridColumn width="100" dataField="termId" locale="tmlNum"
+											textAlign="center"/>
+						<!--上传机构：-->
+						<grg:DataGridColumn dataField="orgName" locale="uploadOrgNo"
+											textAlign="center"/>
+						<!--上传人员-->
+						<grg:DataGridColumn width="100" dataField="operaterId" locale="operaterId"
+											textAlign="center"/>
+						<!--上传文件名-->
+						<grg:DataGridColumn minWidth="350" dataField="fileName" locale="fileName"
+											textAlign="left"/>
+						<!-- 旧文件名 -->
+						<grg:DataGridColumn minWidth="300" dataField="oldFileName" locale="oldName"
+											textAlign="left"/>
+						<!--上传时间-->
+						<grg:DataGridColumn width="170" dataField="operaterDate" fontSize="14"
+											labelFunction="{DataGridColumnUtils.formatYYYYMMDDHHMISS}"
+											locale="sendTime"/>
+						<!--上传记录数-->
+						<grg:DataGridColumn width="100" dataField="seriaNum" locale="recordNum"
+											textAlign="center"/>
+						<!--操作
+						<grg:DataGridColumn headerStyleName="centerDataGridHeader" locale="operations" textAlign="center" width="80" >
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXDataGridItemRenderer>
+										<fx:Script>
+											<![CDATA[
+												[Bindable]
+												private var isUpload:Boolean;												
+												override public function set data(value:Object):void
+												{
+													super.data = value;
+													var num:int = data.seriaNum;
+													if( num>0 )
+													{
+														isUpload = true;
+													}
+													else
+													{
+														isUpload = false;
+													}
+												}
+											]]>
+										</fx:Script>
+										<grg:GRGModuleButtonBar2 width="100%" height="16" align="center" >
+											<grg:Image id="showTransDetailBtn" privilegeCode="showTransDetailInfo"
+													   source="@Embed('/resources/theme/images/icons/detail.png')" 
+													   locale="searchPic" width="16" height="16" enabled="{isUpload}"
+													   click="outerDocument.showTransDetailInfo()" />
+										</grg:GRGModuleButtonBar2>
+									</s:MXDataGridItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>-->
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{cmlImpRecordPage}"
+								  pagingFunction="{loadPage}"/>
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

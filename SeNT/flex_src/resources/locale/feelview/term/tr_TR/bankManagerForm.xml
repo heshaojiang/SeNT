@@ -1,0 +1,25 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： bankManagerForm 
+	 Create Time：2011-8-19   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "bankManagerForm">
+		<addBankManagerForm>Banka Yöneticileri Ekle</addBankManagerForm>
+		<updateBankManagerForm>Banka Yöneticileri Düzenle</updateBankManagerForm>
+		<settingTermEquipmentForm>Terminal Donanım Ayarları</settingTermEquipmentForm>
+		<managerIdItem>Yönetici Id:</managerIdItem>
+		<operatorNameItem>Operatör Adı:</operatorNameItem>
+		<corporatorOrgItem>Şube:</corporatorOrgItem>
+		<contactTelItem>Telefon:</contactTelItem>
+		<contactMobileItem>Cep Telefonu:</contactMobileItem>
+		<operatorAddressItem>E-posta Adresi:</operatorAddressItem>
+		<status>Durum:</status>
+		<statusEnable>Etkinleştir</statusEnable>
+		<statusDisable>Devre Dışı Bırak</statusDisable>
+		<prompt>(Örnek:+90 212 1234567)</prompt>
+		<promptS>(Örnek:+90 532 1234567)</promptS>
+		<at>@</at>
+		<!-- (Birden Fazla ise "," ile ayrılmalı) -->
+	</node>
+</nodes>

@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="dataDirModule">
+		<titlemsg>数据字典管理</titlemsg>
+		
+		<listTitle>数据字典列表</listTitle>
+		<itemKey>项目键</itemKey>
+		<itemValue>项目值</itemValue>
+		<datadirNote>备注</datadirNote>
+		<itemOrder>顺序</itemOrder>
+		
+	</node>
+</nodes>

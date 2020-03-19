@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="personSelectForm">
+<titlemsg>选择清分员</titlemsg>
+<userCode>用户标识</userCode>
+<userName>姓名：</userName>
+<tel>联系电话</tel>
+<mobile>移动电话</mobile>
+<operations>操作</operations>
+<addPerson>确定</addPerson>
+
+</node>
+</nodes>

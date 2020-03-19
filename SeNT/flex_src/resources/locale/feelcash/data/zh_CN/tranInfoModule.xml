@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "tranInfoModule">
+	    <listTitle>日交易信息列表</listTitle>
+	    <importData>导入数据</importData>
+		<termCode>终端编号</termCode>
+		<txnDate>交易日期</txnDate>
+		<model>型号</model>
+		<org>所属机构</org>
+		<termAddr>安装地址</termAddr>
+		<cwdCount>取款笔数</cwdCount>
+		<cwdAmount>取款金额</cwdAmount>
+		<depCount>存款笔数</depCount>
+		<depAmount>存款金额</depAmount>
+		<addAmount>加钞金额</addAmount>
+		<balanceAmount>钞箱余额</balanceAmount>
+		<originalLabel>机构范围：</originalLabel>
+		<terminalIdLabel>终端编号：</terminalIdLabel>
+		<dateRange>日期范围：</dateRange>
+		<balanceReport>余额报表(B*.xls)</balanceReport>
+		<tranInfoReport>交易报表(T*.xls)</tranInfoReport>
+		<cleanReport>回笼报表(C*.xls)</cleanReport>
+	</node>
+</nodes>

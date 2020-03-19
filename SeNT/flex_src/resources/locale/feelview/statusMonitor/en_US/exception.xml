@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "statusMonitorModule">
+	<existedTmlStatusGroup>This Terminal Status Group has already exists !</existedTmlStatusGroup>
+	<existedTmlStatusPhysical>This Terminal Status Physical has already exists !</existedTmlStatusPhysical>
+	<nameNotNull>This Group name can not be empty !</nameNotNull>
+	<brandIdNotNull>This Brand ID can not be empty !</brandIdNotNull>
+	</node>
+</nodes>

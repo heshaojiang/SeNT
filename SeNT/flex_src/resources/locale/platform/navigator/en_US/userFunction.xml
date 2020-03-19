@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+    <node locale="userFunction">
+        <setUserNavigator>Select Navigator Module</setUserNavigator>
+        <sysModule>System Module:</sysModule>
+    </node>
+</nodes>

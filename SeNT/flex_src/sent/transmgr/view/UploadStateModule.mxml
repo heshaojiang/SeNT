@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   locale ="uploadStateModule"
+			   layout="vertical" 
+			   xmlns:userDefined="platform.date.*"
+			   width="100%" height="100%"
+			   >
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="UploadStateModule"/> 
+			<parsley:FlexConfig type="{UploadStateConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.vo.Page;
+			
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.UploadStateConfig;
+			import sent.transmgr.message.UploadStateMsg;
+			import sent.transmgr.pm.UploadStatePM;
+			
+			[Inject]
+			[Bindable]
+			public var pm:UploadStatePM;
+			
+			[Bindable]
+			public var uploadStatePage:Page = new Page();
+			
+			protected function loadPage():void
+			{
+				if( this.startTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeNull"));
+					return;
+				}
+				if( this.endTime.selectedDate==null )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.endTimeCannotBeNull"));
+					return;
+				}
+				if( this.startTime.selectedDate.time > this.endTime.selectedDate.time )
+				{
+					AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("exceptionMessage.startTimeCannotBeGreaterThanEndTime"));
+					return;
+				}
+				
+				var parameter:Object = {};
+				parameter.page = uploadStatePage;
+				
+				var condition:Object = {};
+				condition.startTime = startTime.text;
+				condition.endTime = endTime.text;
+				condition.pathCode = String(orgId.selectedItem.@pathCode);
+				condition.flag=isLoopOrg.selected.toString();
+				parameter.condition = condition;
+				
+				var msg:UploadStateMsg = new UploadStateMsg();
+				msg.args["remoteMethod"] = "getUploadStatePage";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"] = "UploadStateModule.getUploadStatePageResult";
+				msg.args["errorHandler"] = "UploadStateModule.getUploadStatePageError";
+				pm.sendUploadStateMsg(msg);
+			}
+			
+			[MessageHandler(selector="UploadStateModule.getUploadStatePageResult")]
+			public function getUploadStatePageResult(p_msg:UploadStateMsg):void
+			{
+				uploadStatePage = p_msg.result as Page;
+			}
+			
+			[MessageHandler(selector="UploadStateModule.getUploadStatePageError")]
+			public function getUploadStatePageError(p_msg:UploadStateMsg):void
+			{
+				trace(p_msg.result.toString());
+			}
+			
+			private function createRowNo(oItem:Object,iCol:int):String{
+				var iIndex:int = ((uploadStatePage.pageNo - 1) * uploadStatePage.pageSize) + uploadStatePage.result.getItemIndex(oItem) + 1;
+				return String(iIndex);
+			}
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6,'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1,'yyyyMMdd');
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:VDividedBox width="100%" height="100%">
+		
+		<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+			
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			
+			<!-- 查询条件 --> 
+			<grg:AdvancedSearchBar textAlign="center" styleName="SearchBar" borderVisible="false">
+				
+				<grg:layout>
+					<s:VerticalLayout paddingTop="0" gap="0"/>
+				</grg:layout>
+				
+				<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+					
+					<!--网点上传情况-->
+					<grg:TitleBar locale="titlemsg" width="50%" height="100%"/> 
+					
+					<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+						<mx:HBox styleName="searchStyle">
+							<s:BorderContainer width="100%" height="25" backgroundAlpha="0" borderVisible="false">
+								<s:layout>
+									<s:HorizontalLayout 
+										horizontalAlign="left"
+										paddingLeft="0"
+										gap="2"
+										verticalAlign="middle"/>
+								</s:layout>
+								
+								<!--是否循环遍历子机构：-->
+								<grg:CheckBox id="isLoopOrg" selected="true">
+									
+								</grg:CheckBox>
+								
+								<!--所属机构：-->
+								<grg:Label locale="uploadOrg"/>
+								<grg:GRGComboBoxOrgTree id="orgId" defaultField="true" textAlign="left"
+														width="100" treeHeight="300"	 />	
+								<s:Spacer width="5" />								
+								<!--上传时间：-->
+								<grg:Label locale="sendTime"/>
+								<userDefined:SuperDateField id="startTime" myEnabled="false" isShowTime="true"
+													selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+													selectableRange="{{rangeEnd:endTime.selectedDate}}"/>
+								<grg:Label locale="to"/>
+								<userDefined:SuperDateField id="endTime" myEnabled="false" isShowTime="true"
+													selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"
+													selectableRange="{{rangeStart:startTime.selectedDate}}"/>
+								<s:Spacer width="5" />
+								<!--查询-->
+								<grg:SearchButton id="btn_search"
+												  locale="searchButton" menuId="{menu.id}" 
+												  iconType="query" click="uploadStatePage.pageNo=1;loadPage()" />
+								<!--重置-->
+								<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+												 resetControls="{[orgId]}" click="initSelectDate()"/>
+							</s:BorderContainer>
+						</mx:HBox> 
+					</mx:HBox>
+				</mx:HBox>
+				
+				
+			</grg:AdvancedSearchBar>
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				<grg:DataGrid id="uploadStateDataGrid" dataProvider="{uploadStatePage.result}"
+							  width="100%" height="100%"
+							  textAlign="center" 
+							  styleName="DataGrid"
+							  borderVisible="true">
+					<grg:columns>
+						<!--序号-->
+						<grg:DataGridColumn locale="rowNo" textAlign="center" labelFunction="createRowNo" sortable="false" width="50"/>
+						<!--所属机构-->
+						<grg:DataGridColumn locale="orgId" dataField="orgName" textAlign="center" />
+						<!--设备号-->
+						<grg:DataGridColumn locale="termId"  dataField="termId" textAlign="center" />
+						<!--成功数-->
+						<grg:DataGridColumn locale="successNum" dataField="successCount" textAlign="center" />
+						<!--不成功数-->
+						<grg:DataGridColumn locale="failureNum"  dataField="failureCount" textAlign="center" />
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" 
+								  pageVo="{uploadStatePage}"
+								  pagingFunction="{loadPage}"/>
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

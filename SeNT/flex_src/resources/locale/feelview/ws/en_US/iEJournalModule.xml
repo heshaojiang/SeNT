@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- * Description：getElectronicJournalBeforeToday of WebService<br>
+	 * Create Time：2011-11-24<br>   
+	 * Author：Ming.Zhang  <br>
+	 * Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "iEJournalModule">
+		<listTitle>The Result List Of getElectronicJournalBeforeToday of WebService</listTitle>
+		<terminalIdItem>terminalId:</terminalIdItem>
+		<startTimeItem>planexetime:</startTimeItem>
+		<endTimeItem>to:</endTimeItem>
+		<planexetimeItem>planexetime</planexetimeItem>
+		<exebegintimeItem>exebegintime</exebegintimeItem>
+		<exeendtimeItem>exeendtime</exeendtimeItem>
+		<filenameItem>filename</filenameItem>
+		<filePathItem>filePath</filePathItem>
+		<operateItem>operate</operateItem>
+		<downloadButton>download</downloadButton>
+	</node>
+</nodes>

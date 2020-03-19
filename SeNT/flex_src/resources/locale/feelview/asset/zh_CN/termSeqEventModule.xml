@@ -1,0 +1,45 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termSeqEventModule">
+		<openExamineForm>开通审核</openExamineForm>
+		<stopExamineForm>报停审核</stopExamineForm>
+		<scrapExamineForm>报废审核</scrapExamineForm>
+		<transferExamineForm>迁址审核</transferExamineForm>
+		<openEvent>开通待审核</openEvent>
+		<transferEvent>迁址待审核</transferEvent>
+		<stopEvent>停机待审核</stopEvent>
+		<scrapEvent>报废待审核</scrapEvent>
+		<termtype>终端类型</termtype>
+		<brand>终端品牌</brand>
+		<model>设备型号</model>
+		<insttype>安装方式</insttype>
+		<batch>采购批次号</batch>
+		<seqno>设备序列号</seqno>
+		<orgname>机构</orgname>
+		<statu>当前状态</statu>
+		<operations>操作</operations>
+		<openEventdate>申请开通日期</openEventdate>
+		<opendate>开通日期</opendate>
+		<Eventtermid>申请开通终端号</Eventtermid>
+		<termid>终端号</termid>
+		<addr>地址</addr>
+		<beginTime>停机开始时间</beginTime>
+		<endTime>停机结束时间</endTime>
+		<reason>报停原因</reason>
+		<scrapDate>报废日期</scrapDate>
+		<openExam>开通审核</openExam>
+		<stopExam>报停审核</stopExam>
+		<transferExam>迁址审核</transferExam>
+		<scrapExam>报废审核</scrapExam>
+		<address>终端地址</address>
+		<oldTermid>迁移前终端号</oldTermid>
+		<oldOrgname>迁移前机构</oldOrgname>
+		<oldAddress>迁移前地址</oldAddress>
+		<optStatu>审核</optStatu>
+		<note>备注</note>
+	</node>
+</nodes>

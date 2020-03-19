@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   locale="noderInfoModule"
+			   layout="horizontal"
+			   width="100%" height="100%"
+			   creationComplete="init()"
+			   >
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="NoderInfoForm"/> 
+			<parsley:MessageSettings defaultReceiverScope="NoderInfoForm"/>
+			<parsley:FlexConfig type="{NoderInfoConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[			
+			import flash.net.FileReference;
+			import flash.net.URLRequest;
+			
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.term.config.NoderInfoConfig;
+			import platform.term.message.NoderInfoMsg;
+			import platform.term.pm.NoderInfoPM;
+			
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:NoderInfoPM;
+			
+			[Bindable]//从数据字典中获取 文件类型
+			public var uploadFileTypeColl:ArrayCollection=new ArrayCollection();
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			private var downFileName:String = "NodeServer.exe";
+			
+			private var f:FileReference;
+			
+			//			private var clientIp:String;
+			private var orgcodeStr:String;
+			
+			public var fileRe:FileReference=new FileReference()  
+			
+			private var file:FileReference;       
+			private var currentAction:String;
+			private var downloadURL:URLRequest;
+			public  var downloadFile:FileReference; 
+			
+			
+			public function init():void
+			{ 
+				//判断该用户所在网点有没有安装节点机程序，判断的方法：验证节点机管理表中有无该网点的记录数
+				//				isNullNoderRecords();
+			}
+			
+			public function isNullNoderRecords():void{
+				
+				var msg:NoderInfoMsg = new NoderInfoMsg();
+				var parameter:Object = new Object();
+				parameter.orgid = UserInfoInit.userInfo["orgId"];
+				
+				msg.args["remoteMethod"]   = "isNullNoderRecords";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "NodeDownload.isNullNoderRecordsResult";
+				msg.args["errorHandler"]   = "NodeDownload.isNullNoderRecordsResultError";
+				pm.sendNoderInfoMsg(msg);
+			}
+			
+			/**
+			 */
+			[MessageHandler(selector="NodeDownload.isNullNoderRecordsResult")]
+			public function isNullNoderRecordsResult(msg:NoderInfoMsg):void
+			{
+				if(msg.result == true){
+					downloadNode.visible = false;  
+					note.text = "您好，您所在的网点已经安装了节点机程序。若要重新下载节点机程序，请联系管理员，开通权限！";
+				}else if(msg.result == false){
+					downloadNode.visible = true;  
+					note.text = "下载节点机之后，直接安装！并在【节点机管理】功能中修改节点机IP信息";
+				}
+			} 
+			
+			
+			public function dowanloadNode():void{
+				
+				var msg:NoderInfoMsg = new NoderInfoMsg();
+				var parameter:Object = new Object();
+				
+				orgcodeStr = UserInfoInit.userInfo["orgId"];
+				parameter.orgid = orgcodeStr;
+				//				parameter.clientIp = clientIp;
+				
+				msg.args["remoteMethod"]   = "dowanloadNode";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "NodeDownload.dowanloadNodeResult";
+				msg.args["errorHandler"]   = "NodeDownload.dowanloadNodeResultError";
+				pm.sendNoderInfoMsg(msg);
+				
+			}
+			
+			/**
+			 */
+			[MessageHandler(selector="NodeDownload.dowanloadNodeResult")]
+			public function dowanloadNodeResult(msg:NoderInfoMsg):void
+			{
+				//调用js打开连接下载
+				var language:String = LanguageManager.getInstance().currentLanguage;
+				ExternalInterface.call("downloadFile","../FileDownloadServlet.let?del=false&fileName="+downFileName+"&language="+language); 
+				
+				//				downloadNode.visible = false;  
+				//				note.text = "您好，您所在的网点已经安装了节点机程序。若要重新下载节点机程序，请联系管理员，开通权限！";
+				//				
+				//				//向客户端写一个附有机构信息、节点机IP地址的文件
+				//				ExternalInterface.call("writeFileToClient",msg.result);
+				
+			} 
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10">
+		<!-- 查询条件 --> 
+		<grg:AdvancedSearchBar textAlign="center" styleName="SearchBar" borderVisible="false">
+			
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>			
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">				
+				<!--下载专区管理-->
+				<grg:TitleBar locale="titlemsg" width="50%" height="100%"/>
+				
+			</mx:HBox> 
+		</grg:AdvancedSearchBar>
+		<mx:Panel title="节点机下载流程" horizontalAlign="center" paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10"
+				  height="100%" width="100%">
+			
+			<mx:Button id="downloadNode" label="节点机下载" click="dowanloadNode()" height="40" />
+			
+			<mx:Text id="note" width="100%" textAlign="center" text=""/>
+			
+		</mx:Panel>
+		
+	</s:VGroup>
+	
+</grg:TabModule>

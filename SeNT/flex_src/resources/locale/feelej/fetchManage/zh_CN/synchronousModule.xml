@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="synchronousModule">
+		<syDate>日期：</syDate>
+		<syDateTitle>日期</syDateTitle>
+		<termCode>终端编号：</termCode>
+		<termCodeTitle>终端编号</termCodeTitle>
+		<termDate>日期：</termDate>
+		<successRate>成功率</successRate>
+		<fileCnt>总数</fileCnt>
+		<successCnt>成功数</successCnt>
+		<failCnt>失败数</failCnt>
+		<operate>操作</operate>
+		<to>至：</to>		
+		<success>成功</success>
+		<fail>失败</fail>
+		<unexe>未执行数</unexe>
+		<syTime>时间：</syTime>
+		<exeTime>执行时间</exeTime>
+		<exeEndTime>处理结束时间</exeEndTime>
+		<fetchstateTitle>提取状态</fetchstateTitle>
+		<status>任务信息</status>
+		<fileSize>文件大小</fileSize>
+		
+		<titlemsg>流水同步查阅</titlemsg>
+		
+		
+	</node>
+</nodes>

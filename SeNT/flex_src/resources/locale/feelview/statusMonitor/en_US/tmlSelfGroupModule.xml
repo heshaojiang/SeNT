@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<nodes>
+	<node locale = "tmlSelfGroupModule">
+		<listTitle>Terminal Listesi</listTitle>
+		<addTmlStatusGroupForm>New</addTmlStatusGroupForm>
+		<updateTmlStatusGroupForm>Edit</updateTmlStatusGroupForm>
+		<name>GroupName</name>
+		<status>Avail</status>
+		<order>Order</order>
+		<level>Level</level>
+		<hql>SQL</hql>
+		<sum>Sum</sum>
+		<icon>Image/package</icon>
+		<expressions>Expression</expressions>
+		<nameLocal>LocalName</nameLocal>
+		<common>Common</common>
+		<commonY>Yes</commonY>
+		<commonN>No</commonN>
+		<addTmlSelfGroupForm>New</addTmlSelfGroupForm>
+		
+		<termIdItem>termId:</termIdItem>
+		<termCodeItem>Term Code:</termCodeItem>
+		<termSEQItem>Term SEQ</termSEQItem>
+		<counterIdItem>Counter Id</counterIdItem>
+		<termTypeItem>Term Type:</termTypeItem>
+		<brandItem>Brand:</brandItem>
+		<modelItem>Model:</modelItem>
+		<org>Organization:</org>
+		<areaIdItem>Area ID:</areaIdItem>
+		<netAddrItem>Net Addr</netAddrItem>
+		<selectATMIDDispenseButton>Select ATM</selectATMIDDispenseButton>
+		<selectATMIDChooseButton>Select</selectATMIDChooseButton>
+		<selectATMIDFinishButton>Save</selectATMIDFinishButton>
+		<operateItem>Oper</operateItem>
+		<deleteItem>Del</deleteItem>
+		<layTypeItem>Lay Type</layTypeItem>
+		
+		<addTerminalForGroup>Add Terminal</addTerminalForGroup>
+	</node>
+</nodes>

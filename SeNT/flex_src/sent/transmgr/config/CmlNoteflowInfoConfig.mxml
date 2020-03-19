@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley" 
+		   xmlns:grg="http://grg.grgbanking.com/platform/" 
+		   xmlns:message="sent.transmgr.message.*" 
+		   xmlns:pm="sent.transmgr.pm.*">
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.CmlNoteflowInfoDelegate;
+			import sent.transmgr.delegate.CmlSentInfoDelegate;
+			import sent.transmgr.delegate.TransInfoDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<message:CmlNoteflowInfoMsg />
+		<pm:CmlNoteflowInfoPM />
+		<grg:GRGRemoteObject id="cmlNoteflowInfoService" destination="cmlNoteflowInfoService"/>
+		<Object type="{CmlNoteflowInfoDelegate}">
+			<Property name="service" idRef="cmlNoteflowInfoService"/>
+		</Object>
+	</fx:Declarations>
+</Objects>

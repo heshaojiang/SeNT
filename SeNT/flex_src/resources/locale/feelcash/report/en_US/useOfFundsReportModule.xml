@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="useOfFundsReportModule">
+		<daysPreLabel>Days Pre :</daysPreLabel>
+		<daysNextLabel>Days</daysNextLabel>
+		<chartTitle>Use Of Funds Report</chartTitle>
+		<datagridTitle>Cost List</datagridTitle>
+		<culomnPlanDate>PlanDate</culomnPlanDate>
+		<amount>Amount</amount>
+		<sumActualAmount>Actual Amount Sum</sumActualAmount>
+		<sumCwdAmount>Cwd Amount Sum</sumCwdAmount>
+		<sumDepAmount>Dep Amount Sum</sumDepAmount>
+		<sumBackAmount>Back Amount Sum</sumBackAmount>
+		<tenthousand>Ten Thousand</tenthousand>
+	</node>
+</nodes>

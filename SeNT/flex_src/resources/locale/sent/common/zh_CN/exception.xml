@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="blackRegulationForm">
+		<regulationSaveSuccess>规则保存成功</regulationSaveSuccess>
+		<sentEditAuditSuccess>提交修改审核成功</sentEditAuditSuccess>
+		<sentDeleteAuditSuccess>提交删除审核成功</sentDeleteAuditSuccess>
+		<reguCannotEdit>上次修改未审核，不能修改</reguCannotEdit>
+		<reguCannotDelete>有记录上次修改未审核，不能删除</reguCannotDelete>
+		<regulatinoIsExisted>规则名已存在</regulatinoIsExisted>
+		<readyDeleteCannotEdit>待删除规则不能再修改</readyDeleteCannotEdit>
+		<syncSuccess>同步成功</syncSuccess>
+		<syncFailure>同步失败</syncFailure>
+		<downSuccess>下发成功</downSuccess>
+		<downFailure>下发失败</downFailure>
+		<operSuccess>操作成功</operSuccess>
+		<rejectReasonNotNull>请填写退回原因</rejectReasonNotNull>
+	</node>
+	<node locale="noderVersionInfoForm">
+	     <checkReasonNotNull>请填写审核失败原因</checkReasonNotNull>
+	</node>
+</nodes>

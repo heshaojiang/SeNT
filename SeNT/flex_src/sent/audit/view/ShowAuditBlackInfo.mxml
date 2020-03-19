@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 xmlns:parsley="http://www.spicefactory.org/parsley" 
+				 locale="showAuditBlackInfo"
+				 layout="vertical" width="500" height="290">
+	<fx:Declarations>
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.utils.StringUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.audit.message.AuditBlackInfoMsg;
+			import sent.audit.pm.AuditBlackInfoModulePM;
+			import sent.audit.vo.AuditBlackDetailVO;
+			import sent.rule.constants.BlackRegulationConsts;
+			
+			
+			[Bindable]
+			public var pm:AuditBlackInfoModulePM;
+			
+			[Bindable]
+			//机构名称
+			public var applyOrg:String;
+			
+			[Bindable]
+			//申请时间
+			public var applyDate:String;
+			
+			[Bindable]
+			//黑名单规则信息
+			public var blackRegulation:AuditBlackDetailVO=new AuditBlackDetailVO();
+		
+			/**
+			 * 审核动作的更改触发事件
+			 * */
+			private function auditActionChange():void
+			{
+				if(audit_Action.value == "Y"){
+					rejectItem.enabled = false;
+					rejectReason.text = "";
+				} else {
+					rejectItem.enabled = true;
+				}
+			}
+			
+			/**
+			 * 完成审核
+			 */
+			private function submit():void
+			{
+				if(audit_Action.value == "N"){
+					if(StringUtil.trim(rejectReason.text) == ""){
+						AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("blackRegulationForm.rejectReasonNotNull"));
+						return;
+					}
+				}
+				pm.ruditRegulation(blackRegulation); 
+			}
+			/**
+			 * 规则审核后回调函数
+			 * */
+			[MessageHandler(selector="auditBlackRegulationResult")]
+			public function auditBlackRegulationResult(p_msg:AuditBlackInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					cancel();
+					rejectReason.text = "";
+				}
+				
+			}
+			override protected function cancel():void
+			{
+				close();
+			}
+		]]>
+	</fx:Script>
+	
+	<!--申请信息-->
+	<grg:RoundCornerContainer locale="applyInfo" width="100%" height="100">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout  paddingLeft="10" paddingRight="10" />
+			</s:layout>
+			<grg:Form width="50%" height="100%">
+				<!--规则：-->
+				<grg:FormItem width="100%" locale="regulation">
+					<grg:Text text="{blackRegulation.regulation}"/>
+				</grg:FormItem>
+				<!--经办人：-->
+				<grg:FormItem width="100%" locale="username">
+					<grg:Text text="{blackRegulation.applyId}"/>
+				</grg:FormItem>
+				<!--规则状态-->
+				<grg:FormItem width="100%" locale="ruleStatus">
+					<grg:Text text="{blackRegulation.ruleStatus==BlackRegulationConsts.RULESTATUS_APPLY?'申请中':'删除中'}"/>
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<!--申请时间：-->
+				<grg:FormItem width="100%" locale="applyDate" >
+					<grg:Text text="{applyDate}"/>
+				</grg:FormItem>
+				<!--机构：-->
+				<grg:FormItem width="100%" locale="orgName">
+					<grg:Text  text="{blackRegulation.applyOrgName}"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:Group>
+	</grg:RoundCornerContainer>
+
+	<s:VGroup width="100%" height="100%">
+		<grg:Form width="100%" height="100%" id="form">
+			<!--审批动作-->
+			<grg:FormItem width="100%" locale="auditAction">
+				<mx:HBox>
+					<grg:RadioButtonGroup id="audit_Action"  value="@{pm.auditResult}" change="auditActionChange()"/>
+					<!--通过-->
+					<grg:RadioButton id="actionEnable" group = "{audit_Action}"
+									 value = "Y" selected="true"
+									 locale = "actionEnable" />
+					<!--退回 -->
+					<grg:RadioButton id="actionDisable" group = "{audit_Action}"
+									 value = "N"
+									 locale = "actionDisable" />
+				</mx:HBox>
+			</grg:FormItem>
+			<!--退回原因-->
+			<grg:FormItem width="100%" id="rejectItem" locale="rejectReason" required="true" enabled="false">
+				<grg:TextArea maxnum="200"  id="rejectReason"
+							  maxChars="128" width="100%" text="@{pm.rejectReason}"/>
+			</grg:FormItem>
+		</grg:Form>
+	</s:VGroup>
+	
+	<s:HGroup width="100%" gap="10"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "submit()"
+						locale = "saveButton"
+						/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "cancel()" 
+						locale = "cancelButton"
+						/>
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

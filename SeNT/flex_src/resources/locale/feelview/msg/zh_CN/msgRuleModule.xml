@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：自定义规则<br>
+	Create Time：2012-3-21<br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgRuleModule">
+		<listTitle>自定义规则列表</listTitle>
+		<viewList>自定义规则详细信息</viewList>
+		<nameItem>规则名称</nameItem>
+		<createDateItem>创建时间</createDateItem>
+		<toItem>至</toItem>
+		<statusItem>是否启用</statusItem>
+		<sendTotalLevelItem>是否同时发送所有人</sendTotalLevelItem>
+		<createTicketItem>是否创建工单</createTicketItem>
+		<messageContentItem>信息内容</messageContentItem>
+		<finishMessageItem>故障结束信息</finishMessageItem>
+	</node>
+</nodes>

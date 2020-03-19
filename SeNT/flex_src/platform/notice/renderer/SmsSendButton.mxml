@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:Button xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  creationComplete="init()" locale="sendSMS" iconType="lock" 
+		  xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import platform.assets.Asset;
+			import platform.global.AppGlobal;
+			import platform.vo.menu.ButtonVo;
+			
+			private function init():void
+			{
+				addEventListener(MouseEvent.CLICK, mouseClickHandler);
+				var obj:Object = AppGlobal.privilegeButtons;
+				for each(var btn:Object in AppGlobal.privilegeButtons){
+					if(btn["buttonCode"]==getQualifiedClassName(this).replace("::",".")){
+						this.label = btn["i18nName"];
+					}
+				}
+			}
+			private function mouseClickHandler(evt:MouseEvent):void
+			{
+				parentDocument.parentDocument["openWin"](getQualifiedClassName(this).replace("::","."));
+			}
+			
+			override protected function setIcon():void
+			{
+				this.setStyle("icon", Asset.DEALORDER_ICON);
+			}
+		]]>
+	</fx:Script>
+</grg:Button>

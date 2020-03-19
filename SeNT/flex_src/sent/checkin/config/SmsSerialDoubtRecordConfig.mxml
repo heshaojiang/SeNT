@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns="http://www.spicefactory.org/parsley" 
+		 xmlns:message="sent.checkin.message.*" 
+		 xmlns:pm="sent.checkin.pm.*" 
+		 xmlns:grg="http://grg.grgbanking.com/platform/" >
+	<fx:Script>
+		<![CDATA[
+			import sent.checkin.delegate.SmsSerialDoubtRecordDelegate;
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<pm:SmsSerialDoubtPM/>
+		<grg:GRGRemoteObject id="smsSerialDoubtRecordService" destination="smsSerialDoubtRecordService"/>
+		<Object type="{SmsSerialDoubtRecordDelegate}">
+			<Property name="service" idRef="smsSerialDoubtRecordService"/>
+		</Object>
+	</fx:Declarations>
+</Objects>

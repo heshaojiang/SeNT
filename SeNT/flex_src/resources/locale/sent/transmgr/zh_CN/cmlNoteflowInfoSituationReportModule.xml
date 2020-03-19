@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlNoteflowInfoSituationReportModule">
+		<titlemsg>清分量统计报表</titlemsg>
+		
+		<clearingDateColon>清分日期：</clearingDateColon>
+		<organizationColon>所属机构：</organizationColon>
+		
+		<to>至</to>
+		
+		<orgName>所属机构</orgName>
+		<clearingDate>清分日期</clearingDate>
+		<noteCount>清分量</noteCount>
+		<totalNotes>金额</totalNotes>
+
+		
+		<allNoteCount>清分量总计：</allNoteCount>
+		<allTotalNotes>金额总计：</allTotalNotes>
+		
+
+	</node>
+</nodes>

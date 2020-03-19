@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="dataDirForm">
+		<addDatadirForm>新增</addDatadirForm>
+		<updateDatadirForm>编辑</updateDatadirForm>
+		<keypathItem>路径：</keypathItem>
+		<itemKey>项目主键：</itemKey>
+		<itemValue>项目值：</itemValue>
+		<itemOrder>顺序：</itemOrder>
+		<note>英文备注：</note>
+		<datadirHelp>1.打“*”项内容不能为空
+					 2.项目主键内容只能由英文字母、数字、减号（-）或下划线（_）组成
+					 3.同一父节点下项目主键不能重复
+		</datadirHelp>
+	</node>
+</nodes>

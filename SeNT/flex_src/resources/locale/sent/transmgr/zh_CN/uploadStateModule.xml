@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="uploadStateModule">
+		<titlemsg>网点上传情况</titlemsg>
+		<uploadOrg>所属机构：</uploadOrg>
+		<sendTime>上传时间：</sendTime>
+		<rowNo>序号</rowNo>
+		<orgId>所属机构</orgId>
+		<termId>设备号</termId>
+		<successNum>成功数</successNum>
+		<failureNum>不成功数</failureNum>
+	</node>
+</nodes>

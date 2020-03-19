@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="noticeInfoModule">
+		<listTitle>Notice List</listTitle>
+		<noticeCode>Notice Code</noticeCode>
+		<noticeType>Notice Type</noticeType>
+		<noticeStatus>Notice Status</noticeStatus>
+		<noticeTitle>Notice Title</noticeTitle>
+		<noticeReceiver>Notice Receiver</noticeReceiver>
+		<attachmentName>Attachment Name</attachmentName>
+		<sendDate>Send Date</sendDate>
+		<sendPeople>Send People</sendPeople>
+		<noticeContent>Notice Content</noticeContent>
+		<cashplanCode>Plan Code</cashplanCode>
+		<noticeTypeText>Notice Type: </noticeTypeText>
+		<sendDateFrom>Send Date: From</sendDateFrom>
+		<sendDateTo>To</sendDateTo>
+		<operation>Operation</operation>
+	</node>
+</nodes>

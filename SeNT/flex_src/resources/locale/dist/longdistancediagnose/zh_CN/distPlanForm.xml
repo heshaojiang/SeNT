@@ -1,0 +1,123 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 分发计划信息资源文件
+	 Create Time：2011-9-19
+	 Author：何志鹏
+-->
+<nodes>
+	<node locale="distPlanForm">
+		<distPlanForm>分发计划信息</distPlanForm>
+		<plannameItem>计划名称：</plannameItem>
+		<plantypeItem>任务类型：</plantypeItem>
+		<plantypeItem1>重复类型：</plantypeItem1>
+		<createtimeItem>创建时间：</createtimeItem>
+		<repeattypeItem>重复类型：</repeattypeItem>
+		<everydayexetimeItem>每天执行时间：</everydayexetimeItem>
+		<repeatintervalItem>重复间隔(分钟)：</repeatintervalItem>
+		<nextexecutetimeItem>下一次执行时间：</nextexecutetimeItem>
+		<plannameItem>计划名称：</plannameItem>
+		<termidlistItem>终端列表：</termidlistItem>
+		<taskparaItem>任务参数：</taskparaItem>
+		<taskparaversionItem>任务参数版本：</taskparaversionItem>
+		<maxretrytimesItem>最大重试次数：</maxretrytimesItem>
+		<retryintervalItem>重试间隔：</retryintervalItem>
+		<enabledItem>是否可用：</enabledItem>
+		<brandItem>终端品牌：</brandItem>
+		<termtypeItem>终端类型：</termtypeItem>
+		<modelItem>型号：</modelItem>
+		<orgidItem>所属机构：</orgidItem>
+		<areaidItem>所属区域：</areaidItem>
+		<timeoutintervalItem>超时间隔(小时)：</timeoutintervalItem>
+		<invoketimesItem>计划被调用(执行)次数：</invoketimesItem>
+		<tasktypeItem>任务类型：</tasktypeItem>
+		<pingipItem>PingIP：</pingipItem>
+		<telnetipItem>TelnetIP：</telnetipItem>
+		<telnetportItem>TelnetPort：</telnetportItem>
+		<errordescriptionItem>错误描述：</errordescriptionItem>
+		<atmcprocessItem>ATMC端进程：</atmcprocessItem>
+		<predefgroupItem>厂商通配符预定义组：</predefgroupItem>
+		<checkProcessItem>检查进程名：</checkProcessItem>
+		
+
+		<!-- 定时任务参数 -->
+		<searchtypeItem>搜索类型：</searchtypeItem>
+		<filepathItem>文件路径：</filepathItem>
+		<wildcardItem>通配符：</wildcardItem>
+		<cmptypeItem>比较类型：</cmptypeItem>
+		<fileedittimestartItem>文件修改起始时间：</fileedittimestartItem>
+		<fileedittimeendItem>文件修改结束时间：</fileedittimeendItem>
+		<filesizefromItem>文件起始大小(byte)：</filesizefromItem>
+		<filesizeendItem>文件结束大小(byte)：</filesizeendItem>
+		<includesubdirItem>是否包含子目录：</includesubdirItem>
+
+		<!-- 窗口标题 -->
+		<addPingTelnetTestFormName>新增</addPingTelnetTestFormName><!-- 连通测试窗口标题 -->
+		<addRestartShutDownFormName>新增</addRestartShutDownFormName><!-- 重启关机窗口标题 -->
+		<addPauseRestoreFormName>新增</addPauseRestoreFormName><!-- 暂停恢重窗口标题 -->
+		<addTimeTaskFormName>新增</addTimeTaskFormName><!-- 定时任务窗口标题 -->
+		<addResetHardWareFormName>新增</addResetHardWareFormName><!-- 重置硬件模块窗口标题 -->
+		<seeResetHardWareStatusFormName>详情</seeResetHardWareStatusFormName>
+		
+		<viewRestartForm>详情</viewRestartForm>
+		<viewTestForm>详情</viewTestForm>
+		<viewRestoreForm>详情</viewRestoreForm>
+		<viewPingTelnetTestFormName>查询连通测试计划详细</viewPingTelnetTestFormName><!-- 查询连通测试窗口标题 -->
+		<viewRestartShutDownFormName>查询重启关机计划详细</viewRestartShutDownFormName><!-- 查询重启关机窗口标题 -->
+		<viewPauseRestoreFormName>查询暂停恢复计划详细</viewPauseRestoreFormName><!-- 查询暂停恢重窗口标题 -->
+		<viewTimeTaskFormName>详情</viewTimeTaskFormName><!-- 查询定时任务窗口标题 -->
+		<viewResetHardWareFormName>查询硬件模块重置计划详细</viewResetHardWareFormName><!-- 查询重置硬件模块窗口标题 -->
+
+		<baseInfo>基本信息</baseInfo>
+		<paramInfo>参数信息</paramInfo>
+		
+		<AllDeviceItem>全部重置：</AllDeviceItem>
+		<IDCItem>读卡器：</IDCItem>
+		<RPTRItem>凭条打印机：</RPTRItem>
+		<JPTRItem>流水打印机：</JPTRItem>
+		<CIMItem>存款模块：</CIMItem>
+		<CDMItem>取款模块：</CDMItem>
+		<COINItem>硬币模块：</COINItem>
+		<PINItem>密码键盘：</PINItem>
+		<BARCODEItem>条码模块：</BARCODEItem>
+		<RFCARDREADERItem>射频读卡模块：</RFCARDREADERItem>
+		<PALMVIEWItem>掌静脉模块：</PALMVIEWItem>
+		<PBKItem>存折打印机：</PBKItem>
+		<DEPItem>信封存款模块：</DEPItem>
+		<SPRItem>结单打印机：</SPRItem>
+		<CHKItem>支票处理模块：</CHKItem>
+		<TTUItem>文本终端：</TTUItem>
+		<SIUItem>传感器：</SIUItem>
+		<CAMItem>摄像头：</CAMItem>
+		<statusDisable>不重置：</statusDisable>
+		<statusEnable>重置：</statusEnable>
+		<removeAll>全部取消</removeAll>
+		<chooseAll>全部重置</chooseAll>
+		<resetResults>重置结果</resetResults>
+		
+		<searchWaitForAMoment>系统提示</searchWaitForAMoment>
+		<searchWaitForInfo>正在查询,请等待几秒钟....</searchWaitForInfo>
+		<hintOfInputTermid>直接输入终端编号，最多可输入900个字符</hintOfInputTermid>
+		<speratedWithCommaSemicolonSpace>请以空格、英文分号、英文逗号分隔</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>或点击按钮进行选择</hintOfClickButton>
+		<restartShutdownByForce>强制操作：</restartShutdownByForce>
+		
+		<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+		<timeTaskHelp>1.打“*”项内容不能为空
+2.计划名称，建议改成有意义的名称
+3.超时间隔为0时，表示不超时
+		</timeTaskHelp>
+		<restartShutHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+3.强制操作默认不选，选择时表示不与ATMC交互，直接强行关闭或重启计算机；当ATMC程序当机、无反应时可以选择强制操作
+		</restartShutHelp>
+		<pauseRestoreHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+3.ATMC端进程，此配置可以在“ATMC参数信息管理”中添加或修改，如果Agent没有检测到指定进程，就不会暂停或恢复ATMC
+		</pauseRestoreHelp>
+		<distPlanHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+3.PingIP填写要执行PING命令的IP
+4.TelnetIP和TelnetPort填写要执行TELNET命令的IP及端口
+		</distPlanHelp>
+	</node>
+</nodes>

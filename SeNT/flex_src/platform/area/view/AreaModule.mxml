@@ -1,0 +1,225 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+				   width="100%" height="100%"
+				   layout="horizontal" top="5"
+				   locale="areaModule" dataDictionaryPaths="{[DataDirConsts.ENABLE_OR_DISABLE]}"
+				   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+				   xmlns:s = "library://ns.adobe.com/flex/spark"
+				   xmlns:mx = "library://ns.adobe.com/flex/mx"
+				   xmlns:parsley="http://www.spicefactory.org/parsley"
+				   xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="true"/>
+			<parsley:Scope name="AreaModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="AreaModule"/>
+			<parsley:FlexConfig type="{AreaConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<!--fx:Script source="AreaModule.as"/-->
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			
+			import platform.area.config.AreaConfig;
+			import platform.area.constants.AreaLocalKeyConsts;
+			import platform.area.message.AreaMsg;
+			import platform.area.pm.AreaModulePM;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.vo.area.AreaVo;			
+			
+			
+			[Inject]
+			[Bindable]
+			public var pm:AreaModulePM;
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function getDataDictCallback():void
+			{
+				(areaPageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = DataDirConsts.ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}			
+			
+			[MessageHandler(selector="getAreaPageResult")]
+			public function getAreaPage(p_msg:AreaMsg):void
+			{
+				if(p_msg.result)
+					areaPageGrid.checkedItems = [];
+			}
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * 打开子窗口
+			 * @param p_winName 打开窗口类型（新增或编辑）
+			 * @param p_vo 要新增或修改的VO
+			 * @param p_isEditTopArea 是否在编辑顶级区域
+			 * 
+			 * */
+			private function openWin(p_winName:String, p_vo:AreaVo, p_isEditTopArea:Boolean = false):void
+			{
+				//dispatch event
+				var win:AreaForm = new AreaForm();
+				win.titleKey = p_winName;
+				if(p_isEditTopArea)
+					win.parentName = "";
+				else
+					win.parentName = pm.vo.areaName;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+				win.setMaxOrder();
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.loadAreaTree();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				areaPageGrid.checkedItems = [];
+				pm.page = new Page();
+			}
+			
+			/**
+			 * 接收顶级区域信息
+			 * */
+			[MessageHandler(selector="getAreaByIdResult")]
+			public function editTopArea(p_msg:AreaMsg):void
+			{
+				openWin(AreaLocalKeyConsts.UPDATE_AREA_FORM, p_msg.result as AreaVo, true);
+			}
+			
+			public function add():void
+			{
+				if (null == pm.vo.id)
+				{
+					//AlertHandler.exception("area.noParentAreaSelected");
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_NODE);
+					return;
+				}
+				var vo:AreaVo = new AreaVo();
+				vo.level = String(Number(pm.vo.level) + 1);
+				vo.parentId = pm.vo.id;
+				openWin(AreaLocalKeyConsts.ADD_AREA_FORM, vo);
+			}
+			
+			public function edit():void
+			{
+				if (areaPageGrid.checkedItems.length == 0 || areaPageGrid.checkedItems.length > 1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				openWin(AreaLocalKeyConsts.UPDATE_AREA_FORM, areaPageGrid.checkedItems[0] as AreaVo);
+			}
+			
+			public function del():void
+			{
+				if (areaPageGrid.checkedItems.length == 0){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				
+				AlertHandler.confirm(closeHandler, this, LocaleConsts.CONFIRM_DELETE);
+			}
+			
+			private function closeHandler(event:CloseEvent):void
+			{
+				if (event.detail == Alert.YES){
+					pm.batchDelete(DataGridUtil.getPropertys("id", areaPageGrid.checkedItems));
+				}
+			}
+			
+			public function editTopNode():void
+			{
+				pm.editTopArea();
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%" paddingLeft="10" paddingRight="10" gap="0"> 
+		<grg:TitleBar locale="titlemsg" width="100%"/>
+		<mx:HDividedBox width="100%" height="100%" paddingTop="3">
+		<grg:LeftTree id="areaTree" labelField="@areaName" dataProvider="{pm.treeXml}"
+						width="194" height="100%"
+						itemClick = "pm.page = new Page(); pm.areaTreeItemClickHandler(areaTree.selectedItem as XML)"/>
+		
+		<s:BorderContainer width="100%" height="100%"
+							styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout> 
+			<mx:HBox width="100%" height="30" verticalAlign="top">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="26">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			<grg:GRGExtendPropDataGrid id="areaPageGrid" dataProvider="{pm.page.result}"
+										 width="100%" height="100%" itemType="{AreaVo}"
+										 styleName="DataGrid"
+										 borderVisible="true"
+										 textAlign = "center">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+											sortable = "false"
+											draggable = "false"
+											editable = "false"
+											resizable = "false" />
+					<grg:DataGridColumn locale = "order"
+											dataField = "order" 
+											width="100"
+											textAlign = "center"
+											/>
+					<grg:DataGridColumn locale = "areaColumName"
+											dataField = "areaName" 
+											textAlign = "left"
+											/>
+					<grg:DataGridColumn locale = "note"
+									   		dataField = "note" 
+											textAlign = "left"
+											/>
+					<grg:DataGridColumn locale = "status" labelFunction="{transferDataDict}"
+									   		dataField = "status"
+											width="200"
+											textAlign = "left"
+											/>
+				</grg:columns>
+			</grg:GRGExtendPropDataGrid>
+			
+			<grg:PageNavigatorBar id="areaPagingBar" pageVo="{pm.page}" pagingFunction="{pm.loadAreaPage}"
+										bottom = "0" />
+		</s:BorderContainer>
+		</mx:HDividedBox>
+	</s:VGroup>
+</grg:TabModule>

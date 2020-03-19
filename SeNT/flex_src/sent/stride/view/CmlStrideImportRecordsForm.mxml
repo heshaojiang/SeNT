@@ -1,0 +1,218 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+					   width="460" height="450"
+					   layout = "vertical"
+					   locale = "cmlStrideImportRecordsForm"
+					   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+					   xmlns:s = "library://ns.adobe.com/flex/spark"
+					   xmlns:mx = "library://ns.adobe.com/flex/mx" 
+					   xmlns:parsley="http://www.spicefactory.org/parsley" creationComplete="initNo()"
+					   xmlns:grg="http://grg.grgbanking.com/platform/" helpTips="helpTip">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			import spark.events.TextOperationEvent;
+			
+			import platform.common.validator.VControl;
+			
+			import sent.stride.message.CmlStrideImportRecordsMsg;
+			import sent.stride.pm.CmlStrideImportRecordsFormPM;
+			import mx.events.CloseEvent;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:CmlStrideImportRecordsFormPM;
+			
+			private var tm:Timer;
+			public function initNo():void{
+				tm = new Timer(1000,1);
+				tm.addEventListener(TimerEvent.TIMER,setBundleCodesByTimer);
+				//tm.start(); 
+				pm.getBagCode();
+			}
+			private function setBundleCodesByTimer(evt:TimerEvent):void{
+				var temp:String = bundleCodeItem.text;
+				if(temp==null||temp==""){ 
+					//tm.stop();
+					return;
+				}
+				if(bundleCodesItem.text==null || bundleCodesItem.text==""){
+					bundleCodesItem.text = temp;
+				}else{
+					bundleCodesItem.text += ","+temp;
+				}
+				count_id.text = new String(bundleCodesItem.text.split(",").length);
+				bundleCodeItem.text = "";
+				//tm.stop();
+			}
+						
+			/**
+			 *	保存成功回调处理方法 
+			 **/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:CmlStrideImportRecordsMsg):void
+			{
+				close();
+			}
+			
+			[MessageHandler(selector="getFormInitDatasResult")]
+			public function getBagCodeBackHandler(p_msg:CmlStrideImportRecordsMsg):void
+			{
+				//close();
+				cBagCode.text = p_msg.result.bagCode;
+			}
+			
+			/**
+			 * 保存
+			 */ 
+			private function strideExport():void
+			{
+				// account.text = StringUtil.trim(account.text);
+				
+				if (VControl.validateAll(form, validators).length > 0){
+					return;
+				}
+				pm.saveStrideExport(toBankCode.text,cBagCode.text,rfidItem.text,bundleCodesItem.text);
+			}
+			
+			/**
+			 * 取消
+			 */  
+			override protected function cancel():void
+			{
+				//pm.cancel();
+				close();
+				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+			}
+			
+			protected function bundleCodeItem_changeHandler(event:TextOperationEvent):void
+			{
+				if(tm.running){
+					tm.removeEventListener(TimerEvent.TIMER,setBundleCodesByTimer);
+					tm.stop();
+					tm.addEventListener(TimerEvent.TIMER,setBundleCodesByTimer);
+					tm.start();
+				}else{ 
+					tm.addEventListener(TimerEvent.TIMER,setBundleCodesByTimer);
+					tm.start();
+				}
+				//if(bundleCodesItem.text==null || bundleCodesItem.text==""){
+				//	bundleCodesItem.text = bundleCodeItem.text;
+				//}else{
+				//	bundleCodesItem.text += ","+bundleCodeItem.text;
+				//}
+			}
+			
+		]]>
+	</fx:Script>
+
+	
+	<grg:Form id="form"
+					width="100%"
+					textAlign = "left"
+					borderVisible = "false">
+					
+				<grg:FormItem
+					locale = "toBankCode"
+					required = "true">
+					<grg:TextInput id="toBankCode"
+								   name = "toBankCode"
+								   maxChars="50"
+								   maxnum="50"
+								   minnum="3"
+								   restrict="a-zA-Z0-9\-\_\."
+								   width="245" vtype="maxchars"
+								   required="true"/>
+				</grg:FormItem>
+						
+				<grg:FormItem
+						locale = "cBagCodeItem"
+						required = "true">
+					<grg:TextInput id="cBagCode"
+								   name = "cBagCode"
+								   maxChars="50"
+								   maxnum="50"
+								   minnum="3"
+								   restrict="a-zA-Z0-9\-\_\."
+								   width="245" vtype="maxchars"
+								   required="true"
+								   enabled="false"/>
+				</grg:FormItem>
+						
+				<grg:FormItem
+						locale = "rfidItem"
+						required = "false">
+					<grg:TextInput id="rfidItem"
+								   name = "rfid"
+								   maxChars="50"
+								   maxnum="50"
+								   minnum="3"
+								   restrict="a-zA-Z0-9\-\_\."
+								   width="245" vtype="maxchars"
+								   required="false"/>
+				</grg:FormItem>
+			
+											
+						
+				<grg:FormItem
+						locale = "bundleCodeItem"
+						required = "false">
+					<mx:HBox textAlign="left" verticalAlign="middle">
+						<grg:TextInput id="bundleCodeItem"
+									   name = "bundleCode"
+									   maxChars="50"
+									   maxnum="50"
+									   minnum="3" change="bundleCodeItem_changeHandler(event)"
+									   restrict="a-zA-Z0-9\-\_\."
+									   width="245" vtype="maxchars"
+									   required="false"/>
+						<s:Spacer width="5" />
+						<grg:Label id="count_id" text="0" />
+					 </mx:HBox>
+				</grg:FormItem>
+			
+				<grg:FormItem
+						locale = "bundleCodesItem"
+						required = "true">
+					<grg:TextArea id="bundleCodesItem"
+								   name = "bundleCodes"
+								   maxnum="50"
+								   minnum="3"
+								   restrict="a-zA-Z0-9\-\_\." enabled="false"
+								   width="245" height="230"
+								   required="true"/>
+				</grg:FormItem>
+			
+	</grg:Form> 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign = "center"
+		verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button locale="strideExport" iconType="export" click="strideExport();"  />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "cancel()"
+						locale = "cancelButton"
+						 />
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>
+

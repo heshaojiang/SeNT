@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cashDistributeReportModule">
+		<pageTitle>面额清分情况统计报表</pageTitle>
+		<TitleMsg>现金收付统计报表</TitleMsg>
+		<orgName>所属机构：</orgName>
+		<startTime>交易时间：</startTime>
+		<to>至</to>
+		<searchBtn>查询</searchBtn>
+		<resetBtn>重置</resetBtn>
+		<!-- 明细列表 (由于使用的是AdvancedDataGrid控件,暂时不能国际化) -->
+		<orgIdName>机构名称</orgIdName>
+		<tranOld>残损券</tranOld>
+		<tranTrue>完整券</tranTrue>
+		<amount>金额</amount>
+		<distrubution>其中：经过清分机清分</distrubution>
+		<currence_100>100元  50元</currence_100>
+		<currence_20>20元　10元</currence_20>
+		<currence_5>5元  　1元</currence_5>
+		<sumAmount>合计金额</sumAmount>
+	</node>
+</nodes>

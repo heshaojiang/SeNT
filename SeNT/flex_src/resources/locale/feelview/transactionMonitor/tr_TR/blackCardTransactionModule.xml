@@ -1,0 +1,18 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：黑卡交易规则设置<br>
+		Create Time：2011-9-6<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "blackCardTransactionModule">
+		<listTitle>Şüpheli Kart Listesi</listTitle>
+		<cardNumOrBINItem>Kart No/ Kart BIN</cardNumOrBINItem>
+		<beginDateItem>Başlangıç Zamanı</beginDateItem>
+		<endDateItem>Bitiş Zamanı</endDateItem>
+		<cardTypeItem>Kart Tipi</cardTypeItem>
+		<alarmWayItem>Alarm Tipi</alarmWayItem>
+		<beginTimeItem>Başlangıç Ssaati</beginTimeItem>
+		<endTimeItem>Bitiş Saati</endTimeItem>
+		<toItem>Bitiş Zamanı</toItem>
+	</node>
+</nodes>

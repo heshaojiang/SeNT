@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule locale="siteMsgModule" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			  xmlns:s="library://ns.adobe.com/flex/spark"
+			  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:grg="http://grg.grgbanking.com/platform/" 
+			  layout="horizontal" width="100%" height="100%" xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.sitemsg.config.SiteMsgConfig;
+			import platform.sitemsg.message.SiteMsg;
+			import platform.sitemsg.pm.SiteMsgModulePM;
+			import platform.sitemsg.renderer.MarkReadedButton;
+			import platform.sitemsg.renderer.ResponseButton;
+			import platform.sitemsg.renderer.WriteLetterButton;
+			import platform.sitemsg.vo.NoticeSitemsgVO;
+			[Inject]
+			[Bindable]
+			public var pm:SiteMsgModulePM;
+			
+			//录入控件下拉列表项
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+				new WriteLetterButton();
+				new ResponseButton();
+				new MarkReadedButton();
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				loadPage();
+			}
+			
+			//根据名称模糊查询
+			private function loadPage():void
+			{
+				pm.loadReceivedMsg(content.text, startTime.selectedDate, endTime.selectedDate);
+			}
+
+			public function openWin(buttonCode:String):void
+			{
+				//dispatch event
+				var win:WriteLetterForm = new WriteLetterForm();
+				//win.titleKey = p_winName;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.menuId = this.menu.id;
+				
+				/* 回信时设置原发信人 */
+				var vo:NoticeSitemsgVO = new NoticeSitemsgVO();
+				if (dataGrid.selectedItem != null){
+					var originalMsg:NoticeSitemsgVO = dataGrid.selectedItem as NoticeSitemsgVO;
+					vo.sender = originalMsg.sender;
+				}
+				
+				win.pm.vo = vo;
+				win.operation = buttonCode;
+			}
+			
+			
+			public function markReaded(buttonCode:String):void{
+				if (dataGrid.selectedItem != null){
+					var vo:NoticeSitemsgVO = dataGrid.selectedItem as NoticeSitemsgVO;
+					pm.markReaded(buttonCode, vo.id);
+				}
+			}
+			
+			/**
+			 * 保存成功返回结果处理函数
+			 */		
+			[MessageHandler(selector="saveLetterResult")]
+			public function saveLetterSuccessHandler(p_msg:SiteMsg):void
+			{
+				loadPage();
+			}
+			
+			//delete 
+			public function del():void
+			{
+				pm.delReceivedMsgs(dataGrid.checkedItems);
+			}	
+			/**
+			 * 删除成功更新列表
+			 */		
+			[MessageHandler(selector="delReceivedMsgsResult")]
+			public function delReceivedMsgsHandler(p_msg:SiteMsg):void
+			{
+				loadPage();
+			}
+			
+			/**
+			 * 标记已阅成功更新列表
+			 */		
+			[MessageHandler(selector="markReadedResult")]
+			public function markReadedHandler(p_msg:SiteMsg):void
+			{
+				loadPage();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{SiteMsgConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<s:Group width="100%" height="100%">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+			<grg:TitleBar   locale="receivedMsgListTitle" width="50%" />
+			<mx:HBox  width="100%" styleName="senHBoxStyle">
+				<mx:HBox height="25" styleName="searchStyle">
+					<s:BorderContainer 
+						width = "100%" height = "25"
+						backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout horizontalAlign = "left" verticalAlign="middle" gap="2" paddingLeft="10"/>
+							</s:layout>
+							<grg:Label locale="content" />
+							<grg:TextInput id="content" width="100"/>
+							<grg:Label locale="publishTime" />
+							<grg:SuperDateField width="180" id="startTime" myEnabled="false" selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<grg:SuperDateField width="180" id="endTime" myEnabled="false" selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+							<grg:SearchButton click = "pm.page = new Page();loadPage()"
+											  locale = "searchButton"
+											  iconType = "query"  />
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[content, startTime, endTime]}"/>
+						</s:BorderContainer>
+				</mx:HBox>
+			</mx:HBox>
+		</mx:HBox>
+		<mx:HBox  width="100%" styleName="moduleButtonBarHBoxstyle">
+			<s:BorderContainer styleName="moduleButtonBarstyle"  height = "25" borderVisible = "false">
+				<s:layout>
+					<s:HorizontalLayout verticalAlign = "middle" paddingLeft="4" paddingTop="2"/>
+				</s:layout>	
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}" paddingLeft="10" />
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid dataProvider="{pm.page.result}" width="100%" height="100%" paddingLeft="20" 
+						  textAlign = "center"
+						  styleName = "DataGrid" id="dataGrid">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol" />
+					<grg:DataGridColumn width="30" 
+										textAlign="center" 
+										locale="status">
+						<grg:itemRenderer>
+							<fx:Component>
+								<grg:Image source="{_icon}" width="15" height="10">
+									<fx:Script>
+										<![CDATA[
+											import platform.assets.Asset;
+											[Bindable]
+											private var _icon:Class;
+											
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												if (value.readTime){
+													_icon = Asset.ITEM_OPEN;
+												}else{
+													_icon = Asset.ITEM_CLOSE;
+												}
+											}
+										]]>
+									</fx:Script>
+								</grg:Image>
+	
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					<grg:DataGridColumn dataField="content" 
+										locale="content"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="senderName" 
+										locale="sender"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="publishTime" 
+										locale="publishTime" 
+										labelFunction="{DataGridUtil.formatTime}"
+										textAlign = "center"
+										/>
+					<grg:DataGridColumn dataField="readTime" 
+										locale="readTime" 
+										labelFunction="{DataGridUtil.formatTime}"
+										textAlign = "center"
+										/>
+					<grg:DataGridColumn locale = "operations" 
+										headerStyleName="centerDataGridHeader">
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar pageVo = "{pm.page}" bottom = "2" pagingFunction="{loadPage}"/>
+	</s:Group>
+</grg:TabModule>

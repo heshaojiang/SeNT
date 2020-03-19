@@ -1,0 +1,174 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="statusMonitorModule">
+		<listTitle>Gerçek Zamanlı İzleme</listTitle>
+		<fieldsTitle>Kolon Listesi</fieldsTitle>
+		<termId>Terminal Id</termId>
+		<orgName>Şube</orgName>
+		<refresh>Yenileme Süresi</refresh>
+		<atmStatus>Terminal Durum</atmStatus>
+		<connStatus>Bağlantı Durumu</connStatus>
+		<allDeviceStatus>Donanım Durumu</allDeviceStatus>
+		<cassettesstatus>Kaset Durumu</cassettesstatus>
+		<orgId>Şube</orgId>
+		<termName>Terminal Adı</termName>
+		<idc>Kart Okuyucu</idc>
+		<idcErrorCode>Kart Okuyucu Hata Kodu</idcErrorCode>
+		<cdm>Para Çekme</cdm>
+		<cdmErrorCode>Para Çekme Hata Kodu</cdmErrorCode>
+		<cim>Para Para Yatırma</cim>
+		<cimErrorCode>Para Yatırma Hata Kodu</cimErrorCode>
+		<envDepository>Zarfla Para Yatırma</envDepository>
+		<envDepostitoryErrorCode>Zarfla Para Yatırma Hata Kodu</envDepostitoryErrorCode>
+		<sprPrinter>Durum Yazıcısı</sprPrinter>
+		<sprPrinterErrorCode>Durum Yazıcısı Hata Kodu</sprPrinterErrorCode>
+		<chk>Çek Defteri</chk>
+		<chkErrorCode>Çek Defteri Hata Kodu</chkErrorCode>
+		<receiptPrinter>Makbuz Yazıcı</receiptPrinter>
+		<receiptPrinterErrorCode>Makbuz Yazıcı Hata Kodu</receiptPrinterErrorCode>
+		<journalPrinter>Jurnal Yazıcı</journalPrinter>
+		<journalPrinterErrorcode>Jurnal Yazıcı Hata Kodu</journalPrinterErrorcode>
+		<ttu>Operatör Panel</ttu>
+		<ttuErrorCode>Operatör Panel Hata Kodu</ttuErrorCode>
+		<pbk>Hesap Cüzdanı</pbk>
+		<pbkErrorCode>Hesap Cüzdanı Hata Kodu</pbkErrorCode>
+		<pin>Tuş Takımı</pin>
+		<pinErrorCode>Tuş Takımı Hata Kodu</pinErrorCode>
+		<siu>Sensör</siu>
+		<siuErrorCode>Sensör Hata Kodu</siuErrorCode>
+		<cashBoxStatus>Kaset Durumu</cashBoxStatus>
+		<cashBoxType>Kaset Tipi</cashBoxType>
+		<cashBoxDenomination>Para Dağılımı</cashBoxDenomination>
+		<cashBoxCurrency>Para Cinsi</cashBoxCurrency>
+		<cashBoxCurrentNumber>Kaset No</cashBoxCurrentNumber>
+		<xfsORP>xfsORP</xfsORP>
+		<cassetteNum>Kaset No</cassetteNum>
+		<cassetteAmount>Kaset Miktarı</cassetteAmount>
+		<recycleNum>Recycle No</recycleNum>
+		<recycleAmount>Recycle Miktar</recycleAmount>
+		<mergeCard>Kart</mergeCard>
+		<machineGate>Güvenlik Kapısı</machineGate>
+		<machineErrorCode>Güvenlik Kapısı Hata Kodu</machineErrorCode>
+		<safetyGate>Kasa Kapağı </safetyGate>
+		<safeErrorCode>Kasa Kapağı Hata Kodu</safeErrorCode>
+		<cashClique>Nakit Clique</cashClique>
+		<barCode>Barkod</barCode>
+		<barCodeErrorCode>Barkod Hata Kodu</barCodeErrorCode>
+		<searchItem>Arama</searchItem>
+		<matrixItem>Matriks</matrixItem>
+		<listModule>Liste</listModule>
+		<selfDefine>Listeyi Kişiselleştir</selfDefine>
+		<searchWinTitle>Arama Detayları</searchWinTitle>
+		<searchWinSearch>Bul</searchWinSearch>
+		<searchWinTerminalId>Terminal Id:</searchWinTerminalId>
+		<searchWinTerminalbrand>Marka:</searchWinTerminalbrand>
+		<searchWinTerminalType>Terminal Tipi:</searchWinTerminalType>
+		<searchWinTerminalModule>Model:</searchWinTerminalModule>
+		<searchWinTerminalAdd>Adres:</searchWinTerminalAdd>
+		<TmlBaseInfo>Temel Bilgiler</TmlBaseInfo>
+		<TmlAllDeviceStatus>Donanım Durumu</TmlAllDeviceStatus>
+		<TmlAllConfigInfo>Sistem Bilgileri</TmlAllConfigInfo>
+		<TmlLastTransaction>Son İşlem</TmlLastTransaction>
+		<TmlCassetteDetail>Kaset Detayları</TmlCassetteDetail>
+		<TmlLastAgreement>Son Mutabakat</TmlLastAgreement>
+		<TmlResponser>Terminal Sorumlusu</TmlResponser>
+		<tmlDetailInfo>Terminal Detayları</tmlDetailInfo>
+		<addTermInfoForm>Terminal Temel Bilgi Ekle</addTermInfoForm>
+		<updateTermInfoForm>Terminal Temel Bilgi Düzenle</updateTermInfoForm>
+		<termInfoFormDetail>Terminal Detaylı Bilgi</termInfoFormDetail>
+		<BaseInfo>Temel Bilgiler</BaseInfo>
+		<ExtendInfo>Detaylı Bilgi</ExtendInfo>
+		<termIdItem>Terminal Id:</termIdItem>
+		<termNameItem>Terminal Adı:</termNameItem>
+		<termSEQItem>Terminal Seri No:</termSEQItem>
+		<counterIdItem>Sayaç Id: </counterIdItem>
+		<termTypeItem>Terminal Tipi:</termTypeItem>
+		<brandItem>Marka:</brandItem>
+		<modelItem>Model:</modelItem>
+		<orgIdItem>Şube:</orgIdItem>
+		<areaIdItem>İl:</areaIdItem>
+		<netAddrItem>Terminal IP:</netAddrItem>
+		<netPortItem>Terminali Bağlantı Noktası (Port):</netPortItem>
+		<netConnType>Bağlantı Tipi:</netConnType>
+		<netConnProtocol>Bağlantı Protokolü:</netConnProtocol>
+		<instDateItem>Kurulum Tarih:</instDateItem>
+		<activeDateItem>Açılış Tarihi:</activeDateItem>
+		<termAddrItem>Adres:</termAddrItem>
+		<serviceTypeItem>Servis Tipi:</serviceTypeItem>
+		<instTypeItem>Montaj Tipi:</instTypeItem>
+		<layTypeItem>Yerleşim Tipi:</layTypeItem>
+		<isVideoWatchItem>Video:</isVideoWatchItem>
+		<isUPSItem>UPS:</isUPSItem>
+		<busiBeginTimeItem>Başlangıç Zamanı:</busiBeginTimeItem>
+		<busiEndTimeItem>Bitiş Zamanı:</busiEndTimeItem>
+		<softVersionItem>ATMC Sürüm No:</softVersionItem>
+		<spVersionItem>SP Sürüm Numarası:</spVersionItem>
+		<agentVersion>Agent Sürümü:</agentVersion>
+		<EMVVersion>EMV Sürümü:</EMVVersion>
+		<OS>işletim Sistemi:</OS>
+		<backScreen>Bakım Ekranı:</backScreen>
+		<diskSize>Disk Alanı:</diskSize>
+		<memorySize>Bellek Boyutu:</memorySize>
+		<softDisk>Disket Sürücü:</softDisk>
+		<netCard>NIC:</netCard>
+		<CDRoom>CD-ROM:</CDRoom>
+		<systemDate>Sistem Tarihi:</systemDate>
+		<systemSound>Sistem Birimi (%):</systemSound>
+		<lastConfigTime>Son Değişiklik Zamanı:</lastConfigTime>
+		<netGate>Gateway:</netGate>
+		<subNetMask>Alt Ağ Maskesi:</subNetMask>
+		<dns>DNS:</dns>
+		<altDNS>Alternatif DNS:</altDNS>
+		<txnType>İşlem Tipi:</txnType>
+		<txnDate>İşlem Zamanı:</txnDate>
+		<txnAmount>İşlem Miktarı:</txnAmount>
+		<txnAccount>İşlem Hesabı: </txnAccount>
+		<cardType>Kart Türü:</cardType>
+		<txnResult>İşlem Sonucu:</txnResult>
+		<cashBoxNameItem>Kaset Adı</cashBoxNameItem>
+		<cashBoxStatusItem>Kaset Durumu</cashBoxStatusItem>
+		<cashBoxTypeItem>Kaset Tipi</cashBoxTypeItem>
+		<cashBoxCurrencyItem>Para Cinsi</cashBoxCurrencyItem>
+		<cashBoxDenominationItem>Banknot Değeri</cashBoxDenominationItem>
+		<cashBoxAmountItem>Para Miktar</cashBoxAmountItem>
+		<cashBoxBalanceItem>Para Tutarı</cashBoxBalanceItem>
+		<cashBoxAddCashTimeItem>Son Para Yükleme</cashBoxAddCashTimeItem>
+		<cashBoxAddCashNumItem>Kaset Yükleme</cashBoxAddCashNumItem>
+		<cashBoxPhysicalLocation>Kaset Fiziksel Konum</cashBoxPhysicalLocation>
+		<responserGroup>Sorumlu Grup</responserGroup>
+		<responserName>Sorumlu Adı Soyadı</responserName>
+		<responserPhone>Sorumlu Telefon</responserPhone>
+		<responserRole>Sorumlu Rolü</responserRole>
+		<responserDuty>Sorumlu Görev</responserDuty>
+		<responserNo>Yetki Seviyesi</responserNo>
+		<responserEmail>E-posta</responserEmail>
+		<termNameD>Terminal Adı:</termNameD>
+		<atmStatusD>Terminal Durumu:</atmStatusD>
+		<connStatusD>Bağlantı Durumu:</connStatusD>
+		<allDeviceStatusD>Donanım Durumu:</allDeviceStatusD>
+		<cassettesstatusD>Kaset Durumu:</cassettesstatusD>
+		<atmStatusRefreshTime>Durum Yenileme Zamanı:</atmStatusRefreshTime>
+		<atmStatusChangeTime>Durum Değişiklik Zamanı:</atmStatusChangeTime>
+		<idcD>Kart Okuyucu:</idcD>
+		<cdmD>Para Çekme:</cdmD>
+		<cimD>Para Yatırma:</cimD>
+		<envDepositoryD>Zarfla Para Yatirma:</envDepositoryD>
+		<sprPrinterD>Durum Yazıcısı:</sprPrinterD>
+		<chkD>Çek Defteri:</chkD>
+		<receiptPrinterD>Makbuz Yazıcı:</receiptPrinterD>
+		<journalPrinterD>Jurnal Yazıcı:</journalPrinterD>
+		<ttuD>Operatör Paneli:</ttuD>
+		<pbkD>Hesap Cüzdanı:</pbkD>
+		<pinD>Tuş Takımı:</pinD>
+		<siuD>Sensör:</siuD>
+		<machineGateD>Güvenlik Kapısı:</machineGateD>
+		<safetyGateD>Kasa Kapağı:</safetyGateD>
+		<barCodeD>Barkod:</barCodeD>
+		<palm>PalmReader : </palm>
+		<radioCard>Contactless : </radioCard>
+		<coinCassetteTotalStatus>Coin Kaset Durumu: </coinCassetteTotalStatus>
+		<isVIPItem>VIP:</isVIPItem>
+		<reflash>Ekranı yenile</reflash>
+		<notReflash>Yenilemeyi Durdur</notReflash>
+	</node>
+</nodes>

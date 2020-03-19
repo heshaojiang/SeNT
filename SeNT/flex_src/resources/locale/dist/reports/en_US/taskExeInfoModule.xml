@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "taskExeInfoModule">
+		<listTitle>list</listTitle>
+		<termid>Terminal ID</termid>
+		<termtype>Terminal Type</termtype>
+		<brand>Brand</brand>
+		<orgid>Branch</orgid>
+		<orgname>OrgName</orgname>
+		<begintime>From</begintime>
+		<endtime>to</endtime>				
+		<timeRangeFrom>From</timeRangeFrom>
+		<choosetime>Date</choosetime>
+		<orgrange>Branch</orgrange>
+		<timeRangeTo>to</timeRangeTo>
+		<export>Export</export>
+		<areaid>Area</areaid>
+		<total>Total</total>
+		<year>Year</year>
+		<month>Month</month>
+		<planName>Plan Name</planName>
+		<taskType>Task Type</taskType>
+		<userCode>User</userCode>
+		<planExeTime>Plan Execute Time</planExeTime>
+	    <exeBeginTime>Execute Begin Time</exeBeginTime>
+	    <exeEndTime>Execute End Time</exeEndTime>
+	    <taskStatus>Task Status</taskStatus>
+	    <extraDescription>Description</extraDescription>
+		<svrName>Task Server</svrName>
+		<fileSvrName>File Server</fileSvrName>
+		<fileURL>File URL</fileURL>	
+	</node>
+</nodes>

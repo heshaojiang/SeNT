@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="operationLogModule">
+		<listTitle>operation logs list</listTitle>
+		<userId>user code:</userId>
+		<userName>user name</userName>
+		<hostIp>host ip</hostIp>
+		<logTime>log time</logTime>
+		<menuName>menu name</menuName>
+		<operName>operation name</operName>
+		<note>remark</note>
+		<beginTime>time range:</beginTime>
+		<to>to</to>
+	</node>
+</nodes>

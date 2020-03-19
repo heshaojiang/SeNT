@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "editUserInfo">
+	    <editUserInfo>编辑用户信息</editUserInfo>
+	    <username>用户名：</username>
+	    <tel>电话号码：</tel>
+	    <email>电子邮件：</email>
+	    <lastLoginTime>上次登陆时间：</lastLoginTime>
+	    <loginTotal>登陆次数：</loginTotal>
+	    <loginFirstLabel>第</loginFirstLabel>
+	    <loginSecondLabel>次登陆</loginSecondLabel>
+	    <invalidDate>帐号失效时间：</invalidDate>
+	    <pwInvalidDate>密码失效时间：</pwInvalidDate>
+	    <helpTip>编辑用户个人信息,修改电话与邮件信息</helpTip>
+	</node>
+</nodes>

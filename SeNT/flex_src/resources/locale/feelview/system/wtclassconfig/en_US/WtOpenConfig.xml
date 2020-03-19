@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtOpenConfig">
+		
+		<!-- 开机率设置 -->
+		<wtOpenConfigTitleItem>WT OPEN CONFIG</wtOpenConfigTitleItem>
+		
+		<deductNumerator>deductNumerator</deductNumerator>
+		<deductDenominator>deductDenominator</deductDenominator>
+		<deductAll>deductAll</deductAll>
+		<notCalculate>notCalculate</notCalculate>
+	</node>
+</nodes>

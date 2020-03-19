@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "TmlDataBackupForm">
+		<pathItem>路径</pathItem>
+		<commItem>备注</commItem>
+	</node>
+</nodes> 

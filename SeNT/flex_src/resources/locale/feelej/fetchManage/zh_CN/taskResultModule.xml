@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="taskResultModule">
+		<listTitle>异常日志：</listTitle>
+		<termId>终端编号</termId>
+		<termIdInput>终端编号：</termIdInput>
+		<org>机构</org>
+		<info>异常信息</info>
+		<actBeginTime>执行开始时间</actBeginTime>
+		<actEndTime>执行结束时间</actEndTime>
+		<actTime>执行时间：</actTime>
+		<actTimeTitle>执行时间</actTimeTitle>
+		<planTime>计划执行时间</planTime>
+		<to>至：</to>
+		<operate>操作</operate>
+		<reFetchButton>重新提取</reFetchButton>
+		<titlemsg>异常日志</titlemsg>
+	</node>
+</nodes>

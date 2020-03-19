@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "transactionMonitor">
+		<existedBlackCardTransaction>This cardNumOrBIN has already exists！</existedBlackCardTransaction>
+		<existedNetAddr>This Net Addresss has already exists！</existedNetAddr>
+		<cardNumOrBINNotNull>This terminal type can not be empty！</cardNumOrBINNotNull>
+		<companyAddressNotNull>this terminal company address can not be empty！</companyAddressNotNull>
+		<terminalModelNameNotNull>this terminal model name can not be empty！</terminalModelNameNotNull>
+		<termIdNotNull>this BlackCard id can not be empty！</termIdNotNull>
+	</node>
+</nodes>

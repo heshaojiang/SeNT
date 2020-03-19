@@ -1,0 +1,38 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="viewCmlTaskSeqForm">
+		
+		<title>清分交易信息</title>
+		
+		<tranInfo>交易信息</tranInfo>
+		
+		<bankNameColon>机构名：</bankNameColon>
+		<branchColon>网点：</branchColon>
+		<orgCodeColon>机构号：</orgCodeColon>
+		<tmlNum>清分终端：</tmlNum>
+		<operatorId>清分人员：</operatorId>
+		<totalMoney>金额：</totalMoney>
+		<operateDate>清分时间：</operateDate>
+		<rotoCashType>清分类别：</rotoCashType>
+		<businessTypeColon>业务类型：</businessTypeColon>
+		<finacialCode>金融机构代码：</finacialCode>
+		<tranCount>张数：</tranCount>
+		 <versionNum>版别</versionNum>
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		
+		<serialNoInfo>冠字号信息</serialNoInfo>
+		
+		<seriaNo>冠字号码</seriaNo>
+		<urlName>冠字号码图片</urlName>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		
+		<print>打印</print>
+		
+	</node>
+</nodes>

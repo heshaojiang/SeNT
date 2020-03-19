@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="packingWithMoneyModule">
+		<titlemsg>装箱配钞</titlemsg>
+		<cashboxNum>钞箱号：</cashboxNum>
+		<status>流转状态</status>
+		<operator>操作人：</operator>
+		<packingMoney>配钞金额</packingMoney>
+		<operDate>配钞时间</operDate>
+		<operations>操作</operations>
+	<packingByCashBox>款箱钞袋配钞</packingByCashBox>	
+	<packingByAtm>ATM钞箱配钞</packingByAtm>
+	<export>导出冠字号</export>
+	<organizationColon>所属机构：</organizationColon>
+	<operDateColon>操作日期：</operDateColon>
+	<to>至</to>
+	<moneyBoxNumColon>钞箱号：</moneyBoxNumColon>
+	<moreSearch>高级</moreSearch>
+	<resetButton>重置</resetButton>
+	<searchButton>查询</searchButton>
+	<flowStage>所处阶段</flowStage>
+	<barcodeFlowNumCol>流转条码</barcodeFlowNumCol>
+   </node>
+</nodes>

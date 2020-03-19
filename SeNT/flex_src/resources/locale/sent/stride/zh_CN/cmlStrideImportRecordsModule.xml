@@ -1,0 +1,55 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cmlStrideImportRecordsModule">
+		
+		<titlemsg>跨行调拨</titlemsg>
+	
+		<listTitle>跨行导入/导出列表</listTitle>
+		
+				
+		<cPartMonthdayItem>分区月日：</cPartMonthdayItem>
+		
+				
+		<iIdItem>ID：</iIdItem>
+		
+				
+		<cOperateStatusItem>跨行方式：</cOperateStatusItem>
+		
+				
+		<cOperaterIdItem>导入/导出人：</cOperaterIdItem>
+		
+				
+		<cBagCodeItem>包（袋、箱）号：</cBagCodeItem>
+		
+				
+		<cUploadTimeItem>导入/导出时间：</cUploadTimeItem>
+		
+				
+		<cFileNameItem>文件名：</cFileNameItem>
+		
+				
+		<iParentIdItem>父ID：</iParentIdItem>
+		
+				
+		<iFsnCountItem>FSN文件数量：</iFsnCountItem>
+		
+				
+		<iBagCountItem>包数量：</iBagCountItem>
+		
+				
+		<orgName>机构：</orgName>
+		
+		
+		
+		<addBtn>新增</addBtn>
+		<delBtn>删除啦</delBtn>
+		
+		<strideExport>跨行导出</strideExport>
+		<strideImport>跨行导入</strideImport>
+		<strideDownload>下载</strideDownload>
+		<startTime>查询日期：</startTime>
+		<to> 至 </to>
+		<status>跨行方式</status>
+		<orgName>机构：</orgName>
+	</node>
+</nodes>

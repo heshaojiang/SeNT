@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "holidayModule">
+		<listTitle>节假日信息列表</listTitle>
+		<holidayname>节假日名称</holidayname>
+		<holidaystart>节假日开始时间</holidaystart>
+		<holidayend>节假日结束时间</holidayend>
+
+	</node>
+</nodes>

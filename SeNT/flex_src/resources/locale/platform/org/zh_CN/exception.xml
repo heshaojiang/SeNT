@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "org">
+		<noParentOrgSelected>请选择一项父级机构！</noParentOrgSelected>
+		<orgCodeNotNull>机构代码不能为空！</orgCodeNotNull>
+		<orgNameNotNull>机构名称不能为空！</orgNameNotNull>
+		<orgChildrenNotNull>子机构不为空，删除该机构前请首先删除所有子机构！</orgChildrenNotNull>
+		<existedOrgId>机构代码已经存在！  </existedOrgId>
+		<areaNotNull>区域不能为空！</areaNotNull>
+		<importExcelError>导入出错！</importExcelError>
+	</node>
+</nodes>

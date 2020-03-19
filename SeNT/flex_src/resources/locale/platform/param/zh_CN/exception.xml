@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "param">
+		<existKey>已经存在这个健！</existKey>
+		<paramValueNotNull>参数值不能为空！</paramValueNotNull>
+	</node>
+</nodes>

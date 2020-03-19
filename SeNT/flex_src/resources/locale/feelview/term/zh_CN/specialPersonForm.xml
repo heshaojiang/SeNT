@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 自定义人员管理
+     Create Time：2012-3-20   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "specialPersonForm">
+		<addSpecialPersonForm>添加自定义人员信息</addSpecialPersonForm>
+		<updateSpecialPersonForm>修改自定义人员信息</updateSpecialPersonForm>
+		<operatorNameItem>自定义人员名称:</operatorNameItem>
+		<corporatorOrgItem>所属机构:</corporatorOrgItem>
+		<contactManItem>姓名:</contactManItem>
+		<contactTelItem>固定电话:</contactTelItem>
+		<contactMobileItem>移动电话:</contactMobileItem>
+		<operatorAddressItem>邮箱地址:</operatorAddressItem>
+		<status>状态:</status>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<prompt>(如果有多个，用","隔开)</prompt>
+		<promptS>(如果有多个，用","隔开)</promptS>
+		<formatPro>","前面不能为空</formatPro>
+		<at>@</at>
+		<memoItem>备注</memoItem>
+	</node>
+</nodes>

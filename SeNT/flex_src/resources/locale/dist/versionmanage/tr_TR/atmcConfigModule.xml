@@ -1,0 +1,32 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 软件包管理
+	 Create Time：2012-7-16   
+	 Author： 叶小伟 
+	 Email : yxwei1@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "atmcConfigModule">
+		<titleAtmcConfig>ATMC Config</titleAtmcConfig>
+		<titleName>Name:</titleName>
+		<titleSavePath>Save path:</titleSavePath>
+		<titleProcessNames>Running Processes:</titleProcessNames>
+		<titleStopProcessName>Stop Processes:</titleStopProcessName>
+		<titleStartProcessName>Start Processes:</titleStartProcessName>
+		<titleRestartFlag>Restart:</titleRestartFlag>
+		<titleExtractFlag>Extract:</titleExtractFlag>
+		<titleNote>Comment:</titleNote>
+		
+		<labelName>Name</labelName>
+		<labelSavePath>Save path</labelSavePath>
+		<labelProcessNames>Running Processes</labelProcessNames>
+		<labelStopProcessName>Stop Processes</labelStopProcessName>
+		<labelStartProcessName>Start Processes</labelStartProcessName>
+		<labelRestartFlag>Restart</labelRestartFlag>
+		<labelExtractFlag>Extract</labelExtractFlag>
+		<labelNote>Comment</labelNote>
+		
+		<addAtmcConfig>New</addAtmcConfig>
+		<editAtmcConfig>Edit</editAtmcConfig>
+		
+	</node>
+</nodes>

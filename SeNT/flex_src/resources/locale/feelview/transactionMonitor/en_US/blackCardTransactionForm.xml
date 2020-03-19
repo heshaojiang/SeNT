@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：blackCardTransactionForm<br>
+		Create Time：2011-9-6<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "blackCardTransactionForm">
+		<addBlackCardTransactionForm>Add BlackCardTransaction</addBlackCardTransactionForm>
+		<updateBlackCardTransactionForm>Update BlackCardTransaction</updateBlackCardTransactionForm>
+		<showBlackCardTransactionDetailForm>showBlackCardTransactionDetail</showBlackCardTransactionDetailForm>
+		<cardTypeItem>CardType:</cardTypeItem>
+		<cardNumOrBINItem>CardNum/cardBIN:</cardNumOrBINItem>
+		<alarmWayItem>AlarmWay:</alarmWayItem>
+		<alarmMobilePhoneItem>AlarmMobilePhone:</alarmMobilePhoneItem>
+		<alarmEmailItem>AlarmEmail:</alarmEmailItem>
+		<beginDateItem>BeginDate:</beginDateItem>
+		<endDateItem>EndDate:</endDateItem>
+		<beginTimeItem>BeginTime:</beginTimeItem>
+		<endTimeItem>EndTime:</endTimeItem>
+		<remarkItem>Remark:</remarkItem>
+		<cardBINStartItem>cardBINStart:</cardBINStartItem>
+		<prompt>Note the length of not more than 100</prompt>
+		<at>@</at>
+	</node>
+</nodes>

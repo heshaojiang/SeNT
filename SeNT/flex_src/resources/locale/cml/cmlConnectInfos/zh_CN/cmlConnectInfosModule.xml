@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlConnectInfosModule">
+	<inPerson>清分交接人员：</inPerson>
+	<titlemsg>清分交接管理</titlemsg>
+	<connMoney>交接现金：</connMoney>
+	<comeOrg>现金来源机构：</comeOrg>
+	<connNum>任务编号</connNum>
+	<connDate>交接日期：</connDate>
+	<to>至：</to>
+	<operations>操作</operations>
+	<chooseItem>选择</chooseItem>
+	</node>
+</nodes>

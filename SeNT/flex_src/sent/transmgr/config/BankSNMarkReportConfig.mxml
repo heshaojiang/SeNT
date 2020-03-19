@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley" 
+		   xmlns:grg="http://grg.grgbanking.com/platform/" 
+		   xmlns:message="sent.transmgr.message.*" 
+		   xmlns:pm="sent.transmgr.pm.*">
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.BankSNMarkReportDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<message:BankSNMarkReportMsg />
+		<pm:BankSNMarkReportPM />
+		<grg:GRGRemoteObject id="bankSNMarkReportService" destination="bankSNMarkReportService"/>
+		<Object type="{BankSNMarkReportDelegate}">
+			<Property name="service" idRef="bankSNMarkReportService"/>
+		</Object>
+	</fx:Declarations>
+</Objects>

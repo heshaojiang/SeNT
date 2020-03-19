@@ -1,0 +1,284 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="main">
+		<!-- Main Start-->
+		<language>Dil:</language>
+		<!--<version>JavaBirleşik platform sistemi 1.0</version>-->
+		<!--<copyright>Copyright © 2011 Guangzhou GRG Bankacılık Equipment Co, Ltd</copyright>-->
+		<version>versiyon 1.0</version>
+		<copyright>T.C. Ziraat Bankası A.Ş.</copyright>
+		<loginTimeLabel>Giriş Zamanı: </loginTimeLabel>
+		<loginUserLabel>Aktif Kullanıcı: </loginUserLabel>
+	</node>
+	<node locale="login">
+		<loginusername>Kullanıcı Adı:</loginusername>
+		<loginpassword>Şifre:</loginpassword>
+		<loginlanguage>Dil:</loginlanguage>
+		<login-error>Kullanıcı Adı veya Şifre Yanlış !</login-error>
+		<userLocked>Kullanıcı ya da Şifre Geçersiz!</userLocked>
+		<wrongPwd>Şifrenizi (?1) kez hatalı girdiniz.(?2) deneme hakkınız kaldı!</wrongPwd>
+		<userNotFound>Kullanıcı Tanımsız!</userNotFound>
+	</node>
+	<node locale = "language">
+		<zh_CN>简体中文</zh_CN>
+		<en_US>English</en_US>
+		<tr_TR>Türkçe</tr_TR>
+	</node>
+	<!-- Main End-->
+	<!-- Button Start-->
+	<node locale="button">
+		<mergeMenu>Menü Birleştirme</mergeMenu>
+		<setFavoriteModule>Menü Kişiselleştirme</setFavoriteModule>
+		<resetpass>Şifre Değiştirme</resetpass>
+		<logout>Çıkış</logout>
+		<help>Yardım</help>
+		<expanded>Genişlet</expanded>
+		<collapse>Daralt</collapse>
+		<query>Ara</query>
+		<saveButton>Kaydet</saveButton>
+		<addButton>Ekle</addButton>
+		<editButton>Düzenle</editButton>
+		<delButton>Sil</delButton>
+		<delSelectedButton>Seçileni Sil</delSelectedButton>
+		<closeButton>Kapat</closeButton>
+		<resetButton>Temizle</resetButton>
+		<submitButton>Tamam</submitButton>
+		<cancelButton>İptal</cancelButton>
+		<searchButton>Ara</searchButton>
+		<setButtons>Ayarla</setButtons>
+		<loginButton>Giriş</loginButton>
+		<moveAllButton>Tümünü Kaldır</moveAllButton>
+		<moveSlectedButton>Seçileni Kaldır</moveSlectedButton>
+		<addAllButton>Hepsini Ekle</addAllButton>
+		<addSlectedButton>Seçileni Ekle</addSlectedButton>
+		<sortButton>Sırala</sortButton>
+		<upButton>Yukarı</upButton>
+		<downButton>Aşağı</downButton>
+		<todayBtn>Bugün</todayBtn>
+		<okBtn>Tamam</okBtn>
+		
+		<leftButton>Sol</leftButton>
+		<rightButton>Sağ</rightButton>
+		<upButton>Yukarı</upButton>
+		<downButton>Aşağı</downButton>
+		<setParamButton>Parametreleri Ayarla</setParamButton>
+		
+		<exportButton>Dışa Aktar</exportButton>
+		<tmlSettingButton>Terminal Ayarları</tmlSettingButton>
+		<importButton>İçe Aktar</importButton>
+		<announceButton>Serbest bırakma</announceButton>
+		<chooseButton>Seç</chooseButton>
+		<downloadButton>Indir</downloadButton>
+		<searchLinkButton>Adrese Git</searchLinkButton>
+		<updateButton>Güncelle</updateButton>
+		<searchAgentConfigButton>Agent Config</searchAgentConfigButton>
+		<uploadButton>Dosya Yükle</uploadButton>
+		<invalidButton>Geçersiz</invalidButton>
+		<commitAuditButton>Onaya Gönder</commitAuditButton>
+		<auditButton>Onayla</auditButton>
+		<resetTaskButton>Görev Temizle</resetTaskButton>
+		<selectTerminalButton>Terminal seçin</selectTerminalButton>
+		<selectATMIDDispenseButton>Seçilen Terminali Ekle</selectATMIDDispenseButton>
+		<selectSearchCondDispenseButton>Sorgudaki Terminali Ekle</selectSearchCondDispenseButton>
+		<addSelectATMIDDispenseButton>Listeye Işaretlenmiş</addSelectATMIDDispenseButton>
+		<viewSelectSearchCondDispenseButton>Seçilen Listesini Görüntülemek</viewSelectSearchCondDispenseButton>
+		<deleteSelectedATMButton>Silmek</deleteSelectedATMButton>
+	</node>
+	<!-- Button End-->
+	<!-- Components Start-->
+	<node locale="components">
+		<all>Hepsi</all>
+	
+		<components.unselected>Seçili değil</components.unselected>
+		<components.selected>Seçili</components.selected>
+		<components.pagenum>Sayfa No</components.pagenum>
+		<components.perpage>Kayıt/Sayfa</components.perpage>
+		<components.allrecorditem>Kayıt</components.allrecorditem>
+		<components.allpage>Toplam Sayfa</components.allpage>
+		<components.currentpage>Geçerli Sayfa:</components.currentpage>
+
+		<!-- sort components -->
+		<sortWin>Sıralama Sayfası</sortWin>
+
+		<!-- DateSelect -->
+		<!-- week data -->
+		<sunday>Pazar</sunday>
+		<monday>Pazartesi</monday>
+		<tuesday>Salı</tuesday>
+		<wednesday>Çarşamba</wednesday>
+		<thursday>Perşembe</thursday>
+		<friday>Cuma</friday>
+		<saturday>Cumartesi</saturday>
+		<!-- week data -->
+		<!-- time -->
+		<hour>Saat:</hour>
+		<minute>Dakika:</minute>
+		<!-- time -->
+		<!-- DateSelect -->
+		<checked>Seçili</checked>
+		<unChecked>Seçili Değil</unChecked>
+		<selectAll>Tümünü Seç</selectAll>
+		<deSelectAll>Seçimi Kaldır</deSelectAll>
+	</node>
+	<!-- Components End-->
+	<node locale="image">
+		<closeAllButton>Tümünü Kapat</closeAllButton>
+		<settingButton>Ayarlar</settingButton>
+		<settingRole>Rol Ayarları</settingRole>
+		<settingGroup>Grup Ayarları</settingGroup>
+		<settingUser>Kullanıcı Ayarları</settingUser>
+		<settingPrivilege>Yetki Ayarları</settingPrivilege>
+		<resetPassword>Parola Sıfırlama</resetPassword>
+		<firstNavBtn>Ana Menü</firstNavBtn>
+		<preNavBtn>Önceki</preNavBtn>
+		<nextNavBtn>Sonraki</nextNavBtn>
+		<lastNavBtn>Son Sayfa</lastNavBtn>
+		<fullscreen>Tam Ekran</fullscreen>
+		<resumescreen>Küçült</resumescreen>
+		<searchImage>Ara</searchImage>
+		<expandImage>Genişlet</expandImage>
+		<collapseImage>Daralt</collapseImage>
+	</node>
+	<node locale="Msg">
+		<passwordExpired>Şifrenizin kullanım süresi bir kaç gün içinde sora erecektir. Lütfen şifrenizi değiştirin.</passwordExpired>
+		<systemInfo>Bilgi</systemInfo>
+		<success>Başarılı</success>
+		<fail>fail</fail>
+		<delSuccess>Silindi</delSuccess>
+		<saveSuccess>Kaydedildi</saveSuccess>
+		<resetSuccess>Sıfırlama</resetSuccess>
+		<!-- <error>hata</error> -->
+		<confirm>Tamam</confirm>
+		<cancel>İptal</cancel>
+		<confirmDelete>Seçilenleri silmek istediğinize emin misiniz?</confirmDelete>
+		<confirmLogout>Oturumu kapatmak istediğinize emin misiniz?</confirmLogout>
+		<timeOut>İşlem zaman aşımına uğradı.</timeOut>
+		<defaultPassword>Lütfen Parolanızı Değiştirin</defaultPassword>
+		<pwdNotNull>Şifre boş olamaz!</pwdNotNull>
+		<newPwdInconsistent>Şifreler uyuşmamaktadır!</newPwdInconsistent>
+		<pwdLenError>Şifreniz (6-20 karakter) uzunluğunda olmalıdır.</pwdLenError>
+		<confirmResetPwd>Şifrenizi sıfırlamak istediğinize emin misiniz?</confirmResetPwd>
+		<noSelectedRecord>Lütfen bir kayıt seçiniz!</noSelectedRecord>
+		<!-- <wrongPassword>Error!\nWrong Password!</wrongPassword> -->
+		<noSelectedNode>Seçim yapınız</noSelectedNode>
+		<nameAlreadyExisted>İsim var zaten</nameAlreadyExisted>
+		<searchKeyNotNull>Sorgu boş olamaz!</searchKeyNotNull>
+		<!-- <alreadyAssign>Atanmış!</alreadyAssign> -->
+		<noChange>Değiştirilemedi!</noChange>
+		<inputNotNull>Giriş boş olamaz!</inputNotNull>
+		<moduleIsSoMuch>Çok fazla açık pencere var! Lütfen bazılarını kapatıp tekrar deneyiniz.</moduleIsSoMuch>
+		<!-- <existKey>This Key has already exists!</existKey> -->
+		<noPrivilege>Bu ekran için yetkiniz bulunmamaktadır. Sistem yöneticisi ile iletişime geçiniz!</noPrivilege>
+		<overDis>Yeni Ekleme Yapılabilir.</overDis>
+		<overSign>overSign</overSign>
+		<notZeroDis>Dağıtım sayısı sıfır olamaz!</notZeroDis>
+		<failEdit>Atanmış, Düzenleme Yapılamaz!</failEdit>
+		<redisConfirm>Onaylanmıyor</redisConfirm>
+		<reSignConfirm>reSignConfirm</reSignConfirm>
+		<signed>Atama iptal edilemez!</signed>
+		<signFailReason>Aynı seri numarasına bağlı başka cihaz var!</signFailReason>
+		<noFileId>Dosya No boş</noFileId>
+		<nullFileId>Dosya Bulunamadı</nullFileId>
+		<notStateLink>Liste durumu yanlış</notStateLink>
+		<signSucc>Başarılı</signSucc>
+		<signSuccBut>sign success!But exist same seqNo</signSuccBut>
+		<noReamin>Mevcut Değil</noReamin>
+		<openConfirm>Onaylıyormusunuz?</openConfirm>
+		<examineSuccess>Denetim Başarılı</examineSuccess>
+		<failCancel>Sonlanıyor veya sona ermiş, İptal edilemez!</failCancel>
+		<failBreak>Devam ediyor, İptal edilemez!</failBreak>
+		<cancelConfirm>Terminal durdurmayı iptal etmek istediğinize emin misiniz?</cancelConfirm>
+		<breakConfirm>Terminal durdurmayı duraklatmak istediğinze emin misiniz?</breakConfirm>
+		<failStop>Terminal eşleştirilemiyor!</failStop>
+		<failStopIntime>Bu rapor aynı dönemde mevcut</failStopIntime>
+		<failStopInstat>Şu cihazın durumu durdurmak için rapor izin vermez</failStopInstat>
+		<confirmInvalid>Seçtiğiniz dosyalar geçersiz yapılacaktır. Onaylıyor musunuz?</confirmInvalid>
+		<invalidSuccess>Geçersiz olarak tanımlandı!</invalidSuccess>
+		<confirmCommitAudit>Onaylıyor musunuz?</confirmCommitAudit>
+		<commitAuditSuccess>başarıyla teslim</commitAuditSuccess>
+		<confirmAudit>Onaylamak istediğinize emin misiniz? </confirmAudit>
+		<listIsInvalid>Kayıt tanımlı değil.</listIsInvalid>
+		<listIsCommit>Kayıt tamamlanmıştır.</listIsCommit>
+		<listIsUpload>Log dosyaları yüklenmiştir.</listIsUpload>
+		<auditSuccess>Onay Başarılı!</auditSuccess>
+		<chooseExeFile>EXE dosyası seçiniz!</chooseExeFile>
+		<onlyCanDelOnePlanOnce>Yalnızca bir program silebilirsiniz!</onlyCanDelOnePlanOnce>
+		<hasUnfinishTask>Seçilen görev tamamlanmamış. Silinemez!</hasUnfinishTask>
+		<onlyCanSelectOnePlan>Sadece bir plan seçebilirsiniz!</onlyCanSelectOnePlan>
+		<resetFailTask>Başarısız olan (;; görev yürütme başarısız, zaman aşımına uğradı istemciye bağlanamıyor, söz görev bu yana müşteri bekleyen görev yürütme başarısız, hiç deneme) görevleri yenilemek istiyor musunuz?</resetFailTask>
+		<confirmEnablePlan>Bu planı etkinleştirmek istiyor musunuz?</confirmEnablePlan>
+		<confirmDisablePlan>Bu planı devre dışı bırakmak istiyor musunuz?</confirmDisablePlan>
+		<failToOperation>İşlem yapılamıyor!</failToOperation>
+		<hasbeensent>Bu mesaj gönderilmiştir. Silinemez, düzenlenemez!</hasbeensent>
+		<hasbeenannounced>Duyuru!</hasbeenannounced>
+		<selectATMMustSelectOne>Terminali seçiniz.</selectATMMustSelectOne>
+		<selectATMCannotMorethanTen>Seçili terminallerin sayısı 10u geçemez.</selectATMCannotMorethanTen>
+		<hasalreadyexisted>Kayıt zaten var!</hasalreadyexisted>
+		<hasBeenEffective>Kart numarası / kart BIN etkin, silinemez!</hasBeenEffective>
+		<refreshSuccess>Yenilendi!</refreshSuccess>
+		<refreshEventDef>Terminali görev tanımları yenilendi!</refreshEventDef>
+		<refreshOrgEventDef>Kuruluşların etkinliğin tanımlanması önbelleği yenilendi!</refreshOrgEventDef>
+		<refreshBankCardInfo>Kart tablosu bilgileri önbelleği yenilendi!</refreshBankCardInfo>
+		<refreshBlackCardInfo>Siyah kart kuralları önbelleği yenilendi!</refreshBlackCardInfo>
+		<refreshTmlInfo>Terminal bilgi önbelleğini yenilendi!</refreshTmlInfo>
+		<refreshUnionPayCardInfo>UnionPay kart tablosu önbelleği yenilendi!</refreshUnionPayCardInfo>
+		<refreshDataDir>Veri sözlüğü önbelleği yenilendi! !</refreshDataDir>
+		<refreshWtClasslist>Ayrıntılı bilgi önbelleğini yenileme hatası sınıf başarı!</refreshWtClasslist>
+		<modelcannotnull>Model alanı boş olamaz!</modelcannotnull>
+		<cashLackNumAboveFull>Banknot sayısı toplam sayıdan küçük olmalıdır!</cashLackNumAboveFull>
+		<chooseFileTooBig>Seçmiş olduğunuz dosya 10MB'den büyüktür!</chooseFileTooBig>
+		<dateInputNotNull>Tarih alanı boş olamaz!</dateInputNotNull>
+		<addressSameValictor>üçten fazla karakter hitap aynı yanlış var!</addressSameValictor>
+		<MobilephoneSameValictor>Cep telefonu numarası hepsi aynı yanlış!</MobilephoneSameValictor>
+		<telephoneSameValictor>telefon numarası hepsi aynı yanlış!</telephoneSameValictor>
+		<userHasLogin>Kullanıcı başka bir yerde oturum olmuştur, çıkmak zorunda kaldılar!</userHasLogin>
+		<selectATMMustSelectOne>En az bir terminal seçiniz!</selectATMMustSelectOne>
+		<selectNullTerminfoByMsgRuleId>Herhangi bir terminal seçmediyseniz!</selectNullTerminfoByMsgRuleId>
+		<selectNullTerminfo>Geçerli sorgu sorgu daha az herhangi bir terminal</selectNullTerminfo>
+		<chooseTerminfoNum>Seçilen Terminal Sayısı:</chooseTerminfoNum>
+		<selectedTerminfoByMsgRuleIdNum>Seçilen Terminal Sayısı:</selectedTerminfoByMsgRuleIdNum>
+		<selectTerminalTips>Terminal seçin, ilk kuralı kaydetmeniz gerekir SMS kuralları doldurmuş yok ve bunu kaydetmek istiyor</selectTerminalTips>
+		<roleCannotBeNullBeforeSelectedSMS>SMS seçilen önce Rolü boş olamaz!</roleCannotBeNullBeforeSelectedSMS>
+		<roleCannotBeNullBeforeSelectedEMAIL>EMAIL seçilen önce Rolü boş olamaz!</roleCannotBeNullBeforeSelectedEMAIL>
+		<specialPersonCannotBeNullBeforeSelectedSMS>SMS seçilen önce özel Kişi boş olamaz!</specialPersonCannotBeNullBeforeSelectedSMS>
+		<specialPersonCannotBeNullBeforeSelectedEMAIL>EMAIL seçilen önce özel Kişi boş olamaz!</specialPersonCannotBeNullBeforeSelectedEMAIL>
+	</node>
+	<node locale="validator">
+		<vtype-required>Bu alan gereklidir!</vtype-required>
+		<vtype-email>E-posta formatı doğru değil!</vtype-email>
+		<vtype-password>Şifre formatı yanlış!</vtype-password>
+		<vtype-bankcard>Banka kartı formatı yanlış!</vtype-bankcard>
+		<vtype-ip>Ağ adresi formatı yanlış!</vtype-ip>
+		<vtype-englishchar>Sadece İngilizce karakter giriniz!</vtype-englishchar>
+		<vtype-english>Sadece harf girebilirsiniz!</vtype-english>
+		<vtype-chinese>Sadece Çince karakter giriniz!</vtype-chinese>
+		<vtype-url>URL formatı yanlış!</vtype-url>
+		<vtype-idcard>Kart formatı yanlış!</vtype-idcard>
+		<vtype-date>Tarih formatı yanlış!</vtype-date>
+		<vtype-datetime>Tarih ve saat formatı yanlış!</vtype-datetime>
+		<vtype-unsafe>Sadece güvenli karakterler giriniz!</vtype-unsafe>
+		<vtype-engdigit>Sadece sayı giriniz!</vtype-engdigit>
+		<vtype-number>Sadece sayı giriniz!</vtype-number>
+		<vtype-int>Sadece  tamsayı girin!</vtype-int>
+		<vtype-unchinese>Çinçe karakter girişi yapamazsınız!</vtype-unchinese>
+		<vtype-maxchars> Maksimum karakter sayısı:</vtype-maxchars>
+		<vtype-minchars> Minimum karakter sayısı:</vtype-minchars>
+		<vtype-minchars-zh_CN> (Çince karakterler çift bayt olmalı)</vtype-minchars-zh_CN>
+	</node>
+	<!-- Dynamic Skin -->
+	<node locale="loginSkin">
+		<zh_CN>loginPanel_zh_CN</zh_CN>
+		<en_US>loginPanel_en_US</en_US>
+		<tr_TR>loginPanel_tr_TR</tr_TR>
+	</node>
+	<node locale="logoSkin">
+		<zh_CN>banner_logo_zh_CN</zh_CN>
+		<en_US>banner_logo_en_US</en_US>
+		<tr_TR>banner_logo_tr_TR</tr_TR>
+	</node>
+	<node locale="mainSkin">
+		<zh_CN>mainContainer_zh_CN</zh_CN>
+		<en_US>mainContainer_en_US</en_US>
+		<tr_TR>mainContainer_tr_TR</tr_TR>
+	</node>
+</nodes>

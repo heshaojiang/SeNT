@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：信息通知结果查询<br>
+	Create Time：2011-9-21<br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgSendResultModule">
+		<listTitle>Msg Send Result List</listTitle>
+		<viewList>Msg Send Result View</viewList>
+		<orgIdItem>orgId</orgIdItem>
+		<searchItem>termId/troubleId/mobilePhone/Email</searchItem>
+		<termIdItem>termId</termIdItem>
+		<troubleIdItem>troubleId</troubleIdItem>
+		<mobilePhoneItem>mobilePhone</mobilePhoneItem>
+		<adminIdItem>notifier</adminIdItem>
+		<createMsgItem>createMsg</createMsgItem>
+		<sendItem>sendTime</sendItem>
+		<toItem>to</toItem>
+		<flagItem>sendStatus</flagItem>
+		<SMSContentItem>SMSContent</SMSContentItem>
+		<typeItem>Type</typeItem>
+		<phoneOrEmail>SMS/Email</phoneOrEmail>
+		<levelItem>Level</levelItem>
+	</node>
+</nodes>

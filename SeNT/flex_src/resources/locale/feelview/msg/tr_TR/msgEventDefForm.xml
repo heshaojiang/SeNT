@@ -1,0 +1,15 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgEventDefForm">
+		<createMsgEventDef>Etkinlik Tanımı Ekle</createMsgEventDef>
+		<editMsgEventDef>Etkinlik Tanımı Değiştir</editMsgEventDef>
+		<eventType>Olay Türü:</eventType>
+		<flag>İşaret:</flag>
+		<auto>Otomatik Olarak Bildirmek:</auto>
+		<informManner>Bildirim:</informManner>
+		<msgTemplate>Bildirim Şablonu:</msgTemplate>
+		<role>Uyarı Rolleri:</role>
+		<sourceId1>Terminal Id:</sourceId1>
+		<sourceId2>Şube:</sourceId2>
+	</node>
+</nodes>

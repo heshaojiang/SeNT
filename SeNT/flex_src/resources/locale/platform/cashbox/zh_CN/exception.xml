@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashbox">
+		<boxNumNotNull>钞箱号不能为空</boxNumNotNull>
+		<orgidNotExists>机构不存在</orgidNotExists>
+		<boxNumExists>钞箱号已存在</boxNumExists>
+		<orgIdCannotBeNull>机构不能为空</orgIdCannotBeNull>
+		<importExcelError>导入出错！</importExcelError>
+		
+	</node>
+</nodes>

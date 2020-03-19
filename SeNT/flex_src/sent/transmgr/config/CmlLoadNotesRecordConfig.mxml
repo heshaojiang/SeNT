@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns="http://www.spicefactory.org/parsley" 
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:grg="http://grg.grgbanking.com/platform/" 
+		 xmlns:pm="sent.transmgr.pm.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.CmlLoadNotesRecordDelegate;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<pm:CmlLoadNotesRecordPM />
+		<grg:GRGRemoteObject id="cmlLoadNotesRecordService" destination="cmlLoadNotesRecordService"/>
+		<Object type="{CmlLoadNotesRecordDelegate}">
+			<Property name="service" idRef="cmlLoadNotesRecordService"/>
+		</Object>
+	</fx:Declarations>
+	
+</Objects>

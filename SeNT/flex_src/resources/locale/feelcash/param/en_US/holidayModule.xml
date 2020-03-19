@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "holidayModule">
+		<listTitle>Holiday List</listTitle>
+		<holidayname>Holiday Name</holidayname>
+		<holidaystart>Start Date</holidaystart>
+		<holidayend>End Date</holidayend>
+	</node>
+</nodes>

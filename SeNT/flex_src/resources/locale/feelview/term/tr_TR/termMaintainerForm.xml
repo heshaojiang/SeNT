@@ -1,0 +1,26 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： termMaintainerForm
+	 Create Time：2011-8-17   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termMaintainerForm">
+		<addTermMaintainerForm>Terminal Bakımcı Ekle</addTermMaintainerForm>
+		<updateTermMaintainerForm>Terminal Bakımcı Duzenle</updateTermMaintainerForm>
+		<settingTermEquipmentForm>Terminal Bakımcı Ayarlar</settingTermEquipmentForm>
+		<operatorNameItem>Operatör Adı:</operatorNameItem>
+		<corporatorOrgItem>Bakımcı Organizasyon:</corporatorOrgItem>
+		<tmlTypeItem>Terminal Tipi:</tmlTypeItem>
+		<tmlModelItem>Model:</tmlModelItem>
+		<contactManItem>İlgili:</contactManItem>
+		<contactTelItem>Telefon:</contactTelItem>
+		<contactMobileItem>Cep Telefonu:</contactMobileItem>
+		<operatorAddressItem>Adres:</operatorAddressItem>
+		<status>Durum:</status>
+		<statusEnable>Etkinleştir</statusEnable>
+		<statusDisable>Devre Dışı Bırak</statusDisable>
+		<!-- <prompt>(Birden fazla ise "," ile ayrılmalı)</prompt> -->
+		<prompt>(Örnek:+90 212 1234567)</prompt>
+		<promptS>(Örnek:+90 532 1234567)</promptS>
+	</node>
+</nodes>

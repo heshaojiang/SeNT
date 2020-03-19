@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--
+		Description：短信发送报表<br>
+		Create Time：2012-02-23<br>     
+		Author：Ming.Zhang <br>
+		Email : zyming1@grgbanking.com <br>
+		-->
+<nodes>
+	<node locale="smsReportModule">
+		<listTitle>SMS Mesaj listesinde göndermek</listTitle>
+		<termId>Terminal Id</termId>
+		<dispatchId>Kural Adı</dispatchId>
+		<dispatchCreate>Başlangıç Zamanı</dispatchCreate>
+		<endTime>Bitiş Zamanı</endTime>
+		<msgSendNum>SMS</msgSendNum>
+		<emailSendNum>E-mail</emailSendNum>
+		<name>Sorumlu Adı Soyadı</name>
+		<mobilePhone>Cep Telefonu</mobilePhone>
+		<emailAddress>E-posta Adresi</emailAddress>
+		<description>SMS İçeriği</description>
+		<to>Bitiş Zamanı</to>
+		<orgId>Şube</orgId>
+		<areaId>İl</areaId>
+		<finishLevel>Seviye</finishLevel>
+		<troubleIdItem>Ticket ID</troubleIdItem>
+		<devCode>Arızalı Donanım</devCode>
+		<finishOrNotItem>Çözüldü</finishOrNotItem>
+		<smSystemId>SMSystem ID</smSystemId>
+	</node>
+</nodes>

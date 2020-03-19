@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   dataDictionaryPaths="{[QUERY_RESULT,NOTE_TYPE,REGITION_TYPE]}"
+			   locale="faultInfoCheckInModule"
+			   xmlns:userDefined="platform.date.*"
+			   layout="vertical" 
+			   width="100%" height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.utils.ObjectUtil;
+			import mx.utils.StringUtil;
+			
+			import platform.common.util.StringUtil;
+			import platform.component.containers.TitleWindow;
+			
+			import sent.common.utils.StringUtils;
+			private const QUERY_RESULT:String = "SysDatadirMgr.sent.ruleMgr.cmlQueryResult";
+			private const NOTE_TYPE:String = "SysDatadirMgr.sent.transMgr.noteType";
+			private const REGITION_TYPE:String = "SysDatadirMgr.sent.ruleMgr.cmlRegistionType";
+			
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.checkin.config.FaultInfoCheckInConfig;
+			import sent.checkin.message.FaultInfoCheckInMsg;
+			import sent.checkin.pm.FaultInfoCheckInPM;
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			import sent.common.utils.TestUtils;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			
+			[Inject]
+			[Bindable]
+			public var infopm:FaultInfoCheckInPM;
+			
+			[Bindable]
+			public var searchCheckInInfoPage:Page = new Page();
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			//全部
+			[Bindable]
+			public var uploadStatusAll:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			[Embed(source="resources/theme/images/icons/input.png")] 
+			private var exportIcon:Class; 
+			
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				//if(column.dataField == "registionType")
+				currentDataDictPath = REGITION_TYPE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			/**
+			 * 获取数据字典成功后刷新界面
+			 */
+			override protected function getDataDictCallback():void
+			{
+				trace("FaultInfoCheckInModule.getDataDictCallback");
+				//向下拉列表框中添加一个"全部"子项
+				var str:String  = LanguageManager.getInstance().getCommonLanguageMap("components")["all"] as String ;
+				var allItem:Object = {key:"", text:str};
+				
+				var arrCol:ArrayCollection = ObjectUtil.copy(dataDictionaryCache[REGITION_TYPE]) as ArrayCollection;
+				arrCol.addItemAt(allItem, 0);
+				uploadStatusAll = arrCol;
+				
+				/*	if(uploadStatusAll.length==0)
+				{
+				uploadStatusAll.addItem(allItem);
+				uploadStatusAll.addItem({key:"0",text:"登记"});
+				uploadStatusAll.addItem({key:"1",text:"再登记"}); 
+				}*/
+				(checkInInfoGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			
+			/**
+			 * 查询加载涉假信息登记页面
+			 */
+			public function loadPage():void
+			{
+				trace("FaultInfoCheckInModule.loadPage");
+				try
+				{
+					var parameter:Object = {};
+					parameter.page = searchCheckInInfoPage;
+					
+					var condition:Object = {};
+					condition.pathCode  = String(orgId.selectedItem.@pathCode);
+					condition.startTime = startTime.text;
+					condition.endTime   = endTime.text;
+					condition.querySeriaNo = querySeriaNo.text;
+					condition.registionType = registionType.selectedValue;
+					parameter.condition = condition;
+					
+					var msg:FaultInfoCheckInMsg = new FaultInfoCheckInMsg();
+					msg.args["remoteMethod"]   = "querySerialInfoPage";//"queryFaultCheckInInfoPage";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "FaultInfoCheckInModule.queryFaultCheckInInfoPageResult";
+					msg.args["errorHandler"]   = "FaultInfoCheckInModule.queryFaultCheckInInfoPageError";
+					infopm.sendFaultInfoCheckInMsg(msg);
+				}
+				catch(e:Error)
+				{
+					trace(e);
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="FaultInfoCheckInModule.queryFaultCheckInInfoPageResult")]
+			public function queryFaultCheckInInfoPageResult(msg:FaultInfoCheckInMsg):void
+			{
+				trace("FaultInfoCheckInModule.queryFaultCheckInInfoPageResult");
+				searchCheckInInfoPage = msg.result as Page;
+			}
+			
+			//////////////////////
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-7);
+				endTime.selectedDate = DateUtils.createDate(0);
+				querySeriaNo.text = "";
+				registionType.selectedValue = "";
+			}
+			
+			/**
+			 * 
+			 */
+			public function add():void
+			{
+				trace("FaultInfoCheckInModule.add");
+				var win:FaultInfoCheckInForm = new FaultInfoCheckInForm();
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				
+				win.addEventListener(CloseEvent.CLOSE, function():void{
+					trace("FaultInfoCheckInModule.add - CloseEvent.CLOSE");
+					//loadPage();
+				});
+			}
+			
+			/**
+			 * 涉假信息在登记
+			 * */
+			public function addAgain():void
+			{
+				trace("FaultInfoCheckInModule.add");
+				var win:FaultAgainInfoCheckInForm = new FaultAgainInfoCheckInForm();
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				
+				win.addEventListener(CloseEvent.CLOSE, function():void{
+					trace("FaultInfoCheckInModule.add - CloseEvent.CLOSE");
+					//loadPage();
+				});
+			}
+			
+			/**
+			 * 
+			 */
+			public function edit():void
+			{
+				trace("FaultInfoCheckInModule.edit");
+				if( checkInInfoGrid.checkedItems.length!=1 )
+				{
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				
+				var data:Object = checkInInfoGrid.checkedItems[0];
+				
+				if(data['registionType']=='0'){
+					var win:FaultInfoCheckInForm = new FaultInfoCheckInForm();
+					win.setMode("edit");
+					win.setFormData(data);
+					_context.viewManager.addViewRoot(win);
+					PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+					
+					win.addEventListener(CloseEvent.CLOSE, function():void{
+						trace("FaultInfoCheckInModule.edit - CloseEvent.CLOSE");
+						//loadPage();
+					});
+				}else if(data['registionType']=='1'){
+					var winAgain:FaultAgainInfoCheckInForm = new FaultAgainInfoCheckInForm();
+					winAgain.setMode("edit");
+					winAgain.setFormData(data);
+					_context.viewManager.addViewRoot(winAgain);
+					PopUpManager.showForm4Parsley(IFlexDisplayObject(winAgain), this);
+					
+					winAgain.addEventListener(CloseEvent.CLOSE, function():void{
+						trace("FaultInfoCheckInModule.edit - CloseEvent.CLOSE");
+						//loadPage();
+					});
+				}
+				
+			}
+			
+			/**
+			 * 
+			 */
+			public function del():void
+			{
+				trace("FaultInfoCheckInModule.del");
+				if( checkInInfoGrid.checkedItems.length==0 )
+				{
+					//AlertHandler.alert("noSelectedRecord");
+					AlertHandler.alert(langMgr.getExceptionMessage("exceptionMessage.pleaseSelectAtLeastOneRecord"));
+					return;
+				}
+				
+				AlertHandler.confirm(function(event:CloseEvent):void{
+					if (event.detail == Alert.YES)
+					{
+						var idArr:Array = DataGridUtil.getPropertys("id", checkInInfoGrid.checkedItems).source;
+						var msg:FaultInfoCheckInMsg = new FaultInfoCheckInMsg();
+						msg.args["remoteMethod"]   = "deleteSerialInfos";//"deleteFaultCheckInInfos";
+						msg.args["methodPrameter"] = idArr;
+						msg.args["resultHandler"]  = "FaultInfoCheckInModule.deleteFaultCheckInInfosPageResult";
+						msg.args["errorHandler"]   = "FaultInfoCheckInModule.deleteFaultCheckInInfosPageError";
+						infopm.sendFaultInfoCheckInMsg(msg);
+					}
+				}, null, LocaleConsts.CONFIRM_DELETE);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="FaultInfoCheckInModule.deleteFaultCheckInInfosPageResult")]
+			public function deleteFaultCheckInInfosPageResult(msg:FaultInfoCheckInMsg):void
+			{
+				trace("FaultInfoCheckInModule.deleteFaultCheckInInfosPageResult");
+				loadPage();
+			}
+			
+			[MessageHandler(selector="NewCheckInForm.addCheckInInfoResult")]
+			public function addCheckInInfoResult(msg:FaultInfoCheckInMsg):void
+			{
+				loadPage();
+			}
+			[MessageHandler(selector="NewCheckInForm.updateCheckInInfoResult")]
+			public function updateCheckInInfoResult(msg:FaultInfoCheckInMsg):void
+			{
+				loadPage();
+			}
+			
+			//////////////////////
+			
+			/**
+			 * 
+			 */
+			public function exportExcel():void
+			{
+				trace("FaultInfoCheckInModule.exportExcel");
+				var arr:ArrayCollection = checkInInfoGrid.dataProvider as ArrayCollection;
+				//var isPrintTemplate:int = arr.length ; 				
+				if(arr.length == 0){
+					AlertHandler.alert("页面没有数据需要进行导出");
+					return;
+				}
+				
+				var parameter:Object = {};
+				//parameter.page = searchCheckInInfoPage;
+				parameter.page = new Page();
+				
+				var condition:Object = {};
+				condition.pathCode  = String(orgId.selectedItem.@pathCode);
+				condition.startTime = startTime.text;
+				condition.endTime   = endTime.text;
+				condition.querySeriaNo = querySeriaNo.text;
+				condition.registionType = registionType.selectedValue;
+				parameter.condition = condition;
+				
+				var msg:FaultInfoCheckInMsg = new FaultInfoCheckInMsg();
+				msg.args["remoteMethod"]   = "exportExcelFaultInfo";//"queryFaultCheckInInfoPage";
+				msg.args["methodPrameter"] = parameter;
+				msg.args["resultHandler"]  = "FaultInfoCheckInModule.exportExcelFaultInfoResult";
+				msg.args["errorHandler"]   = "FaultInfoCheckInModule.exportExcelFaultInfoError";
+				infopm.sendFaultInfoCheckInMsg(msg);
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="FaultInfoCheckInModule.exportExcelFaultInfoResult")]
+			public function exportExcelFaultCheckInInfosPageResult(msg:FaultInfoCheckInMsg):void
+			{
+				ExternalInterface.call("downloadFile","../servlet/exportFileServlet?fileName=" + msg.result.toString());
+			}
+			//////////////////////
+			
+			/**
+			 * 
+			 */
+			public function viewRowDetailInfo():void
+			{
+				var data:Object = checkInInfoGrid.selectedItem;
+				
+				if(data['registionType']=='0'){
+					var win:FaultInfoCheckInForm = new FaultInfoCheckInForm();
+					win.setMode("view");
+					win.setFormData(data);
+					_context.viewManager.addViewRoot(win);
+					PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				}else if(data['registionType']=='1'){
+					var winAgain:FaultAgainInfoCheckInForm = new FaultAgainInfoCheckInForm();
+					winAgain.setMode("view");
+					winAgain.setFormData(data);
+					_context.viewManager.addViewRoot(winAgain);
+					PopUpManager.showForm4Parsley(IFlexDisplayObject(winAgain), this);
+				}
+				
+				
+				
+			}
+			
+			private function createRowNo(oItem:Object,iCol:int):String{
+				var iIndex:int = ((searchCheckInInfoPage.pageNo - 1) * searchCheckInInfoPage.pageSize) + searchCheckInInfoPage.result.getItemIndex(oItem) + 1;
+				return String(iIndex);
+			}
+			
+			public function showSerialPrintInfo():void
+			{
+				var obj:Object = checkInInfoGrid.selectedItem;
+				//_context.viewManager.addViewRoot(win);
+				//PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);
+				var infoForm:SerialInfoPrintForm = new SerialInfoPrintForm();
+				_context.viewManager.addViewRoot(infoForm);
+				PopUpManager.showForm4Parsley(infoForm);
+				
+				infoForm.initData(obj);
+			}
+			
+			private function changeSerialResult(item:Object,colimn:int):String{
+				/* if(item.serialResult == 1){
+				return "已找到";
+				}else {
+				return "未找到";
+				} */
+				var serialRet:String = this.getTextByKeyOnDataDictPath(item.serialResult,QUERY_RESULT);
+				//if(StringUtils.isNotBlank(item.noteType)){
+				if(item.serialResult == "1"){
+					var type:String = this.getTextByKeyOnDataDictPath(item.noteType,NOTE_TYPE);
+					serialRet += ", "+type;
+				}
+				return serialRet;
+			}
+			
+			private function changeApplyName(item:Object,colimn:int):String{
+				if(item.applyType=="1"){
+					return item.agentName;
+				}
+				return item.applyName;
+			}
+			
+			private function changeRegistionType(item:Object,colimn:int):String{
+				if(item.registionType=="1"){
+					return "再登记";
+				}
+				return "登记";
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="true"/>
+			<parsley:Scope name="FaultInfoCheckInModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="FaultInfoCheckInModule"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{CmlSentInfoConfig}"/>
+			<parsley:FlexConfig type="{FaultInfoCheckInConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+		
+	</fx:Declarations>
+	<mx:VDividedBox 
+		width="100%" height="100%">
+		<s:BorderContainer width="100%" 
+						   height="100%"
+						   styleName="BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" 
+								  paddingTop="0"/>
+			</s:layout>
+			
+			<!--s:BorderContainer width="100%" height="30" borderVisible="false">
+			<s:layout>
+			<s:HorizontalLayout paddingLeft="10"/>
+			</s:layout>
+			
+			<!- - 标题 - -   >
+			<s:BorderContainer width="30%" height="100%" borderVisible="false">
+			<s:layout>
+			<s:HorizontalLayout paddingTop="5" paddingLeft="0"/>
+			</s:layout>
+			<!- -客户涉假信息登记- -  >
+			<grg:TitleBar  id="titleMgr" locale="titlemsg" width="50%" height="30"/> 
+			</s:BorderContainer>
+			-->
+			<!-- 查询条件 --> 
+			<grg:AdvancedSearchBar
+				textAlign="center"
+				styleName="SearchBar" borderVisible="false">
+				<grg:layout>
+					<s:VerticalLayout paddingTop="0" gap="0"/>
+				</grg:layout>
+				<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+					<!--客户涉假信息登记-->
+					<grg:TitleBar id="titleMgr" locale="titlemsg" width="50%" height="100%"/> 
+					<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+						<mx:HBox styleName="searchStyle">
+							<s:BorderContainer width="100%" height="25" backgroundAlpha="0" borderVisible="false">
+								<s:layout>
+									<s:HorizontalLayout
+										paddingLeft="0"
+										verticalAlign="middle"/>
+								</s:layout>
+								<!-- 所属机构 -->
+								<grg:Label locale="orgIdColon"/>
+								<grg:GRGComboBoxOrgTree id="orgId" defaultField="true"
+														textAlign="left"
+														treeHeight="300" width="100"/>
+								<s:Spacer width="5"/>
+								<!-- 日期 -->
+								<grg:Label locale="checkInTimeColon"/>
+								<userDefined:SuperDateField id="startTime" required="true"
+													selectedDate="{DateUtils.createDate(-7)}"
+													selectableRange="{{rangeEnd:endTime.selectedDate}}"/>
+								
+								
+								<grg:Label locale="to"/>
+								<userDefined:SuperDateField id="endTime" required="true"
+													selectedDate="{DateUtils.createDate(0)}"
+													selectableRange="{{rangeStart:startTime.selectedDate}}"/>
+								<s:Spacer width="5"/>
+								<!-- 查询按钮 -->
+								<grg:SearchButton id="searchBtn" iconType="query"
+												  locale="searchButton" click="searchCheckInInfoPage.pageNo=1;loadPage()"/>
+								<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 
+								<!-- 重置按钮 -->
+								<grg:ResetButton id="resetBtn" iconType="reset"
+												 locale="resetButton"
+												 resetControls="{[this.orgId]}"
+												 click="initSelectDate()" />
+							</s:BorderContainer>
+						</mx:HBox> 
+					</mx:HBox>
+				</mx:HBox> 
+				<!-- 查询条件 - -  >
+				<s:BorderContainer borderVisible="false" width="70%">
+				<s:layout>
+				<s:VerticalLayout verticalAlign="top"/>
+				</s:layout>
+				<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" 
+				paddingTop="2" paddingBottom="3" horizontalAlign="right">
+				<mx:HBox styleName="searchStyle" height="25">
+				<!- - 所属机构 - -  >
+				<grg:Label locale="orgIdColon"/>
+				<grg:GRGComboBoxOrgTree id="orgId" defaultField="true"
+				textAlign="left"
+				treeHeight="300" width="100"/>
+				<s:Spacer width="5"/>
+				<!- - 日期 - -  >
+				<grg:Label locale="checkInTimeColon"/>
+				<grg:SuperDateField id="startTime" required="true"
+				selectedDate="{DateUtils.createDate(-7)}"
+				selectableRange="{{rangeEnd:endTime.selectedDate}}"/>
+				
+				
+				<grg:Label locale="to"/>
+				<grg:SuperDateField id="endTime" required="true"
+				selectedDate="{DateUtils.createDate(0)}"
+				selectableRange="{{rangeStart:startTime.selectedDate}}"/>
+				<s:Spacer width="5"/>
+				<!- - 查询按钮 - -  >
+				<grg:SearchButton id="searchBtn" iconType="query"
+				locale="searchButton" click="searchCheckInInfoPage.pageNo=1;loadPage()"/>
+				<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 
+				<!- - 重置按钮 - -  >
+				<grg:ResetButton id="resetBtn" iconType="reset"
+				locale="resetButton"
+				resetControls="{[this.orgId]}"
+				click="initSelectDate()" />
+				</mx:HBox>
+				</mx:HBox>
+				</mx:HBox>
+				
+				</s:BorderContainer  -->
+				
+				<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+					<s:layout>
+						<s:VerticalLayout gap="0" paddingBottom="0" />
+					</s:layout>
+					<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+					</s:BorderContainer>
+					<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+						<s:layout>
+							<s:VerticalLayout   gap="0" />
+						</s:layout>
+						<mx:HBox width="100%" styleName="expHBoxStyle">  
+							<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+								<s:layout>
+									<s:HorizontalLayout 
+										horizontalAlign="right"
+										gap="2"
+										verticalAlign="middle" />
+								</s:layout>
+								<grg:Label locale="querySeriaNoColon"/>
+								<grg:TextInput id="querySeriaNo" textAlign="left" restrict="0-9a-zA-Z\-" maxChars="10"
+											   width="120" height="20"
+											   styleName="TextInput" />
+								<s:Spacer width="5" />
+								<grg:Label locale="registionType"/>
+								<grg:ComboBox id="registionType"  dataProvider="{uploadStatusAll}" labelField="text" 
+											  valueField="key" width="98" requireSelection="true"/>
+								
+							</s:BorderContainer>
+						</mx:HBox>
+					</s:BorderContainer>
+					
+				</s:BorderContainer>
+				
+			</grg:AdvancedSearchBar>
+			<!-- 功能按钮部份 -->
+			<mx:HBox width="100%" height="29" verticalAlign="top" paddingTop="1" 
+					 paddingLeft="10" horizontalAlign="left">
+				<s:BorderContainer height="26" borderVisible="false" cornerRadius="5" backgroundColor="#ffffff">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2" horizontalAlign="left"/>
+					</s:layout>
+					
+					<!--<grg:GRGModuleButtonBar2 id="privilegeBar2"  menuId="{menu.id}">-->
+					<!--涉假信息登记-->
+					<grg:Button locale="addInfo" id="addInfo" privilegeCode="add" click="add()" iconType="add"/>
+					<!--涉假信息再登记-->
+					<grg:Button locale="addAgainInfo" id="addAgainInfo" privilegeCode="add" click="addAgain()" iconType="add"/>
+					<!--编辑-->
+					<grg:Button locale="edit" id="editInfo" privilegeCode="edit" click="edit()" iconType="edit"/>
+					<!--删除-->
+					<grg:Button locale="delete" id="deleteInfo" privilegeCode="del" click="del()" iconType="delete"/>
+					<!--Excel文件导出-->
+					<grg:Button locale="expExcel" id="exportExcel1" privilegeCode="exportExcel" 
+								click="exportExcel()" iconType="export"/>
+					<!--icon="{exportIcon}"
+					<!- -登记查询结果- ->
+					<grg:Button locale="result" id="searchReturn1" privilegeCode="searchReturn" click="searchReturn()" iconType="edit"/>
+					<!- -二次查询登记- ->
+					<grg:Button locale="searchAgain" id="searchAgain1" privilegeCode="searchAgain" click="searchAgain()" iconType="edit"/>
+					<s:Spacer width="5" />
+					<!- -CSV文件导出- ->
+					<grg:Button locale="expCSV" id="expCSV1" privilegeCode="expCSV" click="expCSV()" icon="{exportIcon}"/>
+					<!- -Excel文件导出- ->
+					<grg:Button locale="expExcel" id="exportExcel1" privilegeCode="exportExcel" click="exportExcel()" icon="{exportIcon}"/>
+					
+					</grg:GRGModuleButtonBar2>-->
+					
+				</s:BorderContainer>
+			</mx:HBox>
+			
+			<s:BorderContainer width="100%" height="100%" borderVisible="false">
+				<s:layout>
+					<s:VerticalLayout paddingTop="3"/>
+				</s:layout>
+				<!-- 列表部分 -->
+				<grg:DataGrid id="checkInInfoGrid" dataProvider="{searchCheckInInfoPage.result}" 
+							  width="100%" height="100%" textAlign="center"
+							  styleName="DataGrid" borderVisible="true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol" textAlign="center" sortable="false" draggable="false" editable="false" resizable="false" />
+						<grg:DataGridColumn locale="rowNo"  textAlign="center" labelFunction="createRowNo" sortable="false" width="50"/>
+						<!-- 取款行 -->
+						<grg:DataGridColumn locale="withdrawalBank" dataField="depositBank" />
+						<!-- 取款时间 -->
+						<grg:DataGridColumn locale="withdrawalDate" dataField="depositDate" labelFunction="{DataGridColumnUtils.formatDateToYYYYMMDD}"/>
+						<!-- 查询冠字号 -->
+						<grg:DataGridColumn locale="querySeriaNo" dataField="seriaNO" />
+						<!-- 查询人 -->
+						<grg:DataGridColumn locale="clientName" dataField="applyName" /> <!--labelFunction="{changeApplyName}"/-->
+						<!-- 查询时间 -->
+						<grg:DataGridColumn locale="applyDate" dataField="applyDate" labelFunction="{DataGridColumnUtils.formatDateToYYYYMMDD}"/>
+						<!-- 代理查询人
+						<grg:DataGridColumn locale="agentName" dataField="agentName" /> -->
+						<!-- 查询结果 -->
+						<grg:DataGridColumn locale="queryResult" dataField="serialResult" labelFunction="{changeSerialResult}"/>
+						<!-- 登记类型 -->
+						<grg:DataGridColumn locale="registionType" dataField="registionType" labelFunction="{transferDataDict}"/>
+						<!-- 查看详情 -->
+						<grg:DataGridColumn headerStyleName="centerDataGridHeader" locale="operations"  width="80">
+							<grg:itemRenderer>
+								<fx:Component>
+									<s:MXItemRenderer>
+										<s:Image id="viewRowIcon" source="@Embed('/resources/theme/images/icons/detail.png')"
+												 toolTip="查看详情" buttonMode="true"
+												 width="16" height="16" left="20" click="parentDocument.viewRowDetailInfo()" />
+										<s:Image id="showSerialInfo_print" source="@Embed('/resources/theme/images/icons/print.png')" 
+												 toolTip="打印详情" buttonMode="true"
+												 width="16" height="16" left="44" click="parentDocument.showSerialPrintInfo()"/>
+										<!-- 查看详情 -->
+										<!--<grg:GRGModuleButtonBar2 width="100%" height="16" align="center" menuId="{parentDocument.menu.id}">
+										
+										<grg:Image id="viewRowIcon" privilegeCode="viewRowDetailInfo" locale="viewRowDetailInfo"
+										source="@Embed('/resources/theme/images/icons/detail.png')" 
+										width="16" height="16" click="parentDocument.viewRowDetailInfo()" />
+										</grg:GRGModuleButtonBar2>-->
+									</s:MXItemRenderer>
+								</fx:Component>
+							</grg:itemRenderer>
+						</grg:DataGridColumn>
+					</grg:columns>
+				</grg:DataGrid>
+			</s:BorderContainer>
+			
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{searchCheckInInfoPage}" pagingFunction="{loadPage}"/>
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

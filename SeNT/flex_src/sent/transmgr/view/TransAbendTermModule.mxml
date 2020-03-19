@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   locale="transAbendTermModule"
+			   xmlns:userDefined="platform.date.*"
+			   layout="vertical" width="100%" height="100%">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="transAbendTermModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="transAbendTermModule"/>
+			<parsley:FlexConfig type="{TranAbnoinfoBlackModuleConfig}"/>
+			<parsley:FlexConfig type="{TransAbnoInfoConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import platform.common.formatter.DateFormatter;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.ShowTransAbendInfo;
+			import sent.transmgr.config.TranAbnoinfoBlackModuleConfig;
+			import sent.transmgr.config.TransAbnoInfoConfig;
+			import sent.transmgr.message.TranAbnoinfoBlackModuleMsg;
+			import sent.transmgr.pm.TranAbnoinfoBlackModulePM;
+			import sent.transmgr.vo.TmlAnalyseVO;
+			[Inject]
+			[Bindable]
+			public var pm:TranAbnoinfoBlackModulePM;
+			/**
+			 * 初始化数据
+			 */		
+			
+			override protected function viewUpdateComplete():void
+			{  
+				/* 			
+				if(!transTime.text&&!endTime.text)
+				{
+				var dateFormatter:DateFormatter=new DateFormatter();
+				dateFormatter.formatString="YYYY-MM-DD JJ:NN:SS";
+				var nowString:String=dateFormatter.format(new Date());
+				transTime.text=nowString;
+				endTime.text=nowString;
+				}  */
+				
+				loadPage();
+			}
+			
+			override public function dispose():void
+			{
+				transTime.selectedDate = new Date();
+				endTime.selectedDate = new Date();
+				//pm.page=new Page();
+				
+			}
+			/***
+			 * 根据条件查询异常交易设备分析
+			 * */
+			private function loadPage():void
+			{
+				pm.loadAbendTermPage();
+			}
+			[MessageHandler(selector="getTranAbnoAnalyseinfoByTmlListResult")]
+			public function getPageHandler(p_msg:TranAbnoinfoBlackModuleMsg):void
+			{
+				if(p_msg.result)
+					operationDataGrid.checkedItems = [];
+			}
+			/**
+			 * 根据终端编号显示详细的交易信息
+			 * */
+			public function showTransDetailInfo():void
+			{
+				var obj:TmlAnalyseVO = operationDataGrid.selectedItem as TmlAnalyseVO;
+				
+				var win:ShowTransAbendInfo = new ShowTransAbendInfo();
+				win.menuId = menu.id;
+				win.titleKey = "termTitle";
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				
+				win.termid = obj.termId + "|" +  DateFormatter.format(pm.condi.startTime, "YYYY-MM-DD JJ:NN:SS") +  "|" + DateFormatter.format(pm.condi.endTime, "YYYY-MM-DD JJ:NN:SS");
+			}
+		]]>
+	</fx:Script>
+	<fx:Binding source="transTime.selectedDate" destination="pm.condi.startTime"/>
+	<fx:Binding source="endTime.selectedDate" destination="pm.condi.endTime"/>
+	<fx:Binding source="termid.text" destination="pm.transab.termId"/>
+	
+	<s:BorderContainer width="100%" 
+					   height="100%"
+					   styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign = "center"
+			styleName = "SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<grg:TitleBar locale="titlemsg" width="50%"/>
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">  
+				<grg:Label locale = "termid" />
+				<grg:TextInput id="termid" textAlign="left" restrict="^'"
+							   width="150" height="20"
+							   styleName = "TextInput" />
+			
+				
+				<!--查询-->
+				<grg:SearchButton id="btn_search" menuId="{menu.id}"
+								  locale = "searchButton" 
+								  iconType = "query" click="pm.page = new Page();loadPage()"/>
+				<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> 
+							
+							<!--重置-->
+				<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" 
+								 resetControls="{[transTime, endTime, termid]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					<mx:HBox width="100%" styleName="expHBoxStyle">  
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "right"
+									gap="2"
+									verticalAlign = "middle" />
+							</s:layout>
+							<grg:Label locale="transTime" />
+							<userDefined:SuperDateField width="190" id="transTime" myEnabled="false" selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<userDefined:SuperDateField width="190" id="endTime"  myEnabled="false" selectableRange="{{rangeStart:transTime.selectedDate}}" isShowTime="true" />
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+		</grg:AdvancedSearchBar>
+							
+							<grg:DataGrid dataProvider="{pm.page.result}" id="operationDataGrid" 
+					  width="100%" height="100%"
+					  textAlign = "center"
+					  styleName = "DataGrid">
+			<grg:columns>
+				<grg:CheckBoxColumn id="checkBoxCol" />
+				<grg:DataGridColumn locale = "termid"
+									dataField = "termId" />
+				<grg:DataGridColumn locale = "transNotenum" 
+									dataField = "count"/>
+				<grg:DataGridColumn locale = "operators" 
+									headerStyleName="centerDataGridHeader">
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXDataGridItemRenderer>
+								<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>
+							</s:MXDataGridItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+			</grg:columns>
+		</grg:DataGrid>
+
+	<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+							  pageVo="{pm.page}"
+							  pagingFunction="{loadPage}"/>
+	</s:BorderContainer>
+
+</grg:TabModule>

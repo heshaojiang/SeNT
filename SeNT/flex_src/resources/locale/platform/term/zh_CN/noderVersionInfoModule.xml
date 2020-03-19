@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="noderVersionInfoModule">
+		<listTitle>节点机版本信息管理</listTitle>
+	    <addTermVersionInfoForm>新增</addTermVersionInfoForm>
+		<updateTermVersionInfoForm>编辑</updateTermVersionInfoForm>
+		<importTermVersionInfoForm>导入</importTermVersionInfoForm>
+		<termVersionInfoFormDetail>详情</termVersionInfoFormDetail>
+		<org>升级的机构：</org>
+		<createDateColon>创建时间：</createDateColon>
+		<to>至</to>
+		<versionStatusLabel>版本状态：</versionStatusLabel>
+		<searchButton>查询</searchButton>
+		<resetButton>重置</resetButton>
+		<noderVersion>版本号</noderVersion>
+		<packageName>版本包名称</packageName>
+		<relayVersion>依赖的版本号</relayVersion>
+		<status>版本状态</status>
+		<createTime>创建时间</createTime>
+		<createUserCode>创建人员</createUserCode>
+		<checkTime>审核时间</checkTime>
+		<checkUserCode>审核人员</checkUserCode>
+		
+		<orgIdItem>升级机构</orgIdItem>
+		<noderVersionItem>节点机版本号：</noderVersionItem>
+		<packageNameItem>版本包名称：</packageNameItem>
+		<relayVersionItem>依赖的版本号：</relayVersionItem>
+		<makeVersionEudit>审核版本</makeVersionEudit>
+		<orgNameItem>升级的机构名称：</orgNameItem>
+		<createTimeItem>创建时间：</createTimeItem>
+		<checkNoticeItem>审核意见</checkNoticeItem>
+		<actionEnable>通过</actionEnable>
+		<actionDisable>不通过</actionDisable>
+		<createUserCodeItem>创建人员：</createUserCodeItem>
+		<applyInfo>版本信息</applyInfo>
+		<ruleStatus>规则状态：</ruleStatus>
+		<regulationAuditTitle>节点机版本规则审核</regulationAuditTitle>
+		<autitNoderVersion>节点机版本审核</autitNoderVersion>
+		<machineVersionDetail>节点机版本信息详情</machineVersionDetail>
+		<remarkItem>备注：</remarkItem>
+		<noderType>节点机类型</noderType>
+	</node>
+</nodes>

@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlNoteflowInfoModule">
+		<titlemsg>纸币流转检索</titlemsg>
+		
+		<barcodeFlowNumColon>流转条码号：</barcodeFlowNumColon>
+		<clearingDateColon>清分日期：</clearingDateColon>
+		<journalNoColon>流水号：</journalNoColon>
+		<organizationColon>所属机构：</organizationColon>
+		<flowStageColon>所处阶段：</flowStageColon>
+		
+		<journalNo>流水号</journalNo>
+		<termId>设备编号</termId>
+		<clearingDate>清分日期</clearingDate>
+		<barcodeFlowNum>流转条码号</barcodeFlowNum>
+		<noteCount>钞票张数</noteCount>
+		<totalNotes>钞票总额</totalNotes>
+		<noteType>钞票类别</noteType>
+		<barcodeStatus>状态</barcodeStatus>
+		<flowStage>所处阶段</flowStage>
+		<organization>所属机构</organization>
+		
+		<to>至</to>
+		
+		<operations>操作</operations>
+		<tdOperatorId>操作员</tdOperatorId>
+		
+	</node>
+</nodes>

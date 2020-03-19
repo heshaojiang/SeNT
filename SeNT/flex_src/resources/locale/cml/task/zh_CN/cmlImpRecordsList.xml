@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+ <nodes>
+     <node locale="cmlImpRecordsList">
+   
+  	<statu>导入状态</statu>
+  	<oldName>文件名称</oldName>
+  	<tmlNum>清机编号</tmlNum>
+  	<operator>导入人员</operator>
+  	<againImp>操作</againImp>
+  	<currentImpStatu>本次导入结果</currentImpStatu>
+  	
+  	
+  	
+           	
+  
+
+	
+  </node>
+</nodes>

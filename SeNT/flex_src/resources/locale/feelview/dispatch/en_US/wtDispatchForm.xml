@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 工单表 
+	 Create Time：2011-8-27
+	 Author：whui
+	 -->
+<nodes>
+	<node locale = "wtDispatchForm">
+		<redispItem>redispatch</redispItem>
+		<listTitle>dipatch manager list</listTitle>
+		<searchItem>search:</searchItem>
+		<nameItem>name</nameItem>
+		<orgnameItem>branch</orgnameItem>
+		<telephoneItem>telephone</telephoneItem>
+		<mobilephoneItem>mobilephone</mobilephoneItem>
+		<mailItem>mail</mailItem>
+		<workdayItem>workday</workdayItem>
+		<workbeginItem>workbegin</workbeginItem>
+		<workendItem>workend</workendItem>
+		<manageridItem>managerid</manageridItem>
+	</node>
+</nodes>

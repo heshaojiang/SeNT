@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+<node locale="arithmeticParamForm">
+<addArithmeticParamForm>Add arithmetic parameter</addArithmeticParamForm>
+<updateArithmeticParamForm>Update arithmetic parameter</updateArithmeticParamForm>
+<arithmeticParamCode>Parameter code:</arithmeticParamCode>
+<arithmeticParamName>Parameter name:</arithmeticParamName>
+<arithmeticParamType>Parameter type:</arithmeticParamType>
+<arithmeticParamValue>Parameter value:</arithmeticParamValue>
+<realationCodeLabel>Relation code:</realationCodeLabel>
+</node>
+</nodes>

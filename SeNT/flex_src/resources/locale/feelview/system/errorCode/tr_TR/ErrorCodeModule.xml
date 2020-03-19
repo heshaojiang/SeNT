@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "ErrorCodeModule">
+		<title>Hata Kod Yönetimi</title>
+		<searchItem>Anahtar Kelime</searchItem>
+		<searchButton>Ara</searchButton>
+		<devItem>Donanım Bileşenleri</devItem>
+		<codeItem>Hata Kodu</codeItem>
+		<brandItem>Marka</brandItem>
+		<descriptionItem>Açıklama</descriptionItem>
+		<operateItem>Tamam</operateItem>
+		<editErrorCodeItem>Düzenle</editErrorCodeItem>
+		<deleteErrorCodeItem>Sil</deleteErrorCodeItem>
+		<addButtonItem>Ekle</addButtonItem>
+	</node>
+</nodes>

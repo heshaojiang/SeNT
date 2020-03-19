@@ -1,0 +1,66 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 
+	 Create Time：2011-9-20
+	 Author：何志鹏
+	 Email : hzpeng@grgbanking.com -->
+<nodes>
+	<node locale = "distPlanSelect">
+		<listTitle>终端设备信息列表</listTitle>
+		<termIdItem>终端编号</termIdItem>
+		<termCodeItem>终端编号</termCodeItem>
+		<termSEQItem>设备序列号</termSEQItem>
+		<counterIdItem>柜员号</counterIdItem>
+		<termTypeItem>终端类型</termTypeItem>
+		<brandItem>终端品牌</brandItem>
+		<modelItem>设备型号</modelItem>
+		<org>所属机构</org>
+		<areaIdItem>所属区域</areaIdItem>
+		<netAddrItem>终端IP</netAddrItem>
+		<netPortItem>终端PORT</netPortItem>
+		<saveBoxItem>存款箱数量</saveBoxItem>
+		<cwdBoxItem>取款箱数量</cwdBoxItem>
+		<instDateItem>安装日期</instDateItem>
+		<activeDateItem>开通时间</activeDateItem>
+		<servStartDateItem>维护开始日期</servStartDateItem>
+		<servEndDateItem>维护到期日期</servEndDateItem>
+		<servYearsItem>维护年限</servYearsItem>
+		<termAddrItem>安装地址</termAddrItem>
+		<serviceTypeItem>布放模式</serviceTypeItem>
+		<instTypeItem>安装方式</instTypeItem>
+		<layTypeItem>设立形式</layTypeItem>
+		<isVideoWatchItem>是否视频监控</isVideoWatchItem>
+		<isUPSItem>是否安装UPS</isUPSItem>
+		<isInterATMItem>是否国际卡ATM</isInterATMItem>
+		<busiBeginTimeItem>营业开始时间</busiBeginTimeItem>
+		<busiEndTimeItem>营业结束时间</busiEndTimeItem>
+		<softVersionItem>ATMC版本号</softVersionItem>
+		<spVersionItem>SP版本号</spVersionItem>
+		
+		<planidItem>计划id</planidItem>
+		<createtimeItem>创建时间</createtimeItem>
+		<repeattypeItem>计划类型</repeattypeItem>
+		<everydayexetimeItem>每天执行时间</everydayexetimeItem>
+		<repeatintervalItem>每次间隔时间</repeatintervalItem>
+		<plannameItem>计划名称</plannameItem>
+		<nextexecutetimeItem>下个执行时间</nextexecutetimeItem>
+		<termidlistItem>终端编号</termidlistItem>
+		<taskparaItem>任务指令</taskparaItem>
+		<taskparaversionItem>任务指令版本</taskparaversionItem>
+		<maxretrytimesItem>最大重试次数</maxretrytimesItem>
+		<retryintervalItem>重试秒数</retryintervalItem>
+		<enabledItem>是否可用</enabledItem>
+		<termidItem>终端编号</termidItem>
+		<termipItem>终端IP</termipItem>
+		<brandItem>品牌</brandItem>
+		<termtypeItem>终端类型</termtypeItem>
+		<modelItem>ATM型号</modelItem>
+		<orgidItem>机构</orgidItem>
+		<areaidItem>区域</areaidItem>
+		<timeoutintervalItem>任务超时时间</timeoutintervalItem>
+		<instructionOfChooseATM>勾选可添加到列表，取消勾选可从列表中移除. </instructionOfChooseATM>
+
+		<!-- 选择ATM页面标题 -->
+		<selectATMPageTitle>选择终端</selectATMPageTitle>
+		<selectATMCannotMorethanTen>选择终端数最大不能超过10个。</selectATMCannotMorethanTen>
+	</node>
+</nodes>

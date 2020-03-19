@@ -1,0 +1,24 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "stopManagerForm">
+		<formTitle>Yönetim Listesi</formTitle>
+		<stopFormTitle>Donanım Durdur</stopFormTitle>
+		<termid>Terminal Id</termid>
+		<beginTime>Başlangıç Zamanı</beginTime>
+		<endTime>Bitiş Zamanı</endTime>
+		<stop>Durdur</stop>
+		<stopExamine>Denetim Durdur</stopExamine>
+		<stopManager>Yönetimi Durdur</stopManager>
+		<repStopTitle>Donanım Durdurma Raporu</repStopTitle>
+		<reason>Sebep</reason>
+		<stopStatue>Durdurma Durumu</stopStatue>
+		<cancelStop>Durdurmayı İptal Et</cancelStop>
+		<breakStop>Durdurmayı Duraklat</breakStop>
+		<seqno>Sıra No</seqno>
+		<note>Açıklama</note>
+	</node>
+</nodes>

@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="operationLogModule">
+		<listTitle>操作日志列表</listTitle>
+		<userId>用户帐号：</userId>
+		<userName>用户名</userName>
+		<hostIp>客户端 ip</hostIp>
+		<logTime>日志时间</logTime>
+		<menuName>菜单名称</menuName>
+		<operName>操作类型</operName>
+		<note>备注</note>
+		<beginTime>时间范围：</beginTime>
+		<to>至</to>
+		<titlemsg>操作日志</titlemsg>
+	</node>
+</nodes>

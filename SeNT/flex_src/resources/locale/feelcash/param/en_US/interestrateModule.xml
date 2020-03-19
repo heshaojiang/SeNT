@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="interestrateModule">
+		<listTitle>Interest Rate List</listTitle>
+		<interestrate>Interest Rate</interestrate>
+		<startdate>Start Date</startdate>
+		<enddate>End Date</enddate>
+		<note>Note</note>
+		<currentRate>Current Rate:</currentRate>
+		<startDate>Start Date:</startDate>
+	</node>
+</nodes>

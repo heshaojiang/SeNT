@@ -1,0 +1,390 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow dataDictionaryPaths="{[DataDirConsts.YES_OR_NO]}"
+				 width = "322" height = "328"
+				 layout="horizontal" locale="termRangeSelectForm"
+				  titleKey="title"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 	 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"	
+				 xmlns:grg="http://grg.grgbanking.com/platform/">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="form"/> 
+			<parsley:MessageSettings defaultReceiverScope="form"/>
+			<parsley:FlexConfig type="{TermRangeSelectFormConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+		<!--<parsley:Configure reuse="false"/>-->
+	</fx:Declarations>
+	<fx:Binding source="model.selectedValue" destination="pm.condi.model"/>	
+	<fx:Binding source="termType.selectedValue" destination="pm.condi.termType" /> 
+	<fx:Binding source="brand.selectedValue" destination="pm.condi.brand" />
+	<fx:Binding source="orgid.selectedValue" destination="pm.condi.orgid"/>
+	<fx:Binding source="areaid.selectedValue" destination="pm.condi.areaid"/>	
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.events.ListEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.vo.Page;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.config.TermRangeSelectFormConfig;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.TermInfoMsg;
+			import platform.term.pm.TermRangeSelectFormPM;
+			import platform.vo.term.TermBrandVo;
+			import platform.vo.term.TermInfoVo;
+			import platform.vo.term.TermModelVo;
+			import platform.vo.term.TermTypeVo;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Inject]
+			[Bindable]
+			public var pm:TermRangeSelectFormPM =new TermRangeSelectFormPM();			
+			
+			public var callback:Function;
+			
+			//传入传出参数，终端号字符串
+			private	var tempStr:Array;
+			//判断是否回显
+			private	var formReturnBrand:String="false";
+			//判断回显model的值
+			private	var formReturnType:String="false";
+			//判断回显model的值
+			private	var formReturnModel:String="false";
+			
+			private var selpage:Page = new Page();
+			
+			public var callbackFunc:Function;
+			
+			public var BtnFlag:String;
+			
+			public function get termArry():Array{
+				return tempStr;
+			}
+			
+			public function set termArry(value:Array):void{
+				tempStr = value;	
+			}
+			/**
+			 * 批量获取下拉数据源的回调函数
+			 */
+			[MessageHandler(selector="sendInitDatasMsg")]
+			public function sendInitDatasMsgBackHandler(p_msg:TermInfoMsg):void
+			{				
+				if(tempStr == null || tempStr.length <= 4)return;
+				orgid.selectedValue = tempStr[3];
+				areaid.selectedValue = tempStr[4];
+							
+				if(tempStr[0]!=null&&tempStr[0]!='null'&&tempStr[0]!=''){					
+					formReturnBrand="true";
+					brand.selectedValue = tempStr[0];					
+				}
+				if(tempStr[1]!=null&&tempStr[1]!='null'&&tempStr[1]!=''){					
+					formReturnType="true";
+					termType.selectedValue = tempStr[1];
+				}
+				if(tempStr[2]!=null&&tempStr[2]!='null'&&tempStr[2]!=''){
+					brand.enabled=false;
+					termType.enabled=false;
+					formReturnModel="true";
+					model.selectedValue = tempStr[2];
+				}
+				
+			}
+			
+			/**
+			 * 设置返回终端数组
+			 */
+			private function returnterm() :void
+			{	
+					  
+				pm.getTemSumDatas();
+				
+				
+				
+			}
+			[MessageHandler(selector="getTemSumDatasResult")]
+			public function getTemSumDatasResult(p_msg:TermInfoMsg):void
+			{
+				tempStr = new Array();
+				if(pm.condi.brand != null){
+					tempStr[0]=String(pm.condi.brand);
+				}else{
+					tempStr[0]='';
+				}
+				var atype:ArrayCollection =	pm.searchBarInitDatas.typeList as ArrayCollection;
+				if(atype.length<=0){
+					AlertHandler.alert(LanguageManager.getInstance().getCommonLocleValue("Msg","termTypeEro").toString());
+					return;
+			    }
+				var amodel:ArrayCollection =	pm.searchBarInitDatas.modelList as ArrayCollection;
+				if(amodel.length<=0){
+					AlertHandler.alert(LanguageManager.getInstance().getCommonLocleValue("Msg","termModelEro").toString());
+					return;
+				}
+				if(pm.condi.termType != null){				
+					tempStr[1]=String(pm.condi.termType);
+					
+				}else{
+					tempStr[1]='';
+				}
+				
+				if(pm.condi.model != null){
+					tempStr[2]=String(pm.condi.model);
+					
+				}else{
+					tempStr[2]='';
+				}
+				
+				tempStr[3]=String(pm.condi.orgid);
+				tempStr[4]=String(pm.condi.areaid);
+				if(pm.suum<=0){
+					tempStr = null;
+				}
+				AlertHandler.alert(LanguageManager.getInstance().getCommonLocleValue("Msg","termSum").toString()+String(pm.suum));
+				close();
+				if(callback != null)
+					callback(tempStr);
+			}
+			
+			override protected function cancel():void
+			{		
+				
+				close();
+			}		
+			
+			protected function brand_changeHandler(event:IndexChangeEvent):void {		
+					if(brand.selectedValue==null||brand.selectedValue=='null'){
+						if(formReturnBrand=="true"&&formReturnType=="true"){
+							formReturnBrand="false";
+							formReturnType="false";
+							formReturnModel="false";
+							brand.selectedValue=null;
+							termType.selectedValue=null;						
+							pm.getTemBrandDatas(brand.selectedValue);
+							pm.getTemTypeDatas(brand.selectedValue);
+							pm.getTemModelDatas(brand.selectedValue);
+						}else if(formReturnBrand=="true"&&formReturnType=="false"){
+							formReturnBrand="false";
+							formReturnType="false";
+							formReturnModel="false";							
+							brand.selectedValue=null;
+							//termType.selectedValue=null;						
+							pm.getTemBrandDatas(brand.selectedValue);
+							pm.getTemTypeDatas(brand.selectedValue);
+							pm.getTemModelDatas(brand.selectedValue);
+						}else if(formReturnBrand=="false"&&formReturnType=="true"){
+							formReturnBrand="false";
+							formReturnType="false";
+							formReturnModel="false";							
+							//brand.selectedValue=null;
+							termType.selectedValue=null;						
+							pm.getTemBrandDatas(brand.selectedValue);
+							pm.getTemTypeDatas(brand.selectedValue);
+							pm.getTemModelDatas(brand.selectedValue);
+						}else{
+							formReturnBrand="false";
+							formReturnType="false";
+							formReturnModel="false";
+							pm.getTemBrandDatas(brand.selectedValue);
+							pm.getTemTypeDatas(brand.selectedValue);
+							pm.getTemModelDatas(brand.selectedValue);
+						}
+					}else{
+						
+						    pm.getTemTypeDatas(brand.selectedValue);
+							pm.getTemModelDatas(brand.selectedValue);
+					}
+				
+				//pm.getTemModelDatas(brand.selectedValue);
+			}
+		
+			protected function type_changeHandler(event:ListEvent):void{
+					
+					if(termType.selectedValue==null||termType.selectedValue=='null'){
+						
+						if(formReturnBrand=="true"&&formReturnModel=="true"&&formReturnType=="true"){
+							formReturnBrand="false";
+							formReturnType="false";
+							formReturnModel="false";
+							brand.selectedValue=null;
+							termType.selectedValue=null;
+							model.selectedValue = null;													
+						}else if(formReturnBrand=="true"&&formReturnModel=="false"&&formReturnType=="true"){
+							formReturnBrand="false";
+							formReturnType="false";
+							brand.selectedValue=null;
+							termType.selectedValue=null;										
+						}else if(formReturnBrand=="true"&&formReturnModel=="false"&&formReturnType=="false"){
+							formReturnBrand="false";
+							brand.selectedValue=null;
+							
+						}else if(formReturnBrand=="false"&&formReturnModel=="false"&&formReturnType=="true"){
+							formReturnType="false";
+							termType.selectedValue=null;						
+						}					
+						pm.getTemBrandDatas(brand.selectedValue);
+						pm.getTemTypeDatas(brand.selectedValue);
+						pm.getTemModelDatas(brand.selectedValue);
+						
+					}else{
+						if(brand.selectedValue == null||brand.selectedValue == "null"){
+							pm.getTemBrandDatas(brand.selectedValue);
+						}else{
+							if(formReturnBrand=="true"){
+								//brand.selectedValue=null;					
+								formReturnBrand="false";
+								formReturnType="false";
+								formReturnModel="false";
+							}
+							//pm.getTemBrandDatas(brand.selectedValue);
+						}
+						pm.getTemModelDatas(brand.selectedValue);
+					}
+			
+				
+			}
+			protected function model_changeHandler(event:ListEvent):void{
+				
+				//var ag:TermModelVo = model.selectedItem as TermModelVo;
+				if(model.selectedValue != null&&model.selectedValue !='null'){	
+					
+						brand.hasAllItem = false;
+						pm.getTemBrandDatas(brand.selectedValue);
+						termType.hasAllItem = false;
+						pm.getTemTypeDatas(brand.selectedValue);
+						brand.enabled=false;
+						termType.enabled=false;
+				
+				}else {
+						
+							if(formReturnModel=="true"){	
+								formReturnModel="false";
+								formReturnBrand="false";
+								formReturnType="false";
+								brand.hasAllItem=true;
+								termType.hasAllItem = true;
+								brand.enabled=true;
+								termType.enabled=true;
+								brand.selectedValue=null;
+								termType.selectedValue=null;
+								model.selectedValue = null;								
+								pm.getTemBrandDatas(brand.selectedValue);
+								pm.getTemTypeDatas(brand.selectedValue);
+								pm.getTemModelDatas(brand.selectedValue);
+								
+							}else{
+								    formReturnBrand="false";
+									formReturnType="false";
+									brand.hasAllItem=true;
+									termType.hasAllItem = true;
+									brand.enabled=true;
+									termType.enabled=true;
+									brand.selectedValue=null;
+									termType.selectedValue=null;							
+									pm.getTemBrandDatas(brand.selectedValue);
+									pm.getTemTypeDatas(brand.selectedValue);
+									pm.getTemModelDatas(brand.selectedValue);
+							}				
+				}
+			}
+			
+		]]> 
+	</fx:Script>
+	
+	<s:BorderContainer width="100%" height="100%" styleName="BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" /> 
+		</s:layout>
+		<!-- 查询条件，包括：终端编号、品牌、终端类型、终端型号、所属机构、所属区域  -->
+		<s:BorderContainer width = "100%" height = "240" textAlign = "center"  styleName = "SearchBar" borderVisible = "false">
+			<s:layout>
+				<s:VerticalLayout gap="5"/>
+			</s:layout>			
+				<s:VGroup id = "conditions"  verticalAlign = "middle" gap = "0" width="100%" height="100%"  horizontalAlign="center">																	
+					<s:HGroup  verticalAlign = "middle"  height="15%" horizontalAlign = "center" gap = "6" width="100%">				
+						<grg:Label locale="brandItem"/>
+						<grg:ComboBox id="brand" 
+									  name="brand" allItemKey="allBrand"
+									  textAlign="left" 
+									  hasAllItem="true" 
+									  dataProvider="{pm.searchBarInitDatas.brandList}" 
+									  labelField="brandName" 
+									  valueField="id" width="150"  change="brand_changeHandler(event)"/>
+					</s:HGroup>
+					<s:HGroup  verticalAlign = "middle"  height="15%" horizontalAlign = "center" gap = "6" width="100%">
+						<grg:Label locale="termTypeItem" /> 
+						<grg:ComboBox id="termType" name="termType" allItemKey="allType"
+									  textAlign="left" hasAllItem="true" 
+									  dataProvider="{pm.searchBarInitDatas.typeList}" 
+									  labelField="typeName" valueField="id" width="150" change="type_changeHandler(event as ListEvent)"/> 
+					</s:HGroup>
+					<s:HGroup  verticalAlign = "middle"  height="15%" horizontalAlign = "center" gap = "6" width="100%">				
+						<grg:Label locale="modelItem"/>
+						<grg:ComboBox id="model" allItemKey="allModel"
+									  name="model" 
+									  textAlign="left"  
+									  hasAllItem="true" 
+									  dataProvider="{pm.searchBarInitDatas.modelList}"
+									  labelField="modelName" 
+									  valueField="id" width="150" change="model_changeHandler(event as ListEvent)"/>
+					</s:HGroup>
+					<s:HGroup  verticalAlign = "middle"  height="15%" horizontalAlign = "center" gap = "6" width="100%">
+						<grg:Label locale = "org" />
+						<grg:GRGComboBoxOrgTree id="orgid" defaultField="true"
+												width="150"
+												textAlign = "left"
+												treeHeight="100"/>
+					</s:HGroup>
+					<s:HGroup  verticalAlign = "middle"  height="15%" horizontalAlign = "center" gap = "6" width="100%">
+						<grg:Label locale = "areaIdItem" />
+						<grg:GRGComboxBoxAreaTree  id="areaid"
+												   width="150"
+												   textAlign = "left"
+												   treeHeight="100"/>
+					</s:HGroup>					
+				</s:VGroup>			
+		</s:BorderContainer> 
+		<s:HGroup 
+			width="100%" gap="10"
+			horizontalAlign = "center"
+			verticalAlign = "middle">
+			<s:BorderContainer id="saveButton" height="27" styleName="buttonShadow">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+				</s:layout>
+				<grg:Button
+					click = "returnterm()"
+					locale = "saveButton"
+					 iconVisible="false"/>
+			</s:BorderContainer> 
+			<s:BorderContainer height="27" styleName="buttonShadow">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+				</s:layout>
+				<grg:Button 
+					click = "cancel()"
+					locale = "cancelButton"
+					iconVisible="false"
+					 />
+			</s:BorderContainer>
+		</s:HGroup> 
+	</s:BorderContainer>
+</grg:TitleWindow>

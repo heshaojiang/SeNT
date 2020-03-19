@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "param">
+		<existKey>This Key has already exists!</existKey>
+		<paramValueNotNull>Parameter Value can not be null!</paramValueNotNull>
+	</node>
+</nodes>

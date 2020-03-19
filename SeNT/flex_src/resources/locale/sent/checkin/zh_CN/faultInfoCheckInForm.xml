@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="faultInfoCheckInForm">
+	
+		<titleMsg>涉假信息登记</titleMsg>
+		<againtitleMsg>涉假信息再登记</againtitleMsg>
+		<!-- ------------- -->
+		
+		<searchInfo>登记基本信息</searchInfo>
+		
+		<orgCodeColon>登记机构号：</orgCodeColon>
+		<orgNameColon>登记机构名称：</orgNameColon>
+		<recorderColon>登记人：</recorderColon>
+		<applyDateColon>申请日期：</applyDateColon>
+		
+		<querySeriaNoColon>冠字号码：</querySeriaNoColon>
+		<querySeriaNoMaxChars>（最多输入100位字符）</querySeriaNoMaxChars>
+		
+		<queryResultColon>查询结果：</queryResultColon>
+		<queryResultCountColon>结果数量：</queryResultCountColon>
+		<queryResultMaxChars>（最多输入100位汉字或字符）</queryResultMaxChars>
+		<autoGenTips>（无法手动输入，请点击查询按钮）</autoGenTips>
+	    <helpTips> 打“*”项目内容不能为空 </helpTips>
+		<hasRegisterTips>该冠字号已经涉假登记！如需再登记该冠字号信息，请在涉假信息再登记页面填写再登记信息！</hasRegisterTips>
+		
+		<!-- ------------- -->
+		
+		
+		<filedown>附件下载：</filedown>
+		<fileName2>人民币冠字号码查询申请表</fileName2>
+		<fileName4>人民币冠字号码再查询申请表</fileName4>
+		
+		<applicantTypeColon>申请类型</applicantTypeColon>
+		<clientSelf>本人申请</clientSelf>
+		<agent>代理人申请</agent>
+		
+		<searcherInfo>申请人信息</searcherInfo>
+		
+		<clientNameColon>申请人姓名：</clientNameColon>
+		<clientPhoneColon>申请人联系电话：</clientPhoneColon>
+		<clientCardTypeColon>申请人证件类型：</clientCardTypeColon>
+		<clientCardNoColon>申请人证件号码：</clientCardNoColon>
+		
+		<agentSearcherInfo>代理申请人信息</agentSearcherInfo>
+		<agentNameColon>代理申请人姓名：</agentNameColon>
+		<agentPhoneColon>代理申请人联系电话：</agentPhoneColon>
+		<agentCardTypeColon>代理申请人证件类型：</agentCardTypeColon>
+		<agentCardNoColon>代理申请人证件号码：</agentCardNoColon>
+		
+		<!-- ------------- -->
+		
+		<validateInfo>证明资料信息</validateInfo>		
+		<certificateTypeColon>证明资料类型：</certificateTypeColon>
+		<identified>银行卡</identified>
+		<cunzhe>存折</cunzhe>
+		<qukuan>取款凭证</qukuan>
+		<jiabimoshou>假币没收凭证</jiabimoshou>
+		<resultOfNotices>查询结果通知书</resultOfNotices>
+		<others>其他</others>
+		
+		<certificateNoColon>证明资料号码：</certificateNoColon>
+		
+		<!-- ------------- -->
+		
+		<branchInfo>取款信息</branchInfo>
+		
+		<withdrawalDateColon>取款日期：</withdrawalDateColon>
+		<withdrawalBankColon>取款银行：</withdrawalBankColon>
+		
+		<withdrawalTypeColon>取款方式：</withdrawalTypeColon>
+		
+		<getByCounter>柜面取款</getByCounter>
+		<branchNameColon>网点名称：</branchNameColon>
+		<windowPositionColon>窗口位置：</windowPositionColon>
+		<counterPositionColon>柜面位置：</counterPositionColon>
+		
+		
+		<getByATM>自助取款</getByATM>
+		<atmTypeColon>类型：</atmTypeColon>
+		<atmType1>取款机</atmType1>
+		<atmType2>存取款一体机</atmType2>
+		<addressColon>地点：</addressColon>
+		<tooltipmaxChars>（最多输入100位字符）</tooltipmaxChars>
+		<fullSerialMess>请输入完整冠字号码：(10位)</fullSerialMess>
+		
+		<submit>提交</submit>
+		
+		<serialNoteType>钞票类型： </serialNoteType>
+		<notePayType>支付渠道：</notePayType>
+		<payType_identi4>其他</payType_identi4>
+		<payType_identi3>柜面</payType_identi3>
+		<payType_identi2>存取款一体机</payType_identi2>
+		<payType_identi1>取款机</payType_identi1>
+		
+<!--		<isRegisterTipsValue>该冠字号已经涉假登记！</isRegisterTipsValue>-->
+<!--		<notRegister> </notRegister>-->
+		<!--
+		<titlemsg>客户涉假信息登记</titlemsg>
+		
+		<orgId>机构：</orgId>
+		<beginDate>登记日期：</beginDate>
+		<to>至</to>
+		
+		<result>登记查询结果</result>
+		<searchAgain>二次查询登记</searchAgain>
+		<expCSV>CSV文件导出</expCSV>
+		<expExcel>Excel文件导出</expExcel>
+		
+		<operator2>修改人</operator2>
+		
+		
+		<getAddress>取款地点</getAddress>
+		<searchResultInfo>查询结果</searchResultInfo>
+		<searchDate>查询日期</searchDate>
+		<searchNo>查询编号</searchNo>
+		<preSearchNo>首次查询编号</preSearchNo>
+		<searchResult>查询结果</searchResult>
+		<pass>经办人</pass>
+		<check>复核人</check>
+		<searchStatus>查询状态</searchStatus>
+		
+		<cancelButton>取消</cancelButton>
+		
+		<del>删除</del>
+		<operations>操作</operations>
+		<tooltipmaxChars1>（最多输入250位字符）</tooltipmaxChars1>
+		
+		<tooltipmaxChars2>（最多输入500位字符）</tooltipmaxChars2>
+		
+		<add>新增</add>
+		<edit>编辑</edit>
+		<delete>删除</delete>
+		<exportCSV>CSV文件导出</exportCSV>
+		<exportExcel>Excel文件导出</exportExcel>
+		
+	    
+	    
+	    <addCheckIn>新增登记</addCheckIn>
+	    <updateCheckIn>编辑</updateCheckIn>
+	    <searchAgain>二次查询登记</searchAgain>
+	    <viewDetailInfo>首次查询登记信息</viewDetailInfo>
+	    <viewAgainSearch>二次查询登记信息</viewAgainSearch>
+	    <searchResultReturn>查询结果登记</searchResultReturn>
+	    
+	    <viewDetail>查看首次登记信息</viewDetail>
+	    <viewAgainSearchInfo>查看二次登记信息</viewAgainSearchInfo>
+		-->
+	</node>
+
+</nodes>

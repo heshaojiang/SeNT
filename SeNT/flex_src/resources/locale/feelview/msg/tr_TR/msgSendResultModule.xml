@@ -1,0 +1,27 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：信息通知结果查询<br>
+	Create Time：2011-9-21<br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgSendResultModule">
+		<listTitle>Şablonlarının Listesi</listTitle>
+		<viewList>Şablonlarının Listesini Görüntüle</viewList>
+		<orgIdItem>Şube</orgIdItem>
+		<searchItem>Terminal Id/İş Emri No/Telefon No/Email</searchItem>
+		<termIdItem>Terminal Id</termIdItem>
+		<troubleIdItem>Iş Emri No</troubleIdItem>
+		<mobilePhoneItem>Telefon No</mobilePhoneItem>
+		<adminIdItem>Bilgilendirilecek Kişi</adminIdItem>
+		<createMsgItem>Şablonu Oluştur</createMsgItem>
+		<sendItem>Başlangıç Zamanı</sendItem>
+		<toItem>Bitiş Zamanı</toItem>
+		<flagItem>Sonuç</flagItem>
+		<SMSContentItem>SMS İçeriği</SMSContentItem>
+		<typeItem>Tip</typeItem>
+		<phoneOrEmail>SMS/Email</phoneOrEmail>
+		<levelItem>Seviye</levelItem>
+	</node>
+</nodes>

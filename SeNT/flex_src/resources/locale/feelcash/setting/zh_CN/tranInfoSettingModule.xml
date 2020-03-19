@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "tranInfoSettingModule">
+		<titleKey>交易数据分析时间范围设置</titleKey>
+		<normaldayMovingDay>平常日:</normaldayMovingDay>
+		<holidayMovingDay>节假日:</holidayMovingDay>
+		<weekendMovingDay>周末:</weekendMovingDay>
+		<movingDay>日均:</movingDay>
+	</node>
+</nodes>

@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="regulationDeliverModule">
+	    <status>规则下发状态：</status>
+	    <type>规则类型：</type>
+	    <termid>终端编号：</termid>
+	    <date>创建时间</date>
+	    <titlemsg>规则下发详情</titlemsg>
+	    <close>关闭</close>
+	</node>
+</nodes>

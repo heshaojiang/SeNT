@@ -1,0 +1,195 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley"
+	xmlns:grg="http://grg.grgbanking.com/platform/"
+	locale="menuForm"
+	layout="vertical" 
+	width="450" height="450"
+	cornerRadius="10" textAlign="left" 
+	helpTips="helpTip"
+	creationComplete="titlewindow1_creationCompleteHandler(event)">
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.common.validator.VControl;
+			import platform.constants.OperationConsts;
+			import platform.menu.constants.MenuConsts;
+			import platform.menu.constants.MenuLocalKeyConsts;
+			import platform.menu.message.MenuMsg;
+			import platform.menu.pm.MenuFormPM;
+			
+			/**pm**/
+			[Inject]
+			[Bindable]
+			public var pm:MenuFormPM = new MenuFormPM();
+			
+			[Bindable]
+			private var visibleDp:ArrayCollection=new ArrayCollection();
+			
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = MenuConsts.ROOT;
+			
+			public function init():void
+			{
+				if(this.titleKey == MenuLocalKeyConsts.ADD_MENU_FORM)
+				{
+					pm.getMaxOrderValue();
+				}
+			}
+			
+			public function save():void
+			{
+				if (VControl.validateAll(form, validators).length > 0)
+				{
+					return;
+				}
+				pm.save(titleKey == MenuLocalKeyConsts.ADD_MENU_FORM ? OperationConsts.ADD : OperationConsts.EDIT);
+				
+				//将提交按钮置为无效，防止当前页面重复点击
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+			}
+			
+			override protected function cancel():void
+			{
+				pm.cancel();
+				close();
+			}
+			
+			//按照分层规范，保存返回之后不涉及数据模型的更新，由view层接受saveResult消息来关闭窗口
+			/** save success handler **/
+			[MessageHandler(selector="saveResult")]
+			public function closeWindow(p_msg:MenuMsg):void
+			{
+				close();
+			}		
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:MenuMsg):void
+			{
+				//将提交按钮置为有效
+				submitBtn.enabled = true;
+				submitBtn.mouseEnabled = true;
+			}
+			
+			//按照分层规范，不涉及数据模型（menuOrder只是初始化一次性取得无需放到pm中），由view层接受返回消息进行处理
+			/**
+			 * 获取最大顺序后的回调函数
+			 */		
+			[MessageHandler(selector="getMaxOrderValueResult")]
+			public function setMenuOrder(p_msg:MenuMsg):void
+			{
+				this.menuOrder.value = p_msg.result as Number;
+				pm.setFromVoOrder(int(p_msg.result));
+			}
+
+			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+				var obj:Object = new Object();
+				var obj1:Object = new Object();
+				
+				obj.name = LanguageManager.getInstance().resourceManager.getObject("platform", "menuModule")["visible"];
+				obj1.name = LanguageManager.getInstance().resourceManager.getObject("platform", "menuModule")["novisible"]; 
+				obj.value="Y";
+				obj1.value="N"; 
+				
+				this.visibleDp.addItem(obj);
+				this.visibleDp.addItem(obj1); 
+			}
+
+
+			protected function isVisible_changeHandler(event:Event):void
+			{
+				if(this.isVisible.selected==true)
+				{
+					pm.menu.visible="Y";
+				}
+				else
+				{
+					pm.menu.visible="N";
+				}
+			}
+
+		]]>
+	</fx:Script> 
+	
+	
+	<grg:Form id="form" width="100%" textAlign="left" borderVisible="false">
+		<!--上级菜单：-->
+		<grg:FormItem width="100%" textAlign="left" locale="parentMenuName" required="true">
+			<grg:Label text="{parentName}" />
+		</grg:FormItem>
+		<!--上级菜单：-->
+		<grg:FormItem  width="100%" locale="menuName" required="true">
+			<grg:TextInput id="i18nName" name="i18nName" text="@{pm.menu.i18nName}"
+							   width="245" maxnum="32" vtype="maxchars" maxChars="32" required="true" />
+		</grg:FormItem>
+		<!--FLEX根路径：-->
+		<grg:FormItem  width="100%" textAlign="left" locale="rootURL">
+			<grg:TextInput id="rootURL" name="rootURL" text="@{pm.menu.rootURL}" maxChars="100"
+							   width="245" maxnum="100" vtype="maxchars" />
+		</grg:FormItem>
+		<!--模块路径：-->
+		<grg:FormItem  width="100%" textAlign="left" locale="menuUrl">
+			<grg:TextInput id="menuURL" name="menuURL" text="@{pm.menu.menuURL}" maxChars="100"
+							   width="245" maxnum="100" vtype="maxchars"/>
+		</grg:FormItem>
+		<!--图标路径：-->
+		<grg:FormItem  width="100%" textAlign="left" locale="iconUrl">
+			<grg:TextInput id="iconURL" name="iconURL" text="@{pm.menu.iconURL}" maxChars="200"
+						   width="245" maxnum="200" vtype="maxchars"/>
+		</grg:FormItem>
+		<!--菜单层次：-->
+		<grg:FormItem  width="100%" textAlign="left" locale="menuLevel">
+			<grg:NumericStepper id="level" name="level"
+									maximum="4" value="@{pm.menu.level}" 
+									minimum="1" stepSize="1" />
+		</grg:FormItem>
+		<!--是否可见：-->
+		<grg:FormItem  width="100%" locale="isVisible">
+			<grg:CheckBox id="isVisible" change="isVisible_changeHandler(event)" selected="{pm.menu.visible=='Y'}"/>
+		 </grg:FormItem>
+		<!--菜单排序：-->
+		<grg:FormItem  width="100%" textAlign="left" locale="menuOrder">
+			<grg:NumericStepper id="menuOrder" name="order" minimum="1"  value="@{pm.menu.order}"
+								 maximum="9999" stepSize="1" />
+		</grg:FormItem>
+		<!--备注信息：-->
+		<grg:FormItem  width="100%" textAlign="left" locale="note">
+			<grg:TextArea id="note" name="note" text="@{pm.menu.note}" maxChars="200"
+						   width="245" maxnum="200" vtype="maxchars" height="80"/>
+		</grg:FormItem>
+	</grg:Form>
+	
+	<s:HGroup width="100%" gap="6" horizontalAlign="center" verticalAlign="middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn" click="save()" locale="saveButton" iconVisible="false" />
+		</s:BorderContainer>
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button click="cancel()" locale="cancelButton" iconVisible="false" />
+		</s:BorderContainer>
+	</s:HGroup>
+	
+</grg:TitleWindow>

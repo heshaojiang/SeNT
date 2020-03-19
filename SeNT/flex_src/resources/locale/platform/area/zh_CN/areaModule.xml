@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "areaModule">
+		<listTitle>区域列表</listTitle>
+		<editTopArea>编辑顶级区域</editTopArea>
+		<areaColumName>区域名称</areaColumName>
+		<note>描述</note>
+		<status>状态</status>
+		<order>顺序</order>
+		<titlemsg>区域管理</titlemsg>
+		<areaCode>区域编号</areaCode>
+	</node>
+</nodes>

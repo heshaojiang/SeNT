@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="noticeInfoModule">
+		<listTitle>Notice Type Query</listTitle>
+		
+		<noticeType>Notice Type:</noticeType>
+		<title>Title</title>
+		<content>Content</content>
+		<sender>Sender</sender>
+		<sendTime>Send Date:</sendTime>
+		<to>to</to>
+		<recipient>recipient</recipient>
+		<status>Status:</status>
+		<noticeMethod>Notice Method:</noticeMethod>
+		<note>Note</note>
+		<key>Key:</key>
+		
+		<sendSms>Send SMS</sendSms>
+		<mobile>Mobile</mobile>
+	</node>
+</nodes>

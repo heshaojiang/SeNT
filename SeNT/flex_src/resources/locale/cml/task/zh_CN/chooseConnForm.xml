@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+ <nodes>
+     <node locale="chooseConnForm">
+     
+     <chooseConn>选择清分交接</chooseConn>
+     <comeOrg>来源机构</comeOrg>
+     <inPerson>清分交接人员</inPerson>
+     <sendTime>交接时间</sendTime>
+     <to>至</to>
+     <connNum>交接编号</connNum>
+     <connDate>清分交接时间</connDate>
+     <noAllotMoney>未分配金额</noAllotMoney>
+     <connMoney>交接金额</connMoney>
+     
+     
+     
+
+  
+
+	
+  </node>
+</nodes>

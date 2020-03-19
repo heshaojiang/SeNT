@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "orgForm">
+		<addOrgForm>Add</addOrgForm>
+		<updateOrgForm>Edit</updateOrgForm>
+		<orgLevel>Org Level:</orgLevel>
+		<areaName>Area Name:</areaName>
+		<parentName>Parent Name:</parentName>
+		<orgCode>Org Code:</orgCode>
+		<orgName>Org Name:</orgName>
+		<orgFullName>Org Full Name:</orgFullName>
+		<contactPerson>Contact Person:</contactPerson>
+		<telephone>Telephone:</telephone>
+		<telTips>(For Example: 13612345678)</telTips>
+		<orgAddress>Org Address:</orgAddress>
+		<orgOrder>Org Order:</orgOrder>
+		<note>Note:</note>
+		<status>Status:</status>
+		<statusEnable>Enable</statusEnable>
+		<statusDisable>Disable</statusDisable>
+	</node>
+</nodes>

@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="showAtmTranInfoPrint">
+		<title>打印预览</title>
+		<serialnoWithImage>冠字号码及图片</serialnoWithImage>
+		<print>打印</print>
+	</node>
+</nodes>

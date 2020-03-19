@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassEdit">
+		
+		<!-- 编辑页面 -->
+		<classIdEditTitle>Edit Malfunction Class</classIdEditTitle>
+		<classIdEditItem>ID : </classIdEditItem>
+		<classNameEditItem>Name : </classNameEditItem>
+		<classNameEnEditItem>EN Name : </classNameEnEditItem>
+		<levelsEditItem>Level : </levelsEditItem>
+		<colorCodeEditItem>Color : </colorCodeEditItem>
+		
+	</node>
+</nodes>

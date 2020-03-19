@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "confUserGrpForm">
+		<setUserGrp>Setting User Group → [ | ]</setUserGrp>
+	</node>
+</nodes>

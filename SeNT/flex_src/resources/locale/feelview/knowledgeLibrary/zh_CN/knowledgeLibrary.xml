@@ -1,0 +1,14 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "knowledgeLibrary">
+		<tittle>主题</tittle>
+		<libraryTitle>知识库列表</libraryTitle>
+		<addAssetInputForm>新增知识库信息</addAssetInputForm>
+		<updateAssetInputForm>修改知识库信息</updateAssetInputForm>
+		<creater>作者</creater>
+		<createtime>创建时间</createtime>
+		<content>内容</content>
+		<resource>附件</resource>
+		<download>下载</download>
+	</node>
+</nodes>

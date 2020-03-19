@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "tmlDataBackupModule">
+		<listTitle>备份路径列表</listTitle>
+		<pathItem>路径：</pathItem>
+		<pathName>备份路径</pathName>
+		<createDate>创建时间</createDate>
+		<comm>备注</comm>
+		<titlemsg>数据备份</titlemsg>
+	</node>
+</nodes>

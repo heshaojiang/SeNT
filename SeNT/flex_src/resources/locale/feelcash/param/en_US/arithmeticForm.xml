@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+<node locale="arithmeticForm">
+<addArithmeticForm>Add arithmetic</addArithmeticForm>
+<updateArithmeticForm>Update arithmetic</updateArithmeticForm>
+<aritmeticNameLable>Name :</aritmeticNameLable>
+<aritmeticOrderLable>Order :</aritmeticOrderLable>
+<aritmeticExpressionLabel>Expression :</aritmeticExpressionLabel>
+</node>
+</nodes>

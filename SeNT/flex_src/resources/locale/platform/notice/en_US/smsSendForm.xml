@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="smsSendForm">
+		<title>Title:</title>
+		<content>Content:</content>
+		<sender>Sender:</sender>
+		<sendTime>Send Time:</sendTime>
+		<recipient>Mobile:</recipient>
+		<note>Notes:</note>
+		
+		<sendSms>Send SMS</sendSms>
+	</node>
+</nodes>

@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--   Description：银联卡信息管理<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "unionPayCardsInfoForm">
+		<addUnionPayCardsInfoForm>新增</addUnionPayCardsInfoForm>
+		<updateUnionPayCardsInfoForm>编辑</updateUnionPayCardsInfoForm>
+		<cardIdItem>卡标识:</cardIdItem>
+		<cardNameItem>卡名称:</cardNameItem>
+		<publishBankNameItem>发卡行名称:</publishBankNameItem>
+		<publishBankIdItem>发卡行机构代码:</publishBankIdItem>
+		<cardNumberSizeItem>卡号长度:</cardNumberSizeItem>
+		<cardIdSizeItem>卡标识起始位:</cardIdSizeItem>
+		<applyATMItem>适用ATM:</applyATMItem>
+		<applyPOSItem>适用POS:</applyPOSItem>
+		<cardTypeItem>卡种:</cardTypeItem>
+		<status>状态:</status>
+	</node>
+</nodes>

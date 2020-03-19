@@ -1,0 +1,54 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="newRepeatRegulationModule">
+		<reguStatus>规则下发状态：</reguStatus>
+		<applyId>申请编号</applyId>
+		<repeatnum>最多重号冠字号码数</repeatnum>
+		<termNum>升级终端数量</termNum>
+		<createDate>创建时间</createDate>
+		<reversionDate>最后批复时间</reversionDate>
+		<operations>操作</operations>
+		<titlemsg>重号规则</titlemsg>
+		<regulationDeliver>规则下发</regulationDeliver>
+		<deleteRegulation>撤销规则</deleteRegulation>
+		<regulationDeliver>规则下发</regulationDeliver>
+		<deleteRegulation>撤销规则</deleteRegulation>
+		<addRegulation>新增</addRegulation>
+		<status>规则下发状态：</status>
+		<type>规则类型：</type>
+		<termid>终端编号：</termid>
+		<date>创建时间</date>
+		<close>关闭</close>
+		<ruleInfo>规则详情</ruleInfo>
+		<ruleDeliverInfo>规则下发详情</ruleDeliverInfo>
+		<regulation>规则：</regulation>
+		<createName>业务人员：</createName>
+		<termNum>升级终端数量：</termNum>
+		<termid>终端编号</termid>
+		<operators>操作</operators>
+		<applytyp>申请类型：</applytyp>
+		<orgId>申请机构</orgId>
+		<applayDate>申请时间：</applayDate>
+		<to>至</to>
+		<applyName>申请人</applyName>
+		<applyId>申请编号</applyId>
+		<auditStatus>审批状态</auditStatus>
+		<auditRegulation>审核</auditRegulation>
+		<audit>审核</audit>
+		<auditInfo>审核规则</auditInfo>
+		<applyId>申请编号：</applyId>
+		<applyType>申请类型：</applyType>
+		<applyStatus>审核状态：</applyStatus>
+		<applayDate>审批时间：</applayDate>
+		<applyNote>审批说明</applyNote>
+		<username>审批人</username>
+		<reliverInfo>下发详情</reliverInfo>
+		<reliverDetail>下发明细</reliverDetail>
+		<reliverRule>下发规则</reliverRule>
+		<cancleRule>撤销规则</cancleRule>
+		<ruleAudit>规则审核</ruleAudit>
+		<createRule>规则生成</createRule>
+		<repeatRegualtion>重号规则</repeatRegualtion>
+
+	</node>
+</nodes>

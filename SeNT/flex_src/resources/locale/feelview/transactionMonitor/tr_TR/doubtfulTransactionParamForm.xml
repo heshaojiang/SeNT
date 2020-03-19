@@ -1,0 +1,16 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：可疑交易监控参数<br>
+		Create Time：2011-9-16<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br> -->
+<nodes>
+	<node locale = "doubtfulTransactionParamForm">
+		<addDoubtfulTransactionParamForm>Şüpheli İşlem İzleme Ekle</addDoubtfulTransactionParamForm>
+		<updateDoubtfulTransactionParamForm>Şüpheli İşlem İzleme Ekle</updateDoubtfulTransactionParamForm>
+		<eventTypeItem>Olay Tipi:</eventTypeItem>
+		<handlermodeItem>Yaklaşım:</handlermodeItem>
+		<alerLevelItem>Uyarı Seviyesi:</alerLevelItem>
+		<awokemodeItem>Hatırlatma Yöntemi:</awokemodeItem>
+		<menoItem>Açıklama:</menoItem>
+	</node>
+</nodes>

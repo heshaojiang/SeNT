@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+<node locale="cmlReportTmlModule">
+<devmodule>清分设备类型：</devmodule>
+   <tmlNum>终端编号：</tmlNum>
+	<operatorName>清分员：</operatorName>
+	<sendTime>日期：</sendTime>
+	<to>至</to>
+	<tmlId>终端编号</tmlId>
+	<version05>05版</version05>
+	<version99>99版</version99>
+	<bindStart>清分日期</bindStart>
+	<userName>清分员</userName>
+	<beforeCount>预清分金额</beforeCount>
+	<passMoney>流通币金额</passMoney>
+	<atmMoney>ATM金额</atmMoney>
+	<stubbedMoney>残损币金额</stubbedMoney>
+	<trailMoney>伪钞金额</trailMoney>
+	<shadinessMoney>可疑钞金额</shadinessMoney>
+	<falseCoinMoney>假币金额</falseCoinMoney>
+	<totalMoney>清分总金额</totalMoney>
+	<operations>操作</operations>
+	<operators>操作</operators>
+	<export>导出</export>
+	<titlemsg>清分业务统计</titlemsg>
+	</node>
+</nodes>

@@ -1,0 +1,67 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="transmgr">
+		<queryStartTimeCannotBeNull>查询开始时间不能为空</queryStartTimeCannotBeNull>
+		<queryEndTimeCannotBeNull>查询结束时间不能为空</queryEndTimeCannotBeNull>
+		<queryTimeFormatWrong>查询时间格式不正确</queryTimeFormatWrong>
+		<pleaseSelectQueryDateWithin>请选择[{0}]天以内的时间进行查询</pleaseSelectQueryDateWithin>
+		<pleaseSelectQueryDateWithinForFuzzyQuery>模糊查询时查询范围只能为[{0}]天!</pleaseSelectQueryDateWithinForFuzzyQuery>
+		
+		<flowNumNotExists>流转条码[{0}]不存在</flowNumNotExists>
+		<flowNumDistCashAlready>流转条码[{0}]已经配钞</flowNumDistCashAlready>
+		<flowNumNotReceivedYet>流转条码[{0}]尚未接收</flowNumNotReceivedYet>
+		<flowNumPaidAlready>流转条码[{0}]已经支付</flowNumPaidAlready>
+		<flowNumFinishedAlready>流转条码[{0}]状态已经结束</flowNumFinishedAlready>
+		<flowNumError>流转条码[{0}]状态是异常,请检查</flowNumError>
+		<flowNumDistCashInAtmBox>流转码[{0}]已配钞在ATM钞箱中,不能进行其他操作</flowNumDistCashInAtmBox>
+		
+		<pleaseUseATMCashBox>请使用ATM钞箱进行配钞</pleaseUseATMCashBox>
+		<pleaseUseBranchKXCashBox>请使用钞箱进行配钞</pleaseUseBranchKXCashBox>
+		<pleaseUseATMCashBag>请使用人行钞袋进行配钞</pleaseUseATMCashBag>
+		
+		<pleaseUseATMCashBoxForDeleivery>请使用ATM钞箱进行配送</pleaseUseATMCashBoxForDeleivery>
+		<pleaseUseKXCashBoxForDeleivery>请使用钞箱进行配送</pleaseUseKXCashBoxForDeleivery>
+		<pleaseUseCashBagForDeleivery>请使用人行钞袋进行配送</pleaseUseCashBagForDeleivery>
+		
+		
+		<isNotCashBox>[{0}]不是ATM钞箱</isNotCashBox>
+		<isNotKXCashBox>[{0}]不是款箱钞袋</isNotKXCashBox>
+		<isNotCashBag>[{0}]不是人行钞袋</isNotCashBag>
+		
+		<cashboxIsNotExisting>钞箱[{0}]不存在</cashboxIsNotExisting>
+		<cashboxIsNotFree>钞箱[{0}]正在使用当中</cashboxIsNotFree>
+		<cashboxIsNotEnable>钞箱[{0}]不是启用状态</cashboxIsNotEnable>
+		
+		<cashboxIsNotInDistribution>钞箱[{0}]不在配钞状态</cashboxIsNotInDistribution>
+		<kxcashboxIsNotInDistribution>款箱钞袋[{0}]不在配钞状态</kxcashboxIsNotInDistribution>
+		<cashbagIsNotInDistribution>款箱钞袋[{0}]不在配钞状态</cashbagIsNotInDistribution>
+		
+		<cashboxContainNotFlowNum>钞箱[{0}]尚未配钞</cashboxContainNotFlowNum>
+		<kxcashboxContainNotFlowNum>款箱钞袋[{0}]尚未配钞</kxcashboxContainNotFlowNum>
+		<cashbagContainNotFlowNum>钞袋[{0}]尚未配钞</cashbagContainNotFlowNum>
+		
+		<cashboxIsNotFlowing>钞箱[{0}]尚未配钞</cashboxIsNotFlowing>
+		<cashboxIsNotInATM>钞箱[{0}]不在ATM内</cashboxIsNotInATM>
+		
+		<cashboxIsNotInDelivery>钞箱[{0}]尚未配送</cashboxIsNotInDelivery>
+		<kxcashboxIsNotInDelivery>款箱钞袋[{0}]尚未配送</kxcashboxIsNotInDelivery>
+		<cashbagIsNotInDelivery>钞袋[{0}]尚未配送</cashbagIsNotInDelivery>
+		
+		<cashboxCannotAddToATM>钞箱[{0}]无法放入ATM中</cashboxCannotAddToATM>
+		<cashboxFillIntoATMAlready>钞箱[{0}]已经装入ATM</cashboxFillIntoATMAlready>
+		<cashboxStatusIsNotATMDelivery>[{0}]状态不是ATM钞箱配钞,出库或入库</cashboxStatusIsNotATMDelivery>
+		<atmIsNotExisting>ATM[{0}]不存在</atmIsNotExisting>
+		
+		
+		<cashboxIsNotFundOut>钞箱[{0}]不在出库状态</cashboxIsNotFundOut>
+		<cashboxIsNotFlowIng>钞箱[{0}]不是初始状态或配钞状态</cashboxIsNotFlowIng>
+		<cashboxIsFundIn>钞箱[{0}]已是出库状态</cashboxIsFundIn>
+		<orgCodeNotExists>机构代码[{0}]不存在</orgCodeNotExists>
+	</node>
+	<node locale="faultInfoCheckIn">
+		<applyTimeCannotBeBlank>申请时间不能为空</applyTimeCannotBeBlank>
+		<applyTimeFormatWrong>申请时间格式错误</applyTimeFormatWrong>
+		<withdrawalTimeCannotBeBlank>取款时间不能为空</withdrawalTimeCannotBeBlank>
+		<withdrawalTimeFormatWrong>申请时间格式错误</withdrawalTimeFormatWrong>
+	</node>
+</nodes>

@@ -1,0 +1,77 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "indexModule">
+	    <openWt>开机率：</openWt>
+	    <currentOrg>当前机构：</currentOrg>
+	    <statisticsTime>统计时间：</statisticsTime>
+	    <wtOrder>排行榜</wtOrder>
+	    <transNumOrder>存取款交易量排名（万笔）</transNumOrder>
+	    <averageTransNumOrder>台均存取款交易量排名（笔/台）</averageTransNumOrder>
+	    <top10>前五</top10>
+	    <last10>后五</last10>
+	    
+	    <openWtList>开机率排名</openWtList>
+	    <transNumList>存取款排名(笔)</transNumList>
+	    <averTransNumList>台均存取款排名</averTransNumList>
+	    <more>...... 更多排名 ......</more>
+	    <label1>广州分行开机率 </label1>
+	    <label2>投产台数： </label2>
+	    <label3>监控台数： </label3>
+	    <label4>广州分行交易率 </label4>
+	    <label5>总笔数(万笔)：</label5>
+	    <label6>总金额(万元)：</label6>
+	    <label06>总金额(亿元)：</label06>
+	    <label7>上次登入：</label7>
+	    <label8>上次退出：</label8>
+	    <label9>编辑</label9>
+	    <label10>改密</label10>
+	    
+	    <label11>常用工具</label11>
+	    <label12>流水查询</label12>
+	    <label13>故障码查询</label13>
+	    <label14>通讯录查询</label14>
+	    <label15>冠字号查询</label15>
+	    
+	    <label16>公告通知</label16>
+	    <label17>刷新时间：</label17>
+	      
+	    <openwtLineChart>运营管理一览表</openwtLineChart>
+	    
+	    <hours>时间(小时)</hours>
+	    
+	    <num>交易笔数(万笔/小时)</num>
+	    <amount>交易金额(万元/小时)</amount>
+	    <openWtRatio>开机率(百分比)</openWtRatio>
+	    <averageValue>当前开机率平均值</averageValue>
+	    
+	    <successY>交易成功率</successY>
+		<serverY>开机率</serverY>
+		
+		<unitTs>台</unitTs>
+		<unitRmb>元</unitRmb>
+		<unitZs>张</unitZs>
+		
+		<retainDeel>吞卡处理</retainDeel>
+		<retainNum>已吞卡数</retainNum>
+		<cardNum>待领卡数</cardNum>
+		
+		<clearDeel>清机处理</clearDeel>
+		<receCount>已回笼金额</receCount>
+		<clearCount>待清机台数</clearCount>
+		
+		<addmoneyDeel>加钞处理</addmoneyDeel>
+		<oldCount>已加钞金额</oldCount>
+		<needCountNum>待加钞台数</needCountNum>
+		
+		<dispatchDeel>派单跟踪</dispatchDeel>
+		<oldDispath>已检查台数</oldDispath>
+		<needDispathNum>待检查台数</needDispathNum>
+		
+		<btn1>查看</btn1>
+		<btn2>清机</btn2>
+		<btn3>处理</btn3>
+		<btn4>详情</btn4>
+		<noticeItem>更多</noticeItem>
+		
+	</node>
+</nodes>

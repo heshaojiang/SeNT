@@ -1,0 +1,56 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "txnModule">
+		<listTitle>list</listTitle>
+		<termid>termid</termid>
+		<termtype>termtype</termtype>
+		<brand>brand</brand>
+		<orgid>orgid</orgid>
+		<orgname>orgname</orgname>
+		<begintime>begintime</begintime>
+		<endtime>endtime</endtime>
+		<txnid>txnid</txnid>
+		<txndate>txndate</txndate>
+		<txnamount>txnamount</txnamount>
+		<pan>pan</pan>
+		<cardtype>cardtype</cardtype>
+		<panin>panin</panin>
+		<cardtypein>cardtypein</cardtypein>
+		<cardkind>cardkind</cardkind>
+		<cardid>cardid</cardid>
+		<fundtype>fundtype</fundtype>
+		<abisrespcode>abisrespcode</abisrespcode>
+		<apisrespcode>apisrespcode</apisrespcode>
+		<abissn>abissn</abissn>
+		<apissn>apissn</apissn>
+		<termsn>termsn</termsn>
+		<income>income</income>
+		<txntype>txntype</txntype>
+		<acqcode>acqcode</acqcode>
+		<isscode>isscode</isscode>		
+		<txnresult>txnresult</txnresult>
+		<txncardflag>txncardflag</txncardflag>
+		<sreach>sreachKey</sreach>
+		<termId>termId</termId>
+		<timerange>timerange</timerange>
+		<choosetime>Date</choosetime>
+		<orgrange>branch</orgrange>
+		<to>to</to>
+		<maxamount>maxamount</maxamount>
+		<minamount>minamount</minamount>
+		<export>export</export>
+		<succnum>succnum</succnum>
+		<succamount>succamount</succamount>
+		<failnum>failnum</failnum>
+		<failamount>failamount</failamount>
+		<areaid>area</areaid>
+		<txncardflag>txncardflag</txncardflag>
+		<fee>fee</fee>
+		<total>total</total>
+		<year>year</year>
+		<month>month</month>
+		<cardType>cardType</cardType>
+		<txnTotalNum>txnTotalNum</txnTotalNum>
+		<txnSuccessRate>txnSuccessRate(%)</txnSuccessRate>
+	</node>
+</nodes>

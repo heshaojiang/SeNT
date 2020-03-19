@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*" 
+				 xmlns:component="sent.transmgr.view.component.*"
+				 locale="largeWithdrawalForm" 
+				 titleKey="title"
+				 layout="vertical" 
+				 width="540" height="400">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.events.CloseEvent;
+			import mx.utils.StringUtil;
+			
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.AlertHandler;
+			
+			import sent.transmgr.message.CmlNoteflowDetailInfoMsg;
+			import sent.transmgr.pm.CmlNoteflowDetailInfoPM;
+			import sent.transmgr.view.component.CmlFlowNumTextInputComponent;
+			import sent.transmgr.vo.CmlNoteflowDetailInfoVO;
+			import sent.transmgr.vo.CmlNoteflowInfoVO;
+			
+			private var _self:LargeWithdrawalForm = this as LargeWithdrawalForm;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowDetailInfoPM:CmlNoteflowDetailInfoPM;
+			
+			
+			// { 在这里放上VO只是为了解决flex的bug，虽然这些VO没有用到, 请不要删除
+			private var _cmlNoteflowInfoVO:CmlNoteflowInfoVO = new CmlNoteflowInfoVO();
+			private var _cmlNoteflowDetailInfoVO:CmlNoteflowDetailInfoVO = new CmlNoteflowDetailInfoVO();
+			// }
+			
+			
+			
+			/**
+			 * 查看冠字号信息
+			 */
+			private function showSEQImg():void
+			{
+				
+			}
+			
+			/**
+			 * 
+			 */
+			protected function addClickHandler(event:MouseEvent):void
+			{
+				var flowNumComp:CmlFlowNumTextInputComponent = new CmlFlowNumTextInputComponent();
+				flowNumComp.addEventListener(MouseEvent.CLICK, cmlFlowNumTextInputComponent_clickHandler);
+				flowNumListBox.addElement(flowNumComp);
+			}
+
+			/**
+			 * 
+			 */
+			protected function cmlFlowNumTextInputComponent_clickHandler(event:MouseEvent):void
+			{
+				if( event.currentTarget is CmlFlowNumTextInputComponent )
+				{
+					var flowNumComp:CmlFlowNumTextInputComponent = event.currentTarget as CmlFlowNumTextInputComponent;
+					// 判断点击的是不是'删除'按钮
+					if( flowNumComp.deleteBtn==event.target )
+					{
+						if( flowNumListBox.numElements>1 )
+						{
+							flowNumListBox.removeElement(flowNumComp);
+						}
+						else
+						{
+							var msg:String = langMgr.getExceptionMessage("exceptionMessage.needMoreThanOneFlowNum");
+							AlertHandler.alert(msg);
+						}
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function save():void
+			{
+				trace("LargeWithdrawalForm.save");
+				var alertMsg:String;
+				
+				var sCardNum:String = StringUtil.trim(this.cardNum.text);
+				if( sCardNum=="" )
+				{
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.pleaseInputCardNum");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				if(sCardNum != "" && sCardNum.length < 16){
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.cardNumCannotbeShorterThan");
+					AlertHandler.alert(alertMsg);
+					return;
+				}
+				var checkbarcodeFlowNumDuplicatedMap:Object = {};	// 用于检测流转号是否重复
+				var submitData:Object = {};
+				submitData.cardNum = sCardNum;
+				submitData.barcodeFlowNumArr = [];
+				for( var i:int=0; i<flowNumListBox.numElements; i++ )
+				{
+					var ve:IVisualElement = flowNumListBox.getElementAt(i);
+					if( ve is CmlFlowNumTextInputComponent )
+					{
+						var flowNum:String = (ve as CmlFlowNumTextInputComponent).flowNumText.text;
+						if( StringUtil.trim(flowNum)!="" )
+						{
+							if( checkbarcodeFlowNumDuplicatedMap[flowNum]!=null )
+							{
+								alertMsg = StringUtil.substitute(langMgr.getExceptionMessage("exceptionMessage.flowNumDuplicatedFill"), flowNum);
+								AlertHandler.alert(alertMsg);
+								return ;
+							}
+							checkbarcodeFlowNumDuplicatedMap[flowNum] = flowNum;
+							submitData.barcodeFlowNumArr.push( flowNum );
+						}
+					}
+				}
+				
+				if( submitData.barcodeFlowNumArr.length==0 )
+				{
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.needMoreThanOneFlowNum");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				
+				var msg:CmlNoteflowDetailInfoMsg = new CmlNoteflowDetailInfoMsg();
+				msg.args["remoteMethod"]   = "addMiltiLargeWithdrawal";
+				msg.args["methodPrameter"] = submitData;
+				msg.args["resultHandler"]  = "addMiltiLargeWithdrawalResult";
+				msg.args["errorHandler"]   = "addMiltiLargeWithdrawalError";
+				cmlNoteflowDetailInfoPM.sendCmlNoteflowDetailInfoMsg(msg);
+				
+				this.enabled = false;
+			}
+			
+			[MessageHandler(selector="addMiltiLargeWithdrawalResult")]
+			public function addMiltiLargeWithdrawalResult(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("LargeWithdrawalForm.addMiltiLargeWithdrawalResult");
+				
+				this.enabled = true;
+				
+				var alertMsg:String = "";
+				if( msg.result>0 )
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.operateSuccess");
+				}
+				else
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.operateFail");
+				}
+				Alert.show(alertMsg, "系统提示", 4, null, function():void{
+					_self.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				});
+			}
+			
+			[MessageHandler(selector="addMiltiLargeWithdrawalError")]
+			public function addMiltiLargeWithdrawalError(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("LargeWithdrawalForm.addMiltiLargeWithdrawalResult");
+				
+				this.enabled = true;
+			}
+			
+			
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	
+	<!-- 钞箱号、配钞渠道 -->
+	<s:HGroup width="100%" gap="0" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<!-- 卡号/身份证 -->
+		<grg:Label locale="cardNumColon" />
+		<grg:TextInput id="cardNum" width="200" restrict="0-9" maxChars="19"/>
+		<mx:Spacer width="10" />
+	</s:HGroup>
+
+	<!-- 支出的捆钞 -->
+	<grg:RoundCornerContainer locale="zcdkc" id="cmlSeqInfo" width="100%"  height="100%">
+		<s:Scroller width="100%" height="100%" verticalScrollPolicy="on">
+			<s:VGroup gap="0" paddingTop="20" paddingLeft="50" paddingRight="10">
+				
+				<s:VGroup id="flowNumListBox" width="100%" gap="10">
+					<component:CmlFlowNumTextInputComponent click="cmlFlowNumTextInputComponent_clickHandler(event)" />
+					<component:CmlFlowNumTextInputComponent click="cmlFlowNumTextInputComponent_clickHandler(event)" />
+					<component:CmlFlowNumTextInputComponent click="cmlFlowNumTextInputComponent_clickHandler(event)" />
+					<component:CmlFlowNumTextInputComponent click="cmlFlowNumTextInputComponent_clickHandler(event)" />
+				</s:VGroup>
+				
+				<s:VGroup horizontalAlign="left" paddingTop="10">
+					<grg:Button locale="addCashBunch" iconVisible="false" click="addClickHandler(event)" />
+				</s:VGroup>
+				
+			</s:VGroup>
+		</s:Scroller>
+	</grg:RoundCornerContainer>
+	
+	<!-- 保存、取消 -->
+	<s:HGroup width="100%" gap="6" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="save" iconVisible="false" click="save()" />
+		<grg:Button locale="cancel" iconVisible="false" click="cancel()" />
+	</s:HGroup>
+	
+</grg:TitleWindow>

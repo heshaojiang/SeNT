@@ -1,0 +1,55 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  * Description： 操作系统配置
+ * Create Time：2011-9-16   
+ * Author：zhangjinpeng 
+ * Email : zjpeng@grgbanking.com  
+	 -->
+<nodes>
+	<node locale = "systemConfigManageForm">
+		<addAgentConfigManageForm>Agent Yapılandırma Planı Ekleme</addAgentConfigManageForm>
+		<updateAgentConfigManageForm>Agent Yapılandırma Planı Değiştir</updateAgentConfigManageForm>
+		<planidItem>Plan Id:</planidItem>
+		<createtimeItem>Oluşturma Zamanı:</createtimeItem>
+		<repeattypeItem>Tekrar Tipi:</repeattypeItem>
+		<everydayexetimeItem>Tekrar Çalışma (Saat):</everydayexetimeItem>
+		<repeatintervalItem>Tekrar Çalışma (Dakika):</repeatintervalItem>
+		<plannameItem>Plan Adı:</plannameItem>
+		<nextexecutetimeItem>Çalışma Zamanı:</nextexecutetimeItem>
+		<termidlistItem>Terminal Id:</termidlistItem>
+		<taskparaItem>Görev Talimatları:</taskparaItem>
+		<taskparaversionItem>Görev Talimat Sürümü:</taskparaversionItem>
+		<maxretrytimesItem>Maksimum Deneme Sayısı:</maxretrytimesItem>
+		<retryintervalItem>Yeniden Deneme (Saniye):</retryintervalItem>
+		<enabledItem>Aktif mi:</enabledItem>
+		<termtypeItem>Terminal Tipi:</termtypeItem>
+		<modelItem>Modeli:</modelItem>
+		<orgidItem>Şube:</orgidItem>
+		<areaidItem>İl:</areaidItem>
+		<brandItem>Marka:</brandItem>
+		<timeoutintervalItem>Süre Aşımı (saat):</timeoutintervalItem>
+		<BaseInfo>Temel Bilgiler</BaseInfo>
+		<SystemInfo>Sistem Bilgisi</SystemInfo>
+		<termidItem>Terminal Id:</termidItem>
+		<ipaddressItem>IP Adresi:</ipaddressItem>
+		<subnetmaskItem>Alt Ağ Maskesi:</subnetmaskItem>
+		<gatewayItem>Varsayılan Ağ Geçidi:</gatewayItem>
+		<dnsItem>DNS:</dnsItem>
+		<altdnsItem>Alternatif DNS:</altdnsItem>
+		<osversionItem>İşletim Sistemi:</osversionItem>
+		<memorysizeItem>Bellek(MB):</memorysizeItem>
+		<disksizeItem>Disk Alanı(GB):</disksizeItem>
+		<soundvolItem>Sistem Birimi:</soundvolItem>
+		<systimeItem>Sistem Zamanı:</systimeItem>
+		<lastmodifytimeItem>Son Değişiklik Tarihi:</lastmodifytimeItem>
+		<termidItem>Terminal Id:</termidItem>
+		<termTypeItem>Terminal Tipi:</termTypeItem>
+		<brandItem>Marka:</brandItem>
+		<modelItem>Modeli:</modelItem>
+		<orgItem>Şube:</orgItem>
+		<areaIdItem>İl:</areaIdItem>
+		<addSystemConfigManageForm>Agent Yapılandırma Planı Ekleme</addSystemConfigManageForm>
+		<hintOfInputTermid>Max. 100 ATM (;)(,) </hintOfInputTermid>
+		<speratedWithCommaSemicolonSpace>yada boşluk ile ayrılarak girilebilir.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>veya seçmek için tıklayın</hintOfClickButton>
+	</node>
+</nodes>

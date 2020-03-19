@@ -1,0 +1,57 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  Description： agent配置
+	  Create Time：2011-9-15   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "versionManageForm">
+		<addVersionManageForm>Sürüm Bilgileri Yönetim Planı Ekle</addVersionManageForm>
+		<auditVersionManage>Sürüm Bilgileri Denetim</auditVersionManage>
+		<viewVersionManage>Sürüm Bilgileri View</viewVersionManage>
+		<updateAgentConfigManageForm>Sunucu Yapılandırma Bilgileri Değiştir</updateAgentConfigManageForm>
+		<planidItem>Plan Id</planidItem>
+		<versionnameItem>Sürüm Adı</versionnameItem>
+		<versionnoItem>Sürüm Numarası</versionnoItem>
+		<versiontypeItem>Sürüm Tipi</versiontypeItem>
+		<auditrequestItem>Denetleme Talebi</auditrequestItem>
+		<auditpassedItem>Denetim Sonuçları</auditpassedItem>
+		<termidlistItem>Terminal Id</termidlistItem>
+		<termtypeItem>Terminal Tipi</termtypeItem>
+		<modelItem>Model</modelItem>
+		<orgidItem>Şube</orgidItem>
+		<areaidItem>İl</areaidItem>
+		<brandItem>Marka</brandItem>
+		<fileidItem>Dosya Numarası</fileidItem>
+		<nextexecutetimeItem>Çalışma Zamanı</nextexecutetimeItem>
+		<nextexecutetimefromItem>Çalışma Zamanı (Başlangıç)</nextexecutetimefromItem>
+		<nextexecutetimeendItem>Çalışma Zamanı (Bitiş)</nextexecutetimeendItem>
+		<createtimeItem>Oluşturma Zamanı</createtimeItem>
+		<createtimefromItem>Oluşturma Zamanı (Başlangıç)</createtimefromItem>
+		<createtimeendItem>Oluşturma Zamanı (Bitiş)</createtimeendItem>
+		<invalidtimeItem>Geçersiz Zaman</invalidtimeItem>
+		<invoketimesItem>Program Başlatma Adedi</invoketimesItem>
+		<BaseInfo>Temel Bilgiler</BaseInfo>
+		<paramInfo>Parametre Bilgi</paramInfo>
+		<UploadFileInfo>Dosya Yükleme Bilgisi</UploadFileInfo>
+		<uploadFileItem>Dosyaları Yükle</uploadFileItem>
+		<fileTypeItem>Dosya Türü</fileTypeItem>
+		<processmethodItem>Arayüz Versiyonu</processmethodItem>
+		<brandConfigItem>Brand Config</brandConfigItem>
+		<savepathItem>Dosya Yolu</savepathItem>
+		<atmcprocessDetectItem>Çalışan Süreçler</atmcprocessDetectItem>
+		<atmcprocessKillItem>İşlemi Durdur</atmcprocessKillItem>
+		<atmcprocessRunItem>Çalışan İşlemler</atmcprocessRunItem>
+		<needRestartItem>Yeniden Başlatma Gerekir</needRestartItem>
+		<needExtractItem>Ayıklama Gerekir</needExtractItem>
+		<hintOfInputTermid>Max. 100 ATM (;)(,) </hintOfInputTermid>
+		<hintOfInputProcess>Enter Processes Like "abc.exe|zxy.exe"</hintOfInputProcess>	
+		<speratedWithCommaSemicolonSpace>yada boşluk ile ayrılarak girilebilir.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>veya seçmek için tıklayın</hintOfClickButton>
+		<useLocalFileFirstItem>Yerel bir dosya kullanmak</useLocalFileFirstItem>
+		<localFileURLItem>Dosya Yolu </localFileURLItem>
+		<localFileMD5Item>Dosyanın MD5</localFileMD5Item>
+		
+		<selectPackage>Select Software Package</selectPackage>
+	</node>
+</nodes>

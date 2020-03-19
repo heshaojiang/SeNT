@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="confRolePriviForm">
+		<setRolePrivi>设置权限  → [ | ]</setRolePrivi>
+		<fullPath>所属模块</fullPath>
+		<moduleName>模块名称</moduleName>
+		<operater>操作</operater>
+		<unselected>未选择</unselected>
+		<selected>已选择</selected>
+	</node>
+</nodes>

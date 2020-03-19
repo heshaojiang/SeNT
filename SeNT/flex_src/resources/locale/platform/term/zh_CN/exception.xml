@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "term">
+		<existedTerminalType>该终端类型已经存在！</existedTerminalType>
+		<existedTerminalTypeCode>该终端型类型代码已经存在！</existedTerminalTypeCode>
+		<importExcelError>导入出错！</importExcelError>
+		<existedTerminalTypeName>该终端型号名称已经存在！</existedTerminalTypeName>
+		<existedBrandName>该品牌名称已经存在！</existedBrandName>
+		<existedBrandCode>该品牌代码已经存在！</existedBrandCode>
+		<existedModelName>该型号名称已经存在！</existedModelName>
+		<existedTermCode>该终端编号已经存在！</existedTermCode>
+		<existedNoderCode>该节点机的所属机构号已经存在！</existedNoderCode>
+		<existedNetAddr>该ip地址已经被使用！</existedNetAddr>
+		<terminalTypeNotNull>终端类型不能为空！</terminalTypeNotNull>
+		<terminalTypeNameNotNull>型号名称不能为空！</terminalTypeNameNotNull>
+		<terminalBrandNameNotNull>品牌名称不能为空！</terminalBrandNameNotNull>
+		<companyNameNotNull>厂商名称不能为空！</companyNameNotNull>
+		<companyAddressNotNull>厂商地址不能为空！</companyAddressNotNull>
+		<terminalModelNameNotNull>型号名称不能为空！</terminalModelNameNotNull>
+		<termCodeNotNull>该终端编号不能为空！</termCodeNotNull>
+		<orgNotNull>机构不能为空！</orgNotNull>
+		<areaNotNull>区域不能为空！</areaNotNull>
+		<modelNotNull>设备型号不能为空！</modelNotNull>
+		<lackBgFull>钞少总张数必须小于钞满总张数！</lackBgFull>
+		<coinlackBgFull>硬币钞少总数必须小于硬币钞满总数！</coinlackBgFull>
+		<existedDataBackupPath>该目录已经被使用，不能重复添加！</existedDataBackupPath>
+		<existedDataBackupPathFile>该目录无效或不存在，请重新指定！</existedDataBackupPathFile>
+		<termModelNameAlreadyExists>型号名称[{0}]已经存在！</termModelNameAlreadyExists>
+		<termIsSelectInOtherNoder>终端名称[{0}]已经关联在其它节点机下,不能重复选择!</termIsSelectInOtherNoder>
+	</node>
+</nodes>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" titleKey="ruleInfo"
+				 layout="vertical" width="650" height="500" locale="viewRepeatRegulationInfo"
+				 dataDictionaryPaths="{[RepeatRegulationConsts.ACCOUNT_MODEL,
+				 RepeatRegulationConsts.CREEN_MODEL, RepeatRegulationConsts.LOG_MODEL,
+				 RepeatRegulationConsts.PROCESS_MODEL, BlackRegulationConsts.RULE_STATUS]}"
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.formatter.DateFormatter;
+			import platform.common.vo.Page;
+			
+			import sent.rule.constants.BlackRegulationConsts;
+			import sent.rule.constants.RepeatRegulationConsts;
+			import sent.rule.message.RegulationDeliverMsg;
+			import sent.rule.pm.RepeatRegulationPM;
+			import sent.rule.vo.RepeatRegulationVO;
+			
+			
+			
+			[Inject]
+			[Bindable]
+			public var pm:RepeatRegulationPM;
+			
+			[Bindable]
+			private var _repeatRegulation:RepeatRegulationVO;
+			
+			public function set repeatRegulation(p_vo:RepeatRegulationVO):void
+			{
+				_repeatRegulation = p_vo;
+				convertStringWithDataDict();
+				loadRegulationDeliverList();
+			}
+			
+			/**
+			 * 用数据字典来转换字符串
+			 * */
+			private function convertStringWithDataDict():void
+			{
+				_repeatRegulation.enterAccountMode = getTextByKeyOnDataDictPath
+					(_repeatRegulation.enterAccountMode, RepeatRegulationConsts.ACCOUNT_MODEL);
+				_repeatRegulation.creenMode = getTextByKeyOnDataDictPath
+					(_repeatRegulation.creenMode, RepeatRegulationConsts.CREEN_MODEL);
+				_repeatRegulation.logMode = getTextByKeyOnDataDictPath
+					(_repeatRegulation.logMode, RepeatRegulationConsts.LOG_MODEL);
+				_repeatRegulation.dealwithMode = getTextByKeyOnDataDictPath
+					(_repeatRegulation.dealwithMode, RepeatRegulationConsts.PROCESS_MODEL);
+			}
+			
+			/**
+			 * 加载规则下发列表
+			 * */
+			private function loadRegulationDeliverList():void
+			{
+				var msg:RegulationDeliverMsg = new RegulationDeliverMsg();
+				msg.type = "getRegulationDeliverListByApplyId";
+				msg.args["page"]=pm.repeatPage;
+				msg.args["applyId"] = _repeatRegulation.id;
+				sendMessage(msg);
+			}
+			[MessageHandler(selector="getRegulationDeliverListByApplyIdResult")]
+			public function getRegulationDeliverListResult(p_msg:RegulationDeliverMsg):void
+			{
+				if(p_msg.result)
+					pm.repeatPage = p_msg.result as Page;
+			}
+			
+			/**
+			 * 获取数据字典成功后刷新界面
+			 * */
+			override protected function getDataDictCallback():void
+			{
+				convertStringWithDataDict();
+				
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = BlackRegulationConsts.RULE_STATUS;
+				return super.transferDataDict(p_item, column);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<grg:RoundCornerContainer locale="ruleInfo" width="100%" height="100">
+		<s:HGroup width="100%" height="100%">
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="dealwithMode">
+					<grg:Text text="{_repeatRegulation.dealwithMode}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="termNum">
+					<grg:Text text="{_repeatRegulation.termNum}"/>
+				</grg:FormItem>
+				<!--<grg:FormItem width="100%" locale="enterAccountMode">
+					<grg:Text text="{_repeatRegulation.enterAccountMode}"/>
+				</grg:FormItem>-->
+				<grg:FormItem width="100%" locale="createDate">
+					<grg:Text text="{DateFormatter.format(_repeatRegulation.createDate)}"/>
+				</grg:FormItem>
+				
+				
+			</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<grg:FormItem width="100%" locale="repeatnum">
+					<grg:Text text="{_repeatRegulation.repeatnum}"/>
+				</grg:FormItem>
+				<!--<grg:FormItem width="100%" locale="creenMode">
+					<grg:Text text="{_repeatRegulation.creenMode}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="logMode">
+					<grg:Text text="{_repeatRegulation.logMode}"/>
+				</grg:FormItem>-->
+				<grg:FormItem width="100%" locale="createName">
+					<grg:Text text="{_repeatRegulation.createName}"/>
+				</grg:FormItem>
+				<grg:FormItem width="100%" locale="reversionDate">
+					<grg:Text text="{DateFormatter.format(_repeatRegulation.reversionDate)}"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:HGroup>
+	</grg:RoundCornerContainer>
+	<grg:RoundCornerContainer locale="ruleDeliverInfo" width="100%" height="100%">
+		<s:Scroller width="100%" height="100%" minHeight="0" verticalScrollPolicy="auto" horizontalScrollPolicy="off">
+		<s:Group width="100%" height="100%">
+			<!--<s:layout>
+				<s:HorizontalLayout paddingTop="10" paddingLeft="10" paddingRight="10" paddingBottom="10"/>
+			</s:layout>-->
+			<s:layout>
+				<s:VerticalLayout gap="0" 
+								  paddingTop="0"/>
+			</s:layout>
+			<grg:DataGrid id="seqList" dataProvider="{pm.repeatPage.result}" width="100%" height="100%" textAlign = "center"
+						  styleName = "DataGrid">
+				<grg:columns>
+					<grg:DataGridColumn locale="termid" dataField="termid" />
+					<grg:DataGridColumn locale="status" dataField="status" labelFunction="{transferDataDict}"/>
+				</grg:columns>
+			</grg:DataGrid>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+								  pageVo="{pm.repeatPage}"
+								  pagingFunction="{loadRegulationDeliverList}"/>
+		</s:Group>
+			</s:Scroller>
+	</grg:RoundCornerContainer>
+	<s:HGroup width="100%" gap="6"  horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="close" iconVisible="false" click="close()"/>
+	</s:HGroup>
+	
+</grg:TitleWindow>

@@ -1,0 +1,44 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：assetInputForm
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "disAssetForm">
+		<disAssetForm>Envanter İptal Listesi</disAssetForm>
+		<termSignForm>Terminal Uyarı</termSignForm>
+		<assetTitle>Envanter Listesi</assetTitle>
+		<disAssetTitle>Envanter İptal Listesi</disAssetTitle>
+		<signTitle>Bilgi Listesi</signTitle>
+		<termtype>Terminal Tipi</termtype>
+		<brand>Marka</brand>
+		<model>Model</model>
+		<insttype>Montaj Tipi</insttype>
+		<batch>Grup</batch>
+		<sum>Toplam</sum>
+		<remain>Kalan Adet</remain>
+		<operations>Tamam</operations>
+		<Distribution>Dağıtım</Distribution>
+		<ReDistribution>Yeniden Dağıtım</ReDistribution>
+		<dissum>Dağıtılmış Adet</dissum>
+		<disremain>Kalan Adet</disremain>
+		<org>Şube</org>
+		<orgname>Şube Adı</orgname>
+		<disnumItem>Dağıtım Adedi</disnumItem>
+		<an>ad.</an>
+		<operations>Tamam</operations>
+		<orgname>Şube Adı</orgname>
+		<sign>Bilgi</sign>
+		<seqno>Sıra Numarası</seqno>
+		<signDate>Tarih</signDate>
+		<notice>(Örnek:+90 212 4581245)</notice>
+		<!-- Birden fazla ise "," ile ayrılmalı! -->
+		<disButton>Dağıtım</disButton>
+		<saveButton>Kaydet</saveButton>
+		<signButton>Bilgi</signButton>
+		<statu>Durum</statu>
+		<disassetTitle>disassetTitle</disassetTitle>
+		<singedTitle>singedTitle</singedTitle>
+		<ReSign>ReSign</ReSign>
+	</node>
+</nodes>

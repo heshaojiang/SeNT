@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cardTypeForm">
+		<editCardType>Edit</editCardType>
+		<newCardType>Add</newCardType>
+		<orgIdLabel>Organization:</orgIdLabel>
+		<cardIdLabel>Card Type:</cardIdLabel>
+		<selfLabel>Self Bank Card:</selfLabel>
+		<localLabel>Local Card:</localLabel>
+		<provinceLabel>Province Card:</provinceLabel>
+	</node>
+</nodes>

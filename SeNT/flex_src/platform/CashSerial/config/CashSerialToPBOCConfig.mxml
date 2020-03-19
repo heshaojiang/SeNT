@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley"
+			xmlns:services="platform.services.*" 
+			xmlns:pm="platform.CashSerial.pm.*" 
+			xmlns:message="platform.CashSerial.message.*" 
+			xmlns:delegate="platform.CashSerial.delegate.*"
+			>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		
+		<!-- user module -->
+		<pm:CashSerialToPBOCModulePM/>
+		<pm:CashSerialToPBOCFormPM/>
+		<message:CashSerialToPBOCMsg/>
+		<delegate:CashSerialToPBOCDelegate/>
+		<!-- remote object -->
+		<services:GRGRemoteObject id="cashSerialToPBOCService" destination="cashSerialToPBOCService"/>
+	</fx:Declarations>
+</fx:Object>

@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "eventSettingModule">
+		<listTitle>Event Info List</listTitle>
+		<eventName>Name Of Event</eventName>
+		<beginDate>Begin Date Of Event Affect</beginDate>
+		<endDate>End Date Of Event Affect</endDate>
+		<dayMode>Add Cash Mode</dayMode>
+		<quotiety>Weighting factor</quotiety>
+	</node>
+</nodes>

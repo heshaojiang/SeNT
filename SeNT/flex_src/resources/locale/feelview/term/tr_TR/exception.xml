@@ -1,0 +1,20 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "term">
+		<existedTerminalType>Terminal Tipi Mevcut!</existedTerminalType>
+		<existedTerminalTypeName>Terminal Tip Adı Mevcut!</existedTerminalTypeName>
+		<existedBrandName>Marka Mevcut!</existedBrandName>
+		<existedModelName>Model Mevcut!</existedModelName>
+		<existedTermId>Terminal Id Mevcut!</existedTermId>
+		<existedNetAddr>Ip Adresi Kullanılıyor!</existedNetAddr>
+		<existedTermOperator>Operatör Mevcut!</existedTermOperator>
+		<terminalTypeNotNull>Terminal Tipi Boş Olamaz!</terminalTypeNotNull>
+		<terminalTypeNameNotNull>Terminal Tip Adı Boş Olamaz!</terminalTypeNameNotNull>
+		<terminalBrandNameNotNull>Marka boş Olamaz!</terminalBrandNameNotNull>
+		<companyNameNotNull>Firma Adı Boş Olamaz!</companyNameNotNull>
+		<companyAddressNotNull>Adres Boş Olamaz!</companyAddressNotNull>
+		<terminalModelNameNotNull>Model Adı Boş Olamaz!</terminalModelNameNotNull>
+		<termIdNotNull>Terminal Id Boş Olamaz!</termIdNotNull>
+		<operatorNameNotNull>Operatör Adı Boş Olamaz!</operatorNameNotNull>
+	</node>
+</nodes>

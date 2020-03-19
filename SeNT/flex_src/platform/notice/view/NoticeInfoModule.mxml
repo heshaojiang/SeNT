@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule locale="noticeInfoModule" xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   dataDictionaryPaths="{[DataDirConsts.NOTICE_TYPE,DataDirConsts.NOTICE_METHOD,DataDirConsts.NOTICE_STATUS]}"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   layout="horizontal" width="100%" height="100%" xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.IList;
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.constants.DataDirConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.notice.config.NoticeInfoConfig;
+			import platform.notice.message.NoticeInfoMsg;
+			import platform.notice.pm.NoticeInfoModulePM;
+			import platform.notice.renderer.SmsSendButton;
+			import platform.notice.vo.NoticeInfoVO;
+			[Inject]
+			[Bindable]
+			public var pm:NoticeInfoModulePM;
+			
+			//录入控件下拉列表项
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+				new SmsSendButton();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "noticeType")
+					currentDataDictPath = DataDirConsts.NOTICE_TYPE;
+				if(column.dataField == "noticeMethod")
+					currentDataDictPath = DataDirConsts.NOTICE_METHOD;
+				if(column.dataField == "status")
+					currentDataDictPath = DataDirConsts.NOTICE_STATUS;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				loadPage();
+			}
+			
+			//根据名称模糊查询
+			private function loadPage():void
+			{
+				pm.loadPage(noticeType.selectedValue, noticeMethod.selectedValue, status.selectedValue, key.text, startTime.selectedDate, endTime.selectedDate);
+			}
+			
+			
+			public function openWin(buttonCode:String):void
+			{
+				//dispatch event
+				var win:SmsSendForm = new SmsSendForm();
+				
+				//win.titleKey = p_winName;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.menuId = this.menu.id;
+				win.pm.vo = new NoticeInfoVO();
+				win.operation = buttonCode;
+			}
+			
+			/**
+			 * 保存成功返回结果处理函数
+			 */		
+			[MessageHandler(selector="sendSmsResult")]
+			public function saveSuccessHandler(p_msg:NoticeInfoMsg):void
+			{
+				loadPage();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{NoticeInfoConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<s:BorderContainer 
+		width="100%" height="100%"
+		styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		
+		<!--<grg:TitleBar/>-->
+		<grg:AdvancedSearchBar borderVisible="false"
+			textAlign = "center"
+			styleName = "SearchBar">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" height="30" styleName="firHBoxStyle" borderVisible="false">
+				<grg:TitleBar locale="titlemsg" width="30%"/>
+				<mx:HBox  width="100%" height="30" styleName="senHBoxStyle" paddingTop="3" paddingBottom="2"> 
+						<s:BorderContainer 
+							height="25"
+							textAlign = "center"
+							styleName = "searchStyle"
+							>
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "right"
+									gap="2"
+									 paddingRight="2"
+									verticalAlign = "middle" />
+							</s:layout>  
+							<grg:Label locale="sendTime" />
+							<grg:SuperDateField width="165" id="startTime" myEnabled="false" selectableRange="{{rangeEnd:endTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="to"/>
+							<grg:SuperDateField width="165" id="endTime" myEnabled="false" selectableRange="{{rangeStart:startTime.selectedDate}}" isShowTime="true" />
+							<grg:Label locale="key" />
+							<grg:TextInput id="key" width="100"/>  
+							<grg:SearchButton click = "pm.page = new Page();loadPage()"
+											  locale = "searchButton"
+											  iconType = "query"  /> 
+							<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/>
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[noticeType,noticeMethod,status,key,startTime,endTime]}"/>
+						</s:BorderContainer> 
+				</mx:HBox>
+			</mx:HBox>
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+			<mx:HBox width="100%" styleName="expHBoxStyle" borderVisible="false">  
+				<s:BorderContainer width="100%" height="100%" styleName="expBorderHBoxStyle">
+					<s:layout>
+						<s:HorizontalLayout 
+							horizontalAlign = "right"
+							paddingLeft="10"
+							gap="5"
+							verticalAlign = "middle" />
+					</s:layout>  
+					<grg:ComboBox id="noticeType" allItemKey="allnoticeType" width="110" dataProvider="{bindableDataDirCache.getItemAt(0) as IList}" hasAllItem="true"
+								  labelField = "text" valueField = "key"/> 
+					<grg:ComboBox id="noticeMethod" allItemKey="allnoticeMethod" width="110" dataProvider="{bindableDataDirCache.getItemAt(1) as IList}" hasAllItem="true"
+								  labelField = "text" valueField = "key"/> 
+					<grg:ComboBox id="status" allItemKey="status" width="110" dataProvider="{bindableDataDirCache.getItemAt(2) as IList}" hasAllItem="true"
+								  labelField = "text" valueField = "key"/>
+				</s:BorderContainer>
+			</mx:HBox>
+				</s:BorderContainer>
+				<s:BorderContainer width="100%" height="1" backgroundColor="#E0E1E4" borderVisible="false">
+				</s:BorderContainer>
+			</s:BorderContainer>
+		</grg:AdvancedSearchBar>
+		<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+			<grg:DataGrid dataProvider="{pm.page.result}" width="100%" height="100%" paddingLeft="20" 
+						  textAlign = "center"
+						  styleName = "DataGrid" id="dataGrid">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol" />
+					<grg:DataGridColumn dataField="noticeType" 
+										locale="noticeType" 
+										labelFunction="{transferDataDict}" 
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="title" 
+										locale="title"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="content" 
+										locale="content" 
+										dataTipField="content" 
+										showDataTips="true"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="sender" 
+										locale="sender"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="sendTime" 
+										locale="sendTime" 
+										labelFunction="{DataGridUtil.formatTime}"
+										textAlign = "center"
+										/>
+					<grg:DataGridColumn dataField="recipient" 
+										locale="recipient"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="noticeMethod" 
+										locale="noticeMethod" 
+										labelFunction="{transferDataDict}"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="status" 
+										locale="status" 
+										labelFunction="{transferDataDict}"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="note" locale="note"
+										textAlign = "left"
+										/>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar pageVo = "{pm.page}" bottom = "2" pagingFunction="{loadPage}"/>
+	</s:BorderContainer>
+</grg:TabModule>

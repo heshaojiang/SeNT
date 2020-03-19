@@ -1,0 +1,18 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： bankManagerModule 
+	 Create Time：2011-8-19   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "bankManagerModule">
+		<listTitle>Yönetim Listesi</listTitle>
+		<managerIdItem>Yönetici Id</managerIdItem>
+		<operatorNameItem>Operatör Adı</operatorNameItem>
+		<corporatorOrgItem>Organizasyon</corporatorOrgItem>
+		<contactTelItem>Telefon</contactTelItem>
+		<contactMobileItem>Cep Telefonu</contactMobileItem>
+		<operatorAddressItem>E-posta Adresi</operatorAddressItem>
+		<status>Durum</status>
+		<tmlSettingButton>Ayarlar</tmlSettingButton>
+	</node>
+</nodes>

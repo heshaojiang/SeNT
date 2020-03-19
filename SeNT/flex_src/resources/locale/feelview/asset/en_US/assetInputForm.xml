@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：assetInputForm
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "assetInputForm">
+		<addAssetInputForm>Add AssetInput</addAssetInputForm>
+		<updateAssetInputForm>Update AssetInput</updateAssetInputForm>
+		<termTypeItem>termType</termTypeItem>
+		<brandItem>brand</brandItem>
+		<modelItem>model</modelItem>
+		<instTypeItem>instType</instTypeItem>
+		<batchItem>batch</batchItem>
+		<sumItem>sum</sumItem>
+		<prompt>(This model is not exists!)</prompt>
+	</node>
+</nodes>

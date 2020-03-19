@@ -1,0 +1,65 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  Description： agent配置
+	  Create Time：2011-9-15   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "agentConfigManageForm">
+		<addAgentConfigManageForm>Agent Yapılandırma Planı Ekleme</addAgentConfigManageForm>
+		<updateAgentConfigManageForm>Agent Yapılandırma Planı Değiştir</updateAgentConfigManageForm>
+		<planidItem>Plan Id:</planidItem>
+		<createtimeItem>Oluşturma Zamanı:</createtimeItem>
+		<repeattypeItem>Tekrar Tipi:</repeattypeItem>
+		<everydayexetimeItem>Tekrar Çalışma (Saat):</everydayexetimeItem>
+		<repeatintervalItem>Tekrar Çalışma (Dakika):</repeatintervalItem>
+		<plannameItem>Plan Adı:</plannameItem>
+		<nextexecutetimeItem>Çalışma Zamanı:</nextexecutetimeItem>
+		<termidlistItem>Terminal Id:</termidlistItem>
+		<taskparaItem>Görev Talimatları:</taskparaItem>
+		<taskparaversionItem>Görev Talimat Sürümü:</taskparaversionItem>
+		<maxretrytimesItem>Maksimum Deneme Sayısı:</maxretrytimesItem>
+		<retryintervalItem>Yeniden Deneme (Saniye):</retryintervalItem>
+		<enabledItem>Aktif mi?:</enabledItem>
+		<termtypeItem>Terminal Tipi:</termtypeItem>
+		<modelItem>Model:</modelItem>
+		<orgidItem>Şube:</orgidItem>
+		<areaidItem>İl:</areaidItem>
+		<brandItem>Marka:</brandItem>
+		<timeoutintervalItem>Süre Aşımı (saat):</timeoutintervalItem>
+		<BaseInfo>Temel Bilgiler</BaseInfo>
+		<AgentInfo>Agent Yapılandırma Bilgileri</AgentInfo>
+		<agentportItem>Agent Bağlantı Noktası (Port):</agentportItem>
+		<fdgatesvripItem>Dağıtım Sunucusu IP:</fdgatesvripItem>
+		<fdgatesvrportItem>Dağıtım Sunucusu Bağlantı Noktası (Port):</fdgatesvrportItem>
+		<fvsvripItem>İzleme Sunucusu IP:</fvsvripItem>
+		<fvsvrportItem>İzleme Sunucusu Bağlantı Noktası (Port):</fvsvrportItem>
+		<xfscamItem>Kamera</xfscamItem>
+		<xfscdmItem>Para Çekme</xfscdmItem>
+		<xfschkItem>Çek Defteri</xfschkItem>
+		<xfscimItem>Para Yatırma</xfscimItem>
+		<xfsdepItem>Zarfla Para Yatırma</xfsdepItem>
+		<xfsidcItem>Kart Okuyucu</xfsidcItem>
+		<xfsjprItem>Jurnal Yazıcı</xfsjprItem>
+		<xfspbkItem>Hesap Cüzdanı Yazıcı</xfspbkItem>
+		<xfspinItem>Tuş Takımı</xfspinItem>
+		<xfsrprItem>Makbuz Yazıcı</xfsrprItem>
+		<xfssiuItem>Sensör</xfssiuItem>
+		<xfssprItem>Durum Yazıcı</xfssprItem>
+		<xfsttuItem>Operatör Paneli</xfsttuItem>
+		<xfsvdmItem>Üretici Modülleri</xfsvdmItem>
+		<xfscoincdmItem>Bozuk Para Modülü</xfscoincdmItem>
+		<StartXFSMonitorItem>Agent Durum İzleme Başlat</StartXFSMonitorItem>
+		<spdelayItem>SP Başlatmadan Bekle (Saniye)</spdelayItem>
+		<sendintervalItem>Durum İletim Sıklığı (Saniye)</sendintervalItem>
+		<agentPredefItem>Agent Tipi</agentPredefItem>
+		<agentPredefNote>Not: "#" ile işaretli alanlar değiştirilemez!</agentPredefNote>
+		<addAgentConfigManageForm>Agent Yapılandırma Bilgileri</addAgentConfigManageForm>
+		<hintOfInputTermid>Max. 100 ATM (;)(,) </hintOfInputTermid>
+		<speratedWithCommaSemicolonSpace>yada boşluk ile ayrılarak girilebilir.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>veya seçmek için tıklayın</hintOfClickButton>
+		<xfsbcrItem>Barkod tarayıcı</xfsbcrItem>
+		<xfsrfidcItem>RF Kart Okuyucu</xfsrfidcItem>
+		<monitorPalmVeinItem>Palm Ven Okuyucu</monitorPalmVeinItem>
+	</node>
+</nodes>

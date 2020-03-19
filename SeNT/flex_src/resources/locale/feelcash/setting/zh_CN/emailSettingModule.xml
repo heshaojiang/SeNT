@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "emailSettingModule">
+		<titleKey>发送邮箱参数设置</titleKey>
+		<userName>用户名:</userName>
+		<password>密码:</password>
+		<smtpHost>smtp服务器:</smtpHost>
+		<sendFrom>sendFrom:</sendFrom>
+		<timeout>超时时间:</timeout>
+	</node>
+</nodes>

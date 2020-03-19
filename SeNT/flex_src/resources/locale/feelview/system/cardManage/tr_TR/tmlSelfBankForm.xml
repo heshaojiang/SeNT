@@ -1,0 +1,17 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：self-help Bank Manage<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com  -->
+<nodes>
+	<node locale = "tmlSelfBankForm">
+	    <addTmlSelfBankForm>Self-servis Bankacılık Yönetimi Ekle</addTmlSelfBankForm>
+		<updateTmlSelfBankForm>Self-servis Bankacılık Yönetimi Değiştir</updateTmlSelfBankForm>
+		<orgIdItem>Şube:</orgIdItem>
+		<bankCodeItem>Banka Kodu:</bankCodeItem>
+		<bankNameItem>Banka Adı:</bankNameItem>
+		<addressItem>Adres:</addressItem>
+		<installTypeItem>Kurulum Türü:</installTypeItem>
+		<status>Durum:</status>
+	</node>
+</nodes>

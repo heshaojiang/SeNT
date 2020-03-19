@@ -1,0 +1,60 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "cmlStrideTransferRecordForm">
+		<addCmlStrideTransferRecordForm>新增</addCmlStrideTransferRecordForm>
+		<updateCmlStrideTransferRecordForm>编辑</updateCmlStrideTransferRecordForm>
+
+				
+		<cPartMonthdayItem>cPartMonthday：</cPartMonthdayItem>
+		
+				
+		<iIdItem>iId：</iIdItem>
+		
+				
+		<cBagCodeItem>cBagCode：</cBagCodeItem>
+		
+				
+		<cFromCodeItem>cFromCode：</cFromCodeItem>
+		
+				
+		<cCashTypeItem>cCashType：</cCashTypeItem>
+		
+				
+		<cPathcodeItem>cPathcode：</cPathcodeItem>
+		
+				
+		<cTranTimeItem>cTranTime：</cTranTimeItem>
+		
+				
+		<cCurrencyItem>cCurrency：</cCurrencyItem>
+		
+				
+		<iTdTranAmtItem>iTdTranAmt：</iTdTranAmtItem>
+		
+				
+		<cTranDateItem>cTranDate：</cTranDateItem>
+		
+				
+		<cBusinessTypeItem>cBusinessType：</cBusinessTypeItem>
+		
+				
+		<iCountItem>iCount：</iCountItem>
+		
+				
+		<cBankCodeItem>cBankCode：</cBankCodeItem>
+		
+				
+		<iVersionItem>iVersion：</iVersionItem>
+		
+				
+		<cReserveItem>cReserve：</cReserveItem>
+		
+		
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<helpTip>
+1.打“*”项内容不能为空
+2.账号不能重复复
+		</helpTip>			
+	</node>
+</nodes>

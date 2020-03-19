@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 银行管机员管理 
+	 Create Time：2011-8-19   
+	 Author：Ken.Hu 
+	 Email : hhquan@grgbanking.com -->
+<nodes>
+	<node locale = "termRelativeForm">
+		<addTermRelativePersonForm>新增</addTermRelativePersonForm>
+		<updateTermRelativePersonForm>编辑</updateTermRelativePersonForm>
+		<settingTermEquipmentForm>分配终端设备信息</settingTermEquipmentForm>
+		<managerIdItem>工号：</managerIdItem>
+		<personNameItem>   姓名：</personNameItem>
+		<traderNameItem>厂商名称：</traderNameItem>
+		<contactManItem>维护商：</contactManItem>
+		<corporatorOrgItem>所属机构：</corporatorOrgItem>
+		<contactTelItem>固定电话：</contactTelItem>
+		<contactMobileItem>移动电话：</contactMobileItem>
+		<workdayItem>值班日期：</workdayItem>
+		<workBeginTimeItem>上班时间：</workBeginTimeItem>
+		<workEndTimeItem>下班时间：</workEndTimeItem>
+		<email>邮箱地址：</email>
+		<address>厂商地址：</address>
+		<roleTypes>角色类型：</roleTypes>
+<!--		<tmlModelItem>终端型号：</tmlModelItem>-->
+		<tmlBrandItem>终端品牌：</tmlBrandItem>
+		<status>状态：</status>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<prompt>(如果有多个，用","隔开)</prompt>
+		<promptS>(如果有多个，用","隔开)</promptS>
+		<at>@</at>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>			
+	</node>
+</nodes>

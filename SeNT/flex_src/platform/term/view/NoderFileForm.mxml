@@ -1,0 +1,337 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 dataDictionaryPaths="{[DataDirConsts.YES_OR_NO, DataDirConsts.TERM_STATUS,NoderConsts.RUNNING_STATUS]}"
+				 paramPaths="{[NoderConsts.FEEL_DIST_PORT_DEFAULT, NoderConsts.CASH_LACK_NUM, NoderConsts.CASH_FULL_NUM]}"
+				 locale="noderFileForm"
+				 helpTips="termInfoHelp"
+				 titleKey="noderFileFormTitle"
+				 layout="vertical"
+				 xmlns:userDefined="platform.date.*"
+				 width="300" height="270"  
+				 >
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<!--
+	<fx:Binding source="uploadStarttime.selectedTime" destination="pm.uploadStarttime"/>
+	<fx:Binding source="uploadEndtime.selectedTime" destination="pm.uploadEndtime"/>
+	<fx:Binding source="bandWidth.text" destination="pm.bandwidth"/>-->
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.term.constants.NoderConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.NoderFileMsg;
+			import platform.term.pm.NoderFilePM;
+			import platform.term.view.TermSelectForm;
+			import platform.vo.term.TermBrandVo;
+			import platform.vo.term.TermModelVo;
+			import platform.vo.term.TermTypeVo;
+			
+			import sent.common.utils.DateUtils;
+			
+			import spark.events.IndexChangeEvent;
+			
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:NoderFilePM = new NoderFilePM();
+			
+			[Bindable]
+			private var fileType:IList;
+			
+			/**父级菜单**/
+			[Bindable]
+			public var parentName:String = "";
+			
+			[Bindable]
+			private var yesOrNo:ArrayCollection;
+			
+			[Bindable]
+			private var termStatus:ArrayCollection;
+			
+			[Bindable]
+			private var runningStatus:ArrayCollection;
+			
+			[Bindable]
+			private var noderFileSelectForm:NoderFileSelectForm;
+			
+			public function init():void
+			{ 
+				file_type.dataProvider=fileType;
+			}
+			
+			public function set ftype(p_fileType:IList)
+			{
+				fileType = ObjectUtil.copy(p_fileType) as IList;
+			}
+			
+//			override protected function getDataDictCallback():void
+//			{
+//				fileType = dataDictionaryCache[NoderConsts.NODER_FILE_TYPE];
+//			}
+			
+			public function set form2(selectForm:NoderFileSelectForm)
+			{
+				noderFileSelectForm = selectForm;
+			}
+			
+			override protected function getParamCallback():void
+			{
+				if(titleKey != TermLocalKeyConsts.ADD_TERMINFO_FORM)return;
+				/* pm.noderInfo.netPort = sysParams[NoderConsts.FEEL_DIST_PORT_DEFAULT].value; */
+				/* pm.noderInfo.cashLackNum = sysParams[NoderConsts.CASH_LACK_NUM].value;
+				pm.noderInfo.cashFullNum = sysParams[NoderConsts.CASH_FULL_NUM].value; */
+			}
+			
+			
+			
+			private function showError(arr:Array):void
+			{
+				for(var i:int = arr.length; 0 < i; i--)
+				{
+					var ui:UIComponent = arr[i-1];
+					ui.setFocus();
+				}
+				if(arr.length>0)
+				{
+					this.setFocus();
+					arr[i].setFocus();		
+				}
+			}
+			
+			public function checkNoderFileUpload():void
+			{
+				var msg:NoderFileMsg = new NoderFileMsg();
+				msg.type = "checkNoderFileUpload";
+				msg.args["fileType"] = file_type.selectedValue;
+				msg.args["noderId"] = pm.noderInfoVo.id;
+//				msg.args["tranData"] = uploadTime.selectedDate;
+				if(file_type.selectedValue == NoderConsts.NODER_FILE_TYPE_LOG)
+				{
+					msg.args["tranData"] = uploadTime.text;
+				}else
+				{
+					msg.args["tranData"] = NoderConsts.NODER_FILE_TYPE_FILE_DEFAULT;
+				}
+				sendMessage(msg);
+				
+			}
+			
+			[MessageHandler(selector="checkNoderFileUploadResult")]
+			public function checkNoderFileUploadHandler(p_msg:NoderFileMsg):void
+			{
+				var result:String = p_msg.result.toString();
+				
+				//当前文件状态为获取成功的情况
+				if(result == NoderConsts.NODER_FILE_STATUS_SUCCESS){
+//					AlertHandler.confirm(doSave,null,"success_tips");
+					Alert.show("文件已存在，是否需重新获取该远程文件？", 
+						"提示", Alert.YES|Alert.NO, this, doSave, null, Alert.NO);
+					
+				//当前文件状态为处理中的情况
+				}else if(result == NoderConsts.NODER_FILE_STATUS_HANDLE){
+					AlertHandler.alert("文件正在上传处理中，不允许获取");
+					return;
+				
+				//当前文件状态为获取失败的情况
+				}else if(result == NoderConsts.NODER_FILE_STATUS_FAILED){
+//					AlertHandler.confirm(doSave,null,"failed_tips");
+					Alert.show("该文件之前获取失败，是否需重新获取该远程文件？", 
+						"提示", Alert.YES|Alert.NO, this, doSave, null, Alert.NO);
+					
+				//当前文件状态为初始化或不存在记录的情况
+				}else{
+					save();
+				}
+			}
+			
+			function doSave(evt:CloseEvent):void
+			{
+				if (evt.detail == Alert.YES){
+					save();
+				}
+			}
+			
+			public function save():void
+			{
+				var msg:NoderFileMsg = new NoderFileMsg();
+				msg.type = "save";
+				msg.args["fileType"] = file_type.selectedValue;
+				msg.args["noderId"] = pm.noderInfoVo.id;
+				msg.args["orgCode"] = pm.noderInfoVo.orgCode;
+				if(file_type.selectedValue == NoderConsts.NODER_FILE_TYPE_LOG)
+				{
+					msg.args["tranData"] = uploadTime.text;
+				}else
+				{
+					msg.args["tranData"] = NoderConsts.NODER_FILE_TYPE_FILE_DEFAULT;
+				}
+				sendMessage(msg);
+			}
+			
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:NoderFileMsg):void
+			{
+				var result:Object = p_msg.result;
+				//已存在
+				if(result == "-1"){
+					AlertHandler.alert(LocaleConsts.NAME_ALREADY_EXISTED);
+					//将提交按钮置为有效
+//					submitBtn.enabled = true;
+//					submitBtn.mouseEnabled = true;
+				}
+				
+				this.cancel();
+				close();
+				
+				noderFileSelectForm.loadNoderFilePage();
+			}
+			
+			/**
+			 * save error handler
+			 */
+			[MessageHandler(selector="saveError")]
+			public function saveErrorHandler(p_msg:NoderFileMsg):void
+			{
+				//将提交按钮置为有效
+//				submitBtn.enabled = true;
+//				submitBtn.mouseEnabled = true;
+				AlertHandler.alert("异常");
+			}
+
+//			override protected function cancel():void
+//			{
+//				pm.cancel();
+//				close();
+//			}
+			 
+//			private function showExPropHandler(i:int):void
+//			{
+//				if(formContainer.x == 0 && i == 1)
+//				{
+//					showExPropEffect([formContainer], 0, -width);
+//					/* showExPropEffect([grgTileList], width, 0); */
+//				}
+//				else if(formContainer.x == -width && i==2)
+//				{
+//					showExPropEffect([formContainer], -width, 0);
+//					/* showExPropEffect([grgTileList], 0, width); */
+//				}
+//			} 
+			
+			private function drawCircle():UIComponent
+			{
+				var t:UIComponent= new UIComponent();
+				var circle:Sprite = new Sprite();
+				circle.graphics.lineStyle(2,0xffffff);
+				circle.graphics.drawCircle(16, 0, 11);
+				t.addChild(circle);
+				return t;  
+			} 
+
+
+			protected function file_type_changeHandler(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				var fileType:String = file_type.selectedValue;
+				if(fileType == NoderConsts.NODER_FILE_TYPE_LOG)
+				{
+					uploadTime.visible = true;
+					uploadTimeItem.visible = true;
+				}else
+				{
+					uploadTime.visible = false;
+					uploadTimeItem.visible = false;
+				}
+			}
+
+		]]>
+	</fx:Script>
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		
+			<grg:Form id="form"
+					  width="100%" height="50%"
+					  paddingTop="20"
+					  textAlign="center"
+					  borderVisible="false">
+				
+				<!--节点机IP：-->
+				<grg:FormItem id="netAddrItem" locale="netAddrItem" required="true" >
+					<grg:TextInput id="noderIP" name="noderIP" text="@{pm.noderInfoVo.noderIP}"
+								   width="150" maxnum="32" vtype="ip" required="true"
+								   maxChars="32" />
+				</grg:FormItem>
+
+				<!--所属机构：-->
+				<grg:FormItem id="org" locale="org" >
+					<grg:GRGComboBoxOrgTree id="orgid" defaultField="true"
+											width="110" 
+											textAlign="left"
+											treeHeight="150" enabled="false"/>
+				</grg:FormItem>
+				
+				<!-- 文件类型  -->
+				<grg:FormItem id="fileTypeLabel" locale="fileTypeLabel">
+					<grg:ComboBox id="file_type" hasAllItem="false" selectedIndex="1" 
+								  labelField="text" valueField="key" width="100" change="file_type_changeHandler(event)"/>
+				</grg:FormItem>				
+				
+				<!-- 日志日期  -->
+				<grg:FormItem id="uploadTimeItem" locale="uploadTime">
+					<userDefined:SuperDateField width="165" id="uploadTime"  myEnabled="false" selectedDate="{DateUtils.createDate(-1, 'yyyyMMdd')}"
+											  isShowTime="false" selectableRange="{{rangeEnd:DateUtils.createDate(-1, 'yyyyMMdd')}}"/>
+				</grg:FormItem>		
+				
+			</grg:Form>
+			
+	</s:Group>	 
+		
+	<s:HGroup  width="100%" gap="10" horizontalAlign="center" verticalAlign="middle">
+		<s:BorderContainer id="saveButton" height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn" click="checkNoderFileUpload()" locale="saveButton" iconVisible="false"/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button  click="cancel()" locale="cancelButton" iconVisible="false" />
+		</s:BorderContainer>
+	</s:HGroup> 
+	
+</grg:TitleWindow>
+

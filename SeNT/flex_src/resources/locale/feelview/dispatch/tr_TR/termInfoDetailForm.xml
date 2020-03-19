@@ -1,0 +1,60 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： termInfoDetailForm 
+	 Create Time：2011-11-21  上午09:32:35 
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termInfoDetailForm">
+		<showTermInfoDetailForm>Terminal Detay Bilgileri</showTermInfoDetailForm>
+		<showHisTermInfoDetailForm>Terminal Detay Bilgileri</showHisTermInfoDetailForm>
+		<termInfoFormDetail>Terminal Bilgileri</termInfoFormDetail>
+		<BaseInfo>Temel Bilgiler</BaseInfo>
+		<ExtendInfo>Detaylı Bilgi</ExtendInfo>
+		<ResponsibleInfo>Terminal Sorumlusu</ResponsibleInfo>
+		<groupItem>Sorumlu Grup</groupItem>
+		<roleItem>Rol</roleItem>
+		<responsibleNameItem>Adı Soyadı</responsibleNameItem>
+		<telePhoneItem>Telefon</telePhoneItem>
+		<mobilePhoneItem>Cep Telefonu</mobilePhoneItem>
+		<postItem>Posta Kodu</postItem>
+		<termIdItem>Terminal Id:</termIdItem>
+		<termNameItem>Terminal Adı:</termNameItem>
+		<termSEQItem>Seri Numarası:</termSEQItem>
+		<counterIdItem>Sayaç:</counterIdItem>
+		<termTypeItem>Terminal Tipi:</termTypeItem>
+		<brandItem>Marka:</brandItem>
+		<modelItem>Model:</modelItem>
+		<orgIdItem>Şube:</orgIdItem>
+		<areaIdItem>İl:</areaIdItem>
+		<netAddrItem>Terminal IP:</netAddrItem>
+		<netPortItem>Terminal Bağlantı Noktası (Port):</netPortItem>
+		<saveBoxItem>Para Yatırma:</saveBoxItem>
+		<cwdBoxItem>Para Çekme:</cwdBoxItem>
+		<instDateItem>Kurulum Tarihi:</instDateItem>
+		<activeDateItem>Açılma Tarihi:</activeDateItem>
+		<servStartDateItem>Bakım Başlama Tarihi:</servStartDateItem>
+		<servEndDateItem>Bakım Bitiş Tarihi:</servEndDateItem>
+		<servYearsItem>Bakım Süresi:</servYearsItem>
+		<termAddrItem>Adres:</termAddrItem>
+		<serviceTypeItem>Servis Tipi:</serviceTypeItem>
+		<instTypeItem>Montaj Tipi:</instTypeItem>
+		<layTypeItem>Yerleşim Tipi:</layTypeItem>
+		<isVideoWatchItem>Video:</isVideoWatchItem>
+		<isUPSItem>UPS:</isUPSItem>
+		<isInterATMItem>Uluslararası:</isInterATMItem>
+		<busiBeginTimeItem>Çalışma Saati (Başlangıç):</busiBeginTimeItem>
+		<busiEndTimeItem>Çalışma Saati (Bitiş):</busiEndTimeItem>
+		<softVersionItem>ATMC Sürüm No:</softVersionItem>
+		<spVersionItem>SP Sürüm No:</spVersionItem>
+		<operateButton>Tamam</operateButton>
+		<editeButton>Değiştir</editeButton>
+		<deleteButton>Sil</deleteButton>
+		<status>Durum:</status>
+		<termMaintainerItem>Terminal Bakım:</termMaintainerItem>
+		<termOperatorItem>Terminal Operatör:</termOperatorItem>
+		<termSupplierItem>Terminal Tedarikçi:</termSupplierItem>
+		<cashLackNumItem>Kaset Minimum Adet:</cashLackNumItem>
+		<cashFullNumItem>Kaset Maksimum Adet:</cashFullNumItem>
+		<isVIPItem>VIP:</isVIPItem>
+	</node>
+</nodes>

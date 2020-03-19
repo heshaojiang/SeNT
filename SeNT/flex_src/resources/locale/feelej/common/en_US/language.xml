@@ -1,0 +1,38 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="main">
+		<version>GRG FEEL Electronic Journal 1.0</version>
+	</node>
+	<!-- Button Start-->
+	<node locale="button">
+		<deleteImmediate>Remove To Recyclebin</deleteImmediate>
+		<deleteForever>Delete Forever</deleteForever>
+		<cleanrecyclegin>Clean Recyclebin</cleanrecyclegin>
+		<download>Download</download>
+		<print>Print</print>
+		<viewButton>View</viewButton>
+		<fetchImmediately>Fetch Immediately</fetchImmediately>
+        <backupButton>Backup</backupButton>
+	</node>
+	<!-- Button End-->
+	<!-- Components Start-->
+	<node locale="components">
+		<components.totalpage>Total Pages</components.totalpage>
+		<keyword>Keyword</keyword>
+	</node>
+	<!-- Components End-->
+	<node locale="image">
+		<viewButton>EJ Detail</viewButton>
+	</node>
+	<node locale="Msg">
+		<noMatchedItems>It has no matched items!</noMatchedItems>
+		<confirmClean>Confirm Clean The RecycleBin? It Will Never Be Rollback</confirmClean>
+		<vtype-int>The Input must be Int!</vtype-int>
+		<noSupportedExplore>Your browser does not support the script, print function will be disabled!</noSupportedExplore>
+		<downloadFileFail>Download EJ File Fail</downloadFileFail>
+		<confirmBackup>Confirm Backup?</confirmBackup>
+        <confirmContinue>There are (?1) journal file, Search key word may take a while, Suggest choose terminal and time before searching. Confirm to Continue?</confirmContinue>
+        <exportTips>Plean fetch EJ,then export EJ!</exportTips>
+		<timeAreaError>Begin time > End Time?</timeAreaError>
+	</node>
+</nodes>

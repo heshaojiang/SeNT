@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+ <nodes>
+     <node locale="cmlTaskInfosForm">
+     
+     <addTask>新增任务</addTask>
+     <tmlNum>设备编号</tmlNum>
+      <cmlconnect>所属清分交接： </cmlconnect>
+      <moneySource>钞票来源机构：</moneySource>
+           <taskNum>任务编号：</taskNum>
+           <boxNum>款箱编号： </boxNum>
+		<operatorName>清分员：</operatorName>
+           	<beforeCount>预清分金额：</beforeCount>
+           	<bindDate>绑定时间：</bindDate>
+			<to>至：</to>
+           <memo>备注：</memo>
+          <choose>选择</choose>
+         <success>新增任务成功</success>
+         <createTask>任务管理：</createTask>
+           <attention1>● 打“*”项目内容不能为空</attention1>
+         <errorbeforeCount>预清分金额不能大于清分总金额</errorbeforeCount>
+           	  <errortitle>提示：</errortitle>
+           		  
+  
+
+	
+  </node>
+</nodes>

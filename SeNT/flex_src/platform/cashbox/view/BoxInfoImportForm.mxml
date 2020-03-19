@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 creationComplete="init()"
+				 layout="vertical" width="400" height="200"
+				 locale="boxInfoForm">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.UIComponent;
+			
+			import platform.cashbox.message.BoxInfoMsg;
+			import platform.cashbox.pm.BoxInfoModulePM;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.util.StringUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.constants.OperationConsts;
+
+			
+			/** pm **/
+			[Inject]
+			[Bindable]
+			public var pm : BoxInfoModulePM;
+			private var file : FileReference;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			public function save():void{
+				if (VControl.validateAll(form, validators).length > 0){
+					//上传文件验证
+					if(filePath.text==""){
+						var msgAlert:String = langMgr.getExceptionMessage("exceptionMessage.pleaseSelectFileFirst");
+						AlertHandler.alert(msgAlert);
+						return;
+					}
+					if(file.size>30*1024*1024){ // 不能大于30M
+						AlertHandler.alert("uploadFileSizeError");
+						return ;
+					}
+				}
+				pm.importExcel(file.data);
+				close();
+			}
+			/**
+			 * refresh the layout if it was completed of import some org.
+			 */		
+			[MessageHandler(selector="importExcelSuccess")]
+			public function importExcelResultHandler(p_msg:BoxInfoMsg):void
+			{
+				close();
+			}
+			
+			//初始化时指定文件上传url及传递参数等
+			private function init():void{
+				file = new FileReference();
+				file.addEventListener(Event.SELECT, selectHandler);
+				file.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				file.addEventListener(Event.COMPLETE, completeHandler);
+			}
+			//选择上传文件
+			private function browseFile():void{
+				var fileTypeArr:Array = new Array();
+				fileTypeArr.push(getFileTypeFilter());
+				file.addEventListener(Event.SELECT, selectHandler);
+				file.browse(fileTypeArr);
+			}
+			//上传文件过滤
+			private function getFileTypeFilter():FileFilter {
+				return new FileFilter("*.*","*.xls");
+			}
+			
+			private function stSoftware(typeId:int):void{
+			}
+			
+			//选中文件
+			private function selectHandler(event:Event):void {	
+				filePath.text = file.name;
+				file.removeEventListener(Event.SELECT, selectHandler);
+				file.addEventListener(Event.COMPLETE, fileLoadedHandler);
+				file.load();
+			}
+			private function fileLoadedHandler(p_evt:Event):void
+			{
+				file.removeEventListener(Event.COMPLETE, fileLoadedHandler);
+			}
+			//上传错误
+			private function ioErrorHandler(event:IOErrorEvent):void {
+				AlertHandler.alert(resourceManager.getString('manager','upFileError'));
+			}
+			//上传完毕
+			private function completeHandler(event:Event):void {
+			}
+		]]>
+	</fx:Script>
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">		
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>		
+		<grg:Form id="form"
+				  width="60%" height="100%"
+				  paddingTop="30"
+				  textAlign="left"
+				  borderVisible="false">
+			<grg:FormItem id="uploadFileItem" locale="uploadFileItem" required="true" direction="horizontal">
+				<grg:TextInput id="filePath" width="150" required="true" editable="false" enabled="false"/>
+				<grg:Button id="CheckUploadDataFrm_browseBtn" locale="chooseButton" iconVisible="false" click="browseFile()"/>
+			</grg:FormItem>				
+		</grg:Form>
+	</s:Group>
+	<s:HGroup width="100%" gap="10"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="saveButton"
+						click = "save()"
+						locale = "saveButton" iconVisible="false"
+						/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click = "cancel()"
+				locale = "cancelButton" iconVisible="false"
+				/>
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   dataDictionaryPaths="{[CmlMgrConsts.FLOW_STAGE, CmlMgrConsts.FLOW_STATUS]}" 
+			   locale="addCashToATMOffBank"
+			   xmlns:userDefined="platform.date.*"
+			   layout="vertical" 
+			   width="100%" height="100%"
+			   creationComplete="creationCompleteHandler(event)"
+			   >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ValidationResultEvent;
+			import mx.utils.StringUtil;
+			import mx.validators.Validator;
+			
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.config.BoxInfoConfig;
+			import sent.transmgr.config.CmlNoteflowDetailInfoConfig;
+			import sent.transmgr.config.CmlNoteflowInfoConfig;
+			import sent.transmgr.config.CmlSentInfoConfig;
+			import sent.transmgr.constants.CmlMgrConsts;
+			import sent.transmgr.constants.CmlNoteflowDetailInfoConsts;
+			import sent.transmgr.message.CmlNoteflowDetailInfoMsg;
+			import sent.transmgr.pm.CmlNoteflowDetailInfoPM;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			
+			
+			[Bindable]
+			public var noteflowDetailPage:Page = new Page();
+			
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowDetailInfoPM:CmlNoteflowDetailInfoPM;
+			
+			[Inject]
+			[Bindable]
+			public var cmlSentInfoPM:CmlSentInfoPM;
+			
+			
+			
+			
+			
+			public function transformFlowStage(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = CmlMgrConsts.FLOW_STAGE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			public function transformFlowStatus(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = CmlMgrConsts.FLOW_STATUS;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			public function transformOperDate(p_item:Object, column:DataGridColumn):String
+			{
+				var date:String = p_item.date;
+				if( date==null )
+				{
+					return null;
+				}
+				return DateUtils.formatYYYYMMDDHHMISS(date);
+			}
+			
+			/**
+			 * 
+			 */
+			override public function dispose():void
+			{
+				trace("BranchFundInModule.dispose");
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			override protected function viewUpdateComplete():void
+			{
+				trace("BranchFundInModule.viewUpdateComplete");
+			}
+			
+			/**
+			 * 
+			 */
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				trace("BranchFundInModule.creationCompleteHandler");
+			}
+			
+			
+			protected function searchButtonClickHandler(event:MouseEvent):void
+			{
+				trace("BranchFundInModule.searchButtonClickHandler");
+				loadPage();
+			}
+			
+			/**
+			 * 
+			 */
+			private function validateQueryCondition():Boolean
+			{
+				trace("BranchFundInModule.validateQueryCondition");
+				var errors:Array = Validator.validateAll([validateStartTime, validateEndTime]);
+				if( errors.length>0 )
+				{
+					var error:ValidationResultEvent = errors[0] as ValidationResultEvent;
+					var validator:Validator = error.target as Validator;
+					var ui:UIComponent = validator.source as UIComponent;
+					ui.setFocus();
+					return false;
+				}
+				
+				return true;
+			}
+			
+			/**
+			 * 根据条件查询 
+			 */
+			protected function loadPage():void
+			{
+				trace("BranchFundInModule.loadPage");
+				if( validateQueryCondition() )
+				{
+					var parameter:Object = {};
+					
+					parameter.page = noteflowDetailPage;
+					
+					var condition:Object = {};
+					condition.startTime  = this.startTime.text;
+					condition.endTime    = this.endTime.text;
+					condition.flowStage  = [CmlNoteflowDetailInfoConsts.FLOW_STAGE_ATM_ADD_CASH];            // ATM加钞
+					condition.cashboxNum = this.cashboxNum.text;
+					condition.atmNum     = this.atmNum.text;
+					condition.operator   = this.operator.text;
+					condition.orgId      = this.orgId.selectedValue;
+					condition.flag=isLoopOrg.selected.toString();
+					
+					parameter.condition = condition;
+					
+					var msg:CmlNoteflowDetailInfoMsg = new CmlNoteflowDetailInfoMsg();
+					msg.args["remoteMethod"]   = "queryCmlNoteflowDetailInfoPage";
+					msg.args["methodPrameter"] = parameter;
+					msg.args["resultHandler"]  = "BranchFundInModule.queryCmlNoteflowDetailInfoPageResult";
+					msg.args["errorHandler"]   = "BranchFundInModule.queryCmlNoteflowDetailInfoPageError";
+					
+					cmlNoteflowDetailInfoPM.sendCmlNoteflowDetailInfoMsg(msg);
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="BranchFundInModule.queryCmlNoteflowDetailInfoPageResult")]
+			public function queryCmlNoteflowDetailInfoPageResult(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("BranchFundInModule.queryCmlNoteflowDetailInfoPageResult");
+				noteflowDetailPage = msg.result as Page;
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="BranchFundInModule.queryCmlNoteflowDetailInfoPageError")]
+			public function queryCmlNoteflowDetailInfoPageError(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				trace("BranchFundInModule.queryCmlNoteflowDetailInfoPageError");
+				trace(msg.result);
+			}
+			
+			
+			/**
+			 * ATM加钞
+			 */
+			public function addCashBoxToATM():void
+			{
+				trace("BranchFundInModule.addCashBoxToATM");
+				var win:AddCashForm = new AddCashForm();
+				win.addEventListener(CloseEvent.CLOSE, onFormWindowClosed);
+				
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+			}
+			
+	
+	
+			
+			/**
+			 * 
+			 */
+			protected function onFormWindowClosed(event:CloseEvent):void
+			{
+				trace("BranchFundInModule.onFormWindowClosed");
+				loadPage();
+			}
+			
+			/**
+			 * 
+			 */
+			public function viewRowDetailInfo():void
+			{
+				trace("BranchFundInModule.viewRowDetailInfo");
+				var vo:Object = dataGrid.selectedItem;
+				if( StringUtil.trim(vo.barcodeFlowNum)!="" )
+				{
+					// 查看流转信息的窗口
+					var win:ShowCmlNoteflowInfo = new ShowCmlNoteflowInfo();
+					
+					_context.viewManager.addViewRoot(win);
+					PopUpManager.showForm4Parsley(win);
+					
+					win.initData(vo.barcodeFlowNum);
+				}
+				else
+				{
+					// 查看钱箱流转信息的窗口
+					var cashboxflowInfoForm:ShowCashboxFlowInfoForm = new ShowCashboxFlowInfoForm();
+					cashboxflowInfoForm.boxNum = vo.barcode1;
+					_context.viewManager.addViewRoot(cashboxflowInfoForm);
+					PopUpManager.showForm4Parsley(cashboxflowInfoForm);
+					cashboxflowInfoForm.init();
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			public function viewMoneyBoxFlowInfo():void
+			{
+				trace("BranchFundInModule.viewMoneyBoxFlowInfo");
+				//查看钱箱流转信息的窗口
+			/* 	var vo:Object = dataGrid.selectedItem as Object;
+				var cashboxflowInfoForm:ShowCashboxFlowInfoForm = new ShowCashboxFlowInfoForm();
+				cashboxflowInfoForm.boxNum = vo.barcode1;
+				_context.viewManager.addViewRoot(cashboxflowInfoForm);
+				PopUpManager.showForm4Parsley(cashboxflowInfoForm);
+				cashboxflowInfoForm.init(); */
+				var obj:Object = dataGrid.selectedItem as Object;
+				
+				if( StringUtil.trim(obj.barcodeFlowNum)!="" ||StringUtil.trim(obj.barcodeFlowNum)!=null)
+				{
+					//查看流转信息的窗口
+					var win:TabWinForm=new TabWinForm();
+					
+					_context.viewManager.addViewRoot(win);
+					PopUpManager.showForm4Parsley(win);
+					
+					//win.initData2(obj.cmlNoteflowInfo.id,obj.barcodeFlowNum,obj.clearingDate);
+					win.initData2("",obj.barcodeFlowNum,obj.clearingDate,obj.date);
+
+				}
+			
+			
+			}
+			
+			public function initSelectDate():void
+			{
+				startTime.selectedDate = DateUtils.createDate(-6, 'yyyyMMdd');
+				endTime.selectedDate = DateUtils.createDate(1, 'yyyyMMdd');
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="BranchFundInModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="BranchFundInModule"/>
+			<parsley:FlexConfig type="{CmlNoteflowInfoConfig}"/>
+			<parsley:FlexConfig type="{CmlNoteflowDetailInfoConfig}"/>
+			<parsley:FlexConfig type="{CmlSentInfoConfig}"/>
+			<parsley:FlexConfig type="{BoxInfoConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Declarations>
+		<mx:StringValidator id="validateStartTime" source="{startTime}" property="text" required="true" /> 
+		<mx:StringValidator id="validateEndTime"   source="{endTime}"   property="text" required="true" />
+	</fx:Declarations>
+	
+	<s:BorderContainer width="100%" height="100%" borderVisible="false">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0" paddingTop="0"/>
+		</s:layout>
+		
+		<grg:AdvancedSearchBar textAlign="center" styleName="SearchBar" borderVisible="false">
+			
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" paddingBottom="0" gap="0" />
+			</grg:layout>
+			
+			<!-- 搜索的第一行 -->
+			<mx:HBox width="100%" height="30"
+					 paddingLeft="10" paddingTop="4" paddingBottom="0" paddingRight="10" 
+					 verticalAlign="top">
+				
+				<!--网点资金调入-->
+				<grg:TitleBar id="titleMgr" locale="titlemsg" width="50%" />
+				
+				<mx:HBox paddingLeft="5" paddingRight="2" paddingTop="2" paddingBottom="2" 
+						 horizontalGap="0" verticalAlign="middle" 
+						 backgroundColor="#E4E4E4" cornerRadius="4">
+					
+					<!--是否循环遍历子机构：-->
+					<grg:CheckBox id="isLoopOrg" selected="true">
+					</grg:CheckBox>
+
+					
+					<!-- 所属机构 -->
+					<grg:Label locale="organizationColon"/>
+					<grg:GRGComboBoxOrgTree id="orgId" defaultField="true" width="120" textAlign="left" treeHeight="300" />
+					
+					<!-- 操作日期 -->
+					<grg:Label locale="operDateColon" />
+					<userDefined:SuperDateField id="startTime" required="true" 
+										selectedDate="{DateUtils.createDate(-6, 'yyyyMMdd')}"
+										selectableRange="{{rangeEnd:endTime.selectedDate}}"/>
+					<s:Spacer width="5" />
+					<grg:Label locale="to" />
+					<s:Spacer width="5" />
+					<userDefined:SuperDateField id="endTime" required="true" 
+										selectedDate="{DateUtils.createDate(1, 'yyyyMMdd')}"
+										selectableRange="{{rangeStart:startTime.selectedDate}}"/>
+					<s:Spacer width="10" />
+					
+					<!-- 钱箱号 -->
+					<grg:Label locale="moneyBoxNumColon"/>
+					<grg:TextInput id="cashboxNum" textAlign="left" width="100" height="20" styleName="TextInput" />
+					<s:Spacer width="10" />
+					
+					<!-- ATM编号 -->
+					<grg:Label locale="atmNunColon" />
+					<grg:TextInput id="atmNum" restrict="0-9a-zA-Z\-" width="100" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />
+					<s:Spacer width="10" />
+					
+					<!-- 查询、高级、重置等按钮 -->
+					<grg:SearchButton id="btn_search" menuId="{menu.id}" locale="searchButton" iconType="query" click="noteflowDetailPage.pageNo=1;searchButtonClickHandler(event)" />
+					<s:Spacer width="2" />
+					<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/>
+					<s:Spacer width="2" />
+					<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" click="initSelectDate()"
+									 resetControls="{[this.cashboxNum, this.atmNum, this.operator, this.orgId]}"/>
+					
+				</mx:HBox>
+				
+			</mx:HBox>
+			
+			<!-- 高级搜索 -->
+			<s:BorderContainer width="100%" borderVisible="false" borderWeight="0">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingTop="0" paddingBottom="0" />
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="4" borderVisible="false" borderWeight="0"
+								   backgroundImage="@Embed(source='resources/theme/newui/more_search.png')">
+				</s:BorderContainer>
+				
+				<s:BorderContainer width="100%" backgroundAlpha="0" borderWeight="0" borderVisible="false">
+					
+					<s:layout>
+						<s:HorizontalLayout gap="0" paddingLeft="10" paddingRight="10" horizontalAlign="right" verticalAlign="middle" />
+					</s:layout>
+					
+					<!-- 操作人 -->
+					<grg:Label locale="operatorColon" />
+					<grg:TextInput id="operator" restrict="0-9a-zA-Z*-_" width="100" height="20" maxnum="32"
+								   textAlign="left" styleName="TextInput" />
+					<s:Spacer width="10" />
+					
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+			
+		</grg:AdvancedSearchBar>
+		
+		<!-- 中间按钮部份 -->
+		<mx:HBox width="100%" height="29" verticalAlign="top" paddingTop="1" paddingLeft="10">
+			<s:BorderContainer height="26" borderVisible="false" cornerRadius="5" backgroundColor="#e4e4e4">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:GRGModuleButtonBar2 align="center" menuId="{menu.id}">
+					<!--ATM加钞-->
+					<grg:Button id="addCashBoxToATMBtn" locale="addCashBoxToATM" privilegeCode="addCashBoxToATM"
+								icon="@Embed('/resources/theme/newui/input.png')" click="addCashBoxToATM()" />
+					<s:Spacer width="5" />
+				</grg:GRGModuleButtonBar2>
+			</s:BorderContainer>
+		</mx:HBox>
+		
+		<!-- 表格部份  -->
+		<grg:DataGrid id="dataGrid" dataProvider="{noteflowDetailPage.result}"
+					  width="100%" height="100%" textAlign="center" styleName="DataGrid">
+			<grg:columns>
+				<!--ATM号-->
+				<grg:DataGridColumn locale="atmNum"         dataField="barcode2"        />
+				<!--钞箱号-->
+				<grg:DataGridColumn locale="cashboxNum"     dataField="barcode1"        />
+				
+				<!--所属机构-->
+				<grg:RODataGridColumn labelField="orgName"
+									  locale="orgName" 
+									  dataField="pathCode"
+									  valueField="pathCode"
+									  service="orgInfoService"
+									  method="getAllOrg" 
+									  textAlign="center"
+									   />
+				<!--资金调入类型-->
+				<grg:DataGridColumn locale="totalNotes" dataField="cmlNoteflowInfo.statisAmt"  />
+				<!--当前所处阶段-->
+				<grg:DataGridColumn locale="flowStage"     dataField="flowStage"       labelFunction="{transformFlowStage}" />
+				
+				<!--流转条码-->
+				<!--<grg:DataGridColumn locale="barcodeFlowNum" dataField="barcodeFlowNum"  />-->
+				<!--当前所处阶段-->
+			<!--	<grg:DataGridColumn locale="currFlowStage"  dataField="baseFlowStage"  width="55" labelFunction="{transformFlowStage}" />-->
+				
+				<!--状态-->
+			<!--	<grg:DataGridColumn locale="status"         dataField="status"         width="55" labelFunction="{transformFlowStatus}" />-->
+				<!--操作人-->
+				<grg:DataGridColumn locale="operator"       dataField="operator"        />
+				<!--<grg:DataGridColumn locale="totalNotes" dataField="totalNotes" />-->
+				<!--操作时间-->
+				<grg:DataGridColumn locale="operDate"       dataField="date"            labelFunction="{transformOperDate}" />
+				<!--操作-->
+				<grg:DataGridColumn locale="operations" width="55" fontWeight="normal" textAlign="center">
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXDataGridItemRenderer>
+								<!--<grg:GRGModuleButtonBar barType="icon" menuId="{parentDocument.menu.id}"/>-->
+								<grg:GRGModuleButtonBar2 width="100%" height="16" align="center" menuId="{parentDocument.menu.id}">
+									<!--查看详情-->
+									<!--<grg:Image id="viewRowDetailInfoBtn" privilegeCode="viewRowDetailInfo"
+											   source="@Embed('/resources/theme/images/icons/detail.png')" 
+											   locale="viewRowDetailInfo" width="16" height="16"
+											   click="parentDocument.viewRowDetailInfo()" />-->
+									<!--查看钱箱流转详情-->
+								<!--	<grg:Image id="viewMoneyBoxFlowInfoBtn" privilegeCode="viewMoneyBoxFlowInfo"
+											   source="@Embed('/resources/theme/images/icons/detail2.png')" 
+											   locale="viewMoneyBoxFlowInfo" width="16" height="16"
+											   click="parentDocument.viewMoneyBoxFlowInfo()" />-->
+									<grg:Image id="viewMoneyBoxFlowInfoBtn" privilegeCode="viewMoneyBoxFlowInfo"
+											   source="@Embed('/resources/theme/images/icons/detail2.png')" 
+											   locale="viewMoneyBoxFlowInfo" width="16" height="16"
+											   click="parentDocument.viewMoneyBoxFlowInfo()" />
+								</grg:GRGModuleButtonBar2>
+							</s:MXDataGridItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+			</grg:columns>
+		</grg:DataGrid>
+		
+		<!-- 分页栏 -->
+		<grg:PageNavigatorBar id="buttonPagingBar" bottom="0" pageVo="{noteflowDetailPage}" pagingFunction="{loadPage}" />
+		
+	</s:BorderContainer>
+	
+</grg:TabModule>

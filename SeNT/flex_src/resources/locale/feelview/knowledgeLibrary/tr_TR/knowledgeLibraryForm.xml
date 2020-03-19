@@ -1,0 +1,11 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "knowledgeLibraryForm">
+		<addAssetInputForm>Bilgi Ekle</addAssetInputForm>
+		<updateAssetInputForm>Bilgi Düzenle</updateAssetInputForm>
+		<tittleItem>Konu</tittleItem>
+		<contentItem>İçerik</contentItem>
+		<uploadItem>Yükle</uploadItem>
+		<browse>Gözat</browse>
+	</node>
+</nodes>

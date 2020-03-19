@@ -1,0 +1,105 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  receTerminalFile：接收终端文件
+	 Create Time：2011-9-19   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com  -->
+<nodes>
+	<node locale = "longdistanceExecuteScriptForm">
+		<addReceTerminalFileForm>新增</addReceTerminalFileForm>
+		<viewReceTerminalFileForm>详情</viewReceTerminalFileForm>
+		<updateReceTerminalFileForm>修改分发服务器配置信息</updateReceTerminalFileForm>
+		<planidItem>计划id</planidItem>
+		<createtimeItem>创建时间：</createtimeItem>
+		<repeattypeItem>计划类型：</repeattypeItem>
+		<everydayexetimeItem>每天执行时间：</everydayexetimeItem>
+		<repeatintervalItem>每次间隔时间：</repeatintervalItem>
+		<plannameItem>计划名称：</plannameItem>
+		<nextexecutetimeItem>执行时间：</nextexecutetimeItem>
+		<termidlistItem>终端编号：</termidlistItem>
+		<taskparaItem>任务指令：</taskparaItem>
+		<taskparaversionItem>任务指令版本：</taskparaversionItem>
+		<maxretrytimesItem>最大重试次数：</maxretrytimesItem>
+		<retryintervalItem>重试秒数：</retryintervalItem>
+		<enabledItem>是否可用：</enabledItem>
+		<termtypeItem>终端类型：</termtypeItem>
+		<modelItem>ATM型号：</modelItem>
+		<orgidItem>机构：</orgidItem>
+		<areaidItem>区域：</areaidItem>
+		<brandItem>终端品牌：</brandItem>
+		<timeoutintervalItem>任务超时时间(小时)：</timeoutintervalItem>
+		<predefgroupItem>路径通配符预定义组：</predefgroupItem>
+		<filepathItem>(ATM上)上传路径：</filepathItem>
+		<filepathItem1>(ATM上)执行脚本路径：</filepathItem1>
+		<filepathItem2>(ATM上)文件路径：</filepathItem2>
+		<wildcardItem>通配符：</wildcardItem>
+		<fileedittimestartItem>文件修改起始时间：</fileedittimestartItem>
+		<fileedittimeendItem>文件修改结束时间：</fileedittimeendItem>
+		<fileSizeFromItem>文件起始大小(byte)：</fileSizeFromItem>
+		<fileSizeEndItem>文件结束大小(byte)：</fileSizeEndItem>
+		<searchtypeItem>搜索类型：</searchtypeItem>
+		<cmpTypeItem>比较类型：</cmpTypeItem>
+		<includeSubDirItem>是否包含子目录：</includeSubDirItem>
+		<BaseInfo>基础信息</BaseInfo>
+		<receTerminalFileInfo>终端文件参数信息</receTerminalFileInfo>
+		<serverFileNameItem>服务器保存文件名：</serverFileNameItem>
+		<userCodeItem>上传用户：</userCodeItem>
+		<hintOfInputTermid>直接输入终端编号，最多可输入900个字符</hintOfInputTermid>
+		<speratedWithCommaSemicolonSpace>请以空格、英文分号、英文逗号分隔</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>或点击按钮进行选择</hintOfClickButton>
+		
+		<processPathItem>文件路径：</processPathItem>
+		<processPathItem1>进程路径：</processPathItem1>
+		<processPathItem2>进程名称：</processPathItem2>
+		<disposeTypeItem>处理类型：</disposeTypeItem>
+		<uploadFileItem>上传文件：</uploadFileItem>
+		<filePathItem>下发文件路径：</filePathItem>
+		<startrunfileItem>下发后启动运行该文件：</startrunfileItem>
+		<needRestartItem>完成交易后重启：</needRestartItem>
+		
+		<addLongdistanceExecuteScriptForm>新增</addLongdistanceExecuteScriptForm>
+		<addLongdistanceDisposeProcessForm>新增</addLongdistanceDisposeProcessForm>
+		<addLongdistanceDelFileForm>新增</addLongdistanceDelFileForm>
+		<addReceMachineLogForm>新增</addReceMachineLogForm>
+		<addSendFileToTerminalForm>新增</addSendFileToTerminalForm>
+		
+		<viewLongdistanceExecuteScriptForm>详情</viewLongdistanceExecuteScriptForm>
+		<viewLongdistanceDisposeProcessForm>详情</viewLongdistanceDisposeProcessForm>
+		<viewLongdistanceDelFileForm>详情</viewLongdistanceDelFileForm>
+		<viewReceMachineLogForm>详情</viewReceMachineLogForm>
+		<viewSendFileToTerminalForm>详情</viewSendFileToTerminalForm>
+		<viewExecutSrciptForm>详情</viewExecutSrciptForm>
+		<viewDisposeProcessForm>详情</viewDisposeProcessForm>
+		<viewTestForm>详情</viewTestForm>
+		<viewRestartForm>详情</viewRestartForm>
+		<viewRestoreForm>详情</viewRestoreForm>
+		<viewResetForm>详情</viewResetForm>
+		<viewReceiveForm>详情</viewReceiveForm>
+		
+		<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+		<longDistanceHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+3.执行时间可以设置在当前时间以后，表示推迟执行
+4.处理类型选择“启动进程”时，必须填写进程的完整路径；选择“终止进程”时，只需填写进程名。区分大小写。每次只能填写一个进程
+		</longDistanceHelp>
+		<receTerminalHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+		</receTerminalHelp>
+		<sendFileToTerminalHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+3.从本地选择要下发到ATM的上传文件，最大不能超过30M
+4.服务器保存文件名是文件下发到服务器后，更改为的保存文件名
+5.上传路径指定把文件下发到那个目录
+6.勾选下发后启动运行该文件，文件在下发后不带参数运行该文件
+7.勾选完成交易后重启，表示文件下发完后，将通知ATMC重启电脑
+		</sendFileToTerminalHelp>
+		<longdistanceHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+3.执行脚本路径填写要启动的脚本的完整路径，支持.cmd，.bat两种格式
+		</longdistanceHelp>
+		<delFileHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+		</delFileHelp>
+		<predefgroupName>人工输入</predefgroupName>
+	</node>
+</nodes>

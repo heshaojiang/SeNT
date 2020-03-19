@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="checkPlanDifferenceModule">
+		<submitCashPlan>您确定将已选择的计划提交审核 ?
+		</submitCashPlan>
+		<noCashPlanSelected>未选择计划，请先选择计划，再添加终端加钞信息。</noCashPlanSelected>
+		<planCode>计划编号</planCode>
+		<planCodeLabel>计 划 编 号 :</planCodeLabel>
+		<planStatus>计划状态</planStatus>
+		<planStatusLabel>计 划 状 态 :</planStatusLabel>
+		<planDate>加钞日期</planDate>
+		<planDateLabel>加 钞 日 期 :</planDateLabel>
+		<planDate>加钞日期</planDate>
+		<createDate>创建时间</createDate>
+		<createDateLabel>创 建 时 间 :</createDateLabel>
+		<modifiedDate>修改时间</modifiedDate>
+		<modifiedDateLabel>修 改 时 间 :</modifiedDateLabel>
+		<submitAuditDateLabel>提交时间 :</submitAuditDateLabel>
+		<submitAuditDate>提交时间</submitAuditDate>
+		<orderDateLabel>预约时间 :</orderDateLabel>
+		<orderDate>预约时间</orderDate>
+		<finishedDateLabel>结束时间 :</finishedDateLabel>
+		<finishedDate>结束时间</finishedDate>
+		<auditDateLabel>审核时间 :</auditDateLabel>
+		<confirmDate>现金确认时间</confirmDate>
+		<confirmDateLabel>现金确认时间 :</confirmDateLabel>
+		<remarkLabel>备 注 :</remarkLabel>
+		<totalAmountLabel>计划总金额 :</totalAmountLabel>
+		<actualTotalAmountLabel>实际加钞总金额 :</actualTotalAmountLabel>
+		<differenceTermsLabel>差异终端台数 :</differenceTermsLabel>
+		<totalAmount>计划总金额(万元)</totalAmount>
+		<totalTermsLabel>终端总数量 :</totalTermsLabel>
+		<totalTerms>终端总数量</totalTerms>
+		<remark>备注</remark>
+		<auditDate>审核时间</auditDate>
+		<planTypeLabel>计 划 类 型 :</planTypeLabel>
+		<planType>计划类型</planType>
+		<cashPlanDetail-p>计划编号为[</cashPlanDetail-p>
+		<cashInfoDetail-p>终端编号为[</cashInfoDetail-p>
+		<cashPlanDetail-l>]的详细信息</cashPlanDetail-l>
+		<cashInfoDetail-l>]的加钞信息</cashInfoDetail-l>
+		<terminalId>终端编号</terminalId>
+		<balance>预计加钞日末余额</balance>
+		<originalLabel>机构:</originalLabel>
+		<terminalIdLabel>终端编号 :</terminalIdLabel>
+		<termSEQLabel>设备序列号 :</termSEQLabel>
+		<termTypeLabel>设备类型 :</termTypeLabel>
+		<brandNameLabel>设备品牌 :</brandNameLabel>
+		<modelNameLabel>设备型号 :</modelNameLabel>
+		<companyNameLabel>制造厂商 :</companyNameLabel>
+		<orgNameLabel>所属机构 :</orgNameLabel>
+		<areaNameLabel>所属区域 :</areaNameLabel>
+		<termAddrLabel>安装地址 :</termAddrLabel>
+		<instDateLabel>安装日期 :</instDateLabel>
+		<activeDateLabel>开通日期 :</activeDateLabel>
+		<servYearsLabel>维护年限 :</servYearsLabel>
+		<balanceLabel>预计加钞日末余额 :</balanceLabel>
+		<backCashAmountLabel>回笼金额:</backCashAmountLabel>
+		<environmentStatusLabel>周边环境:</environmentStatusLabel>
+		<differenceTypeLabel>差异类型:</differenceTypeLabel>
+		<actualAddCashDateLabel>加钞时间:</actualAddCashDateLabel>
+		<currentInfo>本期信息</currentInfo>
+		<sysGenerateAmountLabel>系统生成金额 :</sysGenerateAmountLabel>
+		<sysSuggestAmountLabel>系统建议金额 :</sysSuggestAmountLabel>
+		<planAmountLabel>计划加钞金额 :</planAmountLabel>
+
+		<beforeLastInfo>历史信息</beforeLastInfo>
+		<lastBalanceLabel>回笼金额:</lastBalanceLabel>
+		<lastPlanAmountLabel>计划金额 :</lastPlanAmountLabel>
+		<lastActualAmountLabel>实际金额 :</lastActualAmountLabel>
+		<lastKeepDaysLabel>计划天数 :</lastKeepDaysLabel>
+		<lastActualKeepDaysLabel>实际天数 :</lastActualKeepDaysLabel>
+		<differenceRateLabel>误差率 :</differenceRateLabel>		
+
+		<actualAmountLabel>实际加钞金额 :</actualAmountLabel>
+		<actualKeepDaysLabel>实际维持天数 :</actualKeepDaysLabel>
+		<keepDaysLabel>计划维持天数 :</keepDaysLabel>
+		<todoPlans>待办计划</todoPlans>
+		<finishedPlans>差异计划列表</finishedPlans>
+		<planTerms>]的终端加钞信息列表-</planTerms>
+		<planTermInfo>终端信息</planTermInfo>
+		<sysGenerateAmount>系统生成金额(元)</sysGenerateAmount>
+		<sysSuggestAmount>系统建议金额(万元)</sysSuggestAmount>
+		<planAmount>计划加钞金额(万元)</planAmount>
+		<keepDays>支持天数</keepDays>
+		<term-quantity-unit>台</term-quantity-unit>
+		<monetary-wy-unit>万元</monetary-wy-unit>
+		<monetary-unit>元</monetary-unit>
+		<date-unit>天</date-unit>
+		<differenceTerms>差异终端数(台)</differenceTerms>
+		<unDifferenceTerms>无差异终端数(台)</unDifferenceTerms>
+		<actualTotalAmount>实际加钞总额(万元)</actualTotalAmount>
+		<actualAmount>实际加钞金额(万元)</actualAmount>
+		<backCashAmount>回笼金额(元)</backCashAmount>
+		<differenceRate>差异率(%)</differenceRate>
+		<differenceType>差异类型</differenceType>
+		<operation>操作</operation>
+		<termModel>终端型号</termModel>
+		<orgName>所属机构</orgName>
+		<termAddress>安装地址</termAddress>
+		<actualAddCashDate>实际加钞时间</actualAddCashDate>
+		<environmentStatus>周边环境状态</environmentStatus>
+		<normalDayAmount>平常日交易量</normalDayAmount>
+		<weekendAmount>周末交易量</weekendAmount>
+		<holidayAmount>假期交易量</holidayAmount>
+		<avgAmount>平均交易量</avgAmount>
+		<auditRejectDateLabel>审核驳回时间 :</auditRejectDateLabel>
+		<cashConfirmRejectDateLabel>现金驳回时间 :</cashConfirmRejectDateLabel>
+		<suggestionLabel>意见 :</suggestionLabel>
+		<normalDayAmountLabel>平常日交易金额 :</normalDayAmountLabel>
+		<weekendAmountLabel>周末交易金额 :</weekendAmountLabel>
+		<holidayAmountLabel>节假日交易金额 :</holidayAmountLabel>
+		<avgAmountLabel>日均交易金额 :</avgAmountLabel>
+		<planNormalInfo>计划信息</planNormalInfo>
+		<planWorkflowInfo>流程信息</planWorkflowInfo>
+		<cashiInfoNormal>终端信息</cashiInfoNormal>
+		<cashiInfoAdvance>终端交易信息</cashiInfoAdvance>
+		<lastDifferenceRateLabel>上期误差率 :</lastDifferenceRateLabel>
+		<cashOrderDate>预约时间</cashOrderDate>
+		<finishedOperation>办结计划</finishedOperation>
+		<checkDifferenceOperation>核查差异</checkDifferenceOperation>
+		<rate-unit>%</rate-unit>
+	</node>
+</nodes>

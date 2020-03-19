@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termBrandAmountModule">
+		<listTitle>list</listTitle>
+		<org>orgName:</org>
+		<type>termType</type>
+		<brand>brand:</brand>
+		<model>model</model>
+		<instType>instType</instType>
+		<typeSum>typeSum</typeSum>
+		<typePercent>typePercent</typePercent>
+		<brandSum>brandSum</brandSum>
+		<brandPersent>brandPersent</brandPersent>
+		<export>export</export>
+	</node>
+</nodes>

@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="txnMoneyJamModule">
+		<listTitle>卡钞报表</listTitle>
+		<termIdItem>终端编号</termIdItem>
+		<deviceType>机芯</deviceType>
+		<beginTime>开始时间</beginTime>
+		<endTime>结束时间</endTime>
+		<dispTotalCountItem>取款次数</dispTotalCountItem>
+		<dispMoneyJamItem>取款卡钞次数</dispMoneyJamItem>
+		<dispRateItem>取款卡钞比率</dispRateItem>
+		<depTotalCountItem>存款次数</depTotalCountItem>
+		<depMoneyJamItem>存款卡钞次数</depMoneyJamItem>
+		<depRateItem>存款卡钞比率</depRateItem>
+		<totalRateItem>总比率</totalRateItem>
+		<org>所属机构</org>
+		<areaIdItem>所属区域</areaIdItem>
+	</node>
+</nodes>

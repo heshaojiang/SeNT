@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="integrityModule">
+		<journalDate>Integrity Check Date</journalDate>
+		<planDate>Plan Date</planDate>
+		<searchButton>Search</searchButton>
+		<termCode>Term Code</termCode>
+		<fetchstate>Fetch State</fetchstate>
+		<taskList>Task List</taskList>
+		<taskDetailInfo>Task Detail Info</taskDetailInfo>
+		<integrity>Integrity Information</integrity>
+		<atmCnt>ATM Number</atmCnt>
+		<successCnt>Success Number</successCnt>
+		<failCnt>Failure Number</failCnt>
+		<successRate>Success Rate</successRate>
+		<taskInfo>Task Info</taskInfo>
+		<operate>Operate</operate>
+		<to>TO</to>
+		<reFetchButton>Fetch Again</reFetchButton>
+		<success>Success</success>
+		<fail>Failure</fail>
+		<unexe>Not Execute</unexe>
+	</node>
+</nodes>

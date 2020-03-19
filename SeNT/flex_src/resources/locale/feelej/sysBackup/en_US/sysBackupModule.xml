@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="sysBackupModule">
+       <listTitle>Backup List</listTitle>
+       <beginTime>Begin Time</beginTime>
+       <endTime>End Time</endTime>
+	   <backupTime>Backup Time</backupTime>
+	   <backupPath>Backup Path</backupPath>
+	   <status>Status</status>
+	   <remark>Remark</remark>
+	   <dbmd5>DB MD5</dbmd5>
+	   <ejFilemd5>EJ File MD5</ejFilemd5>
+	</node>
+</nodes>

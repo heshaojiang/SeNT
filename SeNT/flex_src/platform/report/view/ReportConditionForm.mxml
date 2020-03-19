@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow locale="reportConditionForm" layout="vertical" width="500" height="360"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.manager.ExtendPropertiesManager;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.report.message.ReportConditionMsg;
+			import platform.report.pm.ReportConditionFormPM;
+			[Inject]
+			[Bindable]
+			public var pm:ReportConditionFormPM;
+			
+			//查询条件控件下拉列表项
+			[Bindable]
+			private var arrInputType:ArrayCollection = new ArrayCollection([{label: 'ComboBox' , value: 'ComboBox'} , {label: 'ComboBoxTree' , value: 'ComboBoxTree'}]);
+			//方法参数的数据类型下拉列表项
+			[Bindable]
+			private var arrParamType:ArrayCollection = new ArrayCollection([{label: 'String' , value: 'String'} , {label: 'Integer' , value: 'Integer'} , {label: 'Number' , value: 'Number'}, {label: 'Date' , value: 'Date'}, {label: 'Boolean' , value: 'Boolean'}]);
+			
+			//修改保存
+			protected function save():void
+			{
+				if (VControl.validateAll(form , validators).length > 0)
+				{
+					return;
+				}
+				pm.save();
+			}
+			
+			
+			//按照分层规范，保存返回之后不涉及数据模型的更新，由view层接受saveResult消息来关闭窗口
+			/**save success handler**/
+			[MessageHandler(selector="saveResult")]
+			public function saveBackHandler(p_msg:ReportConditionMsg):void
+			{
+				this.close();
+				
+			}
+		]]>
+	</fx:Script>
+	<grg:Form id="form"
+			  width="100%"
+			  height="100%"
+			  paddingTop = "16"
+			  textAlign = "left"
+			  borderVisible = "false">
+		
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "name"
+					  required = "true">
+			<grg:TextInput id="name1"
+						   text = "@{pm.vo.name}"
+						   width="100%"
+						   maxnum = "50"
+						   vtype = "maxchars" />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "control">
+			<grg:ComboBox id="control"
+						  dataProvider = "{arrInputType}"
+						  selectedValue = "@{pm.vo.control}"
+						  width="100%"
+						  labelField = "label"
+						  valueField = "value" />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "service"
+					  required = "true">
+			<grg:TextInput id="service"
+						   text = "@{pm.vo.service}"
+						   width="100%"
+						   maxnum = "50"
+						   vtype = "maxchars" />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "method"
+					  required = "true">
+			<grg:TextInput id="method"
+						   text = "@{pm.vo.method}"
+						   width="100%"
+						   maxnum = "50"
+						   vtype = "maxchars" />
+		</grg:FormItem>
+		<grg:FormItem width="100%" required = "true"
+					  textAlign = "left"
+					  locale = "paramDatatype">
+			<grg:TextInput id="paramDatatype" required = "true"
+						   text = "@{pm.vo.paramDatatype}"
+						   width="100%"
+						   maxnum = "300"
+						   vtype = "maxchars" />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "key"
+					  required = "true">
+			<grg:TextInput id="key"
+						   text = "@{pm.vo.key}"
+						   width="100%"
+						   maxnum = "20"
+						   vtype = "maxchars" />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "label"
+					  required = "true">
+			<grg:TextInput id="label1"
+						   text = "@{pm.vo.label}"
+						   width="100%"
+						   maxnum = "20"
+						   vtype = "maxchars" />
+		</grg:FormItem>
+		<grg:FormItem width="100%"
+					  textAlign = "left"
+					  locale = "remark">
+			<grg:TextArea id="remark" maxnum="200"
+						  vtype = "maxchars" maxChars="200"
+						  width="100%" text="@{pm.vo.remark}"/>
+		</grg:FormItem>
+	</grg:Form>
+	<s:HGroup width="100%"
+			  height="30"
+			  horizontalAlign = "center"
+			  horizontalCenter = "0"
+			  verticalAlign = "bottom">
+		<grg:Button click = "save()"
+						locale = "saveButton"
+						 />
+		<grg:Button click = "pm.cancel();close();"
+					locale = "cancelButton"
+					 />
+	</s:HGroup>
+</grg:TitleWindow>

@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="common">
+		<javaError>Unknown error, please contact administrator!</javaError>
+		<loginError>Login error!</loginError>
+	</node>
+</nodes>

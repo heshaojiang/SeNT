@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley" xmlns:grg="http://grg.grgbanking.com/platform/" xmlns:pm="platform.notice.pm.*" xmlns:view="platform.notice.view.*" xmlns:message="platform.notice.message.*">
+	<fx:Script>
+		<![CDATA[
+			import platform.notice.delegate.NoticeInfoDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- service -->
+		<grg:GRGRemoteObject id="noticeInfoService" destination="noticeInfoService1"/>
+		
+		<!-- delegate -->
+		<Object type="{NoticeInfoDelegate}">
+			<Property name="service" idRef="noticeInfoService"/>
+		</Object>
+		
+		<message:NoticeInfoMsg/>
+		<pm:NoticeInfoModulePM/>
+		<pm:SmsSendFormPM/>
+				
+	</fx:Declarations>
+</fx:Object>

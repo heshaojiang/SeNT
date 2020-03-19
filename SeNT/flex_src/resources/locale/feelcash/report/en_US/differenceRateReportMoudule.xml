@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="differenceRateReportMoudule">
+		<orgLabel>Org :</orgLabel>
+		<termLabel>Term Id :</termLabel>
+		<daysPreLabel>Days Pre :</daysPreLabel>
+		<daysNextLabel>Days</daysNextLabel>
+		<chartTitle>Difference Rate Report</chartTitle>
+		<datagridTitle>Difference Rate List</datagridTitle>
+		<culomnPlanDate>Plan Date</culomnPlanDate>
+		<culomnBackAmount>Back Amount</culomnBackAmount>
+		<culomnDifferenceRate>Difference Rate(%)</culomnDifferenceRate>
+		<culomnPlanAmount>Plan Amount</culomnPlanAmount>
+		<culomnActualAmount>Actual Amount</culomnActualAmount>
+		<culomnSysGenerateAmount>Sys Generate Amount</culomnSysGenerateAmount>
+		<culomnSysGenerateDifferenceRate>Sys Generate Difference Rate</culomnSysGenerateDifferenceRate>
+		<culomnSysSuggestAmount>Sys Suggest Amount</culomnSysSuggestAmount>
+		<culomnSysSuggestDifferenceRate>Sys Suggest Difference Rate</culomnSysSuggestDifferenceRate>
+		<culomnPlanDifferenceRate>Plan Difference Rate</culomnPlanDifferenceRate>
+		<culomnActualDifferenceRate>Actual Difference Rate</culomnActualDifferenceRate>
+		<DifferenceRate>Difference Rate(%)</DifferenceRate>
+	</node>
+</nodes>

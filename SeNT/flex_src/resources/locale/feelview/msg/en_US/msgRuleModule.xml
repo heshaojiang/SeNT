@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description：msgRuleModule<br>
+	Create Time：2012-3-21<br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgRuleModule">
+		<listTitle>Msg Rule List</listTitle>
+		<viewList>Msg Rule Detail Message</viewList>
+		<nameItem>Rule Name</nameItem>
+		<createDateItem>Create Date</createDateItem>
+		<toItem>To</toItem>
+		<statusItem>Status</statusItem>
+		<sendTotalLevelItem>Send Total Level</sendTotalLevelItem>
+		<createTicketItem>Create Ticket</createTicketItem>
+		<messageContentItem>Message Content</messageContentItem>
+		<finishMessageItem>Finish Message</finishMessageItem>
+	</node>
+</nodes>

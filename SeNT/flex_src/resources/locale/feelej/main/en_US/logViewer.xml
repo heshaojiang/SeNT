@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="logViewer">
+		<viewLog>View Log</viewLog>
+		<listTitle>E-Journal Detail</listTitle>
+		<termId>Terminal ID</termId>
+		<keyword>Keyword</keyword>
+		<previousMatch>Previous</previousMatch>
+		<nextMatch>Next</nextMatch>
+		<ejList>E-Journal List</ejList>
+		<date>Time</date>
+		<to>To</to>
+		<searchTips>Tips:Expand five lines at the begin and end for time search</searchTips>
+	</node>
+</nodes>

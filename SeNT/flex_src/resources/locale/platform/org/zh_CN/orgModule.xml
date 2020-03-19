@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="orgModule">
+		<listTitle>机构列表</listTitle>
+		<editTopOrg>修改顶级机构</editTopOrg>
+		<orgCode>机构代码</orgCode>
+		<orgName>机构名称</orgName>
+		<contactPerson>联系人</contactPerson>
+		<telephone>联系电话</telephone>
+		<orgAddress>机构地址</orgAddress>
+		<orgOrder>机构顺序</orgOrder>
+		<status>状态</status>
+		<titlemsg>机构管理</titlemsg>
+		<fileupload>导入</fileupload>
+		<fileExport>导出</fileExport>
+		<syncSendToSentServer>同步发送</syncSendToSentServer>
+	</node>
+</nodes>

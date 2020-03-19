@@ -1,0 +1,47 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlNoteflowInfoMgrModule">
+		<titlemsg>流转信息报表管理</titlemsg>
+		
+		<clearingDateColon>清分日期：</clearingDateColon>
+		<organizationColon>所属机构：</organizationColon>
+		
+		<to>至</to>
+		
+		<clearingDate>清分日期</clearingDate>
+		<distByBunch>分捆配钞</distByBunch>
+		<distByWholeBox>整箱配钞</distByWholeBox>
+		<distByKXCashbox>款箱配钞</distByKXCashbox>
+		<distByCashbag>人行钞袋上缴</distByCashbag>
+		<distOffBank>离行ATM加钞</distOffBank>
+		<distAtBranch>在行ATM加钞</distAtBranch>
+		<totalNotes>总计</totalNotes>
+		
+		<totalDistByBunchColon>分捆配钞金额总计：</totalDistByBunchColon>
+		<totalDistByWholeBoxColon>整箱配钞金额总计：</totalDistByWholeBoxColon>
+		<totalDistByKXCashboxColon>款箱配钞金额总计：</totalDistByKXCashboxColon>
+		<totalDistByCashbagColon>人行上缴金额总计：</totalDistByCashbagColon>
+		<totalDistOffBankColon>离行ATM加钞金额总计：</totalDistOffBankColon>
+		<totalDistAtBranchColon>在行ATM加钞金额总计：</totalDistAtBranchColon>
+		<totalAllColon>所有金额汇总：</totalAllColon>
+		
+		<!--
+		<noteCount1>钞票张数</noteCount1>
+		<totalNotes1>总计</totalNotes1>
+		<organization>所属机构</organization>
+		<devideAmt>分捆配钞额</devideAmt>
+		<holeAmt>整箱配钞额</holeAmt>
+		<renHangAmt>人行上缴额</renHangAmt>
+		<tmAmt>网点大额配钞额</tmAmt>
+		<cashEnteAmt>现金中心入库配钞额</cashEnteAmt>
+		<total>总计</total>
+		<totalCount>钞票张数总计</totalCount>
+		<totalAmt>钞票金额总计</totalAmt>
+		<totalDevideAmt>分捆配钞额总计</totalDevideAmt>
+		<totalHoleAmt>整箱配钞额总计</totalHoleAmt>
+		<totalTmAmt>网点大额配钞额总计</totalTmAmt>
+		<totalCashEnteAmt>现金中心入库配钞额总计</totalCashEnteAmt>
+		<to>至</to>
+		-->
+	</node>
+</nodes>

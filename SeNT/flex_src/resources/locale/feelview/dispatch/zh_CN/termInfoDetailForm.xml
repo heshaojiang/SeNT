@@ -1,0 +1,60 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：设备基本信息
+	 Create Time：2011-11-21  上午09:32:35 
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termInfoDetailForm">
+		<showTermInfoDetailForm>设备基本信息</showTermInfoDetailForm>
+		<showHisTermInfoDetailForm>设备基本信息</showHisTermInfoDetailForm>
+		<BaseInfo>基本信息</BaseInfo>
+		<ExtendInfo>扩展信息</ExtendInfo>
+		<ResponsibleInfo>终端责任人信息</ResponsibleInfo>
+		<groupItem>责任人分组</groupItem>
+		<roleItem>分组角色</roleItem>
+		<responsibleNameItem>负责人姓名</responsibleNameItem>
+		<telePhoneItem>固定电话</telePhoneItem>
+		<mobilePhoneItem>移动电话</mobilePhoneItem>
+		<postItem>地址邮编:</postItem>
+		<termIdItem>终端编号:</termIdItem>
+		<termNameItem>终端名称:</termNameItem>
+		<termSEQItem>设备序列号:</termSEQItem>
+		<counterIdItem>柜员号:</counterIdItem>
+		<termTypeItem>终端类型:</termTypeItem>
+		<brandItem>终端品牌:</brandItem>
+		<modelItem>设备型号:</modelItem>
+		<orgIdItem>所属机构:</orgIdItem>
+		<areaIdItem>所属区域:</areaIdItem>
+		<netAddrItem>终端IP:</netAddrItem>
+		<netPortItem>终端PORT:</netPortItem>
+		<saveBoxItem>存款箱数量:</saveBoxItem>
+		<cwdBoxItem>取款箱数量:</cwdBoxItem>
+		<instDateItem>安装日期:</instDateItem>
+		<activeDateItem>开通时间:</activeDateItem>
+		<servStartDateItem>维护开始日期:</servStartDateItem>
+		<servEndDateItem>维护到期日期:</servEndDateItem>
+		<servYearsItem>维护年限:</servYearsItem>
+		<termAddrItem>安装地址:</termAddrItem>
+		<serviceTypeItem>布放模式:</serviceTypeItem>
+		<instTypeItem>安装方式:</instTypeItem>
+		<layTypeItem>设立形式:</layTypeItem>
+		<isVideoWatchItem>是否视频监控:</isVideoWatchItem>
+		<isUPSItem>是否安装UPS:</isUPSItem>
+		<isInterATMItem>是否国际卡ATM:
+		（外卡受理标志）</isInterATMItem>
+		<busiBeginTimeItem>营业开始时间:</busiBeginTimeItem>
+		<busiEndTimeItem>营业结束时间:</busiEndTimeItem>
+		<softVersionItem>ATMC版本号:</softVersionItem>
+		<spVersionItem>SP版本号:</spVersionItem>
+		<operateButton>操作</operateButton>
+		<editeButton>修改</editeButton>
+		<deleteButton>删除</deleteButton>
+		<status>开通状态:</status>
+		<termMaintainerItem>终端维护商:</termMaintainerItem>
+		<termOperatorItem>终端运营商:</termOperatorItem>
+		<termSupplierItem>终端供货商:</termSupplierItem>
+		<cashLackNumItem>钞少总张数:</cashLackNumItem>
+		<cashFullNumItem>钞满总张数:</cashFullNumItem>
+		<isVIPItem>是否VIP:</isVIPItem>
+	</node>
+</nodes>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "ErrorCodeAdd">
+		<title>新增</title>
+		<devItem>设备部件：</devItem>
+		<codeItem>故障码：</codeItem>
+		<brandItem>设备品牌：</brandItem>
+		<descriptionItem>描  述：</descriptionItem>
+		<handleItem>解决方法：</handleItem>
+		<saveButtonItem>保存</saveButtonItem>
+		<editTitle>编辑错误码</editTitle>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>			
+	</node>
+</nodes>

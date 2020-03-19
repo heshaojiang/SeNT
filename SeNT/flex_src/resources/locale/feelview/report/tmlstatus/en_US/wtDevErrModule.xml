@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtDevErrModule">
+		<listTitle>list</listTitle>
+		<termId>termId:</termId>
+		<termType>termType:</termType>
+		<brand>brand:</brand>
+		<orgId>orgId</orgId>
+		<orgName>orgName</orgName>
+		<org>org:</org>
+		<devCode>devCode</devCode>
+		<errCode>errCode</errCode>
+		<status>status</status>
+		<beginTime>TimeRange:</beginTime>
+		<to>to</to>
+		<endTime>endTime</endTime>
+		<errorTime>errorTime</errorTime>
+	</node>
+</nodes>

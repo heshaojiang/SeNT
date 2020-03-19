@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- * Description：服务器运行状态<br>
+	 * Create Time：2011-11-28<br>  
+	 * Author：Ming.Zhang  <br>
+	 * Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "sysServerLogModule">
+		<listTitle>服务器运行状态列表</listTitle>
+		<judgeStatusItem>判断更新</judgeStatusItem>
+		<processNameItem>进程名</processNameItem>
+		<serviceNameItem>服务名</serviceNameItem>
+		<processClassItem>处理类名</processClassItem>
+		<serviceClassItem>服务器类名</serviceClassItem>
+		<errorItem>错误信息</errorItem>
+		<modifyDateItem>更新时间</modifyDateItem>
+		<ipItem>服务器IP</ipItem>
+		<normal>正常</normal>
+		<abnormal>不正常</abnormal>
+	</node>
+</nodes>

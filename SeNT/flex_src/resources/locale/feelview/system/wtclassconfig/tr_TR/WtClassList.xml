@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "WtClassList">
+		<classListTitleItem>Sorun Giderme Detayları</classListTitleItem>
+		<partIdItem>Parça Id</partIdItem>
+		<partCodeItem>Parça Kodu</partCodeItem>
+		<memoItem>Açıklama</memoItem>
+		<operateItem>Tamam</operateItem>
+		<editItem>Düzenle</editItem>
+		<deleteItem>Sil</deleteItem>
+		<addWtClassList>Ekle</addWtClassList>
+	</node>
+</nodes>

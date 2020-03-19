@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule locale="contentTemplateModule" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   layout="horizontal" width="100%" height="100%" xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.IFlexDisplayObject;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.constants.OperationConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.template.config.ContentTemplateConfig;
+			import platform.template.message.ContentTemplateMsg;
+			import platform.template.pm.ContentTemplateModulePM;
+			import platform.template.vo.ContentTemplateVO;
+			
+			[Inject]
+			[Bindable]
+			public var pm:ContentTemplateModulePM;
+			
+			private var type:String;
+			
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				loadPage();
+			}
+			
+			override public function set params(p_params:Array):void
+			{
+				super.params = p_params;				
+				type = this.params[0];
+				dataDictionaryPaths = [DataDirConsts.TEMPLATE_MANAGER + "." + type];
+			}
+			
+			//根据名称模糊查询
+			private function loadPage():void
+			{
+				pm.loadPage(type);
+			}
+			
+			//Add 
+			public function add():void
+			{
+				//set vo
+				var vo:ContentTemplateVO = new ContentTemplateVO();
+				openWin(OperationConsts.ADD, vo);				
+			}
+			
+			//update template
+			public function edit():void
+			{
+				if (dataGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				openWin(OperationConsts.EDIT, dataGrid.checkedItems[0] as ContentTemplateVO);
+			}
+			
+			private function openWin(operation:String, p_vo:ContentTemplateVO):void
+			{
+				//dispatch event
+				var win:ContentTemplateForm = new ContentTemplateForm();
+				win.dataDictionaryPaths =[DataDirConsts.TEMPLATE_MANAGER + "." + type];
+				win.operation = operation;
+				win.titleKey = operation;
+				//win.titleKey = p_winName;
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				win.pm.vo = p_vo;
+				win.pm.vo.type = type;
+				win.pm.menuId = this.menu.id;
+				
+			}
+			
+			//delete 
+			public function del():void
+			{
+				pm.del(dataGrid.checkedItems);
+			}
+			
+			/**
+			 * 保存成功返回结果处理函数
+			 */		
+			[MessageHandler(selector="saveResult")]
+			public function saveSuccessHandler(p_msg:ContentTemplateMsg):void
+			{
+				loadPage();
+			}
+			
+			/**
+			 * 删除成功更新列表
+			 */		
+			[MessageHandler(selector="deleteResult")]
+			public function deleteSuccessHandler(p_msg:ContentTemplateMsg):void
+			{
+				loadPage();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				var dataDir:Object = bindableDataDirCache.getItemAt(0);
+				var text:String = p_item["text"];
+				if (text){
+					//var arr:Array = text.split(",");
+					for each(var obj:Object in dataDir){
+						text = text.replace(obj["key"], obj["text"]);
+					}
+				}
+				
+				return text;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{ContentTemplateConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<s:BorderContainer width="100%" height="100%" styleName = "BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		<mx:HBox width="100%" height="30" styleName="firHBoxStyle" borderVisible="false">
+			<grg:TitleBar locale="titlemsg" width="100%"/>
+		</mx:HBox>
+		<!--<s:BorderContainer id="searchBar" width="100%"  height="40" styleName="SearchBar">
+		<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"/>
+		</s:layout>
+		<grg:SearchButton click = "pm.page = new Page();loadPage()"
+		locale = "searchButton"
+		iconType = "query"  />
+		</s:BorderContainer>-->
+		
+		<mx:HBox width="100%" paddingLeft="10" paddingBottom="2" paddingTop="3">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+			</s:BorderContainer>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle" paddingTop="2">
+			<grg:DataGrid dataProvider="{pm.page.result}" width="100%" height="100%" paddingLeft="20" 
+						  textAlign = "left"
+						  styleName = "DataGrid" id="dataGrid">
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol" 
+										textAlign = "center"
+										/>
+					<grg:DataGridColumn dataField="name" 
+										locale="name"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="text" 
+										locale="text" 
+										labelFunction="{transferDataDict}"
+										textAlign = "left"
+										/>
+					<grg:DataGridColumn dataField="note" 
+										locale="note"
+										textAlign = "left"
+										/>
+				</grg:columns>
+			</grg:DataGrid>
+		</mx:HBox>
+		<grg:PageNavigatorBar pageVo = "{pm.page}" bottom = "2" pagingFunction="{loadPage}"/>
+	</s:BorderContainer>
+</grg:TabModule>

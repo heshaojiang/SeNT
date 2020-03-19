@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termTypeModule">
+		<listTitle>设备类型列表</listTitle>
+		<typeItem>类型：</typeItem>
+		<typeNameItem>类型名称</typeNameItem>
+		<status>状态</status>
+		<code>代码</code>
+		<titlemsg>设备类型管理</titlemsg>
+	</node>
+</nodes>

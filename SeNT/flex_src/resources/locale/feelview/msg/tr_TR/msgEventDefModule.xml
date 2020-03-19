@@ -1,0 +1,13 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgEventDefModule">
+		<listTitle>Tanımlı Olayların Listesi</listTitle>
+		<eventType>Olay Türü</eventType>
+		<flag>İşaret</flag>
+		<auto>Otomatik Olarak Bildir</auto>
+		<informManner>Bildirim</informManner>
+		<msgTemplate>Bildirim Şablonu</msgTemplate>
+		<role>Uyarı Rolleri</role>
+		<sourceId>Terminal Id veya Şube</sourceId>
+	</node>
+</nodes>

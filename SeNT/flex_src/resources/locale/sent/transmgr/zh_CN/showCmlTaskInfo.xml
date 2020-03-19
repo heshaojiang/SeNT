@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="showCmlTaskInfo">
+		<title>查看清分交易信息</title>
+		<cmlTaskInfo>清分交易信息</cmlTaskInfo>
+	
+		<bankNameColon>机构名：</bankNameColon>
+		<webPointColon>网点：</webPointColon>
+		<orgCodeColon>机构号：</orgCodeColon>
+	
+		<journalNo>流水号：</journalNo>
+		<tmlNum>清分终端：</tmlNum>
+		<orgId>清分机构：</orgId>
+		<sourceOrg>清分钞票来源：</sourceOrg>
+		<operateDate>交易时间：</operateDate>
+		<operatorId>操作员：</operatorId>
+		<rotoCashType>清分类别：</rotoCashType>
+		<totalMoney>金额：</totalMoney>
+		<transResult>清分结果：</transResult>
+		<finacialCode>金融机构代码：</finacialCode>
+		<tranCount>张数：</tranCount>
+		
+		<clearNoteflowList>清分流转信息列表</clearNoteflowList>
+		<barcodeFlowNum>流转号码</barcodeFlowNum>
+		<termId>设备编号</termId>
+		<journalNo>流水号</journalNo>
+		<clearingDate>清分日期</clearingDate>
+		<flowStage>所处阶段</flowStage>
+		<totalNotes>钞票总额</totalNotes>
+		<operations>操作</operations>
+		
+		<SEQInfo>清分冠字号码列表</SEQInfo>
+		<seriaNo>冠字号码</seriaNo>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<showSEQImg>查看图片</showSEQImg>
+		<boxNum>钞箱编号：</boxNum>
+		<toatmnum>ATM编号：</toatmnum>
+		<tranDate>交易时间：</tranDate>
+		
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		
+		<urlName>冠字号码图片</urlName>
+		
+		<columnNo>序号</columnNo>
+		<expExcel>导出</expExcel>
+		<seriaNoColon>冠字号码：</seriaNoColon>
+	</node>
+</nodes>

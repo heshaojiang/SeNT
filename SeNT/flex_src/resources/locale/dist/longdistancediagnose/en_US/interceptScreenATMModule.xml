@@ -1,0 +1,51 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：interceptScreenATMForm 
+	 Create Time：2011-9-06   
+	 Author：zhangjinpeng
+	 Email : zjpeng@grgbanking.com -->
+<nodes>
+	<node locale = "interceptScreenATMModule">
+		<listTitle>intercept screen List</listTitle>
+		<planidItem>Plan ID</planidItem>
+		<createtimeItem>Creating Time</createtimeItem>
+		<createtimefromItem>Creating time From</createtimefromItem>
+		<createtimeendItem>Creating time To</createtimeendItem>
+		<repeattypeItem>repeat type</repeattypeItem>
+		<everydayexetimeItem>set everyday time</everydayexetimeItem>
+		<repeatintervalItem>set everyminute time</repeatintervalItem>
+		<plannameItem>plan name</plannameItem>
+		<nextexecutetimeItem>Executing Time</nextexecutetimeItem>
+		<nextexecutetimefromItem>Executing time From</nextexecutetimefromItem>
+		<nextexecutetimeendItem>Executing time To</nextexecutetimeendItem>
+		<termidlistItem>Term ID</termidlistItem>
+		<taskparaItem>task para</taskparaItem>
+		<taskparaversionItem>task para version</taskparaversionItem>
+		<maxretrytimesItem>max retry times</maxretrytimesItem>
+		<retryintervalItem>retry interval</retryintervalItem>
+		<enabledItem>enabled</enabledItem>
+		<termtypeItem>Term Type</termtypeItem>
+		<modelItem>ATM Model</modelItem>
+		<orgidItem>Org ID</orgidItem>
+		<areaidItem>Area ID</areaidItem>
+		<brandItem>Brand</brandItem>
+		<timeoutintervalItem>timeout interval</timeoutintervalItem>
+		<!-- plan表 -->
+		<termidItem>Term ID</termidItem>
+		<taskidItem>task id</taskidItem>
+		<planexetimeItem>plan time</planexetimeItem>
+		<exebegintimeItem>Actual Execution Starting Time</exebegintimeItem>
+		<exeendtimeItem>Actual Execution Terminating Time </exeendtimeItem>
+		<taskstatusItem>Task Status</taskstatusItem>
+		<extradescriptionItem>Task Remarks</extradescriptionItem>
+		<exepercentItem>Completion Percentage</exepercentItem>
+		<resultfileidItem>result fileid</resultfileidItem>
+		<retriedtimesItem>retried times</retriedtimesItem>
+		<timeoutedItem>Timeout</timeoutedItem>
+		<svrnameItem>Server Name</svrnameItem>
+		<picturelinkItem>Linkage</picturelinkItem>
+		<picturelink>See File</picturelink>
+		<interceptScreenTitleList>InterceptScreen Plan List</interceptScreenTitleList>
+		<receProcessTitleList>Receive Process Plan List</receProcessTitleList>
+		<testHardwareTitleList>Test Hardware Status Plan List</testHardwareTitleList>
+	</node>
+</nodes>

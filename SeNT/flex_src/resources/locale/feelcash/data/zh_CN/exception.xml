@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="tranInfo">
+		<importBalanceFileNotFoundException>余额报表不存在！</importBalanceFileNotFoundException>
+		<importBalanceIOException>读取余额报表出错！</importBalanceIOException>
+		<importBalanceException>导入余额报表出错！</importBalanceException>
+		<importTranInfoEncodingException>交易报表编码错误！</importTranInfoEncodingException>
+		<importTranInfoFileNotFoundException>交易报表不存在！</importTranInfoFileNotFoundException>
+		<importTranInfoIOException>读取交易报表出错！</importTranInfoIOException>
+		<importTranInfoException>导入交易报表出错！</importTranInfoException>
+		<importTranInfoGetDateException>读取交易报表日期出错!</importTranInfoGetDateException>
+		
+	</node>
+	<node locale = "cassetteInfo">
+		<noSelectedTerm>没有选择终端</noSelectedTerm>
+		<exsitedModifiedRecord>存在已经终止过的故障钞箱</exsitedModifiedRecord>
+		<slotLocatExist>已经存在该插槽位置的钞箱</slotLocatExist>
+	</node>
+</nodes>

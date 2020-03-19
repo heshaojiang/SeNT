@@ -1,0 +1,54 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+<node locale="cmlRecruitInfosModule">
+	<titlemsg>人工补录</titlemsg>
+   <devmodule>清分设备类型：</devmodule>
+   <tmlNum>终端编号：</tmlNum>
+	<operatorName>清分员：</operatorName>
+	<sendTime>日期：</sendTime>
+	<to>至</to>
+	<tmlId>终端编号</tmlId>
+	<version05>05版</version05>
+	<version99>99版</version99>
+	<bindStart>清分日期</bindStart>
+	<userName>清分员</userName>
+	<beforeCount>预清分金额</beforeCount>
+	<passMoney>流通币金额</passMoney>
+	<atmMoney>ATM金额</atmMoney>
+	<stubbedMoney>残损币金额</stubbedMoney>
+	<trailMoney>伪钞金额</trailMoney>
+	<shadinessMoney>可疑钞金额</shadinessMoney>
+	<falseCoinMoney>假币金额</falseCoinMoney>
+	<totalMoney>清分总金额</totalMoney>
+	<operations>操作</operations>
+	<export>导出</export>
+	<operators>操作</operators>
+	<titlemsg>清分业务统计</titlemsg>
+	<addBaseRecord>1  补录信息</addBaseRecord>
+	<banknoteMsg>2  冠字号信息</banknoteMsg>
+	<moneySource>钞票来源机构：</moneySource>
+	<beforeCountItem>预清分金额：</beforeCountItem>
+	<passMoneyItem>流通币金额：</passMoneyItem>
+	<atmMoneyItem>ATM金额：</atmMoneyItem>
+	<stubbedMoneyItem>残损币金额：</stubbedMoneyItem>
+	<trailMoneyItem>伪钞金额：</trailMoneyItem>
+	<shadinessMoneyItem>可疑钞金额：</shadinessMoneyItem>
+	<falseCoinMoneyItem>假币金额：</falseCoinMoneyItem>
+	<totalMoneyItem>清分总金额：</totalMoneyItem>
+	<cmlType>清分类型：</cmlType>
+	<seriaNum>冠字号码：</seriaNum>
+	<boxId>款箱编号：</boxId>
+	<remark>备注：</remark>
+	<add>增加</add>
+	<edit>修改</edit>
+	<deleteIcon>删除</deleteIcon>
+	<delete>删除</delete>
+	<seriaNo>冠字号码</seriaNo>
+	<moneyType>清分类型</moneyType>
+	<seriaNoItem>冠字号码：</seriaNoItem>
+	<moneyTypeItem>清分类型：</moneyTypeItem>
+	<addCmlSentInfos>添加清分钞票</addCmlSentInfos>
+	<updateCmlSentInfos>修改清分钞票</updateCmlSentInfos>	
+	<addRecord>补录</addRecord>
+</node>
+</nodes>

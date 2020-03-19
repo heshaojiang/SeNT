@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "setFavoriteMdl">
+		<setFavoriteModule>Set Favorite Module</setFavoriteModule>
+		<firstLabel>First Menu</firstLabel>
+		<secondLabel>Second Menu</secondLabel>
+		<thirdLabel>Third Menu</thirdLabel>
+	</node>
+</nodes>

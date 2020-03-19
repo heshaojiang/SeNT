@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="utilizationOfFundsReportMoudule">
+		<orgLabel>机构 :</orgLabel>
+		<termLabel>终端编号 :</termLabel>
+		<daysPreLabel>最近 :</daysPreLabel>
+		<daysNextLabel>天</daysNextLabel>
+		<chartTitle>资金率趋势图</chartTitle>
+		<datagridTitle>资金利用率列表</datagridTitle>
+		<culomnPlanDate>加钞日期</culomnPlanDate>
+		<culomnSumActualAmount>总加钞金额</culomnSumActualAmount>
+		<culomnSumBackAmount>总回笼金额</culomnSumBackAmount>
+		<culomnActualAmount>单台加钞金额</culomnActualAmount>
+		<culomnBackAmount>单台回笼金额</culomnBackAmount>
+		<culomnSingleUtilization>单台资金利用率</culomnSingleUtilization>
+		<culomnTotalUtilization>总资金利用率</culomnTotalUtilization>
+		<culomnUtilization>资金利用率</culomnUtilization>
+	</node>
+</nodes>

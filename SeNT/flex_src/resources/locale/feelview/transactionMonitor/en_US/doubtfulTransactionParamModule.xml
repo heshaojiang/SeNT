@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：doubtfulTransactionParamModule<br>
+		Create Time：2011-9-16<br>   
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "doubtfulTransactionParamModule">
+		<listTitle>Doubtful Transaction Parameter List</listTitle>
+		<searchItem>searchKeyword</searchItem>
+		<eventTypeItem>eventType</eventTypeItem>
+		<handlermodeItem>handlermode</handlermodeItem>
+		<alerLevelItem>alerLevel</alerLevelItem>
+		<awokemodeItem>awokemode</awokemodeItem>
+		<typeItem>type</typeItem>
+		<menoItem>meno</menoItem>
+		<operateButton>operate</operateButton>
+		<editeButton>modify</editeButton>
+		<deleteButton>delete</deleteButton>
+	</node>
+</nodes>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/" 
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:view="sent.rule.view.*" 
+			   xmlns:view1="sent.audit.view.*"
+			   locale="newBlackRegulationModule" 
+			   layout="vertical" 
+			   width="100%" height="100%"
+			   creationComplete="doInit()">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+			<parsley:FlexConfig type="{NewBlackRegulationConfig}"/>
+			<parsley:FlexConfig type="{TermInfoConfig}"/>
+			</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import platform.common.util.ComponentRightUtils;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.config.TermInfoConfig;
+			
+			import sent.rule.config.NewBlackRegulationConfig;
+			import sent.rule.pm.NewBlackRegulationPM;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/7.png")]
+			public static var file7:Class;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/8.png")]
+			public static var file8:Class;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/9.png")]
+			public static var file9:Class;
+			
+			[Bindable]
+			[Embed(source="resources/theme/advert/10.png")]
+			public static var file10:Class;
+		
+			[Bindable]
+			[Embed(source="resources/theme/advert/12.png")]
+			public static var file12:Class;
+			
+			[Bindable]
+		    public var ruleAudit:String ="规则审核";
+			
+			[Inject]
+			[Bindable]
+			public var pm:NewBlackRegulationPM;
+			
+			public function doInit():void
+			{
+				trace("NewBlackRegulationModule.doInit");
+				
+				black.pm.menuId = menu.id;
+				
+				if(ComponentRightUtils.isVisible('createRegulation','button'))
+				{
+					black.addRule.visible=true;
+					black.addRule.includeInLayout=true;
+					myViewStack.selectedChild=createRule;
+					return;
+				}
+				if(ComponentRightUtils.isVisible('auditRegualtion','button'))
+				{
+					myViewStack.selectedChild=auditRule;
+					return;
+				}
+				if(ComponentRightUtils.isVisible('viewRegulationInfo','button'))
+				{
+					myViewStack.selectedChild=ruleInfo;
+					return;
+				}
+			}
+        
+	
+			protected function imgUploadMgt_clickHandler(event:MouseEvent, i:int, uiC:Canvas, imgNum:int):void
+			{
+				trace("NewBlackRegulationModule.imgUploadMgt_clickHandler");
+				//规则生成
+				if(imgNum==7)
+				{
+					black.addRule.visible=true;
+					black.addRule.includeInLayout=true;
+					
+					black.ruleStatus.selectedIndex=0;
+					black.pm.blackRegulationVO.ruleStatus=0;
+					black.pm.loadPage();
+				}
+
+				myViewStack.selectedChild = uiC;
+				var index:int = VBox(Image(event.currentTarget).parent).tabIndex;
+				var leng:int = this.menubar.getChildren().length;
+				drowline(i);
+			}
+			
+			public function drowline(j:int):void
+			{
+				trace("NewBlackRegulationModule.drowline");
+				var i:int=j;
+			
+				this.line.graphics.clear();
+				this.line.graphics.lineStyle(2,0xC4C6C8);
+				this.line.graphics.moveTo(0,10);
+				
+				var pointx:Number = 225 + (i-7)*140; 
+				var pxb:Number=pointx-10;
+				var pxe:Number=pointx+10;
+				
+				this.line.graphics.lineTo(pxb,10);
+				this.line.graphics.lineTo(pointx,5);
+				this.line.graphics.lineTo(pxe,10); 
+				this.line.graphics.lineTo(this.width,10); 
+			}
+				
+		]]>
+	</fx:Script>
+	<s:BorderContainer   width = "100%"  height = "100%" styleName = "BorderContainer">
+		
+		<s:layout>
+			<s:VerticalLayout gap="0" />
+		</s:layout> 
+		
+		<mx:HBox paddingLeft="10">
+			<!--黑名单规则-->
+			<grg:TitleBar id="tb" locale="blackRegualtion" />
+		</mx:HBox>
+		
+		<!-- 黑名单页面上的那一排阶段按钮，“规则生成”、“规则审核”、“下发明细” -->
+		<mx:VBox width="100%" > 
+			
+			<s:BorderContainer borderVisible="false" >
+				
+				<s:layout>
+					<s:VerticalLayout paddingLeft="180" paddingRight="10"  paddingTop="-10"/>
+				</s:layout>
+				
+				<mx:HBox id="menubar" width="100%"  horizontalGap="0" paddingLeft="10" paddingRight="10"  tabIndex="0" creationPolicy="all">
+					<!-- 规则生成 -->
+					<mx:VBox visible="{ComponentRightUtils.isVisible('createRegulation','button')}" verticalGap="7" 
+							 horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="left" verticalAlign="middle" 
+							 width="70" height="100"
+							 borderVisible="false" borderAlpha="0" borderColor="red" borderStyle="solid">
+						<grg:Image id="imgUploadMgt" source="{file7}" click="imgUploadMgt_clickHandler(event,7,createRule,7);"/>	   
+						<grg:Label fontWeight="bold" locale="createRule" color="0x005CA1" textAlign="center" width="70"/>
+					</mx:VBox>
+					<mx:VBox horizontalAlign="center" verticalAlign="middle" width="70" height="100" 
+							 borderVisible="false" borderAlpha="0" borderColor="red" borderStyle="solid">
+						<grg:Image source="@Embed('/resources/theme/advert/13.png')"/>
+					</mx:VBox>
+					<!-- 规则审核 -->
+					<mx:VBox id="vb7" verticalGap="7" visible="{ComponentRightUtils.isVisible('auditRegualtion','button')}" horizontalScrollPolicy="off" verticalScrollPolicy="off"  horizontalAlign="left" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid" tabIndex="1">
+						<grg:Image source="{file8}"  click="imgUploadMgt_clickHandler(event,8,auditRule,8);"/>  
+						<grg:Label fontWeight="bold"  text="{ruleAudit}({pm.auditCount})" color="0x005CA1" />
+					</mx:VBox>
+					
+					<mx:VBox horizontalAlign="center" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid">
+						<grg:Image source="@Embed('/resources/theme/advert/13.png')"/>
+					</mx:VBox>
+					<!-- 下发明细 -->
+					<mx:VBox visible="{ComponentRightUtils.isVisible('viewRegulationInfo','button')}" verticalGap="7" horizontalScrollPolicy="off" verticalScrollPolicy="off"  horizontalAlign="left" verticalAlign="middle" width="70" height="100" borderVisible="false" borderStyle="solid" tabIndex="4">
+						<grg:Image source="{file12}"  click="imgUploadMgt_clickHandler(event,9,ruleInfo,12);"/>
+						<grg:Label fontWeight="bold" locale="reliverDetail" color="0x005CA1" textAlign="center" width="70"/>
+					</mx:VBox>
+				</mx:HBox>
+			</s:BorderContainer>
+			
+			<mx:HBox id="line" width="100%" height="10">
+			</mx:HBox>
+			
+		</mx:VBox> 
+		
+		<mx:ViewStack id="myViewStack" borderVisible="false"  borderStyle="solid" width="100%" height="100%">
+			<mx:Canvas id="createRule" width="100%" height="100%">
+				<view:BlackRegulationModule  locale="newBlackRegulationModule" id="black"/>
+			</mx:Canvas>
+			
+			<mx:Canvas id="auditRule" width="100%" height="100%">
+				<view1:AuditBlackInfoModule locale="newBlackRegulationModule" id="auditInfo"/>
+			</mx:Canvas>
+			
+			<mx:Canvas id="ruleInfo" width="100%" height="100%">
+				<view1:AuditBlackLogModule locale="newBlackRegulationModule"/>
+			</mx:Canvas>
+		
+		</mx:ViewStack>
+		
+	</s:BorderContainer>
+</grg:TabModule>

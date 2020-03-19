@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "dataDirForm">
+		<addDatadirForm>Add</addDatadirForm>
+		<updateDatadirForm>Edit</updateDatadirForm>
+		<keypathItem>Path:</keypathItem>
+		<itemKey>Item Key:</itemKey>
+		<itemValue>Item Value:</itemValue>
+		<itemOrder>Order:</itemOrder>
+		<note>English Note:</note>
+	</node>
+</nodes>

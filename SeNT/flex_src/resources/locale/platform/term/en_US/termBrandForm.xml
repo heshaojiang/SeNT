@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termBrandForm">
+		<addTermBrandForm>Add</addTermBrandForm>
+		<updateTermBrandForm>Edit</updateTermBrandForm>
+		<brandNameItem>Brand Name:</brandNameItem>
+		<companyNameItem>Company Name:</companyNameItem>
+		<companyAddressItem>Company Address:</companyAddressItem>
+		<code>Code:</code>
+		<status>Status:</status>
+		
+		<statusEnable>Enable</statusEnable>
+		<statusDisable>Disable</statusDisable>
+	</node>
+</nodes>

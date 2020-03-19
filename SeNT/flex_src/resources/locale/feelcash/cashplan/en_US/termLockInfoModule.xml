@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="termLockInfoModule">
+	<termLockList>Locked Terminal List</termLockList>
+	<termUnLockList>UnLocked Terminal List</termUnLockList>
+	<termId>Term Code</termId>
+	<orgName>Org Name</orgName>
+	<modelName>Model Name</modelName>
+	<termAddr>Term Address</termAddr>
+	<status>Status</status>
+	<lockStartDate>Locked Start Date</lockStartDate>
+	<lockEndDate>Locked End Date</lockEndDate>
+	<lockedBy>Locked By</lockedBy>
+	<unlockBy>Unlocked By</unlockBy>
+	<lockDate>Locked Date</lockDate>
+	<unlockDate>Unlocked Date</unlockDate>
+	<lockType>Lock Type</lockType>
+	<note>Note</note>
+	<orgRange>Org Range</orgRange>
+	</node>
+</nodes>

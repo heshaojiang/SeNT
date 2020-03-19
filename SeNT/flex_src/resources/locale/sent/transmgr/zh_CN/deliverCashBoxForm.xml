@@ -1,0 +1,26 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="deliverCashBoxForm">
+	
+		<title>钞箱配送/款箱配送/钞袋上缴</title>
+		
+		<cashboxDelivery>ATM钞箱配送</cashboxDelivery>
+		<kxcashboxDelivery>款箱配送</kxcashboxDelivery>
+		<cashbagDelivery>人行钞袋上缴</cashbagDelivery>
+		<kxcashboxTurnOver>网点款箱上缴</kxcashboxTurnOver>
+		<cashboxReturn>ATM钞箱回笼</cashboxReturn>
+		
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		<kxcashboxNumColon>款箱号：</kxcashboxNumColon>
+		<cashbagNumColon>钞袋号：</cashbagNumColon>
+		
+		<followTypeColon>配钞渠道：</followTypeColon>
+		<flowNumColon>流转条码：</flowNumColon>
+		
+		<delete>删除</delete>
+		<addCashBunch>增加捆钞</addCashBunch>
+		
+		<save>保存</save>
+		<cancel>取消</cancel>
+	</node>
+</nodes>

@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgTemplateModule">
+		<listTitle>信息通知模版列表</listTitle>
+		<name>名字</name>
+		<content>内容</content>
+		<memo>备注</memo>
+		<titlemsg>信息通知模块</titlemsg> 
+	</node>
+</nodes>

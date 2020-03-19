@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns="http://www.spicefactory.org/parsley" 
+		 xmlns:message="sent.transmgr.message.*" 
+		 xmlns:pm="sent.transmgr.pm.*" 
+		 xmlns:grg="http://grg.grgbanking.com/platform/" >
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.CmlNoteflowDelegate;
+			import sent.transmgr.delegate.CmlNoteflowDetailInfoDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<message:CmlNoteflowMsg/>
+		<message:CmlNoteflowDetailInfoMsg/>
+		<pm:CmlNoteflowModulePM/>
+		<pm:CmlNoteflowDetailInfoPM />
+		<grg:GRGRemoteObject id="cmlNoteflowService" destination="cmlNoteflowService"/>
+		<Object type="{CmlNoteflowDelegate}">
+			<Property name="service" idRef="cmlNoteflowService"/>
+		</Object>
+		<grg:GRGRemoteObject id="cmlNoteflowDetailInfoService" destination="cmlNoteflowDetailInfoService"/>
+		<Object type="{CmlNoteflowDetailInfoDelegate}">
+			<Property name="service" idRef="cmlNoteflowDetailInfoService"/>
+		</Object>
+	</fx:Declarations>
+</Objects>

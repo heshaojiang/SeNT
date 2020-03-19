@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow locale="writeLetterForm" layout="vertical" width="400" height="300" titleKey="detail"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009"  
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.util.DataGridUtil;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.sitemsg.message.SiteMsg;
+			import platform.sitemsg.pm.ReadDetailFormPM;
+			
+			[Inject]
+			[Bindable]
+			public var pm:ReadDetailFormPM;
+			
+			override protected function viewUpdateComplete():void
+			{
+				pm.loadDetail();
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<grg:DataGrid dataProvider="{pm.details}" width="100%" height="100%" paddingLeft="20" 
+				  textAlign = "center" horizontalGridLines="false" verticalGridLines="false"
+				  styleName = "DataGrid" id="dataGrid">
+		<grg:columns>
+			<grg:DataGridColumn width="30" textAlign="center">
+				<grg:itemRenderer>
+					<fx:Component>
+						<grg:Image source="{_icon}" width="15" height="10">
+							<fx:Script>
+								<![CDATA[
+									import platform.assets.Asset;
+									[Bindable]
+									private var _icon:Class;
+									
+									override public function set data(value:Object):void
+									{
+										super.data = value;
+										if (value.readTime){
+											_icon=Asset.ITEM_OPEN;
+										}else{
+											_icon=Asset.ITEM_CLOSE;
+										}
+									}
+								]]>
+							</fx:Script>
+						</grg:Image>
+						
+					</fx:Component>
+				</grg:itemRenderer>
+			</grg:DataGridColumn>
+			<grg:DataGridColumn dataField="readerName" locale="readerName"/>
+			<grg:DataGridColumn dataField="readTime" locale="readTime" labelFunction="{DataGridUtil.formatTime}"/>
+		</grg:columns>
+	</grg:DataGrid>
+	<s:HGroup width="100%"
+			  height="30"
+			  horizontalAlign = "center"
+			  horizontalCenter = "0"
+			  verticalAlign = "bottom">
+		<grg:Button click = "close();"
+						locale = "cancelButton"
+						 />
+	</s:HGroup>
+</grg:TitleWindow>

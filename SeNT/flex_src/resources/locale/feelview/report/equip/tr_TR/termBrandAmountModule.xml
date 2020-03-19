@@ -1,0 +1,16 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termBrandAmountModule">
+		<listTitle>Marka Listesi</listTitle>
+		<org>Şube</org>
+		<type>Terminal Tipi</type>
+		<brand>Marka</brand>
+		<model>Model</model>
+		<instType>Montaj Tipi</instType>
+		<typeSum>Toplam</typeSum>
+		<typePercent>Yüzde</typePercent>
+		<brandSum>Marka Toplamı</brandSum>
+		<brandPersent>Marka Yüzdesi</brandPersent>
+		<export>Aktar</export>
+	</node>
+</nodes>

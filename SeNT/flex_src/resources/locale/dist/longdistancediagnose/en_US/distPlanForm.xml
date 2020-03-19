@@ -1,0 +1,102 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： 分发计划信息资源文件
+	 Create Time：2011-9-19
+	 Author：何志鹏
+-->
+<nodes>
+	<node locale="distPlanForm">
+		<distPlanForm>Distributed Plan Info</distPlanForm>
+		<plannameItem>Plan Name</plannameItem>
+		<plantypeItem>Task Type</plantypeItem>
+		<plantypeItem1>Repeat Type</plantypeItem1>
+		<createtimeItem>Careate Time</createtimeItem>
+		<repeattypeItem>Repeat Type</repeattypeItem>
+		<everydayexetimeItem>Execute Time EveryDay</everydayexetimeItem>
+		<repeatintervalItem>Repeat Interval(Minute)</repeatintervalItem>
+		<nextexecutetimeItem>Next Execute Time</nextexecutetimeItem>
+		<plannameItem>Plan Name</plannameItem>
+		<termidlistItem>Terminal List</termidlistItem>
+		<taskparaItem>Task Parameter</taskparaItem>
+		<taskparaversionItem>Task Parameter Version</taskparaversionItem>
+		<maxretrytimesItem>Max Retry Times</maxretrytimesItem>
+		<retryintervalItem>Retry Interval</retryintervalItem>
+		<enabledItem>Enabled</enabledItem>
+		<brandItem>Brand</brandItem>
+		<termtypeItem>Terminal Type</termtypeItem>
+		<modelItem>Model</modelItem>
+		<orgidItem>Organization</orgidItem>
+		<areaidItem>Area</areaidItem>
+		<timeoutintervalItem>Timeout Interval(hours)</timeoutintervalItem>
+		<invoketimesItem>Plan invoked Times</invoketimesItem>
+		<tasktypeItem>Task Type</tasktypeItem>
+		<pingipItem>PingIP</pingipItem>
+		<telnetipItem>TelnetIP</telnetipItem>
+		<telnetportItem>TelnetPort</telnetportItem>
+		<errordescriptionItem>Error Description</errordescriptionItem>
+		<atmcprocessItem>ATMC Process</atmcprocessItem>
+		<predefgroupItem>Manufacturer-Wildcard Group</predefgroupItem>
+		<checkProcessItem>Check Process Name</checkProcessItem>
+
+		<!-- 定时任务参数 -->
+		<searchtypeItem>Search Type</searchtypeItem>
+		<filepathItem>File Path</filepathItem>
+		<wildcardItem>Wildcard</wildcardItem>
+		<cmptypeItem>Comparation Type</cmptypeItem>
+		<fileedittimestartItem>File Edit Time From</fileedittimestartItem>
+		<fileedittimeendItem>File Edit Time To</fileedittimeendItem>
+		<filesizefromItem>File Start Size(byte)</filesizefromItem>
+		<filesizeendItem>File Start Size(byte)</filesizeendItem>
+		<includesubdirItem>Sub Dir Included</includesubdirItem>
+
+		<!-- 窗口标题 -->
+		<addPingTelnetTestFormName>Add PingTelnet Test Plan</addPingTelnetTestFormName><!-- 连通测试窗口标题 -->
+		<addRestartShutDownFormName>Add Restart ShutDown Plan</addRestartShutDownFormName><!-- 重启关机窗口标题 -->
+		<addPauseRestoreFormName>Add Pause Restore Plan</addPauseRestoreFormName><!-- 暂停恢重窗口标题 -->
+		<addTimeTaskFormName>Add Time Task Plan</addTimeTaskFormName><!-- 定时任务窗口标题 -->
+		<addResetHardWareFormName>Add Reset HardWare Plan</addResetHardWareFormName><!-- 硬件模块重置窗口标题 -->
+		<seeResetHardWareStatusFormName>See Reset HardWare Task Status</seeResetHardWareStatusFormName>
+		
+		<viewPingTelnetTestFormName>View PingTelnet Test Plan</viewPingTelnetTestFormName><!-- 查询连通测试窗口标题 -->
+		<viewRestartShutDownFormName>View Restart ShutDown Plan</viewRestartShutDownFormName><!-- 查询重启关机窗口标题 -->
+		<viewPauseRestoreFormName>View Pause Restore Plan</viewPauseRestoreFormName><!-- 查询暂停恢重窗口标题 -->
+		<viewTimeTaskFormName>View Time Task Plan</viewTimeTaskFormName><!-- 查询定时任务窗口标题 -->
+		<viewResetHardWareFormName>View Reset HardWare Plan</viewResetHardWareFormName><!-- 查询重置硬件模块窗口标题 -->
+		<baseInfo>Base Info</baseInfo>
+		<paramInfo>Param Info</paramInfo>
+		
+		<AllDeviceItem>All Device</AllDeviceItem>
+		<IDCItem>IDentification Card</IDCItem>
+		<RPTRItem>Receipt Printer</RPTRItem>
+		<JPTRItem>Journal Printer</JPTRItem>
+		<CIMItem>Cash In</CIMItem>
+		<CDMItem>Cash Dispenser</CDMItem>
+		<COINItem>Coin</COINItem>
+		<PINItem>Personal Identification</PINItem>
+		<BARCODEItem>BarCode Reader</BARCODEItem>
+		<RFCARDREADERItem>Radio Card</RFCARDREADERItem>
+		<PALMVIEWItem>Palm View</PALMVIEWItem>
+		<PBKItem>Passbook Printer</PBKItem>
+		<DEPItem>Depository</DEPItem>
+		<SPRItem>Statement Printer</SPRItem>
+		<CHKItem>Check</CHKItem>
+		<TTUItem>Text Terminal Unit</TTUItem>
+		<SIUItem>Indicators Unit</SIUItem>
+		<CAMItem>Camera</CAMItem>
+		<statusDisable>No</statusDisable>
+		<statusEnable>Yes</statusEnable>
+		<removeAll>Remove All</removeAll>
+		<chooseAll>Choose All</chooseAll>
+		<resetResults>Reset Results</resetResults>
+		
+		<searchWaitForAMoment>System Info</searchWaitForAMoment>
+		<searchWaitForInfo>Searching Now.Please Wait For A Moment...</searchWaitForInfo>
+		
+		<hintOfInputTermid>enter terminal id, 900 characters maximum.</hintOfInputTermid>		
+		<speratedWithCommaSemicolonSpace>separated with comma, semicolon or space.</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>or click button to choose</hintOfClickButton>
+		<restartShutdownByForce>By force</restartShutdownByForce>
+		
+		<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+	</node>
+</nodes>

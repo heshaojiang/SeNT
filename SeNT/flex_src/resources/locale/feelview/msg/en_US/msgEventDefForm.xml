@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgEventDefForm">
+		<createMsgEventDef>Create Card Info</createMsgEventDef>
+		<editMsgEventDef>Edit Card Info</editMsgEventDef>
+		<eventType>eventType：</eventType>
+		<flag>flag：</flag>
+		<auto>auto：</auto>
+		<informManner>informManner：</informManner>
+		<msgTemplate>Msg Template：</msgTemplate>
+		<role>Role：</role>
+		<sourceId1>atm ID：</sourceId1>
+		<sourceId2>organization：</sourceId2>
+	</node>
+</nodes>

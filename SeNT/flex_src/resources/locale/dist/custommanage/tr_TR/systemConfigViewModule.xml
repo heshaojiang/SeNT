@@ -1,0 +1,29 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	  Description： 操作系统配置
+	  Create Time：2011-9-16   
+	  Author：zhangjinpeng 
+	  Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "systemConfigViewModule">
+		<termidItem>Terminal Id</termidItem>
+		<ipaddressItem>IP Adresi</ipaddressItem>
+		<subnetmaskItem>Alt Ağ Maskesi</subnetmaskItem>
+		<gatewayItem>Varsayılan Ağ Geçidi</gatewayItem>
+		<dnsItem>DNS</dnsItem>
+		<altdnsItem>Alternatif DNS</altdnsItem>
+		<osversionItem>İşletim Sistemi Sürümü</osversionItem>
+		<memorysizeItem>Bellek Boyutu(MB)</memorysizeItem>
+		<disksizeItem>Disk Alanı(GB)</disksizeItem>
+		<soundvolItem>Sistem Birimi</soundvolItem>
+		<systimeItem>Sistem Zamanı</systimeItem>
+		<lastmodifytimeItem>Son Değişiklik Tarihi</lastmodifytimeItem>
+		<termidItem>Terminal Id</termidItem>
+		<termTypeItem>Terminal Tipi</termTypeItem>
+		<brandItem>Marka</brandItem>
+		<modelItem>Model</modelItem>
+		<orgItem>Organizasyon</orgItem>
+		<areaIdItem>Bölge</areaIdItem>
+	</node>
+</nodes>

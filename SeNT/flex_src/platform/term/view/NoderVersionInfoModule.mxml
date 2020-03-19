@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/"
+			   dataDictionaryPaths="{[NoderConsts.NODER_VERSION_STATUS,NoderConsts.NODER_TYPE]}"
+			   locale="noderVersionInfoModule"
+			   layout="horizontal"
+			   width="100%" height="100%"
+			   > 
+	<fx:Declarations> 
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="NoderVersionInfoModule"/> 
+			<parsley:MessageSettings defaultReceiverScope="NoderVersionInfoModule"/>
+			<parsley:FlexConfig type="{NoderVersionInfoConfig}"/>
+			<parsley:FlexConfig type="{BlackRegulationConfig}"/>
+			<parsley:FlexConfig type="{ParamConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<!--<fx:Binding source="startTime.text" destination="pm.condi.startTime"/>-->
+	<!--<fx:Binding source="endTime.text" destination="pm.condi.endTime"/>-->
+	<fx:Binding source="version_status.selectedValue" destination="pm.condi.version_status"/>
+	<fx:Binding source="noderType.selectedValue" destination="pm.condi.noderType"/>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.DataDirConsts;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.param.config.ParamConfig;
+			import platform.term.config.NoderVersionInfoConfig;
+			import platform.term.constants.NoderConsts;
+			import platform.term.constants.TermLocalKeyConsts;
+			import platform.term.message.NoderVersionInfoMsg;
+			import platform.term.pm.NoderVersionInfoPM;
+			import platform.term.view.TermSelectForm;
+			import platform.term.vo.NoderVersionInfoVo;
+			
+			import sent.common.utils.DataGridColumnUtils;
+			import sent.common.utils.DateUtils;
+			import sent.rule.config.BlackRegulationConfig;
+			import sent.rule.message.BlackRegulationMsg;
+			import sent.rule.pm.BlackRegulationPM;
+			import sent.rule.vo.BlackRegulationVO;
+
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			
+			[Inject]
+			[Bindable]
+			public var pm:NoderVersionInfoPM;
+			
+			
+			[Inject]
+			[Bindable]
+			public var blackRegulationPM:BlackRegulationPM;
+			
+			//节点类型。0=地市server；1=标准版节点机；2=柜面节点机  3-节点机管理端
+			[Bindable]
+			private var noderTypes:IList;
+			
+			//节点类型。0=地市server；1=标准版节点机；2=柜面节点机  3-节点机管理端
+			[Bindable]
+			private var noderTypesFEdit:IList;
+			
+			/* 
+			[Bindable]
+			private var isInterATMSource:IList;
+			
+			[Bindable]
+			private var runningStatus:IList; */
+			
+			/**
+			 *规则审核按钮的图标
+			 **/
+			[Bindable]
+			[Embed(source="resources/theme/images/audit.png")] 
+			private var audit:Class; 
+			
+			[Bindable]
+			private var versionStatus:IList ;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			
+			override protected function viewUpdateComplete():void
+			{
+				trace("NoderVersionInfoModule.viewUpdateComplete");
+				pm.init();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				/* isInterATMSource = bindableDataDirCache.getItemAt(0) as IList; */
+				versionStatus = bindableDataDirCache.getItemAt(0) as IList;
+				noderTypes = bindableDataDirCache.getItemAt(1) as IList;
+				noderTypesFEdit = ObjectUtil.clone(noderTypes) as IList;
+				noderTypesFEdit.removeItemAt(0);
+			}
+			
+			override public function dispose():void
+			{
+				trace("NoderVersionInfoModule.dispose");
+				noderVersionInfoPageGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status") 
+					currentDataDictPath = NoderConsts.NODER_VERSION_STATUS;
+				else if(column.dataField == "noderType"){
+					currentDataDictPath = NoderConsts.NODER_TYPE;
+				}
+				return super.transferDataDict(p_item, column);
+			}
+			
+			public function transformNoderFlag(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = NoderConsts.NODER_TYPE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			//Add 
+			public function add():void
+			{
+				trace("NoderVersionInfoModule.add");
+				//set vo
+				var vo:NoderVersionInfoVo = new NoderVersionInfoVo();
+				vo.version = pm.noderVersionInfoFormInitDatas.newVersion ;
+				vo.formType = TermLocalKeyConsts.ADD_TERM_VERSION_INFO_FORM;
+				vo.relayVersion = "";
+				openWin(TermLocalKeyConsts.ADD_TERM_VERSION_INFO_FORM, vo);
+			}
+			
+			
+			/**
+			 * edit datadir item
+			 * */
+			public function edit():void
+			{
+				trace("NoderVersionInfoModule.edit");
+				if (noderVersionInfoPageGrid.checkedItems.length != 1)
+				{
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var temp:NoderVersionInfoVo = NoderVersionInfoVo(noderVersionInfoPageGrid.checkedItems[0]);
+				var vo:NoderVersionInfoVo = temp as NoderVersionInfoVo;
+//				if(vo.status != NoderConsts.NODER_VERSION_STATUS0) {
+//					AlertHandler.alert("alreadyAuditCanNotEdit");//非初始状态，不能进行编辑
+//					return;
+//				}
+				vo.formType = TermLocalKeyConsts.UPDATE_TERM_VERSION_INFO_FORM;
+				/* vo.machineType = NoderConsts.MACHINE_TYPE_NODER; */
+				openWinEdit(TermLocalKeyConsts.UPDATE_TERM_VERSION_INFO_FORM, vo);
+				
+			}
+			
+			/**
+			 * delete datadir item
+			 * */
+			public function del():void
+			{
+				trace("NoderVersionInfoModule.del");
+				pm.delNoderVersionInfo(noderVersionInfoPageGrid.checkedItems);
+			}
+			
+			
+			//Add 
+			public function importFile():void
+			{
+				trace("NoderVersionInfoModule.importFile");
+				//set vo
+				var vo:NoderVersionInfoVo = new NoderVersionInfoVo();
+				vo.formType = TermLocalKeyConsts.ADD_TERM_VERSION_INFO_FORM;
+				/* vo.activeDate = new Date(); */
+				//dispatch event
+				var win:NoderInfoImportForm = new NoderInfoImportForm();
+				
+				//win.titleKey = TermLocalKeyConsts.UPDATE_TERMINFO_FORM;
+				win.titleKey = "importTermInfoForm";
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+			}
+			
+			override protected function parsleyInit():void
+			{
+				trace("NoderVersionInfoModule.parsleyInit");
+				pm.menuId = menu.id;
+			}
+			
+			/**
+			 * dispatch event
+			 * */
+			public function openWin(p_winName:String, p_vo:NoderVersionInfoVo):void
+			{
+				trace("NoderVersionInfoModule.openWin");
+				//dispatch event
+				 var win:NoderVersionInfoForm = new NoderVersionInfoForm();
+				
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				
+				win.pm.vo = p_vo;
+				win.dataProvider = ObjectUtil.copy(pm.noderVersionInfoFormInitDatas) as Object;
+				win.pm.menuId = this.menu.id;	
+				
+				win.init(noderTypesFEdit); 
+			}
+			
+			public function openWinEdit(p_winName:String, p_vo:NoderVersionInfoVo):void
+			{
+				//dispatch event
+				var win:NoderVersionInfoEditForm = new NoderVersionInfoEditForm();
+				
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);	
+				
+				win.pm.vo = p_vo;
+				win.dataProvider = ObjectUtil.copy(pm.noderVersionInfoFormInitDatas) as Object;
+				win.pm.menuId = this.menu.id;	
+				win.init(noderTypesFEdit); 
+			}
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="getNoderInfoPageResult")]
+			public function getPageHandler(p_msg:NoderVersionInfoMsg):void
+			{
+				trace("NoderVersionInfoModule.getPageHandler");
+				orgId.getDataList();
+				/* areaId.getDataList(); */
+
+
+//				if(p_msg.result)
+//					noderVersionInfoPageGrid.checkedItems = [];
+			}
+			
+			protected function noderVersionInfoPageGrid_doubleClickHandler(event:MouseEvent):void
+			{
+				trace("NoderVersionInfoModule.noderVersionInfoPageGrid_doubleClickHandler");
+				var vo:NoderVersionInfoVo = NoderVersionInfoVo(noderVersionInfoPageGrid.selectedItem);
+				vo.formType = TermLocalKeyConsts.MACHINE_VERSION_DETAIL;
+				var win:ShowNoderVersionInfoForm = new ShowNoderVersionInfoForm();
+				win.readOnly = true;
+				win.titleKey = TermLocalKeyConsts.MACHINE_VERSION_DETAIL;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win), this);				
+				/* win.pm.vo = vo;
+				win.pm.noderInfoFormInitDatas = ObjectUtil.copy(pm.noderInfoFormInitDatas); */
+				win.saveButton.visible = false;
+				win.saveButton.includeInLayout = false;
+				win.init();
+				/* win.resetButton.visible = false;
+				win.resetButton.includeInLayout = false; */
+			}
+			
+			
+			//导出excel
+			public function export():void
+			{
+				var arr:ArrayCollection = noderVersionInfoPageGrid.dataProvider as ArrayCollection;
+				var isPrintTemplate:int = arr.length ; 
+						 
+				pm.export(isPrintTemplate);
+				// var langMgr:LanguageManager = LanguageManager.getInstance();
+				//var msg:OrgMsg = new OrgMsg();
+				// var termInfoMsg : TermInfoMsg = new TermInfoMsg;
+				// termInfoMsg.type = "exportTermInfo";
+				// termInfoMsg.args["orgId"] = String(pm.treeXml.@id);
+				// msg.args["language"] = langMgr.currentLanguage;
+				//sendMessage(termInfoMsg);
+			}
+			
+			public function syncSendToSentServer():void
+			{
+				
+				var msg:BlackRegulationMsg = new BlackRegulationMsg();
+				msg.args["remoteMethod"]   = "syncSendToSentServer";
+				msg.args["methodPrameter"] = 1;
+				msg.args["resultHandler"]  = "NoderVersionInfoModule.syncSendToSentServerResult";
+				msg.args["errorHandler"]   = "NoderVersionInfoModule.syncSendToSentServerError";
+				
+				blackRegulationPM.syncSendToSentServer(msg);
+				
+				
+				//pm.syncSendToSentServer();
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="NoderVersionInfoModule.syncSendToSentServerResult")]
+			public function syncSendToSentServerResult(msg:BlackRegulationMsg):void
+			{
+				trace("ermInfoModule.syncSendToSentServerResult");
+				var result:Object = msg.result;
+				var returnResult:int=1;
+				if(result != null){
+					returnResult = ObjectUtil.copy(msg.result) as int;
+					if(returnResult == 0){
+						AlertHandler.alert("同步成功!");
+					}else{
+						AlertHandler.alert("同步失败!");
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			[MessageHandler(selector="NoderVersionInfoModule.syncSendToSentServerError")]
+			public function syncSendToSentServerError(msg:BlackRegulationMsg):void
+			{
+				trace("NoderVersionInfoModule.syncSendToSentServerError");
+				trace(msg.result);
+			}
+			
+			[MessageHandler(selector="exportOrgInfoResult")]
+			public function exportOrgExcelResultHandler(versionInfoMsg:NoderVersionInfoMsg):void
+			{
+				if(versionInfoMsg)
+				{
+					var fileName:String = versionInfoMsg.result.toString();
+					if(fileName=="noData")
+					{
+						var alertMsg:String = langMgr.getExceptionMessage("exceptionMessage.noDataToExport");
+						AlertHandler.alert(alertMsg);
+						return;
+					}    
+					else
+					{
+						//调用js打开连接下载
+						ExternalInterface.call("downloadFile","../servlet/exportFileServlet?fileName=" + versionInfoMsg.result.toString()); 
+					}
+				}
+			}
+
+			public function resetComboBox():void
+			{
+				
+			}
+			
+			/* public function transformRunningStatus(p_item:Object, column:DataGridColumn):String
+			{
+				currentDataDictPath = NoderConsts.NODER_VERSION_STATUS;
+				return super.transferDataDict(p_item, column);
+			} */
+			
+			public function transferTimeFormat(p_item:Object, column:DataGridColumn):String
+			{
+				var date:Date = p_item.createTime;
+				if( date==null )
+				{
+					return null;
+				}
+				return DateUtils.formatDate(date);
+			}
+			
+			/**
+			 * 审核
+			 */
+			public function makeVersionEudit():void
+			{
+				trace("NoderVersionInfoModule.makeVersionEudit()");
+				if (!noderVersionInfoPageGrid.checkedItems || noderVersionInfoPageGrid.checkedItems.length < 1 ||noderVersionInfoPageGrid.checkedItems.length>1){
+					AlertHandler.alert("noSelectedRecord");//最多选择一条
+					return;
+				}
+				
+				var obj:NoderVersionInfoVo = noderVersionInfoPageGrid.checkedItems[0] as NoderVersionInfoVo;
+				if(obj.status != NoderConsts.NODER_VERSION_STATUS0) {
+					AlertHandler.alert("alreadyAudit");//非初始状态，不能进行审核
+					return;
+				}
+				
+				var win:ShowVersionAuditInfo= new ShowVersionAuditInfo();
+				win.pm = pm;
+				pm.createTimeString = DateUtils.formatDate(obj.createTime,"YYYY-MM-DD JJ:NN:SS") ;
+				win.noderVersionInfo = obj;
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(win);
+				win.titleKey="regulationAuditTitle";
+				win.init(noderTypesFEdit);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="100%" 
+					   height="100%"
+					   styleName="BorderContainer">
+		<s:layout>
+			<s:VerticalLayout gap="0" 
+							  paddingTop="0"/>
+		</s:layout>
+		
+		<!-- 查询条件 -->
+		<grg:AdvancedSearchBar
+			textAlign="center"
+			styleName="SearchBar" borderVisible="false">
+			<grg:layout>
+				<s:VerticalLayout paddingTop="0" gap="0"/>
+			</grg:layout>
+			<mx:HBox width="100%" styleName="firHBoxStyle" paddingRight="0" height="30">
+				<!-- 节点机版本信息 -->
+				<grg:TitleBar locale="listTitle" width="50%"/>
+				<mx:HBox height="30"  width="100%" styleName="senHBoxStyle" paddingTop="2" paddingBottom="3" horizontalAlign="right">
+					<mx:HBox styleName="searchStyle" height="25">
+						<!--创建机构：
+						<grg:Label locale="org"/>
+						<grg:GRGComboBoxOrgTree id="orgid" defaultField="true"
+												width="110" 
+												textAlign="left"
+												treeHeight="150"/>
+						-->
+						<!--节点机IP：
+						<grg:Label locale="netAddrItem" />
+						<grg:TextInput id="netAddr" textAlign="left" restrict="0-9\."
+									   width="113" height="20"
+									   styleName="TextInput" /> 
+						-->
+						<!--终端编号：
+						<grg:Label locale="termCodeItem" />
+						<grg:TextInput id="termCode" textAlign="left" restrict="0-9a-zA-Z\-"
+									   width="114" height="20"
+									   styleName="TextInput"/> 
+						-->
+						<!-- 创建时间 
+						<grg:Label locale="createDateColon" />
+						<grg:SuperDateField id="startTime"  myEnabled="false" 
+											selectedDate="{DateUtils.createDate(-7)}"
+											selectableRange="{{rangeEnd:endTime.selectedDate}}" />
+						<s:Spacer width="5" />
+						<grg:Label locale="to" />
+						<s:Spacer width="5" />
+						<grg:SuperDateField id="endTime"  myEnabled="false" 
+											selectedDate="{DateUtils.createDate(0)}"
+											selectableRange="{{rangeStart:startTime.selectedDate}}" />
+						<s:Spacer width="10" />
+						-->
+						<!-- 节点机类型 -->
+						<grg:Label locale="noderType"/>
+						<grg:ComboBox id="noderType" hasAllItem="true" selectedIndex="-1" allItemKey="runningStatusItem"
+									  dataProvider="{noderTypes}"
+									  labelField="text" valueField="key" width="100"/>
+						
+						<grg:Label locale="versionStatusLabel"/>
+						<grg:ComboBox id="version_status" hasAllItem="true" selectedIndex="-1" allItemKey="runningStatusItem"
+									  dataProvider="{versionStatus}"
+									  labelField="text" valueField="key" width="100"/>
+						<grg:SearchButton id="btn_search"
+										  locale="searchButton" menuId="{menu.id}" 
+										  iconType="query" click="pm.page=new Page();pm.loadNoderVersionInfoPage()"/>
+					<!--	<grg:ExpansionButton locale ="moreSearch" iconType="pulldown"/> -->
+						<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" click="resetComboBox()" resetControls="{[/*orgid,areaid,serviceType,layType,isInterATM*/]}"/>
+					</mx:HBox>
+				</mx:HBox>
+			</mx:HBox> 
+			
+			<s:BorderContainer width="100%" borderVisible="false" backgroundAlpha="0">
+				
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingBottom="0" />
+				</s:layout>
+				
+				<s:BorderContainer width="100%" height="4" backgroundImage="@Embed(source='resources/theme/newui/more_search.png')" borderVisible="false">
+				</s:BorderContainer>
+				
+				<s:BorderContainer  width="100%" height="100%" backgroundColor="#FAFCFF" borderVisible="false">
+					
+					<s:layout>
+						<s:VerticalLayout   gap="0" />
+					</s:layout>
+					
+					<mx:HBox width="100%" styleName="expHBoxStyle">  
+						<s:BorderContainer width="100%" height="28" styleName="expBorderHBoxStyle">
+							
+							<s:layout>
+								<s:HorizontalLayout horizontalAlign="right" gap="2" verticalAlign="middle" />
+							</s:layout>
+							
+							<!--所属区域：
+							<grg:Label locale="areaIdItem"/>
+							<grg:GRGComboxBoxAreaTree  id="areaid" valueField="@pathCode"
+													   width="110"
+													   textAlign="left"
+													   treeHeight="150"/> 
+							-->
+							<!--
+							<grg:ComboBox id="serviceType" name="serviceType" selectedIndex="-1"
+										  dataProvider="{pm.searchBarInitDatas.serviceTypeList}" 
+										  labelField="value" valueField="key"
+										  width="110" textAlign="left" hasAllItem="true" allItemKey="serviceTypeItem"
+										  />
+							<grg:ComboBox id="layType" name="layType"  selectedIndex="-1"
+										  dataProvider="{pm.searchBarInitDatas.layTypeList}" 
+										  labelField="value" valueField="key"
+										  width="110" textAlign="left" hasAllItem="true" allItemKey="layTypeItem"
+										  /> 
+							<grg:ComboBox id="isInterATM" name="isInterATM"  selectedIndex="-1"
+										  dataProvider="{isInterATMSource}"
+										  labelField="text" valueField="key"
+										  width="110" textAlign="left" hasAllItem="true" allItemKey="isInterATMItem"
+										  />
+							-->
+							
+						</s:BorderContainer>
+					</mx:HBox>
+				</s:BorderContainer>
+			</s:BorderContainer>
+			
+		</grg:AdvancedSearchBar>
+		
+		<!-- 操作按钮 -->
+		<mx:HBox width="100%" styleName="moduleButtonBarHBoxstyle">
+			<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+				</s:layout>
+				<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}" styleName="moduleButtonBarstyle"/>
+				<!--审核版本-->
+				<grg:Button icon="{audit}" locale="makeVersionEudit" click="makeVersionEudit()"/>
+				<!--     
+				<grg:Button locale="fileExport" iconType="export" click="export();"  />
+				-->
+				<!--导入
+				<grg:Button locale="fileupload" iconType="import" click="importFile();" />
+				-->
+			</s:BorderContainer>
+		</mx:HBox> 
+		
+		<!-- 列表 -->
+			<grg:DataGrid id="noderVersionInfoPageGrid" dataProvider="{pm.page.result}" 
+									   width="100%" height="100%" textAlign="left"
+									   paddingLeft="20" 
+									   styleName="DataGrid" >
+				<grg:columns>
+					<grg:CheckBoxColumn id="checkBoxCol"
+										sortable="false"
+										draggable="false"
+										editable="false"
+										resizable="false" 
+										textAlign="center"
+										/>
+					<!--终端编号：
+					<grg:DataGridColumn locale="termCodeItem"
+										dataField="termCode" 
+										textAlign="left"
+										/>
+					-->
+					<!--升级的机构：-->
+					<grg:RODataGridColumn locale="org"
+										  dataField="orgName"
+										  id="orgId"
+										  labelField="orgName"
+										  valueField="orgName"
+										  service="orgInfoService"
+										  method="getAllOrg" 
+										  textAlign="left"
+										  />
+					
+					<!--节点机类型：-->
+					<grg:DataGridColumn locale="noderType"
+										dataField="noderType" 
+										textAlign="left"
+										labelFunction="{transferDataDict}"
+										/>
+					
+					<!--版本号：-->
+					<grg:DataGridColumn locale="noderVersion"
+										dataField="version" 
+										textAlign="left"
+										/>
+					<!--版本包名称：-->
+					<grg:DataGridColumn locale="packageName"
+										dataField="packageName" 
+										textAlign="left"
+										/>
+					
+					<!--依赖的版本号：-->
+					<grg:DataGridColumn locale="relayVersion"
+										dataField="relayVersion" 
+										textAlign="left"
+										/>
+
+					<!-- 版本状态  -->
+					<grg:DataGridColumn locale="status"
+										dataField="status" 
+										textAlign="left"
+										labelFunction="{transferDataDict}"
+										/>
+					
+					<!-- 创建时间  -->
+					<grg:DataGridColumn id="createTimeItem"
+										locale="createTime"
+										dataField="createTime" 
+										textAlign="left"
+										labelFunction="{DataGridColumnUtils.formatDateToYYYYMMDDHHMISS}"
+										/> 
+					
+					<!-- 创建人员  -->
+					<grg:DataGridColumn locale="createUserCode"
+										dataField="createUserCode" 
+										textAlign="left"
+										/>
+					
+					<!-- 审核时间  -->
+					<grg:DataGridColumn locale="checkTime"
+										dataField="checkTime" 
+										textAlign="left"
+										labelFunction="{DataGridColumnUtils.formatDateToYYYYMMDDHHMISS}"
+										/>
+					<!-- 审核人员  -->
+					<grg:DataGridColumn locale="checkUserCode"
+										dataField="checkUserCode" 
+										textAlign="left"
+										/>
+					
+					
+					<!--所属区域：
+					<grg:RODataGridColumn locale="areaIdItem"
+										  dataField="areaId"
+										  id="areaId"
+										  labelField="areaName"
+										  valueField="id"
+										  service="areaService"
+										  method="getAllArea" 
+										  textAlign="left"
+										  />
+					-->
+					<!--运行状态：
+					<grg:DataGridColumn locale="runningStatus"
+										dataField="runningStatus" 
+										textAlign="left"
+										labelFunction="{transformRunningStatus}"
+										>
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXItemRenderer>
+								<fx:Script>
+									<![CDATA[
+										[Bindable]
+										private var registerInDoubtRecord:Boolean;
+										[Bindable]
+										private var runningStatus:String;
+										override public function set data(value:Object):void
+										{
+											super.data = value;
+											runningStatus = data.runningStatus;
+											if(runningStatus == '1'){
+												runningStatus = '故障';
+												runningStatusColor.setStyle("color","#ff0000");
+											} else if(runningStatus == '2'){
+												runningStatus = '离线';
+												runningStatusColor.setStyle("color","#ff0000");
+											}else {
+												runningStatus = '正常';
+												runningStatusColor.setStyle("color","black");
+											}
+										}
+									]]>
+								</fx:Script>
+								<grg:Label text="{runningStatus}" paddingTop="5" paddingLeft="3" id="runningStatusColor"  />
+							</s:MXItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+					</grg:DataGridColumn>
+					-->
+					<!--状态更新时间：
+					<grg:DataGridColumn locale="statusTime"
+										dataField="statusTime" 
+										textAlign="left"
+										labelFunction="{transformOperDate}"
+										/>
+					-->
+					<!--参数：
+					<grg:DataGridColumn locale="parameter"
+										dataField="parameter" 
+										textAlign="left"
+										/>
+					-->
+					<!--设备信息：
+					<grg:DataGridColumn locale="device"
+										dataField="device" 
+										textAlign="left"
+										/>
+					-->
+					<!-- 节点机安装目录  
+					<grg:DataGridColumn locale="installDir"
+										dataField="installDir" 
+										textAlign="left"
+										/>
+					-->
+					<!-- 中间层IP 
+					<grg:DataGridColumn locale="midLevelIP"
+										dataField="midLevelIP" 
+										textAlign="left"
+										/>
+					-->
+				</grg:columns>
+			</grg:DataGrid>
+		<grg:PageNavigatorBar id="noderVersionInfoPagingBar"
+							  x="0" pageVo="{pm.page}"
+							  pagingFunction="{pm.loadNoderVersionInfoPage}"
+							  bottom="0" />
+	</s:BorderContainer>
+</grg:TabModule>

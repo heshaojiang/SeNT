@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termBrandAmountModule">
+		<listTitle>列表</listTitle>
+		<termBrandAmountTitle>设备占有率统计</termBrandAmountTitle>
+		<org>所属机构：</org>
+		<type>终端类型</type>
+		<allBrand>全部终端品牌</allBrand>
+		<brand>终端品牌</brand>
+		<model>终端型号</model>
+		<instType>安装方式</instType>
+		<typeSum>各型号数量</typeSum>
+		<typePercent>各型号占比</typePercent>
+		<brandSum>品牌数量</brandSum>
+		<brandPersent>品牌占比</brandPersent>
+		<export>导  出</export>
+	</node>
+</nodes>

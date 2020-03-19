@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "wtServiceTimeReportModule">
+		<listTitle>Query Result List</listTitle>
+		<termId>Terminal ID</termId>
+		<termType>Terminal Type</termType>
+		<brand>Brand</brand>
+		<orgId>Branch</orgId>
+		<orgName>Branch</orgName>
+		<oosTime>OutOfService(min.)</oosTime>
+		<maintainTime>Maintenance(min.)</maintainTime>
+		<serviceTime>InService(min.)</serviceTime>
+		<fullTime>FullTime(min.)</fullTime>
+		<inServiceRate>InService Ratio</inServiceRate>
+		<org>Branch</org>
+		<beginDate>Time Range From</beginDate>
+		<endDate>to</endDate>
+		<export>Export</export>
+	</node>
+</nodes>

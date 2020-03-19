@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlNoteflowATMAddCashReportModule">
+		<titlemsg>ATM加钞统计报表</titlemsg>
+		
+		<clearingDateColon>日期：</clearingDateColon>
+		<organizationColon>所属机构：</organizationColon>
+		<termIdColon>终端编号：</termIdColon>
+		<to>至</to>
+		
+		<orgName>所属机构</orgName>
+		<termId>终端编号</termId>
+		<addDate>日期</addDate>
+		<addCashAtBranchAmount>ATM配钞</addCashAtBranchAmount>
+		
+		<allAddCashAtBranchAmount>ATM配钞总计：</allAddCashAtBranchAmount>
+
+	</node>
+</nodes>

@@ -1,0 +1,324 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow dataDictionaryPaths="{[DataDirConsts.POS_LEVEL, DataDirConsts.POS_TYPE]}"
+				 width="450" height="560"
+				 layout="vertical"
+				 showIcon="false" 
+				 locale="cashSerialToPBOCForm"
+				 helpTips="usertips"
+				 xmlns:fx="http://ns.adobe.com/mxml/2009"
+				 xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			
+			import platform.CashSerial.message.CashSerialToPBOCMsg;
+			import platform.CashSerial.pm.CashSerialToPBOCFormPM;
+			import platform.CashSerial.pm.CashSerialToPBOCModulePM;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.common.validator.VControl;
+			import platform.constants.DataDirConsts;
+			import platform.security.message.UserMsg;
+			import platform.security.pm.UserFormPM;
+			
+			import spark.layouts.TileLayout;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:CashSerialToPBOCFormPM;
+			
+			[Bindable]
+			private var defauleModule:ArrayCollection=new ArrayCollection();
+
+			
+			override protected function cancel():void
+			{
+				close();
+				pm.cancel();
+			}
+			
+			private function showError(arr:Array):void
+			{
+				for(var i:int = arr.length; 0 < i; i--)
+				{
+					var ui:UIComponent = arr[i-1];
+					ui.setFocus();
+				}
+				if(arr.length>0){
+					this.setFocus();
+					arr[i].setFocus();		
+				}
+			}
+			
+			public function get layoutType():TileLayout
+			{
+				var layout:TileLayout = new TileLayout();
+				layout.columnAlign = "left";
+				layout.orientation = "rows";
+				//layout.columnWidth=60;
+				layout.requestedColumnCount=4;
+				layout.rowAlign = "justify";
+				return layout;
+			}
+			
+			private function submit():void
+			{
+				var serverIpText:String = serverIp.text;
+				var startTimeText:String = startTime.text;
+				
+				if(serverIpText == null || serverIpText == ""){
+					AlertHandler.alert("服务器IP为空，请输入服务器IP.");
+					return;
+				} 
+				if(startTimeText == null || startTimeText == ""){
+					AlertHandler.alert("开始时间为空,请输入开始时间.");
+					return;
+				} 
+				
+				var ip:RegExp= /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/;
+				if(!ip.test(serverIpText)){
+					AlertHandler.alert("输入的服务器IP非法，请重新输入.");
+					return;
+				}
+				
+				var timeReg:RegExp = /^(\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+				if(!timeReg.test(startTimeText)){
+					AlertHandler.alert("输入的开始时间非法，请重新输入.");
+					return;
+				}
+				
+				var timePart:Array = startTimeText.split(":");
+				var hour:int = parseInt(timePart[0]);
+				var minute:int = parseInt(timePart[1]);
+				var second:int = parseInt(timePart[2]);
+				if(hour > 23 || minute > 59 || second > 59){
+					AlertHandler.alert("输入的开始时间非法，请重新输入.");
+					return;
+				}
+				
+				pm.save(buttonSet.selectedItems, buttonSet.disSelectedItems);
+			}
+			
+			[MessageHandler(selector="newCashSerialToPBOCResult")]
+			public function newCashSerialToPBOCResult(p_msg:CashSerialToPBOCMsg):void
+			{
+				if (p_msg.result)
+					close();
+			}
+
+			
+			private function drawCircle():UIComponent
+			{
+				var t:UIComponent= new UIComponent();
+				var circle:Sprite = new Sprite();
+				circle.graphics.lineStyle(2,0xffffff);
+				circle.graphics.drawCircle(16, 0, 11);
+				t.addChild(circle);
+				return t;  
+			}
+			
+			
+			private function changeSelectDay(cycleType:String):void
+			{
+
+					pm.loadSelectDay();
+
+
+			}
+			
+
+			
+			
+		]]>
+	</fx:Script>
+	
+
+	
+	
+	
+	<s:Group id="group" width="100%" clipAndEnableScrolling="true">
+		
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		
+		<grg:Form id="form"
+				  width="100%" height="100%"
+				  paddingTop="16"
+				  textAlign="left"
+				  borderVisible="false">
+			
+			
+			<grg:FormItem width="100%"
+						  locale="serverNameKey"
+						  required="true"
+						  borderVisible="false">
+				<grg:TextInput id="serverName" name="serverName" maxChars="32"
+							   width="113"
+							   text="@{pm.cashSerialToPBOCVO.serverName}"
+							   required="true"
+							   />
+			</grg:FormItem>
+			
+			<grg:FormItem width="100%"
+						  locale="serverIpKey"
+						  required="true"
+						  borderVisible="false">
+				<grg:TextInput id="serverIp" name="serverIp" maxChars="32"
+							   width="113"
+							   text="@{pm.cashSerialToPBOCVO.serverIp}"
+							   required="true"
+							   />
+			</grg:FormItem>
+			
+			<grg:FormItem width="100%"
+						  locale="serverPortKey"
+						  required="true"
+						  borderVisible="false">
+				<grg:TextInput id="serverPort" name="serverPort" maxChars="6"
+							   restrict="0-9*-_"
+							   width="113"
+							   text="@{pm.cashSerialToPBOCVO.serverPort}"
+							   required="true"
+							   />
+			</grg:FormItem>
+			
+			<!--服务器类型-->
+			<grg:FormItem width="100%" locale="serviceTypeKey">
+				<mx:HBox>
+					<grg:RadioButtonGroup id="service_type" value="@{pm.cashSerialToPBOCVO.serverType}"/>
+					<!--TCP-->
+					<grg:RadioButton id="serviceTypeTcp" groupName="service_type"
+									 locale="serviceTypeTcp" value="1"/>
+					<!--FTP-->
+					<grg:RadioButton id="serviceTypeFtp" groupName="service_type"
+									 locale="serviceTypeFtp" value="2" selected="true"/>
+				</mx:HBox>	
+			</grg:FormItem>
+			
+			
+			<grg:FormItem width="100%"
+						  locale="serverUserNameKey"
+						  borderVisible="false">
+				<grg:TextInput id="serverUserName" name="serverUserName" maxChars="32"
+							   width="113"
+							   restrict="0-9a-zA-Z*-_"
+							   text="@{pm.cashSerialToPBOCVO.serverUsername}"
+							   />
+			</grg:FormItem>
+			
+			<grg:FormItem width="100%"
+						  locale="serverPasswordKey"
+						  borderVisible="false">
+				<grg:TextInput id="serverPassword" name="serverPassword" maxChars="32"
+							   width="113"
+							   restrict="^{'[\u4e00-\u9fa5]'}"
+							   text="@{pm.cashSerialToPBOCVO.serverPassword}"
+							   />
+			</grg:FormItem>
+			
+			<grg:FormItem width="100%"
+						  locale="serverPathKey"
+						  borderVisible="false">
+				<grg:TextInput id="serverPath" name="serverPath" maxChars="32"
+							   width="113"
+							   text="@{pm.cashSerialToPBOCVO.serverPath}"
+							   />
+			</grg:FormItem>
+			
+	
+			
+			<!--启用状态-->
+			<grg:FormItem width="100%" locale="taskStatusKey">
+				<mx:HBox>
+					<grg:RadioButtonGroup id="task_status" value="@{pm.cashSerialToPBOCVO.taskStatus}"/>
+					<!--禁用-->
+					<grg:RadioButton id="taskTypeDisable" groupName="task_status"
+									 locale="taskTypeDisable" value="0"/>
+					<!--启用-->
+					<grg:RadioButton id="taskTypeEnable" groupName="task_status"
+									 locale="taskTypeEnable" value="1" />
+				</mx:HBox>	
+			</grg:FormItem>
+			
+				
+			<grg:FormItem width="100%" locale="cycleType">
+				<mx:HBox>
+					<grg:RadioButtonGroup id="cycle_type" value="@{pm.cashSerialToPBOCVO.uploadHz}" change="changeSelectDay(String(cycle_type.selectedValue));" />
+					<!--每天-->
+					<grg:RadioButton id="statusDay" groupName="cycle_type"
+									 locale="statusDay" value="1"/>
+					<!--每周-->
+					<grg:RadioButton id="statusWeek" groupName="cycle_type"
+									 locale="statusWeek" value="2"/>
+					<!--每月-->
+					<grg:RadioButton id="statusMonth" groupName="cycle_type"
+									 locale="statusMonth" value="3"/>
+				</mx:HBox>	
+			</grg:FormItem>
+			
+			<grg:FormItem width="100%" locale="selectDay">
+				
+				<grg:CheckBoxGroup id="buttonSet"  dataProvider="{pm.cashSerialToPBOCVO.dayBtns}"
+								   layout = "{layoutType}" labelField="i18nName"
+								   selectedField="checked"   />
+			</grg:FormItem>
+			
+			<!--上传开始时间 -->
+			<grg:FormItem width="100%"
+						  locale="startTimeKey"
+						  required="true"
+						  borderVisible="false">
+				<grg:TextInput id="startTime" name="startTime" maxChars="32"
+							   width="113"
+							   text="@{pm.cashSerialToPBOCVO.uploadTime}"
+							   required="true"
+							   />
+				<grg:Label locale="timeRange" />
+			</grg:FormItem>
+			
+
+			
+		</grg:Form>
+	
+	</s:Group>	 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign="center"
+		verticalAlign="middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click="submit()"
+				locale="saveButton"
+				iconVisible="false"
+				/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click="cancel()"
+				iconVisible="false"
+				locale="cancelButton"
+				/>
+		</s:BorderContainer>
+	</s:HGroup> 
+</grg:TitleWindow>

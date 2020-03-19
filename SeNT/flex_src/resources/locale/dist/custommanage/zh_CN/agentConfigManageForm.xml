@@ -1,0 +1,78 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  Description： agent配置
+	  Create Time：2011-9-15   
+	 Author：zhangjinpeng 
+	 Email : zjpeng@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "agentConfigManageForm">
+		<addAgentConfigManageForm>新增</addAgentConfigManageForm>
+		<updateAgentConfigManageForm>修改分发服务器配置信息</updateAgentConfigManageForm>
+		<planidItem>计划id：</planidItem>
+		<createtimeItem>创建时间：</createtimeItem>
+		<repeattypeItem>计划类型：</repeattypeItem>
+		<everydayexetimeItem>每天执行时间：</everydayexetimeItem>
+		<repeatintervalItem>每次间隔时间：</repeatintervalItem>
+		<plannameItem>计划名称：</plannameItem>
+		<nextexecutetimeItem>执行时间：</nextexecutetimeItem>
+		<termidlistItem>终端编号：</termidlistItem>
+		<taskparaItem>任务指令：</taskparaItem>
+		<taskparaversionItem>任务指令版本：</taskparaversionItem>
+		<maxretrytimesItem>最大重试次数：</maxretrytimesItem>
+		<retryintervalItem>重试秒数：</retryintervalItem>
+		<enabledItem>是否可用：</enabledItem>
+		<termtypeItem>终端类型：</termtypeItem>
+		<modelItem>ATM型号：</modelItem>
+		<orgidItem>机构：</orgidItem>
+		<areaidItem>区域：</areaidItem>
+		<brandItem>终端品牌：</brandItem>
+		<timeoutintervalItem>任务超时时间(小时)：</timeoutintervalItem>
+		<BaseInfo>基本信息</BaseInfo>
+		<AgentInfo>Agent配置信息</AgentInfo>
+		<agentportItem>agent端口：</agentportItem>
+		<fdgatesvripItem>远程分发服务器IP：</fdgatesvripItem>
+		<fdgatesvrportItem>远程分发服务器端口：</fdgatesvrportItem>
+		<fvsvripItem>监控服务器IP：</fvsvripItem>
+		<fvsvrportItem>监控服务器端口：</fvsvrportItem>
+		<xfscamItem>照相机：</xfscamItem>
+		<xfscdmItem>出钞模块：</xfscdmItem>
+		<xfschkItem>支票扫描仪：</xfschkItem>
+		<xfscimItem>存款模块：</xfscimItem>
+		<xfsdepItem>信封存款：</xfsdepItem>
+		<xfsidcItem>读卡器：</xfsidcItem>
+		<xfsjprItem>流水打印机：</xfsjprItem>
+		<xfspbkItem>存折打印机：</xfspbkItem>
+		<xfspinItem>加密键盘：</xfspinItem>
+		<xfsrprItem>凭条打印机：</xfsrprItem>
+		<xfssiuItem>传感指示单元：</xfssiuItem>
+		<xfssprItem>账单打印机：</xfssprItem>
+		<xfsttuItem>后台维护终端：</xfsttuItem>
+		<spdelayItem>启动调用SP延时(秒)：</spdelayItem>
+		<sendintervalItem>状态发送间隔(秒)：</sendintervalItem>
+		<agentPredefItem>选择AGENT类型：</agentPredefItem>
+		<xfsvdmItem>厂商依赖模式：</xfsvdmItem>
+		<xfscoincdmItem>硬币模块：</xfscoincdmItem>
+		<StartXFSMonitorItem>开启状态监控：</StartXFSMonitorItem>
+		<uploadFlagItem>开启增量上传：</uploadFlagItem>
+		<agentPredefNote>注：带"#"部分不会被修改</agentPredefNote>
+		
+		<addAgentConfigManageForm>Agent配置新增信息</addAgentConfigManageForm>
+		<hintOfInputTermid>直接输入终端编号，最多可输入900个字符</hintOfInputTermid>
+		<speratedWithCommaSemicolonSpace>请以空格、英文分号、英文逗号分隔</speratedWithCommaSemicolonSpace>
+		<hintOfClickButton>或点击按钮进行选择</hintOfClickButton>
+		<xfsbcrItem>条码模块：</xfsbcrItem>
+		<xfsrfidcItem>射频卡模块：</xfsrfidcItem>
+		<monitorPalmVeinItem>掌静脉模块：</monitorPalmVeinItem>
+		<fileServerUrlItem>文件服务器地址：</fileServerUrlItem>
+		
+		<selectClientBtn>选择终端</selectClientBtn>
+		<selectRangeBtn>选择范围</selectRangeBtn>
+		<filesItem>需上传文件名序列：</filesItem>
+		<msgFormatItem>监控报文格式：</msgFormatItem>
+		<agentConfigHelp>1.打“*”项内容不能为空
+2.点击“选择终端”和“选择范围”，选择指定的ATM
+3.#表示维持现状，不改变客户端原有配置
+		</agentConfigHelp>
+		<defaultValue>缺省值</defaultValue>
+	</node>
+</nodes>

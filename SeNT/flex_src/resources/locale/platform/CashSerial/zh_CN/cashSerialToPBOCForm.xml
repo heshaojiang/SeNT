@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "cashSerialToPBOCForm">
+		<addUserForm>新增</addUserForm>
+		<updateUserForm>编辑</updateUserForm>
+
+		
+		<serverIp>服务器地址</serverIp>
+		<serverPort>服务器端口</serverPort>
+		<uploadHz>周期类别</uploadHz>
+		<uploadTime>上传时间</uploadTime>
+		<taskStatus>任务状态</taskStatus>
+		<handlePerson>设置人员</handlePerson>
+		<serverUserName>服务器用户名</serverUserName>
+		<serverPassword>服务器密码</serverPassword>
+		<serverPath>服务器路径</serverPath>
+		
+		
+		<serverMonickerKey>服务器名称：</serverMonickerKey>
+		<serverNameKey>服务器名称：</serverNameKey>
+		<serverIpKey>服务器IP：</serverIpKey>
+		<serverPortKey>服务器端口：</serverPortKey>
+		<handlePersonKey>设置人员：</handlePersonKey>
+		<serverUserNameKey>服务器用户名：</serverUserNameKey>
+		<serverPasswordKey>服务器密码：</serverPasswordKey>
+		<serverPathKey>服务器路径：</serverPathKey>
+		<cycleType>周期类别：</cycleType>
+		<startTimeKey>开始时间：</startTimeKey>
+		<serviceTypeKey>服务器类型：</serviceTypeKey>
+		<taskStatusKey>启用状态：</taskStatusKey>
+		<selectDay>选择日期：</selectDay>
+		
+		
+		<to>至</to>
+		<uploadValue>上传日期</uploadValue>
+		<statusDay>每天</statusDay>
+		<statusWeek>每周</statusWeek>
+		<statusMonth>每月</statusMonth>
+		<serviceTypeTcp>TCP</serviceTypeTcp>
+		<serviceTypeFtp>FTP</serviceTypeFtp>
+		<taskTypeEnable>启用</taskTypeEnable>
+		<taskTypeDisable>禁用</taskTypeDisable>
+		<timeRange>(00:00:00~23:59:59)</timeRange>
+		
+		<addCashSerialToPBOCFormForm>新增冠字号上传人行配置信息</addCashSerialToPBOCFormForm>
+		<editCashSerialToPBOCFormForm>编辑冠字号上传人行配置信息</editCashSerialToPBOCFormForm>
+		
+		
+		
+	</node>
+</nodes>

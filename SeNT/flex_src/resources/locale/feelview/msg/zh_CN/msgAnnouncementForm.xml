@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 
+	Description： 公告管理 <br>
+	Create Time：2011-9-21 <br>   
+	Author：Ming.Zhang  <br>
+	Email : zyming1@grgbanking.com <br>
+-->
+<nodes>
+	<node locale = "msgAnnouncementForm">
+		<addMsgAnnouncementForm>添加公告信息</addMsgAnnouncementForm>
+		<updateMsgAnnouncementForm>修改公告信息</updateMsgAnnouncementForm>
+		<announceMessageForm>发布公告信息</announceMessageForm>
+		<showAnnounceMessageDetailForm>发布公告详细信息</showAnnounceMessageDetailForm>
+		<orgIdItem>所属机构:</orgIdItem>
+		<titleItem>标题:</titleItem>
+		<contentItem>发布内容:</contentItem>
+		<sendTypeItem>发送方式:</sendTypeItem>
+		<allSend>群发</allSend>
+		<appointPerson>指定人员</appointPerson>
+		<chooseOrgIdItem>选择机构:</chooseOrgIdItem>
+		<choosePersonItem>选择人员:</choosePersonItem>
+	</node>
+</nodes>

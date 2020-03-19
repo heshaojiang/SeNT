@@ -1,0 +1,10 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgTemplateForm">
+		<editMsgTemplate>Mesaj Şablonu Düzenle</editMsgTemplate>
+		<newMsgTemplate>Mesaj Şablonu Ekle</newMsgTemplate>
+		<name>Adı:</name>
+		<content>İçerik:</content>
+		<memo>Açıklama:</memo>
+	</node>
+</nodes>

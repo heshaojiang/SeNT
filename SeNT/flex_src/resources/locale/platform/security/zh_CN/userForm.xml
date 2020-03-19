@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "userForm">
+		<addUserForm>新增</addUserForm>
+		<updateUserForm>编辑</updateUserForm>
+		<userName>用户名：</userName>
+		<loginPwd>用户密码：</loginPwd>
+		<loginPwdAgain>用户密码确认：</loginPwdAgain>
+		<userCode>用户帐号：</userCode>
+		<workId>工号：</workId>
+		<telephone>固定电话：</telephone>
+		<mobile>手机：</mobile>
+		<email>邮箱：</email>
+		<areaName>所在区域：</areaName>
+		<orgName>所在机构：</orgName>
+		
+		<invalidDate>账号失效日期：</invalidDate>
+		<pwInvalidDate>密码失效日期：</pwInvalidDate>
+		
+		<cardId>身份证号码：</cardId>
+		<posLevel>职位级别：</posLevel>
+		<posType>岗位级别：</posType>
+		<ip>绑定IP：</ip>
+		<tellerGroup>柜员组：</tellerGroup>
+		<tailBoxNo>尾箱号码：</tailBoxNo>
+		
+		<adminOrgId>可管理机构：</adminOrgId>
+		<multiOnline>支持同时登陆：</multiOnline>
+		<userNameTip>用户名不能超过32个字符并且不能小于3字符！</userNameTip>
+		<userCodeTip>用户账号不能超过32个字符并且不能小于3字符！</userCodeTip>
+		<telTips>（电话格式：13612345678）</telTips>
+		<status>状态：</status>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<headConfig>首页配置</headConfig>
+		<noConfig>无</noConfig>
+		<navConfig>导航仓</navConfig>
+		<waitConfig>待办事宜</waitConfig>
+		<usertips>账号唯一、初始化密码111111</usertips>
+		<userLevel>用户等级：</userLevel>
+	</node>
+</nodes>

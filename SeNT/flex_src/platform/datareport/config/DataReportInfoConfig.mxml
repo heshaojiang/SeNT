@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns="http://www.spicefactory.org/parsley" xmlns:grg="http://grg.grgbanking.com/platform/" xmlns:pm="platform.datareport.pm.*" xmlns:message="platform.datareport.message.*" >
+	<fx:Script>
+		<![CDATA[
+			import platform.datareport.delegate.DataReportInfoDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- service -->
+		<grg:GRGRemoteObject id="dataReportInfoService" destination="dataReportInfoService"/>
+		
+		<!-- delegate -->
+		<Object type="{DataReportInfoDelegate}">
+			<Property name="service" idRef="dataReportInfoService"/>
+		</Object>
+
+		<pm:DataReportInfoModulePM/>
+		<message:DataReportInfoMsg/>
+		
+	</fx:Declarations>
+</fx:Object>

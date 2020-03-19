@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="txnMoneyJamModule">
+		<listTitle>Para Sıkışma</listTitle>
+		<termIdItem>Terminal Id</termIdItem>
+		<deviceType>Arızalı Donanım</deviceType>
+		<beginTime>Başlangıç Zamanı</beginTime>
+		<endTime>Bitiş Zamanı</endTime>
+		<dispTotalCountItem>Para Çekme Adedi</dispTotalCountItem>
+		<dispMoneyJamItem>Para Çekme Sıkışma Adedi</dispMoneyJamItem>
+		<dispRateItem>Para Çekme/Sıkışma Oranı</dispRateItem>
+		<depTotalCountItem>Para Yatırma Adedi</depTotalCountItem>
+		<depMoneyJamItem>Para Yatırma Sıkışma Adedi</depMoneyJamItem>
+		<depRateItem>Para Yatırma/Sıkışma Oranı</depRateItem>
+		<totalRateItem>Para Yatırma-Çekme/Sıkışma Oranı</totalRateItem>
+		<org>Şube</org>
+		<areaIdItem>İl</areaIdItem>
+	</node>
+</nodes>

@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "setButtonForm">
+		<setButtons>设置按钮</setButtons>
+	</node>
+</nodes>

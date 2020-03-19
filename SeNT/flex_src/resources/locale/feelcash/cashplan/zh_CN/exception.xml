@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="cashPlan">
+		<planExistedException>计划已经存在，请选择别的日期生成计划。
+		</planExistedException>
+		<planSaveException>计划保存出错！</planSaveException>
+		<cashInfoDeleteException>加钞信删除息出错！
+		</cashInfoDeleteException>
+		<cashInfoSaveException>加钞信息保存出错！</cashInfoSaveException>
+		<planDateNotNull>计划日期不能为空</planDateNotNull>
+		<termLockInfoSaveException>终端锁定出错!</termLockInfoSaveException>
+		<listCashPlanException>获取计划列表出错!</listCashPlanException>
+		<getSysParamException>获取系统参数异常！</getSysParamException>
+		<pageCashInfoException>获取计划分页列表出错!</pageCashInfoException>
+		<listCashInfoException>获取终端加钞信息列表出错!</listCashInfoException>
+		<planNotExist>计划不存在！</planNotExist>
+		<planDeleteException>计划删除出错！</planDeleteException>
+		<planDateNotNull>计划加钞日期为空！</planDateNotNull>
+		<planCodeNotFound>计划编号不存在！</planCodeNotFound>
+		<planDateNotAfterToday>计划加钞日期必须是当前日期以后的日期！</planDateNotAfterToday>
+		<planExistedException>计划已经存在！</planExistedException>
+		<calculateCashInfoException>计算终端加钞信息出错！</calculateCashInfoException>
+		<importActualCashInfoException>导入实际加钞信息出错！
+		</importActualCashInfoException>
+		<pageActualCashInfoException>获取实际加钞信息分页列表出错！
+		</pageActualCashInfoException>
+		<pageCashInfoDiferenceException>获取差异加钞信息分页列表出错！
+		</pageCashInfoDiferenceException>
+		<checkCashInfoDiferenceException>核查加钞信息差异出错！
+		</checkCashInfoDiferenceException>
+		<checkCashPlanDiferenceException>核查加钞计划信息出错！
+		</checkCashPlanDiferenceException>
+		<importPlanNotExist>计划不存在，请检查文件名是否正确！</importPlanNotExist>
+		<importPlanNotDispath>未派发计划无法导入！</importPlanNotDispath>
+		<importPlanHasReady>计划核查中无法导入！</importPlanHasReady>
+		<balanceNotUploadException>请先上传余额报表！</balanceNotUploadException>
+	</node>
+</nodes>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 xmlns:parsley="http://www.spicefactory.org/parsley" 
+				 locale="noderVersionInfoModule"
+				 layout="vertical" width="620" height="380">
+	<fx:Declarations>
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+		<parsley:Configure reuse="false"/> 
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.IList;
+			import mx.utils.StringUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			import platform.dataDict.DataDictConfig;
+			import platform.term.constants.NoderConsts;
+			import platform.term.message.NoderVersionInfoMsg;
+			import platform.term.pm.NoderVersionInfoPM;
+			import platform.term.vo.NoderVersionInfoVo;
+			
+			import sent.common.utils.DateUtils;
+				
+			
+			
+			[Bindable]
+			public var pm:NoderVersionInfoPM;
+			
+			[Bindable]
+			//机构名称
+			public var orgName:String;
+			
+			[Bindable]
+			//申请时间
+			public var createDate:String;
+			
+			[Bindable]
+			//节点机版本信息
+			public var noderVersionInfo:NoderVersionInfoVo=new NoderVersionInfoVo();
+		
+			
+			[Bindable]
+			private var noderTypesFEdit:IList;
+			
+			public function init(noderTypesFEdit:IList):void
+			{ 
+				this.noderTypesFEdit = noderTypesFEdit;
+			}
+			
+			/**
+			 * 审核动作的更改触发事件
+			* */
+			private function auditActionChange():void
+			{
+				 if(audit_Action.value == "02"){
+					rejectItem.required = true ;
+				} 
+			}
+			public function transferStatus(stat:String):String {
+				trace("stat====="+stat) ;
+				if(stat == "00") {
+					return "初始状态" ;
+				}
+				else if(stat == "01") {
+					return "审核通过" ;
+				}
+				else if(stat == "02") {
+					return "审核失败" ;
+				}
+				else 
+					return "未知状态" ;
+			}
+			
+			
+			
+			
+			/**
+			 * 完成审核
+			 */
+			private function submit():void
+			{
+				if(audit_Action.value == "02"){
+					if(StringUtil.trim(checkNotice.text) == ""){
+						AlertHandler.alert(LanguageManager.getInstance().getExceptionMessage("noderVersionInfoForm.checkReasonNotNull"));
+						return;
+					}
+					else {
+						noderVersionInfo.status = NoderConsts.NODER_VERSION_STATUS2 ;
+					}
+				}
+				else if(audit_Action.value == "01") {
+					noderVersionInfo.status = NoderConsts.NODER_VERSION_STATUS1 ;
+				}
+				pm.auditRegulation(noderVersionInfo); 
+				submitBtn.enabled = false;
+				submitBtn.mouseEnabled = false;
+				close();
+			}
+			/**
+			 * 规则审核后回调函数
+			 
+			[MessageHandler(selector="auditnoderVersionInfoResult")]
+			public function auditnoderVersionInfoResult(p_msg:NoderVersionInfoMsg):void
+			{
+				if(p_msg.result)
+				{
+					cancel();
+					rejectReason.text = "";
+				}
+				
+			}
+			 * * */
+			override protected function cancel():void
+			{
+				close();
+			}
+			
+			public function downloadUpdatePackage(o:Object):void{  
+				//调用js打开连接下载
+				var url : Object = encodeURIComponent(o.toString());
+				ExternalInterface.call("downloadFile",".ImportExcelServlet?fileName=" + url + "&type=downloadNoderUpdatePackage");
+			}
+		]]>
+	</fx:Script>
+	
+	<!--申请信息-->
+	<grg:RoundCornerContainer locale="applyInfo" width="100%" height="190">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:HorizontalLayout  paddingLeft="0" paddingRight="10" />
+			</s:layout>
+			<grg:Form width="50%" height="100%">
+				<!--节点软件类型：-->
+				<grg:FormItem locale="noderType" required="true">
+					<grg:ComboBox id="noderType" labelField="text" dataProvider="{noderTypesFEdit}"
+								  valueField="key" selectedValue="@{noderVersionInfo.noderType}"
+								  enabled="false" width="150"/>
+				</grg:FormItem>
+				
+				<!--节点机版本号：-->
+				<grg:FormItem width="100%" locale="noderVersionItem">
+					<grg:Text text="{noderVersionInfo.version}" />
+				</grg:FormItem>
+				
+				<!--依赖的版本号：-->
+				<grg:FormItem width="100%" locale="relayVersionItem">
+					<grg:Text text="{noderVersionInfo.relayVersion}"/>
+				</grg:FormItem> 
+				
+				<!--规则状态-->
+				<grg:FormItem width="100%" locale="ruleStatus">
+					<grg:Text text="{transferStatus(noderVersionInfo.status)}"/>
+				</grg:FormItem>
+				<!--版本包名称：
+				<grg:FormItem id="packageNameItem" locale="packageNameItem" required="true" >
+					<grg:TextArea id="packageName" name="packageName" text="@{pm.noderVersionInfo.packageName}"
+								  width="150" maxChars="128"  enabled="true" height="60" required="true"/>
+				</grg:FormItem>
+				-->
+				<grg:FormItem width="100%" locale="packageNameItem">
+					<!--<grg:Text text="{noderVersionInfo.packageName}"/>-->
+					<grg:TextArea id="packageName" name="packageName" text="{noderVersionInfo.packageName}"
+					height="60" wordWrap="true" width="120" enabled="false"/>
+					<mx:LinkButton label="查看升级包" color="blue"  textDecoration="underline"  click="downloadUpdatePackage(noderVersionInfo.packageName)">
+					</mx:LinkButton>
+				</grg:FormItem>
+			</grg:Form>
+			<grg:Form width="50%" height="100%">
+				<!--下发的机构：-->
+				<grg:FormItem width="100%" locale="orgNameItem" >
+					<grg:Text text="{noderVersionInfo.orgName}"/>
+				</grg:FormItem>
+				<!--创建时间：-->
+				<grg:FormItem width="100%" locale="createTimeItem" >
+					<grg:Text text="{pm.createTimeString}"/>
+				</grg:FormItem>
+				<!--创建人：-->
+				<grg:FormItem width="100%" locale="createUserCodeItem" >
+					<grg:Text text="{noderVersionInfo.createUserCode}"/>
+				</grg:FormItem>
+				<!--备注：
+				<grg:FormItem id="remarkItem" locale="remarkItem" required="false" >
+					<grg:TextArea id="remark" name="remark" text="@{pm.noderVersionInfo.remark}"
+								  width="128" maxChars="256"  enabled="true" height="100" />
+				</grg:FormItem>
+				--> 
+				<grg:FormItem width="100%" locale="remarkItem">
+					<!--<grg:Text  text="{noderVersionInfo.remark}"/>-->
+					<grg:TextArea id="remark" name="remark" text="{noderVersionInfo.remark}"
+								 height="60" wordWrap="true" width="120" enabled="false"/>
+				</grg:FormItem>
+			</grg:Form>
+		</s:Group>
+	</grg:RoundCornerContainer>
+
+	<s:VGroup width="100%" height="100%">
+		<grg:Form width="100%" height="100%" id="form">
+			<!--审批动作-->
+			<grg:FormItem width="100%" locale="auditAction">
+				<mx:HBox>
+					<grg:RadioButtonGroup id="audit_Action"  change="auditActionChange()"/>
+					<!--通过-->
+					<grg:RadioButton id="actionEnable" group = "{audit_Action}"
+									 value = "01" selected="true"
+									 locale = "actionEnable" />
+					<!--不通过-->
+					<grg:RadioButton id="actionDisable" group = "{audit_Action}"
+									 value = "02"
+									 locale = "actionDisable" />
+				</mx:HBox>
+			</grg:FormItem>
+			<!--审核意见-->
+			<grg:FormItem width="100%" id="rejectItem" locale="checkNoticeItem" >
+				<grg:TextArea maxnum="200"  id="checkNotice"
+							  maxChars="128" width="100%" text="@{noderVersionInfo.checkNotice}"/>
+			</grg:FormItem>
+		</grg:Form>
+	</s:VGroup>
+	
+	<s:HGroup width="100%" gap="10"
+			  horizontalAlign = "center"
+			  verticalAlign = "middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button id="submitBtn"
+						iconVisible="false"
+						click = "submit()"
+						locale = "saveButton"
+						/>
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button iconVisible="false"
+						click = "cancel()" 
+						locale = "cancelButton"
+						/>
+		</s:BorderContainer>
+	</s:HGroup>
+</grg:TitleWindow>

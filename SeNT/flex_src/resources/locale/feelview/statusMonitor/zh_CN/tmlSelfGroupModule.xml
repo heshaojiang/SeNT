@@ -1,0 +1,42 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<nodes>
+	<node locale = "tmlSelfGroupModule">
+		<listTitle>设备状态组信息列表</listTitle>
+		<addTmlSelfGroupForm>新增</addTmlSelfGroupForm>
+		<updateTmlStatusGroupForm>编辑</updateTmlStatusGroupForm>
+		<name>分组名称</name>
+		<status>是否有效</status>
+		<order>排序</order>
+		<toSelectTerm>操作</toSelectTerm>
+		<level>层</level>
+		<hql>查询语句</hql>
+		<sum>该结点下ATM个数</sum>
+		<icon>图标名/路径</icon>
+		<expressions>计算公式</expressions>
+		<nameLocal>本地语言名称</nameLocal>
+		<common>是否公共</common>
+		<commonY>是</commonY>
+		<commonN>否</commonN>
+		
+		<termIdItem>终端编号：</termIdItem>
+		<termCodeItem>终端编号：</termCodeItem>
+		<termSEQItem>设备序列号</termSEQItem>
+		<counterIdItem>柜员号</counterIdItem>
+		<termTypeItem>终端类型：</termTypeItem>
+		<brandItem>终端品牌：</brandItem>
+		<modelItem>设备型号：</modelItem>
+		<org>所属机构：</org>
+		<areaIdItem>所属区域：</areaIdItem>
+		<netAddrItem>终端IP</netAddrItem>
+		<selectATMIDDispenseButton>选择终端</selectATMIDDispenseButton>
+		<selectATMIDChooseButton>确  定</selectATMIDChooseButton>
+		<selectATMIDFinishButton>确定</selectATMIDFinishButton>
+		<operateItem>操作</operateItem>
+		<deleteItem>删除</deleteItem>
+		<layTypeItem>设立形式：</layTypeItem>
+		
+		<addTerminalForGroup>为该组添加终端</addTerminalForGroup>
+		<titlemsg>创建分组</titlemsg>
+	</node>
+</nodes>

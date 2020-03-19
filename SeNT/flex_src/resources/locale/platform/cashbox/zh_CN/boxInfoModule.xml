@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale="boxInfoModule">
+		
+		<titlemsg>钞箱管理</titlemsg>
+	
+		<orgid>所属机构</orgid>
+		<boxNum>钞箱编号</boxNum>
+		<searchButton>查询</searchButton>
+		<resetButton>重置</resetButton>
+		<status>状态</status>
+		<flowStage>流转所处阶段</flowStage>
+		<fileupload>导入</fileupload>
+		<modeldown>模板下载</modeldown>
+		<barcodeprint>条码</barcodeprint>
+		<qrcodeprint>二维码</qrcodeprint>
+		<atmModel>所属ATM型号</atmModel>
+		<atmBoxtype>ATM钞箱类型</atmBoxtype>
+		<boxType>钞箱类别</boxType>
+		<operation>打印</operation>
+		<orgidLabel>所属机构：</orgidLabel>
+		<boxNumLabel>钞箱编号：</boxNumLabel>
+		<boxTypeLabel>钞箱类别：</boxTypeLabel>
+		<restoreBoxFlowStage>恢复流转状态</restoreBoxFlowStage>
+	</node>
+</nodes>

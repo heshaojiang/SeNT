@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns="http://www.spicefactory.org/parsley" 
+           xmlns:grg="http://grg.grgbanking.com/platform/" 
+		   xmlns:pm="sent.transmgr.pm.*"
+		   >
+				
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.TransAbnoInfoDelegate;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<pm:TransAbnoInfoPM />
+		<grg:GRGRemoteObject id="tranAbnoinfoService" destination="tranAbnoinfoService"/>
+		<Object type="{TransAbnoInfoDelegate}">
+			<Property name="service" idRef="tranAbnoinfoService"/>
+		</Object>
+	</fx:Declarations>
+	
+</fx:Object>

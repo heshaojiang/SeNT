@@ -1,0 +1,374 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TabModule 
+	width="100%" height="100%"
+	layout = "vertical" dataDictionaryPaths = "{[ENABLE_OR_DISABLE]}"
+	locale = "cashSerialToPBOCModule"
+	xmlns:fx = "http://ns.adobe.com/mxml/2009"
+	xmlns:s = "library://ns.adobe.com/flex/spark"
+	xmlns:mx = "library://ns.adobe.com/flex/mx"
+	xmlns:parsley="http://www.spicefactory.org/parsley" 
+	xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			
+			import platform.CashSerial.config.CashSerialToPBOCConfig;
+			import platform.CashSerial.message.CashSerialToPBOCMsg;
+			import platform.CashSerial.pm.CashSerialToPBOCModulePM;
+			import platform.CashSerial.vo.CashSerialToPBOCVO;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.util.DataGridUtil;
+			import platform.common.util.StringUtil;
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			import platform.security.message.UserMsg;
+			import platform.vo.security.UserVo;
+			import platform.constants.LocaleConsts;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:CashSerialToPBOCModulePM;
+			
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			private const ENABLE_OR_DISABLE:String = "SysDatadirMgr.javapt.common.enableOrDisable";
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function getDataDictCallback():void
+			{
+				(updateConfigGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				if(column.dataField == "status")
+					currentDataDictPath = ENABLE_OR_DISABLE;
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				//loadCashSerialToPBOCPageByCondition();
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				updateConfigGrid.checkedItems = [];
+				resetBtn.reset();
+			}
+			
+			// Reset the user password
+			public function resetPassword():void
+			{
+				AlertHandler.confirm(resetCloseHandler, this, "confirmResetPwd");
+			}
+			
+			private function resetCloseHandler(p_evt:CloseEvent):void
+			{
+				if (p_evt.detail == Alert.YES)
+					pm.resetPassword(UserVo(updateConfigGrid.selectedItem).id);
+			}
+			
+			[MessageHandler(selector="resetPasswordResult")]
+			public function resetPasswordResult(p_msg:UserMsg):void
+			{
+				AlertHandler.alert("resetSuccess");
+			}
+			
+			//add user			
+			public function add():void
+			{
+				/* var userForm:UserForm = new UserForm();
+				var addUser:UserVo = new UserVo();
+				userForm.titleKey = "addUserForm";
+				_context.viewManager.addViewRoot(userForm);
+				PopUpManager.showForm(userForm, this);
+				userForm.pm.vo = addUser;
+				userForm.pm.menuId = menu.id; */
+				var cashSerialToPBOCForm:CashSerialToPBOCForm = new CashSerialToPBOCForm();
+				var cashSerialToPBOCVO:CashSerialToPBOCVO = new CashSerialToPBOCVO();
+				cashSerialToPBOCVO.uploadTime = "00:00:00";
+				cashSerialToPBOCVO.uploadHz = "1";
+				cashSerialToPBOCVO.taskStatus = "1";
+				cashSerialToPBOCForm.titleKey = "addCashSerialToPBOCFormForm";
+				_context.viewManager.addViewRoot(cashSerialToPBOCForm);
+				PopUpManager.showForm(cashSerialToPBOCForm, this);
+				cashSerialToPBOCForm.pm.vo = cashSerialToPBOCVO;
+				cashSerialToPBOCForm.pm.menuId = menu.id;
+			}
+			
+			//edit user
+			public function edit():void
+			{
+//				if (userPageGrid.checkedItems.length != 1){
+//					AlertHandler.alert("noSelectedRecord");
+//					return;
+//				}
+//				
+//				var userForm:UserForm = new UserForm();
+//				userForm.titleKey = "updateUserForm";
+//				_context.viewManager.addViewRoot(userForm);
+//				PopUpManager.showForm(userForm, this);
+//				userForm.pm.vo = userPageGrid.checkedItems[0];
+//				userForm.pm.menuId = menu.id;
+				
+				if (updateConfigGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				
+				var cashSerialToPBOCForm:CashSerialToPBOCForm = new CashSerialToPBOCForm();
+				var cashSerialToPBOCVO:CashSerialToPBOCVO = new CashSerialToPBOCVO();
+				cashSerialToPBOCForm.titleKey = "editCashSerialToPBOCFormForm";
+				_context.viewManager.addViewRoot(cashSerialToPBOCForm);
+				PopUpManager.showForm(cashSerialToPBOCForm, this);
+				cashSerialToPBOCForm.pm.vo = updateConfigGrid.checkedItems[0];;
+				cashSerialToPBOCForm.pm.menuId = menu.id;
+			}
+			
+			//delete
+			public function del():void
+			{
+				if (updateConfigGrid.checkedItems.length == 0){
+					AlertHandler.alert("noSelectedRecord");
+					return;
+				}
+				AlertHandler.confirm(closeHandler, this, "confirmDelete");
+			}
+			
+			private function closeHandler(p_evt:CloseEvent):void
+			{
+				if (p_evt.detail == Alert.YES)
+					pm.batchDelete(DataGridUtil.getPropertys("id", updateConfigGrid.checkedItems));
+			}
+			[MessageHandler(selector="deleteSelectedCashSerialToPBOCResult")]
+			public function deleteSelectedCashSerialToPBOCResult(p_msg:CashSerialToPBOCMsg):void
+			{
+				loadCashSerialToPBOCPageByCondition();
+			}
+			
+			// load the data by search criteria
+			private function loadCashSerialToPBOCPageByCondition():void
+			{
+				var condition:Object = {};
+				if(StringUtil.trim(serverName.text) != "")
+					condition["serverName"] = StringUtil.trim(serverName.text);
+				if(StringUtil.trim(serverIp.text) != "")
+					condition["serverIp"] = StringUtil.trim(serverIp.text);
+				if(StringUtil.trim(serverPort.text) != "")
+					condition["serverPort"] = StringUtil.trim(serverPort.text);
+				if(StringUtil.trim(handlePerson.text) != "")
+					condition["handlePerson"] = StringUtil.trim(handlePerson.text); 
+				
+				pm.getCashSerialToPBOCPage(condition);
+			}
+			
+			[MessageHandler(selector="getCashSerialToPBOCPageResult")]
+			public function getCashSerialToPBOCPageResult(p_msg:CashSerialToPBOCMsg):void
+			{
+				pm.page = p_msg.result as Page;
+			}
+			
+			[MessageHandler(selector="saveResult")]
+			public function saveResult(p_msg:UserMsg):void
+			{
+				loadCashSerialToPBOCPageByCondition();
+			}
+			
+			
+			[MessageHandler(selector="newCashSerialToPBOCResult")]
+			public function newCashSerialToPBOCResult(p_msg:CashSerialToPBOCMsg):void
+			{
+				loadCashSerialToPBOCPageByCondition();
+			}
+			
+			
+			private function showTaskStatus(data:Object, column:DataGridColumn ):String       
+			{       
+				var taskStatus:String = data[column.dataField];
+				if(taskStatus == "0") {
+					return "禁用";
+				} else {
+					return "启用";
+				}
+				
+				        
+			}      
+			
+			private function showServerType(data:Object, column:DataGridColumn ):String       
+			{       
+				var serverType:String = data[column.dataField];
+				if(serverType == "1") {
+					return "TCP";
+				} else {
+					return "FTP";
+				}
+				
+				
+			}  
+			
+			private function showUploadHz(data:Object, column:DataGridColumn ):String       
+			{       
+				var uploadHz:String = data[column.dataField];
+				if(uploadHz == "1") {
+					return "每天";
+				} else if(uploadHz == "2") {
+					return "每星期";
+				} else {
+					return "每月";
+				}
+				
+				
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="CashSerialToPBOCModulePM"/> 
+			<parsley:MessageSettings defaultReceiverScope="CashSerialToPBOCModulePM"/>
+			<parsley:FlexConfig type="{CashSerialToPBOCConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<mx:VDividedBox 
+		width="100%" height="100%">
+		<s:BorderContainer 
+			width="100%" height="100%"
+			styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			
+			<!--<grg:TitleBar/>-->
+			
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<grg:TitleBar locale="titlemsg" width="50%" height="100%"/> 
+				<mx:HBox width="100%" styleName="senHBoxStyle" height="30" verticalAlign="middle" paddingBottom="3" paddingTop="2">
+					<mx:HBox styleName="searchStyle">
+						<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign = "left"
+									paddingLeft = "0"
+									gap="2"
+									verticalAlign = "middle"/>
+							</s:layout>
+							
+							<grg:Label locale = "serverNameKey" />
+							<grg:TextInput name = "serverName" id="serverName"
+										   width="105"
+										   textAlign = "left"
+										   styleName = "TextInput"
+										   restrict="^'"/>
+							
+							<grg:Label locale = "serverIpKey" />
+							<grg:TextInput name = "serverIp" id="serverIp"
+										   width="105"
+										   textAlign = "left"
+										   styleName = "TextInput"
+										   restrict="^'"/>
+							
+							<grg:Label locale = "serverPortKey" />
+							<grg:TextInput name = "serverPort" id="serverPort"
+										   width="105"
+										   textAlign = "left"
+										   styleName = "TextInput"
+										   restrict="^'"/>
+							
+							<grg:Label locale = "handlePersonKey" />
+							<grg:TextInput name = "handlePerson" id="handlePerson"
+										   width="60"
+										   textAlign = "left"
+										   styleName = "TextInput"
+										   restrict="^'"/>
+							
+							<grg:SearchButton id="btn_search" menuId="{menu.id}"
+											  click = "pm.page = new Page();loadCashSerialToPBOCPageByCondition()"
+											  locale = "searchButton"
+											  iconType = "query" />
+							
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[serverName,serverIp,serverPort,handlePerson]}"/>
+							
+						</s:BorderContainer>
+					</mx:HBox> 
+				</mx:HBox>
+			</mx:HBox> 
+			<mx:HBox width="100%" height="30" verticalAlign="top" paddingLeft="10">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:GRGModuleButtonBar id="privilegeBar" barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" paddingBottom="5" paddingLeft="10" paddingRight="10" borderVisible="false">
+				<grg:GRGExtendPropDataGrid id="updateConfigGrid" dataProvider="{pm.page.result}"
+										   width="100%" height="100%"
+										   itemType="{UserVo}"
+										   styleName = "DataGrid"
+										   borderVisible = "true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											editable = "false"
+											draggable = "false"
+											resizable = "false"
+											sortable = "false" 
+											textAlign = "center"
+											/>
+						<grg:DataGridColumn locale = "serverIp"
+											dataField = "serverIp" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "serverPort"
+											dataField = "serverPort" 
+											textAlign = "left"
+											/>	
+						<grg:DataGridColumn locale = "serverType"
+											dataField = "serverType" 
+											textAlign = "left"
+											labelFunction="showServerType"
+											/>	
+						<grg:DataGridColumn locale = "uploadHz"
+											dataField = "uploadHz" 
+											textAlign = "left"
+											labelFunction="showUploadHz"
+											/>	
+						<grg:DataGridColumn locale = "uploadTime"
+											dataField = "uploadTime" 
+											textAlign = "left"
+											/>	
+						<grg:DataGridColumn locale = "taskStatus"
+											dataField = "taskStatus" 
+											textAlign = "left"
+											labelFunction="showTaskStatus"
+											/>	
+						<grg:DataGridColumn locale = "handlePerson"
+											dataField = "handlePerson" 
+											textAlign = "left"
+											/>	
+					</grg:columns>
+				</grg:GRGExtendPropDataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="userPagingBar" pageVo="{pm.page}" pagingFunction="{loadCashSerialToPBOCPageByCondition}"
+								  bottom = "0" />
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

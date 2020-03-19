@@ -1,0 +1,158 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<grg:TitleWindow width="1000" height="500"
+			   cornerRadius="10"
+			   textAlign="left"
+			   layout="vertical"
+			   showIcon="false"
+			   locale="confRolePriviForm"
+			   xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley" 
+			   xmlns:grg="http://grg.grgbanking.com/platform/">
+	
+	<fx:Declarations>
+		<parsley:ContextBuilder>
+			<parsley:FlexConfig type="{AreaConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.core.ScrollPolicy;
+			
+			import platform.area.config.AreaConfig;
+			import platform.component.renderer.CheckBoxHeaderRenderer;
+			import platform.security.message.RoleMsg;
+			import platform.security.pm.ConfRolePriviFormPM;
+
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:ConfRolePriviFormPM;
+			
+			/**
+			 * 
+			 * */
+			[MessageHandler(selector="configureRolePriviResult")]
+			public function configureRolePriviResult(p_msg:RoleMsg):void
+			{
+				close();
+			}
+			
+			override protected function cancel():void
+			{
+				close();
+			}
+			
+			/**
+			 * 检查是否全部都已经选中
+			 * */
+			public function checkSelectedStatus(p_header:CheckBoxHeaderRenderer):void
+			{
+				for each(var obj:Object in pm.checkBoxRows){
+					if(!obj.dgSelected){
+						p_header.selected = false;
+						return;
+					}
+				}
+				p_header.selected = true;
+			}
+		]]>
+	</fx:Script>
+
+	<s:Group width="100%" height="100%" clipAndEnableScrolling="true">
+		<grg:DataGrid id="areaPageGrid" dataProvider="{pm.dataSource}"
+					  height="100%" horizontalScrollPolicy="{ScrollPolicy.AUTO}" width="100%"
+					  selectedOrUnselectedAll="pm.headerRelease(event)"
+					  changeCurrentState="pm.checkBoxChange(event)" verticalAlign="middle"
+					  styleName="DataGrid"
+					  borderVisible="true">
+			<grg:columns>
+				<grg:CheckBoxColumn id="checkBoxCol" 
+									sortable="false"
+									draggable="false"
+									editable="false"
+									resizable="false" />
+				<!--所属模块-->
+				<grg:DataGridColumn locale="fullPath" width="250" textAlign="left"
+									dataField="fullPath" />
+				<!--模块名称-->
+				<grg:DataGridColumn locale="moduleName" width="140" textAlign="left"
+									dataField="moduleName" />
+				<!--操作-->
+				<grg:DataGridColumn locale="operater">
+					<grg:itemRenderer>
+						<fx:Component>
+							<s:MXDataGridItemRenderer>
+								<fx:Script>
+									<![CDATA[
+										import platform.component.controls.DataGrid;
+										
+										import spark.layouts.TileLayout;
+										
+										protected function buttonSet_selectedAllItemCancelHandler(event:Event):void
+										{
+											data.dgSelected = false;
+											DataGrid(owner).checkBoxHeader.selected = false;
+										}
+										
+										protected function buttonSet_allItemSelectedHandler(event:Event):void
+										{
+											data.dgSelected = true;
+											parentDocument.checkSelectedStatus(DataGrid(owner).checkBoxHeader);
+										}
+										[Bindable]
+										private function get tLayout():TileLayout
+										{
+											var _layout:TileLayout = new TileLayout();
+											_layout.requestedColumnCount = 3;
+											_layout.columnWidth = 140;
+											return _layout;
+										}
+										private function set tLayout(p_layout:TileLayout):void
+										{
+											
+										}
+									]]>
+								</fx:Script>
+								<grg:CheckBoxGroup id="buttonSet" dataProvider="{data.privilegeBtns}"
+												   labelField="i18nName"
+												   selectedAllItemCancel="buttonSet_selectedAllItemCancelHandler(event)"
+												   allItemSelected="buttonSet_allItemSelectedHandler(event)"
+												   layout="{tLayout}"
+												   selectedField="selected" />
+							</s:MXDataGridItemRenderer>
+						</fx:Component>
+					</grg:itemRenderer>
+				</grg:DataGridColumn>
+			</grg:columns>
+		</grg:DataGrid>
+	</s:Group> 
+	<s:HGroup 
+		width="100%" gap="10"
+		horizontalAlign="center"
+		verticalAlign="middle">
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click="pm.save()"
+				locale="saveButton"
+				iconVisible="false" />
+		</s:BorderContainer> 
+		<s:BorderContainer height="27" styleName="buttonShadow">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="3" paddingRight="3" verticalAlign="middle"/>
+			</s:layout>
+			<grg:Button 
+				click="cancel()"
+				locale="cancelButton"
+				iconVisible="false"/>
+		</s:BorderContainer>
+	</s:HGroup> 
+</grg:TitleWindow>

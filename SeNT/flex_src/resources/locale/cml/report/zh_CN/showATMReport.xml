@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+<node locale="showATMReport">
+<boxCount>钞箱个数</boxCount>
+<boxNum>钞箱编号</boxNum>
+<operators>操作</operators>
+<toatmnum>ATM终端编号：</toatmnum>
+<atmMoney>ATM金额</atmMoney>
+<passMoney>流通金额</passMoney>
+<totalMoney>所加总金额</totalMoney>
+<ATMInfo>ATM清分加钞</ATMInfo>
+<close>关闭</close>
+<atmTile>ATM清分加钞</atmTile>
+</node>
+</nodes>

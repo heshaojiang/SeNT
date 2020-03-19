@@ -1,0 +1,26 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="transHourInfoModule">
+		<titlemsg>实时交易监控</titlemsg>
+		
+		<accountNoColon>卡号/帐号：</accountNoColon>
+		<orgIdColon>来源机构：</orgIdColon>
+		<journalNoColon>流水号：</journalNoColon>
+		<termIdColon>终端编号：</termIdColon>
+		<transResultColon>交易结果：</transResultColon>
+		<autoRefreshColon>自动刷新：</autoRefreshColon>
+		
+		<sendTime>交易时间：</sendTime>
+		<to>至</to>
+		
+		<transCode>交易类型</transCode>
+		<accountNo>卡号/帐号</accountNo>
+		<transResult>交易结果</transResult>
+		<noteNum>交易张数</noteNum>
+		<blNum>黑名单张数</blNum>
+		<repeatNum>重号冠字号码数</repeatNum>
+		<callBackNum>回收张数</callBackNum>
+		<atmtermid>ATM终端号</atmtermid>
+		<operations>操作</operations>
+	</node>
+</nodes>

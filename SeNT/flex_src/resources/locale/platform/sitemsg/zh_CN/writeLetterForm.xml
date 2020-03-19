@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="writeLetterForm">
+		<content>内容：</content>
+		<recipient>收信人：</recipient>
+		<writeLetter>写信</writeLetter>
+		
+		<detail>阅读情况</detail>
+		<readTime>阅读时间</readTime>
+		<readerName>阅读人</readerName>
+		<helpTip>
+1.打“*”项内容不能为空
+2.下拉选择接收用户	
+		</helpTip>
+	</node>
+</nodes>

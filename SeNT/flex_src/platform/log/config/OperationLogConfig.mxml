@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fx:Object xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:services="platform.services.*" 
+		   xmlns:log="platform.log.*" 
+		   xmlns="http://www.spicefactory.org/parsley" xmlns:pm="platform.log.pm.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<pm:OperationLogModulePM/>
+		<!-- log service -->
+		<log:OperationLogDelegate/>		
+		<services:GRGRemoteObject id="operLogService" destination="operLogService"/>
+	</fx:Declarations>
+</fx:Object>

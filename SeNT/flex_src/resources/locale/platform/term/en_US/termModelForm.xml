@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "termModelForm">
+		<addTermModelForm>Add</addTermModelForm>
+		<updateTermModelForm>Edit</updateTermModelForm>
+		<modelNameItem>modelName:</modelNameItem>
+		<brandItem>brand:</brandItem>
+		<typeItem>type:</typeItem>
+		<journalPath>journal path:</journalPath>
+		<status>Status:</status>
+		<statusEnable>Enable</statusEnable>
+		<statusDisable>Disable</statusDisable>
+	</node>
+</nodes>

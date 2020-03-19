@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TabModule dataDictionaryPaths = "{[APPLY_TYPE, CARD_TYPE]}"
+			   width="100%" height="100%"
+			   layout = "horizontal"
+			   locale = "cardInfoModule"
+			   xmlns:fx = "http://ns.adobe.com/mxml/2009"
+			   xmlns:s = "library://ns.adobe.com/flex/spark"
+			   xmlns:mx = "library://ns.adobe.com/flex/mx"
+			   xmlns:parsley="http://www.spicefactory.org/parsley"
+			   xmlns:grg="http://grg.grgbanking.com/platform/">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="module"/> 
+			<parsley:MessageSettings defaultReceiverScope="module"/>
+			<parsley:FlexConfig type="{CardInfoModuleConfig}"/>
+			<parsley:FlexConfig type="{DataDictConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			
+			import platform.card.config.CardInfoModuleConfig;
+			import platform.card.local.CardConsts;
+			import platform.card.message.CardInfoMsg;
+			import platform.card.pm.CardInfoModulePM;
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.PopUpManager;
+			import platform.common.vo.Page;
+			import platform.constants.LocaleConsts;
+			import platform.dataDict.DataDictConfig;
+			import platform.vo.card.CardInfoVo;
+			
+			/*========================================================*/
+			/*   Property                                             */
+			/*========================================================*/
+			[Inject]
+			[Bindable]
+			public var pm:CardInfoModulePM;
+			/*========================================================*/
+			/*   Function                                             */
+			/*========================================================*/
+			private const APPLY_TYPE:String = "SysDatadirMgr.javapt.common.applyOrNot";
+			private const CARD_TYPE:String = "SysDatadirMgr.javapt.cardManager.cardType";
+			
+			override protected function getDataDictCallback():void
+			{
+				(cardTypePageGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**显示数据字典转换出来的值**/
+			override protected function transferDataDict(p_item:Object, column:DataGridColumn):String
+			{
+				switch(column.dataField){
+					case "applyATM":
+					case "applyPOS":
+						currentDataDictPath = APPLY_TYPE;
+						break;
+					case "cardType":
+						currentDataDictPath = CARD_TYPE;
+						break;
+				}
+				return super.transferDataDict(p_item, column);
+			}
+			
+			override protected function parsleyInit():void
+			{
+				pm.menuId = menu.id;
+			}
+			
+			override protected function viewUpdateComplete():void
+			{
+				/* pm.searchCardInfo(); 防止重复请求后台*/
+				privilegeBar.menuId = menu.id;
+			}
+			
+			override public function dispose():void
+			{
+				cardTypePageGrid.checkedItems = [];
+				/* resetBtn.reset(); */
+				resetBtn.dispose();
+			}
+			
+			/**
+			 * dispatch event
+			 * */
+			public function openWin(p_winName:String, p_vo:CardInfoVo):void
+			{
+				//dispatch event
+				var win:CardInfoForm = new CardInfoForm();
+				win.titleKey = p_winName;
+				
+				//加入到parsley上下文
+				_context.viewManager.addViewRoot(win);
+				PopUpManager.showForm4Parsley(IFlexDisplayObject(win));
+				win.applyTypes = dataDictionaryCache[APPLY_TYPE] as ArrayCollection;
+				win.cardTypes = dataDictionaryCache[CARD_TYPE] as ArrayCollection;
+				win.pm.vo = p_vo;
+				win.pm.menuId = this.menu.id;
+			}
+			
+			/**
+			 * Add a new card type
+			 */
+			public function add():void
+			{
+				openWin(CardConsts.CREATE_CARD_INFO, new CardInfoVo());
+			}
+			/**
+			 * Del the selected card type
+			 */
+			public function del():void
+			{
+				if (!cardTypePageGrid.checkedItems || cardTypePageGrid.checkedItems.length < 1){
+					AlertHandler.alert("noSelectedRecord");
+					//AlertHandler.error("必须选择至少一项!!!");
+					return;
+				}
+				AlertHandler.confirm(closeHandler, null, "confirmDelete");
+				//close handler
+				function closeHandler(evt:CloseEvent):void
+				{
+					if (evt.detail == Alert.YES){
+						pm.delCardInfo(cardTypePageGrid.checkedItems);
+					}
+				}
+			}
+			/**
+			 * Update a card type
+			 */
+			public function edit():void
+			{
+				if(!cardTypePageGrid.checkedItems || cardTypePageGrid.checkedItems.length != 1){
+					AlertHandler.alert(LocaleConsts.NO_SELECTED_RECORD);
+					return;
+				}
+				var vo:CardInfoVo = cardTypePageGrid.checkedItems[0] as CardInfoVo;
+				vo.actionType = CardConsts.ACTION_TYPE_EDIT;
+				openWin(CardConsts.EDIT_CARD_INFO, vo);
+			}			
+			
+			/**
+			 * 获取页结果集
+			 */		
+			[MessageHandler(selector="searchCardInfoResult")]
+			public function getCardTypeHandler(p_msg:CardInfoMsg):void
+			{
+				//清空已选中行
+				if(p_msg.result)
+					cardTypePageGrid.checkedItems = [];
+			}
+		]]>
+	</fx:Script>	
+	<fx:Binding source="cardId.text" destination="pm.cond"/>
+	<mx:VDividedBox width="100%" height="100%">
+		<s:BorderContainer borderVisible="false"
+						   width="100%" height="100%"
+						   styleName = "BorderContainer">
+			<s:layout>
+				<s:VerticalLayout gap="0" />
+			</s:layout>
+			
+			<!--<grg:TitleBar/>-->
+			<mx:HBox width="100%" styleName="firHBoxStyle" height="30">
+				<grg:TitleBar   locale="titlemsg" width="50%" />
+				<mx:HBox  width="100%" styleName="senHBoxStyle">
+					<mx:HBox height="25" styleName="searchStyle">
+						<s:BorderContainer width = "100%" height = "25" backgroundAlpha="0" borderVisible = "false">
+							<s:layout>
+								<s:HorizontalLayout 
+									horizontalAlign="left"
+									gap="2"
+									verticalAlign="middle" />
+							</s:layout>
+							<grg:Label locale = "cardId" />
+							<grg:TextInput id="cardId" textAlign="left" restrict="^'"
+										   width="150" height="20"
+										   styleName = "TextInput" />
+							<grg:SearchButton id="btn_search" menuId="{menu.id}"
+											  locale = "searchButton"  
+											  iconType = "query" click="pm.page = new Page();pm.searchCardInfo()"/>
+							<grg:ResetButton id="resetBtn" iconType="reset" locale="resetButton" resetControls="{[this.cardId]}"/>
+							
+						</s:BorderContainer>
+					</mx:HBox>
+					
+				</mx:HBox>
+			</mx:HBox>
+			<mx:HBox  width="100%" styleName="moduleButtonBarHBoxstyle">
+				<s:BorderContainer styleName="moduleButtonBarstyle" height="25">
+					<s:layout>
+						<s:HorizontalLayout paddingLeft="4" paddingTop="2"/>
+					</s:layout>
+					<grg:GRGModuleButtonBar  id="privilegeBar"  barType="button" menuId="{menu.id}"/>
+				</s:BorderContainer>
+			</mx:HBox>
+			<mx:HBox width="100%" height="100%" styleName="datagridHBoxStyle">
+				<grg:DataGrid id="cardTypePageGrid" dataProvider="{pm.page.result}"
+							  width="100%" height="100%"
+							  textAlign = "center" 
+							  styleName = "DataGrid"
+							  borderVisible = "true">
+					<grg:columns>
+						<grg:CheckBoxColumn id="checkBoxCol"
+											sortable = "false"
+											draggable = "false"
+											editable = "false"
+											resizable = "false" />
+						<grg:DataGridColumn locale = "cardId"
+											dataField = "cardId" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "cardName" 
+											dataTipField="cardName" 
+											showDataTips="true"
+											dataField = "cardName" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "bankId" 
+											dataField = "bankId" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "bankName"
+											dataField = "bankName" 
+											textAlign = "left"
+											/>
+						<grg:DataGridColumn locale = "idLength" 
+											dataField = "idLength" 
+											textAlign = "right"/>
+						<grg:DataGridColumn locale = "applyATM" 
+											labelFunction="{transferDataDict}"
+											dataField = "applyATM" 
+											textAlign = "left"/>
+						<grg:DataGridColumn locale = "applyPOS" 
+											labelFunction="{transferDataDict}"
+											dataField = "applyPOS" 
+											textAlign = "left"/>
+						<grg:DataGridColumn locale = "cardType" 
+											labelFunction="{transferDataDict}"
+											dataField = "cardType" 
+											textAlign = "left"/>
+					</grg:columns>
+				</grg:DataGrid>
+			</mx:HBox>
+			<grg:PageNavigatorBar id="buttonPagingBar" bottom = "0" 
+								  pageVo="{pm.page}"
+								  pagingFunction="{pm.searchCardInfoByPage}"/>
+		</s:BorderContainer>
+	</mx:VDividedBox>
+</grg:TabModule>

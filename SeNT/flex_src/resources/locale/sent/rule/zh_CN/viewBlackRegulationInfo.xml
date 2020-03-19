@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="viewBlackRegulationInfo">
+	    <ruleInfo>规则详情</ruleInfo>
+	    <ruleDeliverInfo>规则下发详情</ruleDeliverInfo>
+	    <regulation>规则：</regulation>
+	    <moneyDenomination>面额：</moneyDenomination>
+	    <createName>业务人员：</createName>
+	    <termNum>升级终端数量：</termNum>
+	    <moneyType>币种：</moneyType>
+	    <createDate>创建时间：</createDate>
+	    <reversionDate>最后批复时间：</reversionDate>
+	    <termid>终端编号</termid>
+	    <status>规则状态</status>
+	     <close>关闭</close>
+	</node>
+</nodes>

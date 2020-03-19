@@ -1,0 +1,34 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cashSorterStatisticReportModule">
+		<titlemsg>现金清分情况统计报表</titlemsg>
+		
+		<seasonType>清分统计季度：</seasonType>
+		<organizationColon>所属机构：</organizationColon>
+		
+		<to>至</to>
+		
+		<lbl_cash_clearing_report>银行业金融机构现金清分情况统计表</lbl_cash_clearing_report>	
+		<lbl_report_bank>填表单位名称:</lbl_report_bank>	
+		<lbl_report_time>报告期:</lbl_report_time>
+		<lbl_unit>单位:元</lbl_unit>
+		
+		<lbl_all_branch_count>全辖银行营业网点(个):</lbl_all_branch_count>
+		<lbl_select_branch_count>抽样银行营业网点(个):</lbl_select_branch_count>
+		<lbl_select_percent>抽样比例:</lbl_select_percent>
+		
+		<lbl_all_term_count>全辖银行清分设备(台):</lbl_all_term_count>
+		<lbl_clearing_term_count>其中:清分中心清分设备:</lbl_clearing_term_count>
+		<lbl_branch_term_count>银行网点清分设备:</lbl_branch_term_count>
+		
+		<lbl_mark>注:表中填表数据为全辖银行业金融机构现金清分情况</lbl_mark>
+		
+		<lbl_review>复核:</lbl_review>
+		<lbl_make_table>制表:</lbl_make_table>
+		<lbl_contack>联系电话:</lbl_contack>
+		<searchBtn>查询</searchBtn>
+		<resetBtn>重置</resetBtn>
+			
+
+	</node>
+</nodes>

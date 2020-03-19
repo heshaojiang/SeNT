@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:mx="library://ns.adobe.com/flex/mx" 
+		  xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:grg="http://grg.grgbanking.com/platform/" 
+		  horizontalAlign="center" verticalAlign="middle" gap="0">
+	<fx:Script>
+		<![CDATA[
+			import spark.events.TextOperationEvent;
+			
+			[Bindable]
+			public var barcodeFlowNumLength:String = "";
+			
+			[Bindable]
+			public var changeAfter:String = "";
+			
+			
+			protected function flowNumText_changeHandler(event:TextOperationEvent):void
+			{
+				changeAfter = event.target.text; 
+				if(barcodeFlowNumLength==null || barcodeFlowNumLength==""){
+					barcodeFlowNumLength =  "20";
+				}
+				if(changeAfter.length>=Number(barcodeFlowNumLength)){
+					//焦点移动到下一个组件  
+					focusManager.getFocus()
+					if(focusManager.getNextFocusManagerComponent()!=null){
+						focusManager.getNextFocusManagerComponent().setFocus(); 
+						if(focusManager.getNextFocusManagerComponent() is TextInput){
+							focusManager.getNextFocusManagerComponent().setFocus(); 
+						}else{
+							focusManager.getNextFocusManagerComponent(true).setFocus();
+						}
+					}
+				}
+			}
+
+
+		]]>
+	</fx:Script>
+	<grg:Label locale="flowNumColon" />
+	<grg:TextInput id="flowNumText" width="240" change="flowNumText_changeHandler(event)"/>
+	<mx:Spacer width="5" />
+	<grg:Button id="deleteBtn" locale="delete" iconVisible="false" />
+</s:HGroup>

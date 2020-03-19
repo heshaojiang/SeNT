@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns="http://www.spicefactory.org/parsley" 
+		 xmlns:message="sent.transmgr.message.*" 
+		 xmlns:pm="sent.transmgr.pm.*" 
+		 xmlns:grg="http://grg.grgbanking.com/platform/" 
+		 xmlns:pm1="platform.term.pm.*" >
+	<fx:Script>
+		<![CDATA[
+			import sent.transmgr.delegate.CmlSentInfoDelegate;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<message:CmlSentInfoMsg/>
+		<pm:CmlSentInfoPM/>
+		<grg:GRGRemoteObject id="cmlSentInfoService" destination="cmlSentInfoService"/>
+		<Object type="{CmlSentInfoDelegate}">
+			<Property name="service" idRef="cmlSentInfoService"/>
+		</Object>
+	</fx:Declarations>
+	
+</Objects>

@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="viewCounterRecordSeqForm">
+		
+		<title>柜面交易信息</title>
+		
+		<counterRecordInfo>柜面交易信息</counterRecordInfo>
+		
+		<bankNameColon>机构名：</bankNameColon>
+		<branchColon>网点：</branchColon>
+		<orgCodeColon>机构号：</orgCodeColon>
+		<operatorColon>操作员：</operatorColon>
+		<businessTypeColon>业务类别：</businessTypeColon>
+		<journalNoColon>流水号：</journalNoColon>
+		<tranTimeColon>交易时间：</tranTimeColon>
+		<accountColon>帐号：</accountColon>
+		<IDCardColon>身份证：</IDCardColon>
+		<tranAmountColon>金额：</tranAmountColon>
+		<termIdColon>终端编号：</termIdColon>
+		<termTypeColon>业务类型：</termTypeColon>
+		<finacialCode>金融机构代码：</finacialCode>
+		<tranCount>张数：</tranCount>
+		 <versionNum>版别</versionNum>
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		
+		<serialNoInfo>冠字号信息</serialNoInfo>
+		
+		<seriaNo>冠字号码</seriaNo>
+		<seriaImage>冠字号码图片</seriaImage>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		
+	</node>
+</nodes>

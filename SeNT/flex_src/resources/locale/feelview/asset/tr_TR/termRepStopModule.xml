@@ -1,0 +1,17 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termSeqModule
+	 Create Time：2011-9-7  
+	 Author：lzyang
+	 Email : lzyang@grgbanking.com -->
+<nodes>
+	<node locale = "termRepStopModule">
+		<repStopTitle>Envanter Listesi Raporu</repStopTitle>
+		<beginTime>Başlangıç ​​Zamanı</beginTime>
+		<termid>Terminal Id</termid>
+		<seqno>Sıra Numarası</seqno>
+		<endTime>Bitiş Zamanı</endTime>
+		<reason>Sebeb</reason>
+		<stopStatue>Durum</stopStatue>
+		<stopstatu>Durum</stopstatu>
+	</node>
+</nodes>

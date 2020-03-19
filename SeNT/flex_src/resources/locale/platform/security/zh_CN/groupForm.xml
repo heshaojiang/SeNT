@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "groupForm">
+		<addGroupForm>新增</addGroupForm>
+		<updateGroupForm>编辑</updateGroupForm>
+		<grpName>名称：</grpName>
+		<grpNote>说明：</grpNote>
+		<status>状态：</status>
+		<statusEnable>启用</statusEnable>
+		<statusDisable>禁用</statusDisable>
+		<helpTip>
+1.打“*”项内容不能为空		
+		</helpTip>			
+	</node>
+</nodes>

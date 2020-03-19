@@ -1,0 +1,1132 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace flexlib "http://code.google.com/p/flexlib/";
+@namespace supertabs "flexlib.controls.tabBarClasses.*";
+@namespace containers "platform.component.containers.*";
+@namespace controls "platform.component.controls.*";
+
+
+global{
+	font-family:Verdana, "宋体";
+	font-style:normal;
+	font-size:12px;
+}
+
+/*Application*/
+s|Application{
+	font-family:Verdana, "宋体";
+	font-style:normal;
+	font-size:12px;
+	skinClass: ClassReference("ApplicationSkin");
+	/*backgroundImage: Embed(source="style.swf",symbol="BackgroundImage");*/
+}
+mx|ToolTip
+{	font-size:12px;}
+
+/*.AdvancedTextInput{
+	skinClass: ClassReference("platform.component.skins.AdvancedTextInputSkin");
+}*/
+
+mx|Alert{
+	title-background-skin:Embed(source="style.swf",symbol="Panel_titleBackgroundSkin");
+	border-color:#50a2c5;
+	button-style-name:"Button";
+	background-color:#ecf6fc;
+}
+/*SuperTabNavigator*/
+supertabs|SuperTab{
+	tab-close-button-style-name:"tabCloseButton";
+}
+flexlib|SuperTabBar{
+	tab-style-name:"tabStyle";
+}
+
+flexlib|SuperTabNavigator{
+	borderColor: #a3a3a3;
+}
+.NavigatorBar{
+	background-image: Embed(source="newui/head_bng.png");
+	
+}
+.tabHeadBg{
+	background-image: Embed(source="newui/tab_head.png");
+	
+}
+.DropDownList{
+/*	skinClass: ClassReference("platform.component.skins.DropDownListSkin");
+	button-style-name:"DropDownListButton";*/
+}
+.LoginDropDownList{
+	skinClass: ClassReference("platform.component.skins.LoginDropDownListSkin");
+	color:#4c4c4c;
+	borderColor: #dbdbdc;
+	borderVisible:true;
+	borderAlpha:1;
+}
+.DropDownListButton{
+	skinClass: ClassReference("platform.component.skins.ComboBoxButtonSkin");
+	disabledSkin: Embed(source="newui/loginDropDownBtn.png");
+	downSkin: Embed(source="newui/loginDropDownBtn.png");
+	overSkin: Embed(source="newui/loginDropDownBtn.png");
+	upSkin: Embed(source="newui/loginDropDownBtn.png");
+}
+.tabCloseButton{
+	alpha:0;
+	upSkin:Embed(source="style.swf", symbol="Panel_closeButtonUpSkin"); 
+	downSkin:Embed(source="style.swf", symbol="Panel_closeButtonDownSkin");
+	overSkin:Embed(source="style.swf", symbol="Panel_closeButtonOverSkin");
+	disabledSkin:Embed(source="style.swf", symbol="Panel_closeButtonDisabledSkin");
+}
+
+.tabStyle {
+	disabledSkin: Embed(source="style.swf", symbol="Tab_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="Tab_downSkin");
+	overSkin: Embed(source="style.swf", symbol="Tab_overSkin");
+	selectedDisabledSkin: Embed(source="style.swf", symbol="TabSelected_disabledSkin");
+	selectedDownSkin: Embed(source="style.swf", symbol="TabSelected_upSkin");
+	selectedOverSkin: Embed(source="style.swf", symbol="TabSelected_upSkin");
+	selectedUpSkin: Embed(source="style.swf", symbol="TabSelected_upSkin");
+	upSkin: Embed(source="style.swf", symbol="Tab_upSkin");
+}
+/*SuperTabNavigator*/
+mx|PopUpButton{
+	disabledSkin: Embed(source="style.swf", symbol="PopUpButton_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="PopUpButton_downLeftSkin");
+	overSkin: Embed(source="style.swf", symbol="PopUpButton_overLeftSkin");	
+	popUpDownSkin: Embed(source="style.swf", symbol="PopUpButton_downRightSkin");
+	popUpOverSkin: Embed(source="style.swf", symbol="PopUpButton_overRightSkin");
+	upSkin: Embed(source="style.swf", symbol="PopUpButton_upSkin");
+}
+
+/**Banner**/
+.logoImg_zh_CN{
+	backgroundImage:Embed(source="newui/logo.png");
+}
+.logoImg_en_US{
+	backgroundImage:Embed(source="newui/logo.png");
+}
+.titleImg_zh_CN{
+	backgroundImage:Embed(source="newui/login_name.png");
+}
+.titleImg_en_US{
+	backgroundImage:Embed(source="newui/login_name.png");
+}
+.bannerImg_zh_CN{
+/*	backgroundImage:Embed(source="newui/banner_name.png");*/
+}
+.bannerImg_en_US{
+/*	backgroundImage:Embed(source="newui/banner_name.png");*/
+}
+.menu_line{
+	backgroundImage:Embed(source="newui/menu_line.png");
+}
+.menu_selectedItem{
+	backgroundImage:Embed(source="newui/menubar/mouseOver.png");
+}
+.menu_selectedItem_left{
+	backgroundImage:Embed(source="newui/menu_select_left.png");
+}
+.menu_selectedItem_right{
+	backgroundImage:Embed(source="newui/menu_select_right.png");
+}
+
+.banner_fill{
+	backgroundImage:Embed(source="newui/Top_bg.png");
+}
+
+.banner_right{
+	backgroundImage:Embed(source="images/banner_right.png");
+}
+/*Banner*/
+.mainContainer_bg{
+/*	background-image:Embed(source="images/welcome_bg.png");
+	background-image-fill-mode:scale;
+	backgroundImage:Embed(source="images/welcome.png");*/
+	background-color:#FAFCFF;
+	paddingBottom:0;  	
+	paddingLeft:0; 
+	paddingRight:0;  	
+	paddingTop:0; 
+}
+.mainContainer_zh_CN{
+	background-image:Embed(source="images/welcome.png");
+	background-image-fill-mode:clip;
+/*	background-alpha:0;*/
+	paddingBottom:0;  	
+	paddingLeft:0; 
+	paddingRight:0;  	
+	paddingTop:0; 
+}
+
+.mainContainer_en_US{
+/*	background-image:Embed(source="images/welcome_en.png");
+	background-image-fill-mode:clip;*/
+	background-alpha:0;
+	paddingBottom:0;  	
+	paddingLeft:0; 
+	paddingRight:0;  	
+	paddingTop:0; 
+}
+
+.mainWindow{
+	backgroundAlpha:0;  	
+	alpha:1.0; 	
+	paddingBottom:0;  	
+	paddingLeft:0; 
+	paddingRight:0;  	
+	paddingTop:0; 
+}
+
+.tabStyle{
+	font-family:Verdana, "宋体";
+	font-size:14;
+}
+/*.menuBar{
+	backgroundImage:Embed(source="style.swf", symbol="MenuBar_backgroundSkin");
+	skinClass: ClassReference("platform.component.menubar.skin.ButtonBarSkin");
+	backgroundColor:#b2d7e2;
+	skin-class:ClassReference("platform.component.menubar.skin.ButtonBarSkin");
+	
+}*/
+
+mx|MenuBar
+{
+	backgroundSkin: Embed(source="style.swf", symbol="MenuBar_backgroundSkin");
+	itemUpSkin: Embed(source="style.swf", symbol="MenuBar_itemUpSkin");
+	itemOverSkin: Embed(source="style.swf", symbol="MenuBar_itemOverSkin");
+	itemDownSkin: Embed(source="style.swf", symbol="MenuBar_itemDownSkin");
+}
+
+.mebuBarButton{
+	skin-class:ClassReference("platform.component.skins.ButtonSkin");
+	disabledSkin: Embed(source="style.swf", symbol="PopUpButton_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="MenuBar_itemDownSkin");
+	overSkin: Embed(source="style.swf", symbol="MenuBar_itemOverSkin");	
+	upSkin: Embed(source="style.swf", symbol="MenuBar_itemUpSkin");
+}
+
+/*Paging Bar*/
+/*.pagingBarFirstButton{
+	disabledSkin: Embed(source="style.swf", symbol="PagingBarButton_firstDisabledSkin");
+	downSkin: Embed(source="style.swf", symbol="PagingBarButton_firstDownSkin");
+	overSkin: Embed(source="style.swf", symbol="PagingBarButton_firstOverSkin");
+	upSkin: Embed(source="style.swf", symbol="PagingBarButton_firstUpSkin");
+}
+
+.pagingBarNextButton{
+	disabledSkin: Embed(source="style.swf", symbol="PagingBarButton_firstDisabledSkin");
+	downSkin: Embed(source="style.swf", symbol="PagingBarButton_firstDownSkin");
+	overSkin: Embed(source="style.swf", symbol="PagingBarButton_firstOverSkin");
+	upSkin: Embed(source="style.swf", symbol="PagingBarButton_firstUpSkin");
+}
+
+.pagingBarPrevButton{
+	disabledSkin: Embed(source="style.swf", symbol="PagingBarButton_firstDisabledSkin");
+	downSkin: Embed(source="style.swf", symbol="PagingBarButton_firstDownSkin");
+	overSkin: Embed(source="style.swf", symbol="PagingBarButton_firstOverSkin");
+	upSkin: Embed(source="style.swf", symbol="PagingBarButton_firstUpSkin");
+}
+
+.pagingBarLastButton{
+	disabledSkin: Embed(source="style.swf", symbol="PagingBarButton_firstDisabledSkin");
+	downSkin: Embed(source="style.swf", symbol="PagingBarButton_firstDownSkin");
+	overSkin: Embed(source="style.swf", symbol="PagingBarButton_firstOverSkin");
+	upSkin: Embed(source="style.swf", symbol="PagingBarButton_firstUpSkin");
+}
+*/
+.Tree{
+/*	defaultLeafIcon: Embed(source="style.swf",symbol="Tree_defaultLeafIcon");
+	disclosureClosedIcon: Embed(source="style.swf",symbol="Tree_disclosureClosedIcon");
+	disclosureOpenIcon: Embed(source="style.swf",symbol="Tree_disclosureOpenIcon");
+	folderClosedIcon: Embed(source="style.swf",symbol="Tree_folderClosedIcon");
+	folderOpenIcon: Embed(source="style.swf",symbol="Tree_folderOpenIcon");*/
+	border-color:#c4d4de;
+	selectionBackgroundSkin:Embed(source="newui/tree_focus.png");
+}
+.loginPanel_zh_CN{
+	background-image:Embed(source="newui/login_bg.png");
+	borderVisible:false;
+}
+
+.help{
+	icon:Embed('resources/theme/images/help.png');
+}
+.logout{
+	icon:Embed('resources/theme/images/logout.png');
+}
+.resetPass{
+	icon:Embed('resources/theme/images/changepin.png');
+}
+
+.ComboBoxButtonSkin{
+	skin-class:ClassReference("platform.component.skins.ComboBoxButtonSkin");
+	disabledSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableDisabledSkin");
+	downSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableDownSkin");
+	overSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableOverSkin");
+	upSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableUpSkin");
+}
+
+.ComboBoxTextInputSkin{
+	skin-class:ClassReference("platform.component.skins.ComboBoxTextInputSkin");
+/*	disabledSkin: Embed(source="style.swf", symbol="ComboBoxArrow_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="ComboBoxArrow_downSkin");
+	overSkin: Embed(source="style.swf", symbol="ComboBoxArrow_overSkin");*/
+	leftSkin: Embed(source="style.swf", symbol="ComboBoxArrow_upSkin");
+	rightSkin: Embed(source="style.swf", symbol="ComboBoxArrow_M_upSkin");
+}
+
+.buttonShadow{
+	borderVisible:false;
+	cornerRadius:5;
+	backgroundColor:#e4e4e4;
+}
+
+controls|ComboBox
+{
+	skin-class:ClassReference("platform.component.skins.ComboBoxSkin");
+/*	disabledSkin: Embed(source="style.swf", symbol="ComboBoxArrow_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="ComboBoxArrow_downSkin");
+	overSkin: Embed(source="style.swf", symbol="ComboBoxArrow_overSkin");
+	upSkin: Embed(source="style.swf", symbol="ComboBoxArrow_upSkin");
+	editableDisabledSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableDisabledSkin");
+	editableDownSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableDownSkin");
+	editableOverSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableOverSkin");
+	editableUpSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableUpSkin");*/
+	dropDownStyleName: "ComboBoxDropDowns";
+}
+
+.ComboBox
+{
+	disabledSkin: Embed(source="style.swf", symbol="ComboBoxArrow_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="ComboBoxArrow_downSkin");
+	overSkin: Embed(source="style.swf", symbol="ComboBoxArrow_overSkin");
+	upSkin: Embed(source="style.swf", symbol="ComboBoxArrow_upSkin");
+	editableDisabledSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableDisabledSkin");
+	editableDownSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableDownSkin");
+	editableOverSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableOverSkin");
+	editableUpSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableUpSkin");
+	dropDownStyleName: "ComboBoxDropDowns";
+}
+
+s|TextInput
+{
+	textAlign:left;
+	focusAlpha:0;
+	skin-class:ClassReference("platform.component.skins.TextInputSkin");
+	leftSkin:Embed(source="style.swf", symbol="TextInput_L_upkin");
+	middleSkin:Embed(source="style.swf", symbol="TextInput_M_upkin");
+	rightSkin:Embed(source="style.swf", symbol="TextInput_R_upkin");
+	borderVisible:false;
+/*	borderSkin: Embed(source="style.swf", symbol="TextInput_upkin");
+	borderStyle:none;
+	backgrounAlpha:1.0;
+	borderColor:#B7BABC;
+	borderSkin:Embed(source="style.swf",symbol="TextInput_borderSkin");*/
+}
+
+.TextInput{
+	textAlign:left;
+/*	disabledSkin: Embed(source="style.swf", symbol="TextInput_disabledKin");
+	downSkin: Embed(source="style.swf", symbol="TextInput_downkin");
+	overSkin: Embed(source="style.swf", symbol="TextInput_overkin");
+	upSkin: Embed(source="style.swf", symbol="TextInput_upkin");
+	borderSkin:Embed(source="style.swf",symbol="TextInput_borderSkin");
+	borderColor:#50a2c5;*/
+}
+.TextInputRequierd{
+	textAlign:left;
+/*	disabledSkin: Embed(source="style.swf", symbol="TextInput_disabledKin");
+	downSkin: Embed(source="style.swf", symbol="TextInput_downkin");
+	overSkin: Embed(source="style.swf", symbol="TextInput_overkin");
+	upSkin: Embed(source="style.swf", symbol="TextInput_upkin");
+	borderSkin:Embed(source="style.swf",symbol="TextInput_borderSkin");
+	borderColor:#50a2c5;
+	contentBackgroundColor:#fcfcef;*/
+}
+
+.ComboBoxDropDowns {
+	cornerRadius: 4;
+}
+
+.DataGrid {
+	/*border-skin:Embed(source="style.swf",symbol="DataGrid_borderSkin");*/
+/*	headerSeparatorSkin:ClassReference("mx.skins.ProgrammaticSkin");*/
+	border-weight:1;
+	border-visible:true;
+	header-background-skin:Embed(source="style.swf",symbol="DataGrid_headerBackgroundSkin");
+	stretch-cursor:Embed(source="style.swf",symbol="DataGrid_stretchCursor");
+	sort-arrow-skin:Embed(source="style.swf",symbol="DataGrid_sortArrowSkin");
+	column-drop-indicator-skin:Embed(source="style.swf",symbol="DataGrid_columnDropIndicatorSkin"); 
+	column-resize-skin:Embed(source="style.swf",symbol="DataGrid_columnResizeSkin");
+	header-separator-skin:Embed(source="newui/dataGridSeperator.png");
+	alternatingItemColors: #fdfdfd,#f9fafb;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #d3d3d3;
+	verticalGridLines: true;
+	verticalGridLineColor: #d3d3d3;
+	dropShadowEnabled: false;
+	borderColor: #d3d3d3;
+	selectionColor: #C1E3F8;
+	rollOverColor: #fbfbea;
+}
+.DataGridSelect {
+	/*border-skin:Embed(source="style.swf",symbol="DataGrid_borderSkin");*/
+	/*	headerSeparatorSkin:ClassReference("mx.skins.ProgrammaticSkin");*/
+	border-weight:1;
+	border-visible:true;
+	header-background-skin:Embed(source="style.swf",symbol="DataGrid_headerBackgroundSkin");
+	stretch-cursor:Embed(source="style.swf",symbol="DataGrid_stretchCursor");
+	sort-arrow-skin:Embed(source="style.swf",symbol="DataGrid_sortArrowSkin");
+	column-drop-indicator-skin:Embed(source="style.swf",symbol="DataGrid_columnDropIndicatorSkin"); 
+	column-resize-skin:Embed(source="style.swf",symbol="DataGrid_columnResizeSkin");
+	header-separator-skin:Embed(source="newui/dataGridSeperator.png");
+	alternatingItemColors: #fdfdfd,#f9fafb;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #d3d3d3;
+	verticalGridLines: true;
+	verticalGridLineColor: #d3d3d3;
+	dropShadowEnabled: false;
+	borderColor: #d3d3d3;
+	selectionColor: #C1E3F8;
+	rollOverColor: #fbfbea;
+}
+
+.DataGridEmbed {
+	/*border-skin:Embed(source="style.swf",symbol="DataGrid_borderSkin");*/
+	/*	headerSeparatorSkin:ClassReference("mx.skins.ProgrammaticSkin");*/
+	border-weight:1;
+	border-visible:true;
+	header-background-skin:Embed(source="newui/datatab.png");
+	stretch-cursor:Embed(source="style.swf",symbol="DataGrid_stretchCursor");
+	sort-arrow-skin:Embed(source="style.swf",symbol="DataGrid_sortArrowSkin");
+	column-drop-indicator-skin:Embed(source="style.swf",symbol="DataGrid_columnDropIndicatorSkin"); 
+	column-resize-skin:Embed(source="style.swf",symbol="DataGrid_columnResizeSkin");
+	header-separator-skin:Embed(source="newui/dataGridSeperator.png");
+	alternatingItemColors: #ffffff;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #d3d3d3;
+	verticalGridLines: true;
+	verticalGridLineColor: #d3d3d3;
+	dropShadowEnabled: false;
+	borderColor: #d3d3d3;
+	selectionColor: #C1E3F8;
+	rollOverColor: #fbfbea;
+}
+
+.loginBgImage{
+	backgroundImage:Embed(source="newui/bg.png");
+	borderVisible:false;
+}
+.panelSkin{
+	title-background-skin:Embed(source="style.swf",symbol="DataGrid_title");
+	border-visible:false;
+	dropShadowVisible:false;
+	cornerRadius:4;
+}
+.navigationDataGrid{
+	header-background-skin:Embed(source="style.swf",symbol="DataGrid_headerBackgroundSkin2");
+	fontColor:#477296;
+	alternatingItemColors:#F6FBFE;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #CBDDE4;
+	borderColor: #CBDDE4;
+	headerSeparatorSkin:ClassReference("mx.skins.ProgrammaticSkin");
+}
+.topDataGrid{
+	header-background-skin:Embed(source="resources/theme/newui/dataGridHeaderBG.png");
+	fontColor:#797979;
+	alternatingItemColors:#F7F7F8;
+	horizontalGridLines: false;
+	verticalGridLines: false;
+	borderVisible: false;
+	headerSeparatorSkin:ClassReference("mx.skins.ProgrammaticSkin");
+}
+.topDatagridHeader{
+	fontSize:14;
+	fontFamily:"黑体";
+	paddingLeft:0;
+	textAlign:left;
+}
+.navigationLabelStyle{
+	font-family:Verdana;
+	font-size:20;
+	color:#0A04FF;
+}
+.navigationLineChartBG{
+	border-color:#C7C7C7;
+	backgroundImage:Embed(source="newui/navigationBG.png");
+}
+.navigationTitleStyle{
+	font-size:20;
+	font-family:Verdana;
+	color:#245BB9;
+	text-align:center;
+	fontWeight:bold;
+}
+.navigationDatagridHeader{
+	fontSize:14;
+	textAlign:left;
+}
+.panelTitleStyle{
+	fontSize:14;
+	color:#245BB9;
+	fontWeight:bold;
+}
+/*s|TitleWindow{
+	skin-class:ClassReference("platform.component.skins.STitleWindowSkin");
+	backgroundImage: Embed(source="style.swf",symbol="Panel_titleBackgroundSkin");
+	backgroundImageArea: Embed(source="style.swf",symbol="Panel_SpBackgroundImage");
+	border-visible:false;
+}*/
+.TitleWindowCloseButtonStyle{
+	skin:Embed(source="style.swf", symbol="Panel_closeButtonUpSkin");
+	upSkin:Embed(source="style.swf", symbol="Panel_closeButtonUpSkin"); 
+	downSkin:Embed(source="style.swf", symbol="Panel_closeButtonDownSkin");
+	overSkin:Embed(source="style.swf", symbol="Panel_closeButtonOverSkin");
+	disabledSkin:Embed(source="style.swf", symbol="Panel_closeButtonDisabledSkin");
+}
+.TitleWindow{
+	title-background-skin:Embed(source="style.swf",symbol="Panel_titleBackgroundSkin");
+	border-visible:false;
+	padding-top:5;
+	padding-bottom:2;
+	padding-left:20;
+	padding-right:20;
+	close-button-skin:Embed(source="style.swf", symbol="Panel_closeButtonDisabledSkin");
+	close-button-up-skin:Embed(source="style.swf", symbol="Panel_closeButtonUpSkin"); 
+	close-button-over-skin:Embed(source="style.swf", symbol="Panel_closeButtonOverSkin");
+	close-button-down-skin:Embed(source="style.swf", symbol="Panel_closeButtonDownSkin");
+	close-button-disabled-skin:Embed(source="style.swf", symbol="Panel_closeButtonDisabledSkin");
+}
+.Form{
+	background-alpha:0;
+}
+.Spinner{
+	skinClass:ClassReference("platform.component.skins.GRGSpinnerSkin");
+}
+.NumericStepper{
+	up-arrow-skin:Embed(source="style.swf", symbol="NumericStepperUpArrow_upSkin");
+	up-arrow-up-skin:Embed(source="style.swf", symbol="NumericStepperUpArrow_upSkin");
+	up-arrow-over-skin:Embed(source="style.swf", symbol="NumericStepperUpArrow_overSkin");
+	up-arrow-down-skin:Embed(source="style.swf", symbol="NumericStepperUpArrow_downSkin");
+	up-arrow-disabled-skin:Embed(source="style.swf", symbol="NumericStepperUpArrow_disabledSkin");
+	down-arrow-skin:Embed(source="style.swf", symbol="NumericStepperDownArrow_upSkin");
+	down-arrow-up-skin:Embed(source="style.swf", symbol="NumericStepperDownArrow_upSkin");
+	down-arrow-over-skin:Embed(source="style.swf", symbol="NumericStepperDownArrow_overSkin");
+	down-arrow-down-skin:Embed(source="style.swf", symbol="NumericStepperDownArrow_downSkin");
+	down-arrow-disabled-skin:Embed(source="style.swf", symbol="NumericStepperDownArrow_disabledSkin");
+}
+.CheckBoxGroup{
+	skinClass: ClassReference("platform.component.skins.CheckBoxGroupSkin");
+}
+.TitleBar{
+/*	background-image:Embed(source="newui/title_bg.png");*/
+	border-visible:false;
+/*	border-color: #e1e1e1;*/
+}
+.titleBarLabel{
+	fontSize:22;
+	fontWeight:bold;
+	fontFamily:"黑体";
+	color:#005ca1;
+}
+.TitleBarSearchBar{
+	backgroundColor:#e4e4e4;
+	paddingLeft:4;
+	paddingRight:4;
+	cornerRadius:5;
+	verticalAlign:middle;
+}
+.dataGridHeaderStyle{
+	border-visible:true;
+	border-color:#d3d3d3;
+	font-weight:normal;
+	font-size:12;
+	verticalAlign:bottom;
+}
+.BorderContainer{
+	border-visible:false;
+}
+
+.SearchBar{
+	fontFamily:Verdana, "宋体";
+	border-color:#e4e4e4;
+	padding-left:10;
+	fontSize:12;
+}
+/*
+.tipBg{
+	backgroundImage: Embed(source="resources/theme/images/tip-yellow.png");
+	backgroundSize: "100%";
+}
+*/
+.Button{
+	font-family:Verdana, "宋体";
+	font-size:12;
+	skin-class:ClassReference("platform.component.skins.ButtonSkin");
+	disabledSkin: Embed(source="style.swf", symbol="Button_M_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="Button_M_downSkin");
+	overSkin: Embed(source="style.swf", symbol="Button_M_overSkin");
+	upSkin: Embed(source="style.swf", symbol="Button_M_upSkin");
+	disabledLeftSkin: Embed(source="style.swf", symbol="Button_L_disabledSkin");
+	downLeftSkin: Embed(source="style.swf", symbol="Button_L_downSkin");
+	overLeftSkin: Embed(source="style.swf", symbol="Button_L_overSkin");
+	upLeftSkin: Embed(source="style.swf", symbol="Button_L_upSkin");
+	disabledRightSkin: Embed(source="style.swf", symbol="Button_R_disabledSkin");
+	downRightSkin: Embed(source="style.swf", symbol="Button_R_downSkin");
+	overRightSkin: Embed(source="style.swf", symbol="Button_R_overSkin");
+	upRightSkin: Embed(source="style.swf", symbol="Button_R_upSkin");
+/*	padding-left:1;
+	padding-right:1;*/
+}
+.AdvancedExtendButton{
+	font-family:Verdana, "宋体";
+	font-size:12;
+	skin-class:ClassReference("platform.component.skins.AdvancedExtendButtonSkin");
+	disabledSkin: Embed(source="resources/theme/newui/listBtnDown.png");
+	downSkin: Embed(source="resources/theme/newui/listBtnDown.png");
+	overSkin: Embed(source="resources/theme/newui/listBtnUp.png");
+	upSkin: Embed(source="resources/theme/newui/listBtnUp.png");
+	disabledLeftSkin: Embed(source="style.swf", symbol="Button_L_disabledSkin");
+	downLeftSkin: Embed(source="style.swf", symbol="Button_L_downSkin");
+	overLeftSkin: Embed(source="style.swf", symbol="Button_L_overSkin");
+	upLeftSkin: Embed(source="style.swf", symbol="Button_L_upSkin");
+	disabledRightSkin: Embed(source="style.swf", symbol="Button_R_disabledSkin");
+	downRightSkin: Embed(source="style.swf", symbol="Button_R_downSkin");
+	overRightSkin: Embed(source="style.swf", symbol="Button_R_overSkin");
+	upRightSkin: Embed(source="style.swf", symbol="Button_R_upSkin");
+	/*	padding-left:1;
+	padding-right:1;*/
+}
+
+.PageBarButton{
+	font-family:Verdana, "宋体";
+	font-size:10;
+	disabledSkin: Embed(source="style.swf", symbol="TurnPage_MiddleOverSkin");
+	downSkin: Embed(source="style.swf", symbol="TurnPage_MiddleOverSkin");
+	overSkin: Embed(source="style.swf", symbol="TurnPage_MiddleOverSkin");
+	upSkin: Embed(source="style.swf", symbol="TurnPage_MiddleUpSkin");
+	/*	padding-left:1;
+	padding-right:1;*/
+}
+.ButtonATMSelect{
+	font-family:"宋体";
+	font-size:14;
+	skin-class:ClassReference("platform.component.skins.ButtonSkin");
+	disabledSkin: Embed(source="style.swf", symbol="Button_disabledSkin");
+	upSkin: Embed(source="style.swf", symbol="Button_upSkin");
+	chromeColor:#FFFF00;
+	padding-left:1;
+	padding-right:1;
+}
+.loginBtn{
+	skin-class:ClassReference("platform.component.skins.ButtonSkin");
+	disabledSkin: Embed(source="style.swf", symbol="Button_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="Button_upSkin");
+	overSkin: Embed(source="style.swf", symbol="Button_overSkin");
+	upSkin: Embed(source="style.swf", symbol="Button_downSkin");
+	padding-left:1;
+	padding-right:1;
+}
+.AccordionHeader
+{
+	fontWeight:bold;
+	fontSize:16;
+	color:#6a6a6a;
+	paddingLeft:20;
+	skin-class:ClassReference("platform.component.skins.AccordionHeaderSkin");
+	disabledSkin: Embed(source="style.swf", symbol="AccordionHeader_upSkin");
+	downSkin: Embed(source="style.swf", symbol="AccordionHeader_downSkin");
+	overSkin: Embed(source="style.swf", symbol="AccordionHeader_overSkin");
+	upSkin: Embed(source="style.swf", symbol="AccordionHeader_upSkin");
+	selectedUpSkin:Embed(source="style.swf", symbol="AccordionHeader_upSkin");
+	selectedDownSkin:Embed(source="style.swf", symbol="AccordionHeader_upSkin");
+	selectedOverSkin:Embed(source="style.swf", symbol="AccordionHeader_upSkin");
+	selectedDisabledSkin:Embed(source="style.swf", symbol="AccordionHeader_upSkin");
+}
+.LinkButton{
+	skin-class:ClassReference("platform.component.skins.LinkButtonSkin");
+	disabledSkin: Embed(source="style.swf", symbol="LinkButton_disabledSkin");
+	upSkin: Embed(source="style.swf", symbol="LinkButton_upSkin");
+/*	downSkin: Embed(source="style.swf", symbol="LinkButton_downSkin");*/
+/*	overSkin: Embed(source="style.swf", symbol="LinkButton_overSkin");*/
+	padding-left:0;
+	padding-right:0;
+}
+.LinkButtons{
+	downSkin: Embed(source="style.swf", symbol="LinkButton_downSkin");
+	overSkin: Embed(source="style.swf", symbol="LinkButton_overSkin");
+	padding-left:1;
+	padding-right:1;
+}
+.List{
+	border-color: #c4d4de;
+}
+
+.CheckBox{
+	upIcon: Embed(source="style.swf", symbol="CheckBox_upIcon");
+	downIcon: Embed(source="style.swf", symbol="CheckBox_downIcon");
+	overIcon: Embed(source="style.swf", symbol="CheckBox_overIcon");
+	disabledIcon: Embed(source="style.swf", symbol="CheckBox_disabledIcon");
+	selectedUpIcon: Embed(source="style.swf", symbol="CheckBox_selectedUpIcon");
+	selectedDownIcon: Embed(source="style.swf", symbol="CheckBox_selectedDownIcon");
+	selectedOverIcon: Embed(source="style.swf", symbol="CheckBox_selectedOverIcon");
+	selectedDisabledIcon: Embed(source="style.swf", symbol="CheckBox_selectedDisabledIcon");
+}
+
+.ComboBoxTree
+{
+	editableDisabledSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableDisabledSkin");
+	editableDownSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableDownSkin");
+	editableOverSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableOverSkin");
+	editableUpSkin: Embed(source="style.swf", symbol="ComboBoxArrow_editableUpSkin");
+	disabledSkin: Embed(source="style.swf", symbol="ComboBoxArrow_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="ComboBoxArrow_downSkin");
+	overSkin: Embed(source="style.swf", symbol="ComboBoxArrow_overSkin");
+	upSkin: Embed(source="style.swf", symbol="ComboBoxArrow_upSkin");
+	dropDownStyleName: "ComboBoxDropDowns";
+}
+
+.StatusMonitorComboBoxTree
+{
+	disabledSkin: Embed(source="style.swf", symbol="PopUpButton_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="PopUpButton_downLeftSkin");
+	overSkin: Embed(source="style.swf", symbol="PopUpButton_overLeftSkin");	
+	popUpDownSkin: Embed(source="style.swf", symbol="PopUpButton_downRightSkin");
+	popUpOverSkin: Embed(source="style.swf", symbol="PopUpButton_overRightSkin");
+	upSkin: Embed(source="style.swf", symbol="PopUpButton_upSkin");
+}
+.CheckBoxColumn{
+	text-align:center;
+}
+.Panel{
+	/*	skin-class:ClassReference("platform.component.skins.PanelSkin");
+	icon:Embed(source="style.swf",symbol="CursorManager_busyCursor");
+	title-background-skin:Embed(source="style.swf",symbol="Panel_titleBackgroundSkin");
+	barBackgroundSkin:Embed(source="style.swf",symbol="Panel_titleBackgroundSkin");
+	border-skin:Embed(source="style.swf",symbol="Panel_borderSkin");
+	background-skin:Embed(source="style.swf",symbol="Panel_SpBackgroundImage");
+	padding-top:40;
+	padding-bottom:2;
+	padding-left:20;
+	padding-right:20;
+	close-button-skin:Embed(source="style.swf", symbol="Panel_closeButtonDisabledSkin");
+	close-button-up-skin:Embed(source="style.swf", symbol="Panel_closeButtonUpSkin"); 
+	close-button-over-skin:Embed(source="style.swf", symbol="Panel_closeButtonOverSkin");
+	close-button-down-skin:Embed(source="style.swf", symbol="Panel_closeButtonDownSkin");
+	close-button-disabled-skin:Embed(source="style.swf", symbol="Panel_closeButtonDisabledSkin");*/
+}
+
+.MultiListTitle{
+	background-image:Embed(source="style.swf",symbol="DataGrid_headerBackgroundSkin");
+	padding-top:4;
+	padding-bottom:4;
+}
+.MultiList{
+/*	border-color:#c4d4de;*/
+	border-visible:false;
+	border-weight:0;
+}
+
+.SparkButton{
+	disabledSkin: Embed(source="style.swf", symbol="Button_disabledSkin");
+	downSkin: Embed(source="style.swf", symbol="Button_downSkin");
+	overSkin: Embed(source="style.swf", symbol="Button_overSkin");
+	upSkin: Embed(source="style.swf", symbol="Button_upSkin");
+	icon:Embed(source='resources/theme/images/unlock.png');/*	//Embed(source="style.swf", symbol="SWFLoader_brokenImageSkin");*/
+}
+
+containers|TabHDivideBox{
+	backgroundColor:#ecf6fc;
+}
+/*dataGrid默认列头居中样式*/
+.defaultHeaderStyle{
+	fontWeight:normal;
+	textAlign:center;
+}
+/*dataGrid列头居中样式*/
+.centerDataGridHeader{
+	fontWeight:normal;
+	textAlign:center;
+}
+/*dataGrid列头居右样式*/
+.rightDataGridHeader{
+	fontWeight:normal;
+	textAlign:right;
+}
+
+.tabModule{
+	paddingTop:5;
+	backgroundColor:#FFFFFF;
+}
+.leftTree{
+	borderColor:#d3d3d3;
+}
+/*内置dataGrid样式*/
+.expandDataGrid {
+	/*border-skin:Embed(source="style.swf",symbol="DataGrid_borderSkin");*/
+/*	headerSeparatorSkin:ClassReference("mx.skins.ProgrammaticSkin");*/
+	border-weight:1; 
+	border-visible:true;
+	header-background-skin:Embed(source="style.swf",symbol="DataGrid_headerBackgroundSkin1");
+	stretch-cursor:Embed(source="style.swf",symbol="DataGrid_stretchCursor");
+	sort-arrow-skin:Embed(source="style.swf",symbol="DataGrid_sortArrowSkin");
+	column-drop-indicator-skin:Embed(source="style.swf",symbol="DataGrid_columnDropIndicatorSkin"); 
+	column-resize-skin:Embed(source="style.swf",symbol="DataGrid_columnResizeSkin");
+/*	header-separator-skin:Embed(source="style.swf",symbol="DataGrid_headerSeparatorSkin");*/
+	alternatingItemColors: #e5f0f7;
+/*	horizontalGridLines: false;
+	verticalGridLines: false;*/
+	dropShadowEnabled: false;
+	borderColor: #c4d4de;
+	selectionColor: #C1E3F8;
+	rollOverColor: #fbfbea;
+	headerStyleName:expandDataGridHeaderStyle;
+}
+.expandDataGridHeaderStyle{
+	fontWeight:normal;
+	fontSize:12;
+}
+.pageBar{
+	backgroundColor:#BFDEF3;
+}
+.tipsbg{
+	backgroundImage:Embed(source="newui/tipsbg.png");
+	border-visible:false;
+}
+/*时间输入控件样式*/
+.timeInput{
+	borderVisible:false;
+}
+
+.RadioButton{
+	skinClass:ClassReference("platform.component.skins.GRGRadioButtonSkin");
+	upSkin: Embed(source="style.swf", symbol="RadioButton_upIcon");
+	downSkin: Embed(source="style.swf", symbol="RadioButton_downIcon");
+	overSkin: Embed(source="style.swf", symbol="RadioButton_overIcon");
+	disabledSkin: Embed(source="style.swf", symbol="RadioButton_disabledIcon");
+	upAndSelectedSkin: Embed(source="style.swf", symbol="RadioButtonSelected_upIcon");
+	downAndSelectedSkin: Embed(source="style.swf", symbol="RadioButtonSelected_downIcon");
+	overAndSelectedSkin: Embed(source="style.swf", symbol="RadioButtonSelected_overIcon");
+	disabledAndSelectedSkin: Embed(source="style.swf", symbol="RadioButtonSelected_disabledIcon");
+}
+
+.textStyle{
+	font-family: Verdana, "宋体";
+}
+/*圆角带边框容器样式*/
+.roundCornerContainer{
+	backgroundColor:#FFFFFF;
+	paddingLeft:5;
+	paddingRight:5;
+}
+
+.loginCheckBox{
+	upIcon: Embed(source="newui/loginCheckOff.png");
+	overIcon: Embed(source="newui/loginCheckOff.png");
+	downIcon: Embed(source="newui/loginCheckOn.png");
+	selectedUpIcon: Embed(source="newui/loginCheckOn.png");
+	selectedDownIcon: Embed(source="newui/loginCheckOff.png");
+	selectedOverIcon: Embed(source="newui/loginCheckOn.png");
+}
+
+.loginUser{
+	skinClass:ClassReference("platform.component.skins.LoginTextInputSkin");
+	fontSkin: Embed(source="newui/username.png");
+	focusSkin: Embed(source="newui/login/username.png");
+	borderColor:#dbdbdc;
+	borderVisible:true;
+	color:#4c4c4c;
+}
+
+.loginPsw{
+	skinClass:ClassReference("platform.component.skins.LoginTextInputSkin");
+	fontSkin: Embed(source="newui/password.png");
+	focusSkin: Embed(source="newui/login/password.png");
+	borderColor:#dbdbdc;
+	borderVisible:true;
+	color:#4c4c4c;
+}
+
+.Label{ 
+	fontSize:12; 
+	fontFamily:"黑体";
+}
+
+s|Label{ 
+	fontSize:12; 
+	fontFamily:"黑体";
+}
+
+mx|Label{ 
+	fontSize:12; 
+	fontFamily:"黑体";
+}
+
+.searchStyle{ 
+	backgroundColor:#E4E4E4; 
+	cornerRadius:4; 
+	horizontalAlign:left; 
+	horizontalGap:2;
+	paddingLeft:4; 
+	borderVisible:false;
+	height: 25px;
+	verticalAlign:middle;
+	paddingRight:2;
+}
+.moduleButtonBarstyle{  
+	height:26;
+	borderVisible:false;
+	cornerRadius:5;
+	backgroundColor:#e4e4e4;
+}
+.moduleButtonBarHBoxstyle{ 
+	paddingLeft:10; 
+	paddingTop:3; 
+}
+.searchLabelStyle{
+	color:#005ca1;
+	fontSize:24;
+	fontWeight:bold; 
+	textAlign:left; 
+	fontFamily:"黑体";
+}
+.firHBoxStyle{  
+	borderVisible:false;
+	height:30px;
+	paddingLeft:10;
+	paddingRight:0;
+	paddingTop:2;
+	paddingBottom:3;
+}
+.senHBoxStyle{
+	verticalAlign:middle;
+	horizontalAlign:right;
+	paddingTop:2;
+	paddingRight:10;
+	paddingBottom:3;
+	height: 30px;
+}
+.expHBoxStyle{
+	verticalAlign:middle;
+	horizontalAlign:right;  
+	borderVisible:false;
+	height:28px; 
+	paddingRight:10;
+}
+.expBorderHBoxStyle{
+	backgroundAlpha:0;
+	borderVisible:false; 
+	borderStyle:inset; 
+	height:25px;
+}
+.datagridHBoxStyle{
+	paddingBottom:5;
+	paddingTop:3;
+	paddingLeft:10;
+	paddingRight:10; 
+	borderVisible:false;
+}
+mx|ComboBox{
+	fontSize:12;
+}
+s|TextInput
+{
+	textAlign:left;
+	borderStyle:none;
+	backgrounAlpha:1.0;
+	borderColor:#B7BABC;
+	/*borderSkin:Embed(source="style.swf",symbol="TextInput_borderSkin");*/
+	fontSize:12;
+}
+.GRGNumericStepper{
+	skinClass:ClassReference("platform.component.skins.NumericStepperSkin");
+	borderVisible:false;
+}
+.dateSelectorStyle{
+	borderVisible:false;
+	backgroundColor:#e4e4e4;
+}
+.dateSelectorHeaderBg{
+	borderVisible:false;
+	backgroundImage:Embed(source="newui/dateSelectorHeader.png");
+}
+.dateSelectorDayStyle{
+	borderColor:#b5b5b5;
+}
+.dateSelectorDayNum{
+	borderVisible:false;
+	contentBackgroundAlpha:0;
+}
+.dateSelectorDayNumBg{
+	borderVisible:false;
+	backgroundImage:Embed(source="newui/dateSelectorBg.png");
+	backgroundImageFillMode:"scale";
+}
+.titleWindow_titleBar{
+	color:#FFFFFF;
+}
+
+.tabbarStyle{   
+	fontSize:14; 
+	color:#707070; 
+	fontFamily:"黑体";
+	textAlign:left;
+	fontWeight:bold;
+	paddingLeft:25;
+	backgroundAlpha:0;
+	downSkin: Embed(source='newui/tabup.png');
+	overSkin: Embed(source='newui/tabup.png'); 
+	upSkin: Embed(source='newui/tabup.png');
+	disabledSkin: Embed(source='newui/tabup.png');  
+	selectedUpSkin: Embed(source='newui/tabdown.png');
+	selectedOverSkin: Embed(source='newui/tabdown.png'); 
+} 
+
+.tabbarSelectStyle{    
+	color:#318AD4;  
+	fontWeight:bold;
+	fontSize:14; 
+	fontFamily:"黑体";
+	textAlign:left;
+	paddingLeft:25;
+	backgroundAlpha:0;
+	downSkin: Embed(source='newui/tabup.png');
+	overSkin: Embed(source='newui/tabup.png'); 
+	upSkin: Embed(source='newui/tabup.png');
+	disabledSkin: Embed(source='newui/tabup.png');  
+	selectedUpSkin: Embed(source='newui/tabdown.png');
+	selectedOverSkin: Embed(source='newui/tabdown.png'); 
+} 
+.pillarLegend{
+	borderColor:#ffffff;
+	cornerRadius:3;
+}
+.listDataGrid {
+	border-weight:1;
+	border-visible:true;
+	header-background-skin:Embed(source="style.swf",symbol="DataGrid_headerBackgroundSkin");
+	stretch-cursor:Embed(source="style.swf",symbol="DataGrid_stretchCursor");
+	sort-arrow-skin:Embed(source="style.swf",symbol="DataGrid_sortArrowSkin");
+	column-drop-indicator-skin:Embed(source="style.swf",symbol="DataGrid_columnDropIndicatorSkin"); 
+	column-resize-skin:Embed(source="style.swf",symbol="DataGrid_columnResizeSkin");
+	header-separator-skin:Embed(source="newui/dataGridSeperator.png");
+	alternatingItemColors: #fdfdfd,#f9fafb;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #d3d3d3;
+	verticalGridLines: true;
+	verticalGridLineColor: #d3d3d3;
+	dropShadowEnabled: false;
+	borderColor: #1b7ecf;
+	selectionColor: #DDECF8;
+	rollOverColor: #DDECF8;
+}
+.titleBarLabel{
+	fontSize:22;
+	fontWeight:bold;
+	fontFamily:"黑体";
+	color:#005ca1;
+}
+.menubackground{
+	borderVisible:false;
+	backgroundImage:Embed(source="newui/5.png");
+	
+}
+.menubarsty{
+	borderColor: #d3d3d3;
+	borderVisible:true; 
+}
+
+.MenuDataGrid{
+	selectionColor: #FFFFFF;
+	horizontalGridLines:false;
+	verticalGridLines:false; 
+	borderVisible:true; 
+	borderColor:#C6D9E8;
+	/*borderWeight:0.1; 
+	backgroundAlpha:0;*/
+	/*backgroundColor:red;*/
+	alternatingItemColors:#FAFAFA,#FFFFFF;
+	horizontalScrollPolicy:off;
+	verticalScrollPolicy:off; 
+	rollOverColor: #ffffff;
+} 
+
+.HeadMenu{
+	fontSize:14;
+	fontWeight:bold;
+	color:#888888;
+	paddingTop:15;
+	paddingLeft:20;
+}  
+.statusMonitorCommError{
+	borderVisible:false;
+	backgroundColor:#fdfdfd;
+}
+.statusMonitorErrorBG{
+	cornerRadius:4;
+	borderVisible:false;
+	backgroundColor:#e4e4e4;
+}
+.statusMonitorDataGrid{
+	header-background-skin:Embed(source="newui/statusMonitorDataGridHeaderBG.png");
+	header-separator-skin:Embed(source="newui/statusMonitorDataGridBorder.png");
+	alternatingItemColors: #fefefe;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #d3d3d3;
+	verticalGridLines: true;
+	verticalGridLineColor: #d3d3d3;
+	borderVisible:false;
+} 
+
+.SelectPageBarButton{
+	font-family:Verdana, "宋体";
+	font-size:10;
+	upSkin: Embed(source="newui/select_page.png");
+}
+
+.alertTitle 
+{
+	color:#ffffff;
+	font-size: 12pt;
+	font-weight:bold;
+}  
+.alertMessage 
+{
+	font-size: 12pt; 
+}
+s|VScrollBar,
+mx|VScrollBar
+{
+	/*下面箭头的样式
+	downArrowUpSkin:Embed(source="icons/hsthumb.gif");
+	downArrowOverSkin:Embed(source="icons/hsthumb.gif");
+	downArrowDownSkin:Embed(source="icons/hsthumb.gif");*/
+	/*上面箭头的样式
+	upArrowUpSkin:Embed(source="icons/hsthumb.gif");
+	upArrowOverSkin:Embed(source="icons/hsthumb.gif");
+	upArrowDownSkin:Embed(source="icons/hsthumb.gif");*/
+	/*中间条的样式
+	thumbDownSkin:Embed(source="style.swf", symbol="ScrollThumb_downSkin", scaleGridLeft="7", scaleGridTop="5", scaleGridRight="8", scaleGridBottom="7");
+	thumbUpSkin:Embed(source="style.swf", symbol="ScrollThumb_upSkin");
+	thumbOverSkin:Embed(source="style.swf", symbol="ScrollThumb_overSkin", scaleGridLeft="7", scaleGridTop="5", scaleGridRight="8", scaleGridBottom="7");
+	*//*中间的样式
+	trackSkin:Embed(source="icons/hsthumb.gif", scaleGridLeft="7", scaleGridTop="4", scaleGridRight="8", scaleGridBottom="6");
+	*/
+}
+s|HScrollBar,
+mx|HScrollBar
+{
+	/*downArrowUpSkin:Embed(source="/assets/downArrow.png");  
+	downArrowOverSkin:Embed(source="/assets/downArrow.png");
+	downArrowDownSkin:Embed(source="/assets/downArrow.png");
+	upArrowUpSkin:Embed(source="/assets/upArrow.png");
+	upArrowOverSkin:Embed(source="/assets/upArrow.png");
+	upArrowDownSkin:Embed(source="/assets/upArrow.png");
+	thumbDownSkin:Embed(source="style.swf", symbol="HScrollThumb_downSkin", scaleGridLeft="7", scaleGridTop="5", scaleGridRight="8", scaleGridBottom="7");
+	thumbUpSkin:Embed(source="style.swf", symbol="HScrollThumb_upSkin");
+	thumbOverSkin:Embed(source="style.swf", symbol="HScrollThumb_overSkin", scaleGridLeft="7", scaleGridTop="5",  scaleGridRight="8", scaleGridBottom="7");
+	trackSkin:Embed(source="/assets/scrolltrack.png", scaleGridLeft="7", scaleGridTop="4",  scaleGridRight="8", scaleGridBottom="6");
+*/
+}

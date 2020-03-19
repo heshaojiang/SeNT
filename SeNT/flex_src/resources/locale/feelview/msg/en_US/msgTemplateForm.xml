@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "msgTemplateForm">
+		<editMsgTemplate>Edit Card Type</editMsgTemplate>
+		<newMsgTemplate>New Card Type</newMsgTemplate>
+		<name>name:</name>
+		<content>content:</content>
+		<memo>memo:</memo>
+	</node>
+</nodes>

@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cashBoxOutOfBranchForm">
+	
+		<title>钞箱配送/款箱配送/钞袋上缴</title>
+		
+		<cashboxDelivery>ATM钞箱配送</cashboxDelivery>
+		<kxcashboxDelivery>款箱配送</kxcashboxDelivery>
+		<cashbagDelivery>人行钞袋上缴</cashbagDelivery>
+		<kxcashboxTurnOver>网点款箱上缴</kxcashboxTurnOver>
+		<cashboxReturn>ATM钞箱回笼</cashboxReturn>
+		
+		<deliverCashInBank>行内出库</deliverCashInBank>
+		<deliverCashByPboc>人行出库</deliverCashByPboc>
+		<deliverCashForOtherBank>同业出库</deliverCashForOtherBank>
+		
+		<cashboxNumColon>钞箱号：</cashboxNumColon>
+		<kxcashboxNumColon>款箱号：</kxcashboxNumColon>
+		<cashbagNumColon>钞袋号：</cashbagNumColon>
+		
+		<followTypeColon>配钞渠道：</followTypeColon>
+		<flowNumColon>流转条码：</flowNumColon>
+		
+		<delete>删除</delete>
+		<addCashBunch>增加捆钞</addCashBunch>
+		
+		<save>保存</save>
+		<cancel>取消</cancel>
+		<orgid>所属机构</orgid>
+		<receiveorgid>接收机构代码：</receiveorgid>
+		<finishFlowKey>钞箱是否终止流转：</finishFlowKey>
+		<finishFlowDisable>是</finishFlowDisable>
+		<finishFlowEnable>否</finishFlowEnable>
+	</node>
+</nodes>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:mx="library://ns.adobe.com/flex/mx" 
+				 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:grg="http://grg.grgbanking.com/platform/" 
+				 xmlns:parsley="http://www.spicefactory.org/parsley"
+				 xmlns:common="sent.common.*" 
+				 xmlns:component="sent.transmgr.view.component.*"
+				 layout="vertical" width="400" height="200"
+				 locale="cashBoxOutOfBranchForm" 
+				 titleKey="title"
+				 dataDictionaryPaths="{[]}"
+				 horizontalAlign="center"
+				 >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.events.CloseEvent;
+			import mx.utils.ObjectUtil;
+			import mx.utils.StringUtil;
+			
+			import platform.common.manager.AlertHandler;
+			import platform.common.manager.LanguageManager;
+			
+			import sent.transmgr.constants.CmlMgrConsts;
+			import sent.transmgr.constants.CmlNoteflowDetailInfoConsts;
+			import sent.transmgr.message.CmlNoteflowDetailInfoMsg;
+			import sent.transmgr.pm.CmlNoteflowDetailInfoPM;
+			import sent.transmgr.view.component.CmlFlowNumTextInputComponent;
+			import sent.transmgr.vo.CmlNoteflowInfoVO;
+			
+			import spark.events.TextOperationEvent;
+			
+			private var _self:CashBoxOutOfBranchForm = this as CashBoxOutOfBranchForm;
+			
+			private var langMgr:LanguageManager = LanguageManager.getInstance();
+			
+			
+			[Bindable]
+			public var flowStage:String = CmlNoteflowDetailInfoConsts.FLOW_STAGE_DELIVER_BY_CASH_BOX;
+			
+			[Inject]
+			[Bindable]
+			public var cmlNoteflowDetailInfoPM:CmlNoteflowDetailInfoPM;
+			
+			
+			// { 在这里放上VO只是为了解决flex的bug，虽然这些VO没有用到, 请不要删除
+			[Bindable]
+			private var _cmlNoteflowInfoVO:CmlNoteflowInfoVO = new CmlNoteflowInfoVO();
+			// }
+			
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				// ATM钞箱配送
+				if( this.flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DELIVER_BY_CASH_BOX )
+				{
+					this.titleKey = "cashboxDelivery";
+					this.moneyBoxLabel.locale = "cashboxNumColon";
+				}
+				// 款箱配送
+				else if( this.flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DELIVER_BY_KXCASH_BOX )
+				{
+					this.titleKey = "kxcashboxDelivery";
+					this.moneyBoxLabel.locale = "kxcashboxNumColon";
+				}
+				// 人行钞袋配送
+				else if( this.flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DELIVER_BY_CASH_BAG )
+				{
+					this.titleKey = "cashbagDelivery";
+					this.moneyBoxLabel.locale = "cashbagNumColon";
+				}
+				// 网点款箱上缴
+				else if( this.flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_BRANCH_KXCASHBOX_RETURN )
+				{
+					this.titleKey = "kxcashboxTurnOver";
+					this.moneyBoxLabel.locale = "kxcashboxNumColon";
+				}
+				//  ATM钞箱回笼
+				else if( this.flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DELIVER_BY_CASH_BOX_INBANK )
+				{
+					this.titleKey = "deliverCashInBank";
+					this.moneyBoxLabel.locale = "cashboxNumColon";
+				}
+				else if( this.flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DELIVER_BY_CASH_BOX_BYPBOC )
+				{
+					this.titleKey = "deliverCashByPboc";
+					this.moneyBoxLabel.locale = "cashboxNumColon";
+				}
+				else if( this.flowStage==CmlNoteflowDetailInfoConsts.FLOW_STAGE_DELIVER_BY_CASH_BOX_FOROTHERBANK )
+				{
+					this.titleKey = "deliverCashForOtherBank";
+					this.moneyBoxLabel.locale = "cashboxNumColon";
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			override protected function getDataDictCallback():void
+			{
+//				var str:String  = langMgr.getCommonLanguageMap("components")["pleaseSelect"] as String ;
+//				
+//				var arrCol:ArrayCollection = new ArrayCollection();
+//				arrCol.addItem({
+//					key : "", 
+//					text : str
+//				});
+//				
+//				var cmlMgrTypeFlag:Object = dataDictionaryCache[CmlMgrConsts.TYPE_FLAG_IN_OUT_LIB];
+//				arrCol.addAll(ObjectUtil.copy(cmlMgrTypeFlag) as ArrayCollection);
+//				
+//				followTypeAC = arrCol;
+			}
+			
+			
+			/**
+			 * 
+			 */
+			private function save():void
+			{
+				var alertMsg:String;
+				
+				var orgId:String = StringUtil.trim(this.orgid.text);
+				var sCashboxNum:String = StringUtil.trim(this.cashboxNum.text);
+				if( sCashboxNum=="" )
+				{
+					alertMsg = langMgr.getExceptionMessage("exceptionMessage.pleaseInputCashboxNum");
+					AlertHandler.alert(alertMsg);
+					return ;
+				}
+				
+				var submitData:Object = {};
+				submitData.orgid = orgId;
+				submitData.cashboxNum = sCashboxNum;
+				submitData.flowStage = flowStage;
+				
+				var msg:CmlNoteflowDetailInfoMsg = new CmlNoteflowDetailInfoMsg();
+				msg.args["remoteMethod"]   = "addCashBoxOutOfBranch";
+				msg.args["methodPrameter"] = submitData;
+				msg.args["resultHandler"]  = "DeliverCashBoxForm.addCashBoxOutOfBranchResult";
+				msg.args["errorHandler"]   = "DeliverCashBoxForm.addCashBoxOutOfBranchError";
+				cmlNoteflowDetailInfoPM.sendCmlNoteflowDetailInfoMsg(msg);
+				
+				this.enabled = false;
+			}
+			
+			[MessageHandler(selector="DeliverCashBoxForm.addCashBoxOutOfBranchResult")]
+			public function addCashBoxOutOfBranchResult(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				this.enabled = true;
+				
+				var alertMsg:String = "";
+				if( msg.result>0 )
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.deliverSuccess");
+				}
+				else
+				{
+					alertMsg = langMgr.getExceptionMessage("alertMessage.deliverFail");
+				}
+				Alert.show(alertMsg, "系统提示", 4, null, function():void{
+					_self.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				});
+			}
+			
+			[MessageHandler(selector="DeliverCashBoxForm.addCashBoxOutOfBranchError")]
+			public function addCashBoxOutOfBranchError(msg:CmlNoteflowDetailInfoMsg):void
+			{
+				this.enabled = true;
+			}
+			
+//			protected function orgid_changeHandler(event:TextOperationEvent):void
+//			{
+//				var changeAfter:String = event.target.text; 
+//				if(changeAfter==null || changeAfter==""){
+//					finish_flow.enabled = false;
+//				}else{
+//					finish_flow.enabled = true;
+//				}
+//			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	
+	<!-- 钞箱号、配钞渠道 -->
+	<grg:Form>
+		<!-- 钞箱号 -->
+		<grg:FormItem id="moneyBoxLabel" locale="cashboxNumColon" required = "true">
+			<grg:TextInput id="cashboxNum" width="200" maxChars="32" restrict="0-9a-zA-Z*-_"/>
+		</grg:FormItem>
+		
+		<grg:FormItem id="orgidLabel" locale="receiveorgid" >
+			<!--<grg:TextInput id="orgid" width="200" change="orgid_changeHandler(event)"/>-->
+			<grg:TextInput id="orgid" width="200"/>
+			</grg:FormItem>
+		
+		<!--是否结束流转
+		<grg:FormItem width="100%" locale="finishFlowKey">
+			<mx:HBox>
+				<grg:RadioButtonGroup id="finish_flow" enabled="false"/>-->	
+				<!--是
+				<grg:RadioButton id="finishFlowDisable" groupName="finish_flow"
+								 locale="finishFlowDisable" value="0"/>-->
+				<!--否
+				<grg:RadioButton id="finishFlowEnable" groupName="finish_flow"
+								 locale="finishFlowEnable" value="1" selected="true"/>
+			</mx:HBox>
+		</grg:FormItem>-->
+
+	</grg:Form>
+	
+	<!-- 保存、取消 -->
+	<s:HGroup width="100%" gap="6" paddingBottom="5" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="save" iconVisible="false" click="save()" />
+		<grg:Button locale="cancel" iconVisible="false" click="cancel()" />
+	</s:HGroup>
+	
+</grg:TitleWindow>
+

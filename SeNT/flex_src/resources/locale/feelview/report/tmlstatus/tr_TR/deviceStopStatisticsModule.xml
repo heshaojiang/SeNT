@@ -1,0 +1,22 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!--  
+ * Description：deviceStopStatisticsModule<br>
+ * Create Time：2011-9-25<br>   
+ * Author：Ming.Zhang  <br>
+ * Email : zyming1@grgbanking.com <br>
+ -->
+<nodes>
+	<node locale = "deviceStopStatisticsModule">
+		<listTitle>Kapanma Olay İstatistikler Listesi</listTitle>
+		<searchItem>Ara</searchItem>
+		<termIdItem>Terminal Id</termIdItem>
+		<orgIdItem>Şube</orgIdItem>
+		<orgNameItem>Şube Adı</orgNameItem>
+		<statisticsDateItem>Başlangıç Zamanı</statisticsDateItem>
+		<toItem>Bitiş Zamanı</toItem>
+		<beginTimeItem>Başlangıç Zamanı</beginTimeItem>
+		<endTimeItem>Bitiş Zamanı</endTimeItem>
+		<stopEventTotalItem>ToplamKesintiSüresi(dk)</stopEventTotalItem>
+<!--		<stoptimeItem>Toplam zaman birimlerini Aşağı: dakika</stoptimeItem>-->
+	</node>
+</nodes>

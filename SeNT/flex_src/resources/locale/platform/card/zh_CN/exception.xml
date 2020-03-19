@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes>
+	<node locale = "card">
+		<existedCardInfo>卡标识已存在！</existedCardInfo>
+		<existedCardType>卡标识已存在！</existedCardType>
+		<cardIdNotNull>卡标识不能为空！</cardIdNotNull>
+		<cardNameNotNull>卡名称不能为空！</cardNameNotNull>
+		<bankIdNotNull>发卡行机构代码不能为空！</bankIdNotNull>
+		<bankNameNotNull>发卡行名称不能为空！</bankNameNotNull>
+		<invalidIdLength>卡标识长度必须大于0！</invalidIdLength>
+		<invalidLength>卡号长度必须大于3！</invalidLength>
+		<applyAtmNotNull>适用ATM不能为空！</applyAtmNotNull>
+		<applyPosNotNull>适用POS不能为空！</applyPosNotNull>
+		<cardTypeNotNull>卡种不能为空！</cardTypeNotNull>
+		<orgIdNotNull>机构不能为空！</orgIdNotNull>
+		<selfNotNull>本行卡不能为空！</selfNotNull>
+		<provinceNotNull>本省卡不能为空！</provinceNotNull>
+		<localNotNull>本地卡不能为空！</localNotNull>
+		<cardBinTooLength>卡标识长度不能大于卡的长度！</cardBinTooLength>
+	</node>
+</nodes>

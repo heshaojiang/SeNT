@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="transMgrModule">
+		<titlemsg>ATM交易检索</titlemsg>
+		
+		<orgIdColon>所属机构：</orgIdColon>
+		<columnNo>序号</columnNo>
+		<transResult>交易结果：</transResult>
+		<accountNo>卡号/账号：</accountNo>
+		<journalNo>流水号：</journalNo>
+		<termid>终端编号：</termid>
+		<sendTime>交易时间：</sendTime>
+		<to>至</to>
+		<transCode>交易类型</transCode>
+		<transAmt>交易金额</transAmt>
+		<statisAtm>统计金额</statisAtm>
+		<noteNum>张数</noteNum>
+		<blNum>黑名单张数</blNum>
+		<repeatNum>重号冠字号码数</repeatNum>
+		<callBackNum>回收张数</callBackNum>
+		<atmtermid>终端编号</atmtermid>
+		<operations>操作</operations>
+	</node>
+</nodes>

@@ -1,0 +1,124 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="common">
+		<javaError>未知错误，请联系管理员。</javaError>
+		<loginError>登录失败！</loginError>
+	</node>
+	
+	<node locale="alertMessage">
+		<operateSuccess>操作成功!</operateSuccess>
+		<operateFail>操作失败!</operateFail>
+		
+		<distributeCashSuccess>配钞成功!</distributeCashSuccess>
+		<distributeCashFail>配钞失败!</distributeCashFail>
+		
+		<deliverSuccess>配送成功!</deliverSuccess>
+		<deliverFail>配送失败!</deliverFail>
+		
+		<addCashSuccess>加钞成功!</addCashSuccess>
+		<addCashFail>加钞失败!</addCashFail>
+		
+		<operateSuccess>操作成功!</operateSuccess>
+		<operateFail>操作失败!</operateFail>
+		<inputNotMatched>钞箱号不合法，只能由字母和数字组成</inputNotMatched>
+		<regulationAddSuccess>规则新增成功</regulationAddSuccess>
+		
+		<addNewCheckInSuccess>新增登记成功</addNewCheckInSuccess>
+		<updateCheckInSuccess>登记信息修改成功</updateCheckInSuccess>
+		<updateCheckInSuccess>查询结果登记成功</updateCheckInSuccess>
+		
+		<newFileUpload>控件版别已升级，是否使用新版别控件！</newFileUpload>
+		<fileUpload>尚未注册资源控件，是否下载资源控件！</fileUpload>
+		<alertTitle>下载</alertTitle>
+	</node>
+	
+	<node locale="exceptionMessage">
+		
+		<FileNotExist>当前条件范围内无合适文件上报</FileNotExist>
+		<pleaseSelectAtLeastOneRecord>请选择至少一条记录</pleaseSelectAtLeastOneRecord>
+		
+		<startTimeCannotBeNull>开始时间不能为空!</startTimeCannotBeNull>
+		<endTimeCannotBeNull>结束时间不能为空!</endTimeCannotBeNull>
+		<startTimeCannotBeGreaterThanEndTime>开始时间不能大于结束时间!</startTimeCannotBeGreaterThanEndTime>
+	    <pleaseInputSeriaNo>模糊查询时请输入终端编号!</pleaseInputSeriaNo>
+	    <checkInputTime>模糊查询时查询范围只能为一天!</checkInputTime>
+	    
+		<needMoreThanOneFlowNum>至少需要装入一捆钞票!</needMoreThanOneFlowNum>
+		<flowNumDuplicatedFill>流转条码[{0}]重复!</flowNumDuplicatedFill>
+		
+		<needMoreThanOneCashbox>至少需要装入一个钞箱!</needMoreThanOneCashbox>
+		<cashboxNumDuplicatedFill>钞箱号[{0}]重复!</cashboxNumDuplicatedFill>
+		
+		<pleaseInputCashboxNum>请输入钞箱号!</pleaseInputCashboxNum>
+		<pleaseInputAccountNo>请输入卡号/帐号!</pleaseInputAccountNo>
+		<pleaseInputAtmNum>请输入ATM号!</pleaseInputAtmNum>
+		
+		<pleaseInputPayToCounter>请输入'支付给柜员'!</pleaseInputPayToCounter>
+		
+		<pleaseInputCardNum>请输入卡号!</pleaseInputCardNum>
+		<cardNumCannotbeShorterThan>卡号只能为16-19位的纯数字</cardNumCannotbeShorterThan>
+		<pleaseSelectFollowType>请选择配钞渠道!</pleaseSelectFollowType>
+		
+		<flowNumIsBlank>流转码为空!</flowNumIsBlank>
+		
+		<pleaseSelectFileFirst>请先选择文件!</pleaseSelectFileFirst>
+		<fileNameFormatError>文件名格式错误!</fileNameFormatError>
+		<fileNameCannotContainChinese>文件名不能含中文</fileNameCannotContainChinese>
+		<uploadFailed>文件上传失败</uploadFailed>
+		<uploadFailed1>文件路径不对</uploadFailed1>
+		<uploadFailed2>文件格式不对</uploadFailed2>
+		<uploadFailed3>socket初始化失败</uploadFailed3>
+		<uploadFailed4>socket连接失败</uploadFailed4>
+		<uploadFailed5>发送文件接收失败</uploadFailed5>
+		<uploadFailed6>发送文件失败</uploadFailed6>
+		<uploadFailed7>后台服务器返回异常</uploadFailed7>
+		<uploadFailed8>压缩文件失败</uploadFailed8>
+		<uploadFailed9>压缩文件打开失败</uploadFailed9>
+		<uploadFailed10>删除压缩文件失败</uploadFailed10>
+		<uploadFailed11>服务器正忙请稍后上传</uploadFailed11>
+		<uploadFailed12>终端设备没有在后台管理系统中注册</uploadFailed12>
+		<uploadFailed13>文件路径、服务器IP、上传者ID为空</uploadFailed13>
+		<uploadFailed14>文件名太长</uploadFailed14>
+		<fileNameFormatErrorAndRightSample>文件名格式错误, 正确的文件名格式应为'日期_设备编号_流水号_其余部份.FSN'!</fileNameFormatErrorAndRightSample>
+		<noFSNFiletoExport>待导出记录为空，请重新筛选导出条件！</noFSNFiletoExport>
+		<termIdCannotBeNull>请输入要筛选的设备编号</termIdCannotBeNull>
+		<operaDateCannotBeNull>请选择清点日期</operaDateCannotBeNull>
+		<dayCountIsNull>[{0}][{1}]至[{2}]清点[{3}]金额为0</dayCountIsNull>
+		
+		<noDataToExport>没有需要导出的数据</noDataToExport>
+		<pleaseInputClientName>请输入查询人姓名</pleaseInputClientName>
+		<pleaseInputNoteSeq>请输入要查询的纸币冠字号码</pleaseInputNoteSeq>
+		<pleaseSelectone>请选择要登记查询结果的记录</pleaseSelectone>
+		<pleaseSelectOneToEdit>请选择一条要修改的登记信息</pleaseSelectOneToEdit>
+		<pleaseSelectOneToDelete>请选择要删除的登记信息</pleaseSelectOneToDelete>
+		<noPriviToUpdate>您没有权限对该信息进行修改</noPriviToUpdate>
+		<noPriviToDelete>您没有权限对该信息进行删除</noPriviToDelete>
+		<noPriviToInputResult>您没有权限登记该信息的查询结果</noPriviToInputResult>
+		<searchResultExists>该申请信息已有查询结果</searchResultExists>
+		<searchResultExistsEdit>该申请已查询，不可修改</searchResultExistsEdit>
+		<searchResultExistsDel>该申请已查询，不可删除</searchResultExistsDel>
+		<noSearchResult>该信息还未登记查询结果，不可进行二次查询操作</noSearchResult>
+		<alreadySearchAgain>该信息已是第二次查询登记的信息，不可再进行二次查询登记</alreadySearchAgain>
+		<alreadySearchAgain2>该信息已进行了二次查询登记，不可再进行二次查询登记</alreadySearchAgain2>
+		
+		<numTooLargeToExport>待导出数据量较大，请选择CSV文件格式导出</numTooLargeToExport>
+		
+		<pleaseInputSearchResult>请输入查询结果</pleaseInputSearchResult>
+		<searchResultInputSuccess>查询结果登记成功</searchResultInputSuccess>
+		<deleteInfoSuccess>信息删除成功</deleteInfoSuccess>
+		<pleaseSelectOneType>请选择一种证明资料类型</pleaseSelectOneType>
+		<pleaseSelectOneGetType>请选择一种取款方式</pleaseSelectOneGetType>
+		<pleaseSelectOnlyOneType>取款方式只能选择一种，不能同时选择自助取款和柜面取款</pleaseSelectOnlyOneType>
+		<pleaseSelectOnlyOneATMType>自助设备取款的类型只能选择一种</pleaseSelectOnlyOneATMType>
+		<nocheckinInfo>没有符合条件的涉假登记信息</nocheckinInfo>
+		
+		<noResultFound>没有该信息的二次登记信息</noResultFound>
+		
+		<seriaNoNotExisted>查询结果为空!</seriaNoNotExisted>
+		
+		<noNoderFileExist>节点机文件不存在</noNoderFileExist>
+	</node>
+	<node locale="changePwdMessage">
+		<simple>密码太简单了，必须包含字母、数字、特殊字符中两种组合</simple>
+	</node>
+</nodes>

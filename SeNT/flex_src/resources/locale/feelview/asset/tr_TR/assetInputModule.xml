@@ -1,0 +1,19 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description：termInfoModule
+	 Create Time：2011-8-8  上午09:32:35 
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "assetInputModule">
+		<listTitle>Envanter Listesi</listTitle>
+		<termtype>Terminal Tipi</termtype>
+		<brand>Marka</brand>
+		<model>Model</model>
+		<insttype>Montaj Tipi</insttype>
+		<batch>Grup</batch>
+		<sum>Toplam</sum>
+		<remain>Kalan Adet</remain>
+		<operations>Tamam</operations>
+		<Distribution>Dağıtım</Distribution>
+	</node>
+</nodes>

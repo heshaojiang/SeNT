@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "winImpCmlSent">
+		<impCmlSentInfos>清分冠字号码导入</impCmlSentInfos>
+		<taskInfo>导入条件</taskInfo>
+		<termType>终端类型</termType>
+		<orgid>机构:</orgid>
+		<oldName>文件名称:</oldName>
+		<selectFileBtn>选择文件..</selectFileBtn>
+		<fileName>文件名称</fileName>
+		<impSeq>导入的文件列表</impSeq>
+		<operaterStatus>上传状态</operaterStatus>
+		<impDate>上传时间</impDate>
+		<saveButton>保存</saveButton>
+		<cancelButton>取消</cancelButton>
+	</node>
+</nodes>

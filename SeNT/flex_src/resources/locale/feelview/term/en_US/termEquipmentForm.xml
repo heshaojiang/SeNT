@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description： termEquipmentForm
+	 Create Time：2011-8-30   
+	 Author：Ming.Zhang 
+	 Email : zyming1@grgbanking.com -->
+<nodes>
+	<node locale = "termEquipmentForm">
+		<addTermEquipmentForm>Add TermEquipment</addTermEquipmentForm>
+		<updateTermEquipmentForm>Update TermEquipment</updateTermEquipmentForm>
+		<settingTermEquipmentForm>Setting TermEquipment</settingTermEquipmentForm>
+		<listTitle>Term Info List</listTitle>
+		<searchItem>searchKeyword</searchItem>
+		<termIdItem>termId</termIdItem>
+		<termTypeItem>termType</termTypeItem>
+		<brandItem>brand</brandItem>
+		<modelItem>model</modelItem>
+		<org>organization</org>
+		<areaIdItem>areaId</areaIdItem>
+		<netAddrItem>netAddr</netAddrItem>
+		<operateItem>operate</operateItem>
+		<responsibleNameItem>responsibleName</responsibleNameItem>
+	</node>
+</nodes>

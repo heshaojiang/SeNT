@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale = "noderFileForm">
+		<success_tips>文件已存在，是否需重新获取该远程文件</success_tips>
+		<failed_tips>该文件之前获取失败，是否需重新获取该远程文件</failed_tips>
+		<netAddrItem>节点机IP：</netAddrItem>
+		<org>所属机构：</org>
+		<fileTypeLabel>文件类型：</fileTypeLabel>
+		<uploadTime>日志文件日期：</uploadTime>
+		<saveButton>申请获取远程文件</saveButton>
+		<cancelButton>取消</cancelButton>
+		<noderFileFormTitle>申请获取远程节点机文件</noderFileFormTitle>
+	</node>
+</nodes>

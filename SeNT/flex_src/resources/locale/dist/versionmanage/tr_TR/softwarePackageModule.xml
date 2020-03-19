@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- Description: 软件包管理
+	 Create Time:2012-7-16   
+	 Author: 叶小伟 
+	 Email : yxwei1@grgbanking.com 
+	 -->
+<nodes>
+	<node locale = "softwarePackageModule">
+		<titleSoftwarePackage>Software Package Management</titleSoftwarePackage>
+		<titleUseage>Useage:</titleUseage>
+		<titleName>Name:</titleName>
+		<titleBrand>Brand:</titleBrand>
+		<titleModel>Model:</titleModel>
+		<titleVendorVersion>Vendor Version:</titleVendorVersion>
+		<titleBankVersion>Bank Version:</titleBankVersion>
+		<titleStatus>Status:</titleStatus>
+		<titleAudit>Audit:</titleAudit>
+		<titleNote>Comment:</titleNote>
+		
+		<labelUseage>Useage</labelUseage>
+		<labelName>Name</labelName>
+		<labelBrand>Brand</labelBrand>
+		<labelModel>Model</labelModel>
+		<labelVendorVersion>Vendor Version</labelVendorVersion>
+		<labelBankVersion>Bank Version</labelBankVersion>
+		<labelStatus>Status</labelStatus>
+		<labelNote>Comment</labelNote>
+		
+		<operCommit>Commit to Audit</operCommit>
+		<operAudit>Audit</operAudit>
+		<operateButton>Opertions</operateButton>
+		
+		<titleFile>Package File:</titleFile>
+		<uploadSoftwarePakcage>Must upload .exe file!</uploadSoftwarePakcage>
+		
+		<addSoftwarePackage>Create</addSoftwarePackage>
+		<editSoftwarePackage>Edit</editSoftwarePackage>
+		<auditSoftwarePackage>Audit</auditSoftwarePackage>
+
+	</node>
+</nodes>

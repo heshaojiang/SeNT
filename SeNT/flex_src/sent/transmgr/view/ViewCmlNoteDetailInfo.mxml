@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 layout="vertical" width="750" height="550"
+				 paddingTop="10" paddingBottom="10" locale="viewCmlNoteDetailInfo" titleKey="cmlSEQTitle"
+				 dataDictionaryPaths="{[ CmlMgrConsts.FLOW_TYPE, 
+										 CmlMgrConsts.NOTE_TYPE,
+										 CmlSentInfoConsts.CURRENCY, 
+										 CmlSentInfoConsts.MONEYDENOMINATION]}"
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ListCollectionView;
+			import mx.printing.FlexPrintJob;
+			import mx.printing.FlexPrintJobScaleType;
+			
+			import platform.common.vo.Page;
+			import platform.dataDict.DataDictConfig;
+			
+			import sent.common.utils.DateUtils;
+			import sent.transmgr.constants.CmlMgrConsts;
+			import sent.transmgr.constants.CmlSentInfoConsts;
+			import sent.transmgr.message.CmlSentInfoMsg;
+			import sent.transmgr.pm.CmlSentInfoPM;
+			import sent.transmgr.vo.CmlSentInfoVO;
+			/**
+			 * 初始化pm
+			 * */
+			[Inject]
+			[Bindable]
+			public var pm:CmlSentInfoPM;
+			/**
+			 * 数据源
+			 * */
+			[Bindable]
+			public var dataProvider:ArrayCollection;
+			[Bindable]
+			public var cmlSentinfoVO:CmlSentInfoVO=new CmlSentInfoVO();
+			/**
+			 * 参数配置中图片的路径
+			 * */
+			[Bindable]
+			public var imgPath:String;//发送报文获取的图片路径
+			import sent.transmgr.message.TransBanknoteSeqMsg;
+			[Bindable]
+			public var fsnPath:String;//fsn图片的路径
+			[Bindable]
+			public var picPathMap:Object=new Object();
+			[Bindable]
+			public var impFlag:String;
+			[Bindable]
+			public var noteflowDetailPage:Page=new Page();
+			/**
+			 * 初始化参数
+			 * */
+		
+			
+			/**
+			 * 返回参数配置中的图片路径
+			 */
+			[MessageHandler(selector="getCmlImgParmPathResult")]
+			public function getInitParamResultHandler(p_msg:CmlSentInfoMsg):void
+			{
+				if(p_msg)
+				{
+					picPathMap=p_msg.result;
+					imgPath=picPathMap.imagePath;
+					fsnPath=picPathMap.fsnPath;
+				}
+			}
+			
+			/**
+			 * 打印
+			 */
+			private function print():void
+			{
+				var pj:FlexPrintJob=new FlexPrintJob;
+				if(pj.start()!=true)
+				{
+					return;
+				}
+				pj.addObject(printPic,FlexPrintJobScaleType.SHOW_ALL);
+				pj.send();
+			}
+			
+			
+			/**
+			 * 转换数据字典
+			 */
+			override protected function transferDataDict(p_item:Object, p_column:DataGridColumn):String
+			{
+				switch(p_column.dataField){
+					case "currency":
+						currentDataDictPath = CmlSentInfoConsts.CURRENCY;
+						break;
+					case "noteType":
+						currentDataDictPath = CmlSentInfoConsts.NOTE_TYPE;
+						break;
+					case "type":
+						currentDataDictPath = CmlMgrConsts.FLOW_TYPE; 
+						break;
+				}
+				return super.transferDataDict(p_item, p_column);
+			}
+			
+			
+			/**
+			 * 刷新列表
+			 */
+			override protected function getDataDictCallback():void
+			{
+				//刷新列表
+				(printPic.dataProvider as ListCollectionView).refresh();
+				(noteFlowGrid.dataProvider as ListCollectionView).refresh();
+			}
+			
+			/**
+			 * 查询对应导入冠字号码对应的所有信息(手动上传fsn)
+			 */
+			public function formatOperDate(p_item:Object, column:DataGridColumn):String
+			{
+				return DateUtils.formatYYYYMMDDHHMISS(p_item.date);
+			}
+			
+		]]>
+		
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:FlexConfig type="{DataDictConfig}"/>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<grg:RoundCornerContainer width="100%" height="100" locale="cmlSEQTitle">
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:VerticalLayout gap="10" paddingTop="10" />
+			</s:layout>
+			<grg:DataGrid id="printPic" dataProvider="{pm.dataProvider}" width="100%
+						  " height="90"
+						  textAlign = "center" verticalAlign="middle"
+						  styleName = "DataGrid">
+				<grg:columns>
+					<grg:DataGridColumn  locale="seriaNo" width="110" resizable="false">
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<fx:Script>
+										<![CDATA[
+											[Bindable]
+											private var serialNo:String;
+											override public function set data(value:Object):void
+											{
+												super.data = value;
+												serialNo = data.seriaNo;
+												//根据钞票类型显示冠字号的颜色
+												var noteType:String=data.noteType;
+												switch(noteType)
+												{
+													case "1":
+														//绿色代表真抄
+														
+														serNoColor.setStyle("color","#00aa00");
+														break;
+													case "0":
+														//红色代表可疑抄
+														
+														serNoColor.setStyle("color","#ff0000");
+														break;
+													case "201":
+														//蓝色代表黑名单
+														
+														serNoColor.setStyle("color","#0000aa");
+														break;
+													case "3":
+														//橘黄色代表重号
+														
+														serNoColor.setStyle("color","#ff9900");
+														break;
+												}
+											}
+										]]>
+									</fx:Script>
+									<grg:Label paddingTop="15" verticalCenter="-5" fontFamily="Verdana" id="serNoColor"  fontSize="16" text="{serialNo}" width="110"/>
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					<grg:DataGridColumn  locale="urlName" id="picName" textAlign="center" resizable="false">
+						<grg:itemRenderer>
+							<fx:Component>
+								<s:MXDataGridItemRenderer>
+									<fx:Script>
+										<![CDATA[
+											import org.alivepdf.events.ProcessingEvent;
+											
+											import platform.common.manager.AlertHandler;
+											[Bindable]
+											private var urlName:String;
+											[Bindable]
+											private var urlFileName:String;
+											[Bindable]
+											private var sequence:int;
+											
+											override public function set data(value:Object):void
+											{
+												var  b :Bitmap = new Bitmap;
+												super.data = value;
+												urlName =data.fileName;
+												//urlFileName=data.urlFilename;
+												sequence=data.sequence;
+												myImage.source =data.imageArr;
+												myImage.width = 170;
+												myImage.height=18;//手动上传
+												/* if(data.imageType=="1")
+												{
+												
+												myImage.source =data.imageArr;
+												}
+												else {
+												myImage.source = ".ImageServlet?urlName=" + urlName;
+												
+												myImage.width=136;
+												myImage.height=40;//自动 需修改java代码
+												myImage
+												
+												}
+												myImage.width = 170;
+												myImage.height=18;//手动上传*/
+											} 
+											
+										]]>
+									</fx:Script>
+									<grg:Image id="myImage"  horizontalAlign="center" verticalAlign="middle" />
+									<!--	<mx:ProgressBar id="process"  mode="manual" labelPlacement="center"
+									width="80%" height="32" color="green"  x="0" y="0"
+									minimum="0" maximum="100"/>-->
+								</s:MXDataGridItemRenderer>
+							</fx:Component>
+						</grg:itemRenderer>
+					</grg:DataGridColumn>
+					<grg:DataGridColumn locale="noteType" dataField="noteType" labelFunction="{transferDataDict}" width="90"/>
+					<grg:DataGridColumn locale="currency" dataField="currency" labelFunction="{transferDataDict}" width="100"/>
+					<grg:DataGridColumn locale="denomination" dataField="denomination" width="90"/>
+				</grg:columns>
+			</grg:DataGrid>
+		</s:Group>
+		
+	</grg:RoundCornerContainer>
+	<grg:RoundCornerContainer width="100%" height="100%" locale="noteflowDetail">
+		
+		<s:VGroup width="100%" height="100%" gap="10" paddingTop="10">
+			<grg:DataGrid id="noteFlowGrid" dataProvider="{pm.cmlNoteflowPage.result}" width="100%" height="100%"
+						  textAlign = "center" verticalAlign="middle"
+						  styleName = "DataGrid">
+				<grg:columns>
+					<grg:DataGridColumn locale="barcodeFlowNum" dataField="barcodeFlowNum" width="55" />
+					<grg:DataGridColumn locale="flowType"       dataField="type"           width="55" labelFunction="{transferDataDict}" />
+					<grg:DataGridColumn locale="operator"       dataField="operator"       width="55" />
+					<grg:DataGridColumn locale="operDate"       dataField="date"           width="55" labelFunction="{formatOperDate}" />
+					</grg:columns>
+				</grg:DataGrid>
+			<grg:PageNavigatorBar id="pagebar1" bottom="0" pageVo="{pm.cmlNoteflowPage}" pagingFunction="{pm.loadCmlNoteFlowPage}"/>
+		</s:VGroup>
+					
+		</grg:RoundCornerContainer>
+	
+
+	<s:HGroup width="100%" gap="6" horizontalAlign="center" verticalAlign="middle" height="30" >
+		<grg:Button locale="printBtn"  iconVisible="false" click="print()"/>
+		<grg:Button locale="cancelButton" iconVisible="false" click="cancel()"/>
+		
+	</s:HGroup>
+</grg:TitleWindow>

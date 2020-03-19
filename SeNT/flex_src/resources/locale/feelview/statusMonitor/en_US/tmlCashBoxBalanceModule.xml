@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：tmlCashBoxBalanceModule<br>
+        Create Time：2011-12-24 <br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "tmlCashBoxBalanceModule">
+		<listTitle>TmlCashBoxBalanceModule List</listTitle>
+		<termIdItem>TermId</termIdItem>
+		<orgIdItem>OrgId</orgIdItem>
+		<cashBoxOneItem>CashBoxOne</cashBoxOneItem>
+		<cashBoxTwoItem>CashBoxTwo</cashBoxTwoItem>
+		<cashBoxThreeItem>CashBoxThree</cashBoxThreeItem>
+		<cashBoxFourItem>CashBoxFour</cashBoxFourItem>
+		<cashBoxFiveItem>CashBoxFive</cashBoxFiveItem>
+		<cashBoxSixItem>CashBoxSix</cashBoxSixItem>
+		<cashBoxSevenItem>CashBoxSeven</cashBoxSevenItem>
+		<cashBoxEightItem>CashBoxEight</cashBoxEightItem>
+		<cashBoxNineItem>CashBoxNine</cashBoxNineItem>
+	</node>
+</nodes>

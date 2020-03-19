@@ -1,0 +1,34 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlSentInfoModule">
+		<noteType>钞票类别：</noteType>
+		<noteTypes>钞票类别：</noteTypes>
+		<orgid>来源机构：</orgid>
+		<seriaNo>冠字号码：</seriaNo>
+		<sendTime>清分时间：</sendTime>
+		<operatorId>操作员：</operatorId>
+
+		<to>至</to>
+		
+		
+		<impCmlSent>导入冠字号码文件</impCmlSent>
+		
+		
+		<cmlType>清分类型</cmlType>
+		<denomination>面额</denomination>
+		<termId>终端编号</termId>
+		<operations>操作</operations>
+		<termid>终端编号：</termid>
+		<fuzzyCount>冠字号码匹配位数：</fuzzyCount>
+		<titlemsg>清分冠字号码检索</titlemsg>
+		<typeName>业务类别</typeName>
+		<orgName>所属机构</orgName>
+		<versionNum>版本</versionNum>
+		<noteFlag>钞票标识</noteFlag>
+		<notetypes>钞票类别：</notetypes>
+		<currency>币种</currency>
+		
+		<showTransDetailInfo>查看交易信息</showTransDetailInfo>
+		<viewNoteflowDetailInfo>查看流转详情</viewNoteflowDetailInfo>
+	</node>
+</nodes>

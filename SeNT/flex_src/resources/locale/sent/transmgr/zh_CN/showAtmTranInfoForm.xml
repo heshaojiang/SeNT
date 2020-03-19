@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="showAtmTranInfoForm">
+		
+		<title>查看ATM交易信息</title>
+		
+		<atmTranInfo>ATM交易信息</atmTranInfo>
+		
+		<transOrgColon>交易机构：</transOrgColon>
+		<transOrgCodeColon>交易机构号：</transOrgCodeColon>
+		<transCode>交易类型：</transCode>
+		<accountNo>卡号/帐号：</accountNo>
+		<transTime>交易时间：</transTime>
+		<transAmt>交易金额：</transAmt>
+		<noteNum>张数：</noteNum>
+		<repeatNum>重号冠字号码数：</repeatNum>
+		<termid>终端编号：</termid>
+		<termTypeColon>设备类型：</termTypeColon>
+		<journalNo>流水号：</journalNo>
+		<transResult>交易结果：</transResult>
+		<blNum>黑名单张数：</blNum>
+		<callBackNum>回收张数：</callBackNum>
+		<red>可疑钞</red>
+		<blue>黑名单</blue>
+		<orange>重号</orange>
+		<green>真钞</green>
+		<statisAtm>统计金额：</statisAtm>
+		<serialNoInfo>冠字号信息</serialNoInfo>
+		<versionNum>版别</versionNum>
+		<seriaNo>冠字号码</seriaNo>
+		<urlName>冠字号码图片</urlName>
+		<noteType>钞票类别</noteType>
+		<denomination>面额</denomination>
+		<currency>币种</currency>
+		<tranDate>交易时间</tranDate>
+		
+		<finacialCode>金融机构代码：</finacialCode>
+		<columnNo>序号</columnNo>
+		<printSerialnoWithImage>打印冠字号信息</printSerialnoWithImage>
+		<expExcel>导出</expExcel>
+		<seriaNoColon>冠字号码：</seriaNoColon>
+	</node>
+</nodes>

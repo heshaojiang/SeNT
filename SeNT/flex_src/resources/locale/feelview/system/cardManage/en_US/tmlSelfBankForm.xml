@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--    Description：self-help Bank Manage<br>
+		Create Time：2011-9-5<br>  
+		Author：Ming.Zhang  <br>
+		Email : zyming1@grgbanking.com  -->
+<nodes>
+	<node locale = "tmlSelfBankForm">
+	    <addTmlSelfBankForm>Add TmlSelfBank</addTmlSelfBankForm>
+		<updateTmlSelfBankForm>Update TmlSelfBank</updateTmlSelfBankForm>
+		<orgIdItem>AdjunctBankOutlets:</orgIdItem>
+		<bankCodeItem>BankCode:</bankCodeItem>
+		<bankNameItem>BankName:</bankNameItem>
+		<addressItem>Address:</addressItem>
+		<installTypeItem>InstallType:</installTypeItem>
+		<status>Status:</status>
+	</node>
+</nodes>

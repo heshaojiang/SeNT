@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="configModule">
+		<listTitle>Params List:</listTitle>
+		<everydayFetchTime>Fetch Time:</everydayFetchTime>
+		<beginTime>Begin Time:</beginTime>
+		<endTime>End Time:</endTime>
+		<retryCount>Retry Count:</retryCount>
+		<interval>Interval:</interval>
+		<speed>Speed:</speed>
+		<unit>kb/s</unit>
+		<saveButton>save</saveButton>
+		<cancelButton>cancel</cancelButton>
+		<count>times</count>
+		<second>s</second>
+	</node>
+</nodes>

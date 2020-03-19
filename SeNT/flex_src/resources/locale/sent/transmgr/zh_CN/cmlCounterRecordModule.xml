@@ -1,0 +1,32 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<nodes>
+	<node locale="cmlCounterRecordModule">
+		
+		<titlemsg>柜面交易检索</titlemsg>
+		
+		<tranTimeColon>交易时间：</tranTimeColon>
+		<relateTimeColon>交易时间：</relateTimeColon>
+		<to>至</to>
+		<organizationColon>所属机构：</organizationColon>
+		<accountIdColon>账号：</accountIdColon>
+		<idCardColon>身份证：</idCardColon>
+		<operatorCodeColon>操作员：</operatorCodeColon>
+		<journalNoColon>流水号：</journalNoColon>
+		<operatorCode>操作员</operatorCode>
+		<accountId>账号</accountId>
+		<idCard>身份证</idCard>
+		<journalNo>流水号</journalNo>
+		<tranTime>交易时间</tranTime>
+		<relateTime>交易时间</relateTime>
+		<tranAmount>交易金额</tranAmount>
+		<businessType>业务类别</businessType>
+		<operations>操作</operations>
+		<columnNo>序号</columnNo>
+		<tranCount>张数</tranCount>
+		<tdOperatorId>操作员</tdOperatorId>
+		<statisAmount>点钞金额</statisAmount>
+		<tdTransCode>交易名称</tdTransCode>
+		<journalNo>流水号</journalNo>
+		<businessTypes>业务类型</businessTypes>
+	</node>
+</nodes>

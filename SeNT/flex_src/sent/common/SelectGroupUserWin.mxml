@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grg:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" locale="selectGroupUserWin"
+				 xmlns:grg="http://grg.grgbanking.com/platform/"
+				 layout="vertical" width="420" height="280" titleKey="selectGroupUserWin"
+				 xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import platform.component.controls.RadioButton;
+			import platform.vo.security.UserVo;
+			
+			import sent.rule.config.BlackRegulationConfig;
+			import sent.rule.delegate.BlackRegulationDelegate;
+			import sent.rule.message.BlackRegulationMsg;
+			
+			/**
+			 * 回调函数
+			 * */
+			public var callback:Function;
+			
+			/**
+			 * 已选中用户
+			 * */
+			public var selectedUserId:String;
+			
+			/**
+			 * 用户列表
+			 * */
+			[Bindable]
+			private var userList:ArrayCollection;
+			
+			/**
+			 * 用户所属组
+			 * */
+			private var _groupName:String;
+			public function set groupName(p_str:String):void
+			{
+				_groupName = p_str;
+				loadUserList();
+			}
+			
+			/**
+			 * 加载用户列表
+			 * */
+			private function loadUserList():void
+			{
+				var msg:BlackRegulationMsg = new BlackRegulationMsg();
+				msg.type = "getUsersByGroupName";
+				msg.args["groupName"] = _groupName;
+				sendMessage(msg);
+			}
+			[MessageHandler(selector="getUsersByGroupNameResult")]
+			public function getUsersByGroupNameResult(p_msg:BlackRegulationMsg):void
+			{
+				if(p_msg.result){
+					var tmpList:ArrayCollection = p_msg.result as ArrayCollection;
+					for(var i:int = 0;i < tmpList.length;i++){
+						var user:UserVo = tmpList.getItemAt(i) as UserVo;
+						if(user.id == selectedUserId){
+							user.dgSelected = true;
+							break;
+						}
+					}
+					userList = tmpList;
+				}
+			}
+			
+			/**
+			 * 提交已选中用户信息
+			 * */
+			private function submit():void
+			{
+				if(callback != null){
+					for(var i:int = 0;i < userList.length;i++){
+						var user:UserVo = userList.getItemAt(i) as UserVo;
+						if(user.dgSelected){
+							callback(user);
+							break;
+						}
+					}
+				}
+				close();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<parsley:ContextBuilder>
+			<parsley:ViewSettings autoremoveViewRoots="false"/>
+			<parsley:Scope name="selecteGroupUser"/> 
+			<parsley:MessageSettings defaultReceiverScope="selecteGroupUser"/>
+			<parsley:FlexConfig type="{BlackRegulationConfig}"/>
+		</parsley:ContextBuilder>
+		<parsley:Configure reuse="false"/>
+	</fx:Declarations>
+	<grg:RadioButtonGroup id="selectedUser"/>
+	<s:List dataProvider="{userList}" width="100%" height="200">
+		<s:layout>
+			<s:TileLayout requestedColumnCount="4" paddingTop="10" paddingLeft="10" paddingRight="10" 
+						  paddingBottom="10" horizontalGap="5" verticalGap="5" clipAndEnableScrolling="true"/>
+		</s:layout>
+		<s:itemRenderer>
+			<fx:Component>
+				<s:MXItemRenderer>
+					<s:layout>
+						<s:HorizontalLayout paddingTop="3" paddingLeft="3" paddingRight="3" paddingBottom="3"/>
+					</s:layout>
+					<fx:Script>
+						<![CDATA[
+							[Bindable]
+							private var title:String;
+							
+							override public function set data(value:Object):void
+							{
+								super.data = value;
+								title = value.userName;
+							}
+						]]>
+					</fx:Script>
+					<grg:RadioButton label="{title}" group="{outerDocument.selectedUser}" selected="@{data.dgSelected}"/>
+				</s:MXItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+	<s:HGroup width="100%" gap="6" horizontalAlign="center" verticalAlign="middle">
+		<grg:Button locale="saveButton" click="submit()"/>
+		<grg:Button locale="cancelButton" click="cancel()"/>
+	</s:HGroup>
+</grg:TitleWindow>

@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- * Description：sysServerLogModule<br>
+	 * Create Time：2011-11-28<br>  
+	 * Author：Ming.Zhang  <br>
+	 * Email : zyming1@grgbanking.com <br>-->
+<nodes>
+	<node locale = "sysServerLogModule">
+		<listTitle>System Server Log List</listTitle>
+		<judgeStatusItem>judgeUpdateStatus</judgeStatusItem>
+		<processNameItem>processName</processNameItem>
+		<serviceNameItem>serviceName</serviceNameItem>
+		<processClassItem>processClass</processClassItem>
+		<serviceClassItem>serviceClass</serviceClassItem>
+		<errorItem>error</errorItem>
+		<modifyDateItem>modifyDate</modifyDateItem>
+		<ipItem>serviceIP</ipItem>
+		<normal>normal</normal>
+		<abnormal>abnormal</abnormal>
+	</node>
+</nodes>
